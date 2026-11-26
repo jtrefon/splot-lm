@@ -1,5 +1,5 @@
 # Literature register / Rejestr literatury
-As of 2026-11-26. Abstract metadata checked for the first six records; full texts and implementation reproduction remain outstanding. Results are author-reported and not transferable to SPLOT without testing.
+As of 2026-11-26. Abstract metadata checked for the first seven records; full texts and implementation reproduction remain outstanding. Results are author-reported and not transferable to SPLOT without testing.
 
 | Reference | Relevance | Status |
 |---|---|---|
@@ -9,7 +9,7 @@ As of 2026-11-26. Abstract metadata checked for the first six records; full text
 | [Towards Looped Models Done Right](https://arxiv.org/abs/2610.23036) | sandwich topology, injection, MoE recurrence | Abstract confirmed |
 | [Qwen3.8-Next architecture](https://arxiv.org/abs/2608.30320) | 3:1 GDN/global attention, sparse experts | Abstract confirmed |
 | [DeepSeek V4.1 Flash](https://arxiv.org/abs/2609.19969) | KV compression | Metadata confirmed |
-| [LoopFill](https://arxiv.org/abs/2611.19649) | pipelined multi-token drafts | Unverified: retrieval failed; do not cite as evidence yet |
+| [LoopFill](https://arxiv.org/abs/2611.19649) | pipelined multi-token drafts | Abstract confirmed 2026-11-26; full HTML unavailable |
 | [Huginn](https://arxiv.org/abs/2502.05171) | latent recurrent depth | Candidate, verify |
 | [Looped Transformers](https://arxiv.org/abs/2502.17416) | latent reasoning | Candidate, verify |
 | [Gated Delta Networks](https://arxiv.org/abs/2412.06464) | recurrent token mixer | Candidate, verify |
@@ -19,3 +19,6 @@ As of 2026-11-26. Abstract metadata checked for the first six records; full text
 | [Strata](https://github.com/ro99/strata) | host expert placement | Candidate, verify |
 
 Search priorities: Medusa, EAGLE-3, DeepSeek MTP, GLM/Kimi Delta Attention, all-depth training, exact recurrent speculation, expert cache-aware routing, quantization error propagation, FP8 on Ada, data licensing. For each record capture version, authors, method, hardware, baselines, training budget, limitations and reproducibility. Do not claim novelty before systematic prior-art review.
+
+## Focused review v0.2
+[English](reviews/native-mtp/en.md) | [Polski](reviews/native-mtp/pl.md). Primary-source review of native MTP and exact speculation; includes Medusa, Gloeckle et al., DeepSeek-V3, EAGLE-3 and Leviathan et al. Full-text coverage is partial, as documented in the review.
