@@ -1,5 +1,3 @@
-# RFC 0004 — expert-routing
+# RFC 0004 — Expert routing
 
-Status: placeholder / planned. Top-2 of eight plus shared, balance, differentiable locality proxy, offloaded cache benchmark and prior-art review.
-
-See RFC 0001 and research backlog. Full bilingual specification pending.
+Draft v0.1: [English](en.md) | [Polski](pl.md). [Focused prior-art review](../../literature/reviews/expert-locality/en.md). Issue #6 remains open. No performance or novelty claim.
