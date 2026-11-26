@@ -1,0 +1,5 @@
+# Contributing / Współpraca
+
+English and Polish discussions welcome. English is canonical for code, experiments and specifications; translation headers identify source revision. Open issues for hypotheses and design decisions; submit PRs with tests, provenance, evidence, assumptions and limitations. For experiments, register metrics and comparisons before training. Negative results are welcome. Do not upload private data, secrets, checkpoints, or unlicensed material. Cite sources, distinguish preprint reports from verified results, and disclose relevant AI assistance. Authorship follows actual scientific contribution; maintainers review attribution and licenses. Be respectful and constructive; no harassment. Report concerns privately to the maintainer through an available GitHub contact channel.
+
+Zgłoszenia po polsku lub angielsku. Angielska specyfikacja jest referencyjna; zmiany przez PR, z testami, źródłami i ograniczeniami. Wyniki negatywne są wartościowe. Nie publikuj danych poufnych ani materiałów bez praw. Autorstwo odpowiada wkładowi naukowemu.
