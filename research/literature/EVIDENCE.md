@@ -1,0 +1,6 @@
+# Evidence policy / Zasady weryfikacji źródeł
+For each paper record canonical URL, identifier, author/title/version/date, access date, coverage (metadata, abstract, selected sections, full text, reproduced), claim locator, reported conditions, limitations, and relevance. Record failed retrievals; do not cite inaccessible text as read. Search summaries are discovery, not sufficient for detailed technical claims. Check primary publisher/arXiv/repo, distinguish preprints from peer-reviewed work, and use exact bibliography metadata from source. Never infer novelty from absence in a limited search.
+
+Classify results: external author-reported; proposed SPLOT hypothesis; analytical estimate; simulated/trace replay; measured SPLOT; independently replicated. Separate each in tables and prose. Quote sparingly; link original. A reproduction needs commit/environment, data and metrics. Negative results and deviations retained. Record conflicts and evidence gaps in issue comments and PR description.
+
+For translations, keep English source path and revision, mark pending translations. Do not present an abbreviated Polish summary as a complete translation unless labeled. No private conversation content belongs in the public repo.
