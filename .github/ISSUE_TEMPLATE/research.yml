@@ -1,0 +1,28 @@
+name: Research workstream
+description: Evidence-backed research question or experiment
+title: "[Research] "
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question and scope
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and prior art (links and review coverage)
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and blockers
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria and falsification
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Artifact paths, PRs, commits and next action

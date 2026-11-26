@@ -1,0 +1,4 @@
+# Repozytorium jako pamięć projektu
+Wersja skrócona instrukcji [AGENTS.md](../../AGENTS.md). GitHub jest źródłem prawdy, niezależnym od rozmów i narzędzi AI. Przed rozpoczęciem sprawdź aktualny main, otwarte zgłoszenia i PR, [stan projektu](../../PROJECT_STATE.md) oraz rejestr decyzji. Wybierz zadanie bez blokad zgodnie z priorytetem opiekuna. Pracuj na gałęzi, podłącz PR i artefakty do zgłoszenia. Nie scalaj bez zgody opiekuna. Po każdym etapie zapisz wyniki, ograniczenia, nierozwiązane kryteria i kolejny krok. Zamykaj zgłoszenia po spełnieniu kryteriów i scaleniu. Angielski pozostaje językiem referencyjnym. Hipotezy, wyniki cudzych prac, symulacje i pomiary SPLOT muszą być rozróżnione. Nie publikuj prywatnych rozmów, danych ani niezweryfikowanych twierdzeń.
+
+W nowej sesji wystarczy wskazać repozytorium i poprosić o kontynuację zgodnie z AGENTS.md.

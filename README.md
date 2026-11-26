@@ -18,3 +18,6 @@ Can a language model learn to allocate parameter activation, computational depth
 - [Reproducibility](experiments/README.md), [illustrative model configuration](configs/models/splot-mini-proposal.yaml)
 
 English is canonical for scientific specifications, source and experiments. Polish translations and discussion are welcome. Code is Apache-2.0; original research text is proposed for CC BY 4.0 (see [licensing](LICENSING.md)). No third-party data or weights are distributed here.
+
+## Repository-first continuity
+Read [AGENTS.md](AGENTS.md) and [PROJECT_STATE.md](PROJECT_STATE.md) before starting or resuming research. Track work in [GitHub issues](https://github.com/jtrefon/splot-lm/issues); all research artifacts and handovers are version-controlled. [Polskie zasady współpracy](docs/pl/repository-first.md).
