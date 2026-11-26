@@ -14,8 +14,9 @@ Snapshot: 2026-11-26. **Live GitHub issues and PRs are authoritative.** This fil
 ## Next work
 - #4: PR #16 merged, RFC 0002 draft and five passing toy CPU semantics tests; actual mixer tests remain open.
 - #5: PR #17 merged; RFC 0003 and six equation tests. Actual mixer integration remains open.
-- #3: consolidated v0.2 contract, Nano/Mini configs, MTP head, accounting tool and six passing checks on review branch; whitepaper draft. Review pending.
-- #8 next: tokenizer, data provenance, document split and synthetic fixture. Then #9 dense baseline.
+- #3: PR #18 merged; consolidated v0.2 contract, Nano/Mini configs, MTP head, accounting tool, six accounting checks and whitepaper draft. Actual model remains open.
+- #8: data/tokenizer draft, candidate source registry and six passing synthetic fixture tests on review branch; actual source rights, pins, near-dedup and train-only BPE unresolved. No external acquisition.
+- #9 next: dense causal baseline using synthetic fixture, independent of real corpus approval; real training blocked on #8.
 - #6: full-text priority sources and trace-based cache experiments remain open; see RFC 0004.
 - #9: dense baseline once its minimal data/correctness contract is defined. Native MTP remains first-generation scope; validate baseline, fixed depth and exact speculation before optimization.
 - #7/#10 precision and hardware measurement; #11 publication/license approval.

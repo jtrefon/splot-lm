@@ -1,0 +1,44 @@
+# Proposed, not an approved corpus; no download/training enabled.
+version: 0.1
+status: blocked_pending_source_rights_and_pins
+source_registry: research/data/sources-v0.1.json
+content_token_budgets: [100000000, 1000000000]
+mixture_percent:
+  en_education_general: 30
+  pl_education_general: 30
+  code: 20
+  math_reasoning: 10
+  reference_technical: 10
+mixed_language_bucket_pl_target: 0.5
+split:
+  train_percent: 98
+  validation_percent: 1
+  test_percent: 1
+  seed: splot-corpus-v1
+  group_before_split: true
+  near_duplicate_review_required: true
+  benchmark_exclusion_required: true
+tokenizer:
+  family: byte_level_bpe
+  vocab_capacity: 32768
+  compare_vocab_sizes: [16384, 32768]
+  train_split_only: true
+  normalization: none
+  add_prefix_space: false
+  initial_byte_alphabet: all_256
+  special_ids:
+    pad: 0
+    bos: 1
+    eos: 2
+    unk: 3
+    reserved: [4, 5, 6, 7]
+  sample_unit: utf8_bytes
+  sample_target_mb: [50, 100]
+  sample_percent: {pl: 40, en: 40, code: 20}
+  artifact_sha256: null
+packing:
+  sequence_length: 2048
+  offsets: [1, 2]
+  ignore_index: -100
+  reset_position_per_segment: true
+  isolate_documents: true
