@@ -9,7 +9,10 @@ model:
     min_loops: 1
     max_loops: 4
     default_loops: 2
-    input_injection: true
+    # RFC 0002: I0 reference, I1/I2 experimental
+    input_injection: false
+    input_injection_variant: none
+    residual_scale: unscaled
     adaptive_halting: false
   attention:
     core_pattern: [gated_deltanet, gated_deltanet, gated_deltanet, gated_gqa]
@@ -17,6 +20,18 @@ model:
     num_kv_heads: 4
     head_dim: 64
     rope_theta: 1000000
+    prelude_mixer: gqa
+    coda_mixer: gqa
+    core_gqa_output_gate: sigmoid
+    gdn:
+      key_heads: 12
+      value_heads: 12
+      key_head_dim: 64
+      value_head_dim: 64
+      conv_kernel_size: 4
+      qk_l2_eps: 1.0e-6
+      state_dtype: float32
+      history_dtype: bfloat16
   moe:
     enabled_in: recurrent_core
     num_routed_experts: 8
