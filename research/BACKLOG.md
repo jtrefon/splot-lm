@@ -19,3 +19,5 @@ Dependency: #2–#5 and #8 inform #9; dense implementation precedes fixed recurr
 Continuity: [#13](https://github.com/jtrefon/splot-lm/issues/13) / merged PR #14. RFC 0002 (#4) draft and toy oracle now available in its review branch; actual mixer correctness remains pending. Next #5 then #3; consult live issues/PRs for status.
 
 RFC 0002 merged in #16; RFC 0003 draft and equation oracle on review branch (#5). Next #3 reconcile architecture and exact parameter accounting; #8 independent. Actual mixer integration remains open; consult live issues/PRs.
+
+PR #17 merged. Architecture contract v0.2, Nano/Mini candidate inventories, accounting tests and whitepaper draft in #3 review branch. Next #8 data/tokenizer, then #9 dense baseline. Live issues override snapshots.

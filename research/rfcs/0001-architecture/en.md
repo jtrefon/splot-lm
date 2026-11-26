@@ -1,5 +1,7 @@
 # RFC 0001 — Foundations of SPLOT
-Status: draft v0.1 | 2026-11-26 | [Polski](pl.md)
+Status: historical draft v0.1 | 2026-11-26 | [Polski](pl.md)
+
+Proposed consolidated successor: [architecture contract v0.2](contract-v0.2.md).
 
 ## Goal and non-goals
 Test quality, memory, compute, energy and latency tradeoffs using a configurable decoder-only architecture. Native MTP is required in the first research generation; multimodality, production kernels, adaptive per-token halting and large offloaded models are deferred until correctness gates pass. No claim that combining existing techniques is novel.
