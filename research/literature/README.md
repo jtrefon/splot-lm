@@ -22,3 +22,6 @@ Search priorities: Medusa, EAGLE-3, DeepSeek MTP, GLM/Kimi Delta Attention, all-
 
 ## Focused review v0.2
 [English](reviews/native-mtp/en.md) | [Polski](reviews/native-mtp/pl.md). Primary-source review of native MTP and exact speculation; includes Medusa, Gloeckle et al., DeepSeek-V3, EAGLE-3 and Leviathan et al. Full-text coverage is partial, as documented in the review.
+
+## Expert locality review v0.1
+[EN](reviews/expert-locality/en.md) | [PL](reviews/expert-locality/pl.md). Cross-round expert reuse is established prior art (DuoMI); LOOM highlights expert selection collapse, and CCAMoE/SP-MoE overlap draft-aware caching. Evidence coverage and open retrievals in the review. No novelty established.
