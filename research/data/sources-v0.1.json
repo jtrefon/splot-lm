@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "registry_version": "0.1",
+  "review_date": "2026-11-26",
+  "status": "candidates_only_no_external_training_approval",
+  "sources": [
+    {
+      "id": "fineweb_edu_en",
+      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
+      "evidence": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu/blob/main/README.md",
+      "subset": "sample-10BT candidate; pin and verify",
+      "revision": null,
+      "upstream_declared_license": "ODC-BY-1.0 database",
+      "conditions": "Common Crawl terms; underlying rights unaffected",
+      "gate": "rights and immutable shard review"
+    },
+    {
+      "id": "fineweb2_pl",
+      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2",
+      "evidence": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2/blob/main/README.md",
+      "subset": "pol_Latn",
+      "revision": null,
+      "upstream_declared_license": "ODC-BY-1.0 database",
+      "conditions": "Common Crawl terms; per-content rights review",
+      "gate": "rights and immutable shard review"
+    },
+    {
+      "id": "wikipedia_en_pl",
+      "url": "https://dumps.wikimedia.org/",
+      "evidence": "https://meta.wikimedia.org/wiki/Terms_of_use/Creative_Commons_4.0",
+      "subset": "enwiki/plwiki text dumps only",
+      "revision": null,
+      "upstream_declared_license": "CC BY-SA 4.0, exceptions and other licenses possible",
+      "conditions": "attribution, share-alike where applicable, page exceptions",
+      "gate": "date/checksum and rights/attribution review"
+    },
+    {
+      "id": "wolne_lektury",
+      "url": "https://wolnelektury.pl/api/",
+      "evidence": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+      "subset": "Polish works with verified item-level rights",
+      "revision": null,
+      "upstream_declared_license": "item-specific public domain/free licenses",
+      "conditions": "verify edition, editorial material and attribution",
+      "gate": "item manifest and rights review"
+    },
+    {
+      "id": "stack_v2",
+      "url": "https://huggingface.co/datasets/bigcode/the-stack-v2",
+      "evidence": "https://huggingface.co/datasets/bigcode/the-stack-v2/blob/main/README.md",
+      "subset": "explicitly licensed files only; select languages later",
+      "revision": null,
+      "upstream_declared_license": "original code licenses; undetected licenses present",
+      "conditions": "gated access; opt-out and file-level attribution; reject unknown",
+      "gate": "maintainer access/terms approval, immutable file provenance, rights review"
+    },
+    {
+      "id": "open_web_math",
+      "url": "https://huggingface.co/datasets/open-web-math/open-web-math",
+      "evidence": "https://huggingface.co/datasets/open-web-math/open-web-math/blob/2467608a559a4cf3e23b69c8d4e99fb94eb44e09/README.md",
+      "subset": "math prose candidate",
+      "revision": null,
+      "upstream_declared_license": "ODC-BY-1.0 database; source rights unchanged",
+      "conditions": "Common Crawl terms; benchmark decontamination",
+      "gate": "rights and immutable data revision review"
+    },
+    {
+      "id": "original_synthetic_fixture",
+      "url": "tools/data_fixture.py",
+      "revision": "4cd314cd765a90861a84a364220f6dddf9d2ab2c",
+      "upstream_declared_license": "original repository fixture under existing repository license",
+      "conditions": "synthetic engineering smoke only; not a real training corpus",
+      "gate": "local smoke use only"
+    }
+  ]
+}

@@ -11,5 +11,6 @@ Append numbered decision records; never rewrite accepted rationale silently. Eac
 | D0006 | Fixed R per sequence; prefix-compatible pass functions use immutable R_cap, never runtime R; distinct logical caches and full unroll baseline | Proposed; toy oracle only | #4, RFC 0002 | 
 | D0007 | GDN v1 reference, 12 equal 64-d heads, 4-tap convolution; 3 GDN + gated GQA core, ungated GQA prelude/coda; FP32 matrix state, separate logical state and rollback | Proposed; six CPU equation tests only | #5, RFC 0003 |
 | D0008 | Nano 43,055,076 and Mini 146,987,784 proposed; shared offset-2 projection + RMSNorm, tied E; I0/S0 controls; separate unique active and contraction MAC accounting | Proposed, six accounting tests only | #3, RFC 0001 v0.2 |
+| D0009 | Proposed bilingual 40/40/20 PL/EN/code overall content mix, 32K shared byte BPE on train only; source registry gated, exact/group split before packing | Proposed; synthetic tests only | #8, research/data/README.md |
 
 Evidence status and design status are orthogonal. Link the exact commit or PR when a decision is accepted. Changes in hypothesis or protocol require dated amendments before examining results.
