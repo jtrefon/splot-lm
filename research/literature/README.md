@@ -25,3 +25,6 @@ Search priorities: Medusa, EAGLE-3, DeepSeek MTP, GLM/Kimi Delta Attention, all-
 
 ## Expert locality review v0.1
 [EN](reviews/expert-locality/en.md) | [PL](reviews/expert-locality/pl.md). Cross-round expert reuse is established prior art (DuoMI); LOOM highlights expert selection collapse, and CCAMoE/SP-MoE overlap draft-aware caching. Evidence coverage and open retrievals in the review. No novelty established.
+
+## Recurrent-depth review v0.1
+[Primary-source notes](../rfcs/0002-recurrent-depth/sources.md): Huginn v2, Ouro, Huginn/Ouro topology ablations and LOOM; selected sections and metadata checked. See RFC 0002 for proposed departures from these methods.
