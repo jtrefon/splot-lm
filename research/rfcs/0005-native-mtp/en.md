@@ -1,6 +1,8 @@
 # RFC 0005 — Native multi-token prediction and self-speculation
 Draft v0.1 | [Polski](pl.md)
 
+**Update:** [v0.2 decision and protocol](decision-v0.2.md) proposes revised sequencing; see [literature review](../../literature/reviews/native-mtp/en.md). LoopFill abstract now verified; full text pending.
+
 MTP is a first-generation requirement, not a bolt-on afterthought. Distinguish auxiliary future-token training, latent supervision, draft generation and exact target verification. A latent MTP objective does not automatically produce a useful multi-token drafter.
 
 | Candidate | Mechanism | Role |
@@ -22,4 +24,4 @@ Loss example: L_NTP + lambda * mean_(r,k,t valid) CE(H_(r,k)(h_r,t), x_(t+k)). W
 Acceptance per offset, accepted tokens per verification, draft latency, verification latency, cache snapshot/rollback cost, total tok/s, TTFT, energy/token, VRAM, quality, training overhead, and full-depth distribution equivalence. Compare equal decoding settings, output length, context and batch; greedy exact match and statistical sampling tests. Report speedup against optimized non-speculative reference, not Python-only strawman. Test 1–4 loops, draft depth and horizon, MoE cache residency, quantized and BF16 paths. Reject designs that improve nominal acceptance but reduce end-to-end throughput.
 
 ## Evidence status
-LoopMTP, LoopSpec and Floodgates abstract metadata confirmed 2026-11-26. Floodgates reports up to 7.5x in its own experiments; LoopSpec up to 6.83x; LoopMTP reports up to 8.1% relative average accuracy improvement against a non-looped baseline. These are not SPLOT results. LoopFill URL needs verification. Full-text review and reproducibility comparison are outstanding.
+LoopMTP, LoopSpec and Floodgates abstract metadata confirmed 2026-11-26. Floodgates reports up to 7.5x in its own experiments; LoopSpec up to 6.83x; LoopMTP reports up to 8.1% relative average accuracy improvement against a non-looped baseline. These are not SPLOT results. LoopFill abstract now verified; full text pending. Full-text review and reproducibility comparison are outstanding.
