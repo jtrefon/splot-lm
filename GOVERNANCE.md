@@ -1,0 +1,2 @@
+# Governance / Zarządzanie
+Proposed initial model: repository owner jtrefon is maintainer; RFCs are draft, accepted, superseded or rejected. Maintainer accepts design decisions via reviewed PR, with rationale recorded. Experimental conclusions require linked manifests and results; revisions must preserve historical records. Contributions are acknowledged based on actual work. No institutional affiliation or sponsorship is implied. Governance can evolve with contributors.

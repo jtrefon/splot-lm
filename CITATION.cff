@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this research software, cite the exact revision and relevant paper when available."
+title: "SPLOT: Sparse Predictive Looped Optimized Transformer"
+type: software
+authors:
+  - name: "SPLOT contributors"
+repository-code: "https://github.com/jtrefon/splot-lm"
+license: Apache-2.0

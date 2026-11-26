@@ -1,0 +1,32 @@
+experiment_id: null
+status: planned
+commit_sha: null
+protocol: experiments/protocols/initial-ablation.md
+hypotheses: []
+seeds: [42, 43, 44]
+model_config_sha256: null
+data:
+  sources: []
+  versions: []
+  license_review: pending
+  tokenizer_sha256: null
+  split_manifest_sha256: null
+  training_tokens: null
+hardware:
+  gpu: RTX 4090
+  vram_gib: 24
+  driver: null
+  cuda: null
+software:
+  pytorch: null
+  kernel_versions: []
+training:
+  optimizer: null
+  learning_rate: null
+  precision: bf16
+  batch_tokens: null
+  loop_count: null
+  measured_flops: null
+metrics: {}
+artifacts: []
+limitations: []
