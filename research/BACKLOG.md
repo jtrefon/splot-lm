@@ -23,3 +23,5 @@ RFC 0002 merged in #16; RFC 0003 draft and equation oracle on review branch (#5)
 PR #17 merged. Architecture contract v0.2, Nano/Mini candidate inventories, accounting tests and whitepaper draft in #3 review branch. Next #8 data/tokenizer, then #9 dense baseline. Live issues override snapshots.
 
 PR #18 merged. #8 data contract, candidate registry and tested synthetic fixture in review branch. Next #9 synthetic dense baseline; production corpus/tokenizer remains #8, not assumed approved. No real-data training until rights and split gates.
+
+PRs #19 and #20 merged. #4 recurrent all-GQA implementation, actual fixture integration, seven new CPU tests and A1 smoke in review branch. Next #2 offset-2 head and A0/A1/A2, then exact verifier; #5/#6 after correctness. #8 production data remains gated; #9 GPU smoke outstanding. Live issue/PR state wins.
