@@ -1,13 +1,17 @@
-# Initial issue backlog
-Create GitHub issues after foundation review; these are not yet live issues.
+# Research backlog / Plan prac
+The founding backlog is now tracked in live GitHub issues. Priorities are proposed, not deadlines. P0 architecture and correctness; P1 extensions; P2 publication.
 
-- RFC 0001: review architecture and parameter count; define exact shapes and initial fixed-depth state semantics.
-- RFC 0002: recurrent depth topology, injection, normalization, cache indexing and adaptive halting later.
-- RFC 0003: GDN/GQA mixer specification, exact recurrence equations, correctness oracle.
-- RFC 0004: MoE routing and locality prior-art search, load balance and dispatch.
-- RFC 0005: MTP literature full-text review, compare Medusa, DeepSeek, EAGLE-3, LoopMTP, LoopSpec, Floodgates; decide training and verification method; verify LoopFill.
-- RFC 0006: precision and memory accounting, BF16 reference, FP8 benchmark, simulated FP4, quantized recurrence drift.
-- Dataset/tokenizer: provenance, language mix, document splits, contamination, licensing.
-- Implement dense PyTorch baseline and numerical/causality tests; then fixed recurrence and MTP.
-- Experiment harness and benchmark manifests; benchmark RTX 4090; do not extrapolate unmeasured rates.
-- Publication workflow: model cards, weights license, reproducible releases, Zenodo DOI, bilingual translations.
+| Issue | Workstream | Priority |
+|---|---|---|
+| [#2](https://github.com/jtrefon/splot-lm/issues/2) | Native MTP and recurrent self-speculation | P0 |
+| [#3](https://github.com/jtrefon/splot-lm/issues/3) | RFC 0001: architecture and parameter accounting | P0 |
+| [#4](https://github.com/jtrefon/splot-lm/issues/4) | RFC 0002: recurrent execution | P0 |
+| [#5](https://github.com/jtrefon/splot-lm/issues/5) | RFC 0003: GDN/GQA | P0 |
+| [#6](https://github.com/jtrefon/splot-lm/issues/6) | RFC 0004: MoE and locality prior art | P1 |
+| [#7](https://github.com/jtrefon/splot-lm/issues/7) | RFC 0006: precision | P1 |
+| [#8](https://github.com/jtrefon/splot-lm/issues/8) | Data/tokenizer and provenance | P0 |
+| [#9](https://github.com/jtrefon/splot-lm/issues/9) | Dense baseline implementation | P0 |
+| [#10](https://github.com/jtrefon/splot-lm/issues/10) | Experiment and hardware harness | P1 |
+| [#11](https://github.com/jtrefon/splot-lm/issues/11) | Open science and licensing | P2 |
+
+Dependency: #2–#5 and #8 inform #9; dense implementation precedes fixed recurrence, then MTP, GDN, MoE and precision. Follow issues for state; do not duplicate them in prose. Draft review: [native MTP](literature/reviews/native-mtp/en.md).

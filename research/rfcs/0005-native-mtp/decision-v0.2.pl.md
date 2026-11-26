@@ -1,0 +1,14 @@
+# RFC 0005 — aneks: decyzja MTP i protokół falsyfikacji
+Projekt v0.2 | #2 | 26.11.2026 | [EN — wersja referencyjna](decision-v0.2.md)
+
+Wspólny odczyt: stan h_r(t) po iteracji r dla prefiksu do t. Funkcja g to coda, normalizacja i współdzielona macierz embeddingów. Pełny rozkład p_R pozostaje niezmienny przy spekulacji. Odczyt płytki ma odrębny cache coda lub oddzielną lekką projekcję. Nie wolno współdzielić stanów bez dowodu poprawności.
+
+A0: końcowe NTP. A1: A0 + średnia CE następnego tokenu na wcześniejszych głębokościach. A2: A1 + CE drugiego przyszłego tokenu na głębokościach 1 i R (K=2). A3: A1 + dopasowanie kosinusowe stanów r>=2 do zatrzymanego gradientowo embeddingu x_(t+r). A4: A2+A3 tylko po indywidualnym potwierdzeniu. A5: warunkowane sekwencyjne MTP. Maskowanie granic dokumentów, paddingu i brakujących etykiet; normalizacja po ważnych pozycjach. Wstępne wagi 0,25 / 0,25 / 0,1 do ustalenia w pilotażu. Logity BF16 przy B=1,T=2048,V=32768 zajmują 128 MiB na tensor; mierzymy pamięć i koszty rzeczywiste. Porównania przy tej samej liczbie tokenów i FLOP.
+
+D0 pełna autoregresja. D1 płytki sekwencyjny drafter r=1, następnie r=2 przy R>2. D2 równoległe niezależne predykcje z rzeczywistymi rozkładami propozycji. D3 adaptowany drafter z maskowanym sufiksem; porównanie płytkiego i głębokiego cache prefiksu. Stan GDN i historia konwolucji w osobnej kopii, bez zapisu do stanu weryfikatora i bez dostępu do przyszłych etykiet. D4 potok i drzewa dopiero po testach poprawności.
+
+Weryfikacja: dla propozycji y z q akceptujemy z prawdopodobieństwem min(1,p(y)/q(y)); odrzucenie oznacza próbkowanie ze znormalizowanej dodatniej części p-q i odrzucenie reszty. Po pełnej akceptacji możliwy dodatkowy token z p; uwzględniamy EOS i limity. Greedy wymaga identycznego argmax. Odtwarzamy wszystkie stany logicznych iteracji, KV, GDN, historię konwolucji i cache coda. Najpierw kosztowny wzorzec z rekalkulacją prefiksu; następnie snapshot/replay. Testujemy rozkład, nie identyczny ciąg losowań.
+
+Oczekiwana liczba tokenów na rundę z dodatkowym tokenem: 1 + suma prawdopodobieństw akceptacji wszystkich pierwszych i propozycji. Przyspieszenie mierzymy jako liczbę emitowanych tokenów razy czas bazowy na token, podzielone przez całkowity czas rundy. Wliczamy rollback, synchronizację, transfer i drafter. Przy R=4 pełny model wykonuje 20 bloków, płytki r=1 z coda — 8, nie 25% kosztu. Pilotaż: R=2/4, K=2/4, kontekst 512/2048, batch 1/4 jeśli pamięć pozwala; co najmniej trzy ziarna głównych porównań jeśli budżet pozwala. Proponowany próg inżynierski: >1,10x rzeczywistego przyspieszenia na ustalonym obciążeniu RTX 4090, przy zachowaniu jakości, pamięci i poprawności. Próg wymaga prerejestracji. Brak wyników.
+
+Kolejność: gęsty model, stała rekurencja, A0/A1/A2, D1, hybryda GDN i rollback, D2/D3, cele latentne i warianty warunkowane. MoE i kwantyzacja później. Zob. [przegląd](../../literature/reviews/native-mtp/pl.md).
