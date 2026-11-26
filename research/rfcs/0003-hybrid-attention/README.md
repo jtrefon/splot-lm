@@ -1,5 +1,3 @@
-# RFC 0003 — hybrid-attention
+# RFC 0003 — Hybrid token mixing
 
-Status: placeholder / planned. GDN and GQA equations and dimensions, causal oracle, chunk equivalence, state rollback; sparse attention deferred.
-
-See RFC 0001 and research backlog. Full bilingual specification pending.
+Draft v0.1: [English](en.md) | [Polski (summary)](pl.md). [Source notes](sources.md). Issue #5. Independent CPU equation oracle: [tests](../../../tests/numerical/test_hybrid_mixer.py) and [results](../../../experiments/results/rfc0003-hybrid-oracle.md). No production kernel or full model yet.

@@ -12,7 +12,7 @@ As of 2026-11-26. Abstract metadata checked for the first seven records; full te
 | [LoopFill](https://arxiv.org/abs/2611.19649) | pipelined multi-token drafts | Abstract confirmed 2026-11-26; full HTML unavailable |
 | [Huginn](https://arxiv.org/abs/2502.05171) | latent recurrent depth | Candidate, verify |
 | [Looped Transformers](https://arxiv.org/abs/2502.17416) | latent reasoning | Candidate, verify |
-| [Gated Delta Networks](https://arxiv.org/abs/2412.06464) | recurrent token mixer | Candidate, verify |
+| [Gated Delta Networks](https://arxiv.org/abs/2412.06464) | recurrent token mixer | Primary HTML selected sections and Eq. 10 checked |
 | [Fine-grained MoE scaling](https://arxiv.org/abs/2402.07871) | expert scaling | Candidate, verify |
 | [MiMo-V2-Flash](https://arxiv.org/abs/2601.02780) | attention and speculative decoding | Candidate, verify |
 | [Nemotron 3 Super](https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Super-Technical-Report.pdf) | FP4, LatentMoE, MTP | Candidate, verify |
@@ -28,3 +28,6 @@ Search priorities: Medusa, EAGLE-3, DeepSeek MTP, GLM/Kimi Delta Attention, all-
 
 ## Recurrent-depth review v0.1
 [Primary-source notes](../rfcs/0002-recurrent-depth/sources.md): Huginn v2, Ouro, Huginn/Ouro topology ablations and LOOM; selected sections and metadata checked. See RFC 0002 for proposed departures from these methods.
+
+## Hybrid attention review v0.1
+[Primary-source notes](../rfcs/0003-hybrid-attention/sources.md): GDN v1, Qwen3-Next code conventions, GQA, RoPE, GDN-2 and Integral DeltaNet (newer variants abstract only). No external kernel reproduction.
