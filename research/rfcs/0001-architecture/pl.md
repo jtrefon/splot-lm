@@ -14,3 +14,6 @@ Cache jest indeksowany przez blok, iterację i sekwencję. Stany GDN i KV są od
 Funkcja straty: L_NTP + lambda_m L_MTP + lambda_b L_balance + lambda_l L_locality + lambda_c L_compute. Początkowo ostatnie dwa współczynniki zerowe. Proponowana miara zmiany routingu: 1 minus suma minimum prawdopodobieństw ekspertów w sąsiednich iteracjach; wymaga konfrontacji z rzeczywistym cache. BF16 najpierw, FP8 później, symulowane FP4 QAT po ustaleniu poprawności. Natywne NVFP4 nie na RTX 4090.
 
 Kolejność: gęsty model odniesienia, rekurencja i natywne MTP, hybryda oraz MoE niezależnie i wspólnie, dokładna weryfikacja spekulacyjna, następnie lokalność, adaptacja i kwantyzacja. Otwarte: szczegóły GDN, MTP, normalizacji, tokenizera, praw do danych i analiza literatury routingu. Brak wyników treningu.
+
+
+Proponowana aktualizacja: [kontrakt architektury v0.2](contract-v0.2.pl.md).

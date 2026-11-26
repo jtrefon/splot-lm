@@ -1,4 +1,4 @@
-# Illustrative research configuration; not executable yet.
+# RFC 0001 v0.2 candidate; not executable model configuration yet.
 model:
   vocab_size: 32768
   hidden_size: 768
@@ -40,13 +40,19 @@ model:
     expert_intermediate_size: 1024
     dense_intermediate_size: 2048
     router_dtype: float32
+    balance_loss_weight: 0.01
   normalization: rmsnorm
+  rms_norm_eps: 1.0e-5
   activation: swiglu
   tie_embeddings: true
   mtp:
     enabled: true
     prediction_depth: 2
-    strategy: intermediate_ce_candidate
+    strategy: shared_offset2_projection
+    ntp_readouts: all_depths
+    offset2_readouts: first_and_final_unique
+    depth_loss_weight: 0.25
+    offset2_loss_weight: 0.25
 training:
   precision: bf16
   optimizer: adamw

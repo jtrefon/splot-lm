@@ -13,14 +13,15 @@ Snapshot: 2026-11-26. **Live GitHub issues and PRs are authoritative.** This fil
 
 ## Next work
 - #4: PR #16 merged, RFC 0002 draft and five passing toy CPU semantics tests; actual mixer tests remain open.
-- #5: RFC 0003 proposed shapes, equations, rollback and six passing CPU equation tests on review branch. Actual mixer integration remains open.
-- #3 next: reconcile full architecture and exact parameter/FLOP accounting after RFC 0003 review. #8 data provenance can advance independently.
+- #5: PR #17 merged; RFC 0003 and six equation tests. Actual mixer integration remains open.
+- #3: consolidated v0.2 contract, Nano/Mini configs, MTP head, accounting tool and six passing checks on review branch; whitepaper draft. Review pending.
+- #8 next: tokenizer, data provenance, document split and synthetic fixture. Then #9 dense baseline.
 - #6: full-text priority sources and trace-based cache experiments remain open; see RFC 0004.
 - #9: dense baseline once its minimal data/correctness contract is defined. Native MTP remains first-generation scope; validate baseline, fixed depth and exact speculation before optimization.
 - #7/#10 precision and hardware measurement; #11 publication/license approval.
 
 ## Current unresolved decisions
-GDN dimensions and state proposed (RFC 0003), coda readout sharing, MTP loss/strategy, router objective and cache policy, data/tokenizer, numerical formats, training budget, CC BY 4.0 scope. All draft decisions subject to maintainer review. No assumed NASK/PLLuM relationship.
+GDN and coda shapes, MTP starting head proposed in consolidated v0.2; experimental variant selection, router objective and cache policy, data/tokenizer, numerical formats, training budget, CC BY 4.0 scope. All draft decisions subject to maintainer review. No assumed NASK/PLLuM relationship.
 
 ## Restart
 Read AGENTS.md and query GitHub. Do not rely on this snapshot for current PR/issue state. Continue the highest-priority unblocked task unless maintainer chooses otherwise.
