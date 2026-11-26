@@ -1,0 +1,12 @@
+{
+  "vocab_size": 32768,
+  "width": 384,
+  "layers": 8,
+  "q_heads": 6,
+  "kv_heads": 2,
+  "head_dim": 64,
+  "intermediate": 1024,
+  "rope_theta": 1000000,
+  "eps": 0.00001,
+  "init_std": 0.02
+}
