@@ -145,11 +145,11 @@ class Block(nn.Module):
         self.up = nn.Linear(c.width, c.intermediate, bias=False)
         self.down = nn.Linear(c.intermediate, c.width, bias=False)
 
-    def forward(self, x, positions, plans, previous):
+    def forward(self, x, positions, plans, previous, *, residual_scale=1.):
         y, state = self.attn(self.n1(x), positions, plans, previous)
-        x = x+y
+        x = x+residual_scale*y
         u = self.n2(x)
-        return x+self.down(F.silu(self.gate(u))*self.up(u)), state
+        return x+residual_scale*self.down(F.silu(self.gate(u))*self.up(u)), state
 
 
 class DenseLM(nn.Module):
