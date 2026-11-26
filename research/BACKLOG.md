@@ -15,3 +15,5 @@ The founding backlog is now tracked in live GitHub issues. Priorities are propos
 | [#11](https://github.com/jtrefon/splot-lm/issues/11) | Open science and licensing | P2 |
 
 Dependency: #2–#5 and #8 inform #9; dense implementation precedes fixed recurrence, then MTP, GDN, MoE and precision. Follow issues for state; do not duplicate them in prose. Draft review: [native MTP](literature/reviews/native-mtp/en.md).
+
+Continuity: [#13](https://github.com/jtrefon/splot-lm/issues/13) / merged PR #14. RFC 0002 (#4) draft and toy oracle now available in its review branch; actual mixer correctness remains pending. Next #5 then #3; consult live issues/PRs for status.

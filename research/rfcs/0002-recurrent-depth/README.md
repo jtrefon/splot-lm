@@ -1,5 +1,3 @@
-# RFC 0002 — recurrent-depth
+# RFC 0002 — Recurrent-depth execution
 
-Status: placeholder / planned. Fixed per-sequence loops, input injection, all-depth supervision, distinct logical caches, adaptive halting only after causal semantics.
-
-See RFC 0001 and research backlog. Full bilingual specification pending.
+Draft v0.1: [English](en.md) | [Polski](pl.md). Issue #4. [Primary-source notes](sources.md). [Executable toy semantics oracle](../../../tests/numerical/test_recurrent_semantics.py). Proposed specification, not a trained model; full GQA/GDN implementation and validation remain outstanding.
