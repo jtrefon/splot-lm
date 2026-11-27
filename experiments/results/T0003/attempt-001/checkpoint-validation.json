@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "parameters": 43055076,
+  "steps": 35,
+  "batch_coverage": 35,
+  "valid_tokens": 2591,
+  "ntp_labels": 2534,
+  "offset2_labels_available": 2477,
+  "optimizer_state_entries": 198,
+  "model_state_entries": 198,
+  "optimizer_moment_elements": 86110152,
+  "optimizer_step_min": 1.0,
+  "optimizer_step_max": 35.0,
+  "step_seconds_sum": 8.36080655513797,
+  "step_seconds_median": 0.23816414299653843,
+  "step_seconds_min": 0.16602806199807674,
+  "step_seconds_max": 0.4048001210321672,
+  "peak_allocated_bytes": 948460544,
+  "peak_reserved_bytes": 1134559232,
+  "validation": {
+    "mean_nll": 3.593368854928524,
+    "nll_sum": 1351.106689453125,
+    "ntp_labels": 376,
+    "perplexity": 36.35634911641945
+  }
+}

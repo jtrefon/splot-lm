@@ -1,0 +1,118 @@
+===== T0003 attempt-001 preflight =====
+2026-11-27T15:14:00Z
+$ git rev-parse HEAD
+d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa
+$ git status --porcelain
+$ python --version
+Python 3.12.7
+$ python -c 'import torch,numpy; ...'
+2.10.0+cu128 12.8 True 1 1.26.4
+$ python -c 'torch.cuda.get_device_name(0)'
+NVIDIA GeForce RTX 4090
+$ nvidia-smi --query-gpu=index,name,driver_version,memory.total,memory.used,memory.free --format=csv
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 238494228 185505812      57% /
+$ sha256sum configs/experiments/splot-nano-synthetic.json
+18ae9e3d7fc2cfc427ceec91de33526f51ccb2dc153ab16f8050ee2a061bad2b  configs/experiments/splot-nano-synthetic.json
+$ CUDA_VISIBLE_DEVICES="" PYTHONPATH=src:tools python - (fixture budget preflight)
+blocks, valid, ntp, offset2, validation_ntp: (35, 2591, 2534, 2477, 376)
+$ test ! -e "$RUNS/nano-epoch"
+nano_epoch_output_absent=true
+PREFLIGHT_OK
+===== check: cuda_nano_epoch (35 steps, FP32, deterministic) =====
+2026-11-27T15:14:20Z
+$ nvidia-smi --query-gpu=index,name,memory.used,memory.free --format=csv,noheader
+0, NVIDIA GeForce RTX 4090, 4 MiB, 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 600s python tools/experiment.py --config configs/experiments/splot-nano-synthetic.json --out $RUNS/nano-epoch --steps 35 --device cuda
+exit=0 elapsed_seconds=45
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 2591,
+  "total_ntp_labels": 2534,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1351.106689453125,
+    "mean_nll": 3.593368854928524,
+    "perplexity": 36.35634911641945
+  }
+}
+--- stderr
+
+2026-11-27T15:15:05Z
+--- cuda_nano_epoch gate verification and T0002 step-1 comparison
+gates {"batch_coverage_0_to_34": true, "batch_indices_single": true, "checkpoint_exists": true, "config_hash": true, "cuda_runtime": true, "data_hash": true, "device_cuda": true, "gpu_name": true, "history_finite": true, "history_length": true, "identity_commit": true, "ntp_labels_each_positive": true, "ntp_total": true, "offset2_total": true, "packed_hash": true, "parameters": true, "peak_allocated_finite_positive": true, "peak_reserved_finite_positive": true, "precision_fp32": true, "reserved_ge_allocated": true, "settings_a2_r2_b1_t96_s42": true, "steps_1_to_35": true, "timing_finite_positive": true, "torch_version": true, "valid_total": true, "validation_finite": true, "validation_labels": true, "validation_mean": true, "validation_ppl": true}
+parameters 43055076
+history_steps 35
+total_valid_tokens 2591
+total_ntp_labels 2534
+validation {"mean_nll": 3.593368854928524, "nll_sum": 1351.106689453125, "ntp_labels": 376, "perplexity": 36.35634911641945}
+step_seconds_sum 8.36080655513797
+step_seconds_median 0.23816414299653843
+step_seconds_min 0.16602806199807674
+step_seconds_max 0.4048001210321672
+peak_allocated_max 948460544
+peak_reserved_max 1134559232
+peak_allocated_first 881575424
+peak_reserved_first 1033895936
+peak_allocated_last 869773312
+peak_reserved_last 1134559232
+batch_indices [9, 12, 5, 20, 31, 22, 29, 16, 26, 24, 14, 10, 11, 27, 8, 19, 30, 6, 25, 0, 33, 13, 18, 2, 32, 28, 21, 3, 23, 4, 34, 15, 17, 1, 7]
+checkpoint_sha256 27a6c998beed37bd2c7495edc596e2c190c9ab826a0cfe6eac63754f02192d27
+checkpoint_bytes 516923467
+t0002_step1_comparison {"balance": {"equal": true, "t0002": 1.5909053087234497, "t0003_step1": 1.5909053087234497}, "batch_indices": {"equal": true, "t0002": [9], "t0003_step1": [9]}, "early_ntp": {"equal": true, "t0002": 10.537959098815918, "t0003_step1": 10.537959098815918}, "final_ntp": {"equal": true, "t0002": 10.538311958312988, "t0003_step1": 10.538311958312988}, "ntp_labels": {"equal": true, "t0002": 50, "t0003_step1": 50}, "objective": {"equal": true, "t0002": 15.798876762390137, "t0003_step1": 15.798876762390137}, "offset2": {"equal": true, "t0002": 10.44066333770752, "t0003_step1": 10.44066333770752}, "offset2_labels_available": {"equal": true, "t0002": 49, "t0003_step1": 49}, "step": {"equal": true, "t0002": 1, "t0003_step1": 1}, "valid_tokens": {"equal": true, "t0002": 51, "t0003_step1": 51}}
+t0002_step1_equal True
+t0002_baseline {"peak_allocated_bytes": 881575424, "peak_reserved_bytes": 1033895936, "step_seconds": 0.42532914300682023}
+all_gates True
+
+===== check: checkpoint_validation (CPU, self-produced epoch checkpoint) =====
+2026-11-27T15:15:36Z
+--- command: CUDA_VISIBLE_DEVICES="" PYTHONPATH=src:tools timeout --kill-after=15s 180s python - $RUNS/nano-epoch <<'PY' (task checkpoint verification script)
+exit=0 elapsed_seconds=1
+--- stdout
+{
+  "status": "passed",
+  "parameters": 43055076,
+  "steps": 35,
+  "batch_coverage": 35,
+  "valid_tokens": 2591,
+  "ntp_labels": 2534,
+  "offset2_labels_available": 2477,
+  "optimizer_state_entries": 198,
+  "model_state_entries": 198,
+  "optimizer_moment_elements": 86110152,
+  "optimizer_step_min": 1.0,
+  "optimizer_step_max": 35.0,
+  "step_seconds_sum": 8.36080655513797,
+  "step_seconds_median": 0.23816414299653843,
+  "step_seconds_min": 0.16602806199807674,
+  "step_seconds_max": 0.4048001210321672,
+  "peak_allocated_bytes": 948460544,
+  "peak_reserved_bytes": 1134559232,
+  "validation": {
+    "mean_nll": 3.593368854928524,
+    "nll_sum": 1351.106689453125,
+    "ntp_labels": 376,
+    "perplexity": 36.35634911641945
+  }
+}
+--- stderr
+
+2026-11-27T15:15:37Z
+===== end-of-attempt source and resource verification =====
+2026-11-27T15:15:49Z
+$ git rev-parse HEAD
+d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa
+$ git status --porcelain
+$ nvidia-smi --query-gpu=index,name,driver_version,memory.used,memory.free --format=csv
+index, name, driver_version, memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 238999388 185000652      57% /
+checkpoint_sha256=27a6c998beed37bd2c7495edc596e2c190c9ab826a0cfe6eac63754f02192d27
+checkpoint_bytes=516923467
+command_elapsed_seconds=45
