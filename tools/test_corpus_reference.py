@@ -136,6 +136,18 @@ class SourceAllowlistTests(unittest.TestCase):
         )
         self.assertEqual(len(iterable_valid), 1)
 
+    def test_swapped_mapping_keys_rejected(self):
+        records = (
+            rec("a", "text-a", source_id="a", revision="rev-1"),
+            rec("b", "text-b", source_id="b", revision="rev-1"),
+        )
+        swapped = {
+            "a": SourceApproval("b", "rev-1", SYNTHETIC_APPROVAL),
+            "b": SourceApproval("a", "rev-1", SYNTHETIC_APPROVAL),
+        }
+        with self.assertRaises(CorpusError):
+            validate_records(records, swapped)
+
 
 class RecordValidationTests(unittest.TestCase):
     def setUp(self):

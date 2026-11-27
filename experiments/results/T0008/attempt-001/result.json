@@ -1,0 +1,66 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 17,179,869,184 bytes RAM, CPython 3.15.2, Unicode data 17.0.0; CPU only, no CUDA/MPS. Tested implementation HEAD c7ac8fbd8cd3beb8641ad27f1e39cc027613ca9a was clean at acceptance start and after the commands. Reviewed base/instruction commit d2dfd903d252c1ba48641bf7de79fba42c385af8; approved minimum base f60bd5622733f3619e761681a20472d8c40f478c. No packages, external corpora, model training or real data; GitHub API was used only for issue/PR coordination.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Implementation commit c7ac8fbd8cd3beb8641ad27f1e39cc027613ca9a is followed by a separate attempt-001 evidence commit containing the required REP records and demo.json. Scope review found exactly the five allowed implementation files plus this evidence directory and one INDEX append; no historical evidence was rewritten. The evidence PR references #52/#8 and records the validator output; hosted CPU success is required before merge. No merge or issue closure is claimed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Implementation commit c7ac8fbd8cd3beb8641ad27f1e39cc027613ca9a changes exactly five allowed files and no other file: tools/corpus_reference.py (SHA-256 d1e5b88ebbf2dc2d30e065b842b40f641a26e864e3efc8999c940f2b9515a3b1), tools/test_corpus_reference.py (SHA-256 6d063cc758d4a53dc4c48dd4ab8bb149ad4ac861592ef4c6637940479e93ef98), tools/bpe_reference.py (SHA-256 08c59bdabeeb2d64c47b05dc8f680a2c48950e14feaf05de6a941e5a2ed68749), tools/test_bpe_reference.py (SHA-256 9c1a3d85039d873f8e80ddba007f29a116dea70bfdd4241cd2617935dda047b4) and research/data/bpe-reference.md (SHA-256 60a5ae64176c6fec71cbba7ebfe20c7f9177c00a7386b3b88c2c6cdb6bcbac66). The change fixes the swapped-key allowlist mapping bypass, adds the byte BPE oracle with strict artifact validation/reload and control safety, and adds independent tests. No model, fixture, harness, registry, config or CI file changed; T0004 historical evidence is untouched.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 without timeout or retry: 30/30 corpus-reference tests (0.070484 s), 6/6 existing fixture tests (0.044478 s) and 23/23 BPE-reference tests (0.094902 s) passed. The demo ran twice in 0.036288 s and 0.036002 s, producing byte-identical 4,343-byte output with SHA-256 bd743d70d6d0c96d9c6bc7780b8fe004e1a9520d3b47e7a43c3b10945543215e; artifact SHA-256 f67ef4ab5c343e3c9f81570b0d7426a5668e578aa84806058265d0aaf633ce7e and corpus digest 6fa4bbf3cc680d4058d067059545b787edf87eba3c87a71cd1013684ee99e8cd. The demo trained on 6 documents/612 bytes with 1 quarantined document, 56 merges, actual vocabulary 320, all 8 held-out groups round-tripping and zero control IDs emitted. The original T0004 demo digest remains b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f.",
+      "evidence": [
+        "summary.md",
+        "metrics.jsonl",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "demo.json": "bd743d70d6d0c96d9c6bc7780b8fe004e1a9520d3b47e7a43c3b10945543215e",
+    "environment.json": "89e50b14e3e16d6ea883b4832156acaa525101f7c9640146b3e9bc7575144eae",
+    "execution.log": "da519822ba4c57b9337971e45e960f7a78ff733637d900fe1bf298cf16eb18c8",
+    "metrics.jsonl": "0b499e4e0f1a7dd3f944565d6605b0e3ba2c50f1ea19bf3a2e9e13ad3afc2a91",
+    "summary.md": "ec0b24adb6aba21d064fc8097250d466a3e6e44ce01f4e12a3ccaa504401399e"
+  },
+  "limitations": [
+    "Synthetic documents only; no external corpus, source-rights decision, clearance, acquisition, PII filtering or benchmark corpus.",
+    "Small correctness oracle, not a production BPE trainer or an HF ByteLevel-equivalent tokenizer; it merges across whitespace and performs no regex pretokenization by design.",
+    "No cross-platform artifact equality claim until a separate Linux comparison verifies the canonical digest.",
+    "No quality, compression, fertility, throughput or downstream model claim.",
+    "Training cost grows with merge count and token count; it is bounded for synthetic fixtures rather than production-scale corpora.",
+    "No production tokenizer backend, special-token training, sentencepiece/HF compatibility, sharding, streaming or serving work.",
+    "Document text has strict UTF-8/surrogate rejection and IDs are nonempty and unique; separate metadata-surrogate hardening is not claimed."
+  ],
+  "schema_version": 1,
+  "source_commit": "c7ac8fbd8cd3beb8641ad27f1e39cc027613ca9a",
+  "status": "passed",
+  "task_commit": "d2dfd903d252c1ba48641bf7de79fba42c385af8",
+  "task_id": "T0008",
+  "tested_commit": "c7ac8fbd8cd3beb8641ad27f1e39cc027613ca9a"
+}
