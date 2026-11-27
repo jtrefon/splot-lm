@@ -1,0 +1,44 @@
+===== T0007 attempt-001 preflight =====
+2026-11-27T17:38:38Z
+$ git rev-parse HEAD
+d5ea0f94f3145f366675d4bf95cf1851bf18ebcd
+$ git status --porcelain
+$ python --version
+Python 3.12.7
+$ torch / capability / schema
+2.10.0+cu128 12.8 True NVIDIA GeForce RTX 4090 (8, 9)
+scaled_mm True aten::_scaled_mm(Tensor self, Tensor mat2, Tensor scale_a, Tensor scale_b, Tensor? bias=None, Tensor? scale_result=None, ScalarType? out_dtype=None, bool use_fast_accum=False) -> Tensor
+float8 ['float8_e4m3fn', 'float8_e4m3fnuz', 'float8_e5m2', 'float8_e5m2fnuz', 'float8_e8m0fnu']
+profiler True
+$ nvidia-smi
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 241802968 182197072      58% /
+===== cuda_fp8 official probe =====
+$ PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 180s python tools/fp8_probe.py --device cuda --seed 42 --out $RUNS/fp8-probe.json
+exit=0 elapsed_seconds=2
+--- stdout
+{
+  "status": "passed",
+  "first_failure": null,
+  "cases": 11,
+  "passed_cases": 11
+}
+--- stderr
+<HOME>/miniconda3/lib/python3.12/site-packages/torch/profiler/profiler.py:217: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+
+2026-11-27T17:38:41Z
+===== end-of-attempt source and resource verification =====
+2026-11-27T17:38:58Z
+$ git rev-parse HEAD
+d5ea0f94f3145f366675d4bf95cf1851bf18ebcd
+$ git status --porcelain
+$ nvidia-smi
+index, name, driver_version, memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 241803096 182196944      58% /

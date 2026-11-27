@@ -1,0 +1,19 @@
+{
+  "allowed_files": [
+    "tools/fp8_probe.py",
+    "tools/test_fp8_probe.py",
+    "research/implementation/fp8-probe.md"
+  ],
+  "base_source_commit": "d2dfd903d252c1ba48641bf7de79fba42c385af8",
+  "changed_files": [
+    "research/implementation/fp8-probe.md",
+    "tools/fp8_probe.py",
+    "tools/test_fp8_probe.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "f60bd5622733f3619e761681a20472d8c40f478c",
+  "note": "No src/, optimizers, experiment harness, existing configs, CI, Mac or data file changed.",
+  "scope_check": "passed",
+  "task_commit": "d2dfd903d252c1ba48641bf7de79fba42c385af8",
+  "tested_commit": "d5ea0f94f3145f366675d4bf95cf1851bf18ebcd"
+}
