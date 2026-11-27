@@ -18,19 +18,15 @@ Snapshot: 2026-11-27. **Live GitHub issues and PRs are authoritative.** This fil
 
 - PR #25 merged: complete sparse hybrid SPLOTLM: exact Nano/Mini model inventories, six CPU MoE tests and 19 regressions, synthetic A2+balance training and short full Nano forward/backward. [Contract](research/implementation/sparse-moe.md), [evidence](experiments/results/sparse-moe-v0.1.md). Mini meta only.
 
-- PR #26 merged: reproducible synthetic FP32 experiment harness, five toy mechanics tests, full actual SPLOT integration and CUDA still pending.
-- PR #29 merged: REP v0.1: [EXECUTION.md](EXECUTION.md), [task specs](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). T0001 (#27) ready only after spec merged and explicit owner launch; T0002 (#28) blocked until reviewed evidence and new authorization. No local GPU execution yet.
-
-- REP v0.2 issue-dialogue amendment in review: task issues are the communication channel; [T0001 preflight](https://github.com/jtrefon/splot-lm/issues/27#issuecomment-7219541277) reports a predicted deterministic CUDA index_add blocker (not executed); [research response](https://github.com/jtrefon/splot-lm/issues/27#issuecomment-7219602428) advises original pinned task based on versioned API docs. No model change or repin; prior CPU report is preliminary. Await owner-authorized actual T0001 evidence.
+- PR #26 merged: reproducible synthetic FP32 experiment harness; full actual SPLOT integration and CUDA smoke validated in T0001.
+- PRs #29/#30 merged: REP v0.2, issue dialogue and structured evidence handoff. PRs #31/#32 merged: T0001 #27 accepted/closed, blocked setup attempt preserved and successful deterministic CUDA smoke (67 CPU tests including integration, 7/7 gates, 16 evidence hashes verified). See [index](experiments/results/INDEX.md). #3/#4/#5/#9 closed for original reference specification/implementation acceptance. GPU benchmarks and precision remain separate.
 
 ## Next work
-- #10: first delegated task T0001 (#27) CPU regression/integration and CUDA same-device checkpoint validation. Research agent reviews evidence PR before further implementation or Nano run. T0002 (#28) remains blocked. Then inference benchmarks/budget matching. #7 precision and activation memory policy in parallel; #8 approved corpus/tokenizer gate before real training.
+- #10: T0002 (#28) Nano one-step FP32 CUDA resource validation specification in review; ready only after merge and explicit owner launch. Then review evidence, precision #7, benchmark/matched controls #10. #8 approved corpus/tokenizer gate before real training.
 - #6: full sparse reference merged; full-text literature, locality objectives, chronological trace/cache simulation and measured PCIe/offload experiments remain open.
-- #5: learned hybrid implementation merged; GPU, precision, long context, kernel and empirical tests remain.
 - #2: exact all-GQA reference merged; full literature, broader sampling/precision tests, shallow-cache reuse and empirical work remain open.
-- #4: recurrent all-GQA and GDN integration merged; activation checkpointing and GPU acceptance outstanding.
-- #9: synthetic fixture integration now exercised in recurrent reference; GPU smoke still outstanding. #8: actual corpus source approvals and tokenizer remain required before real training.
-- #3 exact candidate parameter inventories now verified; matched controls and empirical work remain; #7/#10 precision and hardware measurement; #11 publication/license approval.
+- #8: actual corpus source approvals and tokenizer remain required before real training.
+- #11 publication/license approval pending. Dense standalone GPU smoke and matched controls under #10; GPU inference/cache, long-context, activation checkpointing under #7/#10.
 
 ## Current unresolved decisions
 Experimental injection/stability choice, MTP strategy beyond initial offset-2, hybrid verifier rollback and shallow cache extraction, optimized GDN/MoE kernels, router objective and cache policy, data/tokenizer rights and actual pipeline, numerical formats, training budget, CC BY 4.0 scope. No assumed NASK/PLLuM relationship.
