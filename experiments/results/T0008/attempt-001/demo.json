@@ -1,0 +1,318 @@
+{
+  "artifact": {
+    "actual_vocab_size": 320,
+    "algorithm": "byte_bpe_reference_v1",
+    "byte_count": 256,
+    "byte_offset": 8,
+    "merges": [
+      [
+        109,
+        40
+      ],
+      [
+        40,
+        40
+      ],
+      [
+        40,
+        106
+      ],
+      [
+        118,
+        113
+      ],
+      [
+        40,
+        120
+      ],
+      [
+        109,
+        124
+      ],
+      [
+        118,
+        40
+      ],
+      [
+        119,
+        127
+      ],
+      [
+        40,
+        108
+      ],
+      [
+        40,
+        116
+      ],
+      [
+        109,
+        120
+      ],
+      [
+        109,
+        122
+      ],
+      [
+        112,
+        264
+      ],
+      [
+        113,
+        107
+      ],
+      [
+        122,
+        130
+      ],
+      [
+        123,
+        40
+      ],
+      [
+        123,
+        124
+      ],
+      [
+        18,
+        265
+      ],
+      [
+        40,
+        51
+      ],
+      [
+        40,
+        114
+      ],
+      [
+        48,
+        105
+      ],
+      [
+        49,
+        66
+      ],
+      [
+        52,
+        266
+      ],
+      [
+        54,
+        18
+      ],
+      [
+        54,
+        40
+      ],
+      [
+        105,
+        108
+      ],
+      [
+        105,
+        124
+      ],
+      [
+        105,
+        267
+      ],
+      [
+        105,
+        282
+      ],
+      [
+        107,
+        112
+      ],
+      [
+        108,
+        105
+      ],
+      [
+        108,
+        109
+      ],
+      [
+        110,
+        40
+      ],
+      [
+        113,
+        267
+      ],
+      [
+        117,
+        297
+      ],
+      [
+        122,
+        269
+      ],
+      [
+        122,
+        270
+      ],
+      [
+        122,
+        274
+      ],
+      [
+        124,
+        276
+      ],
+      [
+        125,
+        117
+      ],
+      [
+        125,
+        300
+      ],
+      [
+        130,
+        129
+      ],
+      [
+        265,
+        299
+      ],
+      [
+        266,
+        18
+      ],
+      [
+        266,
+        122
+      ],
+      [
+        269,
+        275
+      ],
+      [
+        281,
+        306
+      ],
+      [
+        284,
+        286
+      ],
+      [
+        285,
+        310
+      ],
+      [
+        291,
+        264
+      ],
+      [
+        292,
+        307
+      ],
+      [
+        295,
+        296
+      ],
+      [
+        298,
+        280
+      ],
+      [
+        304,
+        314
+      ],
+      [
+        309,
+        316
+      ],
+      [
+        311,
+        312
+      ]
+    ],
+    "requested_vocab_size": 320,
+    "special_tokens": {
+      "0": "PAD",
+      "1": "BOS",
+      "2": "EOS",
+      "3": "UNK",
+      "4": "RESERVED_4",
+      "5": "RESERVED_5",
+      "6": "RESERVED_6",
+      "7": "RESERVED_7"
+    },
+    "training_digest": "d5a1eb55daa8eb115ba36c27b3d9a8ec4d6f2bac6602c977ee49af8e111d319e",
+    "version": 1
+  },
+  "artifact_sha256": "f67ef4ab5c343e3c9f81570b0d7426a5668e578aa84806058265d0aaf633ce7e",
+  "control_safety": {
+    "control_ids_emitted": 0,
+    "special_spellings_checked": [
+      "<PAD>",
+      "<BOS>",
+      "<EOS>",
+      "<UNK>",
+      "<RESERVED_4>",
+      "<|endoftext|>"
+    ]
+  },
+  "corpus_digest": "6fa4bbf3cc680d4058d067059545b787edf87eba3c87a71cd1013684ee99e8cd",
+  "heldout": {
+    "test/en/code": {
+      "bytes": 83,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 58
+    },
+    "test/en/prose": {
+      "bytes": 67,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 59
+    },
+    "test/pl/code": {
+      "bytes": 73,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 48
+    },
+    "test/pl/prose": {
+      "bytes": 39,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 37
+    },
+    "validation/en/code": {
+      "bytes": 37,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 22
+    },
+    "validation/en/prose": {
+      "bytes": 68,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 58
+    },
+    "validation/pl/code": {
+      "bytes": 69,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 43
+    },
+    "validation/pl/prose": {
+      "bytes": 74,
+      "documents": 1,
+      "roundtrip": true,
+      "tokens": 68
+    }
+  },
+  "training": {
+    "actual_vocab_size": 320,
+    "bytes": 612,
+    "documents": 6,
+    "merges": 56,
+    "quarantined_documents": 1,
+    "requested_vocab_size": 320
+  }
+}
