@@ -221,3 +221,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# REP: permit sanitized execution logs only in versioned attempt folders
+!experiments/results/T*/attempt-*/execution.log

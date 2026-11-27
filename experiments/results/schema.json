@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SPLOT REP v0.1 attempt result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "task_id",
+    "attempt",
+    "task_commit",
+    "source_commit",
+    "tested_commit",
+    "status",
+    "checks",
+    "files",
+    "deviations",
+    "limitations",
+    "external_artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^T[0-9]{4}$"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "task_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "tested_commit": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "failed",
+        "blocked"
+      ]
+    },
+    "checks": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "status",
+          "detail",
+          "evidence"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "blocked",
+              "not_run"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "required": [
+        "summary.md",
+        "environment.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "deviations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "external_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "sha256",
+          "bytes"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "availability": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "description": "Structural schema; task-specific check names, matching source, outcome and file hashes are checked by tools/rep/validate_result.py. Scientific review remains required."
+}
