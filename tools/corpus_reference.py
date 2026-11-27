@@ -14,6 +14,7 @@ from collections import Counter
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
 from fractions import Fraction
+from itertools import islice
 from typing import Any
 
 MAX_RECORDS = 1000
@@ -42,7 +43,7 @@ class AuditError(RuntimeError):
 class SourceApproval:
     source_id: str
     revision: str
-    approval: str = SYNTHETIC_APPROVAL
+    approval: str
 
 
 @dataclass(frozen=True)
@@ -122,7 +123,7 @@ def build_allowlist(entries: Iterable[SourceApproval]) -> dict[str, SourceApprov
             raise CorpusError("allowlist entries must be SourceApproval instances")
         _require_nonempty_str(entry.source_id, "source ID")
         _require_nonempty_str(entry.revision, "source revision")
-        if entry.approval != SYNTHETIC_APPROVAL:
+        if not isinstance(entry.approval, str) or entry.approval != SYNTHETIC_APPROVAL:
             raise CorpusError(
                 f"source {entry.source_id!r} approval must be {SYNTHETIC_APPROVAL!r}, "
                 f"not {entry.approval!r}"
@@ -136,6 +137,7 @@ def build_allowlist(entries: Iterable[SourceApproval]) -> dict[str, SourceApprov
 
 
 def _allowlist_mapping(allowlist: Any) -> dict[str, SourceApproval]:
+    """Normalize and revalidate a synthetic allowlist mapping or iterable."""
     if isinstance(allowlist, Mapping):
         result = build_allowlist(tuple(allowlist.values()))
         if set(result) != set(allowlist):
@@ -205,17 +207,24 @@ def near_duplicate(a: frozenset[tuple[str, ...]], b: frozenset[tuple[str, ...]])
 
 def validate_records(
     records: Iterable[Record],
-    allowlist: Mapping[str, SourceApproval],
+    allowlist: Iterable[SourceApproval] | Mapping[str, SourceApproval],
 ) -> tuple[ValidatedRecord, ...]:
-    """Fail-closed record validation; original text is retained unchanged."""
+    """Fail-closed record validation; original text is retained unchanged.
+
+    The allowlist is revalidated at this public entry point, including mapping
+    key/source-ID equality and explicit approval. Record consumption is bounded
+    to MAX_RECORDS + 1 before materializing.
+    """
+    allowlist = _allowlist_mapping(allowlist)
     try:
-        records = tuple(records)
+        iterator = iter(records)
     except TypeError as exc:
         raise CorpusError("records must be an iterable of Record instances") from exc
+    records = tuple(islice(iterator, MAX_RECORDS + 1))
     if len(records) > MAX_RECORDS:
-        raise CorpusError(f"record count exceeds {MAX_RECORDS}: {len(records)}")
-    if not isinstance(allowlist, Mapping):
-        raise CorpusError("allowlist must be a mapping from build_allowlist")
+        raise CorpusError(
+            f"record count exceeds {MAX_RECORDS} (at least {MAX_RECORDS + 1})"
+        )
     seen: set[str] = set()
     validated: list[ValidatedRecord] = []
     for record in records:
@@ -699,10 +708,9 @@ def build_report(
 ) -> dict[str, Any]:
     """Validate, cluster, quarantine, split, audit and summarize a synthetic corpus."""
     _validate_split_config(seed, train_pct, val_pct)
-    allow = _allowlist_mapping(allowlist)
     benchmark_exclusions = _string_tuple(benchmark_exclusions, "benchmark exclusion")
     excluded_record_ids = _string_tuple(excluded_record_ids, "excluded record ID")
-    validated = validate_records(records, allow)
+    validated = validate_records(records, allowlist)
     clusters, near_pairs = cluster_records(validated)
     clusters = assign_clusters(
         clusters,
@@ -759,8 +767,8 @@ def build_report(
 
 
 _DEMO_ALLOWLIST = (
-    SourceApproval("synthetic_en", "rev-en-001"),
-    SourceApproval("synthetic_pl", "rev-pl-001"),
+    SourceApproval("synthetic_en", "rev-en-001", SYNTHETIC_APPROVAL),
+    SourceApproval("synthetic_pl", "rev-pl-001", SYNTHETIC_APPROVAL),
 )
 
 _DEMO_RECORDS = (

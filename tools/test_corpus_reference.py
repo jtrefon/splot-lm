@@ -94,6 +94,48 @@ class SourceAllowlistTests(unittest.TestCase):
                 allowlist,
             )
 
+    def test_approval_must_be_explicit(self):
+        with self.assertRaises(TypeError):
+            SourceApproval("src", "rev")
+        with self.assertRaises(CorpusError):
+            build_allowlist((SourceApproval("src", "rev", None),))
+        with self.assertRaises(CorpusError):
+            build_allowlist((SourceApproval("src", "rev", ""),))
+        with self.assertRaises(CorpusError):
+            build_allowlist((SourceApproval("src", "rev", "pending"),))
+        with self.assertRaises(CorpusError):
+            build_allowlist((SourceApproval("src", "rev", "denied"),))
+
+    def test_validate_records_revalidates_mapping(self):
+        record = rec("a", "text", source_id="x", revision="rev-1")
+        with self.assertRaises(CorpusError):
+            validate_records(
+                (record,),
+                {"x": SourceApproval("x", "rev-1", "denied")},
+            )
+        with self.assertRaises(CorpusError):
+            validate_records(
+                (record,),
+                {"x": SourceApproval("x", "rev-1", "pending")},
+            )
+        with self.assertRaises(CorpusError):
+            validate_records(
+                (record,),
+                {"x": SourceApproval("y", "rev-1", SYNTHETIC_APPROVAL)},
+            )
+        with self.assertRaises(CorpusError):
+            validate_records((record,), {"x": object()})
+        valid = validate_records(
+            (record,),
+            {"x": SourceApproval("x", "rev-1", SYNTHETIC_APPROVAL)},
+        )
+        self.assertEqual(len(valid), 1)
+        iterable_valid = validate_records(
+            (record,),
+            (SourceApproval("x", "rev-1", SYNTHETIC_APPROVAL),),
+        )
+        self.assertEqual(len(iterable_valid), 1)
+
 
 class RecordValidationTests(unittest.TestCase):
     def setUp(self):
@@ -139,6 +181,18 @@ class RecordValidationTests(unittest.TestCase):
                 (rec("over", "a" * (MAX_RECORD_BYTES + 1)),),
                 self.allowlist,
             )
+
+    def test_record_iterable_consumption_is_bounded(self):
+        seen = []
+
+        def generator():
+            for index in range(MAX_RECORDS + 50):
+                seen.append(index)
+                yield rec(f"r{index}", "text", group=f"grp/{index}")
+
+        with self.assertRaises(CorpusError):
+            validate_records(generator(), self.allowlist)
+        self.assertEqual(len(seen), MAX_RECORDS + 1)
 
     def test_utf8_decode_helper(self):
         self.assertEqual(decode_text("Zażółć".encode("utf-8")), "Zażółć")

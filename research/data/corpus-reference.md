@@ -28,15 +28,17 @@ determinism. This document is the API reference.
 ## 2. Data model and fail-closed validation
 
 ```python
-SourceApproval(source_id: str, revision: str, approval: str = "synthetic_approved")
+SourceApproval(source_id: str, revision: str, approval: str)
 Record(record_id, source_id, source_revision, group_id, language, domain, text)
 ```
 
 - `source_id` must appear exactly once in the explicit synthetic allowlist, with
-  a nonempty immutable `revision` and `approval == "synthetic_approved"`.
-  Unknown, missing, pending, denied, empty or mismatched-revision sources are
-  rejected. The test-local allowlist is never the real registry and grants no
-  rights.
+  a nonempty immutable `revision` and an explicitly supplied
+  `approval == "synthetic_approved"`. There is no permissive default: missing,
+  unknown, pending, denied, empty or mismatched-revision approvals are rejected.
+  Mapping keys must equal the corresponding source IDs, and the public
+  `validate_records` entry point revalidates this mapping. The test-local
+  allowlist is never the real registry and grants no rights.
 - `record_id` is a stable unique ID; duplicates are rejected.
 - `group_id` is the globally namespaced **source-family** identity used for
   union (same article/revision chain, book/edition, translated pair or code
@@ -46,8 +48,11 @@ Record(record_id, source_id, source_revision, group_id, language, domain, text)
   reference; `code`, `math`, missing or unknown domains are rejected, so code is
   never silently eligible prose.
 - `text` must be nonempty valid UTF-8 without lone surrogates, at most 4096
-  UTF-8 bytes. A corpus may contain at most 1000 records. The original string is
-  preserved byte-for-byte and is not normalized in place.
+  UTF-8 bytes. A corpus may contain at most 1000 records; record iterables are
+  consumed at most 1001 entries before rejection and are never materialized
+  unbounded. The original string is preserved byte-for-byte and is not
+  normalized in place. Metadata strings are validated as nonempty strings;
+  separate metadata surrogate hardening remains an optional follow-up.
 - An empty corpus is valid. An empty allowlist is rejected.
 
 ## 3. Fingerprints
@@ -147,7 +152,7 @@ From `PYTHONPATH=tools`, `import corpus_reference`. Public signatures:
 
 ```python
 build_allowlist(entries: Iterable[SourceApproval]) -> dict[str, SourceApproval]
-validate_records(records: Iterable[Record], allowlist: Mapping[str, SourceApproval]) -> tuple[ValidatedRecord, ...]
+validate_records(records: Iterable[Record], allowlist: Iterable[SourceApproval] | Mapping[str, SourceApproval]) -> tuple[ValidatedRecord, ...]
 normalize_text(text: str) -> str
 raw_sha256(text: str) -> str
 normalized_sha256(text: str) -> str
@@ -176,7 +181,7 @@ main(argv: list[str] | None = None) -> int
 | Function | Purpose |
 |---|---|
 | `build_allowlist(entries)` | Validate synthetic `SourceApproval` entries; return a source-ID mapping. |
-| `validate_records(records, allowlist)` | Fail-closed record/metadata/capacity checks; retain original text. |
+| `validate_records(records, allowlist)` | Revalidate allowlist mapping/approval, bound record consumption, and run fail-closed record/metadata/capacity checks; retain original text. |
 | `normalize_text(text)` | NFC plus CRLF/CR to LF for fingerprinting only. |
 | `raw_sha256(text)`, `normalized_sha256(text)` | Exact fingerprints. |
 | `decode_text(data)` | Strict UTF-8 bytes-to-string ingestion. |
@@ -219,6 +224,7 @@ about production proportions.
 - No benchmark corpus, benchmark-version tracking or false-positive estimate;
   exact normalized quarantine cannot prove absence of contamination.
 - No tokenizer, BPE training, token counts or model input normalization.
+- Record text has explicit UTF-8/surrogate rejection; separate metadata surrogate validation remains an optional follow-up.
 - `group_id` correctness is a caller/registry obligation; a wrong family key can
   over- or under-merge clusters.
 - The report is a synthetic engineering oracle, not a measured corpus result.
