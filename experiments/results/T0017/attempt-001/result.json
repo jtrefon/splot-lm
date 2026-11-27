@@ -1,0 +1,106 @@
+{
+  "attempt": 1,
+  "base_source_commit": "4c4e23e84c2a662d8519d4a2a852116c711f7ee2",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py exit 0 from clean tested SHA: 26 CPU scripts, 214 tests, 0 failures, 0 skips, 19 REP reports. New cache/pilot tests pass.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_qualification": {
+      "detail": "Focused CUDA 4/4. Nano T96 cache off/on losses/native/logical audit equal with reduced actual quantizations and positive hits; model/optimizer exact. Cache-free resume exact and cross-mode rejected. T512 paired update exact with reduced quantizations; synthetic pilot loader smoke passes. No speed threshold.",
+      "evidence": [
+        "cache-tests.txt",
+        "nano-cache.json",
+        "resume-cache.json",
+        "t512-pair.json",
+        "run-pilot-loader-smoke.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested SHA 1c4e3fb; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090 SM89, native Muon/_scaled_mm; 24,077 MiB free before; no real-data source available.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required qualification evidence present and hashed; exact T0017 validator passed with real_pilot not_run and overall blocked. PR/issue handover follows; no merge or closure.",
+      "evidence": [
+        "summary.md",
+        "checkpoints.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Opt-in per-update FP8 weight cache with identity/version checks, explicit lifecycle clearing, no persistent state, separate actual/cache-hit audit, and a bounded pilot-blocks-v1 loader with exact canonical/source/shard/block validation. No model/optimizer equations, existing configs, CI or Mac producer changes.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "nano-cache.json",
+        "resume-cache.json",
+        "t512-pair.json",
+        "run-pilot-loader-smoke.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "real_pilot": {
+      "detail": "T0016 #76 is OPEN with no accepted dataset/evidence directory or reviewed local snapshot; no real data was acquired, read or trained on. Qualification is complete and preserved for an authorized continuation.",
+      "evidence": [
+        "real-pilot-dependency.json"
+      ],
+      "status": "not_run"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; synthetic pilot-loader smoke; not published",
+      "bytes": 395172643,
+      "name": "pilot-loader-smoke/checkpoint.pt",
+      "sha256": "6d97d8a201b91a8b63c21bb43659773926180eabbbf847866be5530b75cb16c9"
+    }
+  ],
+  "files": {
+    "cache-tests.txt": "7a37c9fbc0a7168da99ee887a55d30adec102b9356b3bb73147bc985ddaacff9",
+    "checkpoints.txt": "16732b97a6c8f0fb6e1af977f50f3b9c34b3a5e3ff62936899e283a6b60a2faa",
+    "ci-cpu.txt": "3b772239f4232fae67dad906d0f114a77d46c03059f2a44e6f099842193ab65b",
+    "cpu-ci.json": "6e295f4bffd65017a369768a5e9a065e4be96c30795f87370973b0ca43d8329f",
+    "environment.json": "ba0618e614813cc7ff80f0ff6c8a07b6f2561be0f5d6ee407a12e15f137b06b3",
+    "execution.log": "d325f346975c776d99837ec0163d7725493877574ab07e5e5d673a5259eb7d5e",
+    "implementation.diff": "e09bab4670b75282de62d01fc4710bd76d81c11daaa94dfed6e4d896a25eb297",
+    "implementation.files.json": "e33b2def410885c2c082515aef30293a7a29eaa10120f7e1a0f10a624c4d0b96",
+    "metrics.jsonl": "33f1ca73071dcc6c30cedf19be943e95fe4b9c344604e0cb3f26c65ddb09ca04",
+    "nano-cache.json": "95e5715cb77351430ff987d9e17459040ab4d598a14a3a14e5fd1f15ec423aed",
+    "pilot-fixture-summary.json": "b8b6df08094012d48a267ffa0d8d82cb0351e63fcffd717b90d7b584b9acace6",
+    "real-pilot-dependency.json": "83b56924d7e5eb97f9ccf81163b3d3eee981683356ac00a10b4cb338d76871b7",
+    "resume-cache.json": "9702907ee54c3ca3eff38bb1d5e571a42d71a8b3addf48e69b3446eb2aaa214a",
+    "run-pilot-loader-smoke.json": "cd4d2cbbd7a886403481bd19be2688cdb058c6a6087b8682beaa0860c14c8875",
+    "summary.md": "ac89a755da59c900f04f3d8f9ad1aa24a82a2e74f252d407cf543828d857c2cc",
+    "t512-pair.json": "8c07502c4660877a317a0c0a7dc13f0c552fa234b397bf6e7f35c51408f19bc0"
+  },
+  "limitations": [
+    "Real pilot not run because T0016 is not accepted and no verified local snapshot exists; no real-data quality or convergence claim.",
+    "One smoke configuration/seed for the T512 cache pair; timing and memory are descriptive only, not a speed threshold.",
+    "The FP8 cache is per-update/process-local; no persistence, second-order use or multi-writer guarantee.",
+    "Pilot loader accepts bounded synthetic-format artifacts only and does not establish source rights or production data fitness."
+  ],
+  "minimum_base_commit": "8537c533372fb58a5d5ad5c58436f90e58c030ea",
+  "schema_version": 1,
+  "source_commit": "1c4e3fb8549561a0018305bf55596fe7732642b3",
+  "spec_commit": "3a6dbc4e71d78fc2b7441fc6a3e1eb8b65784527",
+  "status": "blocked",
+  "task_commit": "4c4e23e84c2a662d8519d4a2a852116c711f7ee2",
+  "task_id": "T0017",
+  "tested_commit": "1c4e3fb8549561a0018305bf55596fe7732642b3"
+}

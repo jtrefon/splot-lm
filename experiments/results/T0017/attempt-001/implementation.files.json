@@ -1,0 +1,28 @@
+{
+  "allowed_files": [
+    "src/splot/fp8.py",
+    "tools/experiment.py",
+    "tools/pilot_ingestion.py",
+    "tools/test_fp8_weight_reuse.py",
+    "tools/test_pilot_ingestion.py",
+    "configs/experiments/splot-nano-pilot-fp8-muon.json",
+    "research/implementation/fp8-weight-reuse-pilot.md"
+  ],
+  "base_source_commit": "4c4e23e84c2a662d8519d4a2a852116c711f7ee2",
+  "changed_files": [
+    "configs/experiments/splot-nano-pilot-fp8-muon.json",
+    "research/implementation/fp8-weight-reuse-pilot.md",
+    "src/splot/fp8.py",
+    "tools/experiment.py",
+    "tools/pilot_ingestion.py",
+    "tools/test_fp8_weight_reuse.py",
+    "tools/test_pilot_ingestion.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "8537c533372fb58a5d5ad5c58436f90e58c030ea",
+  "note": "FP8 reuse, pilot loader/tests, pilot config and implementation note only; no model equations, optimizer math, existing configs, CI, Mac producer or data changes.",
+  "scope_check": "passed",
+  "spec_commit": "3a6dbc4e71d78fc2b7441fc6a3e1eb8b65784527",
+  "task_commit": "4c4e23e84c2a662d8519d4a2a852116c711f7ee2",
+  "tested_commit": "1c4e3fb8549561a0018305bf55596fe7732642b3"
+}

@@ -1,0 +1,104 @@
+===== T0017 attempt-001 preflight =====
+2026-11-27T20:34:52Z
+1c4e3fb8549561a0018305bf55596fe7732642b3
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 246074528 177925512      59% /
+T0016 issue state: OPEN; evidence directory absent
+===== focused CUDA cache tests =====
+exit=0 elapsed_seconds=6
+test_reset_stats_clears_cache_and_counters (__main__.CacheLifecycleTests.test_reset_stats_clears_cache_and_counters) ... ok
+test_reuse_hit_invalidation_and_clear (__main__.CacheLifecycleTests.test_reuse_hit_invalidation_and_clear) ... ok
+test_cache_resume_absent_and_cross_mode_rejected (__main__.NanoCacheTests.test_cache_resume_absent_and_cross_mode_rejected) ... ok
+test_nano_first_step_cache_off_on_exact (__main__.NanoCacheTests.test_nano_first_step_cache_off_on_exact) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.889s
+
+OK
+
+===== T512 paired cache qualification =====
+exit=0 elapsed_seconds=6
+{"out": "<RUNS>/t512-pair.json", "status": "passed"}
+
+===== synthetic pilot-loader smoke (not real data) =====
+exit=0 elapsed_seconds=5
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 512,
+  "total_ntp_labels": 511,
+  "validation": {
+    "ntp_labels": 1022,
+    "nll_sum": 10521.66650390625,
+    "mean_nll": 10.295172704409246,
+    "perplexity": 29589.436582617614,
+    "fp8_cache_scope": "cleared-before-and-after-evaluation"
+  }
+}
+
+===== cache qualification metrics =====
+exit=0
+{
+  "nano": "passed",
+  "nano_checks": {
+    "cache_hits_positive": true,
+    "cache_quantizations_reduced": true,
+    "initial_state_equal": true,
+    "logical_quantization_equal": true,
+    "losses_equal": true,
+    "model_equal": true,
+    "native_equal": true,
+    "optimizer_equal": true,
+    "parameters_equal": true
+  },
+  "resume": "passed",
+  "resume_checks": {
+    "cache_absent": true,
+    "cross_mode_rejected": true,
+    "history_equal": true,
+    "model_equal": true,
+    "optimizer_equal": true
+  }
+}
+
+
+===== cache qualification summary =====
+{
+  "nano": "passed",
+  "nano_checks": {
+    "cache_hits_positive": true,
+    "cache_quantizations_reduced": true,
+    "initial_state_equal": true,
+    "logical_quantization_equal": true,
+    "losses_equal": true,
+    "model_equal": true,
+    "native_equal": true,
+    "optimizer_equal": true,
+    "parameters_equal": true
+  },
+  "resume": "passed",
+  "resume_checks": {
+    "cache_absent": true,
+    "cross_mode_rejected": true,
+    "history_equal": true,
+    "model_equal": true,
+    "optimizer_equal": true
+  }
+}
+
+===== real-pilot dependency =====
+{
+  "checked_at_utc": "2026-11-27T20:37:16Z",
+  "dataset_locally_verified": false,
+  "pilot_steps_run": 0,
+  "real_data_used": false,
+  "reason": "T0016 #76 is open and has no accepted dataset/evidence directory; no reviewed local source snapshot or manifest was available for T0017.",
+  "status": "not_run",
+  "t0016_evidence_directory": "absent",
+  "t0016_issue": "https://github.com/jtrefon/splot-lm/issues/76",
+  "t0016_state": "OPEN"
+}
+
+===== development note =====
+The first cache-resume development test omitted resume=True and raised FileExistsError; it was fixed before the tested commit. No official qualification run failed or was retried.

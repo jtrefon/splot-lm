@@ -1,0 +1,17 @@
+{
+  "checkpoint_keys": [
+    "history",
+    "identity",
+    "model",
+    "optimizer",
+    "rng"
+  ],
+  "checks": {
+    "cache_absent": true,
+    "cross_mode_rejected": true,
+    "history_equal": true,
+    "model_equal": true,
+    "optimizer_equal": true
+  },
+  "status": "passed"
+}

@@ -1,0 +1,1399 @@
+diff --git a/configs/experiments/splot-nano-pilot-fp8-muon.json b/configs/experiments/splot-nano-pilot-fp8-muon.json
+new file mode 100644
+index 0000000..8d2ee05
+--- /dev/null
++++ b/configs/experiments/splot-nano-pilot-fp8-muon.json
+@@ -0,0 +1,68 @@
++{
++  "dense": {
++    "vocab_size": 32768,
++    "width": 384,
++    "layers": 8,
++    "q_heads": 6,
++    "kv_heads": 2,
++    "head_dim": 64,
++    "intermediate": 1024,
++    "rope_theta": 1000000,
++    "eps": 1e-05,
++    "init_std": 0.02
++  },
++  "recurrence": {
++    "prelude": 2,
++    "core": 4,
++    "coda": 2,
++    "max_loops": 4,
++    "default_loops": 2,
++    "injection": "none",
++    "injection_strength": 0.1,
++    "residual_scale": "unscaled",
++    "depth_embedding": false
++  },
++  "expert_intermediate": 512,
++  "training": {
++    "data": "pilot-blocks-v1",
++    "precision": "fp8",
++    "mode": "A2",
++    "loops": 2,
++    "seed": 42,
++    "sequence_length": 512,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0.25,
++    "offset_weight": 0.25,
++    "balance_weight": 0.01,
++    "optimizer": {
++      "name": "muon",
++      "muon": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "momentum": 0.95,
++        "nesterov": true,
++        "ns_coefficients": [
++          3.4445,
++          -4.775,
++          2.0315
++        ],
++        "ns_steps": 5,
++        "eps": 1e-07,
++        "adjust_lr_fn": "match_rms_adamw"
++      },
++      "adamw": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "betas": [
++          0.9,
++          0.999
++        ],
++        "eps": 1e-08
++      }
++    },
++    "checkpoint_interval": 16,
++    "fp8_weight_reuse": true
++  }
++}
+diff --git a/research/implementation/fp8-weight-reuse-pilot.md b/research/implementation/fp8-weight-reuse-pilot.md
+new file mode 100644
+index 0000000..fa8fbb0
+--- /dev/null
++++ b/research/implementation/fp8-weight-reuse-pilot.md
+@@ -0,0 +1,46 @@
++# FP8 weight reuse and pilot ingestion
++
++Status: T0017 implementation/qualification. Task [T0017](../tasks/T0017-fp8-weight-reuse-pilot.md), issue [#77](https://github.com/jtrefon/splot-lm/issues/77). The real-data pilot is **not run** because T0016 (#76) has no accepted dataset or evidence; this document covers the independent FP8 reuse and pilot-ingestion qualification only.
++
++## Opt-in FP8 weight reuse
++
++`training.fp8_weight_reuse` is an explicit boolean, default `false`. The existing no-reuse path is unchanged. When enabled, each `FP8Linear` may retain the E4M3 quantized weight, its device FP32 scale and quantization audit stats for one forward/backward/update scope.
++
++The cache key is the physical parameter identity plus `Parameter._version`, device, dtype and shape. A changed version, parameter, device, dtype or shape misses and re-quantizes. Activations and gradients are never cached. The cache is not part of `state_dict`, checkpoints or persistent process state.
++
++Lifecycle:
++
++- `reset_fp8_audit` clears cache and counters before each training step;
++- `train` clears the cache after backward/audit capture and before the optimizer update;
++- an exception during forward/backward/audit clears the cache before propagating;
++- checkpoint restore clears the cache;
++- evaluation clears it before and after the evaluation scope and reports `cleared-before-and-after-evaluation`;
++- no per-projection host synchronization or stale-version reuse is added.
++
++Audit distinguishes actual quantizations from logical per-use operand stats. Cached hits replay the same logical saturation/underflow/nonzero/nonfinite stats, while `weight_quantizations`, `weight_cache_hits`, `weight_reuse_ratio` and `weight_cache_bytes` record the actual cache behavior. This preserves finite detection and prevents hidden reduction of logical audit coverage.
++
++## Pilot ingestion
++
++The new explicit selector is `pilot-blocks-v1` (not synthetic-v2). It requires:
++
++```bash
++--dataset-root /path/outside/checkout \
++--manifest-sha256 <64 lowercase hex> \
++[--source-snapshot-sha256 <64 lowercase hex>]
++```
++
++`tools/pilot_ingestion.py` independently verifies the bounded T0016 contract:
++
++- fixed `manifest.json`, `tokenizer.json`, `train.jsonl`, `validation.jsonl`, optional `test.jsonl` paths; regular non-symlink files only; no extra files;
++- canonical JSON, manifest SHA-256, tokenizer SHA-256 without importing a tokenizer backend, source snapshot SHA-256 and family/split disjointness;
++- <=64 MiB aggregate, <=160 blocks, fixed 512 length, actual vocabulary 264..16384 against model vocabulary 32768, train 32..128 blocks and validation 2..16 blocks;
++- shard path/hash/size/count metadata, concatenated logical SHA-256 and independent block validation: exact keys/arrays, token ranges, BOS/EOS, positions, valid prefix/padding, globally unique document IDs, no cross-document labels, exact offset-1/2 labels;
++- train and validation are returned; test is integrity-validated only and never returned for training/evaluation.
++
++The run identity records manifest, tokenizer, source snapshot and logical hashes plus data/config/packed hashes; no dataset path is recorded. The pilot model config uses Nano R2 A2, B1, T512, seed 42, FP8+Muon, checkpoint interval 16 and reuse enabled. Unused model-vocabulary IDs are reported explicitly.
++
++## Tests and limits
++
++`tools/test_pilot_ingestion.py` covers schema/counts, exact labels, split/global document checks, source/model mismatch, canonical/extra-file/tamper rejection and shard hash mismatch using small original synthetic artifacts only. `tools/test_fp8_weight_reuse.py` covers cache lifecycle/invalidation, exact Nano cache-off/on first-step outputs/state, cache-free resume, cross-mode rejection and a standalone T512 paired measurement.
++
++This is not pretraining or a quality/convergence/throughput claim. The real pilot remains blocked on accepted T0016 data and exact local source-snapshot verification; no real corpus, raw tokens, checkpoint tensors or production dependency changes are published.
+diff --git a/src/splot/fp8.py b/src/splot/fp8.py
+index 165fd91..5cb329a 100644
+--- a/src/splot/fp8.py
++++ b/src/splot/fp8.py
+@@ -100,6 +100,11 @@ def _record_output(module, value):
+     _audit_or(module, 'audit_nonfinite', ~torch.isfinite(value).all())
+
+
++def _weight_cache_key(weight):
++    return (id(weight), int(weight._version), str(weight.device),
++            str(weight.dtype), tuple(weight.shape))
++
++
+ def _mm(a, b, scale_a, scale_b, out_dtype):
+     return torch._scaled_mm(a, b, scale_a, scale_b, out_dtype=out_dtype, use_fast_accum=False)
+
+@@ -150,9 +155,13 @@ class _FP8LinearFunction(torch.autograd.Function):
+         padded_m = plan['padded_M']
+         x_pad = pad_rows(x.reshape(m, k).float(), padded_m)
+         qx, sx, input_stats = _quantize_audit(x_pad, FP8_E4M3)
+-        qw, sw, weight_stats = _quantize_audit(weight, FP8_E4M3)
++        qw, sw, weight_stats, weight_reused = module.quantize_weight(weight)
+         _record_quant(module, 'input', input_stats)
+         _record_quant(module, 'weight', weight_stats)
++        if weight_reused:
++            module.audit_weight_cache_hits += 1
++        else:
++            module.audit_weight_quantizations += 1
+         rhs = _column_major(qw.t())
+         out_pad = _mm(qx, rhs, sx, sw, torch.bfloat16)
+         _record_output(module, out_pad)
+@@ -222,6 +231,11 @@ class FP8Linear(nn.Linear):
+         return module
+
+     def reset_stats(self):
++        self.weight_reuse = bool(getattr(self, 'weight_reuse', False))
++        self._weight_cache = None
++        self.audit_weight_quantizations = 0
++        self.audit_weight_cache_hits = 0
++        self.audit_weight_cache_bytes = 0
+         self.forward_calls = 0
+         self.backward_calls = 0
+         self.empty_forward_calls = 0
+@@ -241,6 +255,30 @@ class FP8Linear(nn.Linear):
+         self.last_backward_scales = None
+         self.last_forward_dispatched = False
+
++    def set_weight_reuse(self, enabled):
++        if not isinstance(enabled, bool):
++            raise TypeError('weight reuse flag must be boolean')
++        self.weight_reuse = enabled
++        if not enabled:
++            self.clear_weight_cache()
++
++    def clear_weight_cache(self):
++        self._weight_cache = None
++        self.audit_weight_cache_bytes = 0
++
++    def quantize_weight(self, weight):
++        key = _weight_cache_key(weight)
++        if self.weight_reuse and self._weight_cache is not None:
++            cached = self._weight_cache
++            if cached['key'] == key:
++                return cached['qw'], cached['sw'], cached['stats'], True
++        qw, sw, stats = _quantize_audit(weight, FP8_E4M3)
++        if self.weight_reuse:
++            self._weight_cache = {'key': key, 'qw': qw, 'sw': sw, 'stats': stats}
++            self.audit_weight_cache_bytes = (qw.numel() * qw.element_size()
++                                              + sw.numel() * sw.element_size())
++        return qw, sw, stats, False
++
+     def forward(self, x):
+         if self.bias is not None:
+             raise ValueError('FP8Linear is bias-free')
+@@ -271,7 +309,9 @@ def classify_linear(model, module_path):
+     return 'unknown', type(parent).__name__
+
+
+-def convert_selected_linears(model):
++def convert_selected_linears(model, weight_reuse=False):
++    if not isinstance(weight_reuse, bool):
++        raise TypeError('weight reuse flag must be boolean')
+     before_ids = {id(p) for p in model.parameters()}
+     before_keys = set(model.state_dict())
+     selected, excluded, unknown = [], [], []
+@@ -284,7 +324,9 @@ def convert_selected_linears(model):
+                 raise ValueError(f'selected projection has bias: {path}')
+             parent_path, local = path.rsplit('.', 1) if '.' in path else ('', path)
+             parent = model.get_submodule(parent_path) if parent_path else model
+-            setattr(parent, local, FP8Linear.from_linear(module))
++            fp8_module = FP8Linear.from_linear(module)
++            fp8_module.set_weight_reuse(weight_reuse)
++            setattr(parent, local, fp8_module)
+             selected.append({'name': path, 'role': role})
+         elif status == 'excluded':
+             excluded.append({'name': path, 'role': role})
+@@ -311,6 +353,8 @@ def convert_selected_linears(model):
+         'native_dispatch': True,
+         'optimizer_scope': 'adamw-or-muon-hybrid',
+         'no_host_scale_roundtrip': True,
++        'weight_reuse': weight_reuse,
++        'weight_reuse_scope': 'per-update' if weight_reuse else 'disabled',
+         'policy_version': POLICY_VERSION,
+         'audit_version': AUDIT_VERSION,
+     }
+@@ -344,6 +388,25 @@ def reset_fp8_audit(model):
+             module.reset_stats()
+
+
++def clear_fp8_weight_cache(model):
++    for module in model.modules():
++        if isinstance(module, FP8Linear):
++            module.clear_weight_cache()
++
++
++def set_fp8_weight_reuse(model, enabled):
++    if not isinstance(enabled, bool):
++        raise TypeError('weight reuse flag must be boolean')
++    for module in model.modules():
++        if isinstance(module, FP8Linear):
++            module.set_weight_reuse(enabled)
++
++
++def fp8_weight_reuse_enabled(model):
++    modules = [module for module in model.modules() if isinstance(module, FP8Linear)]
++    return bool(modules) and all(module.weight_reuse for module in modules)
++
++
+ def _audit_total(modules, name):
+     values = [getattr(module, name, None) for module in modules
+               if getattr(module, name, None) is not None]
+@@ -413,6 +476,14 @@ def fp8_diagnostics(model):
+         'native_forward_calls': sum(module.audit_native_forward_calls for module in modules),
+         'native_backward_calls': sum(module.audit_native_backward_calls for module in modules),
+         'wgrad_fp32_calls': sum(module.audit_wgrad_fp32_calls for module in modules),
++        'weight_reuse_enabled': bool(modules) and all(module.weight_reuse for module in modules),
++        'weight_quantizations': sum(module.audit_weight_quantizations for module in modules),
++        'weight_cache_hits': sum(module.audit_weight_cache_hits for module in modules),
++        'weight_reuse_ratio': _ratio(
++            sum(module.audit_weight_cache_hits for module in modules),
++            sum(module.audit_weight_quantizations + module.audit_weight_cache_hits
++                for module in modules)),
++        'weight_cache_bytes': sum(module.audit_weight_cache_bytes for module in modules),
+         'quantization': quantization,
+         'scales_resident_cuda': bool(selected_scales) and all(s.device.type == 'cuda' for s in selected_scales),
+         'scale_devices': sorted({s.device.type for s in selected_scales}),
+@@ -428,9 +499,17 @@ def aggregate_fp8_diagnostics(diags):
+         return None
+     count_keys = ('forward_calls', 'backward_calls', 'empty_forward_calls',
+                   'empty_backward_calls', 'padded_forward_rows', 'padded_backward_rows',
+-                  'native_forward_calls', 'native_backward_calls', 'wgrad_fp32_calls')
++                  'native_forward_calls', 'native_backward_calls', 'wgrad_fp32_calls',
++                  'weight_quantizations', 'weight_cache_hits')
+     result = {key: sum(int(item.get(key, 0) or 0) for item in items)
+               for key in count_keys}
++    result['weight_reuse_enabled'] = all(bool(item.get('weight_reuse_enabled'))
++                                         for item in items)
++    result['weight_reuse_ratio'] = _ratio(
++        result['weight_cache_hits'],
++        result['weight_quantizations'] + result['weight_cache_hits'])
++    result['weight_cache_bytes_max'] = max(
++        int(item.get('weight_cache_bytes', 0) or 0) for item in items)
+     result['audit_version'] = AUDIT_VERSION
+     result['steps'] = len(items)
+     result['selected_modules'] = max(int(item.get('selected_modules', 0)) for item in items)
+diff --git a/tools/experiment.py b/tools/experiment.py
+index e4ab4a6..6a47970 100644
+--- a/tools/experiment.py
++++ b/tools/experiment.py
+@@ -15,9 +15,9 @@ import torch
+
+ from optimizers import (assert_optimizer_state_finite, build_optimizer,
+                         is_hybrid_optimizer, optimizer_state_inventory)
+-from splot.fp8 import (aggregate_fp8_diagnostics, convert_selected_linears,
+-                       fp8_assert_finite, fp8_diagnostics, fp8_runtime_probe,
+-                       has_fp8, reset_fp8_audit)
++from splot.fp8 import (aggregate_fp8_diagnostics, clear_fp8_weight_cache,
++                       convert_selected_linears, fp8_assert_finite, fp8_diagnostics,
++                       fp8_runtime_probe, has_fp8, reset_fp8_audit)
+
+ SHARD_FORMAT = 'splot-tokenized-shards-v2'
+
+@@ -198,6 +198,7 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
+         if state['identity'] != identity: raise ValueError('run identity mismatch')
+         model.load_state_dict(state['model']); optimizer.load_state_dict(state['optimizer'])
+         restore_rng(state['rng']); history = state['history']
++        if has_fp8(model): clear_fp8_weight_cache(model)
+     else:
+         if cp.exists() or any(out.iterdir()): raise FileExistsError('new run directory must be empty')
+         history = []
+@@ -214,18 +215,24 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
+         if fp8_enabled: reset_fp8_audit(model)
+         sync(device); start = time.perf_counter()
+         optimizer.zero_grad(set_to_none=True)
+-        with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
+-              if autocast_dtype is not None else nullcontext()):
+-            o = objective(model, inputs, labels)
+-        if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
+-        if fp8_enabled:
+-            assert_loss_finite(o, 'forward')
+-            fp8_assert_finite(model, 'forward')
+-        o.total.backward()
+-        if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
+-            raise FloatingPointError('nonfinite gradient')
+-        if fp8_enabled: fp8_assert_finite(model, 'backward')
+-        audit = fp8_diagnostics(model) if fp8_enabled else None
++        audit = None
++        try:
++            with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
++                  if autocast_dtype is not None else nullcontext()):
++                o = objective(model, inputs, labels)
++            if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
++            if fp8_enabled:
++                assert_loss_finite(o, 'forward')
++                fp8_assert_finite(model, 'forward')
++            o.total.backward()
++            if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
++                raise FloatingPointError('nonfinite gradient')
++            if fp8_enabled: fp8_assert_finite(model, 'backward')
++            audit = fp8_diagnostics(model) if fp8_enabled else None
++        except Exception:
++            if fp8_enabled: clear_fp8_weight_cache(model)
++            raise
++        if fp8_enabled: clear_fp8_weight_cache(model)
+         optimizer.step(); sync(device)
+         if post_update_check:
+             assert_post_update_finite(model, optimizer, f'post-update step {step+1}')
+@@ -259,7 +266,9 @@ def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None)
+     if autocast_dtype is not None and autocast_dtype != torch.bfloat16:
+         raise ValueError('autocast dtype must be bfloat16')
+     fp8_enabled = has_fp8(model)
+-    if fp8_enabled: reset_fp8_audit(model)
++    if fp8_enabled:
++        reset_fp8_audit(model)
++        clear_fp8_weight_cache(model)
+     model.eval(); nll=0.; count=0
+     for i in range(0,len(blocks),batch_size):
+         x,y=collate(blocks,list(range(i,min(i+batch_size,len(blocks)))),device)
+@@ -276,6 +285,8 @@ def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None)
+     result = {'ntp_labels':count,'nll_sum':nll,'mean_nll':nll/count,'perplexity':math.exp(nll/count)}
+     if fp8_enabled:
+         result['fp8_audit'] = fp8_diagnostics(model)
++        result['fp8_cache_scope'] = 'cleared-before-and-after-evaluation'
++        clear_fp8_weight_cache(model)
+         reset_fp8_audit(model)
+     return result
+
+@@ -296,18 +307,26 @@ def main():
+     p.add_argument('--resume',action='store_true')
+     p.add_argument('--dataset-root',type=Path,default=None)
+     p.add_argument('--manifest-sha256',default=None)
++    p.add_argument('--source-snapshot-sha256',default=None)
+     p.add_argument('--checkpoint-interval',type=int,default=None); a=p.parse_args()
+     if a.steps<1: p.error('steps must be positive')
+     root=Path(__file__).resolve().parents[1]; commit=git_identity(root)
+     if a.out.resolve().is_relative_to(root): p.error('output must be outside checkout')
+     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
+     rc=RecurrentConfig(dense=d,**c['recurrence'])
+-    if t['data'] not in ('synthetic-v1','synthetic-shards-v2'):
+-        p.error('data must be synthetic-v1 or synthetic-shards-v2')
+-    if t['data']=='synthetic-v1' and (a.dataset_root is not None or a.manifest_sha256 is not None):
+-        p.error('--dataset-root/--manifest-sha256 are only valid for synthetic-shards-v2')
+-    if t['data']=='synthetic-shards-v2' and (a.dataset_root is None or a.manifest_sha256 is None):
+-        p.error('synthetic-shards-v2 requires --dataset-root and --manifest-sha256')
++    if t['data'] not in ('synthetic-v1','synthetic-shards-v2','pilot-blocks-v1'):
++        p.error('data must be synthetic-v1, synthetic-shards-v2 or pilot-blocks-v1')
++    dataset_modes = ('synthetic-shards-v2','pilot-blocks-v1')
++    if t['data']=='synthetic-v1' and (a.dataset_root is not None or a.manifest_sha256 is not None
++                                    or a.source_snapshot_sha256 is not None):
++        p.error('dataset options are only valid for shard/pilot modes')
++    if t['data'] in dataset_modes and (a.dataset_root is None or a.manifest_sha256 is None):
++        p.error(f"{t['data']} requires --dataset-root and --manifest-sha256")
++    if t['data']=='synthetic-shards-v2' and a.source_snapshot_sha256 is not None:
++        p.error('--source-snapshot-sha256 is only valid for pilot-blocks-v1')
++    reuse = t.get('fp8_weight_reuse', False)
++    if not isinstance(reuse, bool):
++        p.error('fp8_weight_reuse must be boolean')
+     interval = a.checkpoint_interval if a.checkpoint_interval is not None else t.get('checkpoint_interval', 1)
+     if type(interval) is not int or interval < 1:
+         p.error('checkpoint interval must be a positive integer')
+@@ -323,10 +342,11 @@ def main():
+         p.error(str(exc))
+     seed_all(t['seed'])
+     dataset_manifest_sha256 = None
++    dataset_source_snapshot_sha256 = None
+     if t['data']=='synthetic-v1':
+         splits=split_documents(synthetic_documents()); packed={k:pack(v,t['sequence_length']) for k,v in splits.items() if k!='test'}
+         data=manifest()
+-    else:
++    elif t['data']=='synthetic-shards-v2':
+         try:
+             packed, data = load_shard_dataset(
+                 a.dataset_root, a.manifest_sha256,
+@@ -337,13 +357,29 @@ def main():
+         packed = {'train': packed['train'], 'validation': packed['validation']}
+         if not packed['train'] or not packed['validation']:
+             p.error('dataset must contain train and validation blocks')
++    else:
++        from pilot_ingestion import load_pilot_dataset
++        try:
++            loaded = load_pilot_dataset(
++                a.dataset_root, a.manifest_sha256,
++                expected_source_snapshot_sha256=a.source_snapshot_sha256,
++                expected_model_vocab=d.vocab_size)
++        except (OSError, ValueError, TypeError, KeyError) as exc:
++            p.error(f'pilot ingestion failed: {exc}')
++        packed = {'train': loaded['blocks']['train'],
++                  'validation': loaded['blocks']['validation']}
++        data = loaded['manifest']
++        dataset_manifest_sha256 = a.manifest_sha256
++        dataset_source_snapshot_sha256 = data['source_snapshot_sha256']
++        if not packed['train'] or not packed['validation']:
++            p.error('pilot dataset must contain train and validation blocks')
+     model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
+     actual=sum(v.numel() for v in model.parameters())
+     if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
+     fp8_policy=None
+     if t['precision']=='fp8':
+         try:
+-            fp8_policy=convert_selected_linears(model)
++            fp8_policy=convert_selected_linears(model, weight_reuse=reuse)
+         except (ValueError,TypeError,RuntimeError) as exc:
+             p.error(str(exc))
+         if fp8_policy['selected_count'] < 1:
+@@ -364,13 +400,18 @@ def main():
+         'optimizer':optimizer_policy['name'],'optimizer_implementation':optimizer_policy['implementation'],
+         'fp8':fp8_policy,'fp8_probe':policy.get('fp8_probe'),
+         'data_selector':t['data'],'dataset_manifest_sha256':dataset_manifest_sha256,
+-        'tokenizer_actual_vocab_size':d.vocab_size if t['data']=='synthetic-shards-v2' else None,
++        'dataset_source_snapshot_sha256':dataset_source_snapshot_sha256,
++        'dataset_tokenizer_sha256':data.get('tokenizer_sha256') if t['data']=='pilot-blocks-v1' else None,
++        'tokenizer_actual_vocab_size':(d.vocab_size if t['data']=='synthetic-shards-v2'
++                                        else data.get('vocab_size') if t['data']=='pilot-blocks-v1' else None),
++        'fp8_weight_reuse':reuse,
+         'checkpoint_interval':interval,
+         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
+         'deterministic_algorithms':True}
+     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
+               'packed_sha256':digest(packed),'environment':env,'settings':t,
+-              'checkpoint_interval':interval}
++              'checkpoint_interval':interval,'fp8_weight_reuse':reuse,
++              'dataset_source_snapshot_sha256':dataset_source_snapshot_sha256}
+     objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
+     post_update_check = t['precision']=='fp8' or optimizer_policy['name']=='muon'
+     checkpoint_stats={}
+@@ -390,14 +431,27 @@ def main():
+                       'bf16_supported':policy['bf16_supported'],'fp8_probe':policy.get('fp8_probe')}
+     optimizer_state=optimizer_state_inventory(opt)
+     fp8_diag=aggregate_fp8_diagnostics([row.get('audit') for row in history]) if fp8_policy else None
++    if t['data']=='synthetic-shards-v2':
++        tokenizer_vocab = data.get('tokenizer', {}).get('actual_vocab_size')
++    elif t['data']=='pilot-blocks-v1':
++        tokenizer_vocab = data.get('vocab_size')
++    else:
++        tokenizer_vocab = None
+     data_policy = {
+         'mode': t['data'],
+         'manifest_sha256': dataset_manifest_sha256,
+-        'tokenizer_actual_vocab_size': data.get('tokenizer', {}).get('actual_vocab_size')
+-        if t['data']=='synthetic-shards-v2' else None,
+-        'logical_digest': data.get('logical_digest'),
++        'source_snapshot_sha256': dataset_source_snapshot_sha256,
++        'tokenizer_sha256': data.get('tokenizer_sha256',
++                                     data.get('tokenizer', {}).get('artifact_sha256')),
++        'tokenizer_actual_vocab_size': tokenizer_vocab,
++        'model_vocab_size': d.vocab_size,
++        'unused_token_id_count': (d.vocab_size - tokenizer_vocab
++                                  if tokenizer_vocab is not None else None),
++        'unused_token_id_ranges': data.get('unused_token_id_ranges'),
++        'logical_digest': data.get('logical_sha256', data.get('logical_digest')),
+         'packed_logical_digest': data.get('packed_logical_digest'),
+         'test_used_for_training': False,
++        'test_validated_only': data.get('test_validated_only', False),
+     }
+     checkpoint_policy = {
+         'interval': interval,
+@@ -426,6 +480,10 @@ def main():
+         limitations.append('Combined FP8 + Muon correctness only; no interaction, convergence or optimizer-superiority claim.')
+     if t['data']=='synthetic-shards-v2':
+         limitations.append('Verified synthetic v2 shard ingestion only; no real-source approval, production dataset or test evaluation.')
++    if t['data']=='pilot-blocks-v1':
++        limitations.append('Bounded pilot-blocks-v1 ingestion only; the source snapshot must be separately verified against reviewed T0016 pins; test data is integrity-checked only.')
++    if reuse:
++        limitations.append('FP8 weight reuse is per-update only; no persistent cache or second-order claim.')
+     if interval > 1:
+         limitations.append('Checkpoint interval reduces durable write frequency; interruption can lose up to interval-1 updates since the prior checkpoint under the trusted single-writer assumption.')
+     report={'identity':identity,'config':c,'data_manifest':data,'data_policy':data_policy,
+diff --git a/tools/pilot_ingestion.py b/tools/pilot_ingestion.py
+new file mode 100644
+index 0000000..fe94a18
+--- /dev/null
++++ b/tools/pilot_ingestion.py
+@@ -0,0 +1,327 @@
++"""Bounded loader for the T0016/T0017 splot-pilot-blocks-v1 contract."""
++from __future__ import annotations
++
++import hashlib
++import json
++import math
++from pathlib import Path
++
++FORMAT = 'splot-pilot-blocks-v1'
++VERSION = 1
++SEQUENCE_LENGTH = 512
++MODEL_VOCAB = 32768
++MIN_VOCAB = 264
++MAX_VOCAB = 16384
++MAX_TOTAL_BYTES = 64 * 1024 * 1024
++MAX_BLOCKS = 160
++MAX_TRAIN_BLOCKS = 128
++MAX_VALIDATION_BLOCKS = 16
++MAX_TEST_BLOCKS = 16
++MIN_TRAIN_BLOCKS = 32
++MIN_VALIDATION_BLOCKS = 2
++PAD = 0
++BOS = 1
++EOS = 2
++CONTENT_MIN = 8
++IGNORE = -100
++SPLIT_ORDER = ('train', 'validation', 'test')
++
++
++class PilotError(ValueError):
++    """Invalid pilot dataset, manifest, source metadata or block."""
++
++
++def _canonical(value):
++    return json.dumps(value, sort_keys=True, ensure_ascii=True,
++                      separators=(',', ':'), allow_nan=False).encode('utf-8')
++
++
++def _sha256(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def _hex64(value):
++    return (isinstance(value, str) and len(value) == 64
++            and all(character in '0123456789abcdef' for character in value))
++
++
++def _require_regular(path, label, max_bytes):
++    path = Path(path)
++    if path.is_symlink() or not path.is_file():
++        raise PilotError(f'{label} must be a regular non-symlink file')
++    size = path.stat().st_size
++    if size > max_bytes:
++        raise PilotError(f'{label} exceeds byte bound')
++    return path.read_bytes()
++
++
++def _require_object(value, name, keys):
++    if not isinstance(value, dict) or set(value) != set(keys):
++        raise PilotError(f'{name} schema is invalid')
++    return value
++
++
++def _require_str(value, name):
++    if not isinstance(value, str) or not value.strip():
++        raise PilotError(f'{name} must be a nonempty string')
++    return value
++
++
++def _source_snapshot(sources):
++    ordered = sorted(sources, key=lambda item: (
++        item['family_id'], item['split'], item['language'], item['source_url'],
++        item['revision'], item['content_sha256'], item['raw_sha256']))
++    return _sha256(_canonical(ordered))
++
++
++def _validate_sources(sources):
++    if not isinstance(sources, list) or not sources:
++        raise PilotError('sources must be a nonempty list')
++    families = {}
++    for index, source in enumerate(sources):
++        _require_object(source, f'sources[{index}]', (
++            'family_id', 'language', 'split', 'content_sha256', 'raw_sha256',
++            'revision', 'rights_evidence_url', 'source_url'))
++        family = _require_str(source['family_id'], 'family_id')
++        language = _require_str(source['language'], 'language')
++        split = source['split']
++        if language not in ('en', 'pl'):
++            raise PilotError('source language must be en or pl')
++        if split not in SPLIT_ORDER:
++            raise PilotError('source split is invalid')
++        if not _hex64(source['content_sha256']) or not _hex64(source['raw_sha256']):
++            raise PilotError('source content/raw digest is invalid')
++        _require_str(source['revision'], 'source revision')
++        _require_str(source['rights_evidence_url'], 'rights evidence URL')
++        _require_str(source['source_url'], 'source URL')
++        families.setdefault(family, set()).add(split)
++    if any(len(splits) != 1 for splits in families.values()):
++        raise PilotError('a source family crosses splits')
++    if not any(source['split'] == 'train' for source in sources):
++        raise PilotError('sources have no train family')
++    if not any(source['split'] == 'validation' for source in sources):
++        raise PilotError('sources have no validation family')
++    return families
++
++
++def _validate_block(block, vocab_size, global_doc_ids):
++    _require_object(block, 'block', ('input_ids', 'document_ids', 'position_ids',
++                                     'valid', 'labels'))
++    for key in ('input_ids', 'document_ids', 'position_ids', 'valid'):
++        if not isinstance(block[key], list) or len(block[key]) != SEQUENCE_LENGTH:
++            raise PilotError(f'block {key} length is invalid')
++    labels = block['labels']
++    if not isinstance(labels, dict) or set(labels) != {'1', '2'}:
++        raise PilotError('block labels schema is invalid')
++    for key in ('1', '2'):
++        if not isinstance(labels[key], list) or len(labels[key]) != SEQUENCE_LENGTH:
++            raise PilotError('block labels length is invalid')
++    if not all(type(value) is bool for value in block['valid']):
++        raise PilotError('block valid mask must contain booleans')
++    valid_count = sum(block['valid'])
++    if valid_count == 0:
++        raise PilotError('block has no valid tokens')
++    if block['valid'] != [True] * valid_count + [False] * (SEQUENCE_LENGTH - valid_count):
++        raise PilotError('block valid mask must be a true prefix followed by padding')
++    pads = range(valid_count, SEQUENCE_LENGTH)
++    for index in pads:
++        if (block['input_ids'][index] != PAD or block['document_ids'][index] != -1
++                or block['position_ids'][index] != 0
++                or labels['1'][index] != IGNORE or labels['2'][index] != IGNORE):
++            raise PilotError('block padding is inconsistent')
++    segments = []
++    start = 0
++    for index in range(1, valid_count + 1):
++        if index == valid_count or block['document_ids'][index] != block['document_ids'][index - 1]:
++            segments.append((start, index))
++            start = index
++    seen = set()
++    counts = {'valid_tokens': valid_count, 'ntp_labels': 0, 'offset2_labels': 0}
++    for start, end in segments:
++        doc_id = block['document_ids'][start]
++        if type(doc_id) is not int or doc_id < 0:
++            raise PilotError('document ID must be a nonnegative integer')
++        if doc_id in seen or doc_id in global_doc_ids:
++            raise PilotError('document ID is duplicated')
++        seen.add(doc_id)
++        global_doc_ids.add(doc_id)
++        if end - start < 2 or end - start > SEQUENCE_LENGTH:
++            raise PilotError('document segment length is invalid')
++        if block['input_ids'][start] != BOS or block['input_ids'][end - 1] != EOS:
++            raise PilotError('document segment lacks BOS/EOS boundaries')
++        if block['position_ids'][start:end] != list(range(end - start)):
++            raise PilotError('document positions are not contiguous')
++        for index in range(start + 1, end - 1):
++            token = block['input_ids'][index]
++            if type(token) is not int or not CONTENT_MIN <= token < vocab_size:
++                raise PilotError('document content token is invalid')
++        for offset in (1, 2):
++            values = labels[str(offset)]
++            expected_count = 0
++            for index in range(start, end):
++                value = values[index]
++                if index + offset < end and block['document_ids'][index] == block['document_ids'][index + offset]:
++                    expected = block['input_ids'][index + offset]
++                    if value != expected:
++                        raise PilotError('label does not match same-document future token')
++                    expected_count += 1
++                elif value != IGNORE:
++                    raise PilotError('label crosses a document or padding boundary')
++            counts[f'ntp_labels' if offset == 1 else 'offset2_labels'] += expected_count
++    for index in range(valid_count):
++        token = block['input_ids'][index]
++        if type(token) is not int or not 0 <= token < vocab_size:
++            raise PilotError('block token is out of vocabulary range')
++    return counts
++
++
++def load_pilot_dataset(root, expected_manifest_sha256, *, expected_source_snapshot_sha256=None,
++                       expected_model_vocab=MODEL_VOCAB):
++    """Verify a bounded splot-pilot-blocks-v1 dataset and return train/validation."""
++    if not _hex64(expected_manifest_sha256):
++        raise PilotError('expected manifest SHA-256 is invalid')
++    if expected_source_snapshot_sha256 is not None and not _hex64(expected_source_snapshot_sha256):
++        raise PilotError('expected source snapshot SHA-256 is invalid')
++    if type(expected_model_vocab) is not int or expected_model_vocab != MODEL_VOCAB:
++        raise PilotError('pilot model vocabulary must be 32768')
++    root = Path(root)
++    if not root.is_dir() or root.is_symlink():
++        raise PilotError('dataset root must be a regular directory')
++    expected_files = {'manifest.json', 'tokenizer.json', 'train.jsonl',
++                      'validation.jsonl', 'test.jsonl'}
++    for entry in root.iterdir():
++        if entry.name not in expected_files or entry.is_symlink() or not entry.is_file():
++            raise PilotError('dataset contains an unexpected or nonregular file')
++    manifest_bytes = _require_regular(root / 'manifest.json', 'manifest.json',
++                                      1024 * 1024)
++    if _sha256(manifest_bytes) != expected_manifest_sha256:
++        raise PilotError('manifest SHA-256 mismatch')
++    try:
++        manifest = json.loads(manifest_bytes.decode('utf-8'))
++    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
++        raise PilotError(f'invalid manifest JSON: {exc}') from exc
++    if _canonical(manifest) != manifest_bytes:
++        raise PilotError('manifest is not canonical JSON')
++    _require_object(manifest, 'manifest', (
++        'format', 'version', 'sequence_length', 'vocab_size', 'tokenizer_sha256',
++        'source_snapshot_sha256', 'sources', 'shards', 'logical_sha256'))
++    if manifest['format'] != FORMAT or manifest['version'] != VERSION:
++        raise PilotError('pilot format/version is unsupported')
++    if manifest['sequence_length'] != SEQUENCE_LENGTH:
++        raise PilotError('pilot sequence length must be 512')
++    vocab_size = manifest['vocab_size']
++    if type(vocab_size) is not int or not MIN_VOCAB <= vocab_size <= MAX_VOCAB:
++        raise PilotError('pilot vocabulary is out of bounds')
++    if not _hex64(manifest['tokenizer_sha256']) or not _hex64(manifest['source_snapshot_sha256']):
++        raise PilotError('pilot tokenizer/source digest is invalid')
++    if not _hex64(manifest['logical_sha256']):
++        raise PilotError('pilot logical digest is invalid')
++    families = _validate_sources(manifest['sources'])
++    if _source_snapshot(manifest['sources']) != manifest['source_snapshot_sha256']:
++        raise PilotError('source snapshot digest mismatch')
++    if (expected_source_snapshot_sha256 is not None
++            and manifest['source_snapshot_sha256'] != expected_source_snapshot_sha256):
++        raise PilotError('source snapshot SHA-256 mismatch')
++    tokenizer_bytes = _require_regular(root / 'tokenizer.json', 'tokenizer.json',
++                                       8 * 1024 * 1024)
++    if _sha256(tokenizer_bytes) != manifest['tokenizer_sha256']:
++        raise PilotError('tokenizer SHA-256 mismatch')
++    shards = manifest['shards']
++    if not isinstance(shards, list) or not shards:
++        raise PilotError('manifest shards must be a nonempty list')
++    by_split = {}
++    total_bytes = len(manifest_bytes) + len(tokenizer_bytes)
++    total_blocks = 0
++    for index, shard in enumerate(shards):
++        _require_object(shard, f'shards[{index}]', (
++            'split', 'path', 'sha256', 'bytes', 'blocks', 'valid_tokens',
++            'ntp_labels', 'offset2_labels'))
++        split = shard['split']
++        if split not in SPLIT_ORDER or split in by_split:
++            raise PilotError('shard split is invalid or duplicated')
++        if shard['path'] != f'{split}.jsonl':
++            raise PilotError('shard path is not the fixed split path')
++        if not _hex64(shard['sha256']):
++            raise PilotError('shard SHA-256 is invalid')
++        if type(shard['bytes']) is not int or shard['bytes'] < 0:
++            raise PilotError('shard byte count is invalid')
++        if type(shard['blocks']) is not int or shard['blocks'] < 0:
++            raise PilotError('shard block count is invalid')
++        total_bytes += shard['bytes']
++        total_blocks += shard['blocks']
++        by_split[split] = shard
++    if total_bytes > MAX_TOTAL_BYTES or total_blocks > MAX_BLOCKS:
++        raise PilotError('pilot dataset exceeds aggregate bounds')
++    if 'train' not in by_split or 'validation' not in by_split:
++        raise PilotError('pilot dataset requires train and validation shards')
++    if not MIN_TRAIN_BLOCKS <= by_split['train']['blocks'] <= MAX_TRAIN_BLOCKS:
++        raise PilotError('train block count is out of bounds')
++    if not MIN_VALIDATION_BLOCKS <= by_split['validation']['blocks'] <= MAX_VALIDATION_BLOCKS:
++        raise PilotError('validation block count is out of bounds')
++    if 'test' in by_split and by_split['test']['blocks'] > MAX_TEST_BLOCKS:
++        raise PilotError('test block count is out of bounds')
++    blocks = {}
++    shard_bytes = {}
++    global_doc_ids = set()
++    for split in SPLIT_ORDER:
++        if split not in by_split:
++            continue
++        shard = by_split[split]
++        data = _require_regular(root / shard['path'], f'{split}.jsonl',
++                                MAX_TOTAL_BYTES)
++        if len(data) != shard['bytes'] or _sha256(data) != shard['sha256']:
++            raise PilotError(f'{split} shard hash/size mismatch')
++        if not data.endswith(b'\n'):
++            raise PilotError('shard lacks LF terminator')
++        lines = data[:-1].split(b'\n')
++        if len(lines) != shard['blocks']:
++            raise PilotError('shard block count mismatch')
++        selected = []
++        counts = {'valid_tokens': 0, 'ntp_labels': 0, 'offset2_labels': 0}
++        for line_index, line in enumerate(lines):
++            try:
++                block = json.loads(line.decode('utf-8'))
++            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
++                raise PilotError(f'invalid JSON block: {exc}') from exc
++            if _canonical(block) != line:
++                raise PilotError('block is not canonical JSON')
++            item_counts = _validate_block(block, vocab_size, global_doc_ids)
++            for key in counts:
++                counts[key] += item_counts[key]
++            converted = dict(block)
++            converted['labels'] = {int(key): list(value)
++                                   for key, value in block['labels'].items()}
++            selected.append({'split': split, **converted})
++        for key in counts:
++            if shard[key] != counts[key]:
++                raise PilotError(f'shard {key} count mismatch')
++        shard_bytes[split] = data
++        blocks[split] = selected
++    logical = _sha256(b''.join(shard_bytes[split] for split in SPLIT_ORDER
++                               if split in shard_bytes))
++    if logical != manifest['logical_sha256']:
++        raise PilotError('logical SHA-256 mismatch')
++    summary = {
++        'format': FORMAT,
++        'version': VERSION,
++        'manifest_sha256': expected_manifest_sha256,
++        'tokenizer_sha256': manifest['tokenizer_sha256'],
++        'source_snapshot_sha256': manifest['source_snapshot_sha256'],
++        'logical_sha256': manifest['logical_sha256'],
++        'sequence_length': SEQUENCE_LENGTH,
++        'vocab_size': vocab_size,
++        'model_vocab_size': expected_model_vocab,
++        'unused_token_id_count': expected_model_vocab - vocab_size,
++        'unused_token_id_ranges': [[vocab_size, expected_model_vocab - 1]],
++        'splits': {split: {
++            'blocks': by_split[split]['blocks'],
++            'bytes': by_split[split]['bytes'],
++            'valid_tokens': by_split[split]['valid_tokens'],
++            'ntp_labels': by_split[split]['ntp_labels'],
++            'offset2_labels': by_split[split]['offset2_labels'],
++        } for split in SPLIT_ORDER if split in by_split},
++        'source_families': {family: sorted(splits)[0] for family, splits in families.items()},
++        'test_validated_only': 'test' in by_split,
++    }
++    return {'blocks': {'train': blocks['train'], 'validation': blocks['validation']},
++            'manifest': summary}
+diff --git a/tools/test_fp8_weight_reuse.py b/tools/test_fp8_weight_reuse.py
+new file mode 100644
+index 0000000..0a8be91
+--- /dev/null
++++ b/tools/test_fp8_weight_reuse.py
+@@ -0,0 +1,356 @@
++"""Focused tests for opt-in per-update FP8 weight reuse."""
++import argparse
++import hashlib
++import json
++import math
++import shutil
++import sys
++import tempfile
++import time
++import unittest
++from pathlib import Path
++
++import torch
++from torch import nn
++
++from context_probe import build_contiguous_case
++from data_fixture import pack, split_documents, synthetic_documents
++from experiment import collate, seed_all, train
++from optimizers import assert_optimizer_state_finite, build_optimizer, optimizer_state_inventory
++from splot import DenseConfig, RecurrentConfig, SPLOTLM, training_objective
++from splot.fp8 import (FP8Linear, clear_fp8_weight_cache, convert_selected_linears,
++                       fp8_assert_finite, fp8_diagnostics, has_fp8, reset_fp8_audit,
++                       set_fp8_weight_reuse)
++
++
++def config(name):
++    return json.loads((Path('configs/experiments') / name).read_text())
++
++
++def model_from(cfg):
++    return SPLOTLM(RecurrentConfig(dense=DenseConfig(**cfg['dense']), **cfg['recurrence']),
++                   expert_intermediate=cfg['expert_intermediate'])
++
++
++def tree_digest(value, h=None):
++    if h is None:
++        h = hashlib.sha256()
++    if torch.is_tensor(value):
++        tensor = value.detach().cpu().contiguous()
++        h.update(str(tensor.dtype).encode('ascii'))
++        h.update(str(tuple(tensor.shape)).encode('ascii'))
++        h.update(tensor.numpy().tobytes())
++    elif isinstance(value, dict):
++        for key in sorted(value, key=str):
++            h.update(str(key).encode('utf-8'))
++            tree_digest(value[key], h)
++    elif isinstance(value, (list, tuple)):
++        h.update(type(value).__name__.encode('ascii'))
++        for item in value:
++            tree_digest(item, h)
++    else:
++        h.update(repr(value).encode('utf-8'))
++    return h.hexdigest()
++
++
++def tree_equal(a, b, path='root'):
++    if torch.is_tensor(a):
++        if not isinstance(b, torch.Tensor) or a.dtype != b.dtype or a.shape != b.shape:
++            raise AssertionError(f'tensor metadata mismatch: {path}')
++        if not torch.equal(a, b):
++            raise AssertionError(f'tensor mismatch: {path}')
++    elif isinstance(a, dict):
++        if not isinstance(b, dict) or a.keys() != b.keys():
++            raise AssertionError(f'dict keys mismatch: {path}')
++        for key in a:
++            tree_equal(a[key], b[key], f'{path}.{key}')
++    elif isinstance(a, (list, tuple)):
++        if type(a) is not type(b) or len(a) != len(b):
++            raise AssertionError(f'sequence mismatch: {path}')
++        for index, (x, y) in enumerate(zip(a, b)):
++            tree_equal(x, y, f'{path}.{index}')
++    elif a != b:
++        raise AssertionError(f'value mismatch: {path}')
++
++
++def setup_model(cfg, cache, device='cuda'):
++    seed_all(42)
++    model = model_from(cfg).to(device)
++    policy = convert_selected_linears(model, weight_reuse=cache)
++    optimizer, optimizer_policy = build_optimizer(model, cfg['training'])
++    return model, optimizer, policy, optimizer_policy
++
++
++def batch_t96(device):
++    blocks = pack(split_documents(synthetic_documents())['train'], 96)
++    return collate(blocks, [9], device)
++
++
++def run_update(model, optimizer, inputs, labels, *, cache, device='cuda', timed=False):
++    if has_fp8(model):
++        reset_fp8_audit(model)
++    optimizer.zero_grad(set_to_none=True)
++    sync = lambda: torch.cuda.synchronize(device)
++    times = {}
++    sync(); started = time.perf_counter()
++    with torch.autocast(device_type='cuda', dtype=torch.bfloat16):
++        objective = training_objective(model, inputs, labels, mode='A2', loops=2)
++    sync(); times['forward'] = time.perf_counter() - started
++    backward_started = time.perf_counter()
++    objective.total.backward()
++    sync(); times['backward'] = time.perf_counter() - backward_started
++    check_started = time.perf_counter()
++    fp8_assert_finite(model, 'pair-check')
++    audit = fp8_diagnostics(model)
++    clear_fp8_weight_cache(model)
++    sync(); times['checks'] = time.perf_counter() - check_started
++    step_started = time.perf_counter()
++    optimizer.step()
++    sync(); times['optimizer_step'] = time.perf_counter() - step_started
++    post_started = time.perf_counter()
++    assert_optimizer_state_finite(optimizer, 'pair-post')
++    for parameter in model.parameters():
++        if not torch.isfinite(parameter).all():
++            raise FloatingPointError('nonfinite pair parameter')
++    sync(); times['post_update_checks'] = time.perf_counter() - post_started
++    times['end_to_end'] = time.perf_counter() - started
++    return objective, audit, times
++
++
++def compare_pair(cache_off, cache_on):
++    model_off, opt_off, _, _ = cache_off
++    model_on, opt_on, _, _ = cache_on
++    checks = {
++        'initial_parameters_equal': True,
++        'pre_update_losses_equal': True,
++        'native_calls_equal': True,
++        'logical_quantization_equal': True,
++        'model_equal': True,
++        'optimizer_equal': True,
++        'cache_hits_positive': True,
++        'cache_quantizations_reduced': True,
++    }
++    for x, y in zip(model_off.parameters(), model_on.parameters()):
++        if not torch.equal(x, y):
++            checks['model_equal'] = False
++    # Compare the initial state was captured before the update.
++    if not torch.equal(cache_off[3]['objective_total'], cache_on[3]['objective_total']):
++        checks['pre_update_losses_equal'] = False
++    if cache_off[3]['native'] != cache_on[3]['native']:
++        checks['native_calls_equal'] = False
++    if cache_off[3]['quantization'] != cache_on[3]['quantization']:
++        checks['logical_quantization_equal'] = False
++    try:
++        tree_equal(opt_off.state_dict(), opt_on.state_dict())
++    except AssertionError:
++        checks['optimizer_equal'] = False
++    if cache_on[3]['audit']['weight_cache_hits'] <= 0:
++        checks['cache_hits_positive'] = False
++    if not (cache_on[3]['audit']['weight_quantizations']
++            < cache_off[3]['audit']['weight_quantizations']):
++        checks['cache_quantizations_reduced'] = False
++    return checks
++
++
++class CacheLifecycleTests(unittest.TestCase):
++    def test_reuse_hit_invalidation_and_clear(self):
++        linear = nn.Linear(32, 32, bias=False)
++        fp = FP8Linear.from_linear(linear)
++        fp.set_weight_reuse(True)
++        qw1, sw1, stats1, reused1 = fp.quantize_weight(fp.weight)
++        qw2, sw2, stats2, reused2 = fp.quantize_weight(fp.weight)
++        self.assertFalse(reused1)
++        self.assertTrue(reused2)
++        self.assertIs(qw1, qw2)
++        self.assertIs(sw1, sw2)
++        self.assertGreater(fp.audit_weight_cache_bytes, 0)
++        with torch.no_grad():
++            fp.weight.add_(0.125)
++        qw3, _, _, reused3 = fp.quantize_weight(fp.weight)
++        self.assertFalse(reused3)
++        self.assertFalse(torch.equal(qw1, qw3))
++        fp.clear_weight_cache()
++        self.assertIsNone(fp._weight_cache)
++        self.assertEqual(fp.audit_weight_cache_bytes, 0)
++        fp.set_weight_reuse(False)
++        _, _, _, reused4 = fp.quantize_weight(fp.weight)
++        self.assertFalse(reused4)
++        with self.assertRaises(TypeError):
++            fp.set_weight_reuse(1)
++
++    def test_reset_stats_clears_cache_and_counters(self):
++        linear = nn.Linear(16, 16, bias=False)
++        fp = FP8Linear.from_linear(linear)
++        fp.set_weight_reuse(True)
++        fp.quantize_weight(fp.weight)
++        fp.audit_weight_quantizations = 3
++        fp.audit_weight_cache_hits = 2
++        fp.reset_stats()
++        self.assertIsNone(fp._weight_cache)
++        self.assertEqual(fp.audit_weight_quantizations, 0)
++        self.assertEqual(fp.audit_weight_cache_hits, 0)
++        self.assertEqual(fp.audit_weight_cache_bytes, 0)
++        self.assertTrue(fp.weight_reuse)
++
++
++class NanoCacheTests(unittest.TestCase):
++    device = 'cuda'
++
++    def require_cuda(self):
++        if not torch.cuda.is_available():
++            self.skipTest('CUDA unavailable')
++
++    def test_nano_first_step_cache_off_on_exact(self):
++        self.require_cuda()
++        cfg = config('splot-nano-synthetic-fp8-muon.json')
++        off = setup_model(cfg, False)
++        on = setup_model(cfg, True)
++        inputs, labels = batch_t96(self.device)
++        results = []
++        for model, opt, _, opt_policy, cache in (
++            (*off[:3], off[3], False), (*on[:3], on[3], True)
++        ):
++            objective, audit, times = run_update(model, opt, inputs, labels, cache=cache,
++                                                 device=self.device)
++            results.append((model, opt, audit, {
++                'objective_total': float(objective.total.detach()),
++                'native': (audit['native_forward_calls'], audit['native_backward_calls']),
++                'quantization': audit['quantization'],
++                'audit': audit,
++                'times': times,
++            }))
++        # Capture exact post-step state before comparing.
++        model_off, opt_off, audit_off, info_off = results[0]
++        model_on, opt_on, audit_on, info_on = results[1]
++        for x, y in zip(model_off.parameters(), model_on.parameters()):
++            torch.testing.assert_close(x, y, rtol=0, atol=0)
++        tree_equal(opt_off.state_dict(), opt_on.state_dict())
++        self.assertEqual(info_off['objective_total'], info_on['objective_total'])
++        self.assertEqual(info_off['native'], info_on['native'])
++        self.assertEqual(info_off['quantization'], info_on['quantization'])
++        self.assertGreater(info_on['audit']['weight_cache_hits'], 0)
++        self.assertLess(info_on['audit']['weight_quantizations'],
++                        info_off['audit']['weight_quantizations'])
++        self.assertFalse(off[2]['weight_reuse'])
++        self.assertTrue(on[2]['weight_reuse'])
++
++    def test_cache_resume_absent_and_cross_mode_rejected(self):
++        self.require_cuda()
++        cfg = config('splot-smoke-synthetic-fp8-muon.json')
++        blocks = pack(split_documents(synthetic_documents())['train'], 96)
++        objective = lambda m, x, y: training_objective(m, x, y, mode='A2', loops=2)
++        identity = {'schema': 1, 'tag': 'cache-resume', 'fp8_weight_reuse': True}
++
++        def run(path, steps, resume=False, cache=True, ident=None):
++            seed_all(42 if not resume else 99)
++            model = model_from(cfg).to(self.device)
++            convert_selected_linears(model, weight_reuse=cache)
++            opt = build_optimizer(model, cfg['training'])[0]
++            history = train(model, opt, blocks, objective, ident or identity, path,
++                            steps=steps, batch_size=1, seed=42, device=self.device,
++                            resume=resume, autocast_dtype=torch.bfloat16,
++                            checkpoint_interval=1, post_update_check=True)
++            return model, opt, history
++
++        with tempfile.TemporaryDirectory(prefix='splot-t0017-resume-') as tmp:
++            root = Path(tmp)
++            a, ao, ah = run(root / 'continuous', 2)
++            _, _, _ = run(root / 'split', 1)
++            b, bo, bh = run(root / 'split', 2, resume=True)
++            for x, y in zip(a.parameters(), b.parameters()):
++                torch.testing.assert_close(x, y, rtol=0, atol=0)
++            tree_equal(ao.state_dict(), bo.state_dict())
++            ignore = {'step_seconds', 'peak_cuda_allocated_bytes', 'peak_cuda_reserved_bytes'}
++            self.assertEqual([{k: v for k, v in row.items() if k not in ignore} for row in ah],
++                             [{k: v for k, v in row.items() if k not in ignore} for row in bh])
++            checkpoint = torch.load(root / 'split' / 'checkpoint.pt', map_location='cpu',
++                                    weights_only=True)
++            self.assertEqual(set(checkpoint), {'identity', 'model', 'optimizer', 'rng', 'history'})
++            self.assertFalse(any('weight_cache' in str(key) for key in checkpoint['model']))
++            with self.assertRaises(ValueError):
++                run(root / 'split', 2, resume=True, cache=False,
++                    ident={'schema': 1, 'tag': 'cache-resume', 'fp8_weight_reuse': False})
++
++
++def run_t512_pair():
++    if not torch.cuda.is_available():
++        raise RuntimeError('CUDA unavailable')
++    cfg = config('splot-nano-synthetic-fp8-muon.json')
++    inputs_cpu, labels_cpu, input_meta = build_contiguous_case(512, 42)
++    inputs = tuple(value.to('cuda') for value in inputs_cpu)
++    labels = {key: value.to('cuda') for key, value in labels_cpu.items()}
++    results = {}
++    for cache in (False, True):
++        model, optimizer, policy, optimizer_policy = setup_model(cfg, cache)
++        initial_digest = tree_digest(model.state_dict())
++        torch.cuda.empty_cache()
++        torch.cuda.reset_peak_memory_stats('cuda')
++        objective, audit, phases = run_update(model, optimizer, inputs, labels,
++                                              cache=cache, device='cuda', timed=True)
++        state = optimizer_state_inventory(optimizer)
++        results['cache_on' if cache else 'cache_off'] = {
++            'cache': cache,
++            'policy': policy,
++            'optimizer_policy': optimizer_policy,
++            'input': input_meta,
++            'initial_model_digest': initial_digest,
++            'model_digest': tree_digest(model.state_dict()),
++            'optimizer_digest': tree_digest(optimizer.state_dict()),
++            'losses': {name: float(getattr(objective, name).detach())
++                       for name in ('total', 'final_ntp', 'early_ntp', 'offset2', 'balance')},
++            'audit': audit,
++            'phases_seconds': phases,
++            'state': state,
++            'peak_allocated_bytes': torch.cuda.max_memory_allocated('cuda'),
++            'peak_reserved_bytes': torch.cuda.max_memory_reserved('cuda'),
++            'parameters': sum(p.numel() for p in model.parameters()),
++        }
++        del model, optimizer, objective
++        torch.cuda.empty_cache()
++    off, on = results['cache_off'], results['cache_on']
++    checks = {
++        'initial_state_equal': off['initial_model_digest'] == on['initial_model_digest'],
++        'losses_equal': off['losses'] == on['losses'],
++        'native_equal': (off['audit']['native_forward_calls'] == on['audit']['native_forward_calls']
++                         and off['audit']['native_backward_calls'] == on['audit']['native_backward_calls']),
++        'logical_quantization_equal': off['audit']['quantization'] == on['audit']['quantization'],
++        'cache_hits_positive': on['audit']['weight_cache_hits'] > 0,
++        'cache_quantizations_reduced': on['audit']['weight_quantizations'] < off['audit']['weight_quantizations'],
++        'parameters_equal': off['parameters'] == on['parameters'],
++        'model_equal': off['model_digest'] == on['model_digest'],
++        'optimizer_equal': off['optimizer_digest'] == on['optimizer_digest'],
++    }
++    return {'status': 'passed' if all(checks.values()) else 'failed',
++            'checks': checks, 'input': input_meta,
++            'cache_off': {k: off[k] for k in ('losses', 'audit', 'phases_seconds', 'state',
++                                              'initial_model_digest', 'model_digest',
++                                              'optimizer_digest', 'peak_allocated_bytes',
++                                              'peak_reserved_bytes', 'parameters')},
++            'cache_on': {k: on[k] for k in ('losses', 'audit', 'phases_seconds', 'state',
++                                            'initial_model_digest', 'model_digest',
++                                            'optimizer_digest', 'peak_allocated_bytes',
++                                            'peak_reserved_bytes', 'parameters')}}
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
++    parser.add_argument('--t512-pair', action='store_true')
++    parser.add_argument('--out', type=Path)
++    args = parser.parse_args()
++    if args.device == 'cuda' and not torch.cuda.is_available():
++        parser.error('CUDA is unavailable')
++    torch.set_num_threads(1)
++    torch.use_deterministic_algorithms(True)
++    if args.t512_pair:
++        if args.out is None:
++            parser.error('--t512-pair requires --out')
++        result = run_t512_pair()
++        args.out.write_text(json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + '\n')
++        print(json.dumps({'status': result['status'], 'out': str(args.out)}, sort_keys=True))
++        sys.exit(0 if result['status'] == 'passed' else 1)
++    suite = unittest.defaultTestLoader.loadTestsFromTestCase(CacheLifecycleTests)
++    if args.device == 'cuda':
++        suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(NanoCacheTests))
++    result = unittest.TextTestRunner(verbosity=2).run(suite)
++    sys.exit(0 if result.wasSuccessful() else 1)
+diff --git a/tools/test_pilot_ingestion.py b/tools/test_pilot_ingestion.py
+new file mode 100644
+index 0000000..d09f994
+--- /dev/null
++++ b/tools/test_pilot_ingestion.py
+@@ -0,0 +1,185 @@
++"""Focused tests for the bounded splot-pilot-blocks-v1 loader."""
++import argparse
++import hashlib
++import json
++import os
++import random
++import shutil
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++
++import torch
++
++import pilot_ingestion as pilot
++
++
++def canonical(value):
++    return pilot._canonical(value)
++
++
++def sha(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def source(family, split, language):
++    digest = sha(f'{family}:{split}:{language}'.encode())
++    return {
++        'family_id': family, 'language': language, 'split': split,
++        'content_sha256': digest, 'raw_sha256': digest,
++        'revision': 'synthetic-rev-1',
++        'rights_evidence_url': 'https://example.invalid/rights',
++        'source_url': 'https://example.invalid/source',
++    }
++
++
++def block(doc_id, vocab_size=264, seed=0, bad_label=False):
++    rng = random.Random(seed)
++    content = [8 + rng.randrange(vocab_size - 8) for _ in range(510)]
++    input_ids = [1] + content + [2]
++    document_ids = [doc_id] * 512
++    position_ids = list(range(512))
++    valid = [True] * 512
++    labels = {}
++    for offset in (1, 2):
++        values = []
++        for index in range(512):
++            if index + offset < 512:
++                values.append(input_ids[index + offset])
++            else:
++                values.append(-100)
++        labels[str(offset)] = values
++    if bad_label:
++        labels['1'][0] = vocab_size + 1
++    return {'input_ids': input_ids, 'document_ids': document_ids,
++            'position_ids': position_ids, 'valid': valid, 'labels': labels}
++
++
++def shard_bytes(blocks):
++    return b''.join(canonical(value) + b'\n' for value in blocks)
++
++
++def write_fixture(root, *, duplicate_doc=False, bad_label=False):
++    root = Path(root)
++    root.mkdir(parents=True, exist_ok=False)
++    sources = [source('train-en', 'train', 'en'), source('train-pl', 'train', 'pl'),
++               source('val-en', 'validation', 'en'), source('test-pl', 'test', 'pl')]
++    train = [block(index, seed=index, bad_label=bad_label and index == 0)
++             for index in range(32)]
++    validation = [block(100 + index, seed=100 + index) for index in range(2)]
++    test = [block(200, seed=200)]
++    if duplicate_doc:
++        validation[0]['document_ids'] = train[0]['document_ids']
++    parts = {'train': shard_bytes(train), 'validation': shard_bytes(validation),
++             'test': shard_bytes(test)}
++    shards = []
++    for split in ('train', 'validation', 'test'):
++        blocks = {'train': train, 'validation': validation, 'test': test}[split]
++        valid = sum(sum(value['valid']) for value in blocks)
++        ntp = sum(sum(value != -100 for value in value['labels']['1']) for value in blocks)
++        offset = sum(sum(value != -100 for value in value['labels']['2']) for value in blocks)
++        (root / f'{split}.jsonl').write_bytes(parts[split])
++        shards.append({'split': split, 'path': f'{split}.jsonl',
++                       'sha256': sha(parts[split]), 'bytes': len(parts[split]),
++                       'blocks': len(blocks), 'valid_tokens': valid,
++                       'ntp_labels': ntp, 'offset2_labels': offset})
++    tokenizer = canonical({'algorithm': 'synthetic-test', 'actual_vocab_size': 264})
++    (root / 'tokenizer.json').write_bytes(tokenizer)
++    logical = sha(b''.join(parts[split] for split in ('train', 'validation', 'test')))
++    manifest = {
++        'format': pilot.FORMAT, 'version': 1, 'sequence_length': 512,
++        'vocab_size': 264, 'tokenizer_sha256': sha(tokenizer),
++        'source_snapshot_sha256': pilot._source_snapshot(sources),
++        'sources': sources, 'shards': shards, 'logical_sha256': logical,
++    }
++    data = canonical(manifest)
++    (root / 'manifest.json').write_bytes(data)
++    return sha(data), sources
++
++
++class PilotLoaderTests(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory(prefix='splot-t0017-pilot-')
++        self.root = Path(self.tmp.name) / 'dataset'
++        self.sha, self.sources = write_fixture(self.root)
++
++    def tearDown(self):
++        self.tmp.cleanup()
++
++    def test_load_train_validation_and_counts(self):
++        loaded = pilot.load_pilot_dataset(self.root, self.sha)
++        self.assertEqual(set(loaded['blocks']), {'train', 'validation'})
++        self.assertEqual(len(loaded['blocks']['train']), 32)
++        self.assertEqual(len(loaded['blocks']['validation']), 2)
++        summary = loaded['manifest']
++        self.assertEqual(summary['format'], pilot.FORMAT)
++        self.assertEqual(summary['sequence_length'], 512)
++        self.assertEqual(summary['vocab_size'], 264)
++        self.assertEqual(summary['model_vocab_size'], 32768)
++        self.assertEqual(summary['unused_token_id_count'], 32768 - 264)
++        self.assertEqual(summary['splits']['train']['valid_tokens'], 32 * 512)
++        self.assertEqual(summary['splits']['train']['ntp_labels'], 32 * 511)
++        self.assertEqual(summary['splits']['train']['offset2_labels'], 32 * 510)
++        self.assertTrue(summary['test_validated_only'])
++        for split in ('train', 'validation'):
++            for item in loaded['blocks'][split]:
++                self.assertEqual(set(item['labels']), {1, 2})
++                for offset in (1, 2):
++                    values = item['labels'][offset]
++                    for index, value in enumerate(values):
++                        if value != -100:
++                            self.assertEqual(value, item['input_ids'][index + offset])
++
++    def test_manifest_hash_source_and_model_rejection(self):
++        with self.assertRaises(pilot.PilotError):
++            pilot.load_pilot_dataset(self.root, '0' * 64)
++        with self.assertRaises(pilot.PilotError):
++            pilot.load_pilot_dataset(self.root, self.sha, expected_model_vocab=32767)
++        with self.assertRaises(pilot.PilotError):
++            pilot.load_pilot_dataset(self.root, self.sha,
++                                     expected_source_snapshot_sha256='0' * 64)
++
++    def test_tamper_extra_file_and_duplicate_document(self):
++        with tempfile.TemporaryDirectory(prefix='splot-t0017-tamper-') as tmp:
++            copy_root = Path(tmp) / 'copy'
++            shutil.copytree(self.root, copy_root)
++            (copy_root / 'manifest.json').write_bytes(
++                (copy_root / 'manifest.json').read_bytes() + b' ')
++            with self.assertRaises(pilot.PilotError):
++                pilot.load_pilot_dataset(copy_root, self.sha)
++            copy_root2 = Path(tmp) / 'copy2'
++            shutil.copytree(self.root, copy_root2)
++            (copy_root2 / 'extra.txt').write_text('x')
++            with self.assertRaises(pilot.PilotError):
++                pilot.load_pilot_dataset(copy_root2, self.sha)
++            dup = Path(tmp) / 'duplicate'
++            dup_sha, _ = write_fixture(dup, duplicate_doc=True)
++            with self.assertRaises(pilot.PilotError):
++                pilot.load_pilot_dataset(dup, dup_sha)
++            bad = Path(tmp) / 'bad-label'
++            bad_sha, _ = write_fixture(bad, bad_label=True)
++            with self.assertRaises(pilot.PilotError):
++                pilot.load_pilot_dataset(bad, bad_sha)
++
++    def test_shard_hash_mismatch(self):
++        with tempfile.TemporaryDirectory(prefix='splot-t0017-shard-') as tmp:
++            copy_root = Path(tmp) / 'copy'
++            shutil.copytree(self.root, copy_root)
++            data = (copy_root / 'train.jsonl').read_bytes()
++            (copy_root / 'train.jsonl').write_bytes(data + b'\n')
++            with self.assertRaises(pilot.PilotError):
++                pilot.load_pilot_dataset(copy_root, self.sha)
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
++    args = parser.parse_args()
++    if args.device == 'cuda' and not torch.cuda.is_available():
++        parser.error('CUDA is unavailable')
++    torch.set_num_threads(1)
++    torch.use_deterministic_algorithms(True)
++    suite = unittest.defaultTestLoader.loadTestsFromTestCase(PilotLoaderTests)
++    result = unittest.TextTestRunner(verbosity=2).run(suite)
++    sys.exit(0 if result.wasSuccessful() else 1)

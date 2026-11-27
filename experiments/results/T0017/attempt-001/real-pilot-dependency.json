@@ -1,0 +1,11 @@
+{
+  "checked_at_utc": "2026-11-27T20:37:16Z",
+  "dataset_locally_verified": false,
+  "pilot_steps_run": 0,
+  "real_data_used": false,
+  "reason": "T0016 #76 is open and has no accepted dataset/evidence directory; no reviewed local source snapshot or manifest was available for T0017.",
+  "status": "not_run",
+  "t0016_evidence_directory": "absent",
+  "t0016_issue": "https://github.com/jtrefon/splot-lm/issues/76",
+  "t0016_state": "OPEN"
+}
