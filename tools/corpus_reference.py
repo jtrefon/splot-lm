@@ -139,10 +139,12 @@ def build_allowlist(entries: Iterable[SourceApproval]) -> dict[str, SourceApprov
 def _allowlist_mapping(allowlist: Any) -> dict[str, SourceApproval]:
     """Normalize and revalidate a synthetic allowlist mapping or iterable."""
     if isinstance(allowlist, Mapping):
-        result = build_allowlist(tuple(allowlist.values()))
-        if set(result) != set(allowlist):
-            raise CorpusError("allowlist mapping keys must match source IDs")
-        return result
+        for key, entry in allowlist.items():
+            if not isinstance(entry, SourceApproval):
+                raise CorpusError("allowlist entries must be SourceApproval instances")
+            if key != entry.source_id:
+                raise CorpusError("allowlist mapping keys must match source IDs")
+        return build_allowlist(tuple(allowlist.values()))
     return build_allowlist(allowlist)
 
 
