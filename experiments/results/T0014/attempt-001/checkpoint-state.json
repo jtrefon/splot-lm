@@ -1,0 +1,356 @@
+{
+  "checkpoints": {
+    "continuous-int1": {
+      "adamw_state": {
+        "bytes": 110628,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 27657,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "bytes": 1720227,
+      "checkpoint_interval": 1,
+      "checkpoint_stats": {
+        "bytes_last": 1720227,
+        "bytes_total": 6876812,
+        "final_history_steps": 4,
+        "initial_history_steps": 0,
+        "interval": 1,
+        "write_seconds": 0.05408108001574874,
+        "write_steps": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "writes": 4
+      },
+      "data_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+      "history_steps": 4,
+      "invocation": {
+        "final_history_steps": 4,
+        "initial_history_steps": 0,
+        "invocation_history_steps": 4,
+        "mode": "fresh"
+      },
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "model_parameters": 181744,
+      "muon_state": {
+        "bytes": 671744,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 167936,
+        "finite": true
+      },
+      "optimizer_top_level_keys": [
+        "adamw",
+        "adapter_version",
+        "muon",
+        "partition",
+        "settings"
+      ],
+      "partition_plan_sha256": "af995c9a3143b8403f9de15e3cd31756b4e97df2c140e7b42dd02ee86804dff8",
+      "sha256": "15f3b9ce8b778cfb0cb86cca1aa6a918da2b9d158aa3a783e9582a23eba5182a",
+      "status": "passed",
+      "top_level_keys": [
+        "history",
+        "identity",
+        "model",
+        "optimizer",
+        "rng"
+      ],
+      "total_state": {
+        "bytes": 782372,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 195593,
+        "finite": true
+      }
+    },
+    "continuous-int2": {
+      "adamw_state": {
+        "bytes": 110628,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 27657,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "bytes": 1720227,
+      "checkpoint_interval": 2,
+      "checkpoint_stats": {
+        "bytes_last": 1720227,
+        "bytes_total": 3439110,
+        "final_history_steps": 4,
+        "initial_history_steps": 0,
+        "interval": 2,
+        "write_seconds": 0.02651204395806417,
+        "write_steps": [
+          2,
+          4
+        ],
+        "writes": 2
+      },
+      "data_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+      "history_steps": 4,
+      "invocation": {
+        "final_history_steps": 4,
+        "initial_history_steps": 0,
+        "invocation_history_steps": 4,
+        "mode": "fresh"
+      },
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "model_parameters": 181744,
+      "muon_state": {
+        "bytes": 671744,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 167936,
+        "finite": true
+      },
+      "optimizer_top_level_keys": [
+        "adamw",
+        "adapter_version",
+        "muon",
+        "partition",
+        "settings"
+      ],
+      "partition_plan_sha256": "af995c9a3143b8403f9de15e3cd31756b4e97df2c140e7b42dd02ee86804dff8",
+      "sha256": "edcd992b356904b631dae5398f5ea0d75133dd270fc612cad4c498db4f21363e",
+      "status": "passed",
+      "top_level_keys": [
+        "history",
+        "identity",
+        "model",
+        "optimizer",
+        "rng"
+      ],
+      "total_state": {
+        "bytes": 782372,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 195593,
+        "finite": true
+      }
+    },
+    "legacy-v1-smoke": {
+      "adamw_state": {
+        "bytes": 1440408,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 360102,
+        "finite": true
+      },
+      "bytes": 2406023,
+      "checkpoint_interval": 1,
+      "checkpoint_stats": {
+        "bytes_last": 2406023,
+        "bytes_total": 2406023,
+        "final_history_steps": 1,
+        "initial_history_steps": 0,
+        "interval": 1,
+        "write_seconds": 0.010710165021009743,
+        "write_steps": [
+          1
+        ],
+        "writes": 1
+      },
+      "data_manifest_sha256": null,
+      "history_steps": 1,
+      "invocation": {
+        "final_history_steps": 1,
+        "initial_history_steps": 0,
+        "invocation_history_steps": 1,
+        "mode": "fresh"
+      },
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "model_parameters": 179952,
+      "optimizer_top_level_keys": [
+        "param_groups",
+        "state"
+      ],
+      "sha256": "69e3eb967034fff8e0f159b71fba0be325cc0ee04693d8e6c83b09b190897d7b",
+      "status": "passed",
+      "top_level_keys": [
+        "history",
+        "identity",
+        "model",
+        "optimizer",
+        "rng"
+      ],
+      "total_state": {
+        "bytes": 1440408,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 360102,
+        "finite": true
+      }
+    },
+    "split-int2": {
+      "adamw_state": {
+        "bytes": 110628,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 27657,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "bytes": 1721187,
+      "checkpoint_interval": 2,
+      "checkpoint_stats": {
+        "bytes_last": 1721187,
+        "bytes_total": 1721187,
+        "final_history_steps": 4,
+        "initial_history_steps": 2,
+        "interval": 2,
+        "write_seconds": 0.013934515009168535,
+        "write_steps": [
+          4
+        ],
+        "writes": 1
+      },
+      "data_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+      "history_steps": 4,
+      "invocation": {
+        "final_history_steps": 4,
+        "initial_history_steps": 2,
+        "invocation_history_steps": 2,
+        "mode": "resume"
+      },
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "model_parameters": 181744,
+      "muon_state": {
+        "bytes": 671744,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 167936,
+        "finite": true
+      },
+      "optimizer_top_level_keys": [
+        "adamw",
+        "adapter_version",
+        "muon",
+        "partition",
+        "settings"
+      ],
+      "partition_plan_sha256": "af995c9a3143b8403f9de15e3cd31756b4e97df2c140e7b42dd02ee86804dff8",
+      "sha256": "c53b408b6e545246381557a12af3f2259d6edaadba6d54ee40e5e7d09b988996",
+      "status": "passed",
+      "top_level_keys": [
+        "history",
+        "identity",
+        "model",
+        "optimizer",
+        "rng"
+      ],
+      "total_state": {
+        "bytes": 782372,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 195593,
+        "finite": true
+      }
+    },
+    "split-int2-metadata": {
+      "adamw_state": {
+        "bytes": 110628,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 27657,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "bytes": 1718883,
+      "checkpoint_interval": 2,
+      "checkpoint_stats": {
+        "bytes_last": 1718883,
+        "bytes_total": 1718883,
+        "final_history_steps": 2,
+        "initial_history_steps": 0,
+        "interval": 2,
+        "write_seconds": 0.012714503973256797,
+        "write_steps": [
+          2
+        ],
+        "writes": 1
+      },
+      "data_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+      "history_steps": 2,
+      "invocation": {
+        "final_history_steps": 2,
+        "initial_history_steps": 0,
+        "invocation_history_steps": 2,
+        "mode": "fresh"
+      },
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "model_parameters": 181744,
+      "muon_state": {
+        "bytes": 671744,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 167936,
+        "finite": true
+      },
+      "optimizer_top_level_keys": [
+        "adamw",
+        "adapter_version",
+        "muon",
+        "partition",
+        "settings"
+      ],
+      "partition_plan_sha256": "af995c9a3143b8403f9de15e3cd31756b4e97df2c140e7b42dd02ee86804dff8",
+      "sha256": "5bbedd37ee4a384e5a241bc519994bb7a3fb0f58ae1078f55bcba147667e679f",
+      "status": "passed",
+      "top_level_keys": [
+        "history",
+        "identity",
+        "model",
+        "optimizer",
+        "rng"
+      ],
+      "total_state": {
+        "bytes": 782372,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 195593,
+        "finite": true
+      }
+    }
+  },
+  "status": "passed"
+}

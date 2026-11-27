@@ -1,0 +1,15 @@
+{
+  "cross_interval": {
+    "exit": 1,
+    "expected_exception": "ValueError: run identity mismatch",
+    "observed": true,
+    "sanitized_stderr": "Traceback (most recent call last):\n  File \"<REPO>/tools/experiment.py\", line 442, in <module>\n    if __name__=='__main__': main()\n                             ^^^^^^\n  File \"<REPO>/tools/experiment.py\", line 377, in main\n    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check,checkpoint_interval=interval,checkpoint_stats=checkpoint_stats)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<REPO>/tools/experiment.py\", line 198, in train\n    if state['identity'] != identity: raise ValueError('run identity mismatch')\n                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: run identity mismatch\n"
+  },
+  "cross_manifest": {
+    "exit": 1,
+    "expected_exception": "ValueError: run identity mismatch",
+    "observed": true,
+    "sanitized_stderr": "Traceback (most recent call last):\n  File \"<REPO>/tools/experiment.py\", line 442, in <module>\n    if __name__=='__main__': main()\n                             ^^^^^^\n  File \"<REPO>/tools/experiment.py\", line 377, in main\n    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check,checkpoint_interval=interval,checkpoint_stats=checkpoint_stats)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<REPO>/tools/experiment.py\", line 198, in train\n    if state['identity'] != identity: raise ValueError('run identity mismatch')\n                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: run identity mismatch\n"
+  },
+  "status": "passed"
+}

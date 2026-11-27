@@ -1,0 +1,132 @@
+{
+  "attempt": 1,
+  "base_source_commit": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py exit 0 from clean tested SHA: 23 CPU scripts, 204 tests, 0 failures, 0 skips, 17 REP reports. New tests cover v2 blocks/counts, exact offsets, train/validation selection, tampered manifest/dimension rejection, interval=1, interval>1 final off-boundary save, split/resume, failed-guard preservation and interval comparator.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_ingestion": {
+      "detail": "Verified v2 fixture reproduced T0013 exactly. Interval-2 4-step continuous has 2 writes; split metadata has 1 write; resume has 1 write; strict comparator exact. Interval-1 4-step control has 4 writes and matches interval-2 on non-timing history/model/optimizer/RNG/validation. Cross-manifest and cross-interval resumes reject. 181,744 params, 284 valid/268 NTP/252 offset-2/14 validation labels, finite FP32 state, native FP8 calls positive.",
+      "evidence": [
+        "run-continuous-int2.json",
+        "run-split-resume-int2.json",
+        "run-continuous-int1.json",
+        "run-split-metadata-int2.json",
+        "run-legacy-v1-smoke.json",
+        "strict-comparison.json",
+        "cadence-comparison.json",
+        "checkpoint-state.json",
+        "mismatch-rejections.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested SHA d6f979c; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090 SM89, 24,077 MiB free before; sufficient disk; spec merged; T0012/T0013 dependencies present; no overlapping PR.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required REP records present and hashed; exact T0014 validator passed. Evidence branch/PR, hosted CPU CI and issue #71 handover follow. No merge or closure.",
+      "evidence": [
+        "summary.md",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Opt-in synthetic-shards-v2 ingestion with mandatory dataset root/pinned manifest, verified existing loader, train/validation-only use, label-key conversion, vocab/length checks and no absolute path in identity. Optional positive checkpoint interval default 1, final-step save, atomic replacement, stats and exact identity/interval resume. Legacy synthetic-v1 and interval-1 defaults remain intact.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "data-gate.json",
+        "v2-fixture.json",
+        "parameter-count.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; not published",
+      "bytes": 1720227,
+      "name": "continuous-int2/checkpoint.pt",
+      "sha256": "edcd992b356904b631dae5398f5ea0d75133dd270fc612cad4c498db4f21363e"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 1721187,
+      "name": "split-int2/checkpoint.pt",
+      "sha256": "c53b408b6e545246381557a12af3f2259d6edaadba6d54ee40e5e7d09b988996"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 1720227,
+      "name": "continuous-int1/checkpoint.pt",
+      "sha256": "15f3b9ce8b778cfb0cb86cca1aa6a918da2b9d158aa3a783e9582a23eba5182a"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 1718883,
+      "name": "split-int2-metadata/checkpoint.pt",
+      "sha256": "5bbedd37ee4a384e5a241bc519994bb7a3fb0f58ae1078f55bcba147667e679f"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 2406023,
+      "name": "legacy-v1-smoke/checkpoint.pt",
+      "sha256": "69e3eb967034fff8e0f159b71fba0be325cc0ee04693d8e6c83b09b190897d7b"
+    }
+  ],
+  "files": {
+    "cadence-comparison.json": "c6f9b26409017e8dbfb339c7dc147e67ad7ad123919a9fcd7d8e5ee08bc72fd2",
+    "checkpoint-state.json": "3ea22c246d5f0b49c8da7b4a04fc5e10c0b9b1336a25b700d2e6d37bb7d8c705",
+    "checkpoints.txt": "827a0c4fb33875f2a893097604019f9ab467375e1abbc21b4c8113304a3df74c",
+    "ci-cpu.txt": "181d0530dbbc8a9670eb54bc437c2673a6d868b4472a8d8d9012f856d05b9621",
+    "cpu-ci.json": "658de31fb450291a396bff37907a7149a2ea34b2aba68be0dee527aed3d30f6c",
+    "data-gate.json": "ca52dc2904c595b4f5a556961351c41b1a1c8a2a20ea1fe29b16ae449f122dd1",
+    "environment.json": "7249b8795658d7c4f6ddb135857f42113c325e5e0c0fe048372f81a721c86f41",
+    "execution.log": "d4638c5ad98a5dc59bfa2785e5db68480f72d178c815f712150027aef0a91316",
+    "implementation.diff": "a9d36402f92f0da01afae4ec76c40eb50bfe95cf1ffdcf23406ecc19332d52b0",
+    "implementation.files.json": "22d473bdf82d9842f049fa59c274c9d4edbf21bdb7cdf2c9041a91d18810d50b",
+    "metrics.jsonl": "321535dd6912c3df62d736d8afe7dc90ac74f16f13afbc127fec36a62a8a96e0",
+    "mismatch-rejections.json": "64fcd35cd5404ce3fb47627dd1709ac19fe48c48e2de7b67b7aa0c7923be0dc8",
+    "parameter-count.json": "7a23947f8172308677a10091914e2fa9a107e7567e5199b1c9b57c73df547a69",
+    "run-continuous-int1.json": "9d8c9367606a3761930e804d3f2ca0a815763cac3556e7c88844005553929df1",
+    "run-continuous-int2.json": "ac326f137dbb6a125acf574eddada222d7b3d44b41cbd715b2187e4223b3a684",
+    "run-legacy-v1-smoke.json": "b9c1bb8da3d4069aeb0eb6515ca65de0a4c52952669d34e68dc01367616b4cb4",
+    "run-split-metadata-int2.json": "234781e16c9d0bc642f32fdbd7df652b8ea5678519cefb67f6fd7fa8007cdf65",
+    "run-split-resume-int2.json": "dedb5d6701ab65c6e1d38af4a4da195767f81b2475b0ec6b321f730ddb11338c",
+    "strict-comparison.json": "ff67bdda8d5dc0a48dd9b1debe98f56c7b1fff6914ac888e3c3324ca7feb0547",
+    "summary.md": "268c24f9f8d3b0f6586034720f9f615e26fdb0f8945f0c8ad2d4c41f458b8a9e",
+    "t0013-demo-linux.json": "1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396",
+    "v2-fixture.json": "8a6b4fd535d36f3f76e3318135789bd64ae667f8d5a8bdd1cc341f8e45aed790"
+  },
+  "limitations": [
+    "Bounded synthetic v2 bridge only; no real corpus, rights approval, production ingestion, tokenizer or Mini model.",
+    "One smoke configuration and one seed; no convergence, quality, production throughput or checkpoint-service claim.",
+    "Atomic local checkpoint replacement; no fsync/power-loss guarantee. At most interval-1 completed updates can be lost after the last durable checkpoint under normal single-writer interruption.",
+    "Test blocks are verified by the loader but are not used for training or evaluation.",
+    "Checkpoint write and validation times are descriptive only; no timing threshold or speed claim."
+  ],
+  "minimum_base_commit": "3fb9388e782a9da8ca68e1458d9caaeb296c2312",
+  "schema_version": 1,
+  "source_commit": "d6f979cfa1e9763fb4179cd7b902a51fbde68199",
+  "spec_commit": "983b2fb08cd9590d9f9ff5355d499bfa1a56b93b",
+  "status": "passed",
+  "task_commit": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+  "task_id": "T0014",
+  "tested_commit": "d6f979cfa1e9763fb4179cd7b902a51fbde68199"
+}

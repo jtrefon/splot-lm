@@ -1,0 +1,22 @@
+{
+  "allowed_files": [
+    "tools/experiment.py",
+    "tools/test_dataset_ingestion.py",
+    "configs/experiments/splot-smoke-shards-fp8-muon.json",
+    "research/implementation/dataset-ingestion.md"
+  ],
+  "base_source_commit": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+  "changed_files": [
+    "configs/experiments/splot-smoke-shards-fp8-muon.json",
+    "research/implementation/dataset-ingestion.md",
+    "tools/experiment.py",
+    "tools/test_dataset_ingestion.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "3fb9388e782a9da8ca68e1458d9caaeb296c2312",
+  "note": "Harness opt-in v2 ingestion/cadence, focused tests, new smoke config and implementation note only; no shard code, existing config, model, comparator, CI or Mac files changed.",
+  "scope_check": "passed",
+  "spec_commit": "983b2fb08cd9590d9f9ff5355d499bfa1a56b93b",
+  "task_commit": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+  "tested_commit": "d6f979cfa1e9763fb4179cd7b902a51fbde68199"
+}

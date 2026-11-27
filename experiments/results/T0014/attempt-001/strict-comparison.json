@@ -1,0 +1,13 @@
+{
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ],
+  "model_optimizer_rng_equal": true,
+  "non_timing_history_equal": true,
+  "parameters": 181744,
+  "status": "passed",
+  "steps": 4,
+  "validation_equal": true
+}
