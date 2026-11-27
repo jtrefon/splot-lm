@@ -23,3 +23,6 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Issues
 
 | T0016 | [Real bilingual corpus](T0016-real-corpus.md) | #76 | Mac, actual acquisition authorized within spec |
 | T0017 | [FP8 weight reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | #77 | Linux, implementation first, real run after T0016 |
+
+| T0017 continuation | [First real pilot](T0017-continuation.md) | #77 | Attempt-002, after accepted implementation and spec merge |
+| T0018 | [MTP observability](T0018-mtp-observability.md) | #81 | Mac, spec merge then owner launch |
