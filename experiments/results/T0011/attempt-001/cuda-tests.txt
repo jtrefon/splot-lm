@@ -1,0 +1,32 @@
+=== development run 1 (failed test-harness unpacking; corrected before official run) ===
+test_fp8_muon_resume_exact_history_and_audit (__main__.FP8MuonCUDATests.test_fp8_muon_resume_exact_history_and_audit) ... ok
+test_fp8_muon_step_both_states_and_native_dispatch (__main__.FP8MuonCUDATests.test_fp8_muon_step_both_states_and_native_dispatch) ... ok
+test_inactive_expert_is_not_updated (__main__.FP8MuonCUDATests.test_inactive_expert_is_not_updated) ... ERROR
+test_nonfinite_post_update_injection_preserves_checkpoint (__main__.FP8MuonCUDATests.test_nonfinite_post_update_injection_preserves_checkpoint) ... ok
+
+======================================================================
+ERROR: test_inactive_expert_is_not_updated (__main__.FP8MuonCUDATests.test_inactive_expert_is_not_updated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<REPO>/tools/test_fp8_muon.py", line 352, in test_inactive_expert_is_not_updated
+    objective = training_objective(model, x, y, mode='A2', loops=2)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO>/src/splot/mtp.py", line 65, in training_objective
+    raise ValueError('missing offset labels')
+ValueError: missing offset labels
+
+----------------------------------------------------------------------
+Ran 4 tests in 6.842s
+
+FAILED (errors=1)
+
+=== official run from tested SHA (passed) ===
+test_fp8_muon_resume_exact_history_and_audit (__main__.FP8MuonCUDATests.test_fp8_muon_resume_exact_history_and_audit) ... ok
+test_fp8_muon_step_both_states_and_native_dispatch (__main__.FP8MuonCUDATests.test_fp8_muon_step_both_states_and_native_dispatch) ... ok
+test_inactive_expert_is_not_updated (__main__.FP8MuonCUDATests.test_inactive_expert_is_not_updated) ... ok
+test_nonfinite_post_update_injection_preserves_checkpoint (__main__.FP8MuonCUDATests.test_nonfinite_post_update_injection_preserves_checkpoint) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 7.336s
+
+OK

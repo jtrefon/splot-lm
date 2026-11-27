@@ -1,0 +1,30 @@
+{
+  "allowed_files": [
+    "src/splot/fp8.py",
+    "tools/experiment.py",
+    "tools/optimizers.py",
+    "tools/test_fp8_muon.py",
+    "research/implementation/fp8-muon.md",
+    "configs/experiments/splot-smoke-synthetic-fp8-muon.json",
+    "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+    "configs/experiments/splot-nano-synthetic-bf16-muon.json"
+  ],
+  "base_source_commit": "a2776e95341d89b0dd4eff81107d0ad9f00e3283",
+  "changed_files": [
+    "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+    "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+    "configs/experiments/splot-smoke-synthetic-fp8-muon.json",
+    "research/implementation/fp8-muon.md",
+    "src/splot/fp8.py",
+    "tools/experiment.py",
+    "tools/optimizers.py",
+    "tools/test_fp8_muon.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "9aabfa9dae9d1d7b5713cee09a73e0e4d50b5d88",
+  "note": "Implementation only; existing configs, model equations, comparator, CI and Mac/data files unchanged. REP evidence/index added after testing.",
+  "scope_check": "passed",
+  "spec_commit": "b7780cd019143fc1861e0ffad446fbbe1aa3c4fa",
+  "task_commit": "a2776e95341d89b0dd4eff81107d0ad9f00e3283",
+  "tested_commit": "4f92b6ea759f4db64bc827d371506972d282108f"
+}

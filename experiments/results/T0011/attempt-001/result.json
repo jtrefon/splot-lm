@@ -1,0 +1,140 @@
+{
+  "attempt": 1,
+  "base_source_commit": "a2776e95341d89b0dd4eff81107d0ad9f00e3283",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py exit 0 from clean tested SHA: 20 CPU scripts, 162 tests, 0 failures, 0 skips, 13 REP reports. Focused CPU suite covers policy/partition, malformed selectors, config hashes, audit reset/serialization, adapter state, cross-mode rejection and prior-checkpoint preservation.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_compatibility": {
+      "detail": "Focused CUDA 4/4. Smoke FP8+Muon 4-step continuous and 2+2 resume exactly equal including nested optimizer state, RNG and per-step audit. Cross-precision and cross-optimizer resumes reject with identity mismatch. FP32 model/optimizer state finite; native FP8 dispatch recorded; checkpoints local-only.",
+      "evidence": [
+        "compatibility-continuous.json",
+        "compatibility-resumed.json",
+        "comparison.json",
+        "cross-mode.json",
+        "cuda-tests.txt",
+        "checkpoint-state.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_epoch": {
+      "detail": "Three sequential 35-step runs in the fixed order: 43,055,076 parameters, 2,591 valid /2,534 NTP /2,477 offset-2 labels, 376 validation labels, unique batches 0..34, all losses/weights/states finite. FP8 AdamW/Muon first-step losses/routing/audit equal; T0009 baseline equal; BF16/FP8 first-step gates pass. Full histories, quantization/padding, state and checkpoint hashes are recorded.",
+      "evidence": [
+        "run-fp8-adamw.json",
+        "run-fp8-muon.json",
+        "run-bf16-muon-epoch.json",
+        "epoch-analysis.json",
+        "first-step-routing.json",
+        "checkpoint-state.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested SHA 4f92b6e; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090 SM89, native Muon and torch._scaled_mm; 24,077 MiB free before/after; sufficient disk; spec merged; no overlapping PR.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required REP files present and hashed; exact T0011 validator passed. Evidence branch/PR, hosted CPU CI and issue #62 handover follow this validated package. No merge or closure.",
+      "evidence": [
+        "summary.md",
+        "checkpoints.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Scoped eight-file implementation enables FP8 + Muon, accurate policy metadata, strict optimizer parsing, per-step audit, pre-step loss/FP8/gradient checks, post-update master/optimizer-state guards before checkpoint write, separate evaluation audit and deterministic history. No threshold, format, topology or optimizer-math change.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; not published",
+      "bytes": 1698531,
+      "name": "compatibility-continuous/checkpoint.pt",
+      "sha256": "be09d3b112a1d7a26a68e1dc4bad7ac317b5a98796d2fc3cd0b69a47ed7e9c37"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 1699491,
+      "name": "compatibility-resumed/checkpoint.pt",
+      "sha256": "652e4b9afbcd8bece16757e96be1b21fb162ada3a061c0c4b527a74f73e1c737"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 516961355,
+      "name": "epoch-fp8-adamw/checkpoint.pt",
+      "sha256": "b314dfd78231322e71c2f59fb500047487b160a93ce059be202fccb583008145"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 395195619,
+      "name": "epoch-fp8-muon/checkpoint.pt",
+      "sha256": "9042b8fe708f9a67318cfc8d0c07e9514be80b8d06a395d69c008d4307495f15"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 395162979,
+      "name": "epoch-bf16-muon/checkpoint.pt",
+      "sha256": "a66a3e32ae01862598b89f0b97886ef55662b5449509e4fe5208a2aa0d08dc87"
+    }
+  ],
+  "files": {
+    "checkpoint-state.json": "17212ec0786f296835677ca5213f95fadb3d71ef58363b5e2edc9b0a9573fa54",
+    "checkpoints.txt": "e61cffede233a2eb2cd40d96892ec462f1b048bbe2ba6821ac9c7ac495c2bf72",
+    "ci-cpu.txt": "944795a72519eb2c4780fcf5adc865f8cd1bc2050ef94e14724425b880a1dbb9",
+    "comparison.json": "97833208505ab808e307be86125e234dfacb653b7bf55a1d1114fb9fef380eee",
+    "compatibility-continuous.json": "782aab89064fe49e19b67629b0d98d74927489e7be05e2358e6d832a2d55cd9c",
+    "compatibility-resumed.json": "bc0deeed87ac6e40501cde4c89c870d736e02d3945379a0d9164641f235ca1a4",
+    "cpu-ci.json": "a8fe08d4efbedaf41267c99663c2e30996fc9d4a54cce28c7aefe51dff4ba64c",
+    "cross-mode.json": "25f2b35184b9cfcbe8fbc4ac71c6ee90b89bf9fa53a272aad3488376f975516c",
+    "cuda-tests.txt": "919262591dd476965a551ae6d15abc1513789bcef5dd776a937cd730ed722d84",
+    "environment.json": "d6d8e683936374ec135c8eab15ad348c1da68669a44f557239736235185e2886",
+    "epoch-analysis.json": "7734b7ce7fc968ea1e63cfc1419a9b9d063e0104d54ebfa2fbadba40451d5f7e",
+    "execution.log": "9b38fdfe9dd47a59e4d8f68cfc3bf4657d532c501b35a6b8ec56f0b3936126a6",
+    "first-step-routing.json": "61d4571732990138eabacb2cd58bf74475ac82d35331bee6df9be0b58222e90a",
+    "implementation.diff": "15bc3f0b25f4591157265c22b2b0a9dbc4f680311387f8bb10c4a7e831dc7db8",
+    "implementation.files.json": "2bdc13f286ea2d704263eff196e3a334758d3d6ae87015ecca5050054bfecd6d",
+    "metrics.jsonl": "8604694e0871acc54c07676e49c4da09db03d573fd87a0cfde115257e0edb9b7",
+    "run-bf16-muon-epoch.json": "43ca0c28cfcaeda6c332e3f7e729e98766b96507e5fd2ef002b7e5e74669d48b",
+    "run-fp8-adamw.json": "e3d51cf294266a0482b8e687381edb7af30e85a45bf19ffa9a29e5e496390f7b",
+    "run-fp8-muon.json": "77203b61481cce55fc67a529efab6d269aacba8c0ddc57f3c9bd7bbc9d7e868a",
+    "summary.md": "d23b1a8d9d4196b17710621a98bca3675af370ee17c9847aed493b8badb9b893"
+  },
+  "limitations": [
+    "Correctness and one descriptive synthetic epoch only; no convergence, scaling, language-quality, throughput or optimizer-superiority claim.",
+    "Three runs are not a full factorial design; BF16 AdamW is absent, so no interaction effect or statistical inference.",
+    "Per-step audits and repeated checkpoint I/O confound wall time; no speed claim.",
+    "Current per-tensor FP8 scaling only; no delayed/persistent scaling, MXFP8/NVFP4, FP8 optimizer state or FP8 output.",
+    "Some unused experts are not dispatched; coverage is recorded, not an all-expert claim.",
+    "Checkpoints are local-only and are not published; no tensors are committed."
+  ],
+  "minimum_base_commit": "9aabfa9dae9d1d7b5713cee09a73e0e4d50b5d88",
+  "schema_version": 1,
+  "source_commit": "4f92b6ea759f4db64bc827d371506972d282108f",
+  "spec_commit": "b7780cd019143fc1861e0ffad446fbbe1aa3c4fa",
+  "status": "passed",
+  "task_commit": "a2776e95341d89b0dd4eff81107d0ad9f00e3283",
+  "task_id": "T0011",
+  "tested_commit": "4f92b6ea759f4db64bc827d371506972d282108f"
+}

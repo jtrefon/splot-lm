@@ -1,0 +1,26 @@
+{
+  "checks": {
+    "audit_equal": true,
+    "audit_matches_first_step": true,
+    "losses_equal": true,
+    "route_keys_equal": true,
+    "route_tokens": 408,
+    "routing_exact": 1.0,
+    "routing_top1": 1.0
+  },
+  "fp8_adamw_losses": {
+    "balance": 1.5855262279510498,
+    "early_ntp": 10.549643516540527,
+    "final_ntp": 10.546428680419922,
+    "offset2": 10.440898895263672,
+    "total": 15.809919357299805
+  },
+  "fp8_muon_losses": {
+    "balance": 1.5855262279510498,
+    "early_ntp": 10.549643516540527,
+    "final_ntp": 10.546428680419922,
+    "offset2": 10.440898895263672,
+    "total": 15.809919357299805
+  },
+  "status": "passed"
+}
