@@ -1,0 +1,888 @@
+diff --git a/configs/experiments/splot-nano-synthetic-fp8.json b/configs/experiments/splot-nano-synthetic-fp8.json
+new file mode 100644
+index 0000000..24730c6
+--- /dev/null
++++ b/configs/experiments/splot-nano-synthetic-fp8.json
+@@ -0,0 +1,40 @@
++{
++  "dense": {
++    "vocab_size": 32768,
++    "width": 384,
++    "layers": 8,
++    "q_heads": 6,
++    "kv_heads": 2,
++    "head_dim": 64,
++    "intermediate": 1024,
++    "rope_theta": 1000000,
++    "eps": 1e-05,
++    "init_std": 0.02
++  },
++  "recurrence": {
++    "prelude": 2,
++    "core": 4,
++    "coda": 2,
++    "max_loops": 4,
++    "default_loops": 2,
++    "injection": "none",
++    "injection_strength": 0.1,
++    "residual_scale": "unscaled",
++    "depth_embedding": false
++  },
++  "expert_intermediate": 512,
++  "training": {
++    "data": "synthetic-v1",
++    "precision": "fp8",
++    "mode": "A2",
++    "loops": 2,
++    "seed": 42,
++    "sequence_length": 96,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0.25,
++    "offset_weight": 0.25,
++    "balance_weight": 0.01
++  }
++}
+diff --git a/configs/experiments/splot-smoke-synthetic-fp8.json b/configs/experiments/splot-smoke-synthetic-fp8.json
+new file mode 100644
+index 0000000..1442e09
+--- /dev/null
++++ b/configs/experiments/splot-smoke-synthetic-fp8.json
+@@ -0,0 +1,40 @@
++{
++  "dense": {
++    "vocab_size": 264,
++    "width": 32,
++    "layers": 8,
++    "q_heads": 4,
++    "kv_heads": 2,
++    "head_dim": 8,
++    "intermediate": 64,
++    "rope_theta": 1000000,
++    "eps": 1e-05,
++    "init_std": 0.02
++  },
++  "recurrence": {
++    "prelude": 2,
++    "core": 4,
++    "coda": 2,
++    "max_loops": 4,
++    "default_loops": 2,
++    "injection": "none",
++    "injection_strength": 0.1,
++    "residual_scale": "unscaled",
++    "depth_embedding": false
++  },
++  "expert_intermediate": 32,
++  "training": {
++    "data": "synthetic-v1",
++    "precision": "fp8",
++    "mode": "A2",
++    "loops": 2,
++    "seed": 42,
++    "sequence_length": 96,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0.25,
++    "offset_weight": 0.25,
++    "balance_weight": 0.01
++  }
++}
+diff --git a/research/implementation/fp8-autograd.md b/research/implementation/fp8-autograd.md
+new file mode 100644
+index 0000000..2332a3a
+--- /dev/null
++++ b/research/implementation/fp8-autograd.md
+@@ -0,0 +1,57 @@
++# Native FP8 autograd integration
++
++Status: T0009 implementation, correctness scope only. Task [T0009](../tasks/T0009-fp8-autograd.md), issue [#56](https://github.com/jtrefon/splot-lm/issues/56). This is not FP8 pretraining, a final optimized backend or a quality/performance result.
++
++## Policy
++
++`training.precision = "fp8"` is explicit and CUDA-only. The default `fp32` and `bf16` paths are unchanged and do not construct any FP8 modules.
++
++Selected bias-free projection roles are converted to `FP8Linear` after model initialization:
++
++- GQA `q`, `k`, `v`, `o`;
++- GDN `q`, `k`, `v`, `z`, `o`;
++- dense Block and routed/shared Expert `gate`, `up`, `down`;
++- MTP `offset_projection`.
++
++Excluded from FP8: GQA `output_gate`, GDN `a`/`b` scalar gates, MoE router, tied embedding/readout, all norms, GDN convolution/`log_A`/`dt_bias`, recurrence, softmax, losses and other sensitive reductions. These remain FP32 or BF16 autocast as appropriate.
++
++The adapter is an `nn.Linear` subclass that keeps the original FP32 `Parameter` object, module name and `state_dict` key. It does not reinitialize weights or create duplicate parameters. The Muon/AdamW semantic partition therefore retains the same names, shapes and plan hash; this experiment uses AdamW only.
++
++## Autograd
++
++`FP8Linear` implements a first-order `torch.autograd.Function`:
++
++- forward: per-tensor current FP32 scales, E4M3FN quantized input and weight, native `torch._scaled_mm` with BF16 output, row-major LHS and column-major RHS;
++- backward: E5M2 quantized gradient, native dgrad with E4M3 weight and native wgrad with E4M3 saved input, FP32 weight gradient, input gradient restored to the original input dtype;
++- once-differentiable only; no higher-order derivative claim;
++- leading dimensions flattened to M, zero-padded to a multiple of 16, outputs/gradients trimmed; zero-M returns empty outputs/gradients without dispatch;
++- K/N must already be multiples of 16 or the call fails explicitly; no implicit K/N padding;
++- no `GradScaler`, no FP8 master weights, no FP8 optimizer state.
++
++Scales are device-resident FP32 tensors computed as `absmax / dtype.max`, with all-zero scale 1 and a positive FP32 normal clamp. The hot path does not use `.item()`, `.cpu()` or Python scalar reconstruction. Per-module counters record calls, padding rows, empty calls and last-scale devices without synchronizing per projection.
++
++## Integration and checkpointing
++
++- `tools/experiment.py` resolves `fp8`, records the selected/excluded module inventory, FP8 runtime probe and dispatch/diagnostic counters, and keeps BF16 autocast around the residual/non-FP8 operations.
++- FP8 uses AdamW only. FP8+Muon, persistent/delayed scales and optimized grouped dispatch are separate tasks.
++- Existing FP32/BF16 configs, model equations, optimizer implementation, comparator and checkpoint cadence are unchanged.
++- New configs are identical to their BF16 counterparts except `training.precision = "fp8"`.
++- Parameter identity, state_dict names and recurrent shared references are preserved. Same-mode resume is expected to be exact; cross-precision resume is rejected by the run identity.
++
++## Tests and validation
++
++`tools/test_fp8_autograd.py`:
++
++- default CPU: selection/exclusion, parameter identity, state_dict names, recurrent identity, optimizer partition invariance, padding/layout math, CPU FP8 rejection, FP32/BF16 no-FP8 defaults;
++- `--device cuda`: actual forward/dX/dW for M=1/17/64 K=384 N=512 and M=64 K=32 N=64; FP32 and dequantized-operand error gates; exact zero; repeated same-weight gradient sum; actual E4M3/E5M2 kernel/copy profile and scale residency; zero-M behavior;
++- `--device cuda --report PATH`: BF16-vs-FP8 R1/R2/R4 smoke/Nano CE differences, hidden/logit drift, gradient drift, label counts and routing agreement.
++
++Requirements: forward/dX/dW relative Frobenius <= 0.15 versus FP32, <= 0.025 versus FP32 products of dequantized operands; exact zero; each SPLOT CE absolute difference <= 0.5 nats and composite <= 0.75; all finite; exact label counts and topology. Drift/routing are descriptive only.
++
++## Limitations
++
++- Correctness integration only; no convergence, pretraining, long-context, throughput or language-quality claim.
++- Current per-tensor scaling only; no delayed scaling, MXFP8/NVFP4, FP8 optimizer/state or persistent scale policy.
++- FP8 output is BF16; no Tensor Core instruction claim beyond the recorded native kernel names.
++- Some unused experts are not dispatched; coverage is recorded, not an all-expert claim.
++- FP8+Muon, optimized kernel/layout reuse, real corpus and production benchmarks require separate reviewed tasks.
+diff --git a/src/splot/fp8.py b/src/splot/fp8.py
+new file mode 100644
+index 0000000..db00a7b
+--- /dev/null
++++ b/src/splot/fp8.py
+@@ -0,0 +1,305 @@
++"""Native FP8 first-order linear autograd for selected SPLOT projections.
++
++The adapter preserves the original FP32 master Parameter objects and state_dict
++keys. Only the approved bias-free projection roles are converted.
++"""
++from __future__ import annotations
++
++import math
++import torch
++from torch import nn
++from torch.autograd.function import once_differentiable
++
++from .dense import GQA, Block
++from .gdn import GatedDeltaNet
++from .moe import Expert, SparseFFN
++from .mtp import MTPLM
++
++
++FP8_E4M3 = torch.float8_e4m3fn
++FP8_E5M2 = torch.float8_e5m2
++ALIGNMENT = 16
++SCALE_DTYPE = torch.float32
++
++
++def padding_plan(real_m, multiple=ALIGNMENT):
++    if type(real_m) is not int or real_m < 0 or type(multiple) is not int or multiple < 1:
++        raise ValueError('invalid padding dimensions')
++    padded = ((real_m + multiple - 1) // multiple) * multiple
++    return {'real_M': real_m, 'padded_M': padded, 'padding_rows': padded - real_m,
++            'padding_fraction': (padded - real_m) / padded if padded else 0.,
++            'overhead_ratio': padded / real_m if real_m else 1., 'multiple': multiple,
++            'padding_value': 0}
++
++
++def pad_rows(x, padded_m):
++    if x.ndim < 1 or padded_m < x.shape[0]:
++        raise ValueError('invalid row padding')
++    if padded_m == x.shape[0]:
++        return x
++    out = torch.zeros((padded_m, *x.shape[1:]), dtype=x.dtype, device=x.device)
++    out[:x.shape[0]] = x
++    return out
++
++
++def _row_major(x):
++    if x.stride() == (x.shape[1], 1):
++        return x
++    return x.contiguous()
++
++
++def _column_major(x):
++    if x.stride() == (1, x.shape[0]):
++        return x
++    return x.t().contiguous().t()
++
++
++def _quantize(x, dtype):
++    """Device-resident current per-tensor quantization with no host scalar."""
++    x = x.float()
++    maximum = float(torch.finfo(dtype).max)
++    absmax = x.abs().amax()
++    scale = absmax / maximum
++    scale = torch.where(absmax > 0, scale.clamp_min(torch.finfo(torch.float32).tiny),
++                        torch.ones_like(scale))
++    q = torch.clamp(x / scale, -maximum, maximum).to(dtype)
++    return q, scale
++
++
++def _mm(a, b, scale_a, scale_b, out_dtype):
++    return torch._scaled_mm(a, b, scale_a, scale_b, out_dtype=out_dtype, use_fast_accum=False)
++
++
++
++def quantize_device(x, dtype):
++    return _quantize(x, dtype)
++
++
++def dequantize(q, scale):
++    return q.float() * scale
++
++def relative_frobenius(actual, reference):
++    if actual.shape != reference.shape:
++        raise ValueError(f'shape mismatch: {tuple(actual.shape)} != {tuple(reference.shape)}')
++    numerator = torch.linalg.vector_norm((actual.float() - reference.float()).flatten())
++    denominator = torch.linalg.vector_norm(reference.float().flatten())
++    return float((numerator / (denominator + 1e-12)).detach())
++
++
++class _FP8LinearFunction(torch.autograd.Function):
++    @staticmethod
++    def forward(ctx, x, weight, module):
++        if x.device.type != 'cuda' or weight.device.type != 'cuda':
++            raise RuntimeError('native FP8 linear requires a CUDA device')
++        if weight.dtype != torch.float32:
++            raise TypeError('FP8 master weight must remain float32')
++        if x.dtype not in (torch.float32, torch.bfloat16):
++            raise TypeError(f'unsupported FP8 linear input dtype: {x.dtype}')
++        if x.ndim < 1 or weight.ndim != 2 or x.shape[-1] != weight.shape[1]:
++            raise ValueError('invalid FP8 linear shapes')
++        n, k = weight.shape
++        if k % ALIGNMENT or n % ALIGNMENT:
++            raise ValueError(f'FP8 linear K/N must be multiples of {ALIGNMENT}: K={k}, N={n}')
++        shape = tuple(x.shape)
++        m = math.prod(shape[:-1])
++        module.forward_calls += 1
++        if m == 0:
++            ctx.empty = True
++            ctx.input_shape = shape
++            ctx.input_dtype = x.dtype
++            ctx.k, ctx.n = k, n
++            ctx.module = module
++            module.empty_forward_calls += 1
++            module.last_forward_dispatched = False
++            return torch.empty((*shape[:-1], n), device=x.device, dtype=torch.bfloat16)
++        plan = padding_plan(m)
++        padded_m = plan['padded_M']
++        x_pad = pad_rows(x.reshape(m, k).float(), padded_m)
++        qx, sx = _quantize(x_pad, FP8_E4M3)
++        qw, sw = _quantize(weight, FP8_E4M3)
++        rhs = _column_major(qw.t())
++        out_pad = _mm(qx, rhs, sx, sw, torch.bfloat16)
++        ctx.save_for_backward(qx, qw, sx, sw)
++        ctx.empty = False
++        ctx.input_shape = shape
++        ctx.input_dtype = x.dtype
++        ctx.m, ctx.k, ctx.n, ctx.padded_m = m, k, n, padded_m
++        ctx.module = module
++        module.padded_forward_rows += padded_m - m
++        module.last_forward_padded_m = padded_m
++        module.last_forward_scales = (sx.detach(), sw.detach())
++        module.last_forward_dispatched = True
++        return out_pad[:m].reshape(*shape[:-1], n)
++
++    @staticmethod
++    @once_differentiable
++    def backward(ctx, grad_out):
++        module = ctx.module
++        module.backward_calls += 1
++        if ctx.empty:
++            dx = torch.zeros(ctx.input_shape, device=grad_out.device, dtype=ctx.input_dtype)
++            dw = torch.zeros((ctx.n, ctx.k), device=grad_out.device, dtype=torch.float32)
++            module.empty_backward_calls += 1
++            return dx, dw, None
++        qx, qw, sx, sw = ctx.saved_tensors
++        m = ctx.m
++        grad = grad_out.reshape(m, ctx.n).float()
++        grad_pad = pad_rows(grad, ctx.padded_m)
++        qdy, sdy = _quantize(grad_pad, FP8_E5M2)
++        dx_pad = _mm(qdy, _column_major(qw), sdy, sw, torch.bfloat16)
++        dx = dx_pad[:m].to(ctx.input_dtype).reshape(ctx.input_shape)
++        dw = _mm(_row_major(qdy.t()), _column_major(qx), sdy, sx, torch.float32)
++        module.padded_backward_rows += ctx.padded_m - m
++        module.last_backward_padded_m = ctx.padded_m
++        module.last_backward_scales = (sdy.detach(), sx.detach(), sw.detach())
++        return dx, dw, None
++
++
++class FP8Linear(nn.Linear):
++    """nn.Linear-compatible adapter around a preserved FP32 master Parameter."""
++    def __init__(self, in_features, out_features):
++        nn.Module.__init__(self)
++        self.in_features = in_features
++        self.out_features = out_features
++        self.weight = nn.Parameter(torch.empty(out_features, in_features))
++        self.bias = None
++        self.reset_stats()
++
++    @classmethod
++    def from_linear(cls, linear):
++        if not isinstance(linear, nn.Linear) or linear.bias is not None:
++            raise ValueError('FP8 conversion requires a bias-free nn.Linear')
++        module = cls.__new__(cls)
++        nn.Module.__init__(module)
++        module.in_features = linear.in_features
++        module.out_features = linear.out_features
++        module.weight = linear.weight
++        module.bias = None
++        module.reset_stats()
++        return module
++
++    def reset_stats(self):
++        self.forward_calls = 0
++        self.backward_calls = 0
++        self.empty_forward_calls = 0
++        self.empty_backward_calls = 0
++        self.padded_forward_rows = 0
++        self.padded_backward_rows = 0
++        self.last_forward_padded_m = None
++        self.last_backward_padded_m = None
++        self.last_forward_scales = None
++        self.last_backward_scales = None
++        self.last_forward_dispatched = False
++
++    def forward(self, x):
++        if self.bias is not None:
++            raise ValueError('FP8Linear is bias-free')
++        return _FP8LinearFunction.apply(x, self.weight, self)
++
++
++def classify_linear(model, module_path):
++    parent_path, local = module_path.rsplit('.', 1) if '.' in module_path else ('', module_path)
++    parent = model.get_submodule(parent_path) if parent_path else model
++    if isinstance(parent, GQA):
++        if local in ('q', 'k', 'v', 'o'):
++            return 'selected', 'gqa_projection'
++        if local == 'output_gate':
++            return 'excluded', 'gqa_output_gate'
++    if isinstance(parent, GatedDeltaNet):
++        if local in ('q', 'k', 'v', 'z', 'o'):
++            return 'selected', 'gdn_projection'
++        if local in ('a', 'b'):
++            return 'excluded', 'gdn_scalar_gate'
++    if isinstance(parent, Block) and local in ('gate', 'up', 'down'):
++        return 'selected', 'dense_ffn'
++    if isinstance(parent, Expert) and local in ('gate', 'up', 'down'):
++        return 'selected', 'expert_ffn'
++    if isinstance(parent, SparseFFN) and local == 'router':
++        return 'excluded', 'moe_router'
++    if isinstance(parent, MTPLM) and local == 'offset_projection':
++        return 'selected', 'mtp_offset_projection'
++    return 'unknown', type(parent).__name__
++
++
++def convert_selected_linears(model):
++    before_ids = {id(p) for p in model.parameters()}
++    before_keys = set(model.state_dict())
++    selected, excluded, unknown = [], [], []
++    for path, module in list(model.named_modules()):
++        if not isinstance(module, nn.Linear) or isinstance(module, FP8Linear):
++            continue
++        status, role = classify_linear(model, path)
++        if status == 'selected':
++            if module.bias is not None:
++                raise ValueError(f'selected projection has bias: {path}')
++            parent_path, local = path.rsplit('.', 1) if '.' in path else ('', path)
++            parent = model.get_submodule(parent_path) if parent_path else model
++            setattr(parent, local, FP8Linear.from_linear(module))
++            selected.append({'name': path, 'role': role})
++        elif status == 'excluded':
++            excluded.append({'name': path, 'role': role})
++        else:
++            unknown.append({'name': path, 'owner': role})
++    if unknown:
++        raise ValueError(f'unknown eligible linear roles: {unknown}')
++    if not selected:
++        raise ValueError('no selected FP8 projections')
++    after_ids = {id(p) for p in model.parameters()}
++    if before_ids != after_ids:
++        raise RuntimeError('FP8 conversion changed parameter identity')
++    if before_keys != set(model.state_dict()):
++        raise RuntimeError('FP8 conversion changed state_dict keys')
++    return {
++        'format': 'e4m3fn-forward/e5m2-backward',
++        'backend': 'torch._scaled_mm',
++        'scales': 'per-tensor-current-fp32-device',
++        'output_dtype': 'bfloat16',
++        'padding_multiple': ALIGNMENT,
++        'selected': selected, 'excluded': excluded,
++        'selected_count': len(selected), 'excluded_count': len(excluded),
++        'parameter_count': len(before_ids),
++        'native_dispatch': True, 'adamw_only': True,
++        'no_host_scale_roundtrip': True,
++    }
++
++
++def fp8_runtime_probe(device):
++    if str(device) != 'cuda' and torch.device(device).type != 'cuda':
++        return {'available': False, 'error': 'FP8 requires CUDA'}
++    if not torch.cuda.is_available() or not hasattr(torch, '_scaled_mm'):
++        return {'available': False, 'error': 'CUDA or torch._scaled_mm unavailable'}
++    try:
++        a = torch.ones(16, 16, device=device, dtype=FP8_E4M3)
++        b = torch.ones(16, 16, device=device, dtype=FP8_E4M3).t()
++        scale = torch.tensor(1., device=device, dtype=torch.float32)
++        out = _mm(a, b, scale, scale, torch.bfloat16)
++        return {'available': True, 'operator': 'torch._scaled_mm',
++                'schema': str(torch.ops.aten._scaled_mm.default._schema),
++                'output_dtype': str(out.dtype).replace('torch.', ''),
++                'float8_dtypes': [str(FP8_E4M3).replace('torch.', ''), str(FP8_E5M2).replace('torch.', '')]}
++    except Exception as exc:
++        return {'available': False, 'error': f'{type(exc).__name__}: {exc}'}
++
++
++def fp8_diagnostics(model):
++    modules = [module for module in model.modules() if isinstance(module, FP8Linear)]
++    forward = sum(module.forward_calls for module in modules)
++    backward = sum(module.backward_calls for module in modules)
++    selected_scales = [scale for module in modules
++                       if module.last_forward_scales is not None
++                       for scale in module.last_forward_scales]
++    return {
++        'selected_modules': len(modules),
++        'forward_calls': forward,
++        'backward_calls': backward,
++        'forward_coverage': (sum(module.forward_calls > 0 for module in modules) / len(modules)) if modules else None,
++        'backward_coverage': (sum(module.backward_calls > 0 for module in modules) / len(modules)) if modules else None,
++        'empty_forward_calls': sum(module.empty_forward_calls for module in modules),
++        'empty_backward_calls': sum(module.empty_backward_calls for module in modules),
++        'padded_forward_rows': sum(module.padded_forward_rows for module in modules),
++        'padded_backward_rows': sum(module.padded_backward_rows for module in modules),
++        'scales_resident_cuda': bool(selected_scales) and all(s.device.type == 'cuda' for s in selected_scales),
++        'scale_devices': sorted({s.device.type for s in selected_scales}),
++        'last_forward_padded_m': sorted({module.last_forward_padded_m for module in modules
++                                         if module.last_forward_padded_m is not None}),
++    }
+diff --git a/tools/experiment.py b/tools/experiment.py
+index 00a1a12..ea44da7 100644
+--- a/tools/experiment.py
++++ b/tools/experiment.py
+@@ -14,6 +14,7 @@ import time
+ import torch
+
+ from optimizers import build_optimizer, optimizer_state_inventory
++from splot.fp8 import convert_selected_linears, fp8_diagnostics, fp8_runtime_probe
+
+
+ def digest(value):
+@@ -45,12 +46,14 @@ def seed_all(seed):
+
+ def resolve_precision(device, precision):
+     """Resolve the requested training precision and reject silent fallback."""
+-    if precision not in ('fp32', 'bf16'):
+-        raise ValueError('precision must be fp32 or bf16')
++    if precision not in ('fp32', 'bf16', 'fp8'):
++        raise ValueError('precision must be fp32, bf16 or fp8')
+     dev = torch.device(device)
+     if precision == 'fp32':
+         return {'requested': 'fp32', 'policy': 'fp32', 'autocast_dtype': None,
+                 'autocast_dtype_name': None, 'probe_dtype': 'not_run', 'bf16_supported': None}
++    if dev.type != 'cuda' and precision == 'fp8':
++        raise RuntimeError('fp8 requires a CUDA device')
+     supported = None
+     if dev.type == 'cuda':
+         supported = torch.cuda.is_bf16_supported()
+@@ -60,6 +63,14 @@ def resolve_precision(device, precision):
+         probe = torch.nn.functional.linear(torch.ones(2, 4, device=dev), torch.ones(4, 4, device=dev))
+     if probe.dtype != torch.bfloat16:
+         raise RuntimeError(f'BF16 autocast unavailable on {dev.type}: probe projection returned {probe.dtype}')
++    if precision == 'fp8':
++        fp8_probe = fp8_runtime_probe(dev)
++        if not fp8_probe.get('available'):
++            raise RuntimeError('native FP8 unavailable: ' + str(fp8_probe.get('error')))
++        return {'requested': 'fp8', 'policy': 'fp8-native-autograd-bf16-residual',
++                'autocast_dtype': torch.bfloat16, 'autocast_dtype_name': 'bfloat16',
++                'probe_dtype': 'bfloat16', 'bf16_supported': supported,
++                'fp8_probe': fp8_probe}
+     return {'requested': 'bf16', 'policy': 'bf16-autocast-fp32-master',
+             'autocast_dtype': torch.bfloat16, 'autocast_dtype_name': 'bfloat16',
+             'probe_dtype': 'bfloat16', 'bf16_supported': supported}
+@@ -179,7 +190,7 @@ def main():
+     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
+     rc=RecurrentConfig(dense=d,**c['recurrence'])
+     if d.vocab_size<264 or t['data']!='synthetic-v1': p.error('only synthetic-v1 runs supported')
+-    if t['precision'] not in ('fp32', 'bf16'): p.error('precision must be fp32 or bf16')
++    if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
+     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
+     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1 or not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
+     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
+@@ -195,10 +206,22 @@ def main():
+     model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
+     actual=sum(v.numel() for v in model.parameters())
+     if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
++    fp8_policy=None
++    if t['precision']=='fp8':
++        try:
++            fp8_policy=convert_selected_linears(model)
++        except (ValueError,TypeError,RuntimeError) as exc:
++            p.error(str(exc))
++        if fp8_policy['selected_count'] < 1:
++            p.error('no selected FP8 projections')
++        if sum(v.numel() for v in model.parameters()) != actual:
++            raise RuntimeError('FP8 conversion changed parameter inventory')
+     try:
+         opt, optimizer_policy = build_optimizer(model,t)
+     except (ValueError,TypeError,RuntimeError) as exc:
+         p.error(str(exc))
++    if t['precision']=='fp8' and optimizer_policy['name'] != 'adamw':
++        p.error('FP8 integration supports AdamW only')
+     env={'python':platform.python_version(),'torch':str(torch.__version__),'device':a.device,
+         'cpu':platform.processor() or platform.machine(),'platform':platform.platform(),'threads':1,
+         'cuda_runtime':torch.version.cuda,'gpu':torch.cuda.get_device_name(0) if a.device=='cuda' else None,
+@@ -206,6 +229,7 @@ def main():
+         'autocast_dtype':policy['autocast_dtype_name'],'autocast_probe_dtype':policy['probe_dtype'],
+         'bf16_supported':policy['bf16_supported'],'master_dtype':'float32',
+         'optimizer':optimizer_policy['name'],'optimizer_implementation':optimizer_policy['implementation'],
++        'fp8':fp8_policy,'fp8_probe':policy.get('fp8_probe'),
+         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
+         'deterministic_algorithms':True}
+     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
+@@ -221,16 +245,21 @@ def main():
+     macs=sum(logical_macs(packed['train'],r['batch_indices'],count_document) for r in history)
+     precision_policy={'requested':policy['requested'],'policy':policy['policy'],
+                       'autocast_dtype':policy['autocast_dtype_name'],'probe_dtype':policy['probe_dtype'],
+-                      'bf16_supported':policy['bf16_supported']}
++                      'bf16_supported':policy['bf16_supported'],'fp8_probe':policy.get('fp8_probe')}
+     optimizer_state=optimizer_state_inventory(opt)
++    fp8_diag=fp8_diagnostics(model) if fp8_policy else None
+     limitations=['synthetic byte fixture; no production tokenizer','template overlap across splits',
+-                 ('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else 'FP32 reference, not optimized'),
++                 ('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else
++                  ('Native FP8 selected projections with BF16 residual; not optimized' if t['precision']=='fp8' else 'FP32 reference, not optimized')),
+                  'step timing excludes checkpoint I/O and validation',
+                  'MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']
+     if optimizer_policy['name']=='muon':
+         limitations.append('Muon/AdamW hybrid correctness only; no optimizer superiority or convergence claim.')
++    if t['precision']=='fp8':
++        limitations.append('FP8 first-order projection integration only; no pretraining, throughput, convergence or quality claim.')
+     report={'identity':identity,'config':c,'data_manifest':data,'parameters':actual,'history':history,'validation':val,
+             'precision_policy':precision_policy,'optimizer_policy':optimizer_policy,'optimizer_state':optimizer_state,
++            'fp8_policy':fp8_policy,'fp8_diagnostics':fp8_diag,
+             'total_valid_tokens':sum(r['valid_tokens'] for r in history),'total_ntp_labels':sum(r['ntp_labels'] for r in history),
+             'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':limitations}
+     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))
+diff --git a/tools/test_fp8_autograd.py b/tools/test_fp8_autograd.py
+new file mode 100644
+index 0000000..fa36c1e
+--- /dev/null
++++ b/tools/test_fp8_autograd.py
+@@ -0,0 +1,308 @@
++"""Focused native FP8 autograd and SPLOT projection tests."""
++import argparse
++import copy
++import json
++import math
++import sys
++import unittest
++from pathlib import Path
++
++import torch
++from torch import nn
++
++from data_fixture import synthetic_documents, split_documents, pack
++from experiment import collate, seed_all, resolve_precision
++from splot import DenseConfig, RecurrentConfig, SPLOTLM, training_objective
++from splot.fp8 import (FP8Linear, convert_selected_linears, dequantize,
++                       fp8_diagnostics, padding_plan, pad_rows, quantize_device,
++                       relative_frobenius)
++from optimizers import build_semantic_partition
++
++
++def config(name):
++    return json.loads((Path('configs/experiments') / name).read_text())
++
++
++def model_from(cfg):
++    return SPLOTLM(RecurrentConfig(dense=DenseConfig(**cfg['dense']), **cfg['recurrence']),
++                   expert_intermediate=cfg['expert_intermediate'])
++
++
++def one_batch(device):
++    blocks = pack(split_documents(synthetic_documents())['train'], 96)
++    return collate(blocks, [9], device), blocks
++
++
++class FP8CPUTests(unittest.TestCase):
++    def test_selection_identity_state_dict_and_partition(self):
++        cfg = config('splot-smoke-synthetic-bf16.json')
++        torch.manual_seed(42)
++        model = model_from(cfg)
++        before_ids = {id(p) for p in model.parameters()}
++        before_keys = set(model.state_dict())
++        before_partition = build_semantic_partition(model)
++        core_weight_id = id(model.core[0].attn.q.weight)
++        policy = convert_selected_linears(model)
++        self.assertEqual(policy['selected_count'], 156)
++        self.assertEqual(policy['excluded_count'], 11)
++        self.assertEqual(sum(isinstance(m, FP8Linear) for m in model.modules()), 156)
++        self.assertEqual(before_ids, {id(p) for p in model.parameters()})
++        self.assertEqual(before_keys, set(model.state_dict()))
++        self.assertEqual(core_weight_id, id(model.core[0].attn.q.weight))
++        self.assertEqual(before_partition.metadata,
++                         build_semantic_partition(model).metadata)
++        for item in policy['selected']:
++            if (item['name'].endswith('attn.q') or item['name'].endswith('attn.k')) and (
++                    item['name'].startswith('prelude.') or item['name'].startswith('coda.') or
++                    item['name'].startswith('core.3.')):
++                self.assertEqual(item['role'], 'gqa_projection')
++        excluded = {item['name'] for item in policy['excluded']}
++        self.assertIn('core.3.attn.output_gate', excluded)
++        self.assertIn('core.0.attn.a', excluded)
++        self.assertIn('core.0.attn.b', excluded)
++        self.assertIn('core.0.moe.router', excluded)
++        self.assertNotIn('output_gate', {item['role'] for item in policy['selected']})
++
++    def test_cpu_fp8_execution_is_rejected(self):
++        linear = nn.Linear(16, 16, bias=False)
++        module = FP8Linear.from_linear(linear)
++        with self.assertRaises(RuntimeError):
++            module(torch.randn(2, 16))
++        with self.assertRaises(RuntimeError):
++            resolve_precision('cpu', 'fp8')
++
++    def test_padding_and_error_helpers(self):
++        expected = {1: 16, 3: 16, 7: 16, 17: 32}
++        for real, padded in expected.items():
++            plan = padding_plan(real)
++            self.assertEqual(plan['real_M'], real)
++            self.assertEqual(plan['padded_M'], padded)
++            self.assertGreaterEqual(plan['padding_fraction'], 0.)
++        x = torch.ones(3, 4)
++        padded = pad_rows(x, 16)
++        self.assertEqual(tuple(padded.shape), (16, 4))
++        self.assertTrue(torch.equal(padded[:3], x))
++        self.assertEqual(int(torch.count_nonzero(padded[3:]).item()), 0)
++        self.assertEqual(relative_frobenius(torch.zeros(2, 2), torch.zeros(2, 2)), 0.)
++        self.assertGreater(relative_frobenius(torch.ones(2, 2), torch.zeros(2, 2)), 1e11)
++
++    def test_default_paths_have_no_fp8_modules(self):
++        for name in ('splot-smoke-synthetic.json', 'splot-smoke-synthetic-bf16.json'):
++            model = model_from(config(name))
++            self.assertFalse(any(isinstance(m, FP8Linear) for m in model.modules()))
++            self.assertEqual(resolve_precision('cpu', 'fp32')['policy'], 'fp32')
++
++
++class FP8CUDATests(unittest.TestCase):
++    device = 'cuda'
++
++    def _linear(self, m, k, n):
++        torch.manual_seed(42)
++        linear = nn.Linear(k, n, bias=False).to(self.device)
++        fp = FP8Linear.from_linear(linear)
++        self.assertIs(fp.weight, linear.weight)
++        x = torch.randn(m, k, device=self.device)
++        dy = torch.randn(m, n, device=self.device)
++        return fp, x, dy
++
++    def _refs(self, x, dy, weight, pad_m):
++        xp = pad_rows(x, pad_m)
++        dyp = pad_rows(dy, pad_m)
++        qx, sx = quantize_device(xp, torch.float8_e4m3fn)
++        qw, sw = quantize_device(weight, torch.float8_e4m3fn)
++        qdy, sdy = quantize_device(dyp, torch.float8_e5m2)
++        xq, wq, dyq = dequantize(qx, sx), dequantize(qw, sw), dequantize(qdy, sdy)
++        return {
++            'forward': (x @ weight.t(), (xq @ wq.t())[:x.shape[0]]),
++            'dgrad': (dy @ weight, (dyq @ wq)[:x.shape[0]]),
++            'wgrad': (dy.t() @ x, dyq.t() @ xq),
++        }
++
++    def test_linear_autograd_thresholds_and_padding(self):
++        for m, k, n in ((1, 384, 512), (17, 384, 512), (64, 384, 512), (64, 32, 64)):
++            fp, x, dy = self._linear(m, k, n)
++            plan = padding_plan(m)
++            refs = self._refs(x, dy, fp.weight.detach(), plan['padded_M'])
++            x = x.detach().requires_grad_(True)
++            y = fp(x)
++            self.assertEqual(y.dtype, torch.bfloat16)
++            self.assertTrue(torch.isfinite(y).all())
++            self.assertTrue(fp.last_forward_dispatched)
++            self.assertEqual(fp.last_forward_scales[0].device.type, 'cuda')
++            y.backward(dy)
++            self.assertEqual(x.grad.dtype, torch.float32)
++            self.assertEqual(fp.weight.grad.dtype, torch.float32)
++            self.assertTrue(torch.isfinite(x.grad).all())
++            self.assertTrue(torch.isfinite(fp.weight.grad).all())
++            self.assertLessEqual(relative_frobenius(y, refs['forward'][0]), .15)
++            self.assertLessEqual(relative_frobenius(x.grad, refs['dgrad'][0]), .15)
++            self.assertLessEqual(relative_frobenius(fp.weight.grad, refs['wgrad'][0]), .15)
++            self.assertLessEqual(relative_frobenius(y, refs['forward'][1]), .025)
++            self.assertLessEqual(relative_frobenius(x.grad, refs['dgrad'][1]), .025)
++            self.assertLessEqual(relative_frobenius(fp.weight.grad, refs['wgrad'][1]), .025)
++            self.assertEqual(fp.padded_forward_rows, plan['padding_rows'])
++            self.assertEqual(fp.padded_backward_rows, plan['padding_rows'])
++
++    def test_repeated_weight_gradient_and_no_duplicate_parameter(self):
++        fp, x1, dy1 = self._linear(17, 384, 512)
++        fp.weight.grad = None
++        x2 = torch.randn_like(x1)
++        dy2 = torch.randn_like(dy1)
++        y1, y2 = fp(x1), fp(x2)
++        torch.autograd.backward([y1, y2], [dy1, dy2])
++        summed = fp.weight.grad.clone()
++        self.assertEqual(sum(p is fp.weight for p in fp.parameters()), 1)
++        fp.weight.grad = None
++        y1 = fp(x1)
++        y1.backward(dy1)
++        g1 = fp.weight.grad.clone()
++        fp.weight.grad = None
++        y2 = fp(x2)
++        y2.backward(dy2)
++        g2 = fp.weight.grad.clone()
++        torch.testing.assert_close(summed, g1 + g2, rtol=1e-5, atol=1e-6)
++
++    def test_zero_m_and_exact_zero(self):
++        fp, _, _ = self._linear(0, 384, 512)
++        x = torch.empty(0, 384, device=self.device, requires_grad=True)
++        y = fp(x)
++        self.assertEqual(tuple(y.shape), (0, 512))
++        y.sum().backward()
++        self.assertEqual(tuple(x.grad.shape), (0, 384))
++        self.assertFalse(fp.last_forward_dispatched)
++        self.assertEqual(fp.empty_forward_calls, 1)
++        fp2, x, dy = self._linear(16, 384, 512)
++        x = torch.zeros_like(x).requires_grad_(True)
++        dy = torch.zeros_like(dy)
++        y = fp2(x)
++        y.backward(dy)
++        self.assertEqual(int(torch.count_nonzero(y).item()), 0)
++        self.assertEqual(int(torch.count_nonzero(x.grad).item()), 0)
++        self.assertEqual(int(torch.count_nonzero(fp2.weight.grad).item()), 0)
++
++    def test_profiler_and_scale_residency(self):
++        fp, x, dy = self._linear(17, 384, 512)
++        x = x.detach().requires_grad_(True)
++        with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CUDA]) as prof:
++            y = fp(x)
++            y.backward(dy)
++        torch.cuda.synchronize()
++        keys = [item.key for item in prof.key_averages()]
++        self.assertTrue(any('_scaled_mm' in key or 'sm89_' in key for key in keys), keys)
++        self.assertTrue(any('sm89_' in key for key in keys), keys)
++        self.assertFalse(any('DtoH' in key for key in keys), keys)
++        self.assertEqual(fp.last_forward_scales[0].device.type, 'cuda')
++        self.assertEqual(fp.last_backward_scales[0].device.type, 'cuda')
++
++
++def _grad_stats(bf, fp):
++    diff = 0.; ref = 0.; matched = 0; missing = 0
++    for a, b in zip(bf.parameters(), fp.parameters()):
++        if a.grad is None and b.grad is None:
++            continue
++        if a.grad is None or b.grad is None:
++            missing += 1
++            continue
++        matched += 1
++        diff += float((a.grad.float() - b.grad.float()).pow(2).sum().item())
++        ref += float(a.grad.float().pow(2).sum().item())
++    return {'matched_parameters': matched, 'missing_gradients': missing,
++            'relative_l2': math.sqrt(diff / (ref + 1e-12))}
++
++
++def _routing_stats(bf_routes, fp_routes):
++    bf_routes, fp_routes = dict(bf_routes), dict(fp_routes)
++    total = exact = top1 = 0
++    for key in sorted(set(bf_routes) & set(fp_routes)):
++        a, b = bf_routes[key].selected, fp_routes[key].selected
++        for row_a, row_b in zip(a, b):
++            total += 1
++            exact += set(row_a.tolist()) == set(row_b.tolist())
++            top1 += int(row_a[0]) == int(row_b[0])
++    return {'tokens': total, 'exact_topk_set_agreement': exact / total if total else None,
++            'top1_agreement': top1 / total if total else None}
++
++
++def run_depth_report(device, path):
++    blocks = pack(split_documents(synthetic_documents())['train'], 96)
++    x, labels = collate(blocks, [9], device)
++    report = {'device': device, 'seed': 42, 'thresholds': {'ce': .5, 'objective': .75},
++              'models': {}, 'status': 'passed', 'limitations': [
++                  'Forward/backward comparison only; no optimizer step, convergence or quality claim.',
++                  'Routing and drift are descriptive; top-k discontinuities are allowed.',
++                  'No throughput or long-context claim.']}
++    for name, cfg_name in (('smoke', 'splot-smoke-synthetic-bf16.json'),
++                           ('nano', 'splot-nano-synthetic-bf16.json')):
++        cfg = config(cfg_name)
++        seed_all(42)
++        base = model_from(cfg)
++        bf = copy.deepcopy(base).to(device)
++        fp = copy.deepcopy(base).to(device)
++        policy = convert_selected_linears(fp)
++        report['models'][name] = {'parameters': sum(p.numel() for p in base.parameters()),
++                                  'selected_count': policy['selected_count'],
++                                  'excluded_count': policy['excluded_count'],
++                                  'depths': {}}
++        for depth in (1, 2, 4):
++            readouts = tuple(range(1, depth + 1))
++            for model in (bf, fp):
++                model.zero_grad(set_to_none=True)
++            with torch.no_grad(), torch.autocast(device_type=device, dtype=torch.bfloat16):
++                out_bf = bf(*x, loops=depth, readouts=readouts, offset2_depths=(1, depth))
++                out_fp = fp(*x, loops=depth, readouts=readouts, offset2_depths=(1, depth))
++            with torch.autocast(device_type=device, dtype=torch.bfloat16):
++                obj_bf = training_objective(bf, x, labels, mode='A2', loops=depth)
++                obj_fp = training_objective(fp, x, labels, mode='A2', loops=depth)
++            obj_bf.total.backward()
++            obj_fp.total.backward()
++            entry = {
++                'depth': depth,
++                'ce': {key: {'bf16': float(getattr(obj_bf, key).detach()),
++                              'fp8': float(getattr(obj_fp, key).detach()),
++                              'absolute_difference': abs(float(getattr(obj_bf, key).detach())
++                                                         - float(getattr(obj_fp, key).detach()))}
++                       for key in ('final_ntp', 'early_ntp', 'offset2', 'total')},
++                'hidden_l2': relative_frobenius(out_fp.hidden[depth], out_bf.hidden[depth]),
++                'logit_l2': relative_frobenius(out_fp.logits[depth], out_bf.logits[depth]),
++                'gradients': _grad_stats(bf, fp),
++                'routing': _routing_stats(out_bf.routing, out_fp.routing),
++                'labels': {'bf16_final': obj_bf.ntp_count, 'fp8_final': obj_fp.ntp_count,
++                           'bf16_offset2': obj_bf.offset2_count, 'fp8_offset2': obj_fp.offset2_count},
++                'finite': all(torch.isfinite(getattr(obj_fp, key)).all()
++                              for key in ('final_ntp', 'early_ntp', 'offset2', 'total')),
++            }
++            entry['ce_status'] = all(
++                abs(entry['ce'][key]['absolute_difference']) <=
++                (report['thresholds']['ce'] if key != 'total' else report['thresholds']['objective'])
++                for key in ('final_ntp', 'early_ntp', 'offset2', 'total'))
++            if not entry['ce_status'] or not entry['finite']:
++                report['status'] = 'failed'
++            report['models'][name]['depths'][depth] = entry
++        report['models'][name]['fp8_diagnostics'] = fp8_diagnostics(fp)
++        report['models'][name]['policy'] = policy
++        del base, bf, fp
++        torch.cuda.empty_cache()
++    report['status'] = 'passed' if report['status'] == 'passed' else 'failed'
++    Path(path).write_text(json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + '\n')
++    return report
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
++    parser.add_argument('--report', type=Path, default=None)
++    args = parser.parse_args()
++    if args.device == 'cuda' and not torch.cuda.is_available():
++        parser.error('CUDA unavailable')
++    torch.set_num_threads(1)
++    torch.use_deterministic_algorithms(True)
++    if args.device == 'cuda':
++        torch.backends.cuda.matmul.allow_tf32 = False
++        torch.backends.cudnn.allow_tf32 = False
++    suite = unittest.defaultTestLoader.loadTestsFromTestCase(
++        FP8CUDATests if args.device == 'cuda' else FP8CPUTests)
++    result = unittest.TextTestRunner(verbosity=2).run(suite)
++    if args.device == 'cuda' and args.report is not None and result.wasSuccessful():
++        summary = run_depth_report(args.device, args.report)
++        print(json.dumps({'depth_report': str(args.report), 'status': summary['status']}, indent=2))
++    sys.exit(0 if result.wasSuccessful() else 1)

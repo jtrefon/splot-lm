@@ -1,0 +1,1716 @@
+{
+  "analytical_forward_macs": 60133888,
+  "config": {
+    "dense": {
+      "eps": 1e-05,
+      "head_dim": 8,
+      "init_std": 0.02,
+      "intermediate": 64,
+      "kv_heads": 2,
+      "layers": 8,
+      "q_heads": 4,
+      "rope_theta": 1000000,
+      "vocab_size": 264,
+      "width": 32
+    },
+    "expert_intermediate": 32,
+    "recurrence": {
+      "coda": 2,
+      "core": 4,
+      "default_loops": 2,
+      "depth_embedding": false,
+      "injection": "none",
+      "injection_strength": 0.1,
+      "max_loops": 4,
+      "prelude": 2,
+      "residual_scale": "unscaled"
+    },
+    "training": {
+      "balance_weight": 0.01,
+      "batch_size": 1,
+      "data": "synthetic-v1",
+      "depth_weight": 0.25,
+      "loops": 2,
+      "lr": 0.003,
+      "mode": "A2",
+      "offset_weight": 0.25,
+      "precision": "fp8",
+      "seed": 42,
+      "sequence_length": 96,
+      "weight_decay": 0
+    }
+  },
+  "data_manifest": {
+    "test": {
+      "byte_tokens": 666,
+      "documents": 14,
+      "ids": [
+        "synthetic-00-01",
+        "synthetic-00-05",
+        "synthetic-01-03",
+        "synthetic-02-09",
+        "synthetic-03-00",
+        "synthetic-03-02",
+        "synthetic-03-03",
+        "synthetic-04-00",
+        "synthetic-04-07",
+        "synthetic-06-02",
+        "synthetic-06-04",
+        "synthetic-06-06",
+        "synthetic-06-07",
+        "synthetic-07-03"
+      ],
+      "sha256": "9dcef6b6085352370e929b386a4cdfbfeaa6cc34b1c009029f4d8d0e087b543e"
+    },
+    "train": {
+      "byte_tokens": 2477,
+      "documents": 57,
+      "ids": [
+        "synthetic-00-00",
+        "synthetic-00-02",
+        "synthetic-00-03",
+        "synthetic-00-04",
+        "synthetic-00-06",
+        "synthetic-00-08",
+        "synthetic-01-00",
+        "synthetic-01-02",
+        "synthetic-01-04",
+        "synthetic-01-05",
+        "synthetic-01-06",
+        "synthetic-01-07",
+        "synthetic-01-08",
+        "synthetic-01-09",
+        "synthetic-02-00",
+        "synthetic-02-01",
+        "synthetic-02-02",
+        "synthetic-02-04",
+        "synthetic-02-05",
+        "synthetic-02-06",
+        "synthetic-02-08",
+        "synthetic-03-01",
+        "synthetic-03-04",
+        "synthetic-03-05",
+        "synthetic-03-06",
+        "synthetic-03-07",
+        "synthetic-03-08",
+        "synthetic-04-01",
+        "synthetic-04-03",
+        "synthetic-04-04",
+        "synthetic-04-05",
+        "synthetic-04-06",
+        "synthetic-04-09",
+        "synthetic-05-00",
+        "synthetic-05-01",
+        "synthetic-05-02",
+        "synthetic-05-03",
+        "synthetic-05-04",
+        "synthetic-05-05",
+        "synthetic-05-06",
+        "synthetic-05-07",
+        "synthetic-05-08",
+        "synthetic-05-09",
+        "synthetic-06-00",
+        "synthetic-06-01",
+        "synthetic-06-03",
+        "synthetic-06-05",
+        "synthetic-06-08",
+        "synthetic-06-09",
+        "synthetic-07-00",
+        "synthetic-07-02",
+        "synthetic-07-04",
+        "synthetic-07-05",
+        "synthetic-07-06",
+        "synthetic-07-07",
+        "synthetic-07-08",
+        "synthetic-07-09"
+      ],
+      "sha256": "ca2d80264a350429f079befdfc852cd476de3b2edfee06e89558fd4ee29d3c42"
+    },
+    "validation": {
+      "byte_tokens": 367,
+      "documents": 9,
+      "ids": [
+        "synthetic-00-07",
+        "synthetic-00-09",
+        "synthetic-01-01",
+        "synthetic-02-03",
+        "synthetic-02-07",
+        "synthetic-03-09",
+        "synthetic-04-02",
+        "synthetic-04-08",
+        "synthetic-07-01"
+      ],
+      "sha256": "94465781a1fb808c51a3d6ae76e2a464de442fba947f140cb9fcca24f4851131"
+    }
+  },
+  "energy_joules": null,
+  "fp8_diagnostics": {
+    "backward_calls": 583,
+    "backward_coverage": 0.9230769230769231,
+    "empty_backward_calls": 0,
+    "empty_forward_calls": 0,
+    "forward_calls": 2128,
+    "forward_coverage": 1.0,
+    "last_forward_padded_m": [
+      16,
+      32,
+      48,
+      96
+    ],
+    "padded_backward_rows": 5362,
+    "padded_forward_rows": 17572,
+    "scale_devices": [
+      "cuda"
+    ],
+    "scales_resident_cuda": true,
+    "selected_modules": 156
+  },
+  "fp8_policy": {
+    "adamw_only": true,
+    "backend": "torch._scaled_mm",
+    "excluded": [
+      {
+        "name": "core.0.attn.a",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.0.attn.b",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.0.moe.router",
+        "role": "moe_router"
+      },
+      {
+        "name": "core.1.attn.a",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.1.attn.b",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.1.moe.router",
+        "role": "moe_router"
+      },
+      {
+        "name": "core.2.attn.a",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.2.attn.b",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.2.moe.router",
+        "role": "moe_router"
+      },
+      {
+        "name": "core.3.attn.output_gate",
+        "role": "gqa_output_gate"
+      },
+      {
+        "name": "core.3.moe.router",
+        "role": "moe_router"
+      }
+    ],
+    "excluded_count": 11,
+    "format": "e4m3fn-forward/e5m2-backward",
+    "native_dispatch": true,
+    "no_host_scale_roundtrip": true,
+    "output_dtype": "bfloat16",
+    "padding_multiple": 16,
+    "parameter_count": 198,
+    "scales": "per-tensor-current-fp32-device",
+    "selected": [
+      {
+        "name": "prelude.0.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.0.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.0.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.1.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.1.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.1.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "core.0.attn.q",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.k",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.v",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.z",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.o",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.attn.q",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.k",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.v",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.z",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.o",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.attn.q",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.k",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.v",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.z",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.o",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "coda.0.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.0.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.0.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.1.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.1.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.1.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "offset_projection",
+        "role": "mtp_offset_projection"
+      }
+    ],
+    "selected_count": 156
+  },
+  "history": [
+    {
+      "balance": 1.0136085748672485,
+      "batch_indices": [
+        9
+      ],
+      "early_ntp": 5.601163387298584,
+      "final_ntp": 5.598878383636475,
+      "ntp_labels": 50,
+      "objective": 8.402398109436035,
+      "offset2": 5.572371959686279,
+      "offset2_labels_available": 49,
+      "peak_cuda_allocated_bytes": 75267584,
+      "peak_cuda_reserved_bytes": 75497472,
+      "step": 1,
+      "step_seconds": 0.5431863310514018,
+      "valid_tokens": 51
+    },
+    {
+      "balance": 1.0200960636138916,
+      "batch_indices": [
+        12
+      ],
+      "early_ntp": 5.489649295806885,
+      "final_ntp": 5.479926109313965,
+      "ntp_labels": 88,
+      "objective": 8.246092796325684,
+      "offset2": 5.534214973449707,
+      "offset2_labels_available": 86,
+      "peak_cuda_allocated_bytes": 79939584,
+      "peak_cuda_reserved_bytes": 81788928,
+      "step": 2,
+      "step_seconds": 0.45791423897026107,
+      "valid_tokens": 90
+    },
+    {
+      "balance": 1.067420244216919,
+      "batch_indices": [
+        5
+      ],
+      "early_ntp": 5.339810848236084,
+      "final_ntp": 5.337066650390625,
+      "ntp_labels": 50,
+      "objective": 8.047089576721191,
+      "offset2": 5.457581520080566,
+      "offset2_labels_available": 49,
+      "peak_cuda_allocated_bytes": 76663296,
+      "peak_cuda_reserved_bytes": 77594624,
+      "step": 3,
+      "step_seconds": 0.5153064990299754,
+      "valid_tokens": 51
+    },
+    {
+      "balance": 1.039429783821106,
+      "batch_indices": [
+        20
+      ],
+      "early_ntp": 5.31191349029541,
+      "final_ntp": 5.3102264404296875,
+      "ntp_labels": 72,
+      "objective": 7.99783992767334,
+      "offset2": 5.396964073181152,
+      "offset2_labels_available": 70,
+      "peak_cuda_allocated_bytes": 78860288,
+      "peak_cuda_reserved_bytes": 79691776,
+      "step": 4,
+      "step_seconds": 0.4057622749824077,
+      "valid_tokens": 74
+    }
+  ],
+  "identity": {
+    "commit": "3c81e1299f6a7b6a9e332354c4d6996e12999667",
+    "config_sha256": "0227675641bf9ac67030f9d303f62d225931a387f16d0167fa1422eb949c2528",
+    "data_sha256": "29f7da71fb1f6808e3f10719ca75174ad1fdb5e06252bdb4c7638d000f5441af",
+    "environment": {
+      "autocast_dtype": "bfloat16",
+      "autocast_probe_dtype": "bfloat16",
+      "bf16_supported": true,
+      "cpu": "x86_64",
+      "cuda_runtime": "12.8",
+      "deterministic_algorithms": true,
+      "device": "cuda",
+      "fp8": {
+        "adamw_only": true,
+        "backend": "torch._scaled_mm",
+        "excluded": [
+          {
+            "name": "core.0.attn.a",
+            "role": "gdn_scalar_gate"
+          },
+          {
+            "name": "core.0.attn.b",
+            "role": "gdn_scalar_gate"
+          },
+          {
+            "name": "core.0.moe.router",
+            "role": "moe_router"
+          },
+          {
+            "name": "core.1.attn.a",
+            "role": "gdn_scalar_gate"
+          },
+          {
+            "name": "core.1.attn.b",
+            "role": "gdn_scalar_gate"
+          },
+          {
+            "name": "core.1.moe.router",
+            "role": "moe_router"
+          },
+          {
+            "name": "core.2.attn.a",
+            "role": "gdn_scalar_gate"
+          },
+          {
+            "name": "core.2.attn.b",
+            "role": "gdn_scalar_gate"
+          },
+          {
+            "name": "core.2.moe.router",
+            "role": "moe_router"
+          },
+          {
+            "name": "core.3.attn.output_gate",
+            "role": "gqa_output_gate"
+          },
+          {
+            "name": "core.3.moe.router",
+            "role": "moe_router"
+          }
+        ],
+        "excluded_count": 11,
+        "format": "e4m3fn-forward/e5m2-backward",
+        "native_dispatch": true,
+        "no_host_scale_roundtrip": true,
+        "output_dtype": "bfloat16",
+        "padding_multiple": 16,
+        "parameter_count": 198,
+        "scales": "per-tensor-current-fp32-device",
+        "selected": [
+          {
+            "name": "prelude.0.attn.q",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.0.attn.k",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.0.attn.v",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.0.attn.o",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.0.gate",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "prelude.0.up",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "prelude.0.down",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "prelude.1.attn.q",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.1.attn.k",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.1.attn.v",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.1.attn.o",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "prelude.1.gate",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "prelude.1.up",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "prelude.1.down",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "core.0.attn.q",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.0.attn.k",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.0.attn.v",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.0.attn.z",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.0.attn.o",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.0.moe.experts.0.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.0.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.0.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.1.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.1.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.1.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.2.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.2.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.2.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.3.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.3.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.3.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.4.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.4.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.4.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.5.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.5.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.5.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.6.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.6.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.6.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.7.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.7.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.experts.7.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.shared.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.shared.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.0.moe.shared.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.attn.q",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.1.attn.k",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.1.attn.v",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.1.attn.z",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.1.attn.o",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.1.moe.experts.0.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.0.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.0.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.1.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.1.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.1.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.2.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.2.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.2.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.3.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.3.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.3.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.4.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.4.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.4.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.5.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.5.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.5.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.6.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.6.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.6.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.7.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.7.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.experts.7.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.shared.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.shared.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.1.moe.shared.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.attn.q",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.2.attn.k",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.2.attn.v",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.2.attn.z",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.2.attn.o",
+            "role": "gdn_projection"
+          },
+          {
+            "name": "core.2.moe.experts.0.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.0.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.0.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.1.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.1.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.1.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.2.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.2.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.2.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.3.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.3.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.3.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.4.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.4.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.4.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.5.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.5.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.5.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.6.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.6.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.6.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.7.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.7.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.experts.7.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.shared.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.shared.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.2.moe.shared.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.attn.q",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "core.3.attn.k",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "core.3.attn.v",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "core.3.attn.o",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "core.3.moe.experts.0.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.0.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.0.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.1.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.1.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.1.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.2.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.2.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.2.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.3.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.3.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.3.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.4.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.4.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.4.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.5.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.5.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.5.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.6.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.6.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.6.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.7.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.7.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.experts.7.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.shared.gate",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.shared.up",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "core.3.moe.shared.down",
+            "role": "expert_ffn"
+          },
+          {
+            "name": "coda.0.attn.q",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.0.attn.k",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.0.attn.v",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.0.attn.o",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.0.gate",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "coda.0.up",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "coda.0.down",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "coda.1.attn.q",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.1.attn.k",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.1.attn.v",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.1.attn.o",
+            "role": "gqa_projection"
+          },
+          {
+            "name": "coda.1.gate",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "coda.1.up",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "coda.1.down",
+            "role": "dense_ffn"
+          },
+          {
+            "name": "offset_projection",
+            "role": "mtp_offset_projection"
+          }
+        ],
+        "selected_count": 156
+      },
+      "fp8_probe": {
+        "available": true,
+        "float8_dtypes": [
+          "float8_e4m3fn",
+          "float8_e5m2"
+        ],
+        "operator": "torch._scaled_mm",
+        "output_dtype": "bfloat16",
+        "schema": "aten::_scaled_mm(Tensor self, Tensor mat2, Tensor scale_a, Tensor scale_b, Tensor? bias=None, Tensor? scale_result=None, ScalarType? out_dtype=None, bool use_fast_accum=False) -> Tensor"
+      },
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "master_dtype": "float32",
+      "optimizer": "adamw",
+      "optimizer_implementation": "torch.optim.AdamW",
+      "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+      "precision_policy": "fp8-native-autograd-bf16-residual",
+      "python": "3.12.7",
+      "requested_precision": "fp8",
+      "tf32_enabled": false,
+      "threads": 1,
+      "torch": "2.10.0+cu128"
+    },
+    "packed_sha256": "e87b8022b0118b3dcce33b39c59950ca411bb56884b974d7495357520f722ad4",
+    "schema": 1,
+    "settings": {
+      "balance_weight": 0.01,
+      "batch_size": 1,
+      "data": "synthetic-v1",
+      "depth_weight": 0.25,
+      "loops": 2,
+      "lr": 0.003,
+      "mode": "A2",
+      "offset_weight": 0.25,
+      "precision": "fp8",
+      "seed": 42,
+      "sequence_length": 96,
+      "weight_decay": 0
+    }
+  },
+  "limitations": [
+    "synthetic byte fixture; no production tokenizer",
+    "template overlap across splits",
+    "Native FP8 selected projections with BF16 residual; not optimized",
+    "step timing excludes checkpoint I/O and validation",
+    "MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs",
+    "FP8 first-order projection integration only; no pretraining, throughput, convergence or quality claim."
+  ],
+  "measured_flops": null,
+  "optimizer_policy": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "implementation": "torch.optim.AdamW",
+    "lr": 0.003,
+    "name": "adamw",
+    "source": "default",
+    "weight_decay": 0
+  },
+  "optimizer_state": {
+    "adamw": {
+      "bytes": 1440408,
+      "elements": 360102
+    },
+    "total": {
+      "bytes": 1440408,
+      "elements": 360102
+    }
+  },
+  "parameters": 179952,
+  "precision_policy": {
+    "autocast_dtype": "bfloat16",
+    "bf16_supported": true,
+    "fp8_probe": {
+      "available": true,
+      "float8_dtypes": [
+        "float8_e4m3fn",
+        "float8_e5m2"
+      ],
+      "operator": "torch._scaled_mm",
+      "output_dtype": "bfloat16",
+      "schema": "aten::_scaled_mm(Tensor self, Tensor mat2, Tensor scale_a, Tensor scale_b, Tensor? bias=None, Tensor? scale_result=None, ScalarType? out_dtype=None, bool use_fast_accum=False) -> Tensor"
+    },
+    "policy": "fp8-native-autograd-bf16-residual",
+    "probe_dtype": "bfloat16",
+    "requested": "fp8"
+  },
+  "total_ntp_labels": 260,
+  "total_valid_tokens": 266,
+  "validation": {
+    "mean_nll": 5.185580070982588,
+    "nll_sum": 1949.7781066894531,
+    "ntp_labels": 376,
+    "perplexity": 178.67706511552583
+  }
+}

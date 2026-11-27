@@ -1,0 +1,25 @@
+{
+  "allowed_files": [
+    "src/splot/fp8.py",
+    "tools/test_fp8_autograd.py",
+    "tools/experiment.py",
+    "configs/experiments/splot-smoke-synthetic-fp8.json",
+    "configs/experiments/splot-nano-synthetic-fp8.json",
+    "research/implementation/fp8-autograd.md"
+  ],
+  "base_source_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "changed_files": [
+    "configs/experiments/splot-nano-synthetic-fp8.json",
+    "configs/experiments/splot-smoke-synthetic-fp8.json",
+    "research/implementation/fp8-autograd.md",
+    "src/splot/fp8.py",
+    "tools/experiment.py",
+    "tools/test_fp8_autograd.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "31a3051d26850d5328912e1f9fc93f64591910f8",
+  "note": "No existing dense/gdn/moe/mtp/recurrent equation, optimizer, T0007 probe, Mac/data, existing config, comparator or CI file changed.",
+  "scope_check": "passed",
+  "task_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "tested_commit": "3c81e1299f6a7b6a9e332354c4d6996e12999667"
+}

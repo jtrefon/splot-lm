@@ -14,6 +14,8 @@ import time
 import torch
 
 from optimizers import build_optimizer, optimizer_state_inventory
+from splot.fp8 import (convert_selected_linears, fp8_assert_finite, fp8_diagnostics,
+                       fp8_runtime_probe, has_fp8)
 
 
 def digest(value):
@@ -45,12 +47,14 @@ def seed_all(seed):
 
 def resolve_precision(device, precision):
     """Resolve the requested training precision and reject silent fallback."""
-    if precision not in ('fp32', 'bf16'):
-        raise ValueError('precision must be fp32 or bf16')
+    if precision not in ('fp32', 'bf16', 'fp8'):
+        raise ValueError('precision must be fp32, bf16 or fp8')
     dev = torch.device(device)
     if precision == 'fp32':
         return {'requested': 'fp32', 'policy': 'fp32', 'autocast_dtype': None,
                 'autocast_dtype_name': None, 'probe_dtype': 'not_run', 'bf16_supported': None}
+    if dev.type != 'cuda' and precision == 'fp8':
+        raise RuntimeError('fp8 requires a CUDA device')
     supported = None
     if dev.type == 'cuda':
         supported = torch.cuda.is_bf16_supported()
@@ -60,6 +64,14 @@ def resolve_precision(device, precision):
         probe = torch.nn.functional.linear(torch.ones(2, 4, device=dev), torch.ones(4, 4, device=dev))
     if probe.dtype != torch.bfloat16:
         raise RuntimeError(f'BF16 autocast unavailable on {dev.type}: probe projection returned {probe.dtype}')
+    if precision == 'fp8':
+        fp8_probe = fp8_runtime_probe(dev)
+        if not fp8_probe.get('available'):
+            raise RuntimeError('native FP8 unavailable: ' + str(fp8_probe.get('error')))
+        return {'requested': 'fp8', 'policy': 'fp8-native-autograd-bf16-residual',
+                'autocast_dtype': torch.bfloat16, 'autocast_dtype_name': 'bfloat16',
+                'probe_dtype': 'bfloat16', 'bf16_supported': supported,
+                'fp8_probe': fp8_probe}
     return {'requested': 'bf16', 'policy': 'bf16-autocast-fp32-master',
             'autocast_dtype': torch.bfloat16, 'autocast_dtype_name': 'bfloat16',
             'probe_dtype': 'bfloat16', 'bf16_supported': supported}
@@ -125,9 +137,11 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
               if autocast_dtype is not None else nullcontext()):
             o = objective(model, inputs, labels)
         if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
+        if has_fp8(model): fp8_assert_finite(model, 'forward')
         o.total.backward()
         if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
             raise FloatingPointError('nonfinite gradient')
+        if has_fp8(model): fp8_assert_finite(model, 'backward')
         optimizer.step(); sync(device)
         elapsed = time.perf_counter()-start
         row = {'step':step+1, 'batch_indices':indices, 'valid_tokens':int(inputs[3].sum()),
@@ -153,6 +167,10 @@ def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None)
         with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
               if autocast_dtype is not None else nullcontext()):
             logits=predict(model,x)
+        if has_fp8(model):
+            fp8_assert_finite(model, 'evaluation')
+            if not torch.isfinite(logits).all():
+                raise FloatingPointError('nonfinite evaluation logits')
         nll+=float(torch.nn.functional.cross_entropy(logits.float().flatten(0,1),y[1].flatten(),ignore_index=-100,reduction='sum'))
         count+=int(y[1].ne(-100).sum())
     if not count or not math.isfinite(nll): raise ValueError('invalid validation')
@@ -179,7 +197,7 @@ def main():
     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
     rc=RecurrentConfig(dense=d,**c['recurrence'])
     if d.vocab_size<264 or t['data']!='synthetic-v1': p.error('only synthetic-v1 runs supported')
-    if t['precision'] not in ('fp32', 'bf16'): p.error('precision must be fp32 or bf16')
+    if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1 or not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
@@ -195,10 +213,22 @@ def main():
     model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
     actual=sum(v.numel() for v in model.parameters())
     if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
+    fp8_policy=None
+    if t['precision']=='fp8':
+        try:
+            fp8_policy=convert_selected_linears(model)
+        except (ValueError,TypeError,RuntimeError) as exc:
+            p.error(str(exc))
+        if fp8_policy['selected_count'] < 1:
+            p.error('no selected FP8 projections')
+        if sum(v.numel() for v in model.parameters()) != actual:
+            raise RuntimeError('FP8 conversion changed parameter inventory')
     try:
         opt, optimizer_policy = build_optimizer(model,t)
     except (ValueError,TypeError,RuntimeError) as exc:
         p.error(str(exc))
+    if t['precision']=='fp8' and optimizer_policy['name'] != 'adamw':
+        p.error('FP8 integration supports AdamW only')
     env={'python':platform.python_version(),'torch':str(torch.__version__),'device':a.device,
         'cpu':platform.processor() or platform.machine(),'platform':platform.platform(),'threads':1,
         'cuda_runtime':torch.version.cuda,'gpu':torch.cuda.get_device_name(0) if a.device=='cuda' else None,
@@ -206,6 +236,7 @@ def main():
         'autocast_dtype':policy['autocast_dtype_name'],'autocast_probe_dtype':policy['probe_dtype'],
         'bf16_supported':policy['bf16_supported'],'master_dtype':'float32',
         'optimizer':optimizer_policy['name'],'optimizer_implementation':optimizer_policy['implementation'],
+        'fp8':fp8_policy,'fp8_probe':policy.get('fp8_probe'),
         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
         'deterministic_algorithms':True}
     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
@@ -221,16 +252,21 @@ def main():
     macs=sum(logical_macs(packed['train'],r['batch_indices'],count_document) for r in history)
     precision_policy={'requested':policy['requested'],'policy':policy['policy'],
                       'autocast_dtype':policy['autocast_dtype_name'],'probe_dtype':policy['probe_dtype'],
-                      'bf16_supported':policy['bf16_supported']}
+                      'bf16_supported':policy['bf16_supported'],'fp8_probe':policy.get('fp8_probe')}
     optimizer_state=optimizer_state_inventory(opt)
+    fp8_diag=fp8_diagnostics(model) if fp8_policy else None
     limitations=['synthetic byte fixture; no production tokenizer','template overlap across splits',
-                 ('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else 'FP32 reference, not optimized'),
+                 ('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else
+                  ('Native FP8 selected projections with BF16 residual; not optimized' if t['precision']=='fp8' else 'FP32 reference, not optimized')),
                  'step timing excludes checkpoint I/O and validation',
                  'MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']
     if optimizer_policy['name']=='muon':
         limitations.append('Muon/AdamW hybrid correctness only; no optimizer superiority or convergence claim.')
+    if t['precision']=='fp8':
+        limitations.append('FP8 first-order projection integration only; no pretraining, throughput, convergence or quality claim.')
     report={'identity':identity,'config':c,'data_manifest':data,'parameters':actual,'history':history,'validation':val,
             'precision_policy':precision_policy,'optimizer_policy':optimizer_policy,'optimizer_state':optimizer_state,
+            'fp8_policy':fp8_policy,'fp8_diagnostics':fp8_diag,
             'total_valid_tokens':sum(r['valid_tokens'] for r in history),'total_ntp_labels':sum(r['ntp_labels'] for r in history),
             'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':limitations}
     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))

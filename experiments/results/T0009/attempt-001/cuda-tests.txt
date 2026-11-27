@@ -1,0 +1,11 @@
+test_linear_autograd_thresholds_and_padding (__main__.FP8CUDATests.test_linear_autograd_thresholds_and_padding) ... ok
+test_profiler_and_scale_residency (__main__.FP8CUDATests.test_profiler_and_scale_residency) ... <PYTHON_SITE_PACKAGES>/torch/profiler/profiler.py:217: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+ok
+test_repeated_weight_gradient_and_no_duplicate_parameter (__main__.FP8CUDATests.test_repeated_weight_gradient_and_no_duplicate_parameter) ... ok
+test_zero_m_and_exact_zero (__main__.FP8CUDATests.test_zero_m_and_exact_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.259s
+
+OK

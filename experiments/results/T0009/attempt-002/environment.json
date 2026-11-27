@@ -1,0 +1,816 @@
+{
+  "adamw_only": true,
+  "architecture": "x86_64",
+  "attempt": 2,
+  "attempt_001_preserved": true,
+  "attempt_window_seconds": 99,
+  "audit": "device-side counters, per-depth reset, boundary finite guards",
+  "base_source_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "capability": [
+    8,
+    9
+  ],
+  "class": "IMP",
+  "command_elapsed_seconds": {
+    "bf16_nano": 3,
+    "comparison": 0,
+    "cuda_tests_depth": 10,
+    "fp8_nano": 3,
+    "fp8_smoke_continuous": 6,
+    "fp8_smoke_resume": 4,
+    "fp8_smoke_split": 4,
+    "linear_report": 1
+  },
+  "corrections": [
+    "device-resident quantization/output audit and per-depth reset",
+    "boundary finite guards before update and evaluation",
+    "full-vector and matched gradient drift with None-as-zero counts",
+    "routing key/shape assertions and exact label checks",
+    "report failure exits nonzero",
+    "wgrad FP32 and effective BF16 upstream gradient oracle"
+  ],
+  "cublas_workspace_config": ":4096:8",
+  "cuda_available": true,
+  "cuda_device_count": 1,
+  "cuda_visible_devices": "0",
+  "data": "synthetic-v1",
+  "deterministic_algorithms": true,
+  "device_index": 0,
+  "device_name": "NVIDIA GeForce RTX 4090",
+  "disk_available_kib_after": 179302348,
+  "disk_available_kib_before": 182195892,
+  "driver_version": "580.178.04",
+  "excluded_count": 11,
+  "float8_dtypes": [
+    "float8_e4m3fn",
+    "float8_e5m2"
+  ],
+  "fp8_dgrad_dtype": "input-dtype",
+  "fp8_diagnostics": {
+    "backward_calls": 241,
+    "backward_coverage": 0.8846153846153846,
+    "empty_backward_calls": 0,
+    "empty_forward_calls": 0,
+    "forward_calls": 1420,
+    "forward_coverage": 0.9615384615384616,
+    "last_forward_padded_m": [
+      16,
+      32,
+      48,
+      64,
+      96
+    ],
+    "native_backward_calls": 241,
+    "native_forward_calls": 1420,
+    "padded_backward_rows": 2558,
+    "padded_forward_rows": 10976,
+    "quantization": {
+      "grad_nonzero": 3489173,
+      "grad_saturation": 0,
+      "grad_underflow": 5,
+      "input_nonzero": 27103359,
+      "input_saturation": 0,
+      "input_underflow": 2456,
+      "nonfinite": false,
+      "underflow_fraction": 1.549557765832782e-05,
+      "weight_nonzero": 255295487,
+      "weight_saturation": 0,
+      "weight_underflow": 1969
+    },
+    "scale_devices": [
+      "cuda"
+    ],
+    "scales_resident_cuda": true,
+    "selected_modules": 156,
+    "wgrad_fp32_calls": 241
+  },
+  "fp8_format": "e4m3fn-forward/e5m2-backward",
+  "fp8_forward_dtype": "bfloat16",
+  "fp8_policy": {
+    "adamw_only": true,
+    "backend": "torch._scaled_mm",
+    "excluded": [
+      {
+        "name": "core.0.attn.a",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.0.attn.b",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.0.moe.router",
+        "role": "moe_router"
+      },
+      {
+        "name": "core.1.attn.a",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.1.attn.b",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.1.moe.router",
+        "role": "moe_router"
+      },
+      {
+        "name": "core.2.attn.a",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.2.attn.b",
+        "role": "gdn_scalar_gate"
+      },
+      {
+        "name": "core.2.moe.router",
+        "role": "moe_router"
+      },
+      {
+        "name": "core.3.attn.output_gate",
+        "role": "gqa_output_gate"
+      },
+      {
+        "name": "core.3.moe.router",
+        "role": "moe_router"
+      }
+    ],
+    "excluded_count": 11,
+    "format": "e4m3fn-forward/e5m2-backward",
+    "native_dispatch": true,
+    "no_host_scale_roundtrip": true,
+    "output_dtype": "bfloat16",
+    "padding_multiple": 16,
+    "parameter_count": 198,
+    "scales": "per-tensor-current-fp32-device",
+    "selected": [
+      {
+        "name": "prelude.0.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.0.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.0.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.0.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.1.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "prelude.1.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.1.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "prelude.1.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "core.0.attn.q",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.k",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.v",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.z",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.attn.o",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.0.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.0.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.attn.q",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.k",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.v",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.z",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.attn.o",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.1.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.1.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.attn.q",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.k",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.v",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.z",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.attn.o",
+        "role": "gdn_projection"
+      },
+      {
+        "name": "core.2.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.2.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "core.3.moe.experts.0.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.0.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.0.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.1.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.1.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.1.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.2.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.2.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.2.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.3.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.3.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.3.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.4.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.4.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.4.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.5.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.5.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.5.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.6.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.6.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.6.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.7.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.7.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.experts.7.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.shared.gate",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.shared.up",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "core.3.moe.shared.down",
+        "role": "expert_ffn"
+      },
+      {
+        "name": "coda.0.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.0.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.0.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.0.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.1.attn.q",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.attn.k",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.attn.v",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.attn.o",
+        "role": "gqa_projection"
+      },
+      {
+        "name": "coda.1.gate",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.1.up",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "coda.1.down",
+        "role": "dense_ffn"
+      },
+      {
+        "name": "offset_projection",
+        "role": "mtp_offset_projection"
+      }
+    ],
+    "selected_count": 156
+  },
+  "fp8_probe": {
+    "available": true,
+    "float8_dtypes": [
+      "float8_e4m3fn",
+      "float8_e5m2"
+    ],
+    "operator": "torch._scaled_mm",
+    "output_dtype": "bfloat16",
+    "schema": "aten::_scaled_mm(Tensor self, Tensor mat2, Tensor scale_a, Tensor scale_b, Tensor? bias=None, Tensor? scale_result=None, ScalarType? out_dtype=None, bool use_fast_accum=False) -> Tensor"
+  },
+  "fp8_wgrad_dtype": "float32",
+  "gpu_memory_free_mib_after": 24077,
+  "gpu_memory_free_mib_before": 24077,
+  "gpu_memory_used_mib_after": 4,
+  "gpu_memory_used_mib_before": 4,
+  "inference_note": "GPU idle at 4 MiB used; no inference process stopped or restarted.",
+  "inference_stopped": false,
+  "minimum_base_commit": "31a3051d26850d5328912e1f9fc93f64591910f8",
+  "native_backend": "torch._scaled_mm",
+  "no_host_scale_roundtrip": true,
+  "numpy": "1.26.4",
+  "nvidia_smi_total_mib": 24564,
+  "os": "Linux",
+  "padding_multiple": 16,
+  "precision": [
+    "fp32",
+    "bf16",
+    "fp8"
+  ],
+  "python": "3.12.7",
+  "scaled_mm_schema": "aten::_scaled_mm(Tensor self, Tensor mat2, Tensor scale_a, Tensor scale_b, Tensor? bias=None, Tensor? scale_result=None, ScalarType? out_dtype=None, bool use_fast_accum=False) -> Tensor",
+  "scales": "per-tensor-current-fp32-device",
+  "seed": 42,
+  "selected_count": 156,
+  "source_head": "572364ca6320ede03776c549a1eb7e884661984c",
+  "task_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "task_id": "T0009",
+  "tested_commit": "572364ca6320ede03776c549a1eb7e884661984c",
+  "tf32_enabled": false,
+  "torch": "2.10.0+cu128",
+  "torch_cuda_runtime": "12.8",
+  "torch_threads": 1
+}

@@ -1,0 +1,5 @@
+bf16-nano/checkpoint.pt sha256 cf798982d93544118193cef23573840edfe368fac87fd6dca5f55462531e1382 bytes 493312727
+fp8-nano/checkpoint.pt sha256 beab8bfe561f7143b3c7caa45a8255809e0807e63ab51b2759e7bf4aa65c68aa bytes 488608819
+fp8-continuous/checkpoint.pt sha256 2983c7496055c7bc2e4dee31815852b87c1f838ab9bafb09cb35658d9e91fe38 bytes 2432907
+fp8-resumed/checkpoint.pt sha256 656e2d289663b6b3bc21f6bdc8025bd6814fa971d376ad399222753edbc3ad6a bytes 2433163
+availability: local-only; not published
