@@ -1,0 +1,23 @@
+{
+  "allowed_files": [
+    "src/splot/fp8.py",
+    "tools/test_fp8_autograd.py",
+    "tools/experiment.py",
+    "research/implementation/fp8-autograd.md"
+  ],
+  "attempt_001_evidence_head": "6a1bc4a931d698024206364df6024121bb55e2c3",
+  "base_source_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "changed_files": [
+    "research/implementation/fp8-autograd.md",
+    "src/splot/fp8.py",
+    "tools/experiment.py",
+    "tools/test_fp8_autograd.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "31a3051d26850d5328912e1f9fc93f64591910f8",
+  "note": "Attempt-002 correction diff only; attempt-001 and its evidence/index are preserved unchanged.",
+  "previous_attempt_001_source_commit": "3c81e1299f6a7b6a9e332354c4d6996e12999667",
+  "scope_check": "passed",
+  "task_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "tested_commit": "572364ca6320ede03776c549a1eb7e884661984c"
+}

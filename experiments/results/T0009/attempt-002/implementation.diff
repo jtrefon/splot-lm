@@ -1,0 +1,478 @@
+diff --git a/research/implementation/fp8-autograd.md b/research/implementation/fp8-autograd.md
+index 2332a3a..ab77f24 100644
+--- a/research/implementation/fp8-autograd.md
++++ b/research/implementation/fp8-autograd.md
+@@ -30,6 +30,14 @@ The adapter is an `nn.Linear` subclass that keeps the original FP32 `Parameter`
+
+ Scales are device-resident FP32 tensors computed as `absmax / dtype.max`, with all-zero scale 1 and a positive FP32 normal clamp. The hot path does not use `.item()`, `.cpu()` or Python scalar reconstruction. Per-module counters record calls, padding rows, empty calls and last-scale devices without synchronizing per projection.
+
++## Audit and finite guards
++
++Quantization records device-resident saturation, underflow, nonzero and nonfinite counters for input, weight and gradient roles. Outputs, dX and dW also set a device-side nonfinite flag. These counters are reset before each depth report and reduced only at a report or step boundary; there is no per-projection host synchronization. `fp8_diagnostics` reports native forward/backward calls, wgrad FP32 calls, padding rows, per-role quantization counts and underflow fractions.
++
++`fp8_assert_finite` is called at the training step boundary before optimizer update and after backward, and at evaluation. It checks FP32 master parameters, FP8 quantization/output flags and gradients, raising `FloatingPointError` before an update or evaluation result if any nonfinite value is observed. Nonfinite input/weight/gradient cases are covered by tests.
++
++Forward and dgrad outputs are BF16; the explicit wgrad output is FP32. The dequantized-oracle comparison uses the actual effective upstream BF16 gradient received by the autograd Function, not the pre-autograd FP32 tensor.
++
+ ## Integration and checkpointing
+
+ - `tools/experiment.py` resolves `fp8`, records the selected/excluded module inventory, FP8 runtime probe and dispatch/diagnostic counters, and keeps BF16 autocast around the residual/non-FP8 operations.
+@@ -44,7 +52,7 @@ Scales are device-resident FP32 tensors computed as `absmax / dtype.max`, with a
+
+ - default CPU: selection/exclusion, parameter identity, state_dict names, recurrent identity, optimizer partition invariance, padding/layout math, CPU FP8 rejection, FP32/BF16 no-FP8 defaults;
+ - `--device cuda`: actual forward/dX/dW for M=1/17/64 K=384 N=512 and M=64 K=32 N=64; FP32 and dequantized-operand error gates; exact zero; repeated same-weight gradient sum; actual E4M3/E5M2 kernel/copy profile and scale residency; zero-M behavior;
+-- `--device cuda --report PATH`: BF16-vs-FP8 R1/R2/R4 smoke/Nano CE differences, hidden/logit drift, gradient drift, label counts and routing agreement.
++- `--device cuda --report PATH`: BF16-vs-FP8 R1/R2/R4 smoke/Nano CE differences, hidden/logit/gradient finite checks, exact labels, per-depth native/padding/quantization audit and routing key/shape agreement. Matched-only and full-vector gradient drift are both reported; missing gradients count as zero in the full-vector metric. The report exits nonzero if its status fails.
+
+ Requirements: forward/dX/dW relative Frobenius <= 0.15 versus FP32, <= 0.025 versus FP32 products of dequantized operands; exact zero; each SPLOT CE absolute difference <= 0.5 nats and composite <= 0.75; all finite; exact label counts and topology. Drift/routing are descriptive only.
+
+diff --git a/src/splot/fp8.py b/src/splot/fp8.py
+index db00a7b..3a1df54 100644
+--- a/src/splot/fp8.py
++++ b/src/splot/fp8.py
+@@ -54,18 +54,50 @@ def _column_major(x):
+     return x.t().contiguous().t()
+
+
+-def _quantize(x, dtype):
+-    """Device-resident current per-tensor quantization with no host scalar."""
++def _quantize_audit(x, dtype):
++    """Device-resident current per-tensor quantization plus audit counters."""
+     x = x.float()
+     maximum = float(torch.finfo(dtype).max)
+     absmax = x.abs().amax()
+     scale = absmax / maximum
+     scale = torch.where(absmax > 0, scale.clamp_min(torch.finfo(torch.float32).tiny),
+                         torch.ones_like(scale))
+-    q = torch.clamp(x / scale, -maximum, maximum).to(dtype)
++    scaled = x / scale
++    saturation = (scaled.abs() > maximum).sum().to(torch.int64)
++    q = torch.clamp(scaled, -maximum, maximum).to(dtype)
++    q_float = q.float()
++    nonzero = (x != 0).sum().to(torch.int64)
++    underflow = ((q_float == 0) & (x != 0)).sum().to(torch.int64)
++    finite = torch.isfinite(x).all()
++    return q, scale, {'saturation': saturation, 'underflow': underflow,
++                      'nonzero': nonzero, 'finite': finite}
++
++
++def _quantize(x, dtype):
++    q, scale, _ = _quantize_audit(x, dtype)
+     return q, scale
+
+
++def _audit_add(module, name, value):
++    old = getattr(module, name, None)
++    setattr(module, name, value if old is None else old + value)
++
++
++def _audit_or(module, name, value):
++    old = getattr(module, name, None)
++    setattr(module, name, value if old is None else torch.logical_or(old, value))
++
++
++def _record_quant(module, role, stats):
++    for key in ('saturation', 'underflow', 'nonzero'):
++        _audit_add(module, f'audit_{role}_{key}', stats[key])
++    _audit_or(module, 'audit_nonfinite', ~stats['finite'])
++
++
++def _record_output(module, value):
++    _audit_or(module, 'audit_nonfinite', ~torch.isfinite(value).all())
++
++
+ def _mm(a, b, scale_a, scale_b, out_dtype):
+     return torch._scaled_mm(a, b, scale_a, scale_b, out_dtype=out_dtype, use_fast_accum=False)
+
+@@ -115,10 +147,14 @@ class _FP8LinearFunction(torch.autograd.Function):
+         plan = padding_plan(m)
+         padded_m = plan['padded_M']
+         x_pad = pad_rows(x.reshape(m, k).float(), padded_m)
+-        qx, sx = _quantize(x_pad, FP8_E4M3)
+-        qw, sw = _quantize(weight, FP8_E4M3)
++        qx, sx, input_stats = _quantize_audit(x_pad, FP8_E4M3)
++        qw, sw, weight_stats = _quantize_audit(weight, FP8_E4M3)
++        _record_quant(module, 'input', input_stats)
++        _record_quant(module, 'weight', weight_stats)
+         rhs = _column_major(qw.t())
+         out_pad = _mm(qx, rhs, sx, sw, torch.bfloat16)
++        _record_output(module, out_pad)
++        module.audit_native_forward_calls += 1
+         ctx.save_for_backward(qx, qw, sx, sw)
+         ctx.empty = False
+         ctx.input_shape = shape
+@@ -145,10 +181,15 @@ class _FP8LinearFunction(torch.autograd.Function):
+         m = ctx.m
+         grad = grad_out.reshape(m, ctx.n).float()
+         grad_pad = pad_rows(grad, ctx.padded_m)
+-        qdy, sdy = _quantize(grad_pad, FP8_E5M2)
++        qdy, sdy, grad_stats = _quantize_audit(grad_pad, FP8_E5M2)
++        _record_quant(module, 'grad', grad_stats)
+         dx_pad = _mm(qdy, _column_major(qw), sdy, sw, torch.bfloat16)
+         dx = dx_pad[:m].to(ctx.input_dtype).reshape(ctx.input_shape)
++        _record_output(module, dx_pad)
+         dw = _mm(_row_major(qdy.t()), _column_major(qx), sdy, sx, torch.float32)
++        _record_output(module, dw)
++        module.audit_native_backward_calls += 1
++        module.audit_wgrad_fp32_calls += 1
+         module.padded_backward_rows += ctx.padded_m - m
+         module.last_backward_padded_m = ctx.padded_m
+         module.last_backward_scales = (sdy.detach(), sx.detach(), sw.detach())
+@@ -185,6 +226,13 @@ class FP8Linear(nn.Linear):
+         self.empty_backward_calls = 0
+         self.padded_forward_rows = 0
+         self.padded_backward_rows = 0
++        self.audit_native_forward_calls = 0
++        self.audit_native_backward_calls = 0
++        self.audit_wgrad_fp32_calls = 0
++        for role in ('input', 'weight', 'grad'):
++            for key in ('saturation', 'underflow', 'nonzero'):
++                setattr(self, f'audit_{role}_{key}', None)
++        self.audit_nonfinite = None
+         self.last_forward_padded_m = None
+         self.last_backward_padded_m = None
+         self.last_forward_scales = None
+@@ -281,6 +329,37 @@ def fp8_runtime_probe(device):
+         return {'available': False, 'error': f'{type(exc).__name__}: {exc}'}
+
+
++def has_fp8(model):
++    return any(isinstance(module, FP8Linear) for module in model.modules())
++
++
++def reset_fp8_audit(model):
++    for module in model.modules():
++        if isinstance(module, FP8Linear):
++            module.reset_stats()
++
++
++def _audit_total(modules, name):
++    values = [getattr(module, name, None) for module in modules
++              if getattr(module, name, None) is not None]
++    return sum(int(value.item()) for value in values)
++
++
++def fp8_assert_finite(model, stage='boundary'):
++    modules = [module for module in model.modules() if isinstance(module, FP8Linear)]
++    if not modules:
++        return
++    for parameter in model.parameters():
++        if not torch.isfinite(parameter).all():
++            raise FloatingPointError(f'nonfinite FP8 master parameter at {stage}')
++    for module in modules:
++        if module.audit_nonfinite is not None and bool(module.audit_nonfinite.item()):
++            raise FloatingPointError(f'nonfinite FP8 quantization/output at {stage}')
++    for parameter in model.parameters():
++        if parameter.grad is not None and not torch.isfinite(parameter.grad).all():
++            raise FloatingPointError(f'nonfinite FP8 gradient at {stage}')
++
++
+ def fp8_diagnostics(model):
+     modules = [module for module in model.modules() if isinstance(module, FP8Linear)]
+     forward = sum(module.forward_calls for module in modules)
+@@ -288,6 +367,24 @@ def fp8_diagnostics(model):
+     selected_scales = [scale for module in modules
+                        if module.last_forward_scales is not None
+                        for scale in module.last_forward_scales]
++    quantization = {
++        'input_saturation': _audit_total(modules, 'audit_input_saturation'),
++        'weight_saturation': _audit_total(modules, 'audit_weight_saturation'),
++        'grad_saturation': _audit_total(modules, 'audit_grad_saturation'),
++        'input_underflow': _audit_total(modules, 'audit_input_underflow'),
++        'weight_underflow': _audit_total(modules, 'audit_weight_underflow'),
++        'grad_underflow': _audit_total(modules, 'audit_grad_underflow'),
++        'input_nonzero': _audit_total(modules, 'audit_input_nonzero'),
++        'weight_nonzero': _audit_total(modules, 'audit_weight_nonzero'),
++        'grad_nonzero': _audit_total(modules, 'audit_grad_nonzero'),
++        'nonfinite': any(module.audit_nonfinite is not None and bool(module.audit_nonfinite.item())
++                         for module in modules),
++    }
++    total_underflow = (quantization['input_underflow'] + quantization['weight_underflow']
++                       + quantization['grad_underflow'])
++    total_nonzero = (quantization['input_nonzero'] + quantization['weight_nonzero']
++                     + quantization['grad_nonzero'])
++    quantization['underflow_fraction'] = total_underflow / total_nonzero if total_nonzero else 0.
+     return {
+         'selected_modules': len(modules),
+         'forward_calls': forward,
+@@ -298,6 +395,10 @@ def fp8_diagnostics(model):
+         'empty_backward_calls': sum(module.empty_backward_calls for module in modules),
+         'padded_forward_rows': sum(module.padded_forward_rows for module in modules),
+         'padded_backward_rows': sum(module.padded_backward_rows for module in modules),
++        'native_forward_calls': sum(module.audit_native_forward_calls for module in modules),
++        'native_backward_calls': sum(module.audit_native_backward_calls for module in modules),
++        'wgrad_fp32_calls': sum(module.audit_wgrad_fp32_calls for module in modules),
++        'quantization': quantization,
+         'scales_resident_cuda': bool(selected_scales) and all(s.device.type == 'cuda' for s in selected_scales),
+         'scale_devices': sorted({s.device.type for s in selected_scales}),
+         'last_forward_padded_m': sorted({module.last_forward_padded_m for module in modules
+diff --git a/tools/experiment.py b/tools/experiment.py
+index ea44da7..f04efdc 100644
+--- a/tools/experiment.py
++++ b/tools/experiment.py
+@@ -14,7 +14,8 @@ import time
+ import torch
+
+ from optimizers import build_optimizer, optimizer_state_inventory
+-from splot.fp8 import convert_selected_linears, fp8_diagnostics, fp8_runtime_probe
++from splot.fp8 import (convert_selected_linears, fp8_assert_finite, fp8_diagnostics,
++                       fp8_runtime_probe, has_fp8)
+
+
+ def digest(value):
+@@ -136,9 +137,11 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
+               if autocast_dtype is not None else nullcontext()):
+             o = objective(model, inputs, labels)
+         if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
++        if has_fp8(model): fp8_assert_finite(model, 'forward')
+         o.total.backward()
+         if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
+             raise FloatingPointError('nonfinite gradient')
++        if has_fp8(model): fp8_assert_finite(model, 'backward')
+         optimizer.step(); sync(device)
+         elapsed = time.perf_counter()-start
+         row = {'step':step+1, 'batch_indices':indices, 'valid_tokens':int(inputs[3].sum()),
+@@ -164,6 +167,10 @@ def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None)
+         with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
+               if autocast_dtype is not None else nullcontext()):
+             logits=predict(model,x)
++        if has_fp8(model):
++            fp8_assert_finite(model, 'evaluation')
++            if not torch.isfinite(logits).all():
++                raise FloatingPointError('nonfinite evaluation logits')
+         nll+=float(torch.nn.functional.cross_entropy(logits.float().flatten(0,1),y[1].flatten(),ignore_index=-100,reduction='sum'))
+         count+=int(y[1].ne(-100).sum())
+     if not count or not math.isfinite(nll): raise ValueError('invalid validation')
+diff --git a/tools/test_fp8_autograd.py b/tools/test_fp8_autograd.py
+index fa36c1e..f7e1122 100644
+--- a/tools/test_fp8_autograd.py
++++ b/tools/test_fp8_autograd.py
+@@ -14,8 +14,8 @@ from data_fixture import synthetic_documents, split_documents, pack
+ from experiment import collate, seed_all, resolve_precision
+ from splot import DenseConfig, RecurrentConfig, SPLOTLM, training_objective
+ from splot.fp8 import (FP8Linear, convert_selected_linears, dequantize,
+-                       fp8_diagnostics, padding_plan, pad_rows, quantize_device,
+-                       relative_frobenius)
++                       fp8_assert_finite, fp8_diagnostics, padding_plan, pad_rows,
++                       quantize_device, relative_frobenius, reset_fp8_audit)
+ from optimizers import build_semantic_partition
+
+
+@@ -86,6 +86,12 @@ class FP8CPUTests(unittest.TestCase):
+         self.assertEqual(relative_frobenius(torch.zeros(2, 2), torch.zeros(2, 2)), 0.)
+         self.assertGreater(relative_frobenius(torch.ones(2, 2), torch.zeros(2, 2)), 1e11)
+
++    def test_report_exit_contract(self):
++        self.assertTrue(report_exit_ok(True, False, None))
++        self.assertTrue(report_exit_ok(True, True, 'passed'))
++        self.assertFalse(report_exit_ok(True, True, 'failed'))
++        self.assertFalse(report_exit_ok(False, False, None))
++
+     def test_default_paths_have_no_fp8_modules(self):
+         for name in ('splot-smoke-synthetic.json', 'splot-smoke-synthetic-bf16.json'):
+             model = model_from(config(name))
+@@ -102,10 +108,11 @@ class FP8CUDATests(unittest.TestCase):
+         fp = FP8Linear.from_linear(linear)
+         self.assertIs(fp.weight, linear.weight)
+         x = torch.randn(m, k, device=self.device)
+-        dy = torch.randn(m, n, device=self.device)
++        dy = torch.randn(m, n, device=self.device).to(torch.bfloat16)
+         return fp, x, dy
+
+     def _refs(self, x, dy, weight, pad_m):
++        dy = dy.float()
+         xp = pad_rows(x, pad_m)
+         dyp = pad_rows(dy, pad_m)
+         qx, sx = quantize_device(xp, torch.float8_e4m3fn)
+@@ -143,6 +150,25 @@ class FP8CUDATests(unittest.TestCase):
+             self.assertEqual(fp.padded_forward_rows, plan['padding_rows'])
+             self.assertEqual(fp.padded_backward_rows, plan['padding_rows'])
+
++    def test_nonfinite_guards(self):
++        fp, x, dy = self._linear(16, 384, 512)
++        bad = x.clone(); bad[0, 0] = float('nan')
++        y = fp(bad)
++        with self.assertRaises(FloatingPointError):
++            fp8_assert_finite(fp, 'input')
++        fp, x, dy = self._linear(16, 384, 512)
++        with torch.no_grad():
++            fp.weight[0, 0] = float('nan')
++        y = fp(x)
++        with self.assertRaises(FloatingPointError):
++            fp8_assert_finite(fp, 'weight')
++        fp, x, dy = self._linear(16, 384, 512)
++        bad_grad = dy.clone(); bad_grad[0, 0] = float('nan')
++        y = fp(x)
++        y.backward(bad_grad)
++        with self.assertRaises(FloatingPointError):
++            fp8_assert_finite(fp, 'grad')
++
+     def test_repeated_weight_gradient_and_no_duplicate_parameter(self):
+         fp, x1, dy1 = self._linear(17, 384, 512)
+         fp.weight.grad = None
+@@ -195,31 +221,63 @@ class FP8CUDATests(unittest.TestCase):
+         self.assertEqual(fp.last_backward_scales[0].device.type, 'cuda')
+
+
++def report_exit_ok(test_success, report_requested, report_status):
++    return bool(test_success and (not report_requested or report_status == 'passed'))
++
++
+ def _grad_stats(bf, fp):
+-    diff = 0.; ref = 0.; matched = 0; missing = 0
++    matched_diff = matched_ref = full_diff = full_ref = 0.
++    matched = full = missing_bf = missing_fp = nonfinite_bf = nonfinite_fp = 0
+     for a, b in zip(bf.parameters(), fp.parameters()):
+-        if a.grad is None and b.grad is None:
+-            continue
+-        if a.grad is None or b.grad is None:
+-            missing += 1
++        ag, bg = a.grad, b.grad
++        if ag is None and bg is None:
+             continue
+-        matched += 1
+-        diff += float((a.grad.float() - b.grad.float()).pow(2).sum().item())
+-        ref += float(a.grad.float().pow(2).sum().item())
+-    return {'matched_parameters': matched, 'missing_gradients': missing,
+-            'relative_l2': math.sqrt(diff / (ref + 1e-12))}
++        full += 1
++        if ag is None:
++            missing_bf += 1
++            ag_use = torch.zeros_like(bg)
++        else:
++            ag_use = ag.float()
++            nonfinite_bf += int((~torch.isfinite(ag_use)).sum().item())
++        if bg is None:
++            missing_fp += 1
++            bg_use = torch.zeros_like(ag) if ag is not None else torch.zeros_like(b.weight)
++        else:
++            bg_use = bg.float()
++            nonfinite_fp += int((~torch.isfinite(bg_use)).sum().item())
++        full_diff += float((ag_use - bg_use).pow(2).sum().item())
++        full_ref += float(ag_use.pow(2).sum().item())
++        if ag is not None and bg is not None:
++            matched += 1
++            matched_diff += float((ag_use - bg_use).pow(2).sum().item())
++            matched_ref += float(ag_use.pow(2).sum().item())
++    return {
++        'matched_parameters': matched,
++        'full_vector_parameters': full,
++        'missing_bf16_gradients': missing_bf,
++        'missing_fp8_gradients': missing_fp,
++        'nonfinite_bf16_gradients': nonfinite_bf,
++        'nonfinite_fp8_gradients': nonfinite_fp,
++        'relative_l2_matched': math.sqrt(matched_diff / (matched_ref + 1e-12)),
++        'relative_l2_full_vector': math.sqrt(full_diff / (full_ref + 1e-12)),
++    }
+
+
+ def _routing_stats(bf_routes, fp_routes):
+     bf_routes, fp_routes = dict(bf_routes), dict(fp_routes)
++    if set(bf_routes) != set(fp_routes):
++        raise AssertionError('routing keys differ between BF16 and FP8')
+     total = exact = top1 = 0
+-    for key in sorted(set(bf_routes) & set(fp_routes)):
++    for key in sorted(bf_routes):
+         a, b = bf_routes[key].selected, fp_routes[key].selected
++        if a.shape != b.shape:
++            raise AssertionError(f'routing selected shape differs for {key}: {a.shape} != {b.shape}')
+         for row_a, row_b in zip(a, b):
+             total += 1
+             exact += set(row_a.tolist()) == set(row_b.tolist())
+             top1 += int(row_a[0]) == int(row_b[0])
+-    return {'tokens': total, 'exact_topk_set_agreement': exact / total if total else None,
++    return {'keys_equal': True, 'shape_equal': True, 'tokens': total,
++            'exact_topk_set_agreement': exact / total if total else None,
+             'top1_agreement': top1 / total if total else None}
+
+
+@@ -244,17 +302,41 @@ def run_depth_report(device, path):
+                                   'excluded_count': policy['excluded_count'],
+                                   'depths': {}}
+         for depth in (1, 2, 4):
++            reset_fp8_audit(fp)
+             readouts = tuple(range(1, depth + 1))
+             for model in (bf, fp):
+                 model.zero_grad(set_to_none=True)
+             with torch.no_grad(), torch.autocast(device_type=device, dtype=torch.bfloat16):
+                 out_bf = bf(*x, loops=depth, readouts=readouts, offset2_depths=(1, depth))
+                 out_fp = fp(*x, loops=depth, readouts=readouts, offset2_depths=(1, depth))
+-            with torch.autocast(device_type=device, dtype=torch.bfloat16):
+-                obj_bf = training_objective(bf, x, labels, mode='A2', loops=depth)
+-                obj_fp = training_objective(fp, x, labels, mode='A2', loops=depth)
+-            obj_bf.total.backward()
+-            obj_fp.total.backward()
++            audit_failure = None
++            try:
++                with torch.autocast(device_type=device, dtype=torch.bfloat16):
++                    obj_bf = training_objective(bf, x, labels, mode='A2', loops=depth)
++                    obj_fp = training_objective(fp, x, labels, mode='A2', loops=depth)
++                obj_bf.total.backward()
++                obj_fp.total.backward()
++                fp8_assert_finite(fp, f'depth{depth}')
++            except FloatingPointError as exc:
++                audit_failure = f'{type(exc).__name__}: {exc}'
++            gradients = _grad_stats(bf, fp)
++            labels_value = {'bf16_final': obj_bf.ntp_count, 'fp8_final': obj_fp.ntp_count,
++                            'bf16_offset2': obj_bf.offset2_count, 'fp8_offset2': obj_fp.offset2_count}
++            labels_equal = (labels_value['bf16_final'] == labels_value['fp8_final'] and
++                            labels_value['bf16_offset2'] == labels_value['fp8_offset2'])
++            try:
++                routing = _routing_stats(out_bf.routing, out_fp.routing)
++            except AssertionError as exc:
++                routing = {'status': 'failed', 'error': str(exc)}
++            finite = all(torch.isfinite(value).all().item()
++                         for value in (out_bf.hidden[depth], out_bf.logits[depth],
++                                       out_fp.hidden[depth], out_fp.logits[depth]))
++            finite = finite and all(torch.isfinite(getattr(obj, key)).all().item()
++                                    for obj in (obj_bf, obj_fp)
++                                    for key in ('final_ntp', 'early_ntp', 'offset2', 'total'))
++            finite = finite and gradients['nonfinite_bf16_gradients'] == 0
++            finite = finite and gradients['nonfinite_fp8_gradients'] == 0
++            finite = finite and audit_failure is None and routing.get('status') != 'failed'
+             entry = {
+                 'depth': depth,
+                 'ce': {key: {'bf16': float(getattr(obj_bf, key).detach()),
+@@ -264,21 +346,22 @@ def run_depth_report(device, path):
+                        for key in ('final_ntp', 'early_ntp', 'offset2', 'total')},
+                 'hidden_l2': relative_frobenius(out_fp.hidden[depth], out_bf.hidden[depth]),
+                 'logit_l2': relative_frobenius(out_fp.logits[depth], out_bf.logits[depth]),
+-                'gradients': _grad_stats(bf, fp),
+-                'routing': _routing_stats(out_bf.routing, out_fp.routing),
+-                'labels': {'bf16_final': obj_bf.ntp_count, 'fp8_final': obj_fp.ntp_count,
+-                           'bf16_offset2': obj_bf.offset2_count, 'fp8_offset2': obj_fp.offset2_count},
+-                'finite': all(torch.isfinite(getattr(obj_fp, key)).all()
+-                              for key in ('final_ntp', 'early_ntp', 'offset2', 'total')),
++                'gradients': gradients,
++                'routing': routing,
++                'labels': labels_value,
++                'labels_equal': labels_equal,
++                'finite': finite,
++                'fp8_diagnostics': fp8_diagnostics(fp),
+             }
++            if audit_failure is not None:
++                entry['audit_failure'] = audit_failure
+             entry['ce_status'] = all(
+                 abs(entry['ce'][key]['absolute_difference']) <=
+                 (report['thresholds']['ce'] if key != 'total' else report['thresholds']['objective'])
+                 for key in ('final_ntp', 'early_ntp', 'offset2', 'total'))
+-            if not entry['ce_status'] or not entry['finite']:
++            if not entry['ce_status'] or not entry['finite'] or not entry['labels_equal']:
+                 report['status'] = 'failed'
+             report['models'][name]['depths'][depth] = entry
+-        report['models'][name]['fp8_diagnostics'] = fp8_diagnostics(fp)
+         report['models'][name]['policy'] = policy
+         del base, bf, fp
+         torch.cuda.empty_cache()
+@@ -302,7 +385,9 @@ if __name__ == '__main__':
+     suite = unittest.defaultTestLoader.loadTestsFromTestCase(
+         FP8CUDATests if args.device == 'cuda' else FP8CPUTests)
+     result = unittest.TextTestRunner(verbosity=2).run(suite)
++    report_status = None
+     if args.device == 'cuda' and args.report is not None and result.wasSuccessful():
+         summary = run_depth_report(args.device, args.report)
+-        print(json.dumps({'depth_report': str(args.report), 'status': summary['status']}, indent=2))
+-    sys.exit(0 if result.wasSuccessful() else 1)
++        report_status = summary['status']
++        print(json.dumps({'depth_report': str(args.report), 'status': report_status}, indent=2))
++    sys.exit(0 if report_exit_ok(result.wasSuccessful(), args.report is not None, report_status) else 1)
