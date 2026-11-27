@@ -98,13 +98,14 @@ def segments(document_ids, position_ids, valid, old_rows):
 
 
 class GQA(nn.Module):
-    def __init__(self, c):
+    def __init__(self, c, *, gated=False):
         super().__init__()
         self.c = c
         self.q = nn.Linear(c.width, c.q_heads*c.head_dim, bias=False)
         self.k = nn.Linear(c.width, c.kv_heads*c.head_dim, bias=False)
         self.v = nn.Linear(c.width, c.kv_heads*c.head_dim, bias=False)
         self.o = nn.Linear(c.q_heads*c.head_dim, c.width, bias=False)
+        self.output_gate = nn.Linear(c.width, c.q_heads*c.head_dim, bias=False) if gated else None
 
     def forward(self, x, positions, plans, previous):
         c = self.c
@@ -130,7 +131,10 @@ class GQA(nn.Module):
                 allowed = torch.arange(k.shape[1], device=x.device)[None, :] <= past+torch.arange(n, device=x.device)[:, None]
                 prob = score.masked_fill(~allowed, float('-inf')).softmax(-1)
                 y = torch.einsum('hgts,hsd->hgtd', prob, _accum(v)).to(x.dtype)
-                out[b, ix] = self.o(y.reshape(c.q_heads, n, c.head_dim).transpose(0, 1).reshape(n, -1)).to(out.dtype)
+                y = y.reshape(c.q_heads, n, c.head_dim).transpose(0, 1).reshape(n, -1)
+                if self.output_gate is not None:
+                    y = y*self.output_gate(u).sigmoid()
+                out[b, ix] = self.o(y).to(out.dtype)
                 final = (k, v)
             next_rows.append(final)
         return out, tuple(next_rows)

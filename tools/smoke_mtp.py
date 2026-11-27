@@ -2,7 +2,7 @@
 import argparse
 import json
 import torch
-from splot import RecurrentConfig, MTPLM, training_objective
+from splot import RecurrentConfig, MTPLM, HybridLM, training_objective
 from data_fixture import Document, pack
 
 
@@ -12,6 +12,7 @@ def main():
     p.add_argument('--steps', type=int, default=40)
     p.add_argument('--loops', type=int, default=2)
     p.add_argument('--mode', choices=('A0','A1','A2'), default='A2')
+    p.add_argument('--hybrid', action='store_true')
     a=p.parse_args()
     if a.steps<1 or not 1<=a.loops<=4: p.error('positive steps and 1..4 loops required')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
@@ -21,7 +22,7 @@ def main():
     x=tuple(torch.tensor([b[k] for b in blocks],device=a.device) for k in
             ('input_ids','document_ids','position_ids','valid'))
     labels={k:torch.tensor([b['labels'][k] for b in blocks],device=a.device) for k in (1,2)}
-    m=MTPLM(RecurrentConfig()).to(a.device)
+    m=(HybridLM if a.hybrid else MTPLM)(RecurrentConfig()).to(a.device)
     opt=torch.optim.AdamW(m.parameters(),lr=.003,weight_decay=0)
     history=[]
     for _ in range(a.steps):
@@ -40,7 +41,7 @@ def main():
     if a.steps>=40 and history[-1]['total']>=.6*history[0]['total']:
         raise RuntimeError('synthetic overfit smoke gate failed')
     print(json.dumps(dict(torch=torch.__version__,device=a.device,seed=42,steps=a.steps,
-                          loops=a.loops,mode=a.mode,parameters=m.parameter_count(),
+                          loops=a.loops,mode=a.mode,hybrid=a.hybrid,parameters=m.parameter_count(),
                           ntp_count=o.ntp_count,offset2_count=o.offset2_count,
                           initial=history[0],final=history[-1]),indent=2))
 
