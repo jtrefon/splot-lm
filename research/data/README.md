@@ -35,3 +35,6 @@ Proposed **shared byte-level BPE**, vocabulary capacity 32768, trained from scra
 
 ## 6. Acceptance and next work
 This PR satisfies a proposed data interface, candidate registry and reproducible synthetic sample, not actual corpus eligibility. Six CPU standard-library tests pass; see [results](../../experiments/results/data-fixture-v0.1.md). Issue #8 stays open: maintainer rights decisions, immutable source pins, acquisition/filter/near-dedup/benchmark audit, actual document-level corpus split and train-only tokenizer train/evaluation/serialization remain. #9 can start synthetic baseline in parallel; no real-data training before #8 gates. Create separate implementation issue for production pipeline after review. No claim of NASK/PLLuM affiliation or use of their private corpora.
+
+## 7. Portability
+See [corpus portability and storage](portability.md): Mac develops and validates tooling on small fixtures; Linux materializes approved frozen corpora. Git stores recipe and evidence, not large datasets. Logical and physical shard identities are distinct. No acquisition or transfer authorized by this policy.

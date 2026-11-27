@@ -5,3 +5,6 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md) before 
 Use [TEMPLATE.md](TEMPLATE.md) for future tasks. Evidence path per attempt; [results index](../results/INDEX.md). Read live issues and evidence index for status.
 
 - [T0003](T0003-nano-epoch.md) / [#35](https://github.com/jtrefon/splot-lm/issues/35): full synthetic Nano FP32 epoch; depends on reviewed/merged #34 and reviewed task amendment, explicit owner launch. No automatic execution.
+
+- [T0004](T0004-mac-corpus-reference.md) / [#38](https://github.com/jtrefon/splot-lm/issues/38): Mac CPU synthetic data tooling, spec #39 merged; independent owner launch.
+- [T0005](T0005-bf16-harness.md) / [#40](https://github.com/jtrefon/splot-lm/issues/40): Linux BF16 harness implementation, ready only after reviewed spec merge and owner launch.
