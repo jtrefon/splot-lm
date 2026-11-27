@@ -1,0 +1,35 @@
+T0015 attempt-001 backend qualification report
+Tested implementation SHA: 34ba392e16df1273dcd54f68a25563f2c0597f7c
+Interpreter: CPython 3.12.16 in isolated session venv
+Package: tokenizers==0.23.3 (cp310-abi3 macOS arm64 wheel)
+Command: PYTHONPATH=tools TOKENIZERS_PARALLELISM=false <SESSION_VENV>/bin/python tools/test_production_tokenizer.py
+Expected: 14 tests, exit 0, no skipped-backend claim
+
+### tools/test_production_tokenizer.py (backend venv)
+UTC_START 2026-11-27T20:09:24Z
+COMMAND <SESSION_VENV>/bin/python tools/test_production_tokenizer.py
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.335114
+OUTPUT_BEGIN
+test_artifact_malformed_rejected (__main__.BackendTests.test_artifact_malformed_rejected) ... ok
+test_artifact_roundtrip_reload_and_digest (__main__.BackendTests.test_artifact_roundtrip_reload_and_digest) ... ok
+test_boundaries_are_explicit (__main__.BackendTests.test_boundaries_are_explicit) ... ok
+test_decode_token_iterable_is_bounded (__main__.BackendTests.test_decode_token_iterable_is_bounded) ... ok
+test_demo_and_cli (__main__.BackendTests.test_demo_and_cli) ... ok
+test_independently_pinned_demo_digests (__main__.BackendTests.test_independently_pinned_demo_digests) ... ok
+test_literal_special_strings_fail_closed (__main__.BackendTests.test_literal_special_strings_fail_closed) ... ok
+test_special_ids_byte_alphabet_and_target_bound (__main__.BackendTests.test_special_ids_byte_alphabet_and_target_bound) ... ok
+test_train_only_isolation_and_order (__main__.BackendTests.test_train_only_isolation_and_order) ... ok
+test_unicode_whitespace_code_and_all_bytes (__main__.BackendTests.test_unicode_whitespace_code_and_all_bytes) ... ok
+test_approval_packet_and_lock_metadata (__main__.StdlibBoundaryTests.test_approval_packet_and_lock_metadata) ... ok
+test_backend_status_is_explicit (__main__.StdlibBoundaryTests.test_backend_status_is_explicit) ... ok
+test_document_validation_bounds (__main__.StdlibBoundaryTests.test_document_validation_bounds) ... ok
+test_malformed_artifact_rejected_without_backend (__main__.StdlibBoundaryTests.test_malformed_artifact_rejected_without_backend) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.244s
+
+OK
+OUTPUT_END
+

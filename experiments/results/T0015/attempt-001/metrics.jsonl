@@ -1,0 +1,53 @@
+{"attempt": 1, "duration_seconds": 0.017683, "metric": "exit_code", "run": "json_parse", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.063404, "metric": "exit_code", "run": "tools/test_corpus_reference.py", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.063404, "metric": "tests_run", "run": "tools/test_corpus_reference.py", "status": "observed", "task_id": "T0015", "unit": "tests", "value": 30}
+{"attempt": 1, "duration_seconds": 0.109828, "metric": "exit_code", "run": "tools/test_bpe_reference.py", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.109828, "metric": "tests_run", "run": "tools/test_bpe_reference.py", "status": "observed", "task_id": "T0015", "unit": "tests", "value": 28}
+{"attempt": 1, "duration_seconds": 0.041888, "metric": "exit_code", "run": "tools/test_data_fixture.py", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.041888, "metric": "tests_run", "run": "tools/test_data_fixture.py", "status": "observed", "task_id": "T0015", "unit": "tests", "value": 6}
+{"attempt": 1, "duration_seconds": 0.203057, "metric": "exit_code", "run": "tools/test_tokenized_shards.py", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.203057, "metric": "tests_run", "run": "tools/test_tokenized_shards.py", "status": "observed", "task_id": "T0015", "unit": "tests", "value": 27}
+{"attempt": 1, "duration_seconds": 0.047825, "metric": "exit_code", "run": "tools/test_production_tokenizer.py", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.047825, "metric": "tests_run", "run": "tools/test_production_tokenizer.py", "status": "observed", "task_id": "T0015", "unit": "tests", "value": 4}
+{"attempt": 1, "duration_seconds": 0.335114, "metric": "exit_code", "run": "tools/test_production_tokenizer.py (backend venv)", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.335114, "metric": "tests_run", "run": "tools/test_production_tokenizer.py (backend venv)", "status": "observed", "task_id": "T0015", "unit": "tests", "value": 14}
+{"attempt": 1, "duration_seconds": 0.089129, "metric": "exit_code", "run": "demo_run_1", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.088835, "metric": "exit_code", "run": "demo_run_2", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.00391, "metric": "exit_code", "run": "demo_compare", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.028147, "metric": "exit_code", "run": "default_probe_no_import", "status": "observed", "task_id": "T0015", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "runs_identical", "run": "demo", "runs": 2, "status": "observed", "task_id": "T0015", "train_bytes": 612, "unit": "bool", "value": true}
+{"attempt": 1, "metric": "output_bytes", "run": "demo", "status": "observed", "task_id": "T0015", "unit": "bytes", "value": 4103}
+{"attempt": 1, "metric": "output_sha256", "run": "demo", "status": "observed", "task_id": "T0015", "unit": "sha256", "value": "769a2d2b36bb625b444e493c43bfb4e1598903b89f1e32db8c53e78600527d98"}
+{"attempt": 1, "metric": "actual_vocab_size", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "tokens", "value": 431}
+{"attempt": 1, "metric": "artifact_bytes", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "bytes", "value": 9711}
+{"attempt": 1, "metric": "artifact_sha256", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "sha256", "value": "2f148ac98771660e8479411f90fa8c1ff0e80907896a1d823bf0a322542e6fff"}
+{"attempt": 1, "metric": "logical_digest", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "sha256", "value": "b6474d4cff55fdd526c4bfcba342dada259353864fce33e1863d614b02972cf0"}
+{"attempt": 1, "metric": "heldout_bytes", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "bytes", "value": 510}
+{"attempt": 1, "metric": "heldout_tokens", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "tokens", "value": 385}
+{"attempt": 1, "metric": "bytes_per_token", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "bytes/token", "value": 1.3246753246753247}
+{"attempt": 1, "metric": "control_or_unk_tokens", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "tokens", "value": 0}
+{"attempt": 1, "metric": "heldout_roundtrip_all", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "repeat_artifact_identical", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "repeat_logical_equal", "run": "demo", "status": "observed", "target_vocab_size": 16384, "task_id": "T0015", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "actual_vocab_size", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "tokens", "value": 431}
+{"attempt": 1, "metric": "artifact_bytes", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "bytes", "value": 9711}
+{"attempt": 1, "metric": "artifact_sha256", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "sha256", "value": "8026f3058d154ce86105ebf4b66ee4ccab941a9d569d39267edd5d84c8827b40"}
+{"attempt": 1, "metric": "logical_digest", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "sha256", "value": "1a49d99f5ffaa2be78aa9722dfcc8adf78bf41af3ea7faa9910dedb8bcdf0c58"}
+{"attempt": 1, "metric": "heldout_bytes", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "bytes", "value": 510}
+{"attempt": 1, "metric": "heldout_tokens", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "tokens", "value": 385}
+{"attempt": 1, "metric": "bytes_per_token", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "bytes/token", "value": 1.3246753246753247}
+{"attempt": 1, "metric": "control_or_unk_tokens", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "tokens", "value": 0}
+{"attempt": 1, "metric": "heldout_roundtrip_all", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "repeat_artifact_identical", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "repeat_logical_equal", "run": "demo", "status": "observed", "target_vocab_size": 32768, "task_id": "T0015", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "wheel_bytes", "run": "dependency", "status": "observed", "task_id": "T0015", "unit": "bytes", "value": 3101381}
+{"attempt": 1, "metric": "wheel_sha256", "run": "dependency", "status": "observed", "task_id": "T0015", "unit": "sha256", "value": "68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716"}
+{"attempt": 1, "metric": "tokenizers_version", "run": "dependency", "status": "observed", "task_id": "T0015", "unit": "version", "value": "0.23.3"}
+{"attempt": 1, "metric": "default_probe_imports_tokenizers", "run": "dependency", "status": "observed", "task_id": "T0015", "unit": "bool", "value": false}
+{"attempt": 1, "metric": "candidates_total", "run": "source_review", "status": "observed", "task_id": "T0015", "unit": "families", "value": 9}
+{"attempt": 1, "metric": "prose_families", "run": "source_review", "status": "observed", "task_id": "T0015", "unit": "families", "value": 8}
+{"attempt": 1, "metric": "prose_families_en", "run": "source_review", "status": "observed", "task_id": "T0015", "unit": "families", "value": 4}
+{"attempt": 1, "metric": "prose_families_pl", "run": "source_review", "status": "observed", "task_id": "T0015", "unit": "families", "value": 4}
+{"attempt": 1, "metric": "raw_utf8_cap_bytes", "run": "source_review", "status": "observed", "task_id": "T0015", "unit": "bytes", "value": 10485760}
+{"attempt": 1, "metric": "pan_tadeusz_prose_included", "run": "source_review", "status": "observed", "task_id": "T0015", "unit": "bool", "value": false}
+{"attempt": 1, "metric": "acquisition_performed", "run": "source_review", "status": "observed", "task_id": "T0015", "unit": "bool", "value": false}

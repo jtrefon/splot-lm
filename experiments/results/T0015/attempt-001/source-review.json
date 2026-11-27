@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "document": "splot-bilingual-pilot-approval-packet",
+  "version": "0.1",
+  "retrieved_at": "2026-11-27",
+  "status": "metadata_only_owner_decision_required_no_acquisition",
+  "tokenizer_candidate": {
+    "package": "tokenizers",
+    "version": "0.23.3",
+    "targets": [16384, 32768],
+    "dependency_lock": "configs/data/tokenizers-0.23.3-lock.json",
+    "qualification": "isolated venv with verified cp310-abi3 macOS arm64 wheel; no system install; backend tests local",
+    "production_status": "candidate; not a production tokenizer or remote model download"
+  },
+  "pilot": {
+    "purpose": "feasibility-only bilingual literary text pilot, not balanced production data or a benchmark",
+    "raw_utf8_cap_bytes": 10485760,
+    "per_item_cap_bytes": 2621440,
+    "target_content_token_ratio": "50/50 EN/PL",
+    "domain": "prose",
+    "deferred_domains": ["code", "math", "technical"],
+    "excluded_nonprose": ["wl-pan-tadeusz"],
+    "tokenizer_training": "train-only on the approved pilot train families; 16k/32k candidate",
+    "snapshot_policy": "owner-authorized official HTTPS retrieval to staging; SHA-256 pinned before any immutable local snapshot; no truncation of a work",
+    "split_policy": "whole work/edition family assigned to exactly one split; no translation/edition of a family across splits; segmentation only after family split",
+    "proposed_splits": {
+      "train": {
+        "en": ["se-pride-and-prejudice", "se-frankenstein"],
+        "pl": ["wl-lalka", "wl-chlopi"]
+      },
+      "validation": {
+        "en": ["se-alices-adventures"],
+        "pl": ["wl-quo-vadis"]
+      },
+      "test": {
+        "en": ["se-moby-dick"],
+        "pl": ["wl-faraon"]
+      }
+    },
+    "feasibility_note": "The eight prose families satisfy at least one family per split/language and two train families per language. The 10 MiB cap may force owner selection before acquisition; it must not cause truncation of a work."
+  },
+  "candidates": [
+    {
+      "candidate_id": "se-pride-and-prejudice",
+      "family_id": "work:pride-and-prejudice",
+      "language": "en",
+      "title": "Pride and Prejudice",
+      "work_genre": "prose",
+      "author": {"name": "Jane Austen", "life": null, "life_status": "authority-record verification required"},
+      "work_first_published": "1813",
+      "source": {
+        "name": "Standard Ebooks",
+        "catalog_url": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice",
+        "item_id": "jane-austen/pride-and-prejudice",
+        "edition_id": "standardebooks-jane-austen-pride-and-prejudice-2026-11-15",
+        "source_revision": "a77a2dbbc0d11a17d6c68c581f17e26a65bd8168",
+        "source_revision_type": "Git commit in official item history",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "believed U.S. public domain per Standard Ebooks; EU/Polish review required",
+        "edition": "Standard Ebooks production CC0 1.0; third-party content may remain copyrighted",
+        "terms_url": "https://standardebooks.org/about",
+        "training_use": "not cleared",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "preserve source/edition/commit provenance"
+      },
+      "access": {"gated": false, "route": "official item/GitHub after owner approval", "word_count": 121970, "anticipated_raw_bytes": null},
+      "pilot_role": "train",
+      "status": "pending",
+      "blockers": ["EU/Polish rights review", "artifact checksum", "author/edition authority verification"]
+    },
+    {
+      "candidate_id": "se-frankenstein",
+      "family_id": "work:frankenstein",
+      "language": "en",
+      "title": "Frankenstein",
+      "work_genre": "prose",
+      "author": {"name": "Mary Shelley", "life": null, "life_status": "authority-record verification required"},
+      "work_first_published": "1818",
+      "source": {
+        "name": "Standard Ebooks",
+        "catalog_url": "https://standardebooks.org/ebooks/mary-shelley/frankenstein",
+        "item_id": "mary-shelley/frankenstein",
+        "edition_id": "standardebooks-mary-shelley-frankenstein-2026-11-24",
+        "source_revision": "abfa474c5e1df00ae8458ed8495b83e7f8b795cc",
+        "source_revision_type": "Git commit in official item history",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "believed U.S. public domain per Standard Ebooks; EU/Polish review required",
+        "edition": "Standard Ebooks production CC0 1.0; third-party content may remain copyrighted",
+        "terms_url": "https://standardebooks.org/about",
+        "training_use": "not cleared",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "preserve source/edition/commit provenance"
+      },
+      "access": {"gated": false, "route": "official item/GitHub after owner approval", "word_count": 77898, "anticipated_raw_bytes": null},
+      "pilot_role": "train",
+      "status": "pending",
+      "blockers": ["EU/Polish rights review", "artifact checksum", "author/edition authority verification"]
+    },
+    {
+      "candidate_id": "se-alices-adventures",
+      "family_id": "work:alices-adventures-in-wonderland",
+      "language": "en",
+      "title": "Alice’s Adventures in Wonderland",
+      "work_genre": "prose",
+      "author": {"name": "Lewis Carroll", "life": null, "life_status": "authority-record verification required"},
+      "illustrator": {"name": "John Tenniel", "life": null, "note": "illustrations excluded unless separately cleared"},
+      "work_first_published": "1865",
+      "source": {
+        "name": "Standard Ebooks",
+        "catalog_url": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+        "item_id": "lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+        "edition_id": "standardebooks-lewis-carroll-alices-wonderland-tenniel-2026-11-24",
+        "source_revision": "9e5eb58995d9fd2f609363d14786d8b0166bbbb9",
+        "source_revision_type": "Git commit in official item history",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "believed U.S. public domain per Standard Ebooks; EU/Polish review required",
+        "edition": "Standard Ebooks production CC0 1.0; illustrations/third-party content require review and are excluded from text training",
+        "terms_url": "https://standardebooks.org/about",
+        "training_use": "not cleared",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "preserve source/edition/illustrator/commit provenance"
+      },
+      "access": {"gated": false, "route": "official item/GitHub after owner approval", "word_count": 26738, "anticipated_raw_bytes": null},
+      "pilot_role": "validation",
+      "status": "pending",
+      "blockers": ["EU/Polish rights review", "artifact checksum", "illustration/annotation exclusion", "authority verification"]
+    },
+    {
+      "candidate_id": "se-moby-dick",
+      "family_id": "work:moby-dick",
+      "language": "en",
+      "title": "Moby Dick",
+      "work_genre": "prose",
+      "author": {"name": "Herman Melville", "life": null, "life_status": "authority-record verification required"},
+      "work_first_published": "1851",
+      "source": {
+        "name": "Standard Ebooks",
+        "catalog_url": "https://standardebooks.org/ebooks/herman-melville/moby-dick",
+        "item_id": "herman-melville/moby-dick",
+        "edition_id": "standardebooks-herman-melville-moby-dick-2026-11-16",
+        "source_revision": "89725132954ec3f297e0d86f4a5ab636675d7f13",
+        "source_revision_type": "Git commit in official item history",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "believed U.S. public domain per Standard Ebooks; EU/Polish review required",
+        "edition": "Standard Ebooks production CC0 1.0; third-party content may remain copyrighted",
+        "terms_url": "https://standardebooks.org/about",
+        "training_use": "not cleared",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "preserve source/edition/commit provenance"
+      },
+      "access": {"gated": false, "route": "official item/GitHub after owner approval", "word_count": 211202, "anticipated_raw_bytes": null},
+      "pilot_role": "test",
+      "status": "pending",
+      "blockers": ["EU/Polish rights review", "artifact checksum", "author/edition authority verification"]
+    },
+    {
+      "candidate_id": "wl-lalka",
+      "family_id": "work:lalka",
+      "language": "pl",
+      "title": "Lalka",
+      "work_genre": "prose",
+      "author": {"name": "Bolesław Prus", "life": "1847-1912", "life_source": "https://wolnelektury.pl/katalog/lektura/lalka/", "life_status": "official Wolne Lektury item page"},
+      "work_first_published": "1890",
+      "source": {
+        "name": "Wolne Lektury",
+        "catalog_url": "https://wolnelektury.pl/katalog/lektura/lalka/",
+        "item_id": "lalka",
+        "edition_id": "wolnelektury-lalka-two-volumes",
+        "volume_items": ["lalka-tom-pierwszy", "lalka-tom-drugi"],
+        "source_revision": null,
+        "source_revision_type": "catalog item ID; no immutable revision published",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "public-domain text; author died 1912",
+        "edition": "annotations/motifs under CC BY-SA 3.0 or LAL 1.3; exclude or attribute editorial material",
+        "terms_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+        "training_use": "text public domain; edition obligations and EU/Polish review required",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "author/title, Wolne Lektury notice, license, annotation attribution"
+      },
+      "access": {"gated": false, "route": "official item/API EPUB/XML after owner approval", "anticipated_raw_bytes": null},
+      "pilot_role": "train",
+      "status": "pending",
+      "blockers": ["immutable revision/checksum", "annotation/motif extraction/license", "edition and EU/Polish review"]
+    },
+    {
+      "candidate_id": "wl-chlopi",
+      "family_id": "work:chlopi",
+      "language": "pl",
+      "title": "Chłopi",
+      "work_genre": "prose",
+      "author": {"name": "Władysław Stanisław Reymont", "life": "1867-1925", "life_source": "https://wolnelektury.pl/katalog/lektura/chlopi/", "life_status": "official Wolne Lektury item page"},
+      "work_first_published": "1904-1909",
+      "source": {
+        "name": "Wolne Lektury",
+        "catalog_url": "https://wolnelektury.pl/katalog/lektura/chlopi/",
+        "item_id": "chlopi",
+        "edition_id": "wolnelektury-chlopi-four-volumes",
+        "source_revision": null,
+        "source_revision_type": "catalog item ID; no immutable revision published",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "public-domain text per Wolne Lektury; author authority record to verify",
+        "edition": "annotations/motifs under CC BY-SA 3.0 or LAL 1.3; exclude or attribute editorial material",
+        "terms_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+        "training_use": "text public domain; edition obligations and EU/Polish review required",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "author/title, Wolne Lektury notice, license, annotation attribution"
+      },
+      "access": {"gated": false, "route": "official item/API EPUB/XML after owner approval", "anticipated_raw_bytes": null},
+      "pilot_role": "train",
+      "status": "pending",
+      "blockers": ["immutable revision/checksum", "annotation extraction/license", "author/edition authority review"]
+    },
+    {
+      "candidate_id": "wl-quo-vadis",
+      "family_id": "work:quo-vadis",
+      "language": "pl",
+      "title": "Quo vadis",
+      "work_genre": "prose",
+      "author": {"name": "Henryk Sienkiewicz", "life": "1846-1916", "life_source": "https://wolnelektury.pl/katalog/lektura/quo-vadis/", "life_status": "official Wolne Lektury item page"},
+      "work_first_published": "1895-1896",
+      "source": {
+        "name": "Wolne Lektury",
+        "catalog_url": "https://wolnelektury.pl/katalog/lektura/quo-vadis/",
+        "item_id": "quo-vadis",
+        "edition_id": "wolnelektury-quo-vadis",
+        "source_revision": null,
+        "source_revision_type": "catalog item ID; no immutable revision published",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "public-domain text per Wolne Lektury; author authority record to verify",
+        "edition": "annotations/motifs under CC BY-SA 3.0 or LAL 1.3; exclude or attribute editorial material",
+        "terms_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+        "training_use": "text public domain; edition obligations and EU/Polish review required",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "author/title, Wolne Lektury notice, license, annotation attribution"
+      },
+      "access": {"gated": false, "route": "official item/API txt/EPUB/XML after owner approval", "anticipated_raw_bytes": null},
+      "pilot_role": "validation",
+      "status": "pending",
+      "blockers": ["immutable revision/checksum", "annotation extraction/license", "author/edition authority review"]
+    },
+    {
+      "candidate_id": "wl-faraon",
+      "family_id": "work:faraon",
+      "language": "pl",
+      "title": "Faraon",
+      "work_genre": "prose",
+      "author": {"name": "Bolesław Prus", "life": "1847-1912", "life_source": "https://wolnelektury.pl/katalog/lektura/faraon/", "life_status": "official Wolne Lektury item page"},
+      "work_first_published": "1895-1896",
+      "source": {
+        "name": "Wolne Lektury",
+        "catalog_url": "https://wolnelektury.pl/katalog/lektura/faraon/",
+        "item_id": "faraon",
+        "edition_id": "wolnelektury-faraon-three-volumes",
+        "source_revision": null,
+        "source_revision_type": "catalog item ID; no immutable revision published",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "public-domain text; author died 1912",
+        "edition": "annotations/motifs under CC BY-SA 3.0 or LAL 1.3; exclude or attribute editorial material",
+        "terms_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+        "training_use": "text public domain; edition obligations and EU/Polish review required",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "author/title, Wolne Lektury notice, license, annotation attribution"
+      },
+      "access": {"gated": false, "route": "official item/API EPUB/XML after owner approval", "anticipated_raw_bytes": null},
+      "pilot_role": "test",
+      "status": "pending",
+      "blockers": ["immutable revision/checksum", "annotation extraction/license", "edition and EU/Polish review"]
+    },
+    {
+      "candidate_id": "wl-pan-tadeusz",
+      "family_id": "work:pan-tadeusz",
+      "language": "pl",
+      "title": "Pan Tadeusz, czyli ostatni zajazd na Litwie",
+      "work_genre": "verse_epic",
+      "author": {"name": "Adam Mickiewicz", "life": "1798-1855", "life_source": "https://wolnelektury.pl/katalog/lektura/pan-tadeusz/"},
+      "work_first_published": "1834",
+      "source": {
+        "name": "Wolne Lektury",
+        "catalog_url": "https://wolnelektury.pl/katalog/lektura/pan-tadeusz/",
+        "item_id": "pan-tadeusz",
+        "edition_id": "wolnelektury-pan-tadeusz",
+        "source_revision": null,
+        "source_revision_type": "catalog item ID; no immutable revision published",
+        "artifact_sha256": null,
+        "checksum_status": "compute on first authorized staging download"
+      },
+      "rights": {
+        "underlying": "public-domain text; author died 1855",
+        "edition": "annotations/motifs under CC BY-SA 3.0 or LAL 1.3; exclude or attribute editorial material",
+        "terms_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+        "training_use": "not part of prose pilot; separate mixed/verse decision required",
+        "raw_redistribution": "not approved",
+        "weights": "separate decision",
+        "attribution": "author/title, Wolne Lektury notice, license, annotation attribution"
+      },
+      "access": {"gated": false, "route": "official item/API txt/EPUB/XML after owner approval", "anticipated_raw_bytes": null},
+      "pilot_role": "excluded_nonprose",
+      "status": "pending",
+      "blockers": ["verse epic, not prose; excluded from prose pilot", "immutable revision/checksum", "annotation extraction/license", "edition and EU/Polish review"]
+    }
+  ],
+  "approval_checklist": [
+    "Owner accepts or rejects each candidate ID and family assignment.",
+    "Qualified rights review records EU/Polish/Spain jurisdiction, author dates, edition/editor/translator/illustration exclusions and attribution.",
+    "Owner authorizes exact official access routes and staging location; no gated access.",
+    "First authorized download is bounded by 10 MiB raw UTF-8 and per-item 2.5 MiB caps; SHA-256 is pinned before immutable local snapshot.",
+    "Training, raw redistribution and weight redistribution are decided separately; metadata evidence is not clearance.",
+    "Tokenizer package/version qualification and train-only fitting approval is separate from corpus access.",
+    "If the chosen families exceed 10 MiB, select/remove a family before acquisition; never truncate a work."
+  ],
+  "residual_risks": [
+    "Standard Ebooks provides U.S. public-domain warnings, not EU/Polish/Spain clearance.",
+    "Wolne Lektury metadata has no immutable revision/checksum; checksums must be pinned on first authorized download.",
+    "Editorial annotations/motifs, translations, prefaces and illustrations may require exclusion or separate licensing.",
+    "Four Standard Ebooks author life dates remain unresolved in item metadata and require authority-record verification; the five Polish author dates are taken from official Wolne Lektury item pages.",
+    "Canonical literary works may overlap evaluation benchmarks; exact/near benchmark checks are required before training.",
+    "A feasibility pilot cannot establish balanced production proportions or evaluation quality."
+  ]
+}

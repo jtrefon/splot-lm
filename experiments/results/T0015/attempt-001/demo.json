@@ -1,0 +1,155 @@
+{
+  "format": "splot-production-tokenizer-v1",
+  "package": {
+    "name": "tokenizers",
+    "version": "0.23.3"
+  },
+  "quality_claim": false,
+  "targets": {
+    "16384": {
+      "actual_vocab_size": 431,
+      "artifact_bytes": 9711,
+      "artifact_sha256": "2f148ac98771660e8479411f90fa8c1ff0e80907896a1d823bf0a322542e6fff",
+      "bytes_per_token": 1.3246753246753247,
+      "heldout": {
+        "test/en/code": {
+          "bytes": 83,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 57
+        },
+        "test/en/prose": {
+          "bytes": 67,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "test/pl/code": {
+          "bytes": 73,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 54
+        },
+        "test/pl/prose": {
+          "bytes": 39,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 37
+        },
+        "validation/en/code": {
+          "bytes": 37,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 25
+        },
+        "validation/en/prose": {
+          "bytes": 68,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "validation/pl/code": {
+          "bytes": 69,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 46
+        },
+        "validation/pl/prose": {
+          "bytes": 74,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 60
+        }
+      },
+      "heldout_bytes": 510,
+      "heldout_tokens": 385,
+      "logical_digest": "b6474d4cff55fdd526c4bfcba342dada259353864fce33e1863d614b02972cf0",
+      "repeat_artifact_identical": true,
+      "repeat_logical_equal": true,
+      "requested_vocab_size": 16384,
+      "tokens_per_byte": 0.7549019607843137
+    },
+    "32768": {
+      "actual_vocab_size": 431,
+      "artifact_bytes": 9711,
+      "artifact_sha256": "8026f3058d154ce86105ebf4b66ee4ccab941a9d569d39267edd5d84c8827b40",
+      "bytes_per_token": 1.3246753246753247,
+      "heldout": {
+        "test/en/code": {
+          "bytes": 83,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 57
+        },
+        "test/en/prose": {
+          "bytes": 67,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "test/pl/code": {
+          "bytes": 73,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 54
+        },
+        "test/pl/prose": {
+          "bytes": 39,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 37
+        },
+        "validation/en/code": {
+          "bytes": 37,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 25
+        },
+        "validation/en/prose": {
+          "bytes": 68,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "validation/pl/code": {
+          "bytes": 69,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 46
+        },
+        "validation/pl/prose": {
+          "bytes": 74,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 60
+        }
+      },
+      "heldout_bytes": 510,
+      "heldout_tokens": 385,
+      "logical_digest": "1a49d99f5ffaa2be78aa9722dfcc8adf78bf41af3ea7faa9910dedb8bcdf0c58",
+      "repeat_artifact_identical": true,
+      "repeat_logical_equal": true,
+      "requested_vocab_size": 32768,
+      "tokens_per_byte": 0.7549019607843137
+    }
+  },
+  "training_bytes": 612,
+  "training_documents": 6,
+  "version": 1
+}

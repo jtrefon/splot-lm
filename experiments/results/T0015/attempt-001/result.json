@@ -1,0 +1,91 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 bytes RAM, CPU only. Default CPython 3.15.2 (Unicode 17.0.0) and existing compatible CPython 3.12.16 (Unicode 15.0.0) for the backend. Official tokenizers==0.23.3 cp310-abi3 macOS arm64 wheel, 3,101,381 bytes, SHA-256 68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716, installed only in a session-local venv with --no-index --no-deps --only-binary=:all:. No interpreter, system, compiler, sudo, other-package or source change. Worktree clean before and after acceptance at 34ba392.",
+      "evidence": [
+        "environment.json",
+        "wheel-lock.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat REP evidence includes summary, result, environment, metrics, sanitized execution log, deterministic demo, backend test report, wheel lock, source-review summary and machine-readable packet. No raw corpus, binary wheel or secret is committed. tools/rep/validate_result.py was run with exact checks environment,implementation,source_review,unit_tests,handover; output STRUCTURALLY VALID: passed is recorded in PR #75 and in this detail. One INDEX row is appended. PR #75 references #72/#8/#11; issue #72 receives the handover comment. No merge, issue closure or acquisition is performed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Implementation commit 34ba392e16df1273dcd54f68a25563f2c0597f7c adds exactly the six allowed files (adapter, tests, two docs, packet JSON and dependency lock) with no changes to existing BPE/shard/corpus, harness, CI, configs or registry. Adapter: HF ByteLevel BPE, no normalization, add_prefix_space=False, explicit regex, all 256 byte symbols, fixed PAD0/BOS1/EOS2/UNK3/reserved4-7, min_frequency=2, max_token_length=128, deterministic sorted train-only input, TOKENIZERS_PARALLELISM=false, 16k/32k targets with actual size reported. Literal special strings fail closed; control/UNK/OOV emissions are rejected; exact UTF-8 round-trip enforced; boundaries are explicit; encode capped at 4096 bytes and decode at 4098 tokens. Artifact is canonical, bounded to 8 MiB, hash/reload checked and independently pinned for the qualified demo. Default probe does not import tokenizers.",
+      "evidence": [
+        "summary.md",
+        "backend-tests.txt",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "source_review": {
+      "detail": "Metadata-only packet covers eight prose families (4 EN/4 PL): two train, one validation and one test family per language, with no family split across splits. Standard Ebooks item pages and first item-history revisions were rechecked; Wolne Lektury API records and official author life dates were rechecked. Pan Tadeusz is officially Epos, recorded as verse_epic and excluded from the prose pilot. Caps are 10 MiB total and 2.5 MiB per item with no work truncation. All candidates remain pending; EU/Polish/Spain rights, four Standard Ebooks author dates, checksums/immutable revisions, annotations/illustrations and benchmark checks block acquisition and training. No text, snapshot, gated access or rights clearance occurred.",
+      "evidence": [
+        "source-review.md",
+        "source-review.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 with no timeout or retry: 30/30 corpus, 28/28 BPE, 6/6 fixture, 27/27 shard, 4/4 stdlib tokenizer and 14/14 backend tests (109 total). The stdlib run explicitly reported backend unavailable and did not claim a backend pass; the venv run covered special IDs, all 256 bytes, PL/EN/code/whitespace/combining/emoji, train-only isolation and order, literal-special rejection, boundaries, reload/digest mismatch, malformed artifacts, pinned digests and decode bounds. Two demo runs were byte-identical at 4,103 bytes, SHA-256 769a2d2b36bb625b444e493c43bfb4e1598903b89f1e32db8c53e78600527d98. Both targets achieved actual vocab 431 with 9,711-byte artifacts: 16k SHA-256 2f148ac98771660e8479411f90fa8c1ff0e80907896a1d823bf0a322542e6fff / logical b6474d4cff55fdd526c4bfcba342dada259353864fce33e1863d614b02972cf0; 32k SHA-256 8026f3058d154ce86105ebf4b66ee4ccab941a9d569d39267edd5d84c8827b40 / logical 1a49d99f5ffaa2be78aa9722dfcc8adf78bf41af3ea7faa9910dedb8bcdf0c58. Held-out 510 bytes/385 tokens, zero control/UNK, eight groups round-trip; 1.324675 bytes/token is descriptive only.",
+      "evidence": [
+        "metrics.jsonl",
+        "backend-tests.txt",
+        "demo.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "official PyPI file; verified and installed only in a session-local venv; not committed",
+      "bytes": 3101381,
+      "name": "tokenizers-0.23.3-cp310-abi3-macosx_11_0_arm64.whl",
+      "sha256": "68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716"
+    }
+  ],
+  "files": {
+    "backend-tests.txt": "36c83b8a62bab25e8da5a706c0be64c6012b01d8b7b5b4d4caaad28272ae274b",
+    "demo.json": "769a2d2b36bb625b444e493c43bfb4e1598903b89f1e32db8c53e78600527d98",
+    "environment.json": "3107fc76e431445e5d1141a8c45d3944a3967a39cbdf939db747e4ce1ad7f449",
+    "execution.log": "1a9ae7ade206e7fffc7c4d94a1f48ad938dc0c3be041f7b0beeaabf5ae777913",
+    "metrics.jsonl": "ff6b1a0f328cb557503242fb8f44263c35b63ae53b94457983ee36c23fcf85b2",
+    "source-review.json": "b2a54b7d27437ca5415a061e2bcfd5d52b54a58c7de72522d00cdb3368331cee",
+    "source-review.md": "721d9b4edd70147a0ad4031cfa978526e225f1e85d4e88f1d048617cd6d628a1",
+    "summary.md": "753617d976996a2842194639a483284edffe6493b3118fdb656b3328decda0a6",
+    "wheel-lock.json": "2c69b4720829e4b6a650c1a06d44b5fdb232997119cb2898bcad4b4436069838"
+  },
+  "limitations": [
+    "Synthetic qualification only: six train documents / 612 bytes and actual vocab 431 for both requests; not a production tokenizer, 16k/32k trained vocabulary, fertility result or quality/downstream claim.",
+    "Physical artifact hashes pin the qualified macOS arm64 wheel; logical digests are canonical. Cross-platform physical equality is not claimed and any differing physical hash must be reported as build nondeterminism.",
+    "tokenizers was installed with --no-deps because no Hub/model access is used; the declared huggingface-hub specifier is recorded but no installed transitive version is pinned.",
+    "The source packet is metadata-only and pending; EU/Polish/Spain rights, edition/annotation/illustration obligations, benchmark overlap and access are not cleared.",
+    "Four Standard Ebooks author dates remain unresolved in item metadata; the five Polish dates come from official Wolne Lektury item pages.",
+    "Standard Ebooks provides a U.S. public-domain warning, not EU/Polish/Spain clearance; Wolne Lektury metadata lacks immutable revisions/checksums.",
+    "The 10 MiB total / 2.5 MiB per-item cap may require removing a family; truncating a work is prohibited.",
+    "No corpus acquisition, immutable snapshot, real-data training, system change or legal opinion is included.",
+    "Hosted CPU CI is tracked on PR #75 and is required before any merge; local CPU checks passed."
+  ],
+  "schema_version": 1,
+  "source_commit": "34ba392e16df1273dcd54f68a25563f2c0597f7c",
+  "status": "passed",
+  "task_commit": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+  "task_id": "T0015",
+  "tested_commit": "34ba392e16df1273dcd54f68a25563f2c0597f7c"
+}
