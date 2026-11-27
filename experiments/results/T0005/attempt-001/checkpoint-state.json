@@ -1,0 +1,45 @@
+{
+  "runs": {
+    "bf16": {
+      "checkpoint_bytes": 493312663,
+      "checkpoint_sha256": "6fe7676d1d701b6d6a1e6fc310c13fd9fe5a3fd4144b8ee4579351cb21fdf067",
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "moment_dtypes": [
+        "float32"
+      ],
+      "moment_entries": 366,
+      "moments_finite": true,
+      "optimizer_state_entries": 183,
+      "optimizer_step_values": [
+        1.0
+      ],
+      "parameters": 43055076,
+      "status": "passed"
+    },
+    "fp32": {
+      "checkpoint_bytes": 493312599,
+      "checkpoint_sha256": "e3a612e64d3b5822050769d3b3a831d6b0dd05a96a4125be7fadc05c976dcd3d",
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "moment_dtypes": [
+        "float32"
+      ],
+      "moment_entries": 366,
+      "moments_finite": true,
+      "optimizer_state_entries": 183,
+      "optimizer_step_values": [
+        1.0
+      ],
+      "parameters": 43055076,
+      "status": "passed"
+    }
+  },
+  "status": "passed"
+}
