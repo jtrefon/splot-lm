@@ -38,3 +38,6 @@ This PR satisfies a proposed data interface, candidate registry and reproducible
 
 ## 7. Portability
 See [corpus portability and storage](portability.md): Mac develops and validates tooling on small fixtures; Linux materializes approved frozen corpora. Git stores recipe and evidence, not large datasets. Logical and physical shard identities are distinct. No acquisition or transfer authorized by this policy.
+
+## Owner acquisition authorization — 2026-11-27
+Maintainer explicitly approves accessible datasets for early architecture alignment. Apply to lawfully usable accessible sources within reviewed task limits; no recurring per-item owner approval required. Source/edition rights and terms, basic provenance, immutable local snapshot hashes and work-family split still mandatory; ambiguous or gated material excluded. No redistribution or weights-publication approval inferred. T0016 #76 is actual small corpus acquisition and materialization, not another metadata-only gate. Exact language/domain mixture and extensive quality optimization deferred; report realized mix. First real pilot T0017 #77; no scale or language quality claim.
