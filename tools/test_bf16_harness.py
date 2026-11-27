@@ -1,5 +1,7 @@
 """Focused BF16 autocast and FP32-safeguard tests for the synthetic harness."""
+import argparse
 import math
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -17,31 +19,36 @@ def _autocast(device='cpu'):
 
 
 class BF16HarnessTests(unittest.TestCase):
+    device = 'cpu'
+
     @classmethod
     def setUpClass(cls):
         cls.blocks = pack(split_documents(synthetic_documents())['train'], 96)
         block = cls.blocks[0]
-        cls.x = tuple(torch.tensor([block[k]]) for k in
+        cls.x = tuple(torch.tensor([block[k]], device=cls.device) for k in
                       ('input_ids', 'document_ids', 'position_ids', 'valid'))
-        cls.labels = {k: torch.tensor([block['labels'][k]]) for k in (1, 2)}
+        cls.labels = {k: torch.tensor([block['labels'][k]], device=cls.device) for k in (1, 2)}
 
     def setUp(self):
         torch.set_num_threads(1)
         torch.use_deterministic_algorithms(True)
 
-    def require_cpu_bf16(self):
+    def require_bf16(self):
+        if self.device == 'cuda' and (not torch.cuda.is_available() or not torch.cuda.is_bf16_supported()):
+            self.skipTest('CUDA BF16 unavailable')
         try:
-            with _autocast():
-                probe = torch.nn.functional.linear(torch.ones(2, 4), torch.ones(4, 4))
+            with _autocast(self.device):
+                probe = torch.nn.functional.linear(
+                    torch.ones(2, 4, device=self.device), torch.ones(4, 4, device=self.device))
             if probe.dtype != torch.bfloat16:
-                self.skipTest(f'CPU BF16 autocast returned {probe.dtype}')
+                self.skipTest(f'BF16 autocast on {self.device} returned {probe.dtype}')
         except Exception as exc:
-            self.skipTest(f'CPU BF16 autocast unavailable: {exc}')
+            self.skipTest(f'BF16 autocast on {self.device} unavailable: {exc}')
 
     def test_gqa_gdn_router_and_reduction_dtypes(self):
-        self.require_cpu_bf16()
+        self.require_bf16()
         torch.manual_seed(42)
-        model = SPLOTLM(RecurrentConfig()).float().eval()
+        model = SPLOTLM(RecurrentConfig()).float().to(self.device).eval()
         seen = {}
         for name, module in (('prelude_q', model.prelude[0].attn.q),
                              ('core_gqa_q', model.core[3].attn.q)):
@@ -62,7 +69,7 @@ class BF16HarnessTests(unittest.TestCase):
         torch.einsum = einsum
         torch.Tensor.softmax = softmax
         try:
-            with torch.no_grad(), _autocast():
+            with torch.no_grad(), _autocast(self.device):
                 out = model(*self.x, loops=2, readouts=(1, 2), offset2_depths=(1, 2), use_cache=True)
         finally:
             torch.einsum = orig_einsum
@@ -89,11 +96,11 @@ class BF16HarnessTests(unittest.TestCase):
         self.assertTrue(all(dtype == torch.float32 for dtype in softmax_dtypes), softmax_dtypes)
 
     def test_fp32_master_weights_adam_and_evaluation(self):
-        self.require_cpu_bf16()
+        self.require_bf16()
         torch.manual_seed(42)
-        model = SPLOTLM(RecurrentConfig()).float().train()
+        model = SPLOTLM(RecurrentConfig()).float().to(self.device).train()
         opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=0)
-        with _autocast():
+        with _autocast(self.device):
             objective = training_objective(model, self.x, self.labels, mode='A2', loops=2)
         self.assertEqual(objective.total.dtype, torch.float32)
         for name in ('total', 'final_ntp', 'early_ntp', 'offset2', 'balance'):
@@ -116,17 +123,17 @@ class BF16HarnessTests(unittest.TestCase):
             self.assertTrue(entry['exp_avg'].isfinite().all())
             self.assertTrue(entry['exp_avg_sq'].isfinite().all())
             self.assertEqual(float(entry['step']), 1.0)
-        with _autocast():
+        with _autocast(self.device):
             val = evaluate(model, self.blocks[:1], lambda m, x: m(*x, loops=2).logits[2],
-                           batch_size=1, device='cpu', autocast_dtype=torch.bfloat16)
+                           batch_size=1, device=self.device, autocast_dtype=torch.bfloat16)
         self.assertGreater(val['ntp_labels'], 0)
         self.assertTrue(math.isfinite(val['mean_nll']) and math.isfinite(val['perplexity']))
 
     def test_rmsnorm_rope_and_ce_are_fp32(self):
-        self.require_cpu_bf16()
+        self.require_bf16()
         torch.manual_seed(1)
-        x = torch.randn(2, 3, 16).to(torch.bfloat16)
-        norm = RMSNorm(16, 1e-5)
+        x = torch.randn(2, 3, 16, device=self.device).to(torch.bfloat16)
+        norm = RMSNorm(16, 1e-5).to(self.device)
         means, roots = [], []
         orig_mean, orig_rsqrt = torch.Tensor.mean, torch.rsqrt
 
@@ -141,7 +148,7 @@ class BF16HarnessTests(unittest.TestCase):
         torch.Tensor.mean = mean
         torch.rsqrt = rsqrt
         try:
-            with _autocast():
+            with _autocast(self.device):
                 y = norm(x)
         finally:
             torch.Tensor.mean = orig_mean
@@ -152,8 +159,8 @@ class BF16HarnessTests(unittest.TestCase):
         self.assertTrue(means and all(dtype == torch.float32 for dtype in means))
         self.assertTrue(roots and all(dtype == torch.float32 for dtype in roots))
 
-        z = torch.randn(2, 5, 8).to(torch.bfloat16)
-        positions = torch.arange(5)
+        z = torch.randn(2, 5, 8, device=self.device).to(torch.bfloat16)
+        positions = torch.arange(5, device=self.device)
         cosines, sines = [], []
         orig_cos, orig_sin = torch.Tensor.cos, torch.Tensor.sin
 
@@ -168,12 +175,12 @@ class BF16HarnessTests(unittest.TestCase):
         torch.Tensor.cos = cos
         torch.Tensor.sin = sin
         try:
-            with _autocast():
+            with _autocast(self.device):
                 rotated = rope(z, positions, 1e6)
         finally:
             torch.Tensor.cos = orig_cos
             torch.Tensor.sin = orig_sin
-        inv = 1e6 ** (-torch.arange(0, z.shape[-1], 2, dtype=torch.float32) / z.shape[-1])
+        inv = 1e6 ** (-torch.arange(0, z.shape[-1], 2, dtype=torch.float32, device=self.device) / z.shape[-1])
         angle = positions.to(torch.float32)[:, None] * inv
         a, b = z[..., 0::2].float(), z[..., 1::2].float()
         expected = torch.stack((a * angle.cos() - b * angle.sin(),
@@ -182,9 +189,9 @@ class BF16HarnessTests(unittest.TestCase):
         self.assertTrue(cosines and all(dtype == torch.float32 for dtype in cosines))
         self.assertTrue(sines and all(dtype == torch.float32 for dtype in sines))
 
-        logits = torch.randn(1, 5, 32).to(torch.bfloat16)
-        labels = torch.randint(0, 32, (1, 5))
-        with _autocast():
+        logits = torch.randn(1, 5, 32, device=self.device).to(torch.bfloat16)
+        labels = torch.randint(0, 32, (1, 5), device=self.device)
+        with _autocast(self.device):
             loss = ntp_loss(logits, labels)
         expected_loss = torch.nn.functional.cross_entropy(
             logits.float().reshape(-1, 32), labels.reshape(-1), reduction='sum') / labels.numel()
@@ -192,17 +199,17 @@ class BF16HarnessTests(unittest.TestCase):
         self.assertTrue(torch.equal(loss, expected_loss))
 
     def test_bf16_resume_exact_and_cross_precision_rejected(self):
-        self.require_cpu_bf16()
+        self.require_bf16()
         identity_bf16 = {'schema': 1, 'settings': {'precision': 'bf16'}, 'environment': {'device': 'cpu'}}
         identity_fp32 = {'schema': 1, 'settings': {'precision': 'fp32'}, 'environment': {'device': 'cpu'}}
         objective = lambda m, x, y: training_objective(m, x, y, mode='A2', loops=2)
 
         def run(path, steps, resume=False, identity=None, autocast_dtype=torch.bfloat16):
             seed_all(42 if not resume else 99)
-            model = SPLOTLM(RecurrentConfig()).float()
+            model = SPLOTLM(RecurrentConfig()).float().to(self.device)
             opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=0)
             history = train(model, opt, self.blocks, objective, identity or identity_bf16, out / path,
-                            steps=steps, batch_size=1, seed=42, device='cpu', resume=resume,
+                            steps=steps, batch_size=1, seed=42, device=self.device, resume=resume,
                             autocast_dtype=autocast_dtype)
             return model, opt, history
 
@@ -223,25 +230,31 @@ class BF16HarnessTests(unittest.TestCase):
                 run('split', 2, resume=True, identity=identity_fp32, autocast_dtype=None)
 
     def test_same_seed_batch_and_precision_resolution(self):
-        self.require_cpu_bf16()
+        self.require_bf16()
         seed_all(42)
-        a = SPLOTLM(RecurrentConfig())
+        a = SPLOTLM(RecurrentConfig()).to(self.device)
         seed_all(42)
-        b = SPLOTLM(RecurrentConfig())
+        b = SPLOTLM(RecurrentConfig()).to(self.device)
         for x, y in zip(a.state_dict().values(), b.state_dict().values()):
             torch.testing.assert_close(x, y, rtol=0, atol=0)
         self.assertEqual(batch_indices(len(self.blocks), 1, 0, 42),
                          batch_indices(len(self.blocks), 1, 0, 42))
-        fp32 = resolve_precision('cpu', 'fp32')
+        fp32 = resolve_precision(self.device, 'fp32')
         self.assertIsNone(fp32['autocast_dtype'])
-        bf16 = resolve_precision('cpu', 'bf16')
+        bf16 = resolve_precision(self.device, 'bf16')
         self.assertEqual(bf16['autocast_dtype'], torch.bfloat16)
         self.assertEqual(bf16['probe_dtype'], 'bfloat16')
         with self.assertRaises(ValueError):
-            resolve_precision('cpu', 'fp16')
+            resolve_precision(self.device, 'fp16')
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
+    args = parser.parse_args()
+    if args.device == 'cuda' and (not torch.cuda.is_available() or not torch.cuda.is_bf16_supported()):
+        parser.error('CUDA BF16 is unavailable')
+    BF16HarnessTests.device = args.device
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
-    unittest.main(verbosity=2)
+    unittest.main(argv=[sys.argv[0]], verbosity=2)
