@@ -1,0 +1,119 @@
+{
+  "attempt": 1,
+  "base_source_commit": "2503a4ed2b219e2f9ca0d941f8d1e2ed675e5e70",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py exit 0 from clean tested SHA: 15 CPU scripts, 86 tests, 0 failures, 0 skips, plus 5 REP reports. Focused tools/test_hybrid_optimizer.py passed 5/5 on CPU and 5/5 on CUDA.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "cuda-tests.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_optimizer": {
+      "detail": "Five CUDA runs exited 0: FP32 AdamW Nano 1 step, Muon hybrid Nano 1 step, Muon smoke 4-step continuous, 2-step split and resume to 4. Pre-update FP32/Muon loss fields exactly equal and FP32 exactly matches T0002 non-timing fields. Muon smoke continuous/resumed model, both optimizer states, RNG, non-timing history and validation exactly equal. Partition totals 30,425,088 Muon + 12,629,988 AdamW = 43,055,076. Both Nano checkpoints have FP32 finite model/moments and correct state inventory. Post-step validation reported descriptively, no superiority gate.",
+      "evidence": [
+        "run-fp32.json",
+        "run-muon-nano.json",
+        "run-muon-continuous.json",
+        "run-muon-resumed.json",
+        "comparison.json",
+        "checkpoint-state.json",
+        "cuda-tests.txt",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested SHA 3a20856; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, numpy 1.26.4; native torch.optim.Muon available; RTX 4090 24,564 MiB, driver 580.178.04, GPU 0; 24,077 MiB free before/after; 183,058,748 KiB disk before; source clean at start/end.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required REP evidence files are present and hashed; validator passed; branch feat/T0006-muon-attempt-001, hosted-CI PR and issue #48 handover follow this validated package. No merge or closure.",
+      "evidence": [
+        "summary.md",
+        "checkpoints.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Six changed files, all within the reviewed allowlist. Default AdamW path/checkpoint format unchanged. Semantic exhaustive/disjoint partition: Muon 157/30,425,088 and AdamW 41/12,629,988 for Nano; native torch.optim.Muon plus native AdamW adapter; nested state validates version/partition/settings; native NS intermediate BF16 recorded, momentum and AdamW moments FP32. No src/, existing config, CI, Mac, fixture/data, comparator or cadence change.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "partition.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; not published",
+      "bytes": 493312663,
+      "name": "fp32/checkpoint.pt",
+      "sha256": "fe738fe1f68b90e90b660470755212550c1c22d59fcb191ff461b20710902557"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 383356647,
+      "name": "muon-nano/checkpoint.pt",
+      "sha256": "eaee68cc13ca082a6f8ce15c94455d351cdcc18c4a1ec5af0c5f596bfee51e8c"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 1682787,
+      "name": "muon-continuous/checkpoint.pt",
+      "sha256": "c82b62e8ee0562e48b506f5d5b4ab893bcd68edad24c1e756ce2cc0d88407a72"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 1683107,
+      "name": "muon-resumed/checkpoint.pt",
+      "sha256": "46054a9cdf40a8736e6335ea4f0739eef09a8ad3232dbd35877c2625dc729429"
+    }
+  ],
+  "files": {
+    "checkpoint-state.json": "e9649c40f65c06eb50a68d38d79d54e3bc6fe6caf88696a121d96e0f2d0764c7",
+    "checkpoints.txt": "647623e38c9a742e73fa5fa61d6331de6ae4716576b6d27de6d7d2bfffdcdaeb",
+    "ci-cpu.txt": "f9eb3861731cf25e4a3d89e2032a1f6503eb0b9ff6f43cb713cad79210bcd75d",
+    "comparison.json": "c507d51c6d0bdd050801b1920515f8b452eb7938796046b36de78b9673d524d0",
+    "cpu-ci.json": "94e7755731a455b2c885000da0ba00f98f5d34c2e8e102392ce11e4523dfe0fe",
+    "cuda-tests.txt": "432f9134e81141315957d8b47cd31cfb34e1e85b008530005f4c365db6a32e0b",
+    "environment.json": "9984d2acbc26e570b404632301e04eee8af230b1cc6fff762e41d6df600d8603",
+    "execution.log": "f65fbd5c4a8c11888dea1769d12a06cf04d84c7f80f333b3de4b08482292d0e4",
+    "implementation.diff": "0ce16d1263746bbb8c832959c540e94c82e00308a2d842e4f5af1e9b177700fb",
+    "implementation.files.json": "c8e06074fa410ec14053aaa9ea4f33be7e8865c6bdeb20eb5699893ae0d0a88e",
+    "metrics.jsonl": "98151521ed71683f61c7a016265e1d67e6edaf6abf008738ef91e69277afa1ef",
+    "partition.json": "6aa9b0ba6f691faa4d7e4c587a984d61755f9d3bb8ac16c3433bf26579384edd",
+    "run-fp32.json": "96a6f429a2e713879de7149668b3d3cd877186ca9a4d619a348df95752d4f045",
+    "run-muon-continuous.json": "c04fb9f4f430e3f03cd4e5fd298c871f28d390a706c8f51eee239d9fcbf1522f",
+    "run-muon-nano.json": "ff0988a93fc981be0ad87e8ca6419c58bec0bafbddd67ccca9b25161eaa701f4",
+    "run-muon-resumed.json": "196d42831c36351de4a087a2cfdd10ae7c168af7500a5a1fe3269a41d6f99c8c",
+    "summary.md": "363b5140e060d88efff021c307a2d4cc2dc13885c9e778283aa59b761e11abc4"
+  },
+  "limitations": [
+    "Correctness-only single step plus 4-step synthetic smoke; no convergence, tuning, scale, language quality or optimizer-superiority claim.",
+    "FP32 hybrid only; BF16-hybrid empirical validation, full-epoch matched comparison, scheduler and tuning require separate reviewed tasks.",
+    "Native Muon NS intermediate is BF16 internally; native momentum and both optimizer states are FP32; this is recorded, not changed.",
+    "Some Muon expert parameters were unused in the one-step run; 142 of 157 Muon state entries are present. No all-expert coverage claim.",
+    "No CUDA 13, external kernels, FP8, quantization, real corpus or Mini change.",
+    "Checkpoints are local-only and not published; no tensors are committed."
+  ],
+  "minimum_base_commit": "cf7ae82eb046aa3f01910121bbdd6a253808b00f",
+  "schema_version": 1,
+  "source_commit": "3a208567f277545f2688814e72488d7e965eb9de",
+  "status": "passed",
+  "task_commit": "2503a4ed2b219e2f9ca0d941f8d1e2ed675e5e70",
+  "task_id": "T0006",
+  "tested_commit": "3a208567f277545f2688814e72488d7e965eb9de"
+}

@@ -1,0 +1,25 @@
+{
+  "allowed_files": [
+    "tools/experiment.py",
+    "tools/optimizers.py",
+    "tools/test_hybrid_optimizer.py",
+    "configs/experiments/splot-smoke-synthetic-muon.json",
+    "configs/experiments/splot-nano-synthetic-muon.json",
+    "research/implementation/muon-hybrid.md"
+  ],
+  "base_source_commit": "2503a4ed2b219e2f9ca0d941f8d1e2ed675e5e70",
+  "changed_files": [
+    "configs/experiments/splot-nano-synthetic-muon.json",
+    "configs/experiments/splot-smoke-synthetic-muon.json",
+    "research/implementation/muon-hybrid.md",
+    "tools/experiment.py",
+    "tools/optimizers.py",
+    "tools/test_hybrid_optimizer.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "cf7ae82eb046aa3f01910121bbdd6a253808b00f",
+  "note": "No src/, existing config, CI, Mac, fixture/data, comparator, topology, precision or checkpoint-cadence file changed.",
+  "scope_check": "passed",
+  "task_commit": "2503a4ed2b219e2f9ca0d941f8d1e2ed675e5e70",
+  "tested_commit": "3a208567f277545f2688814e72488d7e965eb9de"
+}

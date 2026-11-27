@@ -1,0 +1,10 @@
+test_adapter_state_and_unused_parameter (__main__.HybridOptimizerTests.test_adapter_state_and_unused_parameter) ... ok
+test_default_adamw_selection_fp32_and_bf16 (__main__.HybridOptimizerTests.test_default_adamw_selection_fp32_and_bf16) ... ok
+test_native_muon_rectangular_api (__main__.HybridOptimizerTests.test_native_muon_rectangular_api) ... ok
+test_resume_exact_and_mode_mismatch (__main__.HybridOptimizerTests.test_resume_exact_and_mode_mismatch) ... ok
+test_semantic_partition_smoke_and_nano (__main__.HybridOptimizerTests.test_semantic_partition_smoke_and_nano) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 3.898s
+
+OK

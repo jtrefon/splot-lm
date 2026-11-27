@@ -1,0 +1,2173 @@
+{
+  "groups": {
+    "adamw": {
+      "count": 41,
+      "entries": [
+        {
+          "module": "coda.0.n1",
+          "name": "coda.0.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "coda.0.n2",
+          "name": "coda.0.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "coda.1.n1",
+          "name": "coda.1.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "coda.1.n2",
+          "name": "coda.1.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.a.weight",
+          "numel": 2304,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_scalar_gate",
+          "shape": [
+            6,
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.b.weight",
+          "numel": 2304,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_scalar_gate",
+          "shape": [
+            6,
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.conv",
+          "numel": 4608,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            4,
+            1152
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.dt_bias",
+          "numel": 6,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            6
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.log_A",
+          "numel": 6,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            6
+          ]
+        },
+        {
+          "module": "core.0.attn.norm",
+          "name": "core.0.attn.norm.weight",
+          "numel": 64,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            64
+          ]
+        },
+        {
+          "module": "core.0.moe",
+          "name": "core.0.moe.router.weight",
+          "numel": 3072,
+          "owner": "SparseFFN",
+          "role": "moe_router",
+          "shape": [
+            8,
+            384
+          ]
+        },
+        {
+          "module": "core.0.n1",
+          "name": "core.0.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.0.n2",
+          "name": "core.0.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.a.weight",
+          "numel": 2304,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_scalar_gate",
+          "shape": [
+            6,
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.b.weight",
+          "numel": 2304,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_scalar_gate",
+          "shape": [
+            6,
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.conv",
+          "numel": 4608,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            4,
+            1152
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.dt_bias",
+          "numel": 6,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            6
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.log_A",
+          "numel": 6,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            6
+          ]
+        },
+        {
+          "module": "core.1.attn.norm",
+          "name": "core.1.attn.norm.weight",
+          "numel": 64,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            64
+          ]
+        },
+        {
+          "module": "core.1.moe",
+          "name": "core.1.moe.router.weight",
+          "numel": 3072,
+          "owner": "SparseFFN",
+          "role": "moe_router",
+          "shape": [
+            8,
+            384
+          ]
+        },
+        {
+          "module": "core.1.n1",
+          "name": "core.1.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.1.n2",
+          "name": "core.1.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.a.weight",
+          "numel": 2304,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_scalar_gate",
+          "shape": [
+            6,
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.b.weight",
+          "numel": 2304,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_scalar_gate",
+          "shape": [
+            6,
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.conv",
+          "numel": 4608,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            4,
+            1152
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.dt_bias",
+          "numel": 6,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            6
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.log_A",
+          "numel": 6,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_conv_or_scalar_state",
+          "shape": [
+            6
+          ]
+        },
+        {
+          "module": "core.2.attn.norm",
+          "name": "core.2.attn.norm.weight",
+          "numel": 64,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            64
+          ]
+        },
+        {
+          "module": "core.2.moe",
+          "name": "core.2.moe.router.weight",
+          "numel": 3072,
+          "owner": "SparseFFN",
+          "role": "moe_router",
+          "shape": [
+            8,
+            384
+          ]
+        },
+        {
+          "module": "core.2.n1",
+          "name": "core.2.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.2.n2",
+          "name": "core.2.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe",
+          "name": "core.3.moe.router.weight",
+          "numel": 3072,
+          "owner": "SparseFFN",
+          "role": "moe_router",
+          "shape": [
+            8,
+            384
+          ]
+        },
+        {
+          "module": "core.3.n1",
+          "name": "core.3.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "core.3.n2",
+          "name": "core.3.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "embedding",
+          "name": "embedding.weight",
+          "numel": 12582912,
+          "owner": "Embedding",
+          "role": "tied_embedding",
+          "shape": [
+            32768,
+            384
+          ]
+        },
+        {
+          "module": "norm",
+          "name": "norm.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "offset_norm",
+          "name": "offset_norm.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "prelude.0.n1",
+          "name": "prelude.0.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "prelude.0.n2",
+          "name": "prelude.0.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "prelude.1.n1",
+          "name": "prelude.1.n1.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        },
+        {
+          "module": "prelude.1.n2",
+          "name": "prelude.1.n2.weight",
+          "numel": 384,
+          "owner": "RMSNorm",
+          "role": "rmsnorm",
+          "shape": [
+            384
+          ]
+        }
+      ],
+      "numel": 12629988
+    },
+    "muon": {
+      "count": 157,
+      "entries": [
+        {
+          "module": "coda.0.attn",
+          "name": "coda.0.attn.k.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "coda.0.attn",
+          "name": "coda.0.attn.o.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "coda.0.attn",
+          "name": "coda.0.attn.q.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "coda.0.attn",
+          "name": "coda.0.attn.v.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "coda.0",
+          "name": "coda.0.down.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            1024
+          ]
+        },
+        {
+          "module": "coda.0",
+          "name": "coda.0.gate.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        },
+        {
+          "module": "coda.0",
+          "name": "coda.0.up.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        },
+        {
+          "module": "coda.1.attn",
+          "name": "coda.1.attn.k.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "coda.1.attn",
+          "name": "coda.1.attn.o.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "coda.1.attn",
+          "name": "coda.1.attn.q.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "coda.1.attn",
+          "name": "coda.1.attn.v.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "coda.1",
+          "name": "coda.1.down.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            1024
+          ]
+        },
+        {
+          "module": "coda.1",
+          "name": "coda.1.gate.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        },
+        {
+          "module": "coda.1",
+          "name": "coda.1.up.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.k.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.o.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.q.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.v.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.0.attn",
+          "name": "core.0.attn.z.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_z_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.0",
+          "name": "core.0.moe.experts.0.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.0",
+          "name": "core.0.moe.experts.0.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.0",
+          "name": "core.0.moe.experts.0.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.1",
+          "name": "core.0.moe.experts.1.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.1",
+          "name": "core.0.moe.experts.1.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.1",
+          "name": "core.0.moe.experts.1.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.2",
+          "name": "core.0.moe.experts.2.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.2",
+          "name": "core.0.moe.experts.2.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.2",
+          "name": "core.0.moe.experts.2.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.3",
+          "name": "core.0.moe.experts.3.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.3",
+          "name": "core.0.moe.experts.3.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.3",
+          "name": "core.0.moe.experts.3.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.4",
+          "name": "core.0.moe.experts.4.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.4",
+          "name": "core.0.moe.experts.4.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.4",
+          "name": "core.0.moe.experts.4.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.5",
+          "name": "core.0.moe.experts.5.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.5",
+          "name": "core.0.moe.experts.5.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.5",
+          "name": "core.0.moe.experts.5.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.6",
+          "name": "core.0.moe.experts.6.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.6",
+          "name": "core.0.moe.experts.6.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.6",
+          "name": "core.0.moe.experts.6.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.7",
+          "name": "core.0.moe.experts.7.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.7",
+          "name": "core.0.moe.experts.7.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.experts.7",
+          "name": "core.0.moe.experts.7.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.shared",
+          "name": "core.0.moe.shared.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.0.moe.shared",
+          "name": "core.0.moe.shared.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.0.moe.shared",
+          "name": "core.0.moe.shared.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.k.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.o.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.q.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.v.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.1.attn",
+          "name": "core.1.attn.z.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_z_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.0",
+          "name": "core.1.moe.experts.0.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.0",
+          "name": "core.1.moe.experts.0.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.0",
+          "name": "core.1.moe.experts.0.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.1",
+          "name": "core.1.moe.experts.1.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.1",
+          "name": "core.1.moe.experts.1.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.1",
+          "name": "core.1.moe.experts.1.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.2",
+          "name": "core.1.moe.experts.2.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.2",
+          "name": "core.1.moe.experts.2.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.2",
+          "name": "core.1.moe.experts.2.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.3",
+          "name": "core.1.moe.experts.3.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.3",
+          "name": "core.1.moe.experts.3.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.3",
+          "name": "core.1.moe.experts.3.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.4",
+          "name": "core.1.moe.experts.4.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.4",
+          "name": "core.1.moe.experts.4.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.4",
+          "name": "core.1.moe.experts.4.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.5",
+          "name": "core.1.moe.experts.5.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.5",
+          "name": "core.1.moe.experts.5.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.5",
+          "name": "core.1.moe.experts.5.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.6",
+          "name": "core.1.moe.experts.6.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.6",
+          "name": "core.1.moe.experts.6.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.6",
+          "name": "core.1.moe.experts.6.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.7",
+          "name": "core.1.moe.experts.7.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.7",
+          "name": "core.1.moe.experts.7.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.experts.7",
+          "name": "core.1.moe.experts.7.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.shared",
+          "name": "core.1.moe.shared.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.1.moe.shared",
+          "name": "core.1.moe.shared.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.1.moe.shared",
+          "name": "core.1.moe.shared.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.k.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.o.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.q.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.v.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.2.attn",
+          "name": "core.2.attn.z.weight",
+          "numel": 147456,
+          "owner": "GatedDeltaNet",
+          "role": "gdn_z_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.0",
+          "name": "core.2.moe.experts.0.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.0",
+          "name": "core.2.moe.experts.0.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.0",
+          "name": "core.2.moe.experts.0.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.1",
+          "name": "core.2.moe.experts.1.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.1",
+          "name": "core.2.moe.experts.1.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.1",
+          "name": "core.2.moe.experts.1.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.2",
+          "name": "core.2.moe.experts.2.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.2",
+          "name": "core.2.moe.experts.2.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.2",
+          "name": "core.2.moe.experts.2.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.3",
+          "name": "core.2.moe.experts.3.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.3",
+          "name": "core.2.moe.experts.3.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.3",
+          "name": "core.2.moe.experts.3.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.4",
+          "name": "core.2.moe.experts.4.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.4",
+          "name": "core.2.moe.experts.4.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.4",
+          "name": "core.2.moe.experts.4.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.5",
+          "name": "core.2.moe.experts.5.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.5",
+          "name": "core.2.moe.experts.5.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.5",
+          "name": "core.2.moe.experts.5.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.6",
+          "name": "core.2.moe.experts.6.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.6",
+          "name": "core.2.moe.experts.6.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.6",
+          "name": "core.2.moe.experts.6.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.7",
+          "name": "core.2.moe.experts.7.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.7",
+          "name": "core.2.moe.experts.7.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.experts.7",
+          "name": "core.2.moe.experts.7.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.shared",
+          "name": "core.2.moe.shared.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.2.moe.shared",
+          "name": "core.2.moe.shared.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.2.moe.shared",
+          "name": "core.2.moe.shared.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.attn",
+          "name": "core.3.attn.k.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "core.3.attn",
+          "name": "core.3.attn.o.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.3.attn",
+          "name": "core.3.attn.output_gate.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "gqa_output_gate",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.3.attn",
+          "name": "core.3.attn.q.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "core.3.attn",
+          "name": "core.3.attn.v.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.0",
+          "name": "core.3.moe.experts.0.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.0",
+          "name": "core.3.moe.experts.0.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.0",
+          "name": "core.3.moe.experts.0.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.1",
+          "name": "core.3.moe.experts.1.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.1",
+          "name": "core.3.moe.experts.1.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.1",
+          "name": "core.3.moe.experts.1.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.2",
+          "name": "core.3.moe.experts.2.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.2",
+          "name": "core.3.moe.experts.2.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.2",
+          "name": "core.3.moe.experts.2.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.3",
+          "name": "core.3.moe.experts.3.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.3",
+          "name": "core.3.moe.experts.3.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.3",
+          "name": "core.3.moe.experts.3.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.4",
+          "name": "core.3.moe.experts.4.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.4",
+          "name": "core.3.moe.experts.4.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.4",
+          "name": "core.3.moe.experts.4.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.5",
+          "name": "core.3.moe.experts.5.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.5",
+          "name": "core.3.moe.experts.5.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.5",
+          "name": "core.3.moe.experts.5.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.6",
+          "name": "core.3.moe.experts.6.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.6",
+          "name": "core.3.moe.experts.6.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.6",
+          "name": "core.3.moe.experts.6.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.7",
+          "name": "core.3.moe.experts.7.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.7",
+          "name": "core.3.moe.experts.7.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.experts.7",
+          "name": "core.3.moe.experts.7.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.shared",
+          "name": "core.3.moe.shared.down.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            512
+          ]
+        },
+        {
+          "module": "core.3.moe.shared",
+          "name": "core.3.moe.shared.gate.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "core.3.moe.shared",
+          "name": "core.3.moe.shared.up.weight",
+          "numel": 196608,
+          "owner": "Expert",
+          "role": "ffn_matrix",
+          "shape": [
+            512,
+            384
+          ]
+        },
+        {
+          "module": "",
+          "name": "offset_projection.weight",
+          "numel": 147456,
+          "owner": "SPLOTLM",
+          "role": "mtp_offset_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "prelude.0.attn",
+          "name": "prelude.0.attn.k.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "prelude.0.attn",
+          "name": "prelude.0.attn.o.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "prelude.0.attn",
+          "name": "prelude.0.attn.q.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "prelude.0.attn",
+          "name": "prelude.0.attn.v.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "prelude.0",
+          "name": "prelude.0.down.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            1024
+          ]
+        },
+        {
+          "module": "prelude.0",
+          "name": "prelude.0.gate.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        },
+        {
+          "module": "prelude.0",
+          "name": "prelude.0.up.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        },
+        {
+          "module": "prelude.1.attn",
+          "name": "prelude.1.attn.k.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "prelude.1.attn",
+          "name": "prelude.1.attn.o.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "prelude.1.attn",
+          "name": "prelude.1.attn.q.weight",
+          "numel": 147456,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            384,
+            384
+          ]
+        },
+        {
+          "module": "prelude.1.attn",
+          "name": "prelude.1.attn.v.weight",
+          "numel": 49152,
+          "owner": "GQA",
+          "role": "attention_projection",
+          "shape": [
+            128,
+            384
+          ]
+        },
+        {
+          "module": "prelude.1",
+          "name": "prelude.1.down.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            384,
+            1024
+          ]
+        },
+        {
+          "module": "prelude.1",
+          "name": "prelude.1.gate.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        },
+        {
+          "module": "prelude.1",
+          "name": "prelude.1.up.weight",
+          "numel": 393216,
+          "owner": "Block",
+          "role": "ffn_matrix",
+          "shape": [
+            1024,
+            384
+          ]
+        }
+      ],
+      "numel": 30425088
+    }
+  },
+  "inventory_numel": 43055076,
+  "native_implementation": "torch.optim.Muon",
+  "ns_intermediate_dtype": "bfloat16",
+  "parameter_count": 198,
+  "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+  "version": 1
+}
