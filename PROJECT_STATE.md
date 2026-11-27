@@ -42,3 +42,6 @@ T0002 #28 and T0003 #35 closed after #34/#37 merged. T0003 35/35 batches, 2534 N
 
 ## Latest parallel handover
 T0004 #38/#45 and T0006 #48/#50 accepted/merged/closed; T0005 #40 and CI #46 previously closed. CI #47 active. Muon 210943940 vs AdamW 320848380 bytes state after one Nano step; exact pre-update/restore evidence, no superiority. Mac corrected synthetic oracle, swapped-key edge case carried into T0008. FP8-first priority: T0007 #51 Linux native GEMM feasibility; T0008 #52 Mac byte BPE reference; no actual corpus acquisition. #7/#8/#10/#42/#43 remain open. Source rights/pins and production tokenizer gate before substantive pretraining.
+
+## Native FP8 handover
+T0007 #51/#54 accepted and merged; 33/33 GEMMs native on Ada, max relative error 0.062166 vs FP32 /0.001681 vs dequant reference. Current probe includes host scalar scale copies, diagnostics and synchronization; not optimized performance. T0009 #56 integrates native autograd in selected projections, BF16/FP32 controls. T0008 #52/#55 correction requested: cap artifact expansion and codec inputs, canonical reload; original evidence retained. Mac next after acceptance: real-source provenance gate and portable tokenizer-to-shard packing pipeline, no real data until explicit rights and acquisition approval. #7/#8/#10/#42/#43 remain open.
