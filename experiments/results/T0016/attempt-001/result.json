@@ -1,0 +1,114 @@
+{
+  "attempt": 1,
+  "checks": {
+    "acquisition": {
+      "detail": "Eight prose families acquired from official routes: four Standard Ebooks raw XHTML at pinned item-history commits and four Wolne Lektury official XML volumes. 11,204,726 network bytes in 249 files, 8,987,423 extracted UTF-8 bytes and 2,360 segments; caps 50 MiB network, 10 MiB extracted, 2.5 MiB/work and 10,000 segments all held. Largest work 2,106,903 bytes; no item excluded after acquisition. Pan Tadeusz remains verse_epic and excluded. Standard Ebooks paratext and Wolne Lektury abstrakt/nota_red/nota/motyw/pr/uwaga/illustration layers were excluded; Faraon original Wstep retained. Rights/authority URLs, author dates, raw/content hashes and local snapshot revisions are recorded. No raw text or token arrays are in Git; no legal clearance or redistribution approval is claimed.",
+      "evidence": [
+        "acquisition.json",
+        "manifest.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 bytes RAM, CPU only. Default CPython 3.15.2 (Unicode 17.0.0) and existing backend CPython 3.12.16 (Unicode 15.0.0). Official tokenizers==0.23.3 cp310-abi3 macOS arm64 wheel, 3,101,381 bytes, SHA-256 68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716, recreated only in a session-local venv with --no-index --no-deps --only-binary=:all:. No interpreter/system/compiler/sudo/other-package change. Tested implementation 0261ca0421abf4aa26c0b69626f06b5d9779f2a4 was clean before and after acceptance.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat REP evidence contains summary, result, environment, metrics, sanitized execution log, manifest, aggregate acquisition pins, tokenizer summary, dataset summary, repeat comparison, independent offset/token verification and segment round-trip. No raw text, token arrays, tokenizer JSON, model weights or binary corpus is committed. tools/rep/validate_result.py was run with exact checks environment,acquisition,implementation,unit_tests,handover; output STRUCTURALLY VALID: passed is recorded in PR #80 and this detail. One INDEX row is appended. PR #80 references #76/#8/#11; issue #76 receives handover and #77 receives the dependency note. No merge, issue closure, model training or redistribution is performed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "manifest.json"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Tested commit 0261ca0 changes the allowed optional tools/production_tokenizer.py and adds only tools/pilot_dataset.py, tools/test_pilot_dataset.py, research/data/pilot-dataset.md and configs/data/pilot-sources-v0.2.json. The adapter adds a cached validated tokenizer session and a separate 4 MiB/10,000-document real-pilot training API while preserving synthetic limits. The pilot module implements bounded official acquisition, XHTML/XML extraction with annotation exclusion, lossless UTF-8 segmentation, train-only tokenizer fitting, block-aware <=510-token segmentation, exact labels/masks, canonical manifest and atomic local-only materialization of splot-pilot-blocks-v1. No existing synthetic oracle, shard, harness, CI or model file was changed.",
+      "evidence": [
+        "summary.md",
+        "dataset-summary.json",
+        "tokenizer-summary.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 with no timeout or retry: 145 tests total (30 corpus, 28 BPE, 6 fixture, 27 shard, 4 stdlib tokenizer, 17 stdlib pilot, 14 backend tokenizer, 19 backend pilot). Two fresh builds from the frozen acquisition and committed registry were byte-identical in manifest, logical digest, tokenizer, artifact, source-index and all shards; a third build also matched. Final manifest SHA-256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55, logical 70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c, tokenizer 104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b. Dataset: 128/16/16 blocks, 56,201 content tokens, 56,361 NTP and 56,201 offset-2 labels. Independent audit re-mapped all 160 blocks to exact source offsets and token sequences with strict round-trip; all 2,360 eligible segments round-trip with zero failures. Hosted stdlib CI does not import tokenizers.",
+      "evidence": [
+        "metrics.jsonl",
+        "manifest.json",
+        "dataset-summary.json",
+        "tokenizer-summary.json",
+        "compare.json",
+        "verification.json",
+        "segment-roundtrip.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "official PyPI file; verified and installed only in a session-local venv; not committed",
+      "bytes": 3101381,
+      "name": "tokenizers-0.23.3-cp310-abi3-macosx_11_0_arm64.whl",
+      "sha256": "68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716"
+    },
+    {
+      "availability": "local-only; manifest SHA dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55; not committed",
+      "bytes": 2727588,
+      "name": "splot-pilot-v1 local dataset (logical identity)",
+      "sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c"
+    },
+    {
+      "availability": "local-only; not committed",
+      "bytes": 708869,
+      "name": "tokenizer.json local",
+      "sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b"
+    },
+    {
+      "availability": "local-only; not committed",
+      "bytes": 745077,
+      "name": "tokenizer artifact local",
+      "sha256": "95c5d111cacd3fb668d15d6d7a6cc501a043027b876953b96cc185f974275011"
+    }
+  ],
+  "files": {
+    "acquisition.json": "84ac9ed76e43afd1934f063ff7de1eb9967d5c4090a4a598bb3921f087d4b4cf",
+    "compare.json": "f8eccaebf3094af71d2cff0b859b237fbd61effaa247d5b63a1aaf5edb13bab3",
+    "dataset-summary.json": "175c0b9b29a7d57106fb6c1cee2afa4f10cba99ff6fc50feeb31841ec97e750c",
+    "environment.json": "ab5ec790bf0fd388c75376d9e67975690b6352ae1c82de45dfcb0a7e391415e1",
+    "execution.log": "9efa19e7fe013bba5e9234942576e30df2aae720390924117ec8512aa99ff068",
+    "manifest.json": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+    "metrics.jsonl": "372cfd2b995e0d6ed532c2f8540d52ca290a74b202cf9cb56db423bc618bddbc",
+    "segment-roundtrip.json": "6337661db7b4cffa7311fd28d119b942248b98ebafe07e0bb7f8102d253026ff",
+    "summary.md": "94102f8360135fd47290df06589480fcb02d6aefda76851b2945010070970737",
+    "tokenizer-summary.json": "f97a8e6bd0d5d20914ab2a627115e31075c0768fb31a85eeba623f3bf4739455",
+    "verification.json": "15bae7143ab7e18a0ecd85eb5223c013f9e4d64679cf2870d991391d46e7b591"
+  },
+  "limitations": [
+    "Small feasibility pilot: 160 blocks / 56,201 content tokens; not a representative sample, scaling result, quality claim or evaluation benchmark.",
+    "Prose only; no code, math or technical quota claim.",
+    "Tokenizer target/actual vocabulary is 16,384/16,384, but the first model vocabulary remains 32,768 with 16,384 unused logits; no remapping.",
+    "Rights are a documented public-domain assessment, not legal clearance or redistribution approval; Standard Ebooks provides U.S. wording and Wolne Lektury annotations remain separately licensed and were excluded.",
+    "Polish upstream XML is mutable; local-sha256 pins the frozen snapshot, not an upstream immutable revision.",
+    "No model training, test-set loss evaluation, raw-text redistribution or weight-publication approval is included.",
+    "Raw text, token arrays, tokenizer JSON, model weights and dataset shards remain local-only and are not in Git.",
+    "Hosted CPU CI is required on PR #80 and is not claimed as passed in this evidence."
+  ],
+  "schema_version": 1,
+  "source_commit": "0261ca0421abf4aa26c0b69626f06b5d9779f2a4",
+  "status": "passed",
+  "task_commit": "4c4e23e84c2a662d8519d4a2a852116c711f7ee2",
+  "task_id": "T0016",
+  "tested_commit": "0261ca0421abf4aa26c0b69626f06b5d9779f2a4"
+}

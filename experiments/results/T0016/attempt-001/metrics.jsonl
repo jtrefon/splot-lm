@@ -1,0 +1,105 @@
+{"attempt": 1, "duration_seconds": 0.065556, "metric": "exit_code", "run": "tools/test_corpus_reference.py", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.065556, "metric": "tests", "run": "tools/test_corpus_reference.py", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 30}
+{"attempt": 1, "duration_seconds": 0.108328, "metric": "exit_code", "run": "tools/test_bpe_reference.py", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.108328, "metric": "tests", "run": "tools/test_bpe_reference.py", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 28}
+{"attempt": 1, "duration_seconds": 0.042092, "metric": "exit_code", "run": "tools/test_data_fixture.py", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.042092, "metric": "tests", "run": "tools/test_data_fixture.py", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 6}
+{"attempt": 1, "duration_seconds": 0.201646, "metric": "exit_code", "run": "tools/test_tokenized_shards.py", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.201646, "metric": "tests", "run": "tools/test_tokenized_shards.py", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 27}
+{"attempt": 1, "duration_seconds": 0.047852, "metric": "exit_code", "run": "tools/test_production_tokenizer.py", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.047852, "metric": "tests", "run": "tools/test_production_tokenizer.py", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 4}
+{"attempt": 1, "duration_seconds": 0.301265, "metric": "exit_code", "run": "tools/test_pilot_dataset.py", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.301265, "metric": "tests", "run": "tools/test_pilot_dataset.py", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 17}
+{"attempt": 1, "duration_seconds": 0.32807, "metric": "exit_code", "run": "backend tokenizer tests", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.32807, "metric": "tests", "run": "backend tokenizer tests", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 14}
+{"attempt": 1, "duration_seconds": 0.346158, "metric": "exit_code", "run": "backend pilot tests", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.346158, "metric": "tests", "run": "backend pilot tests", "status": "observed", "task_id": "T0016", "unit": "tests", "value": 19}
+{"attempt": 1, "duration_seconds": 6.188739, "metric": "exit_code", "run": "build final-a", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 6.207156, "metric": "exit_code", "run": "build final-b", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.188725, "metric": "exit_code", "run": "compare final-a final-b", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.12277, "metric": "exit_code", "run": "verify final-a", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 3.054077, "metric": "exit_code", "run": "independent offset/token audit", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.004091, "metric": "exit_code", "run": "artifact/source-index comparison", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.002626, "metric": "exit_code", "run": "source-index comparison", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.002393, "metric": "exit_code", "run": "build-summary comparison", "status": "observed", "task_id": "T0016", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "network_bytes", "run": "acquisition", "status": "observed", "task_id": "T0016", "unit": "bytes", "value": 11204726}
+{"attempt": 1, "metric": "extracted_utf8_bytes", "run": "acquisition", "status": "observed", "task_id": "T0016", "unit": "bytes", "value": 8987423}
+{"attempt": 1, "metric": "segments", "run": "acquisition", "status": "observed", "task_id": "T0016", "unit": "segments", "value": 2360}
+{"attempt": 1, "metric": "files", "run": "acquisition", "status": "observed", "task_id": "T0016", "unit": "files", "value": 249}
+{"attempt": 1, "metric": "max_work_bytes", "run": "acquisition", "status": "observed", "task_id": "T0016", "unit": "bytes", "value": 2106903}
+{"attempt": 1, "metric": "actual_vocab_size", "run": "tokenizer", "status": "observed", "task_id": "T0016", "unit": "tokens", "value": 16384}
+{"attempt": 1, "metric": "training_bytes", "run": "tokenizer", "status": "observed", "task_id": "T0016", "unit": "bytes", "value": 4194289}
+{"attempt": 1, "metric": "training_segments", "run": "tokenizer", "status": "observed", "task_id": "T0016", "unit": "segments", "value": 1094}
+{"attempt": 1, "metric": "sampled", "run": "tokenizer", "status": "observed", "task_id": "T0016", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "tokenizer_json_bytes", "run": "tokenizer", "status": "observed", "task_id": "T0016", "unit": "bytes", "value": 708869}
+{"attempt": 1, "metric": "tokenizer_sha256", "run": "tokenizer", "status": "observed", "task_id": "T0016", "unit": "sha256", "value": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b"}
+{"attempt": 1, "metric": "artifact_sha256", "run": "tokenizer", "status": "observed", "task_id": "T0016", "unit": "sha256", "value": "95c5d111cacd3fb668d15d6d7a6cc501a043027b876953b96cc185f974275011"}
+{"attempt": 1, "metric": "manifest_sha256", "run": "dataset", "status": "observed", "task_id": "T0016", "unit": "sha256", "value": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55"}
+{"attempt": 1, "metric": "manifest_bytes", "run": "dataset", "status": "observed", "task_id": "T0016", "unit": "bytes", "value": 4674}
+{"attempt": 1, "metric": "logical_sha256", "run": "dataset", "status": "observed", "task_id": "T0016", "unit": "sha256", "value": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c"}
+{"attempt": 1, "metric": "source_snapshot_sha256", "run": "dataset", "status": "observed", "task_id": "T0016", "unit": "sha256", "value": "c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087"}
+{"attempt": 1, "metric": "source_index_sha256", "run": "dataset", "status": "observed", "task_id": "T0016", "unit": "sha256", "value": "f7d11bcdccc7a0df9e4b775ad5b6136a76d4fcfd0e87429a373d4d034dde3953"}
+{"attempt": 1, "metric": "source_index_documents", "run": "dataset", "status": "observed", "task_id": "T0016", "unit": "documents", "value": 160}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split": "test", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 16}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split": "test", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 5051}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split": "test", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 5035}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split": "test", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 5019}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split": "train", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 128}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split": "train", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 46204}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split": "train", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 46076}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split": "train", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 45948}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split": "validation", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 16}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split": "validation", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 5266}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split": "validation", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 5250}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split": "validation", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 5234}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split_language": "test/en", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 8}
+{"attempt": 1, "metric": "content_tokens", "run": "dataset", "split_language": "test/en", "status": "observed", "task_id": "T0016", "unit": "content_tokens", "value": 2430}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split_language": "test/en", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 2446}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split_language": "test/en", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 2438}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split_language": "test/en", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 2430}
+{"attempt": 1, "metric": "pad_tokens", "run": "dataset", "split_language": "test/en", "status": "observed", "task_id": "T0016", "unit": "pad_tokens", "value": 1650}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split_language": "test/pl", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 8}
+{"attempt": 1, "metric": "content_tokens", "run": "dataset", "split_language": "test/pl", "status": "observed", "task_id": "T0016", "unit": "content_tokens", "value": 2589}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split_language": "test/pl", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 2605}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split_language": "test/pl", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 2597}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split_language": "test/pl", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 2589}
+{"attempt": 1, "metric": "pad_tokens", "run": "dataset", "split_language": "test/pl", "status": "observed", "task_id": "T0016", "unit": "pad_tokens", "value": 1491}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split_language": "train/en", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 64}
+{"attempt": 1, "metric": "content_tokens", "run": "dataset", "split_language": "train/en", "status": "observed", "task_id": "T0016", "unit": "content_tokens", "value": 21938}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split_language": "train/en", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 22066}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split_language": "train/en", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 22002}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split_language": "train/en", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 21938}
+{"attempt": 1, "metric": "pad_tokens", "run": "dataset", "split_language": "train/en", "status": "observed", "task_id": "T0016", "unit": "pad_tokens", "value": 10702}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split_language": "train/pl", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 64}
+{"attempt": 1, "metric": "content_tokens", "run": "dataset", "split_language": "train/pl", "status": "observed", "task_id": "T0016", "unit": "content_tokens", "value": 24010}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split_language": "train/pl", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 24138}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split_language": "train/pl", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 24074}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split_language": "train/pl", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 24010}
+{"attempt": 1, "metric": "pad_tokens", "run": "dataset", "split_language": "train/pl", "status": "observed", "task_id": "T0016", "unit": "pad_tokens", "value": 8630}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split_language": "validation/en", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 8}
+{"attempt": 1, "metric": "content_tokens", "run": "dataset", "split_language": "validation/en", "status": "observed", "task_id": "T0016", "unit": "content_tokens", "value": 2573}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split_language": "validation/en", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 2589}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split_language": "validation/en", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 2581}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split_language": "validation/en", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 2573}
+{"attempt": 1, "metric": "pad_tokens", "run": "dataset", "split_language": "validation/en", "status": "observed", "task_id": "T0016", "unit": "pad_tokens", "value": 1507}
+{"attempt": 1, "metric": "blocks", "run": "dataset", "split_language": "validation/pl", "status": "observed", "task_id": "T0016", "unit": "blocks", "value": 8}
+{"attempt": 1, "metric": "content_tokens", "run": "dataset", "split_language": "validation/pl", "status": "observed", "task_id": "T0016", "unit": "content_tokens", "value": 2661}
+{"attempt": 1, "metric": "valid_tokens", "run": "dataset", "split_language": "validation/pl", "status": "observed", "task_id": "T0016", "unit": "valid_tokens", "value": 2677}
+{"attempt": 1, "metric": "ntp_labels", "run": "dataset", "split_language": "validation/pl", "status": "observed", "task_id": "T0016", "unit": "ntp_labels", "value": 2669}
+{"attempt": 1, "metric": "offset2_labels", "run": "dataset", "split_language": "validation/pl", "status": "observed", "task_id": "T0016", "unit": "offset2_labels", "value": 2661}
+{"attempt": 1, "metric": "pad_tokens", "run": "dataset", "split_language": "validation/pl", "status": "observed", "task_id": "T0016", "unit": "pad_tokens", "value": 1419}
+{"attempt": 1, "metric": "manifest_equal", "run": "repeat", "status": "observed", "task_id": "T0016", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "logical_equal", "run": "repeat", "status": "observed", "task_id": "T0016", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "tokenizer_equal", "run": "repeat", "status": "observed", "task_id": "T0016", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "shards_equal", "run": "repeat", "status": "observed", "task_id": "T0016", "unit": "bool", "value": true}
+{"attempt": 1, "metric": "documents", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "count", "value": 160}
+{"attempt": 1, "metric": "family_split_match", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "count", "value": 160}
+{"attempt": 1, "metric": "offset_match", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "count", "value": 160}
+{"attempt": 1, "metric": "roundtrip", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "count", "value": 160}
+{"attempt": 1, "metric": "tokens", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "tokens", "value": 56201}
+{"attempt": 1, "metric": "unique_doc_ids", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "count", "value": 160}
+{"attempt": 1, "metric": "status", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "status", "value": "passed"}
+{"attempt": 1, "metric": "segment_roundtrip_segments", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "segments", "value": 2360}
+{"attempt": 1, "metric": "segment_roundtrip_tokens", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "tokens", "value": 2301483}
+{"attempt": 1, "metric": "segment_roundtrip_failures", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "segments", "value": 0}
+{"attempt": 1, "metric": "max_segment_tokens", "run": "audit", "status": "observed", "task_id": "T0016", "unit": "tokens", "value": 1443}

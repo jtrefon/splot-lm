@@ -1,0 +1,88 @@
+{
+  "acquisition": {
+    "extracted_utf8_bytes": 8987423,
+    "files": 249,
+    "network_bytes": 11204726,
+    "network_limit_bytes": 52428800,
+    "segments": 2360
+  },
+  "attempt": 1,
+  "caps": {
+    "blocks_test": 16,
+    "blocks_train": 128,
+    "blocks_validation": 16,
+    "extracted_utf8_bytes": 10485760,
+    "local_output_bytes": 536870912,
+    "network_bytes": 52428800,
+    "per_work_utf8_bytes": 2621440,
+    "segments": 10000,
+    "sequence_length": 512,
+    "train_tokenizer_bytes": 4194304
+  },
+  "captured_at": "2026-11-27T20:44:03Z",
+  "commits": {
+    "approved_minimum_base": "8537c533372fb58a5d5ad5c58436f90e58c030ea",
+    "task_instruction": "4c4e23e84c2a662d8519d4a2a852116c711f7ee2",
+    "tested_implementation": "0261ca0421abf4aa26c0b69626f06b5d9779f2a4"
+  },
+  "dataset": {
+    "format": "splot-pilot-blocks-v1",
+    "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+    "manifest_bytes": 4674,
+    "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+    "model_vocab_size": 32768,
+    "sequence_length": 512,
+    "tokenizer_json_bytes": 708869,
+    "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+    "unused_logits": 16384,
+    "version": 1,
+    "vocab_size": 16384
+  },
+  "hardware": {
+    "cuda": false,
+    "device": "CPU only",
+    "mps_used": false
+  },
+  "os": {
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "darwin_kernel": "27.2.0",
+    "logical_cores": 10,
+    "macos_version": "27.2.1",
+    "ram_bytes": 17179869184,
+    "system": "Darwin"
+  },
+  "python": {
+    "backend": {
+      "executable": "/opt/homebrew/opt/python@3.12/bin/python3.12",
+      "implementation": "CPython",
+      "role": "isolated tokenizer venv",
+      "unicode": "15.0.0",
+      "utf8_mode": 0,
+      "version": "3.12.16"
+    },
+    "default": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "role": "default stdlib tests and acquisition/build orchestration",
+      "unicode": "17.0.0",
+      "utf8_mode": 1,
+      "version": "3.15.2"
+    }
+  },
+  "seed": null,
+  "seed_reason": "ByteLevel BPE training is deterministic by sorted train-only segment order; no random seed is used.",
+  "task_id": "T0016",
+  "tokenizers": {
+    "huggingface_hub_installed": false,
+    "installation": "binary-only wheel, --no-index --no-deps --only-binary=:all:",
+    "other_packages_installed": false,
+    "requires_python": ">=3.10",
+    "system_changes": false,
+    "venv": "<SESSION_VENV>",
+    "version": "0.23.3",
+    "wheel": "tokenizers-0.23.3-cp310-abi3-macosx_11_0_arm64.whl",
+    "wheel_bytes": 3101381,
+    "wheel_sha256": "68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "logical_equal": true,
+    "manifest_equal": true,
+    "shards_equal": true,
+    "tokenizer_equal": true
+  },
+  "logical_sha256_a": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "logical_sha256_b": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_sha256_a": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "manifest_sha256_b": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "status": "passed"
+}

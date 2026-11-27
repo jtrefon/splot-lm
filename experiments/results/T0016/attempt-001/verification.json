@@ -1,0 +1,30 @@
+{
+  "checks": {
+    "documents": 160,
+    "family_split_match": 160,
+    "offset_match": 160,
+    "roundtrip": 160,
+    "tokens": 56201,
+    "unique_doc_ids": 160
+  },
+  "family_splits": {
+    "test": [
+      "se-moby-dick",
+      "wl-faraon"
+    ],
+    "train": [
+      "se-frankenstein",
+      "se-pride-and-prejudice",
+      "wl-chlopi",
+      "wl-lalka"
+    ],
+    "validation": [
+      "se-alices-adventures",
+      "wl-quo-vadis"
+    ]
+  },
+  "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "source_index_sha256": "f7d11bcdccc7a0df9e4b775ad5b6136a76d4fcfd0e87429a373d4d034dde3953",
+  "status": "passed"
+}
