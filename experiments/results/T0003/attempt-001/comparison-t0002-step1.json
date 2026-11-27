@@ -1,0 +1,84 @@
+{
+  "baseline": "T0002 attempt-001 step 1",
+  "baseline_inventory": {
+    "checkpoint_bytes": 493312343,
+    "optimizer_state_entries": 183,
+    "peak_allocated_bytes": 881575424,
+    "peak_reserved_bytes": 1033895936
+  },
+  "candidate": "T0003 attempt-001 step 1",
+  "candidate_inventory": {
+    "checkpoint_bytes": 516923467,
+    "optimizer_moment_elements": 86110152,
+    "optimizer_state_entries": 198,
+    "peak_allocated_bytes": 948460544,
+    "peak_reserved_bytes": 1134559232
+  },
+  "compared_fields": [
+    "step",
+    "batch_indices",
+    "valid_tokens",
+    "ntp_labels",
+    "offset2_labels_available",
+    "objective",
+    "final_ntp",
+    "early_ntp",
+    "offset2",
+    "balance"
+  ],
+  "differences": {},
+  "equal": true,
+  "excluded_fields": [
+    "step_seconds",
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes"
+  ],
+  "note": "Timing and allocator peaks are excluded from history equality. T0002 moment-element count was not published in the T0002 evidence.",
+  "status": "passed",
+  "values": {
+    "balance": {
+      "t0002": 1.5909053087234497,
+      "t0003_step1": 1.5909053087234497
+    },
+    "batch_indices": {
+      "t0002": [
+        9
+      ],
+      "t0003_step1": [
+        9
+      ]
+    },
+    "early_ntp": {
+      "t0002": 10.537959098815918,
+      "t0003_step1": 10.537959098815918
+    },
+    "final_ntp": {
+      "t0002": 10.538311958312988,
+      "t0003_step1": 10.538311958312988
+    },
+    "ntp_labels": {
+      "t0002": 50,
+      "t0003_step1": 50
+    },
+    "objective": {
+      "t0002": 15.798876762390137,
+      "t0003_step1": 15.798876762390137
+    },
+    "offset2": {
+      "t0002": 10.44066333770752,
+      "t0003_step1": 10.44066333770752
+    },
+    "offset2_labels_available": {
+      "t0002": 49,
+      "t0003_step1": 49
+    },
+    "step": {
+      "t0002": 1,
+      "t0003_step1": 1
+    },
+    "valid_tokens": {
+      "t0002": 51,
+      "t0003_step1": 51
+    }
+  }
+}

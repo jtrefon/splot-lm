@@ -1,0 +1,4 @@
+artifact: nano-epoch/checkpoint.pt
+sha256: 27a6c998beed37bd2c7495edc596e2c190c9ab826a0cfe6eac63754f02192d27
+bytes: 516923467
+availability: local-only; not published
