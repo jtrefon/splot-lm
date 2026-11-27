@@ -39,3 +39,6 @@ T0002 #28 attempt-001 #34 reviewed: all three gates and seven evidence hashes pa
 
 ## Parallel execution handover (2026-11-27)
 T0002 #28 and T0003 #35 closed after #34/#37 merged. T0003 35/35 batches, 2534 NTP labels, 198 Adam states, 1082 MiB peak reserved, exact T0002 step-1 reproduction; checkpoint local-only. T0004 #38 spec #39 merged, Mac CPU synthetic corpus reference only; production materialization Linux, see research/data/portability.md. T0005 #40 BF16 implementation spec in review; Linux independent of Mac. #7/#8/#10 remain open. Next precision validation, checkpoint cadence and actual contiguous-context tests; corpus rights/pins before real training.
+
+## Latest parallel handover
+T0004 #38/#45 and T0006 #48/#50 accepted/merged/closed; T0005 #40 and CI #46 previously closed. CI #47 active. Muon 210943940 vs AdamW 320848380 bytes state after one Nano step; exact pre-update/restore evidence, no superiority. Mac corrected synthetic oracle, swapped-key edge case carried into T0008. FP8-first priority: T0007 #51 Linux native GEMM feasibility; T0008 #52 Mac byte BPE reference; no actual corpus acquisition. #7/#8/#10/#42/#43 remain open. Source rights/pins and production tokenizer gate before substantive pretraining.

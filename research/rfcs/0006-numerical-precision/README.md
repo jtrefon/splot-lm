@@ -1,5 +1,3 @@
-# RFC 0006 — numerical-precision
-
-Status: placeholder / planned. BF16 reference, FP8 Ada kernels, simulated FP4 QAT, recurrent perturbation measurement, optimizer and activation accounting.
-
-See RFC 0001 and research backlog. Full bilingual specification pending.
+# RFC 0006 — numerical precision (working candidate)
+Status: FP8-first candidate, BF16 control and FP32/FP64 oracle. Full bilingual RFC and measured evidence pending. #7.
+T0001–T0003 FP32 correctness; T0005 BF16 reference; T0006 hybrid Muon/AdamW correctness. No substantive BF16-only optimization detour. T0007 #51 qualifies Ada native FP8 GEMMs on existing cu128 with per-tensor current scaling. No claim that FP8 storage or fake quantization is native execution. Initial candidate E4M3 weights/activations, E5M2 backward, BF16 residual, FP32 master/optimizer, GDN matrix, router and sensitive reductions/loss. Quantization scales/amax state and tied weights must be accounted in future integrated checkpoint design. R1/2/4 drift, routing agreement, MTP acceptance/replay, matched quality/time/compute and memory budgets before pretraining choice. TE supports Ada per-tensor scaling (https://docs.nvidia.com/deeplearning/transformer-engine/support_matrix.html), not native NVFP4/MXFP8; qualify exact backend rather than assume. Simulated FP4/INT4 QAT and quantized inference separate. CUDA13 #43 is separate runtime qualification. T0007 no model integration or dependency install. Follow with reviewed FP8 linear/autograd and matched pilots only after evidence. See original foundation and RFC0001.
