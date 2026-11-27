@@ -17,4 +17,15 @@ PYTHONPATH=src:tools python tests/test_recurrent.py
 PYTHONPATH=src:tools python tools/smoke_recurrent.py --loops 2 --steps 40
 ```
 
-Requires merged synthetic fixture (tools/data_fixture.py). No offset-2 MTP head, GDN or MoE yet. GPU smoke unrun; real training blocked on #8.
+Requires merged synthetic fixture (tools/data_fixture.py). No GDN or MoE yet. GPU smoke unrun; real training blocked on #8.
+
+## Native MTP
+
+`mtp.py`: shared offset-2 head, A0/A1/A2 objectives. [Contract](../../research/implementation/native-mtp.md) and [evidence](../../experiments/results/native-mtp-v0.1.md).
+
+```bash
+PYTHONPATH=src:tools python tests/test_mtp.py
+PYTHONPATH=src:tools python tools/smoke_mtp.py --mode A2 --loops 2 --steps 40
+```
+
+No exact speculative verifier yet; GPU and real corpus training unrun.

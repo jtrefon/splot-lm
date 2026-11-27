@@ -1,0 +1,8 @@
+# Natywne MTP v0.1
+27.11.2026 | #2 | [EN — pełny kontrakt](native-mtp.md)
+
+Model MTPLM rozszerza rekurencyjny all-GQA. Wspólna projekcja d×d bez biasu, oddzielna RMSNorm i ta sama macierz embeddingów E przewidują x_(t+2) na podstawie stanu h_r przed coda. Nie przekazujemy etykiet ani przyszłego tokenu do forward. Brak dodatkowej macierzy słownika i dodatkowego stanu cache. Odczyt offset-2 wymaga obecnie odpowiedniego odczytu NTP. Smoke: 83 776 parametrów, dodatkowe 1056. A0 końcowe NTP, A1 wszystkie głębokości z wagą 0,25 dla średniej wcześniejszych strat, A2 dodatkowo 0,25 średniej CE offsetu 2 na unikalnych głębokościach {1,R}. Przy R=1 bez podwójnego liczenia. Maski -100, bez drugiego przesunięcia, puste etykiety dają zerową stratę i gradienty. A0/A1 nie aktualizują głowicy MTP (grad=None).
+
+7 testów CPU float64 przeszło: liczba parametrów, zachowanie bazowych logitów, algebra strat, maskowanie i izolacja, gradienty, puste etykiety, cache, błędne wejścia. Trzy przebiegi FP32 AdamW po 40 kroków na dwóch stałych przykładach EN/PL, seed 42. A2 końcowe NTP 5,602705 -> 2,390771, offset-2 5,591383 -> 2,742605. To test nadmiernego dopasowania, nie dowód przewagi A2. Bez GPU, rzeczywistego korpusu, BF16 i modelu GDN/MoE. Poprzednie zestawy testów nie zostały ponownie uruchomione w tym etapie.
+
+Następnie dokładny weryfikator spekulacyjny D1/D2: rzeczywiste rozkłady propozycji, korekta dodatniej części p-q, EOS i limit, replay i testy rozkładu. Druga predykcja D2 jest warunkowana tylko zatwierdzonym prefiksem, nie wylosowanym pierwszym tokenem. Oddzielne prefill płytkie i docelowe, bez niezweryfikowanego współdzielenia cache. #2 pozostaje otwarte.

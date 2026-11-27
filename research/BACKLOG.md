@@ -25,3 +25,5 @@ PR #17 merged. Architecture contract v0.2, Nano/Mini candidate inventories, acco
 PR #18 merged. #8 data contract, candidate registry and tested synthetic fixture in review branch. Next #9 synthetic dense baseline; production corpus/tokenizer remains #8, not assumed approved. No real-data training until rights and split gates.
 
 PRs #19 and #20 merged. #4 recurrent all-GQA implementation, actual fixture integration, seven new CPU tests and A1 smoke in review branch. Next #2 offset-2 head and A0/A1/A2, then exact verifier; #5/#6 after correctness. #8 production data remains gated; #9 GPU smoke outstanding. Live issue/PR state wins.
+
+PR #21 merged. Native MTP offset-2 and A0/A1/A2 implementation in review branch (#2); seven CPU tests, three synthetic 40-step smoke runs. Next exact D1/D2 verifier, EOS/budget, sampling correctness, cache replay; then #5 hybrid and #6 MoE. #8 production data and #9 GPU smoke pending.
