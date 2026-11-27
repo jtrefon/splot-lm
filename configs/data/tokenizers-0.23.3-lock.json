@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "document": "splot-production-tokenizer-dependency-lock",
+  "version": "0.1",
+  "created_at": "2026-11-27",
+  "status": "session_local_qualified_not_system_installed",
+  "package": {
+    "name": "tokenizers",
+    "version": "0.23.3",
+    "requires_python": ">=3.10",
+    "declared_dependencies": [
+      {
+        "name": "huggingface-hub",
+        "specifier": ">=0.16.4,<3.0",
+        "installed": false,
+        "reason": "T0015 trains local ByteLevel BPE only; no Hub/model download. Import and local training were verified without the Hub package."
+      }
+    ]
+  },
+  "interpreter": {
+    "implementation": "CPython",
+    "version": "3.12.16",
+    "abi": "cp312",
+    "selection": "existing compatible Homebrew python3.12; no interpreter installed or changed"
+  },
+  "platform": {
+    "sys_platform": "darwin",
+    "machine": "arm64",
+    "wheel_tag": "cp310-abi3-macosx_11_0_arm64"
+  },
+  "wheel": {
+    "filename": "tokenizers-0.23.3-cp310-abi3-macosx_11_0_arm64.whl",
+    "url": "https://files.pythonhosted.org/packages/b2/72/01e49f032bb346e5aaf06c10c74fe8aeec847173adbadd66eb7c53054bf2/tokenizers-0.23.3-cp310-abi3-macosx_11_0_arm64.whl",
+    "sha256": "68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716",
+    "bytes": 3101381,
+    "source": "PyPI JSON API official file listing for tokenizers 0.23.3"
+  },
+  "installation": {
+    "mode": "isolated venv outside repository",
+    "binary_only": true,
+    "no_deps": true,
+    "no_index": true,
+    "command_shape": "python3.12 -m venv <session-local>; pip install --no-index --no-deps --only-binary=:all: <verified-wheel>",
+    "download_bytes": 3101381,
+    "download_limit_bytes": 104857600,
+    "system_changes": false,
+    "other_packages_installed": false
+  },
+  "verification": {
+    "imported_version": "0.23.3",
+    "special_ids": {
+      "0": "<PAD>",
+      "1": "<BOS>",
+      "2": "<EOS>",
+      "3": "<UNK>",
+      "4": "<RES4>",
+      "5": "<RES5>",
+      "6": "<RES6>",
+      "7": "<RES7>"
+    },
+    "byte_alphabet_count": 256,
+    "targets": [16384, 32768],
+    "synthetic_demo_actual_vocab_size": 431,
+    "synthetic_demo_artifact_bytes": 9711,
+    "synthetic_demo_artifact_sha256_16k": "2f148ac98771660e8479411f90fa8c1ff0e80907896a1d823bf0a322542e6fff",
+    "synthetic_demo_artifact_sha256_32k": "8026f3058d154ce86105ebf4b66ee4ccab941a9d569d39267edd5d84c8827b40",
+    "no_unknown_or_control_on_heldout": true,
+    "literal_special_strings": "fail closed before encoding"
+  },
+  "ci_policy": {
+    "default_stdlib_ci_imports_tokenizers": false,
+    "backend_test_command": "PYTHONPATH=tools TOKENIZERS_PARALLELISM=false <venv>/bin/python tools/test_production_tokenizer.py",
+    "hosted_ci_scope": "stdlib fallback tests only; optional backend qualification is local and explicitly recorded"
+  }
+}
