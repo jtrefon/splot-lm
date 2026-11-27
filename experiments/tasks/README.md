@@ -20,3 +20,6 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Issues
 
 | T0014 | [Verified ingestion](T0014-dataset-ingestion.md) | #71 | Linux, requires #70 and reviewed spec merge |
 | T0015 | [Production tokenizer](T0015-production-tokenizer.md) | #72 | Mac, reviewed spec and owner launch; optional package authorization separate |
+
+| T0016 | [Real bilingual corpus](T0016-real-corpus.md) | #76 | Mac, actual acquisition authorized within spec |
+| T0017 | [FP8 weight reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | #77 | Linux, implementation first, real run after T0016 |
