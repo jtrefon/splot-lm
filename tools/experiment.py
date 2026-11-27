@@ -13,6 +13,8 @@ import subprocess
 import time
 import torch
 
+from optimizers import build_optimizer, optimizer_state_inventory
+
 
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
@@ -189,20 +191,25 @@ def main():
         p.error(str(exc))
     seed_all(t['seed'])
     splits=split_documents(synthetic_documents()); packed={k:pack(v,t['sequence_length']) for k,v in splits.items() if k!='test'}
-    data=manifest(); env={'python':platform.python_version(),'torch':str(torch.__version__),'device':a.device,
+    data=manifest()
+    model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
+    actual=sum(v.numel() for v in model.parameters())
+    if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
+    try:
+        opt, optimizer_policy = build_optimizer(model,t)
+    except (ValueError,TypeError,RuntimeError) as exc:
+        p.error(str(exc))
+    env={'python':platform.python_version(),'torch':str(torch.__version__),'device':a.device,
         'cpu':platform.processor() or platform.machine(),'platform':platform.platform(),'threads':1,
         'cuda_runtime':torch.version.cuda,'gpu':torch.cuda.get_device_name(0) if a.device=='cuda' else None,
         'requested_precision':policy['requested'],'precision_policy':policy['policy'],
         'autocast_dtype':policy['autocast_dtype_name'],'autocast_probe_dtype':policy['probe_dtype'],
         'bf16_supported':policy['bf16_supported'],'master_dtype':'float32',
+        'optimizer':optimizer_policy['name'],'optimizer_implementation':optimizer_policy['implementation'],
         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
         'deterministic_algorithms':True}
     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
               'packed_sha256':digest(packed),'environment':env,'settings':t}
-    model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
-    actual=sum(v.numel() for v in model.parameters())
-    if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
-    opt=torch.optim.AdamW(model.parameters(),lr=t['lr'],weight_decay=t['weight_decay'])
     objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
     history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'])
     val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
@@ -215,10 +222,17 @@ def main():
     precision_policy={'requested':policy['requested'],'policy':policy['policy'],
                       'autocast_dtype':policy['autocast_dtype_name'],'probe_dtype':policy['probe_dtype'],
                       'bf16_supported':policy['bf16_supported']}
+    optimizer_state=optimizer_state_inventory(opt)
+    limitations=['synthetic byte fixture; no production tokenizer','template overlap across splits',
+                 ('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else 'FP32 reference, not optimized'),
+                 'step timing excludes checkpoint I/O and validation',
+                 'MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']
+    if optimizer_policy['name']=='muon':
+        limitations.append('Muon/AdamW hybrid correctness only; no optimizer superiority or convergence claim.')
     report={'identity':identity,'config':c,'data_manifest':data,'parameters':actual,'history':history,'validation':val,
-            'precision_policy':precision_policy,
+            'precision_policy':precision_policy,'optimizer_policy':optimizer_policy,'optimizer_state':optimizer_state,
             'total_valid_tokens':sum(r['valid_tokens'] for r in history),'total_ntp_labels':sum(r['ntp_labels'] for r in history),
-            'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':['synthetic byte fixture; no production tokenizer','template overlap across splits',('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else 'FP32 reference, not optimized'),'step timing excludes checkpoint I/O and validation','MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']}
+            'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':limitations}
     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))
 
 
