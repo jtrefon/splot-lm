@@ -33,3 +33,5 @@ PR #22 merged. Exact D1/D2 all-GQA speculative reference in review (#2), six CPU
 PR #23 merged. #5 learned hybrid dense GDN/GQA + MTP implemented on review branch; six CPU tests, 13 regressions, synthetic A2 smoke and short Nano forward/backward. Next #6 learned sparse MoE and full model integration; GPU, real corpus and optimization pending.
 
 PR #24 merged. Full SPLOT sparse hybrid reference in review (#6/#3); exact candidate counts, six tests, 19 regressions, synthetic A2+balance smoke and actual short Nano forward/backward. Next #10 reproducible harness, checkpoint/resume and GPU smoke; #7 precision, #8 approved data/tokenizer in parallel. Locality experiments remain #6.
+
+PR #25 merged. #10 synthetic FP32 experiment harness, exact resume mechanics, executable full candidate configs, token-weighted evaluation and analytical MAC report in review. Five toy harness tests pass; full SPLOT integration/CLI and CUDA not executed (sandbox clone DNS failure). Next run integration, benchmark D0/D1/D2, add matched controls. #7 precision and #8 real data remain gated.
