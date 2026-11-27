@@ -28,4 +28,14 @@ PYTHONPATH=src:tools python tests/test_mtp.py
 PYTHONPATH=src:tools python tools/smoke_mtp.py --mode A2 --loops 2 --steps 40
 ```
 
-No exact speculative verifier yet; GPU and real corpus training unrun.
+GPU and real corpus training unrun.
+
+## Exact speculative reference
+
+`speculative.py` implements D1 serial shallow drafting and D2 independent MTP drafting, full-depth verification and transactional replay. [Contract](../../research/implementation/exact-speculation.md) · [Evidence](../../experiments/results/exact-speculation-v0.1.md).
+
+```bash
+PYTHONPATH=src:tools python tests/test_speculative.py
+```
+
+Single sequence, CPU probability arithmetic, no optimization or speed claim. Hybrid GDN rollback remains pending.

@@ -1,0 +1,8 @@
+# Dokładna dekodacja spekulacyjna v0.1
+27.11.2026 | #2 | [EN — pełny kontrakt](exact-speculation.md)
+
+Referencyjny silnik dla MTPLM (all-GQA, stała głębokość). D1: sekwencyjne propozycje z płytkiego NTP. D2: niezależne losowania NTP i offset-2 z tego samego zatwierdzonego prefiksu; drugie q nie zależy od pierwszego tokenu. Pełny model weryfikuje cały sufiks jednym wywołaniem; pierwszy rozkład pochodzi z logitów prefiksu, kolejne z poprzednich proponowanych tokenów. Akceptacja u*q(y)<p(y); po odrzuceniu normalizujemy dodatnią część p-q i losujemy korektę. Jeśli wszystkie propozycje przyjęte, opcjonalny bonus z p. Tryb greedy osobno porównuje argmax. EOS kończy tylko po zatwierdzeniu; limit nie jest przekraczany.
+
+Rozkład jednej pozycji zachowany, gdyż min(p,q)+max(p-q,0)=p. Własność warunkowa zachowuje rozkład sekwencji w idealnej arytmetyce, z ograniczeniami numerycznymi implementacji. Cache docelowy i płytki osobne; odrzucony sufiks usuwamy i odtwarzamy zatwierdzone tokeny z korektą dokładnie raz. Płytki cache synchronizowany przez replay, bez współdzielenia stanów między głębokościami. CPU float64 dla prawdopodobieństw, jedna sekwencja; tylko temperatura, brak top-k/top-p i optymalizacji.
+
+6 testów nowych i 7 regresji MTP przeszło. Test rozkładu dwutokenowego: 3000 losowań dla D1 i D2, maksymalne odchylenia częstości od dokładnego rozkładu 0,010 i 0,004. Rzeczywisty niewytrenowany model: greedy zgodny ze zwykłym autoregresyjnym dekodowaniem; cache i logity zgodne z ponownym prefill w FP64. Wymuszone odrzucenia, EOS, limit i bonus sprawdzone. Nie jest to dowód przyspieszenia, jakości ani akceptacji po treningu. Brak GPU/BF16 i prawdziwego korpusu. Następnie #5 GDN i rollback macierzy oraz historii splotu, potem #6 MoE; #2 pozostaje otwarte.
