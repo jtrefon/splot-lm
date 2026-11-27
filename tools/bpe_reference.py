@@ -31,6 +31,7 @@ ALLOWED_VOCAB_SIZES = frozenset({264, 288, 320})
 MAX_DOCUMENTS = 1000
 MAX_DOCUMENT_BYTES = 4096
 MAX_TRAIN_BYTES = 256 * 1024
+MAX_ARTIFACT_BYTES = 64 * 1024
 SPLITS = ("train", "validation", "test")
 ALLOWED_LANGUAGES = frozenset({"en", "pl"})
 ALLOWED_DOMAINS = frozenset({"prose", "code"})
@@ -222,6 +223,10 @@ def _build_expansions(artifact: Mapping[str, Any]) -> list[bytes]:
         right_bytes = expansions[right]
         if left_bytes is None or right_bytes is None:
             raise BpeError("artifact merge references an unavailable expansion")
+        if len(left_bytes) + len(right_bytes) > MAX_DOCUMENT_BYTES:
+            raise BpeError(
+                f"artifact token expansion exceeds {MAX_DOCUMENT_BYTES} bytes"
+            )
         expansions[new_id] = left_bytes + right_bytes
     if any(expansion is None for expansion in expansions[BYTE_OFFSET:]):
         raise BpeError("artifact token expansion is incomplete")
@@ -237,9 +242,12 @@ def token_ids_to_bytes(
     """Expand tokens to bytes; control IDs require explicit caller opt-in."""
     validate_artifact(artifact)
     try:
-        tokens = tuple(token_ids)
+        iterator = iter(token_ids)
     except TypeError as exc:
         raise BpeError("token_ids must be an iterable of integers") from exc
+    tokens = tuple(islice(iterator, MAX_DOCUMENT_BYTES + 1))
+    if len(tokens) > MAX_DOCUMENT_BYTES:
+        raise BpeError(f"token count exceeds {MAX_DOCUMENT_BYTES}")
     expansions = _build_expansions(artifact)
     output = bytearray()
     for token in tokens:
@@ -251,7 +259,10 @@ def token_ids_to_bytes(
             if not allow_control:
                 raise BpeError(f"control token ID requires explicit handling: {token}")
             continue
-        output.extend(expansions[token])
+        expansion = expansions[token]
+        if len(output) + len(expansion) > MAX_DOCUMENT_BYTES:
+            raise BpeError(f"decoded output exceeds {MAX_DOCUMENT_BYTES} bytes")
+        output.extend(expansion)
     return bytes(output)
 
 
@@ -354,7 +365,10 @@ def train_bpe(
 def encode(text: str, artifact: Mapping[str, Any]) -> list[int]:
     """Apply learned merges in rank order; never emits control IDs."""
     validate_artifact(artifact)
-    tokens = bytes_to_token_ids(_utf8(text))
+    data = _utf8(text)
+    if len(data) > MAX_DOCUMENT_BYTES:
+        raise BpeError(f"encode input exceeds {MAX_DOCUMENT_BYTES} UTF-8 bytes")
+    tokens = bytes_to_token_ids(data)
     for index, pair in enumerate(artifact["merges"]):
         tokens = merge_sequence(tokens, (pair[0], pair[1]), BASE_VOCAB_SIZE + index)
     return tokens
@@ -392,6 +406,9 @@ def validate_artifact(artifact: Any) -> None:
     if len(merges) > MAX_MERGES or len(merges) > requested - BASE_VOCAB_SIZE:
         raise BpeError("artifact has too many merges for its vocabulary size")
     seen_pairs: set[tuple[int, int]] = set()
+    expansion_lengths: dict[int, int] = {
+        BYTE_OFFSET + value: 1 for value in range(BYTE_COUNT)
+    }
     for index, merge in enumerate(merges):
         if not isinstance(merge, list) or len(merge) != 2:
             raise BpeError("artifact merge must be a two-element list")
@@ -406,6 +423,16 @@ def validate_artifact(artifact: Any) -> None:
         if pair in seen_pairs:
             raise BpeError("artifact contains a duplicate merge pair")
         seen_pairs.add(pair)
+        left_length = expansion_lengths.get(left)
+        right_length = expansion_lengths.get(right)
+        if left_length is None or right_length is None:
+            raise BpeError("artifact merge references an unavailable expansion")
+        new_length = left_length + right_length
+        if new_length > MAX_DOCUMENT_BYTES:
+            raise BpeError(
+                f"artifact token expansion exceeds {MAX_DOCUMENT_BYTES} bytes"
+            )
+        expansion_lengths[BASE_VOCAB_SIZE + index] = new_length
     actual = artifact["actual_vocab_size"]
     if type(actual) is not int or actual != BASE_VOCAB_SIZE + len(merges):
         raise BpeError("artifact actual vocabulary size is inconsistent")
@@ -445,7 +472,7 @@ def load_artifact(
     data: bytes | bytearray | str,
     expected_sha256: str,
 ) -> dict[str, Any]:
-    """Parse, strictly validate and hash-check an artifact."""
+    """Parse, strictly validate, hash-check and canonical-check an artifact."""
     if isinstance(data, str):
         try:
             raw = data.encode("utf-8")
@@ -455,6 +482,8 @@ def load_artifact(
         raw = bytes(data)
     else:
         raise BpeError("artifact input must be bytes or text")
+    if len(raw) > MAX_ARTIFACT_BYTES:
+        raise BpeError(f"artifact input exceeds {MAX_ARTIFACT_BYTES} bytes")
     if (
         not isinstance(expected_sha256, str)
         or len(expected_sha256) != 64
@@ -474,6 +503,8 @@ def load_artifact(
     except json.JSONDecodeError as exc:
         raise BpeError(f"artifact is not valid JSON: {exc}") from exc
     validate_artifact(parsed)
+    if canonical_artifact_bytes(parsed) != raw:
+        raise BpeError("artifact is not canonical serialized bytes")
     return parsed
 
 
