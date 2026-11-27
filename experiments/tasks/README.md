@@ -8,3 +8,7 @@ Use [TEMPLATE.md](TEMPLATE.md) for future tasks. Evidence path per attempt; [res
 
 - [T0004](T0004-mac-corpus-reference.md) / [#38](https://github.com/jtrefon/splot-lm/issues/38): Mac CPU synthetic data tooling, spec #39 merged; independent owner launch.
 - [T0005](T0005-bf16-harness.md) / [#40](https://github.com/jtrefon/splot-lm/issues/40): Linux BF16 harness implementation, ready only after reviewed spec merge and owner launch.
+
+- [T0006](T0006-muon-hybrid.md) #48: accepted/closed (#50 merged).
+- [T0007](T0007-native-fp8-probe.md) #51: Linux native FP8 qualification, owner launch after merge.
+- [T0008](T0008-byte-bpe-oracle.md) #52: independent Mac tokenizer oracle and mapping fix, owner launch after merge.
