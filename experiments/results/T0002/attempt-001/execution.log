@@ -1,0 +1,96 @@
+===== T0002 attempt-001 preflight =====
+2026-11-27T14:17:16Z
+$ git rev-parse HEAD
+d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa
+$ git status --porcelain
+$ python --version
+Python 3.12.7
+$ python -c 'import torch,numpy; ...'
+2.10.0+cu128 12.8 True 1 1.26.4
+$ python -c 'torch.cuda.get_device_name(0)'
+NVIDIA GeForce RTX 4090
+$ nvidia-smi --query-gpu=index,name,driver_version,memory.total,memory.used,memory.free --format=csv
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+$ df -Pk "<RUNS>"
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 238006096 185993944      57% /
+$ sha256sum configs/experiments/splot-nano-synthetic.json
+18ae9e3d7fc2cfc427ceec91de33526f51ccb2dc153ab16f8050ee2a061bad2b  configs/experiments/splot-nano-synthetic.json
+$ test ! -e "<RUNS>/nano"
+nano_output_absent=true
+PREFLIGHT_OK
+===== check: cuda_nano_step (1 step, FP32, deterministic) =====
+2026-11-27T14:17:38Z
+$ nvidia-smi --query-gpu=index,name,memory.used,memory.free --format=csv,noheader
+0, NVIDIA GeForce RTX 4090, 4 MiB, 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-nano-synthetic.json --out $RUNS/nano --steps 1 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3871.2344665527344,
+    "mean_nll": 10.295836347214719,
+    "perplexity": 29609.079916681367
+  }
+}
+--- stderr
+
+2026-11-27T14:17:41Z
+--- cuda_nano_step gate verification
+gates {"checkpoint_exists": true, "checkpoint_nonempty": true, "cuda_runtime": true, "device_cuda": true, "gpu_name": true, "history_finite": true, "history_length": true, "history_step": true, "identity_commit": true, "ntp_labels_positive": true, "parameters": true, "peak_allocated_finite_positive": true, "peak_reserved_finite_positive": true, "precision_fp32": true, "settings_a2_r2_b1_t96_s42": true, "step_ntp_labels_positive": true, "step_seconds_finite_positive": true, "step_valid_tokens_positive": true, "torch_version": true, "valid_tokens_positive": true, "validation_finite": true, "validation_labels_positive": true, "validation_mean_consistent": true, "validation_ppl_consistent": true}
+parameters 43055076
+history_steps 1
+total_valid_tokens 51
+total_ntp_labels 50
+validation {"mean_nll": 10.295836347214719, "nll_sum": 3871.2344665527344, "ntp_labels": 376, "perplexity": 29609.079916681367}
+identity {"commit": "d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa", "config_sha256": "0af02669bc89325d1e237876771d1c139faded29dbb5099777e9cd918cd53c90", "data_sha256": "29f7da71fb1f6808e3f10719ca75174ad1fdb5e06252bdb4c7638d000f5441af", "environment": {"cpu": "x86_64", "cuda_runtime": "12.8", "device": "cuda", "gpu": "NVIDIA GeForce RTX 4090", "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43", "python": "3.12.7", "threads": 1, "torch": "2.10.0+cu128"}, "packed_sha256": "e87b8022b0118b3dcce33b39c59950ca411bb56884b974d7495357520f722ad4", "schema": 1, "settings": {"balance_weight": 0.01, "batch_size": 1, "data": "synthetic-v1", "depth_weight": 0.25, "loops": 2, "lr": 0.003, "mode": "A2", "offset_weight": 0.25, "precision": "fp32", "seed": 42, "sequence_length": 96, "weight_decay": 0}}
+config_sha256_canonical 0af02669bc89325d1e237876771d1c139faded29dbb5099777e9cd918cd53c90
+data_sha256 29f7da71fb1f6808e3f10719ca75174ad1fdb5e06252bdb4c7638d000f5441af
+packed_sha256 e87b8022b0118b3dcce33b39c59950ca411bb56884b974d7495357520f722ad4
+data_manifest {"test": {"byte_tokens": 666, "documents": 14, "ids": ["synthetic-00-01", "synthetic-00-05", "synthetic-01-03", "synthetic-02-09", "synthetic-03-00", "synthetic-03-02", "synthetic-03-03", "synthetic-04-00", "synthetic-04-07", "synthetic-06-02", "synthetic-06-04", "synthetic-06-06", "synthetic-06-07", "synthetic-07-03"], "sha256": "9dcef6b6085352370e929b386a4cdfbfeaa6cc34b1c009029f4d8d0e087b543e"}, "train": {"byte_tokens": 2477, "documents": 57, "ids": ["synthetic-00-00", "synthetic-00-02", "synthetic-00-03", "synthetic-00-04", "synthetic-00-06", "synthetic-00-08", "synthetic-01-00", "synthetic-01-02", "synthetic-01-04", "synthetic-01-05", "synthetic-01-06", "synthetic-01-07", "synthetic-01-08", "synthetic-01-09", "synthetic-02-00", "synthetic-02-01", "synthetic-02-02", "synthetic-02-04", "synthetic-02-05", "synthetic-02-06", "synthetic-02-08", "synthetic-03-01", "synthetic-03-04", "synthetic-03-05", "synthetic-03-06", "synthetic-03-07", "synthetic-03-08", "synthetic-04-01", "synthetic-04-03", "synthetic-04-04", "synthetic-04-05", "synthetic-04-06", "synthetic-04-09", "synthetic-05-00", "synthetic-05-01", "synthetic-05-02", "synthetic-05-03", "synthetic-05-04", "synthetic-05-05", "synthetic-05-06", "synthetic-05-07", "synthetic-05-08", "synthetic-05-09", "synthetic-06-00", "synthetic-06-01", "synthetic-06-03", "synthetic-06-05", "synthetic-06-08", "synthetic-06-09", "synthetic-07-00", "synthetic-07-02", "synthetic-07-04", "synthetic-07-05", "synthetic-07-06", "synthetic-07-07", "synthetic-07-08", "synthetic-07-09"], "sha256": "ca2d80264a350429f079befdfc852cd476de3b2edfee06e89558fd4ee29d3c42"}, "validation": {"byte_tokens": 367, "documents": 9, "ids": ["synthetic-00-07", "synthetic-00-09", "synthetic-01-01", "synthetic-02-03", "synthetic-02-07", "synthetic-03-09", "synthetic-04-02", "synthetic-04-08", "synthetic-07-01"], "sha256": "94465781a1fb808c51a3d6ae76e2a464de442fba947f140cb9fcca24f4851131"}}
+config {"dense": {"eps": 1e-05, "head_dim": 64, "init_std": 0.02, "intermediate": 1024, "kv_heads": 2, "layers": 8, "q_heads": 6, "rope_theta": 1000000, "vocab_size": 32768, "width": 384}, "expert_intermediate": 512, "recurrence": {"coda": 2, "core": 4, "default_loops": 2, "depth_embedding": false, "injection": "none", "injection_strength": 0.1, "max_loops": 4, "prelude": 2, "residual_scale": "unscaled"}, "training": {"balance_weight": 0.01, "batch_size": 1, "data": "synthetic-v1", "depth_weight": 0.25, "loops": 2, "lr": 0.003, "mode": "A2", "offset_weight": 0.25, "precision": "fp32", "seed": 42, "sequence_length": 96, "weight_decay": 0}}
+analytical_forward_macs 4100732928
+measured_flops None
+energy_joules None
+step 1 objective 15.798876762390137 final_ntp 10.538311958312988 early_ntp 10.537959098815918 offset2 10.44066333770752 balance 1.5909053087234497 ntp 50 valid 51 offset2_labels_available 49 peak_alloc 881575424 peak_reserved 1033895936 seconds 0.42532914300682023 batch_indices [9]
+checkpoint_sha256 36e161590bf7b5c8a8dc4d6df8b7bcd92d30744de0b73646b51327217bc3695b
+checkpoint_bytes 493312343
+all_gates True
+
+===== check: checkpoint_validation (CPU, self-produced checkpoint) =====
+2026-11-27T14:18:16Z
+--- command: CUDA_VISIBLE_DEVICES="" PYTHONPATH=src:tools timeout --kill-after=15s 120s python - $RUNS/nano <<'PY' (task checkpoint verification script)
+exit=0 elapsed_seconds=1
+--- stdout
+{
+  "status": "passed",
+  "parameters": 43055076,
+  "optimizer_state_entries": 183,
+  "validation": {
+    "mean_nll": 10.295836347214719,
+    "nll_sum": 3871.2344665527344,
+    "ntp_labels": 376,
+    "perplexity": 29609.079916681367
+  }
+}
+--- stderr
+
+2026-11-27T14:18:17Z
+===== end-of-attempt source and resource verification =====
+2026-11-27T14:18:29Z
+$ git rev-parse HEAD
+d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa
+$ git status --porcelain
+$ nvidia-smi --query-gpu=index,name,driver_version,memory.used,memory.free --format=csv
+index, name, driver_version, memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 238488108 185511932      57% /
+checkpoint_sha256=36e161590bf7b5c8a8dc4d6df8b7bcd92d30744de0b73646b51327217bc3695b
+checkpoint_bytes=493312343

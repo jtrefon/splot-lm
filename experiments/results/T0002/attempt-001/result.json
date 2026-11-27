@@ -1,0 +1,67 @@
+{
+  "attempt": 1,
+  "checks": {
+    "checkpoint_validation": {
+      "detail": "Exit 0; model state dict 43055076 elements; weights finite; all present Adam moments finite; all present optimizer step values 1; 183 optimizer-state entries; checkpoint 493312343 bytes with SHA-256 36e161590bf7b5c8a8dc4d6df8b7bcd92d30744de0b73646b51327217bc3695b, local-only; validation consistency asserted. Unused experts need not have optimizer entries; no all-parameter gradient claim.",
+      "evidence": [
+        "checkpoint-validation.json",
+        "checkpoint.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_nano_step": {
+      "detail": "Exit 0; exactly 1 history step; parameters 43055076; 51 valid tokens; 50 NTP labels; 49 offset-2 labels available; objective 15.798876762390137; final_ntp 10.538311958312988; early_ntp 10.537959098815918; offset2 10.44066333770752; balance 1.5909053087234497; step_seconds 0.42532914300682023; peak allocated 881575424 bytes; peak reserved 1033895936 bytes; validation NLL sum 3871.2344665527344 over 376 labels, mean 10.295836347214719, perplexity 29609.079916681367; pinned commit and CUDA identity verified.",
+      "evidence": [
+        "run-nano.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Exact source HEAD d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa and clean worktree at start/end; Python 3.12.7, torch 2.10.0+cu128, CUDA runtime 12.8, numpy 1.26.4; RTX 4090 24,564 MiB, driver 580.178.04, GPU 0; 24,077 MiB free before/after; 185,993,944 KiB disk before; config file SHA-256 18ae9e3d7fc2cfc427ceec91de33526f51ccb2dc153ab16f8050ee2a061bad2b; instruction commit b6b17206944c8bf7a59bebfce847609715fbe5aa.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; not published",
+      "bytes": 493312343,
+      "name": "nano/checkpoint.pt",
+      "sha256": "36e161590bf7b5c8a8dc4d6df8b7bcd92d30744de0b73646b51327217bc3695b"
+    }
+  ],
+  "files": {
+    "checkpoint-validation.json": "13472e17b22242d634c142ad30a5958ba1797f5fd8fd6a3ea773d0612ad95744",
+    "checkpoint.txt": "171116429bd09beaf615b129cdfd47329c8cbb2e2092fe3b2d8b48c4d2a3870d",
+    "environment.json": "488dde783d39bdf82545a8b674962375eef356bbe35a4686e133a1f218cb50ef",
+    "execution.log": "7c87e343c45d3f98582c05caa02129a0951ac2b30a6e4c20962ffebd860bf907",
+    "metrics.jsonl": "83829bb535a56954dcdd83ab3fe1d21c5f5e6033ed518c6697fb479c3af16bc8",
+    "run-nano.json": "3a83bfb5530ff15be58333f9da82fae23f985bc9ebdd1ffcaedec921edc6c653",
+    "summary.md": "4a1be8c2f3ea409331aa50f4e37059762b4d45c14e737910f920030717ef532a"
+  },
+  "limitations": [
+    "One optimizer step only; not convergence, long-training stability or full training feasibility.",
+    "Synthetic-v1 byte fixture only; not a production tokenizer, corpus or language-quality evaluation.",
+    "FP32 only; no BF16/FP8, activation checkpointing or optimizer-memory study.",
+    "Nano only; no Mini or matched-control result.",
+    "Single machine, single RTX 4090 and one software stack; no cross-device or cross-version determinism claim.",
+    "Timing is one observed step including finite-gradient checks and optimizer work; not an optimized throughput or latency benchmark.",
+    "Checkpoint is local-only and not published; not available to other agents.",
+    "183 of 198 model state-dict entries have optimizer state; unused experts need not have entries; no all-parameter gradient claim.",
+    "Validation uses synthetic templates; not generalization or production quality evidence.",
+    "No measured FLOPs, energy, PCIe/offload or hardware-efficiency claim; analytical forward MACs are not measured FLOPs."
+  ],
+  "schema_version": 1,
+  "source_commit": "d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa",
+  "status": "passed",
+  "task_commit": "b6b17206944c8bf7a59bebfce847609715fbe5aa",
+  "task_id": "T0002",
+  "tested_commit": "d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa"
+}
