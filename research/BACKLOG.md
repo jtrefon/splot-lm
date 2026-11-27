@@ -41,3 +41,5 @@ PR #26 merged. REP v0.1 in review: one-repository task/evidence handoff, no runn
 2026-11-27: #3/#4/#5/#9 closed for original specification/reference acceptance, #27 T0001 closed after merged #31/#32 and reviewed evidence. #2 literature verification, #6 locality/PCIe, #7 precision, #8 real data, #10 empirical benchmarks/matched controls and #11 licensing remain open. T0002 #28 finalized in review; owner launch only after merge.
 
 T0002 #28/#34 reviewed accepted within one-step scope, awaiting merge. T0003 #35 one complete synthetic FP32 Nano epoch proposed, 35 steps, memory/time and optimizer coverage. Follow #7 with explicit BF16 implementation (current CLI rejects BF16), then numerical and resource validation; #8 corpus/tokenizer licensing and #10 inference/matched controls remain open. Do not interpret padded T96 as contiguous 96-token context.
+
+T0002/T0003 accepted/merged and closed (#28/#35); #38 Mac T0004 spec merged, no large corpus transfer; #40 Linux T0005 BF16 implementation specification in review. Portability policy in research/data/portability.md. Keep #7/#8/#10 open. Checkpoint cadence and matched full-epoch precision validation after T0005.
