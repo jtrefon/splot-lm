@@ -1,0 +1,190 @@
+===== T0006 attempt-001 preflight =====
+2026-11-27T17:11:04Z
+$ git rev-parse HEAD
+3a208567f277545f2688814e72488d7e965eb9de
+$ git status --porcelain
+$ python --version
+Python 3.12.7
+$ python -c (torch/native Muon)
+2.10.0+cu128 12.8 True True
+$ nvidia-smi
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 240941288 183058752      57% /
+===== cuda run: fp32-nano =====
+2026-11-27T17:11:17Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-nano-synthetic.json --out $RUNS/fp32 --steps 1 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3871.2344665527344,
+    "mean_nll": 10.295836347214719,
+    "perplexity": 29609.079916681367
+  }
+}
+--- stderr
+
+2026-11-27T17:11:20Z
+===== cuda run: muon-nano =====
+2026-11-27T17:11:20Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-nano-synthetic-muon.json --out $RUNS/muon-nano --steps 1 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3756.2002563476562,
+    "mean_nll": 9.989894298796958,
+    "perplexity": 21804.99386233146
+  }
+}
+--- stderr
+
+2026-11-27T17:11:23Z
+===== cuda run: muon-smoke-continuous =====
+2026-11-27T17:11:23Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-muon.json --out $RUNS/muon-continuous --steps 4 --device cuda
+exit=0 elapsed_seconds=4
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1985.5069885253906,
+    "mean_nll": 5.280603692886677,
+    "perplexity": 196.4884582389272
+  }
+}
+--- stderr
+
+2026-11-27T17:11:27Z
+===== cuda run: muon-smoke-split =====
+2026-11-27T17:11:27Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-muon.json --out $RUNS/muon-resumed --steps 2 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 141,
+  "total_ntp_labels": 138,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2042.9496154785156,
+    "mean_nll": 5.433376636910946,
+    "perplexity": 228.92092469445822
+  }
+}
+--- stderr
+
+2026-11-27T17:11:30Z
+===== cuda run: muon-smoke-resume =====
+2026-11-27T17:11:30Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-muon.json --out $RUNS/muon-resumed --steps 4 --device cuda --resume
+exit=0 elapsed_seconds=2
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1985.5069885253906,
+    "mean_nll": 5.280603692886677,
+    "perplexity": 196.4884582389272
+  }
+}
+--- stderr
+
+2026-11-27T17:11:32Z
+===== muon same-mode resume comparison =====
+2026-11-27T17:12:09Z
+--- command: PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/rep/compare_resume.py $RUNS/muon-continuous $RUNS/muon-resumed --steps 4 --parameters 179952
+exit=0 elapsed_seconds=0
+--- stdout
+{
+  "status": "passed",
+  "steps": 4,
+  "parameters": 179952,
+  "model_optimizer_rng_equal": true,
+  "non_timing_history_equal": true,
+  "validation_equal": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ]
+}
+--- stderr
+
+===== focused hybrid optimizer tests on CUDA =====
+2026-11-27T17:12:15Z
+--- command: CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:tools timeout --kill-after=15s 180s python tools/test_hybrid_optimizer.py --device cuda
+exit=0 elapsed_seconds=6
+--- stdout
+--- stderr
+test_adapter_state_and_unused_parameter (__main__.HybridOptimizerTests.test_adapter_state_and_unused_parameter) ... ok
+test_default_adamw_selection_fp32_and_bf16 (__main__.HybridOptimizerTests.test_default_adamw_selection_fp32_and_bf16) ... ok
+test_native_muon_rectangular_api (__main__.HybridOptimizerTests.test_native_muon_rectangular_api) ... ok
+test_resume_exact_and_mode_mismatch (__main__.HybridOptimizerTests.test_resume_exact_and_mode_mismatch) ... ok
+test_semantic_partition_smoke_and_nano (__main__.HybridOptimizerTests.test_semantic_partition_smoke_and_nano) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 3.898s
+
+OK
+
+===== local hosted-CI equivalent =====
+2026-11-27T17:12:54Z
+$ python tools/ci_cpu.py
+exit=0
+
+OK
+
+=== tools/test_hybrid_optimizer.py ===
+test_adapter_state_and_unused_parameter (__main__.HybridOptimizerTests.test_adapter_state_and_unused_parameter) ... ok
+test_default_adamw_selection_fp32_and_bf16 (__main__.HybridOptimizerTests.test_default_adamw_selection_fp32_and_bf16) ... ok
+test_native_muon_rectangular_api (__main__.HybridOptimizerTests.test_native_muon_rectangular_api) ... ok
+test_resume_exact_and_mode_mismatch (__main__.HybridOptimizerTests.test_resume_exact_and_mode_mismatch) ... ok
+test_semantic_partition_smoke_and_nano (__main__.HybridOptimizerTests.test_semantic_partition_smoke_and_nano) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.657s
+
+OK
+Evidence experiments/results/T0001/attempt-001: blocked (structural)
+Evidence experiments/results/T0001/attempt-002: passed (structural)
+Evidence experiments/results/T0002/attempt-001: passed (structural)
+Evidence experiments/results/T0003/attempt-001: passed (structural)
+Evidence experiments/results/T0005/attempt-001: passed (structural)
+CPU scripts: 15; REP reports: 5
+
+===== end-of-attempt source and resource verification =====
+2026-11-27T17:12:54Z
+$ git rev-parse HEAD
+3a208567f277545f2688814e72488d7e965eb9de
+$ git status --porcelain
+$ nvidia-smi
+index, name, driver_version, memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 4 MiB, 24077 MiB
+index, name, driver_version, memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 241801024 182199016      58% /

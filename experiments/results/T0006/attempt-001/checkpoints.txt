@@ -1,0 +1,5 @@
+fp32/checkpoint.pt sha256 fe738fe1f68b90e90b660470755212550c1c22d59fcb191ff461b20710902557 bytes 493312663
+muon-nano/checkpoint.pt sha256 eaee68cc13ca082a6f8ce15c94455d351cdcc18c4a1ec5af0c5f596bfee51e8c bytes 383356647
+muon-continuous/checkpoint.pt sha256 c82b62e8ee0562e48b506f5d5b4ab893bcd68edad24c1e756ce2cc0d88407a72 bytes 1682787
+muon-resumed/checkpoint.pt sha256 46054a9cdf40a8736e6335ea4f0739eef09a8ad3232dbd35877c2625dc729429 bytes 1683107
+availability: local-only; not published

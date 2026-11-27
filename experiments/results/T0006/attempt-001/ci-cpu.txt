@@ -1,0 +1,213 @@
+
+=== tests/numerical/test_hybrid_mixer.py ===
+test_chunk_vs_recurrent_nonzero_state (__main__.HybridSemantics.test_chunk_vs_recurrent_nonzero_state) ... ok
+test_conv_reset_and_rollback (__main__.HybridSemantics.test_conv_reset_and_rollback) ... ok
+test_gate_limits (__main__.HybridSemantics.test_gate_limits) ... ok
+test_grouped_rope_attention_vs_explicit_causal (__main__.HybridSemantics.test_grouped_rope_attention_vs_explicit_causal) ... ok
+test_irregular_chunks_and_prefix (__main__.HybridSemantics.test_irregular_chunks_and_prefix) ... ok
+test_matrix_rollback (__main__.HybridSemantics.test_matrix_rollback) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.014s
+
+OK
+
+=== tests/numerical/test_recurrent_semantics.py ===
+test_document_reset (__main__.Semantics.test_document_reset) ... ok
+test_prefix_and_depth_invariance (__main__.Semantics.test_prefix_and_depth_invariance) ... ok
+test_rollback (__main__.Semantics.test_rollback) ... ok
+test_shared_gradient_equals_sum_of_untied_copies (__main__.Semantics.test_shared_gradient_equals_sum_of_untied_copies) ... ok
+test_stage_major_vs_token_major (__main__.Semantics.test_stage_major_vs_token_major) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.029s
+
+OK
+
+=== tests/test_dense.py ===
+test_cache_branch_and_padding_noop (__main__.DenseTests.test_cache_branch_and_padding_noop) ... ok
+test_cached_chunks_and_document_reset (__main__.DenseTests.test_cached_chunks_and_document_reset) ... ok
+test_count_and_tied_output (__main__.DenseTests.test_count_and_tied_output) ... ok
+test_future_and_document_isolation (__main__.DenseTests.test_future_and_document_isolation) ... ok
+test_invalid_metadata_and_cache_contract (__main__.DenseTests.test_invalid_metadata_and_cache_contract) ... ok
+test_loss_gradients_and_empty (__main__.DenseTests.test_loss_gradients_and_empty) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.046s
+
+OK
+
+=== tests/test_hybrid.py ===
+hybrid A2 12 steps 8.405920028686523 5.716072082519531
+D1 True accepted 4 rejected 0
+D1 False accepted 4 rejected 0
+D2 True accepted 3 rejected 3
+D2 False accepted 4 rejected 0
+test_counts (__main__.HybridTests.test_counts) ... ok
+test_depth_and_document_isolation (__main__.HybridTests.test_depth_and_document_isolation) ... ok
+test_fp32_training_and_state_dtype (__main__.HybridTests.test_fp32_training_and_state_dtype) ... ok
+test_full_chunk_and_token_cache (__main__.HybridTests.test_full_chunk_and_token_cache) ... ok
+test_learned_chunk_scan_and_gradients (__main__.HybridTests.test_learned_chunk_scan_and_gradients) ... ok
+test_replay_and_speculation (__main__.HybridTests.test_replay_and_speculation) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.709s
+
+OK
+
+=== tests/test_moe.py ===
+12-step loss 8.412958145141602 5.7237114906311035
+D1 True 4 1
+D1 False 4 0
+D2 True 3 3
+D2 False 4 0
+test_depth_document_cache_and_routes (__main__.MoETests.test_depth_document_cache_and_routes) ... ok
+test_dispatch_and_gradient_oracle (__main__.MoETests.test_dispatch_and_gradient_oracle) ... ok
+test_exact_candidate_counts (__main__.MoETests.test_exact_candidate_counts) ... ok
+test_sparse_objective_and_precision (__main__.MoETests.test_sparse_objective_and_precision) ... ok
+test_speculative_replay (__main__.MoETests.test_speculative_replay) ... ok
+test_ties_padding_and_balance (__main__.MoETests.test_ties_padding_and_balance) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.807s
+
+OK
+
+=== tests/test_mtp.py ===
+test_all_ignored_labels (__main__.MTPTests.test_all_ignored_labels) ... ok
+test_auxiliary_gradient_and_inactive_controls (__main__.MTPTests.test_auxiliary_gradient_and_inactive_controls) ... ok
+test_cached_offset_equivalence_and_no_extra_state (__main__.MTPTests.test_cached_offset_equivalence_and_no_extra_state) ... ok
+test_causal_offset_and_document_isolation (__main__.MTPTests.test_causal_offset_and_document_isolation) ... ok
+test_exact_objective_and_depth_one_dedup (__main__.MTPTests.test_exact_objective_and_depth_one_dedup) ... ok
+test_invalid_objective_inputs (__main__.MTPTests.test_invalid_objective_inputs) ... ok
+test_inventory_and_unchanged_target (__main__.MTPTests.test_inventory_and_unchanged_target) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.477s
+
+OK
+
+=== tests/test_recurrent.py ===
+test_cache_branch_replay_and_contract (__main__.RecurrentTests.test_cache_branch_replay_and_contract) ... ok
+test_cache_equivalence_and_distinct_logical_states (__main__.RecurrentTests.test_cache_equivalence_and_distinct_logical_states) ... ok
+test_causal_document_isolation_and_padding (__main__.RecurrentTests.test_causal_document_isolation_and_padding) ... ok
+test_depth_prefix_invariance_variants (__main__.RecurrentTests.test_depth_prefix_invariance_variants) ... ok
+test_fixture_training_and_finite_gradients (__main__.RecurrentTests.test_fixture_training_and_finite_gradients) ... ok
+test_physical_count_and_r1_dense_equivalence (__main__.RecurrentTests.test_physical_count_and_r1_dense_equivalence) ... ok
+test_shared_gradients_equal_untied_sum (__main__.RecurrentTests.test_shared_gradients_equal_untied_sum) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.358s
+
+OK
+
+=== tests/test_speculative.py ===
+model D1 greedy True tokens (20, 20, 20, 20, 20, 20) proposed 6 accepted 4 rejected 1
+model D1 greedy False tokens (168, 170, 49, 22, 117, 0) proposed 4 accepted 4 rejected 0
+model D2 greedy True tokens (20, 20, 20, 20, 20, 20) proposed 7 accepted 3 rejected 3
+model D2 greedy False tokens (168, 170, 49, 22, 117, 0) proposed 4 accepted 4 rejected 0
+D1 joint counts {(0, 0): 1907, (0, 1): 464, (1, 0): 240, (1, 1): 389} max error 0.009999999999999995
+D2 joint counts {(0, 0): 1924, (0, 1): 484, (1, 0): 198, (1, 1): 394} max error 0.0040000000000000036
+test_actual_model_greedy_and_cache_replay (__main__.SpeculativeTests.test_actual_model_greedy_and_cache_replay) ... ok
+test_eos_budget_and_bonus (__main__.SpeculativeTests.test_eos_budget_and_bonus) ... ok
+test_forced_rejection_replay_at_each_position (__main__.SpeculativeTests.test_forced_rejection_replay_at_each_position) ... ok
+test_joint_sampling_both_proposals (__main__.SpeculativeTests.test_joint_sampling_both_proposals) ... ok
+test_single_token_probability_identity (__main__.SpeculativeTests.test_single_token_probability_identity) ... ok
+test_validation (__main__.SpeculativeTests.test_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.276s
+
+OK
+
+=== tools/rep/test_validate_result.py ===
+test_blocked (__main__.EvidenceTests.test_blocked) ... ok
+test_deviation_not_pass (__main__.EvidenceTests.test_deviation_not_pass) ... ok
+test_failure (__main__.EvidenceTests.test_failure) ... ok
+test_hash_mismatch (__main__.EvidenceTests.test_hash_mismatch) ... ok
+test_missing_check (__main__.EvidenceTests.test_missing_check) ... ok
+test_pass (__main__.EvidenceTests.test_pass) ... ok
+test_pin_mismatch (__main__.EvidenceTests.test_pin_mismatch) ... ok
+test_status_mismatch (__main__.EvidenceTests.test_status_mismatch) ... ok
+test_unlisted_file (__main__.EvidenceTests.test_unlisted_file) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.003s
+
+OK
+
+=== tools/test_accounting.py ===
+test_depth_and_active_bounds (__main__.Accounting.test_depth_and_active_bounds) ... ok
+test_invalid_config (__main__.Accounting.test_invalid_config) ... ok
+test_meta_inventory (__main__.Accounting.test_meta_inventory) ... ok
+test_mini_counts (__main__.Accounting.test_mini_counts) ... ok
+test_prefill_sum (__main__.Accounting.test_prefill_sum) ... ok
+test_readout_cost (__main__.Accounting.test_readout_cost) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+OK
+
+=== tools/test_bf16_harness.py ===
+test_bf16_resume_exact_and_cross_precision_rejected (__main__.BF16HarnessTests.test_bf16_resume_exact_and_cross_precision_rejected) ... ok
+test_fp32_master_weights_adam_and_evaluation (__main__.BF16HarnessTests.test_fp32_master_weights_adam_and_evaluation) ... ok
+test_gqa_gdn_router_and_reduction_dtypes (__main__.BF16HarnessTests.test_gqa_gdn_router_and_reduction_dtypes) ... ok
+test_rmsnorm_rope_and_ce_are_fp32 (__main__.BF16HarnessTests.test_rmsnorm_rope_and_ce_are_fp32) ... ok
+test_same_seed_batch_and_precision_resolution (__main__.BF16HarnessTests.test_same_seed_batch_and_precision_resolution) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.797s
+
+OK
+
+=== tools/test_data_fixture.py ===
+test_manifest (__main__.DataContract.test_manifest) ... ok
+test_no_silent_truncation_and_no_empty_batch (__main__.DataContract.test_no_silent_truncation_and_no_empty_batch) ... ok
+test_packing_and_offset_masks (__main__.DataContract.test_packing_and_offset_masks) ... ok
+test_split_determinism_and_disjointness (__main__.DataContract.test_split_determinism_and_disjointness) ... ok
+test_transitive_group_dedup (__main__.DataContract.test_transitive_group_dedup) ... ok
+test_utf8_roundtrip (__main__.DataContract.test_utf8_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+
+=== tools/test_experiment.py ===
+test_hash (__main__.HarnessTests.test_hash) ... ok
+test_logical_macs (__main__.HarnessTests.test_logical_macs) ... ok
+test_resume_exact_and_reject_mismatch (__main__.HarnessTests.test_resume_exact_and_reject_mismatch) ... ok
+test_schedule (__main__.HarnessTests.test_schedule) ... ok
+test_token_weighted_eval (__main__.HarnessTests.test_token_weighted_eval) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.418s
+
+OK
+
+=== tools/test_experiment_integration.py ===
+test_sparse_resume_and_validation (__main__.Integration.test_sparse_resume_and_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.832s
+
+OK
+
+=== tools/test_hybrid_optimizer.py ===
+test_adapter_state_and_unused_parameter (__main__.HybridOptimizerTests.test_adapter_state_and_unused_parameter) ... ok
+test_default_adamw_selection_fp32_and_bf16 (__main__.HybridOptimizerTests.test_default_adamw_selection_fp32_and_bf16) ... ok
+test_native_muon_rectangular_api (__main__.HybridOptimizerTests.test_native_muon_rectangular_api) ... ok
+test_resume_exact_and_mode_mismatch (__main__.HybridOptimizerTests.test_resume_exact_and_mode_mismatch) ... ok
+test_semantic_partition_smoke_and_nano (__main__.HybridOptimizerTests.test_semantic_partition_smoke_and_nano) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.657s
+
+OK
+Evidence experiments/results/T0001/attempt-001: blocked (structural)
+Evidence experiments/results/T0001/attempt-002: passed (structural)
+Evidence experiments/results/T0002/attempt-001: passed (structural)
+Evidence experiments/results/T0003/attempt-001: passed (structural)
+Evidence experiments/results/T0005/attempt-001: passed (structural)
+CPU scripts: 15; REP reports: 5
