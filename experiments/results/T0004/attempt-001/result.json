@@ -1,0 +1,67 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 17,179,869,184 bytes RAM, CPython 3.15.2 via python3 (no python shim); CPU only, no CUDA/MPS. Implementation HEAD 126c046720e7cacfc52d9c64f6e7fc6e6afcdb74 was clean at acceptance start and after the commands. Instruction commit and starting base 0fcd9c6b5b9667af47603a63013b89d83e5f565f; approved minimum base 371aa551a6d553dc38245f9821dfc43490e871cb. No packages, real corpus, training or external data; GitHub API was used only for issue/PR coordination.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Implementation commit 126c046720e7cacfc52d9c64f6e7fc6e6afcdb74 is followed by a separate evidence commit containing the required REP records and demo.json; scope review found exactly the three allowed new implementation files plus the evidence directory and one INDEX append. Draft PR #45 references #38/#8. Validator output is recorded in the PR body; no merge or issue closure is claimed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Implementation commit 126c046720e7cacfc52d9c64f6e7fc6e6afcdb74 adds exactly three allowed new files and changes no existing file: tools/corpus_reference.py (SHA-256 9d2f6e80d74b337429bf610f0d2d9c560b42350d91668326c4263c1ceec1ee14), tools/test_corpus_reference.py (SHA-256 a91cf4196d19762f162b828905e4eb77212051f040f91ef3567726553472ad41) and research/data/corpus-reference.md (SHA-256 41334674404f8fe647593773b7b3d518de67cd21b286051692fa938e3c30cc05). The reference implements fail-closed synthetic allowlisting, raw and NFC/CRLF-normalized exact hashes, exhaustive 5-word-shingle 0.8 near-duplicate union, whole-cluster quarantine, cluster-level seeded 98/1/1-default splitting, leakage audit and canonical digest. No model, harness, fixture, registry, config or other task file changed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 without timeout or retry: 26/26 reference tests (0.074083 s) and 6/6 existing fixture tests (0.043552 s) passed. The demo ran twice in 0.033421 s and 0.032597 s, producing byte-identical 25,423-byte output with SHA-256 befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66; report digest b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f. The demo covers 20 synthetic records, 13 clusters, 11 eligible, 2 quarantined clusters (4 records), 4 near-duplicate edges and an audit with all five checks true.",
+      "evidence": [
+        "summary.md",
+        "metrics.jsonl",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "demo.json": "befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66",
+    "environment.json": "8f325243297df308021931cedd9b5effeb355b431a3536d90f7513c0ccb2abfa",
+    "execution.log": "5ff003b816ca62dc65ba0338e759284e62f3915eccb218db0a73ed4cf3decdb4",
+    "metrics.jsonl": "fdff77ebc2ce4d580cb54d5e43f97a92eee2f135f69a1be09d97750338cc43e3",
+    "summary.md": "0ab28c1b3411ba0f3eedee320765b58c55d021c1a026ed435c66767f808bd833"
+  },
+  "limitations": [
+    "Synthetic records only; no real corpus, source-rights decision, clearance, PII/secrets filtering, malware handling or benchmark corpus.",
+    "Exhaustive all-pairs near-duplicate comparison is quadratic and bounded by the 1,000-record synthetic limit; no MinHash/LSH, streaming, compression or production shard manifests.",
+    "Exact normalized matching plus 5-word shingles only; no semantic, paraphrase, translated or code-specific deduplication.",
+    "Benchmark quarantine is exact normalized match only; no fuzzy contamination claim and no coverage or false-positive estimate.",
+    "group_id correctness is a caller/registry obligation; a wrong family key can over- or under-merge clusters.",
+    "The demo's 50/25/25 split exercises all three labels; it is not evidence of real 98/1/1 proportions.",
+    "No tokenizer, BPE training, token counts or model-input normalization.",
+    "One machine and one Python version; no cross-platform determinism, quality, generalization or performance claim."
+  ],
+  "schema_version": 1,
+  "source_commit": "126c046720e7cacfc52d9c64f6e7fc6e6afcdb74",
+  "status": "passed",
+  "task_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "task_id": "T0004",
+  "tested_commit": "126c046720e7cacfc52d9c64f6e7fc6e6afcdb74"
+}
