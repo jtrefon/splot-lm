@@ -1,0 +1,349 @@
+===== T0014 attempt-001 preflight =====
+2026-11-27T20:03:56Z
+d6f979cfa1e9763fb4179cd7b902a51fbde68199
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 246058636 177941404      59% /
+===== v2 fixture =====
+exit=0
+{
+  "demo_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+  "alternate_manifest_sha256": "d4728a2ef059c0a630c4e91ab644ee08232fcf5ab9d7cf006d4ac5095af981ee",
+  "format": "splot-tokenized-shards-v2",
+  "version": 2,
+  "counts": {
+    "overall": {
+      "blocks": 4,
+      "documents": 11,
+      "content_tokens": 203,
+      "special_tokens": 22,
+      "valid_tokens": 225,
+      "pad_tokens": 159,
+      "ntp_labels": 214,
+      "offset2_labels": 203
+    },
+    "by_split": {
+      "test": {
+        "blocks": 1,
+        "documents": 2,
+        "content_tokens": 64,
+        "special_tokens": 4,
+        "valid_tokens": 68,
+        "pad_tokens": 28,
+        "ntp_labels": 66,
+        "offset2_labels": 64
+      },
+      "train": {
+        "blocks": 2,
+        "documents": 8,
+        "content_tokens": 126,
+        "special_tokens": 16,
+        "valid_tokens": 142,
+        "pad_tokens": 50,
+        "ntp_labels": 134,
+        "offset2_labels": 126
+      },
+      "validation": {
+        "blocks": 1,
+        "documents": 1,
+        "content_tokens": 13,
+        "special_tokens": 2,
+        "valid_tokens": 15,
+        "pad_tokens": 81,
+        "ntp_labels": 14,
+        "offset2_labels": 13
+      }
+    },
+    "by_language": {
+      "en": {
+        "blocks": 2,
+        "documents": 8,
+        "content_tokens": 136,
+        "special_tokens": 16,
+        "valid_tokens": 152,
+        "pad_tokens": 40,
+        "ntp_labels": 144,
+        "offset2_labels": 136
+      },
+      "pl": {
+        "blocks": 2,
+        "documents": 3,
+        "content_tokens": 67,
+        "special_tokens": 6,
+        "valid_tokens": 73,
+        "pad_tokens": 119,
+        "ntp_labels": 70,
+        "offset2_labels": 67
+      }
+    },
+    "by_domain": {
+      "prose": {
+        "blocks": 4,
+        "documents": 11,
+        "content_tokens": 203,
+        "special_tokens": 22,
+        "valid_tokens": 225,
+        "pad_tokens": 159,
+        "ntp_labels": 214,
+        "offset2_labels": 203
+      }
+    },
+    "by_split_language_domain": {
+      "test/en/prose": {
+        "blocks": 1,
+        "documents": 2,
+        "content_tokens": 64,
+        "special_tokens": 4,
+        "valid_tokens": 68,
+        "pad_tokens": 28,
+        "ntp_labels": 66,
+        "offset2_labels": 64
+      },
+      "train/en/prose": {
+        "blocks": 1,
+        "documents": 6,
+        "content_tokens": 72,
+        "special_tokens": 12,
+        "valid_tokens": 84,
+        "pad_tokens": 12,
+        "ntp_labels": 78,
+        "offset2_labels": 72
+      },
+      "train/pl/prose": {
+        "blocks": 1,
+        "documents": 2,
+        "content_tokens": 54,
+        "special_tokens": 4,
+        "valid_tokens": 58,
+        "pad_tokens": 38,
+        "ntp_labels": 56,
+        "offset2_labels": 54
+      },
+      "validation/pl/prose": {
+        "blocks": 1,
+        "documents": 1,
+        "content_tokens": 13,
+        "special_tokens": 2,
+        "valid_tokens": 15,
+        "pad_tokens": 81,
+        "ntp_labels": 14,
+        "offset2_labels": 13
+      }
+    }
+  },
+  "logical_digest": "5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba",
+  "packed_logical_digest": "7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f",
+  "physical_manifest_digest": "3229cf587492afd31465fb3731f796f612dbaa279f05bebcedaabf1278813df6",
+  "train_blocks": 2,
+  "validation_blocks": 1,
+  "train_valid": 142,
+  "train_ntp": 134,
+  "train_offset2": 126,
+  "validation_ntp": 14,
+  "logical_equal_alternate": true,
+  "packed_equal_alternate": true,
+  "physical_differs_alternate": true
+}
+
+===== continuous-int2 =====
+start=2026-11-27T20:04:14Z
+command: timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-shards-fp8-muon.json --dataset-root $RUNS/dataset-v2 --manifest-sha256 1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0 --out $RUNS/continuous-int2 --steps 4 --device cuda --checkpoint-interval 2
+exit=0 elapsed_seconds=5
+--- stdout
+{
+  "parameters": 181744,
+  "total_valid_tokens": 284,
+  "total_ntp_labels": 268,
+  "validation": {
+    "ntp_labels": 14,
+    "nll_sum": 78.36238861083984,
+    "mean_nll": 5.597313472202846,
+    "perplexity": 269.700874384234
+  }
+}
+--- stderr
+
+===== split-int2 =====
+2026-11-27T20:04:28Z
+command: steps=2 resume=noresume interval=2 dataset=<RUNS>/dataset-v2
+exit=0 elapsed_seconds=4
+{
+  "parameters": 181744,
+  "total_valid_tokens": 142,
+  "total_ntp_labels": 134,
+  "validation": {
+    "ntp_labels": 14,
+    "nll_sum": 79.3211898803711,
+    "mean_nll": 5.665799277169364,
+    "perplexity": 288.81873510718805
+  }
+}
+
+===== split-int2 =====
+2026-11-27T20:04:32Z
+command: steps=4 resume=resume interval=2 dataset=<RUNS>/dataset-v2
+exit=0 elapsed_seconds=4
+{
+  "parameters": 181744,
+  "total_valid_tokens": 284,
+  "total_ntp_labels": 268,
+  "validation": {
+    "ntp_labels": 14,
+    "nll_sum": 78.36238861083984,
+    "mean_nll": 5.597313472202846,
+    "perplexity": 269.700874384234
+  }
+}
+
+===== strict comparator =====
+exit=0
+{
+  "status": "passed",
+  "steps": 4,
+  "parameters": 181744,
+  "model_optimizer_rng_equal": true,
+  "non_timing_history_equal": true,
+  "validation_equal": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ]
+}
+
+===== continuous-int1 =====
+2026-11-27T20:04:53Z
+command: interval=1 fresh 4
+exit=0 elapsed_seconds=6
+{
+  "parameters": 181744,
+  "total_valid_tokens": 284,
+  "total_ntp_labels": 268,
+  "validation": {
+    "ntp_labels": 14,
+    "nll_sum": 78.36238861083984,
+    "mean_nll": 5.597313472202846,
+    "perplexity": 269.700874384234
+  }
+}
+
+===== cadence comparator =====
+exit=0
+{
+  "checks": {
+    "model_equal": true,
+    "non_timing_history_equal": true,
+    "optimizer_equal": true,
+    "parameters_equal": true,
+    "rng_equal": true,
+    "validation_equal": true
+  },
+  "identity_intentionally_ignored": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ],
+  "parameters": 181744,
+  "status": "passed",
+  "steps": 4,
+  "validation": {
+    "mean_nll": 5.597313472202846,
+    "nll_sum": 78.36238861083984,
+    "ntp_labels": 14,
+    "perplexity": 269.700874384234
+  }
+}
+
+===== cross-manifest rejection =====
+dataset_root=<RUNS>/dataset-v2-alt manifest=d4728a2ef059c0a630c4e91ab644ee08232fcf5ab9d7cf006d4ac5095af981ee interval=2
+exit=1
+Traceback (most recent call last):
+  File "<REPO>/tools/experiment.py", line 442, in <module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "<REPO>/tools/experiment.py", line 377, in main
+    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check,checkpoint_interval=interval,checkpoint_stats=checkpoint_stats)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO>/tools/experiment.py", line 198, in train
+    if state['identity'] != identity: raise ValueError('run identity mismatch')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: run identity mismatch
+
+===== cross-interval rejection =====
+dataset_root=<RUNS>/dataset-v2 manifest=1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0 interval=1
+exit=1
+Traceback (most recent call last):
+  File "<REPO>/tools/experiment.py", line 442, in <module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "<REPO>/tools/experiment.py", line 377, in main
+    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check,checkpoint_interval=interval,checkpoint_stats=checkpoint_stats)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO>/tools/experiment.py", line 198, in train
+    if state['identity'] != identity: raise ValueError('run identity mismatch')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: run identity mismatch
+
+===== split-int2-metadata (auxiliary split cadence metadata) =====
+2026-11-27T20:05:22Z
+command: interval=2 fresh 2 steps same data/seed/config
+exit=0 elapsed_seconds=4
+{
+  "parameters": 181744,
+  "total_valid_tokens": 142,
+  "total_ntp_labels": 134,
+  "validation": {
+    "ntp_labels": 14,
+    "nll_sum": 79.3211898803711,
+    "mean_nll": 5.665799277169364,
+    "perplexity": 288.81873510718805
+  }
+}
+
+===== legacy synthetic-v1 smoke =====
+exit=0 elapsed_seconds=2
+{
+  "parameters": 179952,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2058.0984649658203,
+    "mean_nll": 5.473666130228246,
+    "perplexity": 238.3323504969194
+  }
+}
+
+
+===== v2 demo commands and hashes =====
+CUDA_VISIBLE_DEVICES="" PYTHONPATH=src:tools python tools/tokenized_shards.py --demo (twice)
+linux_sha256=1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396 expected=1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396 bytes=21209
+manifest_sha256=1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0 expected=1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0
+
+===== parameter and checkpoint summary =====
+parameter_count_config 181744 parameter_sum 181744
+continuous-int2 params 181744 steps 4 stats {'bytes_last': 1720227, 'bytes_total': 3439110, 'final_history_steps': 4, 'initial_history_steps': 0, 'interval': 2, 'write_seconds': 0.02651204395806417, 'write_steps': [2, 4], 'writes': 2} inv {'final_history_steps': 4, 'initial_history_steps': 0, 'invocation_history_steps': 4, 'mode': 'fresh'}
+ model 198 ['float32'] True hash edcd992b356904b631dae5398f5ea0d75133dd270fc612cad4c498db4f21363e bytes 1720227
+ opt keys ['adamw', 'adapter_version', 'muon', 'partition', 'settings'] muon {'elements': 167936, 'bytes': 671744, 'dtypes': ['float32'], 'finite': True} adamw {'elements': 27657, 'bytes': 110628, 'dtypes': ['float32'], 'finite': True} total {"adamw": {"bytes": 110628, "dtypes": ["float32"], "elements": 27657, "finite": true}, "adapter_version": 1, "muon": {"bytes": 671744, "dtypes": ["float32"], "elements": 167936, "finite": true}, "total": {"bytes": 782372, "dtypes": ["float32"], "elements": 195593, "finite": true}}
+ fp8 native 1936 1936 nonfinite False
+ data 1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0 False 2
+split-int2 params 181744 steps 4 stats {'bytes_last': 1721187, 'bytes_total': 1721187, 'final_history_steps': 4, 'initial_history_steps': 2, 'interval': 2, 'write_seconds': 0.013934515009168535, 'write_steps': [4], 'writes': 1} inv {'final_history_steps': 4, 'initial_history_steps': 2, 'invocation_history_steps': 2, 'mode': 'resume'}
+ model 198 ['float32'] True hash c53b408b6e545246381557a12af3f2259d6edaadba6d54ee40e5e7d09b988996 bytes 1721187
+ opt keys ['adamw', 'adapter_version', 'muon', 'partition', 'settings'] muon {'elements': 167936, 'bytes': 671744, 'dtypes': ['float32'], 'finite': True} adamw {'elements': 27657, 'bytes': 110628, 'dtypes': ['float32'], 'finite': True} total {"adamw": {"bytes": 110628, "dtypes": ["float32"], "elements": 27657, "finite": true}, "adapter_version": 1, "muon": {"bytes": 671744, "dtypes": ["float32"], "elements": 167936, "finite": true}, "total": {"bytes": 782372, "dtypes": ["float32"], "elements": 195593, "finite": true}}
+ fp8 native 1936 1936 nonfinite False
+ data 1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0 False 2
+continuous-int1 params 181744 steps 4 stats {'bytes_last': 1720227, 'bytes_total': 6876812, 'final_history_steps': 4, 'initial_history_steps': 0, 'interval': 1, 'write_seconds': 0.05408108001574874, 'write_steps': [1, 2, 3, 4], 'writes': 4} inv {'final_history_steps': 4, 'initial_history_steps': 0, 'invocation_history_steps': 4, 'mode': 'fresh'}
+ model 198 ['float32'] True hash 15f3b9ce8b778cfb0cb86cca1aa6a918da2b9d158aa3a783e9582a23eba5182a bytes 1720227
+ opt keys ['adamw', 'adapter_version', 'muon', 'partition', 'settings'] muon {'elements': 167936, 'bytes': 671744, 'dtypes': ['float32'], 'finite': True} adamw {'elements': 27657, 'bytes': 110628, 'dtypes': ['float32'], 'finite': True} total {"adamw": {"bytes": 110628, "dtypes": ["float32"], "elements": 27657, "finite": true}, "adapter_version": 1, "muon": {"bytes": 671744, "dtypes": ["float32"], "elements": 167936, "finite": true}, "total": {"bytes": 782372, "dtypes": ["float32"], "elements": 195593, "finite": true}}
+ fp8 native 1936 1936 nonfinite False
+ data 1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0 False 1
+split-int2-metadata params 181744 steps 2 stats {'bytes_last': 1718883, 'bytes_total': 1718883, 'final_history_steps': 2, 'initial_history_steps': 0, 'interval': 2, 'write_seconds': 0.012714503973256797, 'write_steps': [2], 'writes': 1} inv {'final_history_steps': 2, 'initial_history_steps': 0, 'invocation_history_steps': 2, 'mode': 'fresh'}
+ model 198 ['float32'] True hash 5bbedd37ee4a384e5a241bc519994bb7a3fb0f58ae1078f55bcba147667e679f bytes 1718883
+ opt keys ['adamw', 'adapter_version', 'muon', 'partition', 'settings'] muon {'elements': 167936, 'bytes': 671744, 'dtypes': ['float32'], 'finite': True} adamw {'elements': 27657, 'bytes': 110628, 'dtypes': ['float32'], 'finite': True} total {"adamw": {"bytes": 110628, "dtypes": ["float32"], "elements": 27657, "finite": true}, "adapter_version": 1, "muon": {"bytes": 671744, "dtypes": ["float32"], "elements": 167936, "finite": true}, "total": {"bytes": 782372, "dtypes": ["float32"], "elements": 195593, "finite": true}}
+ fp8 native 968 968 nonfinite False
+ data 1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0 False 2
+
+===== auxiliary split cadence metadata note =====
+The split-int2 metadata replicate used the same config/data/seed/interval to record the consumed step-2 checkpoint write count; it is not a retry of a failed gate.

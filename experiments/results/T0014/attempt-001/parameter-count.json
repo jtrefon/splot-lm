@@ -1,0 +1,12 @@
+{
+  "legacy_equal": true,
+  "legacy_parameter_count": 179952,
+  "legacy_parameter_sum": 179952,
+  "legacy_run_parameters": 179952,
+  "run_parameters": 181744,
+  "shards_config": "configs/experiments/splot-smoke-shards-fp8-muon.json",
+  "shards_equal": true,
+  "shards_parameter_count": 181744,
+  "shards_parameter_sum": 181744,
+  "status": "passed"
+}

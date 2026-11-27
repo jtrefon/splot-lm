@@ -1,0 +1,146 @@
+{
+  "alternate_manifest_sha256": "d4728a2ef059c0a630c4e91ab644ee08232fcf5ab9d7cf006d4ac5095af981ee",
+  "counts": {
+    "by_domain": {
+      "prose": {
+        "blocks": 4,
+        "content_tokens": 203,
+        "documents": 11,
+        "ntp_labels": 214,
+        "offset2_labels": 203,
+        "pad_tokens": 159,
+        "special_tokens": 22,
+        "valid_tokens": 225
+      }
+    },
+    "by_language": {
+      "en": {
+        "blocks": 2,
+        "content_tokens": 136,
+        "documents": 8,
+        "ntp_labels": 144,
+        "offset2_labels": 136,
+        "pad_tokens": 40,
+        "special_tokens": 16,
+        "valid_tokens": 152
+      },
+      "pl": {
+        "blocks": 2,
+        "content_tokens": 67,
+        "documents": 3,
+        "ntp_labels": 70,
+        "offset2_labels": 67,
+        "pad_tokens": 119,
+        "special_tokens": 6,
+        "valid_tokens": 73
+      }
+    },
+    "by_split": {
+      "test": {
+        "blocks": 1,
+        "content_tokens": 64,
+        "documents": 2,
+        "ntp_labels": 66,
+        "offset2_labels": 64,
+        "pad_tokens": 28,
+        "special_tokens": 4,
+        "valid_tokens": 68
+      },
+      "train": {
+        "blocks": 2,
+        "content_tokens": 126,
+        "documents": 8,
+        "ntp_labels": 134,
+        "offset2_labels": 126,
+        "pad_tokens": 50,
+        "special_tokens": 16,
+        "valid_tokens": 142
+      },
+      "validation": {
+        "blocks": 1,
+        "content_tokens": 13,
+        "documents": 1,
+        "ntp_labels": 14,
+        "offset2_labels": 13,
+        "pad_tokens": 81,
+        "special_tokens": 2,
+        "valid_tokens": 15
+      }
+    },
+    "by_split_language_domain": {
+      "test/en/prose": {
+        "blocks": 1,
+        "content_tokens": 64,
+        "documents": 2,
+        "ntp_labels": 66,
+        "offset2_labels": 64,
+        "pad_tokens": 28,
+        "special_tokens": 4,
+        "valid_tokens": 68
+      },
+      "train/en/prose": {
+        "blocks": 1,
+        "content_tokens": 72,
+        "documents": 6,
+        "ntp_labels": 78,
+        "offset2_labels": 72,
+        "pad_tokens": 12,
+        "special_tokens": 12,
+        "valid_tokens": 84
+      },
+      "train/pl/prose": {
+        "blocks": 1,
+        "content_tokens": 54,
+        "documents": 2,
+        "ntp_labels": 56,
+        "offset2_labels": 54,
+        "pad_tokens": 38,
+        "special_tokens": 4,
+        "valid_tokens": 58
+      },
+      "validation/pl/prose": {
+        "blocks": 1,
+        "content_tokens": 13,
+        "documents": 1,
+        "ntp_labels": 14,
+        "offset2_labels": 13,
+        "pad_tokens": 81,
+        "special_tokens": 2,
+        "valid_tokens": 15
+      }
+    },
+    "overall": {
+      "blocks": 4,
+      "content_tokens": 203,
+      "documents": 11,
+      "ntp_labels": 214,
+      "offset2_labels": 203,
+      "pad_tokens": 159,
+      "special_tokens": 22,
+      "valid_tokens": 225
+    }
+  },
+  "expected_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+  "expected_sha256": "1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396",
+  "linux_bytes": 21209,
+  "linux_matches_mac": true,
+  "linux_runs_identical": true,
+  "linux_sha256": "1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396",
+  "logical_digest": "5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba",
+  "logical_equal_alternate": true,
+  "mac_bytes": 21209,
+  "mac_sha256": "1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396",
+  "manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+  "packed_equal_alternate": true,
+  "packed_logical_digest": "7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f",
+  "physical_differs_alternate": true,
+  "physical_manifest_digest": "3229cf587492afd31465fb3731f796f612dbaa279f05bebcedaabf1278813df6",
+  "status": "passed",
+  "test_used_for_training": false,
+  "train_blocks": 2,
+  "train_ntp": 134,
+  "train_offset2": 126,
+  "train_valid": 142,
+  "validation_blocks": 1,
+  "validation_ntp": 14
+}

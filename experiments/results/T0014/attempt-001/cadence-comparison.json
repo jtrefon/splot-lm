@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "model_equal": true,
+    "non_timing_history_equal": true,
+    "optimizer_equal": true,
+    "parameters_equal": true,
+    "rng_equal": true,
+    "validation_equal": true
+  },
+  "identity_intentionally_ignored": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ],
+  "parameters": 181744,
+  "status": "passed",
+  "steps": 4,
+  "validation": {
+    "mean_nll": 5.597313472202846,
+    "nll_sum": 78.36238861083984,
+    "ntp_labels": 14,
+    "perplexity": 269.700874384234
+  }
+}

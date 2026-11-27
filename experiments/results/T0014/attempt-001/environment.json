@@ -1,0 +1,100 @@
+{
+  "alternate_manifest_sha256": "d4728a2ef059c0a630c4e91ab644ee08232fcf5ab9d7cf006d4ac5095af981ee",
+  "architecture": "x86_64",
+  "attempt": 1,
+  "attempt_window_seconds": 212,
+  "base_source_commit": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+  "capability": [
+    8,
+    9
+  ],
+  "checkpoint_intervals": [
+    1,
+    2
+  ],
+  "checkpoint_retention_service": false,
+  "checkpoint_schema": [
+    "identity",
+    "model",
+    "optimizer",
+    "rng",
+    "history"
+  ],
+  "checkpoint_write_seconds": {
+    "continuous-int1": 0.05408108001574874,
+    "continuous-int2": 0.02651204395806417,
+    "legacy-v1-smoke": 0.010710165021009743,
+    "split-int2": 0.013934515009168535,
+    "split-int2-metadata": 0.012714503973256797
+  },
+  "checkpoint_writes": {
+    "continuous-int1": 4,
+    "continuous-int2": 2,
+    "legacy-v1-smoke": 1,
+    "split-int2": 1,
+    "split-int2-metadata": 1
+  },
+  "class": "IMP",
+  "command_elapsed_seconds": {
+    "continuous_int1": 6,
+    "continuous_int2": 5,
+    "legacy_v1_smoke": 2,
+    "split_int2_initial": 4,
+    "split_int2_metadata": 4,
+    "split_int2_resume": 4
+  },
+  "config_sha256": {
+    "splot-smoke-shards-fp8-muon.json": "746386a6cf74c2907dce2ef48bd2d7c4e7181207c7a672ede572d89866cf2cd6",
+    "splot-smoke-synthetic-fp8-muon.json": "370fb892a514f7bc129490112eba35a22d30f2b4f5bc2236d9fb4221f89642be",
+    "splot-smoke-synthetic.json": "d3a1b3e2eca2bb95d817962fbce54ee35943a0bada06d7bb82a1d0ea352369f6"
+  },
+  "cublas_workspace_config": ":4096:8",
+  "cuda_available": true,
+  "cuda_device_count": 1,
+  "cuda_visible_devices": "0",
+  "data": "synthetic-shards-v2",
+  "dataset_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+  "deterministic_algorithms": true,
+  "device_index": 0,
+  "device_name": "NVIDIA GeForce RTX 4090",
+  "disk_available_kib_after": 177927548,
+  "disk_available_kib_before": 177941848,
+  "driver_version": "580.178.04",
+  "gpu_memory_free_mib_after": 24077,
+  "gpu_memory_free_mib_before": 24077,
+  "inference_note": "GPU idle at 4 MiB used; no inference process stopped or restarted.",
+  "inference_stopped": false,
+  "legacy_parameters": 179952,
+  "minimum_base_commit": "3fb9388e782a9da8ca68e1458d9caaeb296c2312",
+  "numpy": "1.26.4",
+  "nvidia_smi_total_mib": 24564,
+  "optimizer": "muon",
+  "os": "Linux",
+  "os_release": "7.0.0-43-generic",
+  "pack_length": 96,
+  "parameters": 181744,
+  "precision": "fp8",
+  "python": "3.12.7",
+  "seed": 42,
+  "source_head": "d6f979cfa1e9763fb4179cd7b902a51fbde68199",
+  "spec_commit": "983b2fb08cd9590d9f9ff5355d499bfa1a56b93b",
+  "task_commit": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+  "task_id": "T0014",
+  "test_used_for_training": false,
+  "tested_commit": "d6f979cfa1e9763fb4179cd7b902a51fbde68199",
+  "tf32_enabled": false,
+  "tokenizer_actual_vocab_size": 320,
+  "torch": "2.10.0+cu128",
+  "torch_cuda_runtime": "12.8",
+  "torch_threads": 1,
+  "v2_demo_bytes": 21209,
+  "v2_demo_sha256": "1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396",
+  "v2_manifest_sha256": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+  "validation_seconds": {
+    "continuous-int1": 0.19798660895321518,
+    "continuous-int2": 0.19595929398201406,
+    "legacy-v1-smoke": 0.11184049805160612,
+    "split-int2": 0.19637949002208188,
+    "split-int2-metadata": 0.1879318700521253
+  }
+}
