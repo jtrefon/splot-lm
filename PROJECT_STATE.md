@@ -14,18 +14,21 @@ Snapshot: 2026-11-27. **Live GitHub issues and PRs are authoritative.** This fil
 
 - PR #23 merged: exact D1/D2 speculative reference: six CPU tests and seven MTP regressions passed; [contract](research/implementation/exact-speculation.md), [evidence](experiments/results/exact-speculation-v0.1.md). No speed claims.
 
-- Learned GDN/GQA hybrid dense reference in current review branch: six CPU tests, 13 regressions, 40-step A2 smoke, short Nano forward/backward. [Contract](research/implementation/hybrid-gdn.md), [evidence](experiments/results/hybrid-gdn-v0.1.md). No sparse experts yet.
+- PR #24 merged: learned GDN/GQA hybrid dense reference: six CPU tests, 13 regressions, 40-step A2 smoke, short Nano forward/backward. [Contract](research/implementation/hybrid-gdn.md), [evidence](experiments/results/hybrid-gdn-v0.1.md). Dense FFN control.
+
+- Complete sparse hybrid SPLOTLM in review: exact Nano/Mini model inventories, six CPU MoE tests and 19 regressions, synthetic A2+balance training and short full Nano forward/backward. [Contract](research/implementation/sparse-moe.md), [evidence](experiments/results/sparse-moe-v0.1.md). Mini meta only.
 
 ## Next work
-- #6 next: implement learned routed/shared SwiGLU experts, FP32 top-k router, balance loss and correctness oracle, then full hybrid/MTP/speculation integration. Full-text prior art and locality experiments remain open.
-- #5: learned hybrid implementation in review; GPU, precision, long context, kernel and empirical tests remain.
+- #10 next: reproducible experiment harness, executable full candidate configs, checkpoint/resume, synthetic evaluation, GPU smoke protocol and instrumentation. #7 precision and activation memory policy in parallel; #8 approved corpus/tokenizer gate before real training.
+- #6: full sparse reference in review; full-text literature, locality objectives, chronological trace/cache simulation and measured PCIe/offload experiments remain open.
+- #5: learned hybrid implementation merged; GPU, precision, long context, kernel and empirical tests remain.
 - #2: exact all-GQA reference merged; full literature, broader sampling/precision tests, shallow-cache reuse and empirical work remain open.
 - #4: recurrent all-GQA reference merged; checkpointing, full GDN integration and other acceptance tests outstanding.
 - #9: synthetic fixture integration now exercised in recurrent reference; GPU smoke still outstanding. #8: actual corpus source approvals and tokenizer remain required before real training.
-- #3 reconcile actual full-candidate parameter counts when GDN/MoE/MTP exist; #7/#10 precision and hardware measurement; #11 publication/license approval.
+- #3 exact candidate parameter inventories now verified; matched controls and empirical work remain; #7/#10 precision and hardware measurement; #11 publication/license approval.
 
 ## Current unresolved decisions
-Experimental injection/stability choice, MTP strategy beyond initial offset-2, hybrid verifier rollback and shallow cache extraction, GDN/MoE integration, router objective and cache policy, data/tokenizer rights and actual pipeline, numerical formats, training budget, CC BY 4.0 scope. No assumed NASK/PLLuM relationship.
+Experimental injection/stability choice, MTP strategy beyond initial offset-2, hybrid verifier rollback and shallow cache extraction, optimized GDN/MoE kernels, router objective and cache policy, data/tokenizer rights and actual pipeline, numerical formats, training budget, CC BY 4.0 scope. No assumed NASK/PLLuM relationship.
 
 ## Restart
 Read AGENTS.md and query GitHub. Do not rely on this snapshot for current PR/issue state. Continue the highest-priority unblocked task unless maintainer chooses otherwise.

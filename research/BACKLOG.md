@@ -31,3 +31,5 @@ PR #21 merged. Native MTP offset-2 and A0/A1/A2 implementation in review branch 
 PR #22 merged. Exact D1/D2 all-GQA speculative reference in review (#2), six CPU tests and seven MTP regressions pass. Next #5 learned GDN v1 standalone and hybrid integration, matrix/convolution rollback; then #6 MoE. #2 remains open for broader validation and performance. #8 real corpus gate unchanged.
 
 PR #23 merged. #5 learned hybrid dense GDN/GQA + MTP implemented on review branch; six CPU tests, 13 regressions, synthetic A2 smoke and short Nano forward/backward. Next #6 learned sparse MoE and full model integration; GPU, real corpus and optimization pending.
+
+PR #24 merged. Full SPLOT sparse hybrid reference in review (#6/#3); exact candidate counts, six tests, 19 regressions, synthetic A2+balance smoke and actual short Nano forward/backward. Next #10 reproducible harness, checkpoint/resume and GPU smoke; #7 precision, #8 approved data/tokenizer in parallel. Locality experiments remain #6.
