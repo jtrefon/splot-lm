@@ -1,0 +1,113 @@
+{
+  "command": "python tools/ci_cpu.py",
+  "cpu_scripts": 20,
+  "exit": 0,
+  "failed_suites": 0,
+  "rep_reports": 13,
+  "skipped_tests": 0,
+  "status": "passed",
+  "suite_count": 20,
+  "suites": [
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/numerical/test_hybrid_mixer.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/numerical/test_recurrent_semantics.py",
+      "status": "passed",
+      "test_count": 5
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/test_dense.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/test_hybrid.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/test_moe.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/test_mtp.py",
+      "status": "passed",
+      "test_count": 7
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/test_recurrent.py",
+      "status": "passed",
+      "test_count": 7
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tests/test_speculative.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/rep/test_validate_result.py",
+      "status": "passed",
+      "test_count": 9
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_accounting.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_bf16_harness.py",
+      "status": "passed",
+      "test_count": 5
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_bpe_reference.py",
+      "status": "passed",
+      "test_count": 28
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_corpus_reference.py",
+      "status": "passed",
+      "test_count": 30
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_data_fixture.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_experiment.py",
+      "status": "passed",
+      "test_count": 5
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_experiment_integration.py",
+      "status": "passed",
+      "test_count": 1
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_fp8_autograd.py",
+      "status": "passed",
+      "test_count": 5
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_fp8_muon.py",
+      "status": "passed",
+      "test_count": 7
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_fp8_probe.py",
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "PYTHONPATH=src:tools:tools/rep CUDA_VISIBLE_DEVICES=\"\" python tools/test_hybrid_optimizer.py",
+      "status": "passed",
+      "test_count": 5
+    }
+  ],
+  "test_count": 162
+}

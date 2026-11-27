@@ -1,0 +1,15 @@
+{
+  "cross_optimizer": {
+    "config": "configs/experiments/splot-smoke-synthetic-fp8.json",
+    "exit": 1,
+    "expected_exception": "ValueError: run identity mismatch",
+    "status": "passed"
+  },
+  "cross_precision": {
+    "config": "temporary BF16 Muon smoke config derived from FP8 Muon with precision set to bf16 only",
+    "exit": 1,
+    "expected_exception": "ValueError: run identity mismatch",
+    "note": "Initial setup used a non-existent config path; the corrected config was generated outside the checkout and the rejection was rerun.",
+    "status": "passed"
+  }
+}

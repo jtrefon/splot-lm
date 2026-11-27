@@ -1,0 +1,472 @@
+===== T0011 attempt-001 preflight =====
+2026-11-27T18:53:51Z
+$ git rev-parse HEAD
+4f92b6ea759f4db64bc827d371506972d282108f
+$ git status --porcelain
+$ python/torch/gpu
+3.12.7 2.10.0+cu128 12.8 True NVIDIA GeForce RTX 4090 (8, 9)
+muon True scaled_mm True
+$ nvidia-smi
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 244699808 179300232      58% /
+budget: 35 steps, 2591 valid /2534 NTP /2477 offset2, 376 validation NTP, 43055076 params
+===== focused CUDA FP8+Muon tests =====
+exit=0 elapsed_seconds=9
+test_fp8_muon_resume_exact_history_and_audit (__main__.FP8MuonCUDATests.test_fp8_muon_resume_exact_history_and_audit) ... ok
+test_fp8_muon_step_both_states_and_native_dispatch (__main__.FP8MuonCUDATests.test_fp8_muon_step_both_states_and_native_dispatch) ... ok
+test_inactive_expert_is_not_updated (__main__.FP8MuonCUDATests.test_inactive_expert_is_not_updated) ... ok
+test_nonfinite_post_update_injection_preserves_checkpoint (__main__.FP8MuonCUDATests.test_nonfinite_post_update_injection_preserves_checkpoint) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 7.336s
+
+OK
+
+===== cuda run: fp8-muon-continuous =====
+2026-11-27T18:54:10Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-fp8-muon.json --out \<RUNS>/fp8-muon-continuous --steps 4 --device cuda
+exit=0 elapsed_seconds=5
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1986.4730682373047,
+    "mean_nll": 5.283173053822619,
+    "perplexity": 196.99395713435487
+  }
+}
+--- stderr
+
+2026-11-27T18:54:15Z
+===== cuda run: fp8-muon-split =====
+2026-11-27T18:54:15Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-fp8-muon.json --out \<RUNS>/fp8-muon-split --steps 2 --device cuda
+exit=0 elapsed_seconds=5
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 141,
+  "total_ntp_labels": 138,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2044.1548309326172,
+    "mean_nll": 5.436581997161216,
+    "perplexity": 229.65587598950123
+  }
+}
+--- stderr
+
+2026-11-27T18:54:20Z
+===== cuda run: fp8-muon-resume =====
+2026-11-27T18:54:20Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-fp8-muon.json --out \<RUNS>/fp8-muon-split --steps 4 --device cuda --resume
+exit=0 elapsed_seconds=4
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1986.4730682373047,
+    "mean_nll": 5.283173053822619,
+    "perplexity": 196.99395713435487
+  }
+}
+--- stderr
+
+2026-11-27T18:54:24Z
+===== fp8-muon resume comparison =====
+exit=0 elapsed_seconds=1
+{
+  "status": "passed",
+  "steps": 4,
+  "parameters": 179952,
+  "model_optimizer_rng_equal": true,
+  "non_timing_history_equal": true,
+  "validation_equal": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ]
+}
+
+===== cross-precision rejection =====
+config=configs/experiments/splot-smoke-synthetic-bf16-muon.json
+exit=1
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "<REPO>/tools/experiment.py", line 236, in main
+    c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "<HOME>/miniconda3/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<HOME>/miniconda3/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/experiments/splot-smoke-synthetic-bf16-muon.json'
+
+===== cross-optimizer rejection =====
+config=configs/experiments/splot-smoke-synthetic-fp8.json
+exit=1
+Traceback (most recent call last):
+  File "<REPO>/tools/experiment.py", line 318, in <module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "<REPO>/tools/experiment.py", line 284, in main
+    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO>/tools/experiment.py", line 144, in train
+    if state['identity'] != identity: raise ValueError('run identity mismatch')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: run identity mismatch
+
+===== cross-precision rejection (corrected config path) =====
+config=<RUNS>/splot-smoke-synthetic-bf16-muon.json
+exit=1
+Traceback (most recent call last):
+  File "<REPO>/tools/experiment.py", line 318, in <module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "<REPO>/tools/experiment.py", line 284, in main
+    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO>/tools/experiment.py", line 144, in train
+    if state['identity'] != identity: raise ValueError('run identity mismatch')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: run identity mismatch
+
+===== matched epoch: splot-nano-synthetic-fp8 =====
+start=2026-11-27T18:54:53Z
+command: timeout --kill-after=15s 600s python tools/experiment.py --config configs/experiments/splot-nano-synthetic-fp8.json --out $RUNS/splot-nano-synthetic-fp8 --steps 35 --device cuda
+exit=0 elapsed_seconds=80 end=2026-11-27T18:56:13Z
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 2591,
+  "total_ntp_labels": 2534,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1315.7131958007812,
+    "mean_nll": 3.4992372228744184,
+    "perplexity": 33.09020188075013
+  }
+}
+--- stderr
+
+===== matched epoch: splot-nano-synthetic-fp8-muon =====
+start=2026-11-27T18:56:16Z
+free_vram_mib=24077
+command: timeout --kill-after=15s 600s python tools/experiment.py --config configs/experiments/splot-nano-synthetic-fp8-muon.json --out $RUNS/splot-nano-synthetic-fp8-muon --steps 35 --device cuda
+exit=0 elapsed_seconds=57 end=2026-11-27T18:57:13Z
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 2591,
+  "total_ntp_labels": 2534,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 560.2533187866211,
+    "mean_nll": 1.4900354223048433,
+    "perplexity": 4.4372526939374906
+  }
+}
+--- stderr
+
+===== matched epoch: splot-nano-synthetic-bf16-muon =====
+start=2026-11-27T18:57:17Z
+free_vram_mib=24077
+command: timeout --kill-after=15s 600s python tools/experiment.py --config configs/experiments/splot-nano-synthetic-bf16-muon.json --out $RUNS/splot-nano-synthetic-bf16-muon --steps 35 --device cuda
+exit=0 elapsed_seconds=47 end=2026-11-27T18:58:04Z
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 2591,
+  "total_ntp_labels": 2534,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 637.9340057373047,
+    "mean_nll": 1.6966329939821934,
+    "perplexity": 5.455547571453703
+  }
+}
+--- stderr
+
+===== first-step routing/audit comparison (no optimizer step) =====
+exit=0
+{
+  "status": "passed",
+  "checks": {
+    "route_keys_equal": true,
+    "route_tokens": 408,
+    "routing_exact": 1.0,
+    "routing_top1": 1.0,
+    "audit_equal": true,
+    "audit_matches_first_step": true,
+    "losses_equal": true
+  },
+  "fp8_adamw_losses": {
+    "total": 15.809919357299805,
+    "final_ntp": 10.546428680419922,
+    "early_ntp": 10.549643516540527,
+    "offset2": 10.440898895263672,
+    "balance": 1.5855262279510498
+  },
+  "fp8_muon_losses": {
+    "total": 15.809919357299805,
+    "final_ntp": 10.546428680419922,
+    "early_ntp": 10.549643516540527,
+    "offset2": 10.440898895263672,
+    "balance": 1.5855262279510498
+  }
+}
+
+
+===== epoch analysis =====
+{
+  "status": "passed",
+  "checks": {
+    "parameters_all": true,
+    "steps_all": true,
+    "batch_indices_complete": true,
+    "labels_exact": true,
+    "validation_labels": true,
+    "finite_losses": true,
+    "positive_timing_memory": true,
+    "model_keys_equal": true,
+    "data_hashes_equal": true,
+    "packed_hashes_equal": true,
+    "validation_arithmetic": true,
+    "fp8_first_step_fields_equal": true,
+    "fp8_first_step_audit_equal": true,
+    "t0009_first_step_equal": true,
+    "bf16_fp8_ce_gates": true,
+    "muon_partition_equal": true,
+    "state_fp32_finite": true,
+    "model_fp32_finite": true
+  },
+  "runs": {
+    "splot-nano-synthetic-fp8": {
+      "precision": "fp8",
+      "optimizer": "adamw",
+      "steps": 35,
+      "unique_batch_indices": 35,
+      "total_valid_tokens": 2591,
+      "total_ntp_labels": 2534,
+      "total_offset2_labels": 2477,
+      "validation": {
+        "mean_nll": 3.4992372228744184,
+        "nll_sum": 1315.7131958007812,
+        "ntp_labels": 376,
+        "perplexity": 33.09020188075013
+      },
+      "token_weighted": {
+        "final_ntp": 4.491868717706194,
+        "early_ntp": 4.4818412088087065,
+        "offset2": 4.43947136156685,
+        "composite_objective_mean": 6.817813750675747,
+        "composite_note": "mean of per-step A2 objective; not a pure token NLL"
+      },
+      "checkpoint_bytes": 516961355,
+      "checkpoint_sha256": "b314dfd78231322e71c2f59fb500047487b160a93ce059be202fccb583008145",
+      "epoch_wall_seconds": 80.0,
+      "step_seconds_sum": 17.70926751208026,
+      "optimizer_state": {
+        "adamw": {
+          "bytes": 344441400,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 86110350,
+          "finite": true
+        },
+        "total": {
+          "bytes": 344441400,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 86110350,
+          "finite": true
+        }
+      }
+    },
+    "splot-nano-synthetic-fp8-muon": {
+      "precision": "fp8",
+      "optimizer": "muon",
+      "steps": 35,
+      "unique_batch_indices": 35,
+      "total_valid_tokens": 2591,
+      "total_ntp_labels": 2534,
+      "total_offset2_labels": 2477,
+      "validation": {
+        "mean_nll": 1.4900354223048433,
+        "nll_sum": 560.2533187866211,
+        "ntp_labels": 376,
+        "perplexity": 4.4372526939374906
+      },
+      "token_weighted": {
+        "final_ntp": 3.7199442301948142,
+        "early_ntp": 3.715178726598232,
+        "offset2": 4.415700113768533,
+        "composite_objective_mean": 5.805693714959281,
+        "composite_note": "mean of per-step A2 objective; not a pure token NLL"
+      },
+      "checkpoint_bytes": 395195619,
+      "checkpoint_sha256": "9042b8fe708f9a67318cfc8d0c07e9514be80b8d06a395d69c008d4307495f15",
+      "epoch_wall_seconds": 57.0,
+      "step_seconds_sum": 21.42006968392525,
+      "optimizer_state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      }
+    },
+    "splot-nano-synthetic-bf16-muon": {
+      "precision": "bf16",
+      "optimizer": "muon",
+      "steps": 35,
+      "unique_batch_indices": 35,
+      "total_valid_tokens": 2591,
+      "total_ntp_labels": 2534,
+      "total_offset2_labels": 2477,
+      "validation": {
+        "mean_nll": 1.6966329939821934,
+        "nll_sum": 637.9340057373047,
+        "ntp_labels": 376,
+        "perplexity": 5.455547571453703
+      },
+      "token_weighted": {
+        "final_ntp": 3.772564360355898,
+        "early_ntp": 3.754480793613473,
+        "offset2": 4.486922099506561,
+        "composite_objective_mean": 5.902975477491107,
+        "composite_note": "mean of per-step A2 objective; not a pure token NLL"
+      },
+      "checkpoint_bytes": 395162979,
+      "checkpoint_sha256": "a66a3e32ae01862598b89f0b97886ef55662b5449509e4fe5208a2aa0d08dc87",
+      "epoch_wall_seconds": 47.0,
+      "step_seconds_sum": 11.79814483987866,
+      "optimizer_state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      }
+    }
+  },
+  "first_step_differences": {
+    "fp8_adamw_vs_bf16_muon": {
+      "final_ntp": 0.007979393005371094,
+      "early_ntp": 0.012225151062011719,
+      "offset2": 0.00014972686767578125,
+      "objective": 0.011022567749023438
+    },
+    "fp8_muon_vs_bf16_muon": {
+      "final_ntp": 0.007979393005371094,
+      "early_ntp": 0.012225151062011719,
+      "offset2": 0.00014972686767578125,
+      "objective": 0.011022567749023438
+    }
+  }
+}
+
+===== first-step routing/audit =====
+{
+  "status": "passed",
+  "checks": {
+    "route_keys_equal": true,
+    "route_tokens": 408,
+    "routing_exact": 1.0,
+    "routing_top1": 1.0,
+    "audit_equal": true,
+    "audit_matches_first_step": true,
+    "losses_equal": true
+  },
+  "fp8_adamw_losses": {
+    "total": 15.809919357299805,
+    "final_ntp": 10.546428680419922,
+    "early_ntp": 10.549643516540527,
+    "offset2": 10.440898895263672,
+    "balance": 1.5855262279510498
+  },
+  "fp8_muon_losses": {
+    "total": 15.809919357299805,
+    "final_ntp": 10.546428680419922,
+    "early_ntp": 10.549643516540527,
+    "offset2": 10.440898895263672,
+    "balance": 1.5855262279510498
+  }
+}
+
+===== development failure: initial focused CUDA test =====
+test_fp8_muon_resume_exact_history_and_audit (__main__.FP8MuonCUDATests.test_fp8_muon_resume_exact_history_and_audit) ... ok
+test_fp8_muon_step_both_states_and_native_dispatch (__main__.FP8MuonCUDATests.test_fp8_muon_step_both_states_and_native_dispatch) ... ok
+test_inactive_expert_is_not_updated (__main__.FP8MuonCUDATests.test_inactive_expert_is_not_updated) ... ERROR
+test_nonfinite_post_update_injection_preserves_checkpoint (__main__.FP8MuonCUDATests.test_nonfinite_post_update_injection_preserves_checkpoint) ... ok
+
+======================================================================
+ERROR: test_inactive_expert_is_not_updated (__main__.FP8MuonCUDATests.test_inactive_expert_is_not_updated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<REPO>/tools/test_fp8_muon.py", line 352, in test_inactive_expert_is_not_updated
+    objective = training_objective(model, x, y, mode='A2', loops=2)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO>/src/splot/mtp.py", line 65, in training_objective
+    raise ValueError('missing offset labels')
+ValueError: missing offset labels
+
+----------------------------------------------------------------------
+Ran 4 tests in 6.842s
+
+FAILED (errors=1)

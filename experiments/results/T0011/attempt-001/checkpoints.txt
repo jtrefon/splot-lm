@@ -1,0 +1,5 @@
+compatibility-continuous/checkpoint.pt sha256 be09d3b112a1d7a26a68e1dc4bad7ac317b5a98796d2fc3cd0b69a47ed7e9c37 bytes 1698531 availability local-only
+compatibility-resumed/checkpoint.pt sha256 652e4b9afbcd8bece16757e96be1b21fb162ada3a061c0c4b527a74f73e1c737 bytes 1699491 availability local-only
+epoch-fp8-adamw/checkpoint.pt sha256 b314dfd78231322e71c2f59fb500047487b160a93ce059be202fccb583008145 bytes 516961355 availability local-only
+epoch-fp8-muon/checkpoint.pt sha256 9042b8fe708f9a67318cfc8d0c07e9514be80b8d06a395d69c008d4307495f15 bytes 395195619 availability local-only
+epoch-bf16-muon/checkpoint.pt sha256 a66a3e32ae01862598b89f0b97886ef55662b5449509e4fe5208a2aa0d08dc87 bytes 395162979 availability local-only
