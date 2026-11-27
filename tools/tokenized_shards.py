@@ -21,8 +21,8 @@ from typing import Any
 import bpe_reference as bpe
 import corpus_reference as corpus
 
-FORMAT = "splot-tokenized-shards-v1"
-FORMAT_VERSION = 1
+FORMAT = "splot-tokenized-shards-v2"
+FORMAT_VERSION = 2
 PAD = 0
 BOS = 1
 EOS = 2
@@ -92,6 +92,7 @@ SOURCE_KEYS = frozenset(
         "train_doc_ids",
         "bpe_training_digest",
         "cluster_splits",
+        "cluster_representatives",
         "document_splits",
         "quarantine",
     }
@@ -223,6 +224,8 @@ def _normalise_allowlist(
 
 def build_token_documents(
     report: Mapping[str, Any],
+    approved_sources: Iterable[corpus.SourceApproval]
+    | Mapping[str, corpus.SourceApproval],
     *,
     requested_vocab_size: int = 320,
     max_merges: int = bpe.MAX_MERGES,
@@ -235,15 +238,92 @@ def build_token_documents(
     report_digest = report.get("digest")
     if not _is_hex64(report_digest):
         raise ShardError("corpus report digest is invalid")
-    inputs = {
-        item["record_id"]: item["text"]
-        for item in report.get("inputs", [])
-        if isinstance(item, Mapping) and "record_id" in item and "text" in item
-    }
+    if corpus.canonical_digest(report) != report_digest:
+        raise ShardError("corpus report canonical digest mismatch")
+    approved = _normalise_allowlist(approved_sources)
+    inputs_list = report.get("inputs")
+    if not isinstance(inputs_list, list) or not inputs_list:
+        raise ShardError("corpus report inputs must be a nonempty list")
+    inputs: dict[str, str] = {}
+    for item in inputs_list:
+        if not isinstance(item, Mapping):
+            raise ShardError("corpus report input must be an object")
+        record_id = item.get("record_id")
+        text = item.get("text")
+        _require_nonempty_str(record_id, "input record ID")
+        if not isinstance(text, str) or not text:
+            raise ShardError(f"input {record_id!r} text must be nonempty")
+        if record_id in inputs:
+            raise ShardError(f"duplicate input record ID: {record_id!r}")
+        inputs[record_id] = text
+
     clusters = report.get("clusters")
-    if not isinstance(clusters, list):
-        raise ShardError("corpus report clusters must be a list")
+    if not isinstance(clusters, list) or not clusters:
+        raise ShardError("corpus report clusters must be a nonempty list")
+    cluster_by_id: dict[str, Mapping[str, Any]] = {}
+    member_owner: dict[str, str] = {}
+    for cluster in clusters:
+        if not isinstance(cluster, Mapping):
+            raise ShardError("corpus cluster must be an object")
+        cluster_id = cluster.get("cluster_id")
+        _require_nonempty_str(cluster_id, "cluster ID")
+        if cluster_id in cluster_by_id:
+            raise ShardError(f"duplicate cluster ID: {cluster_id!r}")
+        members = cluster.get("members")
+        if not isinstance(members, list) or not members:
+            raise ShardError(f"cluster {cluster_id!r} members must be nonempty")
+        representative = cluster.get("representative")
+        _require_nonempty_str(representative, "representative ID")
+        representative_count = 0
+        member_ids: list[str] = []
+        for member in members:
+            if not isinstance(member, Mapping):
+                raise ShardError(f"cluster {cluster_id!r} member must be an object")
+            record_id = member.get("record_id")
+            _require_nonempty_str(record_id, "member record ID")
+            if record_id in member_owner:
+                raise ShardError(f"duplicate member record ID: {record_id!r}")
+            member_owner[record_id] = cluster_id
+            member_ids.append(record_id)
+            if record_id == representative:
+                representative_count += 1
+            source_id = member.get("source_id")
+            revision = member.get("source_revision")
+            _require_nonempty_str(source_id, "member source ID")
+            _require_nonempty_str(revision, "member source revision")
+            source_entry = approved.get(source_id)
+            if source_entry is None or source_entry.revision != revision:
+                raise ShardError(
+                    f"member {record_id!r} source/revision is not explicitly approved"
+                )
+            if member.get("domain") != "prose":
+                raise ShardError("only prose documents are supported in this reference")
+            if member.get("language") not in ("en", "pl"):
+                raise ShardError(f"unsupported member language: {member.get('language')!r}")
+            if not _is_hex64(member.get("raw_sha256")):
+                raise ShardError(f"invalid content digest for member {record_id!r}")
+        if representative_count != 1:
+            raise ShardError(
+                f"cluster {cluster_id!r} must have exactly one representative member"
+            )
+        split = cluster.get("split")
+        if split is not None and split not in SPLIT_ORDER:
+            raise ShardError(f"invalid cluster split: {split!r}")
+        quarantine_reasons = cluster.get("quarantine_reasons", [])
+        if not isinstance(quarantine_reasons, list) or not all(
+            isinstance(reason, str) and reason for reason in quarantine_reasons
+        ):
+            raise ShardError(f"cluster {cluster_id!r} quarantine reasons are invalid")
+        if split is None and not quarantine_reasons:
+            raise ShardError(f"quarantine cluster {cluster_id!r} lacks a reason")
+        if split is not None and quarantine_reasons:
+            raise ShardError(f"eligible cluster {cluster_id!r} has quarantine reasons")
+        cluster_by_id[cluster_id] = cluster
+    if set(inputs) != set(member_owner):
+        raise ShardError("corpus report inputs and cluster members do not match")
+
     eligible = [cluster for cluster in clusters if cluster.get("split") is not None]
+    quarantined = [cluster for cluster in clusters if cluster.get("split") is None]
     if not eligible:
         raise ShardError("corpus report has no eligible clusters")
     train_clusters = [cluster for cluster in eligible if cluster["split"] == "train"]
@@ -253,8 +333,6 @@ def build_token_documents(
     train_docs = []
     for cluster in train_clusters:
         representative = cluster["representative"]
-        if representative not in inputs:
-            raise ShardError(f"missing input text for representative {representative!r}")
         member = next(
             (item for item in cluster["members"] if item["record_id"] == representative),
             None,
@@ -262,8 +340,6 @@ def build_token_documents(
         if member is None:
             raise ShardError(f"missing member metadata for representative {representative!r}")
         text = inputs[representative]
-        if member["domain"] != "prose":
-            raise ShardError("only prose documents are supported in this reference")
         train_docs.append(
             bpe.Document(
                 representative,
@@ -279,28 +355,29 @@ def build_token_documents(
         requested_vocab_size=requested_vocab_size,
         max_merges=max_merges,
     )
+    if artifact["training_digest"] != bpe.train_input_digest(train_docs):
+        raise ShardError("BPE training digest does not match train-only input identity")
     actual_vocab_size = artifact["actual_vocab_size"]
 
     documents: list[TokenDocument] = []
-    cluster_splits: dict[str, str] = {}
+    cluster_splits = {
+        cluster["cluster_id"]: cluster.get("split") for cluster in clusters
+    }
+    cluster_representatives = {
+        cluster["cluster_id"]: cluster["representative"] for cluster in clusters
+    }
     document_splits: dict[str, str] = {}
     approvals: set[tuple[str, str]] = set()
     for cluster in eligible:
         representative = cluster["representative"]
         split = cluster["split"]
-        if split not in SPLIT_ORDER:
-            raise ShardError(f"invalid cluster split: {split!r}")
         member = next(
             (item for item in cluster["members"] if item["record_id"] == representative),
             None,
         )
         if member is None:
             raise ShardError(f"missing member metadata for representative {representative!r}")
-        if representative not in inputs:
-            raise ShardError(f"missing input text for representative {representative!r}")
         text = inputs[representative]
-        if member["domain"] != "prose":
-            raise ShardError("only prose documents are supported in this reference")
         content_sha = member["raw_sha256"]
         if content_sha != bpe.document_content_sha256(text):
             raise ShardError(f"content digest mismatch for {representative!r}")
@@ -312,7 +389,6 @@ def build_token_documents(
         if bpe.decode(tokens, artifact) != text:
             raise ShardError(f"round-trip failed for {representative!r}")
         approvals.add((member["source_id"], member["source_revision"]))
-        cluster_splits[cluster["cluster_id"]] = split
         document_splits[representative] = split
         documents.append(
             TokenDocument(
@@ -350,8 +426,7 @@ def build_token_documents(
             "reasons": list(cluster.get("quarantine_reasons", [])),
             "member_ids": sorted(member["record_id"] for member in cluster["members"]),
         }
-        for cluster in clusters
-        if cluster.get("split") is None
+        for cluster in quarantined
     ]
     quarantine.sort(key=lambda item: item["cluster_id"])
     source_identity = {
@@ -364,8 +439,16 @@ def build_token_documents(
         ],
         "train_doc_ids": sorted(cluster["representative"] for cluster in train_clusters),
         "bpe_training_digest": artifact["training_digest"],
-        "cluster_splits": {key: cluster_splits[key] for key in sorted(cluster_splits)},
-        "document_splits": {key: document_splits[key] for key in sorted(document_splits)},
+        "cluster_splits": {
+            key: cluster_splits[key] for key in sorted(cluster_splits)
+        },
+        "cluster_representatives": {
+            key: cluster_representatives[key]
+            for key in sorted(cluster_representatives)
+        },
+        "document_splits": {
+            key: document_splits[key] for key in sorted(document_splits)
+        },
         "quarantine": quarantine,
     }
     return {
@@ -377,8 +460,14 @@ def build_token_documents(
     }
 
 
+_DEMO_APPROVALS = (
+    corpus.SourceApproval("synthetic_en", "rev-en-001", corpus.SYNTHETIC_APPROVAL),
+    corpus.SourceApproval("synthetic_pl", "rev-pl-001", corpus.SYNTHETIC_APPROVAL),
+)
+
+
 def build_demo_bundle() -> dict[str, Any]:
-    return build_token_documents(corpus.demo_report())
+    return build_token_documents(corpus.demo_report(), _DEMO_APPROVALS)
 
 
 def _block_labels(
@@ -926,15 +1015,32 @@ def _validate_manifest_header(manifest: Any, expected_sha256: str) -> None:
         raise ShardError("manifest train document identity is invalid")
     if source["train_doc_ids"] != sorted(set(source["train_doc_ids"])):
         raise ShardError("manifest train document identity is not sorted/unique")
-    for key in ("cluster_splits", "document_splits"):
-        if not isinstance(source[key], dict) or any(
-            not isinstance(name, str) or split not in SPLIT_ORDER
-            for name, split in source[key].items()
-        ):
-            raise ShardError(f"manifest {key} identity is invalid")
-    if not isinstance(source["quarantine"], list):
+    cluster_splits = source["cluster_splits"]
+    if not isinstance(cluster_splits, dict) or any(
+        not isinstance(name, str)
+        or not name
+        or split not in SPLIT_ORDER
+        and split is not None
+        for name, split in cluster_splits.items()
+    ):
+        raise ShardError("manifest cluster_splits identity is invalid")
+    cluster_reps = source["cluster_representatives"]
+    if not isinstance(cluster_reps, dict) or set(cluster_reps) != set(cluster_splits):
+        raise ShardError("manifest cluster representatives are incomplete")
+    if any(not isinstance(name, str) or not name for name in cluster_reps.values()):
+        raise ShardError("manifest cluster representative is invalid")
+    document_splits = source["document_splits"]
+    if not isinstance(document_splits, dict) or any(
+        not isinstance(name, str) or not name or split not in SPLIT_ORDER
+        for name, split in document_splits.items()
+    ):
+        raise ShardError("manifest document_splits identity is invalid")
+    quarantine = source["quarantine"]
+    if not isinstance(quarantine, list):
         raise ShardError("manifest quarantine metadata is invalid")
-    for entry in source["quarantine"]:
+    quarantine_ids: list[str] = []
+    quarantine_members: set[str] = set()
+    for entry in quarantine:
         if not isinstance(entry, dict) or set(entry) != {
             "cluster_id",
             "reasons",
@@ -942,8 +1048,26 @@ def _validate_manifest_header(manifest: Any, expected_sha256: str) -> None:
         }:
             raise ShardError("manifest quarantine schema is invalid")
         _require_nonempty_str(entry["cluster_id"], "quarantine cluster ID")
-        if not isinstance(entry["reasons"], list) or not isinstance(entry["member_ids"], list):
+        if (
+            not isinstance(entry["reasons"], list)
+            or not all(isinstance(reason, str) and reason for reason in entry["reasons"])
+            or not isinstance(entry["member_ids"], list)
+            or not entry["member_ids"]
+            or not all(isinstance(member, str) and member for member in entry["member_ids"])
+        ):
             raise ShardError("manifest quarantine metadata is invalid")
+        if entry["cluster_id"] in quarantine_ids:
+            raise ShardError("duplicate quarantine cluster ID")
+        quarantine_ids.append(entry["cluster_id"])
+        for member in entry["member_ids"]:
+            if member in quarantine_members:
+                raise ShardError("duplicate quarantine member ID")
+            quarantine_members.add(member)
+    expected_quarantine = {
+        cluster_id for cluster_id, split in cluster_splits.items() if split is None
+    }
+    if set(quarantine_ids) != expected_quarantine:
+        raise ShardError("manifest quarantine clusters do not match cluster_splits")
     docs = manifest["documents"]
     if not isinstance(docs, list) or not docs:
         raise ShardError("manifest documents are invalid")
@@ -966,6 +1090,7 @@ def _validate_documents(
     result: list[TokenDocument] = []
     seen_ids: set[str] = set()
     seen_numeric: set[int] = set()
+    seen_clusters: set[str] = set()
     for index, item in enumerate(docs):
         if not isinstance(item, dict) or set(item) != DOC_KEYS:
             raise ShardError("manifest document schema is invalid")
@@ -983,8 +1108,11 @@ def _validate_documents(
             raise ShardError("manifest numeric document IDs must be contiguous")
         if item["doc_id"] in seen_ids or item["numeric_id"] in seen_numeric:
             raise ShardError("duplicate manifest document identity")
+        if item["cluster_id"] in seen_clusters:
+            raise ShardError("more than one representative for a cluster")
         seen_ids.add(item["doc_id"])
         seen_numeric.add(item["numeric_id"])
+        seen_clusters.add(item["cluster_id"])
         tokens = _validate_tokens(
             item["tokens"], artifact["actual_vocab_size"], f"document {item['doc_id']!r}"
         )
@@ -1018,6 +1146,10 @@ def _validate_documents(
             raise ShardError("manifest document split mismatch")
         if source["cluster_splits"].get(doc.cluster_id) != doc.split:
             raise ShardError("manifest cluster split mismatch")
+    for entry in source["quarantine"]:
+        representative = source["cluster_representatives"].get(entry["cluster_id"])
+        if representative not in entry["member_ids"]:
+            raise ShardError("quarantine cluster representative is not a member")
     approval_set = {
         (entry["source_id"], entry["revision"]) for entry in source["source_approvals"]
     }
@@ -1032,6 +1164,39 @@ def _validate_documents(
     }
     if quarantined & seen_ids:
         raise ShardError("quarantined document was packed")
+    quarantine_clusters = {
+        entry["cluster_id"] for entry in source["quarantine"]
+    }
+    if set(source["cluster_splits"]) != seen_clusters | quarantine_clusters:
+        raise ShardError("cluster_splits mapping is not exact and complete")
+    for doc in result:
+        if source["cluster_representatives"].get(doc.cluster_id) != doc.doc_id:
+            raise ShardError("cluster representative identity mismatch")
+        if source["cluster_splits"].get(doc.cluster_id) != doc.split:
+            raise ShardError("cluster split identity mismatch")
+    decoded: dict[str, str] = {}
+    for doc in result:
+        text = bpe.decode(doc.tokens, artifact)
+        if bpe.document_content_sha256(text) != doc.content_sha256:
+            raise ShardError(f"decoded content hash mismatch for {doc.doc_id!r}")
+        decoded[doc.doc_id] = text
+    train_docs = [
+        bpe.Document(
+            doc.doc_id,
+            "train",
+            doc.language,
+            doc.domain,
+            decoded[doc.doc_id],
+        )
+        for doc in result
+        if doc.split == "train"
+    ]
+    train_digest = bpe.train_input_digest(train_docs)
+    if (
+        train_digest != artifact["training_digest"]
+        or train_digest != source["bpe_training_digest"]
+    ):
+        raise ShardError("recomputed train-only BPE identity mismatch")
     return tuple(result)
 
 
