@@ -19,6 +19,8 @@ from splot.fp8 import (aggregate_fp8_diagnostics, convert_selected_linears,
                        fp8_assert_finite, fp8_diagnostics, fp8_runtime_probe,
                        has_fp8, reset_fp8_audit)
 
+SHARD_FORMAT = 'splot-tokenized-shards-v2'
+
 
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
@@ -100,6 +102,50 @@ def sync(device):
     if torch.device(device).type == 'cuda': torch.cuda.synchronize(device)
 
 
+def load_shard_dataset(root, manifest_sha256, *, expected_vocab, expected_length):
+    """Load one verified synthetic v2 manifest and expose train/validation only."""
+    from tokenized_shards import load_dataset
+    if not isinstance(manifest_sha256, str) or len(manifest_sha256) != 64 or any(
+            character not in '0123456789abcdef' for character in manifest_sha256):
+        raise ValueError('manifest SHA-256 must be 64 lowercase hex characters')
+    dataset = load_dataset(Path(root), manifest_sha256)
+    manifest = dataset['manifest']
+    if manifest.get('format') != SHARD_FORMAT or manifest.get('version') != 2:
+        raise ValueError('only splot-tokenized-shards-v2 is supported')
+    tokenizer = manifest['tokenizer']
+    if tokenizer['actual_vocab_size'] != expected_vocab:
+        raise ValueError('dataset tokenizer vocabulary does not match model vocabulary')
+    if manifest['pack_config']['length'] != expected_length:
+        raise ValueError('dataset block length does not match sequence length')
+    blocks = {}
+    for split in ('train', 'validation'):
+        selected = []
+        for block in dataset['blocks']:
+            if block['split'] != split:
+                continue
+            converted = dict(block)
+            converted['labels'] = {int(key): list(value)
+                                   for key, value in block['labels'].items()}
+            selected.append(converted)
+        if not selected:
+            raise ValueError(f'dataset has no {split} blocks')
+        blocks[split] = selected
+    summary = {
+        'format': manifest['format'],
+        'version': manifest['version'],
+        'manifest_sha256': manifest_sha256,
+        'tokenizer': dict(tokenizer),
+        'logical_digest': manifest['logical_digest'],
+        'packed_logical_digest': manifest['packed_logical_digest'],
+        'physical_manifest_digest': manifest['physical_manifest_digest'],
+        'counts': manifest['counts'],
+        'pack_config': dict(manifest['pack_config']),
+        'source_identity': dict(manifest['source_identity']),
+        'training_splits': ['train', 'validation'],
+    }
+    return blocks, summary
+
+
 def annotate_fp8_policy(fp8_policy, optimizer_policy):
     if fp8_policy is not None:
         fp8_policy['optimizer'] = optimizer_policy['name']
@@ -132,10 +178,18 @@ def restore_rng(state):
 
 
 def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_size, seed, device,
-          resume=False, autocast_dtype=None, post_update_check=False):
+          resume=False, autocast_dtype=None, post_update_check=False,
+          checkpoint_interval=1, checkpoint_stats=None):
     """One optimizer step per batch. Checkpoint is sole authoritative progress ledger."""
     if autocast_dtype is not None and autocast_dtype != torch.bfloat16:
         raise ValueError('autocast dtype must be bfloat16')
+    if type(checkpoint_interval) is not int or checkpoint_interval < 1:
+        raise ValueError('checkpoint interval must be a positive integer')
+    if checkpoint_stats is None:
+        checkpoint_stats = {}
+    checkpoint_stats.update({'interval': checkpoint_interval, 'writes': 0,
+                             'write_seconds': 0., 'bytes_total': 0,
+                             'bytes_last': 0, 'write_steps': []})
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     cp = out/'checkpoint.pt'
     if resume:
@@ -147,6 +201,7 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
     else:
         if cp.exists() or any(out.iterdir()): raise FileExistsError('new run directory must be empty')
         history = []
+    checkpoint_stats['initial_history_steps'] = len(history)
     if steps < len(history): raise ValueError('steps is total target, not additional steps')
     fp8_enabled = has_fp8(model)
     post_update_check = bool(post_update_check or fp8_enabled or is_hybrid_optimizer(optimizer))
@@ -185,8 +240,17 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
         if audit is not None:
             row['audit'] = audit
         history.append(row)
-        atomic_save({'identity':identity, 'model':model.state_dict(), 'optimizer':optimizer.state_dict(),
-                     'rng':snapshot_rng(device), 'history':history}, cp, tensor=True)
+        checkpoint_stats['final_history_steps'] = len(history)
+        if (step+1) % checkpoint_interval == 0 or step+1 == steps:
+            write_started = time.perf_counter()
+            atomic_save({'identity':identity, 'model':model.state_dict(), 'optimizer':optimizer.state_dict(),
+                         'rng':snapshot_rng(device), 'history':history}, cp, tensor=True)
+            checkpoint_stats['write_seconds'] += time.perf_counter() - write_started
+            checkpoint_stats['writes'] += 1
+            checkpoint_stats['bytes_last'] = cp.stat().st_size
+            checkpoint_stats['bytes_total'] += checkpoint_stats['bytes_last']
+            checkpoint_stats['write_steps'].append(step+1)
+    checkpoint_stats['final_history_steps'] = len(history)
     return history
 
 
@@ -229,13 +293,24 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--config',required=True,type=Path); p.add_argument('--out',required=True,type=Path)
     p.add_argument('--steps',type=int,required=True); p.add_argument('--device',choices=('cpu','cuda'),default='cpu')
-    p.add_argument('--resume',action='store_true'); a=p.parse_args()
+    p.add_argument('--resume',action='store_true')
+    p.add_argument('--dataset-root',type=Path,default=None)
+    p.add_argument('--manifest-sha256',default=None)
+    p.add_argument('--checkpoint-interval',type=int,default=None); a=p.parse_args()
     if a.steps<1: p.error('steps must be positive')
     root=Path(__file__).resolve().parents[1]; commit=git_identity(root)
     if a.out.resolve().is_relative_to(root): p.error('output must be outside checkout')
     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
     rc=RecurrentConfig(dense=d,**c['recurrence'])
-    if d.vocab_size<264 or t['data']!='synthetic-v1': p.error('only synthetic-v1 runs supported')
+    if t['data'] not in ('synthetic-v1','synthetic-shards-v2'):
+        p.error('data must be synthetic-v1 or synthetic-shards-v2')
+    if t['data']=='synthetic-v1' and (a.dataset_root is not None or a.manifest_sha256 is not None):
+        p.error('--dataset-root/--manifest-sha256 are only valid for synthetic-shards-v2')
+    if t['data']=='synthetic-shards-v2' and (a.dataset_root is None or a.manifest_sha256 is None):
+        p.error('synthetic-shards-v2 requires --dataset-root and --manifest-sha256')
+    interval = a.checkpoint_interval if a.checkpoint_interval is not None else t.get('checkpoint_interval', 1)
+    if type(interval) is not int or interval < 1:
+        p.error('checkpoint interval must be a positive integer')
     if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1 or not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
@@ -247,8 +322,21 @@ def main():
     except (ValueError,RuntimeError) as exc:
         p.error(str(exc))
     seed_all(t['seed'])
-    splits=split_documents(synthetic_documents()); packed={k:pack(v,t['sequence_length']) for k,v in splits.items() if k!='test'}
-    data=manifest()
+    dataset_manifest_sha256 = None
+    if t['data']=='synthetic-v1':
+        splits=split_documents(synthetic_documents()); packed={k:pack(v,t['sequence_length']) for k,v in splits.items() if k!='test'}
+        data=manifest()
+    else:
+        try:
+            packed, data = load_shard_dataset(
+                a.dataset_root, a.manifest_sha256,
+                expected_vocab=d.vocab_size, expected_length=t['sequence_length'])
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            p.error(f'dataset ingestion failed: {exc}')
+        dataset_manifest_sha256 = a.manifest_sha256
+        packed = {'train': packed['train'], 'validation': packed['validation']}
+        if not packed['train'] or not packed['validation']:
+            p.error('dataset must contain train and validation blocks')
     model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
     actual=sum(v.numel() for v in model.parameters())
     if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
@@ -275,14 +363,21 @@ def main():
         'bf16_supported':policy['bf16_supported'],'master_dtype':'float32',
         'optimizer':optimizer_policy['name'],'optimizer_implementation':optimizer_policy['implementation'],
         'fp8':fp8_policy,'fp8_probe':policy.get('fp8_probe'),
+        'data_selector':t['data'],'dataset_manifest_sha256':dataset_manifest_sha256,
+        'tokenizer_actual_vocab_size':d.vocab_size if t['data']=='synthetic-shards-v2' else None,
+        'checkpoint_interval':interval,
         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
         'deterministic_algorithms':True}
     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
-              'packed_sha256':digest(packed),'environment':env,'settings':t}
+              'packed_sha256':digest(packed),'environment':env,'settings':t,
+              'checkpoint_interval':interval}
     objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
     post_update_check = t['precision']=='fp8' or optimizer_policy['name']=='muon'
-    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check)
+    checkpoint_stats={}
+    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check,checkpoint_interval=interval,checkpoint_stats=checkpoint_stats)
+    validation_started=time.perf_counter()
     val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
+    validation_seconds=time.perf_counter()-validation_started
     evaluation_fp8_audit=val.pop('fp8_audit',None)
     shape=Shape(d=d.width,vocab=d.vocab_size,q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
                 gdn_heads=d.q_heads,dense=d.intermediate,expert=c['expert_intermediate'])
@@ -295,6 +390,29 @@ def main():
                       'bf16_supported':policy['bf16_supported'],'fp8_probe':policy.get('fp8_probe')}
     optimizer_state=optimizer_state_inventory(opt)
     fp8_diag=aggregate_fp8_diagnostics([row.get('audit') for row in history]) if fp8_policy else None
+    data_policy = {
+        'mode': t['data'],
+        'manifest_sha256': dataset_manifest_sha256,
+        'tokenizer_actual_vocab_size': data.get('tokenizer', {}).get('actual_vocab_size')
+        if t['data']=='synthetic-shards-v2' else None,
+        'logical_digest': data.get('logical_digest'),
+        'packed_logical_digest': data.get('packed_logical_digest'),
+        'test_used_for_training': False,
+    }
+    checkpoint_policy = {
+        'interval': interval,
+        'default': 1,
+        'final_step_always_saved': True,
+        'atomic_replace': True,
+        'retention_service': False,
+    }
+    invocation = {
+        'mode': 'resume' if a.resume else 'fresh',
+        'initial_history_steps': checkpoint_stats.get('initial_history_steps'),
+        'final_history_steps': checkpoint_stats.get('final_history_steps'),
+        'invocation_history_steps': (checkpoint_stats.get('final_history_steps', 0)
+                                     - checkpoint_stats.get('initial_history_steps', 0)),
+    }
     limitations=['synthetic byte fixture; no production tokenizer','template overlap across splits',
                  ('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else
                   ('Native FP8 selected projections with BF16 residual; not optimized' if t['precision']=='fp8' else 'FP32 reference, not optimized')),
@@ -306,7 +424,13 @@ def main():
         limitations.append('FP8 first-order projection integration only; no pretraining, throughput, convergence or quality claim.')
     if t['precision']=='fp8' and optimizer_policy['name']=='muon':
         limitations.append('Combined FP8 + Muon correctness only; no interaction, convergence or optimizer-superiority claim.')
-    report={'identity':identity,'config':c,'data_manifest':data,'parameters':actual,'history':history,'validation':val,
+    if t['data']=='synthetic-shards-v2':
+        limitations.append('Verified synthetic v2 shard ingestion only; no real-source approval, production dataset or test evaluation.')
+    if interval > 1:
+        limitations.append('Checkpoint interval reduces durable write frequency; interruption can lose up to interval-1 updates since the prior checkpoint under the trusted single-writer assumption.')
+    report={'identity':identity,'config':c,'data_manifest':data,'data_policy':data_policy,
+            'parameters':actual,'history':history,'validation':val,'validation_seconds':validation_seconds,
+            'checkpoint_policy':checkpoint_policy,'checkpoint_stats':checkpoint_stats,'invocation':invocation,
             'precision_policy':precision_policy,'optimizer_policy':optimizer_policy,'optimizer_state':optimizer_state,
             'fp8_policy':fp8_policy,'fp8_diagnostics':fp8_diag,
             'fp8_evaluation_diagnostics':evaluation_fp8_audit,
