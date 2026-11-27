@@ -50,3 +50,14 @@ PYTHONPATH=src:tools python tools/smoke_mtp.py --hybrid --mode A2 --loops 2 --st
 ```
 
 No sparse MoE or production corpus yet. Slow scan oracle, not a throughput baseline.
+
+## Complete sparse SPLOT reference
+
+`moe.py` and `sparse.py` integrate eight routed experts, one shared expert, top-2 routing and balance into the hybrid recurrent MTP architecture. [Contract](../../research/implementation/sparse-moe.md) and [evidence](../../experiments/results/sparse-moe-v0.1.md).
+
+```bash
+PYTHONPATH=src:tools python tests/test_moe.py
+PYTHONPATH=src:tools python tools/smoke_mtp.py --sparse --mode A2 --loops 2 --steps 40
+```
+
+All-resident CPU correctness reference. No production training or performance claim; #8 remains gated.

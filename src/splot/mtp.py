@@ -37,7 +37,7 @@ class MTPLM(RecurrentLM):
         aux = {r: F.linear(self.offset_norm(self.offset_projection(out.hidden[r])),
                            self.embedding.weight).masked_fill(~valid[..., None], 0)
                for r in sorted(set(depths))}
-        return MTPOutput(out.logits, out.hidden, out.cache, aux)
+        return MTPOutput(out.logits, out.hidden, out.cache, aux, routing=out.routing)
 
 
 @dataclass(frozen=True)
@@ -48,17 +48,18 @@ class Objective:
     offset2: torch.Tensor
     ntp_count: int
     offset2_count: int
+    balance: torch.Tensor
 
 
 def training_objective(model, inputs, labels, *, mode='A2', loops=None,
-                       depth_weight=.25, offset_weight=.25):
+                       depth_weight=.25, offset_weight=.25, balance_weight=.01):
     """Pre-shifted, packer-masked labels; no labels passed to model.forward."""
     loops = model.config.default_loops if loops is None else loops
     if type(loops) is not int or not 1 <= loops <= model.config.max_loops:
         raise ValueError('invalid depth')
     if mode not in ('A0', 'A1', 'A2'):
         raise ValueError('invalid objective mode')
-    if not all(math.isfinite(w) and w >= 0 for w in (depth_weight, offset_weight)):
+    if not all(math.isfinite(w) and w >= 0 for w in (depth_weight, offset_weight, balance_weight)):
         raise ValueError('invalid objective weights')
     if 1 not in labels or (mode == 'A2' and 2 not in labels):
         raise ValueError('missing offset labels')
@@ -71,5 +72,6 @@ def training_objective(model, inputs, labels, *, mode='A2', loops=None,
              if len(readouts) > 1 else zero)
     aux = (torch.stack([ntp_loss(out.offset2[r], labels[2]) for r in depths]).mean()
            if depths else zero)
-    return Objective(final+depth_weight*early+offset_weight*aux, final, early, aux,
-                     int(labels[1].ne(-100).sum()), int(labels[2].ne(-100).sum()) if depths else 0)
+    balance = getattr(out, 'balance_loss', zero)
+    return Objective(final+depth_weight*early+offset_weight*aux+balance_weight*balance, final, early, aux,
+                     int(labels[1].ne(-100).sum()), int(labels[2].ne(-100).sum()) if depths else 0, balance)

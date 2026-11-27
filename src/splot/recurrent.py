@@ -55,6 +55,7 @@ class RecurrentOutput:
     logits: dict  # requested depth -> [B,T,V]
     hidden: dict  # requested depth -> pre-coda [B,T,d]
     cache: RecurrentCache | None
+    routing: tuple = field(default=(), kw_only=True)
 
 
 class RecurrentLM(nn.Module):
@@ -72,6 +73,10 @@ class RecurrentLM(nn.Module):
         for module in self.modules():
             if isinstance(module, (nn.Linear, nn.Embedding)):
                 nn.init.normal_(module.weight, std=c.init_std)
+
+    def _apply_block(self, block, x, positions, plans, previous, gamma, valid, key):
+        x,state=block(x,positions,plans,previous,residual_scale=gamma)
+        return x,state,None
 
     def forward(self, input_ids, document_ids, position_ids, valid, *, loops=None,
                 readouts=None, cache=None, use_cache=False):
@@ -104,11 +109,13 @@ class RecurrentLM(nn.Module):
             raise ValueError('cache ownership, depth, readout or layout mismatch')
         plans, rows = segments(document_ids, position_ids, valid, cache.rows if cache else (None,)*b)
         states = {}
+        routing = []
 
         def run(stack, x, stage, r, gamma=1.):
             for i, block in enumerate(stack):
                 key = (stage, r, i)
-                x, state = block(x, position_ids, plans, previous.get(key, (None,)*b), residual_scale=gamma)
+                x,state,route=self._apply_block(block,x,position_ids,plans,previous.get(key,(None,)*b),gamma,valid,key)
+                if route is not None: routing.append((key,route))
                 if use_cache:
                     states[key] = state
             return x
@@ -132,4 +139,4 @@ class RecurrentLM(nn.Module):
                 logits[r] = F.linear(self.norm(y), self.embedding.weight).masked_fill(~valid[..., None], 0)
         next_cache = RecurrentCache(self._cache_owner, rows, loops, requested,
                                     tuple((k, states[k]) for k in keys)) if use_cache else None
-        return RecurrentOutput(logits, hidden, next_cache)
+        return RecurrentOutput(logits, hidden, next_cache, routing=tuple(routing))
