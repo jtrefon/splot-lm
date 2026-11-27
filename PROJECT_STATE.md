@@ -51,3 +51,6 @@ T0008 #52 accepted after #58 correction merged; original #55 already merged, att
 
 ## Current handover
 T0009 #56 accepted/closed after #59 merge; corrected per-depth audits and exact same-mode resume, no saturation/nonfinite, Nano R4 full gradient relative L2 .342295. #61 T0010 #60 Mac spec merged, no implementation submission yet. T0011 #62 Linux native FP8+Muon correctness and three one-epoch synthetic comparisons in review. Broader #7/#8/#10/#42/#43 remain open. Data rights/pins and production tokenizer are the next research gate; no acquisition approved. Historical status sections above are records, live issues and latest handover authoritative.
+
+## T0010/T0011 review handover
+T0010 #60 accepted/closed, #64 merged. T0011 #62/#65 scientifically accepted; shared evidence INDEX conflict resolved without tested source change; merge only after renewed CI. FP8+Muon one synthetic epoch validation NLL 1.490035 (FP8 AdamW 3.499237, BF16 Muon 1.696633), single seed, no superiority. T0012 #66 actual contiguous-context paired resource qualification and cross-platform T0010 demo; depends on #65 merge/closure and reviewed spec. T0013 #67 Mac metadata-only source qualification and trusted shard boundary, no real corpus acquisition. Parent #7/#8/#10/#42/#43 remain open. Prioritize source approval and real pilot over further toy benchmarks.

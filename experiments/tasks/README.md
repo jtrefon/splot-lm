@@ -12,5 +12,8 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Issues
 | T0007 | [Native FP8 probe](T0007-native-fp8-probe.md) | #51 | Closed |
 | T0008 | [Byte BPE](T0008-byte-bpe-oracle.md) | #52 | Closed |
 | T0009 | [Native FP8 autograd](T0009-fp8-autograd.md) | #56 | Closed |
-| T0010 | [Tokenized shards](T0010-tokenized-shards.md) | #60 | Mac, spec merged #61, owner launch |
-| T0011 | [FP8 + Muon](T0011-fp8-muon.md) | #62 | Linux, spec in review, owner launch after merge |
+| T0010 | [Tokenized shards](T0010-tokenized-shards.md) | #60 | Closed |
+| T0011 | [FP8 + Muon](T0011-fp8-muon.md) | #62 | Accepted, merge pending renewed CI; see #65 |
+
+| T0012 | [Contiguous context](T0012-contiguous-context.md) | #66 | Linux, after #65 merge and spec merge |
+| T0013 | [Source qualification](T0013-corpus-qualification.md) | #67 | Mac, spec review then owner launch |
