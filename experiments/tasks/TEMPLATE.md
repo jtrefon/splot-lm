@@ -17,3 +17,6 @@ Unique IDs, exact measurable pass gates, failure/blocked/not_run criteria and ex
 New attempt path, exact required fields, metrics units, artifacts/checksums, sanitized logs, validator command with exact task/source/check list. Update index, evidence branch/PR/issue. No merge or close.
 ## Failure and stop rules
 Retain first failure; no silent fixes, retries, scope expansion or positive-only reports. Distinguish evidence delivery from acceptance. Stop at owner limit; propose next task.
+
+## Task dialogue
+Read the full issue thread before starting or resuming. Post questions, predicted blockers, observed failures, options and status directly in that issue; cite exact source/check and distinguish inspected from executed. Stop affected work pending clarification. No comment may change the pin, checks, tolerance, scope or compute limits; require reviewed amendment and owner authorization. See EXECUTION.md section 6.
