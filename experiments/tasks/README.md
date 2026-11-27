@@ -17,3 +17,6 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Issues
 
 | T0012 | [Contiguous context](T0012-contiguous-context.md) | #66 | Linux, after #65 merge and spec merge |
 | T0013 | [Source qualification](T0013-corpus-qualification.md) | #67 | Mac, spec review then owner launch |
+
+| T0014 | [Verified ingestion](T0014-dataset-ingestion.md) | #71 | Linux, requires #70 and reviewed spec merge |
+| T0015 | [Production tokenizer](T0015-production-tokenizer.md) | #72 | Mac, reviewed spec and owner launch; optional package authorization separate |
