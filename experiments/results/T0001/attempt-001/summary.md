@@ -1,6 +1,6 @@
 # T0001 attempt-001 — blocked on CUDA environment setup
 
-Task T0001 (VAL), parent #10, issue #27. Instruction commit `1cb139df8e870c42a7a01eaf57624c85e3aa8a80`; source pin and tested commit `d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa`.
+Task T0001 (VAL), parent #10, issue #27. Instruction commit `1cb139df8e870c42a7a01eaf57624c85e3aa8a80`; source pin and tested commit `d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa`. UTC 2026-11-27T13:43:45Z to 2026-11-27T13:47:03Z.
 
 ## Scope and authorization
 Owner explicitly authorized the local T0001 launch in the current session on 2026-11-27. Scope was the task as written: CPU regressions, full synthetic harness integration, bounded FP32 CUDA smoke and same-device checkpoint/resume equivalence, with a 60-minute foreground limit. No source edits, no tolerance changes, no real corpus, no Nano/Mini training.
