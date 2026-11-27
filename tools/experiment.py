@@ -15,9 +15,9 @@ import torch
 
 from optimizers import (assert_optimizer_state_finite, build_optimizer,
                         is_hybrid_optimizer, optimizer_state_inventory)
-from splot.fp8 import (aggregate_fp8_diagnostics, convert_selected_linears,
-                       fp8_assert_finite, fp8_diagnostics, fp8_runtime_probe,
-                       has_fp8, reset_fp8_audit)
+from splot.fp8 import (aggregate_fp8_diagnostics, clear_fp8_weight_cache,
+                       convert_selected_linears, fp8_assert_finite, fp8_diagnostics,
+                       fp8_runtime_probe, has_fp8, reset_fp8_audit)
 
 SHARD_FORMAT = 'splot-tokenized-shards-v2'
 
@@ -198,6 +198,7 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
         if state['identity'] != identity: raise ValueError('run identity mismatch')
         model.load_state_dict(state['model']); optimizer.load_state_dict(state['optimizer'])
         restore_rng(state['rng']); history = state['history']
+        if has_fp8(model): clear_fp8_weight_cache(model)
     else:
         if cp.exists() or any(out.iterdir()): raise FileExistsError('new run directory must be empty')
         history = []
@@ -214,18 +215,24 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
         if fp8_enabled: reset_fp8_audit(model)
         sync(device); start = time.perf_counter()
         optimizer.zero_grad(set_to_none=True)
-        with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
-              if autocast_dtype is not None else nullcontext()):
-            o = objective(model, inputs, labels)
-        if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
-        if fp8_enabled:
-            assert_loss_finite(o, 'forward')
-            fp8_assert_finite(model, 'forward')
-        o.total.backward()
-        if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
-            raise FloatingPointError('nonfinite gradient')
-        if fp8_enabled: fp8_assert_finite(model, 'backward')
-        audit = fp8_diagnostics(model) if fp8_enabled else None
+        audit = None
+        try:
+            with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
+                  if autocast_dtype is not None else nullcontext()):
+                o = objective(model, inputs, labels)
+            if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
+            if fp8_enabled:
+                assert_loss_finite(o, 'forward')
+                fp8_assert_finite(model, 'forward')
+            o.total.backward()
+            if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
+                raise FloatingPointError('nonfinite gradient')
+            if fp8_enabled: fp8_assert_finite(model, 'backward')
+            audit = fp8_diagnostics(model) if fp8_enabled else None
+        except Exception:
+            if fp8_enabled: clear_fp8_weight_cache(model)
+            raise
+        if fp8_enabled: clear_fp8_weight_cache(model)
         optimizer.step(); sync(device)
         if post_update_check:
             assert_post_update_finite(model, optimizer, f'post-update step {step+1}')
@@ -259,7 +266,9 @@ def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None)
     if autocast_dtype is not None and autocast_dtype != torch.bfloat16:
         raise ValueError('autocast dtype must be bfloat16')
     fp8_enabled = has_fp8(model)
-    if fp8_enabled: reset_fp8_audit(model)
+    if fp8_enabled:
+        reset_fp8_audit(model)
+        clear_fp8_weight_cache(model)
     model.eval(); nll=0.; count=0
     for i in range(0,len(blocks),batch_size):
         x,y=collate(blocks,list(range(i,min(i+batch_size,len(blocks)))),device)
@@ -276,6 +285,8 @@ def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None)
     result = {'ntp_labels':count,'nll_sum':nll,'mean_nll':nll/count,'perplexity':math.exp(nll/count)}
     if fp8_enabled:
         result['fp8_audit'] = fp8_diagnostics(model)
+        result['fp8_cache_scope'] = 'cleared-before-and-after-evaluation'
+        clear_fp8_weight_cache(model)
         reset_fp8_audit(model)
     return result
 
@@ -296,18 +307,26 @@ def main():
     p.add_argument('--resume',action='store_true')
     p.add_argument('--dataset-root',type=Path,default=None)
     p.add_argument('--manifest-sha256',default=None)
+    p.add_argument('--source-snapshot-sha256',default=None)
     p.add_argument('--checkpoint-interval',type=int,default=None); a=p.parse_args()
     if a.steps<1: p.error('steps must be positive')
     root=Path(__file__).resolve().parents[1]; commit=git_identity(root)
     if a.out.resolve().is_relative_to(root): p.error('output must be outside checkout')
     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
     rc=RecurrentConfig(dense=d,**c['recurrence'])
-    if t['data'] not in ('synthetic-v1','synthetic-shards-v2'):
-        p.error('data must be synthetic-v1 or synthetic-shards-v2')
-    if t['data']=='synthetic-v1' and (a.dataset_root is not None or a.manifest_sha256 is not None):
-        p.error('--dataset-root/--manifest-sha256 are only valid for synthetic-shards-v2')
-    if t['data']=='synthetic-shards-v2' and (a.dataset_root is None or a.manifest_sha256 is None):
-        p.error('synthetic-shards-v2 requires --dataset-root and --manifest-sha256')
+    if t['data'] not in ('synthetic-v1','synthetic-shards-v2','pilot-blocks-v1'):
+        p.error('data must be synthetic-v1, synthetic-shards-v2 or pilot-blocks-v1')
+    dataset_modes = ('synthetic-shards-v2','pilot-blocks-v1')
+    if t['data']=='synthetic-v1' and (a.dataset_root is not None or a.manifest_sha256 is not None
+                                    or a.source_snapshot_sha256 is not None):
+        p.error('dataset options are only valid for shard/pilot modes')
+    if t['data'] in dataset_modes and (a.dataset_root is None or a.manifest_sha256 is None):
+        p.error(f"{t['data']} requires --dataset-root and --manifest-sha256")
+    if t['data']=='synthetic-shards-v2' and a.source_snapshot_sha256 is not None:
+        p.error('--source-snapshot-sha256 is only valid for pilot-blocks-v1')
+    reuse = t.get('fp8_weight_reuse', False)
+    if not isinstance(reuse, bool):
+        p.error('fp8_weight_reuse must be boolean')
     interval = a.checkpoint_interval if a.checkpoint_interval is not None else t.get('checkpoint_interval', 1)
     if type(interval) is not int or interval < 1:
         p.error('checkpoint interval must be a positive integer')
@@ -323,10 +342,11 @@ def main():
         p.error(str(exc))
     seed_all(t['seed'])
     dataset_manifest_sha256 = None
+    dataset_source_snapshot_sha256 = None
     if t['data']=='synthetic-v1':
         splits=split_documents(synthetic_documents()); packed={k:pack(v,t['sequence_length']) for k,v in splits.items() if k!='test'}
         data=manifest()
-    else:
+    elif t['data']=='synthetic-shards-v2':
         try:
             packed, data = load_shard_dataset(
                 a.dataset_root, a.manifest_sha256,
@@ -337,13 +357,29 @@ def main():
         packed = {'train': packed['train'], 'validation': packed['validation']}
         if not packed['train'] or not packed['validation']:
             p.error('dataset must contain train and validation blocks')
+    else:
+        from pilot_ingestion import load_pilot_dataset
+        try:
+            loaded = load_pilot_dataset(
+                a.dataset_root, a.manifest_sha256,
+                expected_source_snapshot_sha256=a.source_snapshot_sha256,
+                expected_model_vocab=d.vocab_size)
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            p.error(f'pilot ingestion failed: {exc}')
+        packed = {'train': loaded['blocks']['train'],
+                  'validation': loaded['blocks']['validation']}
+        data = loaded['manifest']
+        dataset_manifest_sha256 = a.manifest_sha256
+        dataset_source_snapshot_sha256 = data['source_snapshot_sha256']
+        if not packed['train'] or not packed['validation']:
+            p.error('pilot dataset must contain train and validation blocks')
     model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
     actual=sum(v.numel() for v in model.parameters())
     if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
     fp8_policy=None
     if t['precision']=='fp8':
         try:
-            fp8_policy=convert_selected_linears(model)
+            fp8_policy=convert_selected_linears(model, weight_reuse=reuse)
         except (ValueError,TypeError,RuntimeError) as exc:
             p.error(str(exc))
         if fp8_policy['selected_count'] < 1:
@@ -364,13 +400,18 @@ def main():
         'optimizer':optimizer_policy['name'],'optimizer_implementation':optimizer_policy['implementation'],
         'fp8':fp8_policy,'fp8_probe':policy.get('fp8_probe'),
         'data_selector':t['data'],'dataset_manifest_sha256':dataset_manifest_sha256,
-        'tokenizer_actual_vocab_size':d.vocab_size if t['data']=='synthetic-shards-v2' else None,
+        'dataset_source_snapshot_sha256':dataset_source_snapshot_sha256,
+        'dataset_tokenizer_sha256':data.get('tokenizer_sha256') if t['data']=='pilot-blocks-v1' else None,
+        'tokenizer_actual_vocab_size':(d.vocab_size if t['data']=='synthetic-shards-v2'
+                                        else data.get('vocab_size') if t['data']=='pilot-blocks-v1' else None),
+        'fp8_weight_reuse':reuse,
         'checkpoint_interval':interval,
         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
         'deterministic_algorithms':True}
     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
               'packed_sha256':digest(packed),'environment':env,'settings':t,
-              'checkpoint_interval':interval}
+              'checkpoint_interval':interval,'fp8_weight_reuse':reuse,
+              'dataset_source_snapshot_sha256':dataset_source_snapshot_sha256}
     objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
     post_update_check = t['precision']=='fp8' or optimizer_policy['name']=='muon'
     checkpoint_stats={}
@@ -390,14 +431,27 @@ def main():
                       'bf16_supported':policy['bf16_supported'],'fp8_probe':policy.get('fp8_probe')}
     optimizer_state=optimizer_state_inventory(opt)
     fp8_diag=aggregate_fp8_diagnostics([row.get('audit') for row in history]) if fp8_policy else None
+    if t['data']=='synthetic-shards-v2':
+        tokenizer_vocab = data.get('tokenizer', {}).get('actual_vocab_size')
+    elif t['data']=='pilot-blocks-v1':
+        tokenizer_vocab = data.get('vocab_size')
+    else:
+        tokenizer_vocab = None
     data_policy = {
         'mode': t['data'],
         'manifest_sha256': dataset_manifest_sha256,
-        'tokenizer_actual_vocab_size': data.get('tokenizer', {}).get('actual_vocab_size')
-        if t['data']=='synthetic-shards-v2' else None,
-        'logical_digest': data.get('logical_digest'),
+        'source_snapshot_sha256': dataset_source_snapshot_sha256,
+        'tokenizer_sha256': data.get('tokenizer_sha256',
+                                     data.get('tokenizer', {}).get('artifact_sha256')),
+        'tokenizer_actual_vocab_size': tokenizer_vocab,
+        'model_vocab_size': d.vocab_size,
+        'unused_token_id_count': (d.vocab_size - tokenizer_vocab
+                                  if tokenizer_vocab is not None else None),
+        'unused_token_id_ranges': data.get('unused_token_id_ranges'),
+        'logical_digest': data.get('logical_sha256', data.get('logical_digest')),
         'packed_logical_digest': data.get('packed_logical_digest'),
         'test_used_for_training': False,
+        'test_validated_only': data.get('test_validated_only', False),
     }
     checkpoint_policy = {
         'interval': interval,
@@ -426,6 +480,10 @@ def main():
         limitations.append('Combined FP8 + Muon correctness only; no interaction, convergence or optimizer-superiority claim.')
     if t['data']=='synthetic-shards-v2':
         limitations.append('Verified synthetic v2 shard ingestion only; no real-source approval, production dataset or test evaluation.')
+    if t['data']=='pilot-blocks-v1':
+        limitations.append('Bounded pilot-blocks-v1 ingestion only; the source snapshot must be separately verified against reviewed T0016 pins; test data is integrity-checked only.')
+    if reuse:
+        limitations.append('FP8 weight reuse is per-update only; no persistent cache or second-order claim.')
     if interval > 1:
         limitations.append('Checkpoint interval reduces durable write frequency; interruption can lose up to interval-1 updates since the prior checkpoint under the trusted single-writer assumption.')
     report={'identity':identity,'config':c,'data_manifest':data,'data_policy':data_policy,

@@ -1,0 +1,40 @@
+{
+  "logical_sha256": "d0e4a25551d86dea859dac9e49133d5858167df9b7872c78a551b23e00fa40e5",
+  "manifest_sha256": "e0292e96439052031fe1df0ecbe7af2ed876efadbbe16a6e397395c31410c4c1",
+  "sequence_length": 512,
+  "shards": [
+    {
+      "blocks": 32,
+      "bytes": 368697,
+      "ntp_labels": 16352,
+      "offset2_labels": 16320,
+      "path": "train.jsonl",
+      "sha256": "2662186203b6556e4ea1d3a8011871efcb6b2ec497d46e9c0683d9618f9a5e1b",
+      "split": "train",
+      "valid_tokens": 16384
+    },
+    {
+      "blocks": 2,
+      "bytes": 24397,
+      "ntp_labels": 1022,
+      "offset2_labels": 1020,
+      "path": "validation.jsonl",
+      "sha256": "351a97445723010f4c68948b11a421a8e36eb6d9f2d545798de038c1916cf4d8",
+      "split": "validation",
+      "valid_tokens": 1024
+    },
+    {
+      "blocks": 1,
+      "bytes": 12205,
+      "ntp_labels": 511,
+      "offset2_labels": 510,
+      "path": "test.jsonl",
+      "sha256": "23c006f4ea24b316485781c1b22b3bbeec084133434f3428391233bbf470650e",
+      "split": "test",
+      "valid_tokens": 512
+    }
+  ],
+  "source_snapshot_sha256": "394e7846d13f6e845c6f6aa77dd8226494e6e42a6b8ca6a6dd87a426e0dcef4c",
+  "tokenizer_sha256": "226cdaf4782e1a4f14f8248c46093e9b1b12014800cbfc3e20dfdba577076ce2",
+  "vocab_size": 264
+}

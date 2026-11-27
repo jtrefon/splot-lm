@@ -1,0 +1,154 @@
+{
+  "audit_off": {
+    "audit_version": 1,
+    "backward_calls": 241,
+    "backward_coverage": 0.8846153846153846,
+    "empty_backward_calls": 0,
+    "empty_forward_calls": 0,
+    "forward_calls": 241,
+    "forward_coverage": 0.8846153846153846,
+    "last_forward_padded_m": [
+      16,
+      32,
+      48,
+      64,
+      96
+    ],
+    "native_backward_calls": 241,
+    "native_forward_calls": 241,
+    "padded_backward_rows": 2558,
+    "padded_forward_rows": 2558,
+    "quantization": {
+      "grad_nonzero": 3489173,
+      "grad_saturation": 0,
+      "grad_saturation_fraction": 0.0,
+      "grad_underflow": 5,
+      "grad_underflow_fraction": 1.433004325093654e-06,
+      "input_nonzero": 3852267,
+      "input_saturation": 0,
+      "input_saturation_fraction": 0.0,
+      "input_underflow": 263,
+      "input_underflow_fraction": 6.827148793165168e-05,
+      "nonfinite": false,
+      "underflow_fraction": 1.2083448105857878e-05,
+      "weight_nonzero": 46202879,
+      "weight_saturation": 0,
+      "weight_saturation_fraction": 0.0,
+      "weight_underflow": 379,
+      "weight_underflow_fraction": 8.202952028162575e-06
+    },
+    "scale_devices": [
+      "cuda"
+    ],
+    "scales_resident_cuda": true,
+    "selected_modules": 156,
+    "weight_cache_bytes": 0,
+    "weight_cache_hits": 0,
+    "weight_quantizations": 241,
+    "weight_reuse_enabled": false,
+    "weight_reuse_ratio": 0.0,
+    "wgrad_fp32_calls": 241
+  },
+  "audit_on": {
+    "audit_version": 1,
+    "backward_calls": 241,
+    "backward_coverage": 0.8846153846153846,
+    "empty_backward_calls": 0,
+    "empty_forward_calls": 0,
+    "forward_calls": 241,
+    "forward_coverage": 0.8846153846153846,
+    "last_forward_padded_m": [
+      16,
+      32,
+      48,
+      64,
+      96
+    ],
+    "native_backward_calls": 241,
+    "native_forward_calls": 241,
+    "padded_backward_rows": 2558,
+    "padded_forward_rows": 2558,
+    "quantization": {
+      "grad_nonzero": 3489173,
+      "grad_saturation": 0,
+      "grad_saturation_fraction": 0.0,
+      "grad_underflow": 5,
+      "grad_underflow_fraction": 1.433004325093654e-06,
+      "input_nonzero": 3852267,
+      "input_saturation": 0,
+      "input_saturation_fraction": 0.0,
+      "input_underflow": 263,
+      "input_underflow_fraction": 6.827148793165168e-05,
+      "nonfinite": false,
+      "underflow_fraction": 1.2083448105857878e-05,
+      "weight_nonzero": 46202879,
+      "weight_saturation": 0,
+      "weight_saturation_fraction": 0.0,
+      "weight_underflow": 379,
+      "weight_underflow_fraction": 8.202952028162575e-06
+    },
+    "scale_devices": [
+      "cuda"
+    ],
+    "scales_resident_cuda": true,
+    "selected_modules": 156,
+    "weight_cache_bytes": 26739240,
+    "weight_cache_hits": 103,
+    "weight_quantizations": 138,
+    "weight_reuse_enabled": true,
+    "weight_reuse_ratio": 0.42738589211618255,
+    "wgrad_fp32_calls": 241
+  },
+  "cache_off": {
+    "losses": {
+      "balance": 1.5855262279510498,
+      "early_ntp": 10.549643516540527,
+      "final_ntp": 10.546428680419922,
+      "offset2": 10.440898895263672,
+      "total": 15.809919357299805
+    },
+    "model_digest": "571e91517d7366f6efae6c7d9f72e3f3153689d00b55240657c45530a65c6bbd",
+    "optimizer_digest": "66fb35da1551d3f5ab0c93bc7056a9c74c84542ce71da32f42d5e65e74d5f869",
+    "parameters": 43055076,
+    "phases_seconds": {
+      "backward": 0.22956362995319068,
+      "checks": 0.019660621997900307,
+      "end_to_end": 0.7734231089707464,
+      "forward": 0.4218988919747062,
+      "optimizer_step": 0.08937639702344313,
+      "post_update_checks": 0.0129196280031465
+    }
+  },
+  "cache_on": {
+    "losses": {
+      "balance": 1.5855262279510498,
+      "early_ntp": 10.549643516540527,
+      "final_ntp": 10.546428680419922,
+      "offset2": 10.440898895263672,
+      "total": 15.809919357299805
+    },
+    "model_digest": "571e91517d7366f6efae6c7d9f72e3f3153689d00b55240657c45530a65c6bbd",
+    "optimizer_digest": "66fb35da1551d3f5ab0c93bc7056a9c74c84542ce71da32f42d5e65e74d5f869",
+    "parameters": 43055076,
+    "phases_seconds": {
+      "backward": 0.20527806400787085,
+      "checks": 0.020210057962685823,
+      "end_to_end": 0.44778489996679127,
+      "forward": 0.1493931319564581,
+      "optimizer_step": 0.06027427199296653,
+      "post_update_checks": 0.012626733048819005
+    }
+  },
+  "checks": {
+    "cache_hits_positive": true,
+    "cache_quantizations_reduced": true,
+    "initial_state_equal": true,
+    "logical_quantization_equal": true,
+    "losses_equal": true,
+    "model_equal": true,
+    "native_equal": true,
+    "optimizer_equal": true,
+    "parameters_equal": true
+  },
+  "status": "passed"
+}
