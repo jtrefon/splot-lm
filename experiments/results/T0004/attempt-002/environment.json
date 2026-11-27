@@ -1,0 +1,63 @@
+{
+  "acceptance_ended_utc": "2026-11-27T16:48:15Z",
+  "acceptance_started_utc": "2026-11-27T16:48:14Z",
+  "approved_minimum_base": "371aa551a6d553dc38245f9821dfc43490e871cb",
+  "architecture": "arm64",
+  "attempt": 2,
+  "attempt_001_demo_sha256": "befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66",
+  "attempt_001_evidence_commit": "65bd4f1620f2d7235ee076c491902e2b788d6601",
+  "attempt_001_implementation_commit": "126c046720e7cacfc52d9c64f6e7fc6e6afcdb74",
+  "attempt_started_utc": "2026-11-27T16:36:00Z",
+  "base_source_commit": "d2910d38039e7b2f5dc6289ecc387a68d73f9f41",
+  "cpu_count": 10,
+  "cpu_only": true,
+  "cuda_available": false,
+  "demo_bytes": 25423,
+  "demo_identical_to_attempt_001": true,
+  "demo_seed": "splot-t0004-demo-v1",
+  "demo_sha256": "befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66",
+  "device": "Apple M4 (arm64), CPU only",
+  "disk_available_kib_at_capture": 81388564,
+  "external_corpus_downloaded": false,
+  "github_api_used": true,
+  "implementation_file_sha256": {
+    "research/data/corpus-reference.md": "4c769e613ee1f2b4d855ad3dabb2836d9db12c7090e8ff2b6bb7c834686ef9dd",
+    "tools/corpus_reference.py": "65c5fd4d2bfc58b00985f989060bce8c4adead20fe270d0190f9253e71f37cc1",
+    "tools/test_corpus_reference.py": "45d5d728f1fc509d3656be0bc2a64a0f7d90709d86d8cccb6ab7aedb47b8b12a"
+  },
+  "instruction_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "limits": {
+    "max_record_bytes": 4096,
+    "max_records": 1000,
+    "near_duplicate_threshold": "4/5",
+    "shingle_size": 5
+  },
+  "macos_build": "26B131",
+  "macos_version": "27.2.1",
+  "memory_available_percent_at_capture": 48,
+  "memory_bytes": 17179869184,
+  "merged_main_commit": "2503a4ed2b219e2f9ca0d941f8d1e2ed675e5e70",
+  "merge_commit": "d2910d38039e7b2f5dc6289ecc387a68d73f9f41",
+  "mps_used": false,
+  "os": "macOS",
+  "packages_installed": false,
+  "python": "3.15.2",
+  "python_command": "python3",
+  "python_shim_note": "This environment has no `python` executable. The task's `python` commands were run as `python3`; recorded as an environment note, not a methodological deviation.",
+  "real_corpus_used": false,
+  "seed": "splot-corpus-reference-v1",
+  "source_worktree_clean_at_end": true,
+  "source_worktree_clean_at_start": true,
+  "split_percentages_default": {
+    "test": 1,
+    "train": 98,
+    "validation": 1
+  },
+  "split_percentages_demo": {
+    "test": 25,
+    "train": 50,
+    "validation": 25
+  },
+  "task_id": "T0004",
+  "tested_implementation_commit": "07a86f0e3a192276ad9a9954a3673dc7719e5544"
+}

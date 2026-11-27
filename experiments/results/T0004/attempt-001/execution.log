@@ -1,0 +1,952 @@
+SPLOT REP v0.2 execution log
+Task: T0004 (IMP), attempt 001
+Issue: #38, parent #8
+Instruction commit: 0fcd9c6b5b9667af47603a63013b89d83e5f565f
+Starting base: 0fcd9c6b5b9667af47603a63013b89d83e5f565f
+Approved minimum base: 371aa551a6d553dc38245f9821dfc43490e871cb
+Tested implementation commit: 126c046720e7cacfc52d9c64f6e7fc6e6afcdb74
+Branch: feat/T0004-corpus-reference-attempt-001
+Host: macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 16 GiB RAM
+Python: 3.15.2 via python3 (this host has no python executable)
+Scope: synthetic CPU-only corpus reference; no real data, packages, training, MPS, CUDA or external corpus.
+Limits: one foreground session <= 90 minutes; each command capped at 120 s; no automatic retry.
+Observed window: 2026-11-27T16:12:38Z to 2026-11-27T16:21:13Z.
+
+Preflight environment
+$ sw_vers
+ProductName:		macOS
+ProductVersion:		27.2.1
+BuildVersion:		26B131
+
+$ uname -m
+arm64
+
+$ python3 --version
+Python 3.15.2
+
+$ sysctl -n hw.memsize
+17179869184
+
+$ sysctl -n hw.ncpu
+10
+
+$ sysctl -n kern.memorystatus_level
+46
+
+$ df -Pk .
+Filesystem     1024-blocks      Used Available Capacity  Mounted on
+/dev/disk3s5     482797652 373707772  81381068    83%  /System/Volumes/Data
+
+$ git rev-parse HEAD
+126c046720e7cacfc52d9c64f6e7fc6e6afcdb74
+
+$ git status --porcelain
+(empty; clean worktree at acceptance start)
+
+$ git rev-parse origin/main
+0fcd9c6b5b9667af47603a63013b89d83e5f565f
+
+Acceptance command: PYTHONPATH=tools python3 tools/test_corpus_reference.py
+started_utc: 2026-11-27T16:19:34.611084Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.074083
+stdout_bytes: 0
+stderr_bytes: 3110
+stdout_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+stderr_sha256: dc1e40ea3d433483e03425e73af3bf15855c3c566b70a3c0af5f821596676561
+--- stdout ---
+(empty)
+--- stderr ---
+test_audit_detects_cross_split_fingerprint_leak (__main__.AuditTests.test_audit_detects_cross_split_fingerprint_leak) ... ok
+test_audit_detects_cross_split_group_leak (__main__.AuditTests.test_audit_detects_cross_split_group_leak) ... ok
+test_no_split_leakage (__main__.AuditTests.test_no_split_leakage) ... ok
+test_group_union_across_nonidentical_texts_and_sources (__main__.ClusteringTests.test_group_union_across_nonidentical_texts_and_sources) ... ok
+test_near_below_threshold_is_rejected (__main__.ClusteringTests.test_near_below_threshold_is_rejected) ... ok
+test_near_threshold_is_inclusive (__main__.ClusteringTests.test_near_threshold_is_inclusive) ... ok
+test_short_documents_have_no_near_edges (__main__.ClusteringTests.test_short_documents_have_no_near_edges) ... ok
+test_transitive_closure_across_exact_group_and_near_edges (__main__.ClusteringTests.test_transitive_closure_across_exact_group_and_near_edges) ... ok
+test_transitive_closure_across_source_ids_and_languages (__main__.ClusteringTests.test_transitive_closure_across_source_ids_and_languages) ... ok
+test_cli_demo (__main__.DemoTests.test_cli_demo) ... ok
+test_demo_is_deterministic_and_covers_scenarios (__main__.DemoTests.test_demo_is_deterministic_and_covers_scenarios) ... ok
+test_representative_ordering_and_shuffled_input (__main__.DeterminismAndStatsTests.test_representative_ordering_and_shuffled_input) ... ok
+test_split_bucket_and_invalid_config (__main__.DeterminismAndStatsTests.test_split_bucket_and_invalid_config) ... ok
+test_stats_counts_bytes_and_reasons (__main__.DeterminismAndStatsTests.test_stats_counts_bytes_and_reasons) ... ok
+test_exact_raw_and_normalized_reasons (__main__.PreservationAndHashTests.test_exact_raw_and_normalized_reasons) ... ok
+test_nfc_and_crlf_duplicates (__main__.PreservationAndHashTests.test_nfc_and_crlf_duplicates) ... ok
+test_no_casefold_or_diacritic_stripping (__main__.PreservationAndHashTests.test_no_casefold_or_diacritic_stripping) ... ok
+test_text_is_preserved_and_hashes_are_independent (__main__.PreservationAndHashTests.test_text_is_preserved_and_hashes_are_independent) ... ok
+test_benchmark_and_excluded_reasons_combine (__main__.QuarantineTests.test_benchmark_and_excluded_reasons_combine) ... ok
+test_benchmark_exact_normalized_quarantines_whole_cluster (__main__.QuarantineTests.test_benchmark_exact_normalized_quarantines_whole_cluster) ... ok
+test_excluded_record_id_quarantines_whole_cluster (__main__.QuarantineTests.test_excluded_record_id_quarantines_whole_cluster) ... ok
+test_capacity_and_byte_boundaries (__main__.RecordValidationTests.test_capacity_and_byte_boundaries) ... ok
+test_empty_corpus_is_valid (__main__.RecordValidationTests.test_empty_corpus_is_valid) ... ok
+test_malformed_records_fail_closed (__main__.RecordValidationTests.test_malformed_records_fail_closed) ... ok
+test_utf8_decode_helper (__main__.RecordValidationTests.test_utf8_decode_helper) ... ok
+test_allowlist_fail_closed (__main__.SourceAllowlistTests.test_allowlist_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.007s
+
+OK
+
+Acceptance command: PYTHONPATH=tools python3 tools/test_data_fixture.py
+started_utc: 2026-11-27T16:19:34.685877Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.043552
+stdout_bytes: 0
+stderr_bytes: 638
+stdout_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+stderr_sha256: 001ae2eacc11c1ba7723b367a8cd862346db78a79bfcb210ef2be321c7d1ca63
+--- stdout ---
+(empty)
+--- stderr ---
+test_manifest (__main__.DataContract.test_manifest) ... ok
+test_no_silent_truncation_and_no_empty_batch (__main__.DataContract.test_no_silent_truncation_and_no_empty_batch) ... ok
+test_packing_and_offset_masks (__main__.DataContract.test_packing_and_offset_masks) ... ok
+test_split_determinism_and_disjointness (__main__.DataContract.test_split_determinism_and_disjointness) ... ok
+test_transitive_group_dedup (__main__.DataContract.test_transitive_group_dedup) ... ok
+test_utf8_roundtrip (__main__.DataContract.test_utf8_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+
+Acceptance command: PYTHONPATH=tools python3 tools/corpus_reference.py --demo
+started_utc: 2026-11-27T16:19:34.729774Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.033421
+stdout_bytes: 25423
+stderr_bytes: 0
+stdout_sha256: befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66
+stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (full) ---
+{
+  "audit": {
+    "checks": {
+      "cluster_ids_disjoint": true,
+      "near_duplicates_within_clusters": true,
+      "normalized_fingerprints_disjoint": true,
+      "quarantine_excluded": true,
+      "source_groups_disjoint": true
+    },
+    "near_duplicate_edges": 4,
+    "ok": true,
+    "quarantined_clusters": 2,
+    "split_clusters": {
+      "test": 2,
+      "train": 8,
+      "validation": 1
+    }
+  },
+  "clusters": [
+    {
+      "cluster_id": "0646fcf7d78427bda4e5c498de463e5598141bea363ffff306c33427eaca8cf5",
+      "link_reasons": [
+        "near_duplicate"
+      ],
+      "members": [
+        {
+          "bytes": 48,
+          "domain": "prose",
+          "group_id": "synthetic_en/trans",
+          "language": "en",
+          "normalized_sha256": "702add8655014389a99f4d3a702512646911cfcf378a5ed7e318feab3a15b52b",
+          "raw_sha256": "702add8655014389a99f4d3a702512646911cfcf378a5ed7e318feab3a15b52b",
+          "reasons": [
+            "near_duplicate"
+          ],
+          "record_id": "demo-en-trans-a",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        },
+        {
+          "bytes": 54,
+          "domain": "prose",
+          "group_id": "synthetic_en/trans-copy",
+          "language": "en",
+          "normalized_sha256": "8d4625c5e9f97cc6d71df227d6f3c1ed093ff524d03be3ca49a520fb37f2aee5",
+          "raw_sha256": "8d4625c5e9f97cc6d71df227d6f3c1ed093ff524d03be3ca49a520fb37f2aee5",
+          "reasons": [
+            "near_duplicate"
+          ],
+          "record_id": "demo-en-trans-b",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        },
+        {
+          "bytes": 61,
+          "domain": "prose",
+          "group_id": "synthetic_en/trans-copy-2",
+          "language": "en",
+          "normalized_sha256": "0810d6e0e433ce6b7d28325ad10808abcc6ca4f83db184672f86cc19cc35832a",
+          "raw_sha256": "0810d6e0e433ce6b7d28325ad10808abcc6ca4f83db184672f86cc19cc35832a",
+          "reasons": [
+            "near_duplicate"
+          ],
+          "record_id": "demo-en-trans-c",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-trans-a",
+      "representative_normalized_sha256": "702add8655014389a99f4d3a702512646911cfcf378a5ed7e318feab3a15b52b",
+      "split": "train"
+    },
+    {
+      "cluster_id": "1dd25d450172d56cc5dfb602bf54e8a39d73ecac37b5af36e1da901d1db7c949",
+      "link_reasons": [],
+      "members": [
+        {
+          "bytes": 16,
+          "domain": "prose",
+          "group_id": "synthetic_pl/diacritic-copy",
+          "language": "pl",
+          "normalized_sha256": "4d36c5a47810796fbcafda8ca20d51ee276281b234f79fe1517e5566d8ea8f10",
+          "raw_sha256": "4d36c5a47810796fbcafda8ca20d51ee276281b234f79fe1517e5566d8ea8f10",
+          "reasons": [],
+          "record_id": "demo-pl-diacritic-b",
+          "source_id": "synthetic_pl",
+          "source_revision": "rev-pl-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-pl-diacritic-b",
+      "representative_normalized_sha256": "4d36c5a47810796fbcafda8ca20d51ee276281b234f79fe1517e5566d8ea8f10",
+      "split": "validation"
+    },
+    {
+      "cluster_id": "493ad8f7e2ff995a0cb7633e4312fd827c4f39b389baeb4215a2117291a0419d",
+      "link_reasons": [
+        "source_group"
+      ],
+      "members": [
+        {
+          "bytes": 41,
+          "domain": "prose",
+          "group_id": "synthetic_en/benchmark",
+          "language": "en",
+          "normalized_sha256": "db256d5c0810974584628d0507a741967250d6f8e7efdec3716d1b9d1fbd6863",
+          "raw_sha256": "7820713c53149982ef47e3cb3aeb15eb7af67c64a5de1840efadab16e12ce12b",
+          "reasons": [
+            "source_group"
+          ],
+          "record_id": "demo-en-bench-a",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        },
+        {
+          "bytes": 39,
+          "domain": "prose",
+          "group_id": "synthetic_en/benchmark",
+          "language": "en",
+          "normalized_sha256": "89f8189775aaa99204ae2a10e4c0ae961fb2f432d4f86fc40470a1c58083f731",
+          "raw_sha256": "89f8189775aaa99204ae2a10e4c0ae961fb2f432d4f86fc40470a1c58083f731",
+          "reasons": [
+            "source_group"
+          ],
+          "record_id": "demo-en-bench-b",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [
+        "benchmark_exact_normalized"
+      ],
+      "representative": "demo-en-bench-a",
+      "representative_normalized_sha256": "db256d5c0810974584628d0507a741967250d6f8e7efdec3716d1b9d1fbd6863",
+      "split": null
+    },
+    {
+      "cluster_id": "68380c5fc70be9c26c706d35c1b3a4edac1cd9d97e9bee6f89c7130c849ba508",
+      "link_reasons": [
+        "exact_normalized",
+        "near_duplicate"
+      ],
+      "members": [
+        {
+          "bytes": 32,
+          "domain": "prose",
+          "group_id": "synthetic_en/nfc",
+          "language": "en",
+          "normalized_sha256": "32f967554369ba3a16d09da07f2c7122caec07e301bd5410ebb5d873742ec2c7",
+          "raw_sha256": "2bef6d5ad675207fc6d759663da8a6f6aed52b77fd9cad86e0f994e75572232f",
+          "reasons": [
+            "exact_normalized",
+            "near_duplicate"
+          ],
+          "record_id": "demo-en-nfc-a",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        },
+        {
+          "bytes": 32,
+          "domain": "prose",
+          "group_id": "synthetic_en/nfc-copy",
+          "language": "en",
+          "normalized_sha256": "32f967554369ba3a16d09da07f2c7122caec07e301bd5410ebb5d873742ec2c7",
+          "raw_sha256": "ea1d65b7825b86efcbdfcaa19433bc82deb3c524613847c5af4e564e78d2834c",
+          "reasons": [
+            "exact_normalized",
+            "near_duplicate"
+          ],
+          "record_id": "demo-en-nfc-b",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-nfc-a",
+      "representative_normalized_sha256": "32f967554369ba3a16d09da07f2c7122caec07e301bd5410ebb5d873742ec2c7",
+      "split": "test"
+    },
+    {
+      "cluster_id": "8fc3f96c9d4979496a735093ee00f910a730c272548c61b9d9069a31239f74bc",
+      "link_reasons": [],
+      "members": [
+        {
+          "bytes": 40,
+          "domain": "prose",
+          "group_id": "synthetic_en/near-bench",
+          "language": "en",
+          "normalized_sha256": "df6aea29a2f22ccbd3f77227db454097d7c4d578a7afbd2819aa551f7a8051be",
+          "raw_sha256": "df6aea29a2f22ccbd3f77227db454097d7c4d578a7afbd2819aa551f7a8051be",
+          "reasons": [],
+          "record_id": "demo-en-near-bench",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-near-bench",
+      "representative_normalized_sha256": "df6aea29a2f22ccbd3f77227db454097d7c4d578a7afbd2819aa551f7a8051be",
+      "split": "test"
+    },
+    {
+      "cluster_id": "a51969240191386f9dcfcb838dce41e3c34c493136723d8a7394cd0e0a0d4b34",
+      "link_reasons": [],
+      "members": [
+        {
+          "bytes": 31,
+          "domain": "prose",
+          "group_id": "synthetic_en/below",
+          "language": "en",
+          "normalized_sha256": "a614ed90fa120c0c7dca5a14e9562ab29c055d8a57fbc493515628c5828fe0bc",
+          "raw_sha256": "a614ed90fa120c0c7dca5a14e9562ab29c055d8a57fbc493515628c5828fe0bc",
+          "reasons": [],
+          "record_id": "demo-en-below-a",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-below-a",
+      "representative_normalized_sha256": "a614ed90fa120c0c7dca5a14e9562ab29c055d8a57fbc493515628c5828fe0bc",
+      "split": "train"
+    },
+    {
+      "cluster_id": "aac12af8a2fab133f198d1edadbbc46c407e65d597155705aa79556e0644e9ac",
+      "link_reasons": [],
+      "members": [
+        {
+          "bytes": 15,
+          "domain": "prose",
+          "group_id": "synthetic_en/short",
+          "language": "en",
+          "normalized_sha256": "b097aa308a6ddbbe5d6f154773df395c5b20b607de6dbc2b483fc90827b7bae2",
+          "raw_sha256": "b097aa308a6ddbbe5d6f154773df395c5b20b607de6dbc2b483fc90827b7bae2",
+          "reasons": [],
+          "record_id": "demo-en-short-a",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-short-a",
+      "representative_normalized_sha256": "b097aa308a6ddbbe5d6f154773df395c5b20b607de6dbc2b483fc90827b7bae2",
+      "split": "train"
+    },
+    {
+      "cluster_id": "b7c5ea806eb7d7764eebd12f487fb0dace40e42298c9ab3cc113c07ab3db2a66",
+      "link_reasons": [],
+      "members": [
+        {
+          "bytes": 16,
+          "domain": "prose",
+          "group_id": "synthetic_en/short-copy",
+          "language": "en",
+          "normalized_sha256": "4362416fb47b39cbb7d1ec22ef1aea3b2519a821264db1bd8ed863e72580fe5f",
+          "raw_sha256": "4362416fb47b39cbb7d1ec22ef1aea3b2519a821264db1bd8ed863e72580fe5f",
+          "reasons": [],
+          "record_id": "demo-en-short-b",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-short-b",
+      "representative_normalized_sha256": "4362416fb47b39cbb7d1ec22ef1aea3b2519a821264db1bd8ed863e72580fe5f",
+      "split": "train"
+    },
+    {
+      "cluster_id": "bf962d590b19e2833cd6694de626f268d654d3a3849af66444f8a2bee7f940a1",
+      "link_reasons": [
+        "source_group"
+      ],
+      "members": [
+        {
+          "bytes": 45,
+          "domain": "prose",
+          "group_id": "synthetic_pl/book-01",
+          "language": "pl",
+          "normalized_sha256": "444af97d40a9d65ed262557abae13eb02d22140f6b3776030a6db9daadffb9a4",
+          "raw_sha256": "444af97d40a9d65ed262557abae13eb02d22140f6b3776030a6db9daadffb9a4",
+          "reasons": [
+            "source_group"
+          ],
+          "record_id": "demo-pl-family-a",
+          "source_id": "synthetic_pl",
+          "source_revision": "rev-pl-001"
+        },
+        {
+          "bytes": 40,
+          "domain": "prose",
+          "group_id": "synthetic_pl/book-01",
+          "language": "pl",
+          "normalized_sha256": "6bc4f1bc7300305c00550d9bef1256594554baf37118f5edec27763372917157",
+          "raw_sha256": "6bc4f1bc7300305c00550d9bef1256594554baf37118f5edec27763372917157",
+          "reasons": [
+            "source_group"
+          ],
+          "record_id": "demo-pl-family-b",
+          "source_id": "synthetic_pl",
+          "source_revision": "rev-pl-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-pl-family-a",
+      "representative_normalized_sha256": "444af97d40a9d65ed262557abae13eb02d22140f6b3776030a6db9daadffb9a4",
+      "split": "train"
+    },
+    {
+      "cluster_id": "c332d9907309438248b1d62ea76cf36c6fd261f00668c5bf4c564d63d1d29d2c",
+      "link_reasons": [
+        "source_group"
+      ],
+      "members": [
+        {
+          "bytes": 51,
+          "domain": "prose",
+          "group_id": "synthetic_en/excluded",
+          "language": "en",
+          "normalized_sha256": "cde96071bd4aadec35ef7b9914828b7302e0245e39ea0b2b6a6f697ba52742f5",
+          "raw_sha256": "cde96071bd4aadec35ef7b9914828b7302e0245e39ea0b2b6a6f697ba52742f5",
+          "reasons": [
+            "source_group"
+          ],
+          "record_id": "demo-en-excluded-a",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        },
+        {
+          "bytes": 44,
+          "domain": "prose",
+          "group_id": "synthetic_en/excluded",
+          "language": "en",
+          "normalized_sha256": "a9401b2612de5de0938715bd669ec9fa5723d6e362ba940531723436e61c67d5",
+          "raw_sha256": "a9401b2612de5de0938715bd669ec9fa5723d6e362ba940531723436e61c67d5",
+          "reasons": [
+            "source_group"
+          ],
+          "record_id": "demo-en-excluded-b",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [
+        "excluded_record_id"
+      ],
+      "representative": "demo-en-excluded-a",
+      "representative_normalized_sha256": "cde96071bd4aadec35ef7b9914828b7302e0245e39ea0b2b6a6f697ba52742f5",
+      "split": null
+    },
+    {
+      "cluster_id": "cefeee59d7b322211b05891396b2241aa3b407e599583cd53778ef7eacc422d3",
+      "link_reasons": [],
+      "members": [
+        {
+          "bytes": 38,
+          "domain": "prose",
+          "group_id": "synthetic_en/below-copy",
+          "language": "en",
+          "normalized_sha256": "07c92b523171ab8eaae63cff7fa1f9c44c1911ef195e051eb88c14002d951990",
+          "raw_sha256": "07c92b523171ab8eaae63cff7fa1f9c44c1911ef195e051eb88c14002d951990",
+          "reasons": [],
+          "record_id": "demo-en-below-b",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-below-b",
+      "representative_normalized_sha256": "07c92b523171ab8eaae63cff7fa1f9c44c1911ef195e051eb88c14002d951990",
+      "split": "train"
+    },
+    {
+      "cluster_id": "d730fe228be4620ab39cb2d1de2b47b40a9b052171d0ed138f52cab089461082",
+      "link_reasons": [
+        "near_duplicate"
+      ],
+      "members": [
+        {
+          "bytes": 39,
+          "domain": "prose",
+          "group_id": "synthetic_en/near",
+          "language": "en",
+          "normalized_sha256": "847327c8de7a531ac15a1231977357b35cdf78e293a722f356eaf67c2298e0ec",
+          "raw_sha256": "847327c8de7a531ac15a1231977357b35cdf78e293a722f356eaf67c2298e0ec",
+          "reasons": [
+            "near_duplicate"
+          ],
+          "record_id": "demo-en-near-a",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        },
+        {
+          "bytes": 43,
+          "domain": "prose",
+          "group_id": "synthetic_en/near-copy",
+          "language": "en",
+          "normalized_sha256": "05c6e08f1d9fdafa03147fcb8f82f124c76d2f70e3d989dc8aadb5e7d7450bec",
+          "raw_sha256": "05c6e08f1d9fdafa03147fcb8f82f124c76d2f70e3d989dc8aadb5e7d7450bec",
+          "reasons": [
+            "near_duplicate"
+          ],
+          "record_id": "demo-en-near-b",
+          "source_id": "synthetic_en",
+          "source_revision": "rev-en-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-en-near-a",
+      "representative_normalized_sha256": "847327c8de7a531ac15a1231977357b35cdf78e293a722f356eaf67c2298e0ec",
+      "split": "train"
+    },
+    {
+      "cluster_id": "eefffd3a95a1123ef237813863cc1ef07a76c3c73b0a2767dac767e1c7fb5fb2",
+      "link_reasons": [],
+      "members": [
+        {
+          "bytes": 25,
+          "domain": "prose",
+          "group_id": "synthetic_pl/diacritic",
+          "language": "pl",
+          "normalized_sha256": "39d128bd9d0f5d61aa20d605f0fd457793bc8b2a43cdf0d494a98d88f0daeb85",
+          "raw_sha256": "39d128bd9d0f5d61aa20d605f0fd457793bc8b2a43cdf0d494a98d88f0daeb85",
+          "reasons": [],
+          "record_id": "demo-pl-diacritic-a",
+          "source_id": "synthetic_pl",
+          "source_revision": "rev-pl-001"
+        }
+      ],
+      "quarantine_reasons": [],
+      "representative": "demo-pl-diacritic-a",
+      "representative_normalized_sha256": "39d128bd9d0f5d61aa20d605f0fd457793bc8b2a43cdf0d494a98d88f0daeb85",
+      "split": "train"
+    }
+  ],
+  "digest": "b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f",
+  "inputs": [
+    {
+      "bytes": 31,
+      "domain": "prose",
+      "group_id": "synthetic_en/below",
+      "language": "en",
+      "record_id": "demo-en-below-a",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "a small green bird sings in the"
+    },
+    {
+      "bytes": 38,
+      "domain": "prose",
+      "group_id": "synthetic_en/below-copy",
+      "language": "en",
+      "record_id": "demo-en-below-b",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "a small green bird sings in the garden"
+    },
+    {
+      "bytes": 41,
+      "domain": "prose",
+      "group_id": "synthetic_en/benchmark",
+      "language": "en",
+      "record_id": "demo-en-bench-a",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "Caf\u00e9 benchmark question\r\nwith two lines."
+    },
+    {
+      "bytes": 39,
+      "domain": "prose",
+      "group_id": "synthetic_en/benchmark",
+      "language": "en",
+      "record_id": "demo-en-bench-b",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "Another member of the benchmark family."
+    },
+    {
+      "bytes": 51,
+      "domain": "prose",
+      "group_id": "synthetic_en/excluded",
+      "language": "en",
+      "record_id": "demo-en-excluded-a",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "This document is explicitly excluded by identifier."
+    },
+    {
+      "bytes": 44,
+      "domain": "prose",
+      "group_id": "synthetic_en/excluded",
+      "language": "en",
+      "record_id": "demo-en-excluded-b",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "Another member of the same synthetic family."
+    },
+    {
+      "bytes": 39,
+      "domain": "prose",
+      "group_id": "synthetic_en/near",
+      "language": "en",
+      "record_id": "demo-en-near-a",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "the quick brown fox jumps over the lazy"
+    },
+    {
+      "bytes": 43,
+      "domain": "prose",
+      "group_id": "synthetic_en/near-copy",
+      "language": "en",
+      "record_id": "demo-en-near-b",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "the quick brown fox jumps over the lazy dog"
+    },
+    {
+      "bytes": 40,
+      "domain": "prose",
+      "group_id": "synthetic_en/near-bench",
+      "language": "en",
+      "record_id": "demo-en-near-bench",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "Caf\u00e9 benchmark question\nwith two lines!"
+    },
+    {
+      "bytes": 32,
+      "domain": "prose",
+      "group_id": "synthetic_en/nfc",
+      "language": "en",
+      "record_id": "demo-en-nfc-a",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "Caf\u00e9 society\r\nmeets in Krak\u00f3w."
+    },
+    {
+      "bytes": 32,
+      "domain": "prose",
+      "group_id": "synthetic_en/nfc-copy",
+      "language": "en",
+      "record_id": "demo-en-nfc-b",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "Cafe\u0301 society\nmeets in Krak\u00f3w."
+    },
+    {
+      "bytes": 15,
+      "domain": "prose",
+      "group_id": "synthetic_en/short",
+      "language": "en",
+      "record_id": "demo-en-short-a",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "tiny short text"
+    },
+    {
+      "bytes": 16,
+      "domain": "prose",
+      "group_id": "synthetic_en/short-copy",
+      "language": "en",
+      "record_id": "demo-en-short-b",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "tiny short words"
+    },
+    {
+      "bytes": 48,
+      "domain": "prose",
+      "group_id": "synthetic_en/trans",
+      "language": "en",
+      "record_id": "demo-en-trans-a",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "red orange yellow green blue indigo violet white"
+    },
+    {
+      "bytes": 54,
+      "domain": "prose",
+      "group_id": "synthetic_en/trans-copy",
+      "language": "en",
+      "record_id": "demo-en-trans-b",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "red orange yellow green blue indigo violet white black"
+    },
+    {
+      "bytes": 61,
+      "domain": "prose",
+      "group_id": "synthetic_en/trans-copy-2",
+      "language": "en",
+      "record_id": "demo-en-trans-c",
+      "source_id": "synthetic_en",
+      "source_revision": "rev-en-001",
+      "text": "red orange yellow green blue indigo violet white black silver"
+    },
+    {
+      "bytes": 25,
+      "domain": "prose",
+      "group_id": "synthetic_pl/diacritic",
+      "language": "pl",
+      "record_id": "demo-pl-diacritic-a",
+      "source_id": "synthetic_pl",
+      "source_revision": "rev-pl-001",
+      "text": "\u017b\u00f3\u0142\u0107 g\u0119\u015bl\u0105 ja\u017a\u0144."
+    },
+    {
+      "bytes": 16,
+      "domain": "prose",
+      "group_id": "synthetic_pl/diacritic-copy",
+      "language": "pl",
+      "record_id": "demo-pl-diacritic-b",
+      "source_id": "synthetic_pl",
+      "source_revision": "rev-pl-001",
+      "text": "Zolc gesla jazn."
+    },
+    {
+      "bytes": 45,
+      "domain": "prose",
+      "group_id": "synthetic_pl/book-01",
+      "language": "pl",
+      "record_id": "demo-pl-family-a",
+      "source_id": "synthetic_pl",
+      "source_revision": "rev-pl-001",
+      "text": "Pierwszy rozdzia\u0142 opisuje g\u00f3rski krajobraz."
+    },
+    {
+      "bytes": 40,
+      "domain": "prose",
+      "group_id": "synthetic_pl/book-01",
+      "language": "pl",
+      "record_id": "demo-pl-family-b",
+      "source_id": "synthetic_pl",
+      "source_revision": "rev-pl-001",
+      "text": "Zupe\u0142nie inny tekst o mie\u015bcie i rzece."
+    }
+  ],
+  "limits": {
+    "allowed_domains": [
+      "prose"
+    ],
+    "allowed_languages": [
+      "en",
+      "pl"
+    ],
+    "approval": "synthetic_approved",
+    "max_record_bytes": 4096,
+    "max_records": 1000,
+    "near_duplicate_threshold": "4/5",
+    "shingle_size": 5
+  },
+  "near_duplicate_pairs": [
+    [
+      "demo-en-near-a",
+      "demo-en-near-b"
+    ],
+    [
+      "demo-en-nfc-a",
+      "demo-en-nfc-b"
+    ],
+    [
+      "demo-en-trans-a",
+      "demo-en-trans-b"
+    ],
+    [
+      "demo-en-trans-b",
+      "demo-en-trans-c"
+    ]
+  ],
+  "quarantined": [
+    "493ad8f7e2ff995a0cb7633e4312fd827c4f39b389baeb4215a2117291a0419d",
+    "c332d9907309438248b1d62ea76cf36c6fd261f00668c5bf4c564d63d1d29d2c"
+  ],
+  "report_version": 1,
+  "seed": "splot-t0004-demo-v1",
+  "split_percentages": {
+    "test": 25,
+    "train": 50,
+    "validation": 25
+  },
+  "splits": {
+    "test": [
+      "68380c5fc70be9c26c706d35c1b3a4edac1cd9d97e9bee6f89c7130c849ba508",
+      "8fc3f96c9d4979496a735093ee00f910a730c272548c61b9d9069a31239f74bc"
+    ],
+    "train": [
+      "0646fcf7d78427bda4e5c498de463e5598141bea363ffff306c33427eaca8cf5",
+      "a51969240191386f9dcfcb838dce41e3c34c493136723d8a7394cd0e0a0d4b34",
+      "aac12af8a2fab133f198d1edadbbc46c407e65d597155705aa79556e0644e9ac",
+      "b7c5ea806eb7d7764eebd12f487fb0dace40e42298c9ab3cc113c07ab3db2a66",
+      "bf962d590b19e2833cd6694de626f268d654d3a3849af66444f8a2bee7f940a1",
+      "cefeee59d7b322211b05891396b2241aa3b407e599583cd53778ef7eacc422d3",
+      "d730fe228be4620ab39cb2d1de2b47b40a9b052171d0ed138f52cab089461082",
+      "eefffd3a95a1123ef237813863cc1ef07a76c3c73b0a2767dac767e1c7fb5fb2"
+    ],
+    "validation": [
+      "1dd25d450172d56cc5dfb602bf54e8a39d73ecac37b5af36e1da901d1db7c949"
+    ]
+  },
+  "stats": {
+    "clusters_total": 13,
+    "duplicate_records_removed": 5,
+    "duplicate_records_removed_including_quarantine": 9,
+    "eligible_clusters": 11,
+    "excluded_record_ids_matched": 1,
+    "near_duplicate_edges": 4,
+    "quarantined": {
+      "bytes": 175,
+      "domains": {
+        "prose": {
+          "bytes": 175,
+          "records": 4
+        }
+      },
+      "languages": {
+        "en": {
+          "bytes": 175,
+          "records": 4
+        }
+      },
+      "reasons": {
+        "benchmark_exact_normalized": 1,
+        "excluded_record_id": 1
+      },
+      "records": 4
+    },
+    "quarantined_clusters": 2,
+    "raw": {
+      "bytes": 750,
+      "domains": {
+        "prose": {
+          "bytes": 750,
+          "records": 20
+        }
+      },
+      "languages": {
+        "en": {
+          "bytes": 624,
+          "records": 16
+        },
+        "pl": {
+          "bytes": 126,
+          "records": 4
+        }
+      },
+      "records": 20
+    },
+    "retained": {
+      "bytes": 345,
+      "domains": {
+        "prose": {
+          "bytes": 345,
+          "records": 11
+        }
+      },
+      "languages": {
+        "en": {
+          "bytes": 259,
+          "records": 8
+        },
+        "pl": {
+          "bytes": 86,
+          "records": 3
+        }
+      },
+      "records": 11
+    },
+    "splits": {
+      "test": {
+        "clusters": 2,
+        "member_bytes": 104,
+        "member_records": 3,
+        "representative_bytes": 72,
+        "representatives": 2
+      },
+      "train": {
+        "clusters": 8,
+        "member_bytes": 455,
+        "member_records": 12,
+        "representative_bytes": 257,
+        "representatives": 8
+      },
+      "validation": {
+        "clusters": 1,
+        "member_bytes": 16,
+        "member_records": 1,
+        "representative_bytes": 16,
+        "representatives": 1
+      }
+    }
+  },
+  "task_id": "T0004"
+}
+--- stderr ---
+(empty)
+
+Acceptance command: PYTHONPATH=tools python3 tools/corpus_reference.py --demo
+started_utc: 2026-11-27T16:19:34.763554Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.032597
+stdout_bytes: 25423
+stderr_bytes: 0
+stdout_sha256: befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66
+stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout ---
+Byte-identical to demo_run_1 stdout; see demo.json. 25423 bytes, SHA-256 befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66.
+--- stderr ---
+(empty)
+
+Demo comparison
+demo_bytes_identical: true
+demo_bytes: 25423
+demo_sha256: befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66
+report_digest: b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f
+
+Post-acceptance checkout
+$ git rev-parse HEAD
+126c046720e7cacfc52d9c64f6e7fc6e6afcdb74
+
+$ git status --porcelain
+(empty; clean worktree after acceptance commands)
+
+First failure
+None. All four acceptance commands exited 0; no timeout and no retry was run.

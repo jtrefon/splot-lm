@@ -1,0 +1,59 @@
+{
+  "acceptance_ended_utc": "2026-11-27T16:19:34Z",
+  "acceptance_started_utc": "2026-11-27T16:19:34Z",
+  "approved_minimum_base": "371aa551a6d553dc38245f9821dfc43490e871cb",
+  "architecture": "arm64",
+  "attempt": 1,
+  "attempt_started_utc": "2026-11-27T16:12:38Z",
+  "base_source_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "cpu_count": 10,
+  "cpu_only": true,
+  "cuda_available": false,
+  "demo_bytes": 25423,
+  "demo_seed": "splot-t0004-demo-v1",
+  "demo_sha256": "befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66",
+  "device": "Apple M4 (arm64), CPU only",
+  "disk_available_kib_after": 81385824,
+  "disk_available_kib_before": 81381068,
+  "external_corpus_downloaded": false,
+  "github_api_used": true,
+  "implementation_file_sha256": {
+    "research/data/corpus-reference.md": "41334674404f8fe647593773b7b3d518de67cd21b286051692fa938e3c30cc05",
+    "tools/corpus_reference.py": "9d2f6e80d74b337429bf610f0d2d9c560b42350d91668326c4263c1ceec1ee14",
+    "tools/test_corpus_reference.py": "a91cf4196d19762f162b828905e4eb77212051f040f91ef3567726553472ad41"
+  },
+  "instruction_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "limits": {
+    "max_record_bytes": 4096,
+    "max_records": 1000,
+    "near_duplicate_threshold": "4/5",
+    "shingle_size": 5
+  },
+  "macos_build": "26B131",
+  "macos_version": "27.2.1",
+  "memory_available_percent_after": 47,
+  "memory_available_percent_before": 46,
+  "memory_bytes": 17179869184,
+  "mps_used": false,
+  "os": "macOS",
+  "packages_installed": false,
+  "python": "3.15.2",
+  "python_command": "python3",
+  "python_shim_note": "This environment has no `python` executable. The task's `python` commands were run as `python3`; recorded as an environment note, not a methodological deviation.",
+  "real_corpus_used": false,
+  "seed": "splot-corpus-reference-v1",
+  "source_worktree_clean_at_end": true,
+  "source_worktree_clean_at_start": true,
+  "split_percentages_default": {
+    "test": 1,
+    "train": 98,
+    "validation": 1
+  },
+  "split_percentages_demo": {
+    "test": 25,
+    "train": 50,
+    "validation": 25
+  },
+  "task_id": "T0004",
+  "tested_implementation_commit": "126c046720e7cacfc52d9c64f6e7fc6e6afcdb74"
+}

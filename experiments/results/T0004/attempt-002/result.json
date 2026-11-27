@@ -1,0 +1,68 @@
+{
+  "attempt": 2,
+  "checks": {
+    "environment": {
+      "detail": "macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 17,179,869,184 bytes RAM, CPython 3.15.2 via python3 (no python shim); CPU only, no CUDA/MPS. Corrected implementation HEAD 07a86f0e3a192276ad9a9954a3673dc7719e5544 was clean at acceptance start and after the commands. Attempt-002 synced main 2503a4ed2b219e2f9ca0d941f8d1e2ed675e5e70 at merge commit d2910d38039e7b2f5dc6289ecc387a68d73f9f41; instruction/task commit 0fcd9c6b5b9667af47603a63013b89d83e5f565f; approved minimum base 371aa551a6d553dc38245f9821dfc43490e871cb. No packages, real corpus, training or external data; GitHub API was used only for issue/PR coordination.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Corrected implementation commit 07a86f0e3a192276ad9a9954a3673dc7719e5544 is followed by a separate attempt-002 evidence commit containing the required REP records and demo.json; attempt-001 evidence remains intact. The scope contains exactly the three allowed implementation files, the merge of main 2503a4e, attempt-002 evidence and one INDEX append. Open PR #45 references #38/#8; validator output is recorded in the PR body and hosted CPU success is still required before merge. No merge or issue closure is claimed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Correction implementation commit 07a86f0e3a192276ad9a9954a3673dc7719e5544 changes exactly three allowed files and no other file: tools/corpus_reference.py (SHA-256 65c5fd4d2bfc58b00985f989060bce8c4adead20fe270d0190f9253e71f37cc1), tools/test_corpus_reference.py (SHA-256 45d5d728f1fc509d3656be0bc2a64a0f7d90709d86d8cccb6ab7aedb47b8b12a) and research/data/corpus-reference.md (SHA-256 4c769e613ee1f2b4d855ad3dabb2836d9db12c7090e8ff2b6bb7c834686ef9dd). SourceApproval.approval is now required with no default; validate_records revalidates mapping keys, approval and revision at the public entry point; record iterables are consumed at most MAX_RECORDS+1 with islice; and direct tests cover missing, denied, pending, mismatched and non-SourceApproval mappings plus bounded consumption. Attempt-001 evidence and implementation commit 126c046 are untouched; merged main 2503a4e and T0005 INDEX row are preserved.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 without timeout or retry: 29/29 reference tests (0.067817 s; 3 added since attempt-001) and 6/6 existing fixture tests (0.042010 s) passed. The demo ran twice in 0.033227 s and 0.034378 s, producing byte-identical 25,423-byte output with SHA-256 befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66; the output is also byte-identical to attempt-001 demo.json, with report digest b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f. Demo statistics remain 20 records/13 clusters, 11 eligible, 2 quarantined clusters (4 records), 4 near-duplicate edges and audit all five checks true. CI-equivalent checks also passed: 29/29 reference, 6/6 fixture and 9/9 REP validator tests. Hosted CPU regression is required by the review and tracked in PR #45.",
+      "evidence": [
+        "summary.md",
+        "metrics.jsonl",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "demo.json": "befc46f9aa4cd25b4d2e223e80d6f7db13a417b3cc50e36e05acd5f34cb1bd66",
+    "environment.json": "fabba31cd7481feb22e80eae65c71ec3c79c38885d22a05b26b798ed9a6d3301",
+    "execution.log": "c6facd60ae7171078944c422c5a2b206da9284ccb1a25bed8285afa92e9ca0de",
+    "metrics.jsonl": "32517be4fdeb41da5ebeb0d9aa690d68e2777ae7ca1781e920e38309a7b5e966",
+    "summary.md": "87970ef51df8d217523e0b2eec052d8c295c824367d673ce1e85fd9b4e156208"
+  },
+  "limitations": [
+    "Synthetic records only; no real corpus, source-rights decision, clearance, PII/secrets filtering, malware handling or benchmark corpus.",
+    "Exhaustive all-pairs near-duplicate comparison is quadratic and bounded by the 1,000-record synthetic limit; no MinHash/LSH, streaming, compression or production shard manifests.",
+    "Exact normalized matching plus 5-word shingles only; no semantic, paraphrase, translated or code-specific deduplication.",
+    "Benchmark quarantine is exact normalized match only; no fuzzy contamination claim and no coverage or false-positive estimate.",
+    "group_id correctness is a caller/registry obligation; a wrong family key can over- or under-merge clusters.",
+    "The demo's 50/25/25 split exercises all three labels; it is not evidence of real 98/1/1 proportions.",
+    "No tokenizer, BPE training, token counts or model-input normalization.",
+    "Record text has explicit UTF-8/surrogate rejection; separate metadata surrogate validation remains an optional follow-up.",
+    "One machine and one Python version; no cross-platform determinism, quality, generalization or performance claim."
+  ],
+  "schema_version": 1,
+  "source_commit": "07a86f0e3a192276ad9a9954a3673dc7719e5544",
+  "status": "passed",
+  "task_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "task_id": "T0004",
+  "tested_commit": "07a86f0e3a192276ad9a9954a3673dc7719e5544"
+}
