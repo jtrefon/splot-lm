@@ -1,0 +1,51 @@
+{
+  "actual_vocab_size": 16384,
+  "add_prefix_space": false,
+  "artifact_sha256": "95c5d111cacd3fb668d15d6d7a6cc501a043027b876953b96cc185f974275011",
+  "attempt": 1,
+  "logical_digest": "4ab9dc91bdaf2a2d34dd09fc7fb53ce92aaccf09a633f174f6020956c4a98e9f",
+  "max_token_length": 128,
+  "min_frequency": 2,
+  "model_vocab_size": 32768,
+  "normalizer": null,
+  "package": {
+    "name": "tokenizers",
+    "version": "0.23.3"
+  },
+  "roundtrip": {
+    "content_tokens": 2301483,
+    "eligible_segments": 2360,
+    "failures": [],
+    "max_segment_tokens": 1443,
+    "status": "passed"
+  },
+  "special_tokens": {
+    "0": "<PAD>",
+    "1": "<BOS>",
+    "2": "<EOS>",
+    "3": "<UNK>",
+    "4": "<RES4>",
+    "5": "<RES5>",
+    "6": "<RES6>",
+    "7": "<RES7>"
+  },
+  "target_vocab_size": 16384,
+  "task_id": "T0016",
+  "tokenizer_json_bytes": 708869,
+  "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+  "training": {
+    "bytes": 4194289,
+    "sampled": true,
+    "segments": 1094,
+    "total_train_bytes": 5005698,
+    "total_train_segments": 1303
+  },
+  "training_digest": "f35a114e77f07958a49c3faf5875e6b17c2410c9c5a86143de9ebf770c805a31",
+  "unused_logits": 16384,
+  "use_regex": true,
+  "wheel": {
+    "bytes": 3101381,
+    "filename": "tokenizers-0.23.3-cp310-abi3-macosx_11_0_arm64.whl",
+    "sha256": "68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716"
+  }
+}

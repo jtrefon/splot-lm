@@ -1,0 +1,8 @@
+{
+  "bytes": 8987423,
+  "content_tokens": 2301483,
+  "failures": [],
+  "max_segment_tokens": 1443,
+  "segments": 2360,
+  "status": "passed"
+}

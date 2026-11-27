@@ -1,0 +1,905 @@
+T0016 attempt-001 acceptance from tested SHA 0261ca0421abf4aa26c0b69626f06b5d9779f2a4
+RECORDED_AT 2026-11-27T20:43:46Z
+WORKTREE_PORCELAIN_BEFORE []
+
+### tools/test_corpus_reference.py
+UTC_START 2026-11-27T20:43:46Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_corpus_reference.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.065556
+OUTPUT_BEGIN
+test_audit_detects_cross_split_fingerprint_leak (__main__.AuditTests.test_audit_detects_cross_split_fingerprint_leak) ... ok
+test_audit_detects_cross_split_group_leak (__main__.AuditTests.test_audit_detects_cross_split_group_leak) ... ok
+test_no_split_leakage (__main__.AuditTests.test_no_split_leakage) ... ok
+test_group_union_across_nonidentical_texts_and_sources (__main__.ClusteringTests.test_group_union_across_nonidentical_texts_and_sources) ... ok
+test_near_below_threshold_is_rejected (__main__.ClusteringTests.test_near_below_threshold_is_rejected) ... ok
+test_near_threshold_is_inclusive (__main__.ClusteringTests.test_near_threshold_is_inclusive) ... ok
+test_short_documents_have_no_near_edges (__main__.ClusteringTests.test_short_documents_have_no_near_edges) ... ok
+test_transitive_closure_across_exact_group_and_near_edges (__main__.ClusteringTests.test_transitive_closure_across_exact_group_and_near_edges) ... ok
+test_transitive_closure_across_source_ids_and_languages (__main__.ClusteringTests.test_transitive_closure_across_source_ids_and_languages) ... ok
+test_cli_demo (__main__.DemoTests.test_cli_demo) ... ok
+test_demo_is_deterministic_and_covers_scenarios (__main__.DemoTests.test_demo_is_deterministic_and_covers_scenarios) ... ok
+test_representative_ordering_and_shuffled_input (__main__.DeterminismAndStatsTests.test_representative_ordering_and_shuffled_input) ... ok
+test_split_bucket_and_invalid_config (__main__.DeterminismAndStatsTests.test_split_bucket_and_invalid_config) ... ok
+test_stats_counts_bytes_and_reasons (__main__.DeterminismAndStatsTests.test_stats_counts_bytes_and_reasons) ... ok
+test_exact_raw_and_normalized_reasons (__main__.PreservationAndHashTests.test_exact_raw_and_normalized_reasons) ... ok
+test_nfc_and_crlf_duplicates (__main__.PreservationAndHashTests.test_nfc_and_crlf_duplicates) ... ok
+test_no_casefold_or_diacritic_stripping (__main__.PreservationAndHashTests.test_no_casefold_or_diacritic_stripping) ... ok
+test_text_is_preserved_and_hashes_are_independent (__main__.PreservationAndHashTests.test_text_is_preserved_and_hashes_are_independent) ... ok
+test_benchmark_and_excluded_reasons_combine (__main__.QuarantineTests.test_benchmark_and_excluded_reasons_combine) ... ok
+test_benchmark_exact_normalized_quarantines_whole_cluster (__main__.QuarantineTests.test_benchmark_exact_normalized_quarantines_whole_cluster) ... ok
+test_excluded_record_id_quarantines_whole_cluster (__main__.QuarantineTests.test_excluded_record_id_quarantines_whole_cluster) ... ok
+test_capacity_and_byte_boundaries (__main__.RecordValidationTests.test_capacity_and_byte_boundaries) ... ok
+test_empty_corpus_is_valid (__main__.RecordValidationTests.test_empty_corpus_is_valid) ... ok
+test_malformed_records_fail_closed (__main__.RecordValidationTests.test_malformed_records_fail_closed) ... ok
+test_record_iterable_consumption_is_bounded (__main__.RecordValidationTests.test_record_iterable_consumption_is_bounded) ... ok
+test_utf8_decode_helper (__main__.RecordValidationTests.test_utf8_decode_helper) ... ok
+test_allowlist_fail_closed (__main__.SourceAllowlistTests.test_allowlist_fail_closed) ... ok
+test_approval_must_be_explicit (__main__.SourceAllowlistTests.test_approval_must_be_explicit) ... ok
+test_swapped_mapping_keys_rejected (__main__.SourceAllowlistTests.test_swapped_mapping_keys_rejected) ... ok
+test_validate_records_revalidates_mapping (__main__.SourceAllowlistTests.test_validate_records_revalidates_mapping) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.009s
+
+OK
+OUTPUT_END
+
+### tools/test_bpe_reference.py
+UTC_START 2026-11-27T20:43:46Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_bpe_reference.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.108328
+OUTPUT_BEGIN
+test_artifact_malformed_rejected (__main__.ArtifactTests.test_artifact_malformed_rejected) ... ok
+test_artifact_roundtrip_reload_and_digest (__main__.ArtifactTests.test_artifact_roundtrip_reload_and_digest) ... ok
+test_expansion_length_boundary_and_adversarial_chain (__main__.ArtifactTests.test_expansion_length_boundary_and_adversarial_chain) ... ok
+test_load_artifact_caps_and_canonical_reload (__main__.ArtifactTests.test_load_artifact_caps_and_canonical_reload) ... ok
+test_load_artifact_rejects_bad_input (__main__.ArtifactTests.test_load_artifact_rejects_bad_input) ... ok
+test_cli_demo (__main__.DemoTests.test_cli_demo) ... ok
+test_corpus_digest_and_demo_documents (__main__.DemoTests.test_corpus_digest_and_demo_documents) ... ok
+test_demo_is_deterministic_and_reports_heldout (__main__.DemoTests.test_demo_is_deterministic_and_reports_heldout) ... ok
+test_demo_learned_hashes_unchanged (__main__.DemoTests.test_demo_learned_hashes_unchanged) ... ok
+test_document_validation_fail_closed (__main__.DocumentValidationTests.test_document_validation_fail_closed) ... ok
+test_documents_are_sorted_and_preserved (__main__.DocumentValidationTests.test_documents_are_sorted_and_preserved) ... ok
+test_all_256_byte_alphabet_roundtrip (__main__.EncodingTests.test_all_256_byte_alphabet_roundtrip) ... ok
+test_decode_rejects_control_and_unknown (__main__.EncodingTests.test_decode_rejects_control_and_unknown) ... ok
+test_encode_input_boundary (__main__.EncodingTests.test_encode_input_boundary) ... ok
+test_no_normalization (__main__.EncodingTests.test_no_normalization) ... ok
+test_raw_special_spellings_never_emit_control (__main__.EncodingTests.test_raw_special_spellings_never_emit_control) ... ok
+test_token_iterable_and_decoded_output_caps (__main__.EncodingTests.test_token_iterable_and_decoded_output_caps) ... ok
+test_unicode_whitespace_and_control_roundtrip (__main__.EncodingTests.test_unicode_whitespace_and_control_roundtrip) ... ok
+test_original_corpus_demo_digest_stable (__main__.OriginalCorpusDigestTests.test_original_corpus_demo_digest_stable) ... ok
+test_adjacent_pair_counts_are_independent (__main__.PairAndMergeTests.test_adjacent_pair_counts_are_independent) ... ok
+test_best_pair_tie_break (__main__.PairAndMergeTests.test_best_pair_tie_break) ... ok
+test_merge_sequence_nonoverlapping_left_to_right (__main__.PairAndMergeTests.test_merge_sequence_nonoverlapping_left_to_right) ... ok
+test_no_document_boundary_merge (__main__.PairAndMergeTests.test_no_document_boundary_merge) ... ok
+test_holdout_only_corpus_has_base_vocabulary (__main__.TrainingTests.test_holdout_only_corpus_has_base_vocabulary) ... ok
+test_tiny_corpus_stops_before_capacity (__main__.TrainingTests.test_tiny_corpus_stops_before_capacity) ... ok
+test_train_input_digest_is_sorted_and_content_sensitive (__main__.TrainingTests.test_train_input_digest_is_sorted_and_content_sensitive) ... ok
+test_train_only_artifact_equality_after_holdout_and_quarantine_changes (__main__.TrainingTests.test_train_only_artifact_equality_after_holdout_and_quarantine_changes) ... ok
+test_vocab_targets_and_merge_limits (__main__.TrainingTests.test_vocab_targets_and_merge_limits) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.058s
+
+OK
+OUTPUT_END
+
+### tools/test_data_fixture.py
+UTC_START 2026-11-27T20:43:46Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_data_fixture.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.042092
+OUTPUT_BEGIN
+test_manifest (__main__.DataContract.test_manifest) ... ok
+test_no_silent_truncation_and_no_empty_batch (__main__.DataContract.test_no_silent_truncation_and_no_empty_batch) ... ok
+test_packing_and_offset_masks (__main__.DataContract.test_packing_and_offset_masks) ... ok
+test_split_determinism_and_disjointness (__main__.DataContract.test_split_determinism_and_disjointness) ... ok
+test_transitive_group_dedup (__main__.DataContract.test_transitive_group_dedup) ... ok
+test_utf8_roundtrip (__main__.DataContract.test_utf8_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+OUTPUT_END
+
+### tools/test_tokenized_shards.py
+UTC_START 2026-11-27T20:43:46Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_tokenized_shards.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.201646
+OUTPUT_BEGIN
+test_old_demo_digests_unchanged (__main__.CorpusBridgeTests.test_old_demo_digests_unchanged) ... ok
+test_report_digest_and_approved_sources_required (__main__.CorpusBridgeTests.test_report_digest_and_approved_sources_required) ... ok
+test_report_structure_tamper_rejected (__main__.CorpusBridgeTests.test_report_structure_tamper_rejected) ... ok
+test_train_only_bpe_and_cluster_split_identity (__main__.CorpusBridgeTests.test_train_only_bpe_and_cluster_split_identity) ... ok
+test_corrupt_block_labels_and_mask (__main__.LoaderCorruptionTests.test_corrupt_block_labels_and_mask) ... ok
+test_corrupt_manifest_counts_and_logical_digest (__main__.LoaderCorruptionTests.test_corrupt_manifest_counts_and_logical_digest) ... ok
+test_corrupt_shard_bytes_and_unsafe_path (__main__.LoaderCorruptionTests.test_corrupt_shard_bytes_and_unsafe_path) ... ok
+test_duplicate_json_keys_and_oversized_manifest_rejected (__main__.LoaderCorruptionTests.test_duplicate_json_keys_and_oversized_manifest_rejected) ... ok
+test_duplicate_manifest_document_rejected (__main__.LoaderCorruptionTests.test_duplicate_manifest_document_rejected) ... ok
+test_extra_file_missing_shard_and_symlink (__main__.LoaderCorruptionTests.test_extra_file_missing_shard_and_symlink) ... ok
+test_incomplete_cluster_and_quarantine_mapping_rejected (__main__.LoaderCorruptionTests.test_incomplete_cluster_and_quarantine_mapping_rejected) ... ok
+test_invalid_token_and_position_rejected (__main__.LoaderCorruptionTests.test_invalid_token_and_position_rejected) ... ok
+test_noncanonical_manifest_and_shard_utf8 (__main__.LoaderCorruptionTests.test_noncanonical_manifest_and_shard_utf8) ... ok
+test_nonregular_file_rejected (__main__.LoaderCorruptionTests.test_nonregular_file_rejected) ... ok
+test_rehashed_content_and_train_metadata_rejected (__main__.LoaderCorruptionTests.test_rehashed_content_and_train_metadata_rejected) ... ok
+test_symlink_rejected (__main__.LoaderCorruptionTests.test_symlink_rejected) ... ok
+test_atomic_failure_leaves_no_destination (__main__.MaterializationTests.test_atomic_failure_leaves_no_destination) ... ok
+test_demo_is_deterministic_and_cli (__main__.MaterializationTests.test_demo_is_deterministic_and_cli) ... ok
+test_demo_materialization_and_partition_invariance (__main__.MaterializationTests.test_demo_materialization_and_partition_invariance) ... ok
+test_materialize_load_and_no_overwrite (__main__.MaterializationTests.test_materialize_load_and_no_overwrite) ... ok
+test_stable_order_and_identical_materialization (__main__.MaterializationTests.test_stable_order_and_identical_materialization) ... ok
+test_exact_tiny_counts (__main__.PackingTests.test_exact_tiny_counts) ... ok
+test_hand_calculated_tiny_sequence_and_fixture_semantics (__main__.PackingTests.test_hand_calculated_tiny_sequence_and_fixture_semantics) ... ok
+test_invalid_pack_config (__main__.PackingTests.test_invalid_pack_config) ... ok
+test_multi_document_boundary_masks (__main__.PackingTests.test_multi_document_boundary_masks) ... ok
+test_overlong_document_is_rejected (__main__.PackingTests.test_overlong_document_is_rejected) ... ok
+test_candidate_metadata_shape_and_boundary (__main__.SourceCandidateMetadataTests.test_candidate_metadata_shape_and_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.144s
+
+OK
+OUTPUT_END
+
+### tools/test_production_tokenizer.py
+UTC_START 2026-11-27T20:43:47Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_production_tokenizer.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.047852
+OUTPUT_BEGIN
+backend unavailable: tokenizers module not installed; stdlib tests only
+test_approval_packet_and_lock_metadata (__main__.StdlibBoundaryTests.test_approval_packet_and_lock_metadata) ... ok
+test_backend_status_is_explicit (__main__.StdlibBoundaryTests.test_backend_status_is_explicit) ... ok
+test_document_validation_bounds (__main__.StdlibBoundaryTests.test_document_validation_bounds) ... ok
+test_malformed_artifact_rejected_without_backend (__main__.StdlibBoundaryTests.test_malformed_artifact_rejected_without_backend) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+OUTPUT_END
+
+### tools/test_pilot_dataset.py
+UTC_START 2026-11-27T20:43:47Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_pilot_dataset.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.301265
+OUTPUT_BEGIN
+test_block_rejections (__main__.BlockTests.test_block_rejections) ... ok
+test_long_segment_splits_to_block_limit (__main__.BlockTests.test_long_segment_splits_to_block_limit) ... ok
+test_pack_blocks_are_fixed_shape_and_masked (__main__.BlockTests.test_pack_blocks_are_fixed_shape_and_masked) ... ok
+test_duplicate_document_id_is_rejected_by_writer (__main__.DatasetTests.test_duplicate_document_id_is_rejected_by_writer) ... ok
+test_extra_file_and_symlink_are_rejected (__main__.DatasetTests.test_extra_file_and_symlink_are_rejected) ... ok
+test_manifest_and_loader (__main__.DatasetTests.test_manifest_and_loader) ... ok
+test_repeat_materialization_is_identical (__main__.DatasetTests.test_repeat_materialization_is_identical) ... ok
+test_source_snapshot_and_shard_hash_tamper (__main__.DatasetTests.test_source_snapshot_and_shard_hash_tamper) ... ok
+test_tampered_manifest_is_rejected (__main__.DatasetTests.test_tampered_manifest_is_rejected) ... ok
+test_wolne_xml_excludes_editorial_and_annotation_layers (__main__.ExtractionTests.test_wolne_xml_excludes_editorial_and_annotation_layers) ... ok
+test_wolne_xml_rejects_dtd_and_missing_prose (__main__.ExtractionTests.test_wolne_xml_rejects_dtd_and_missing_prose) ... ok
+test_xhtml_main_text_and_paratext (__main__.ExtractionTests.test_xhtml_main_text_and_paratext) ... ok
+test_registry_has_eight_families_and_verse_exclusion (__main__.FamilyAndSelectionTests.test_registry_has_eight_families_and_verse_exclusion) ... ok
+test_registry_rejects_split_mutation_and_unsafe_path (__main__.FamilyAndSelectionTests.test_registry_rejects_split_mutation_and_unsafe_path) ... ok
+test_tokenizer_selection_is_train_only_and_bounded (__main__.FamilyAndSelectionTests.test_tokenizer_selection_is_train_only_and_bounded) ... ok
+test_segmentation_is_lossless_and_bounded (__main__.SegmentationTests.test_segmentation_is_lossless_and_bounded) ... ok
+test_segmentation_rejects_nul_and_bad_limit (__main__.SegmentationTests.test_segmentation_rejects_nul_and_bad_limit) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.228s
+
+OK
+OUTPUT_END
+
+### backend tokenizer tests
+UTC_START 2026-11-27T20:43:47Z
+COMMAND <SESSION_VENV>/bin/python tools/test_production_tokenizer.py
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.328070
+OUTPUT_BEGIN
+test_artifact_malformed_rejected (__main__.BackendTests.test_artifact_malformed_rejected) ... ok
+test_artifact_roundtrip_reload_and_digest (__main__.BackendTests.test_artifact_roundtrip_reload_and_digest) ... ok
+test_boundaries_are_explicit (__main__.BackendTests.test_boundaries_are_explicit) ... ok
+test_decode_token_iterable_is_bounded (__main__.BackendTests.test_decode_token_iterable_is_bounded) ... ok
+test_demo_and_cli (__main__.BackendTests.test_demo_and_cli) ... ok
+test_independently_pinned_demo_digests (__main__.BackendTests.test_independently_pinned_demo_digests) ... ok
+test_literal_special_strings_fail_closed (__main__.BackendTests.test_literal_special_strings_fail_closed) ... ok
+test_special_ids_byte_alphabet_and_target_bound (__main__.BackendTests.test_special_ids_byte_alphabet_and_target_bound) ... ok
+test_train_only_isolation_and_order (__main__.BackendTests.test_train_only_isolation_and_order) ... ok
+test_unicode_whitespace_code_and_all_bytes (__main__.BackendTests.test_unicode_whitespace_code_and_all_bytes) ... ok
+test_approval_packet_and_lock_metadata (__main__.StdlibBoundaryTests.test_approval_packet_and_lock_metadata) ... ok
+test_backend_status_is_explicit (__main__.StdlibBoundaryTests.test_backend_status_is_explicit) ... ok
+test_document_validation_bounds (__main__.StdlibBoundaryTests.test_document_validation_bounds) ... ok
+test_malformed_artifact_rejected_without_backend (__main__.StdlibBoundaryTests.test_malformed_artifact_rejected_without_backend) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.243s
+
+OK
+OUTPUT_END
+
+### backend pilot tests
+UTC_START 2026-11-27T20:43:47Z
+COMMAND <SESSION_VENV>/bin/python tools/test_pilot_dataset.py
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.346158
+OUTPUT_BEGIN
+test_real_pilot_rejects_holdout_reserved_and_bounds (__main__.BackendTests.test_real_pilot_rejects_holdout_reserved_and_bounds) ... ok
+test_real_pilot_training_and_session (__main__.BackendTests.test_real_pilot_training_and_session) ... ok
+test_block_rejections (__main__.BlockTests.test_block_rejections) ... ok
+test_long_segment_splits_to_block_limit (__main__.BlockTests.test_long_segment_splits_to_block_limit) ... ok
+test_pack_blocks_are_fixed_shape_and_masked (__main__.BlockTests.test_pack_blocks_are_fixed_shape_and_masked) ... ok
+test_duplicate_document_id_is_rejected_by_writer (__main__.DatasetTests.test_duplicate_document_id_is_rejected_by_writer) ... ok
+test_extra_file_and_symlink_are_rejected (__main__.DatasetTests.test_extra_file_and_symlink_are_rejected) ... ok
+test_manifest_and_loader (__main__.DatasetTests.test_manifest_and_loader) ... ok
+test_repeat_materialization_is_identical (__main__.DatasetTests.test_repeat_materialization_is_identical) ... ok
+test_source_snapshot_and_shard_hash_tamper (__main__.DatasetTests.test_source_snapshot_and_shard_hash_tamper) ... ok
+test_tampered_manifest_is_rejected (__main__.DatasetTests.test_tampered_manifest_is_rejected) ... ok
+test_wolne_xml_excludes_editorial_and_annotation_layers (__main__.ExtractionTests.test_wolne_xml_excludes_editorial_and_annotation_layers) ... ok
+test_wolne_xml_rejects_dtd_and_missing_prose (__main__.ExtractionTests.test_wolne_xml_rejects_dtd_and_missing_prose) ... ok
+test_xhtml_main_text_and_paratext (__main__.ExtractionTests.test_xhtml_main_text_and_paratext) ... ok
+test_registry_has_eight_families_and_verse_exclusion (__main__.FamilyAndSelectionTests.test_registry_has_eight_families_and_verse_exclusion) ... ok
+test_registry_rejects_split_mutation_and_unsafe_path (__main__.FamilyAndSelectionTests.test_registry_rejects_split_mutation_and_unsafe_path) ... ok
+test_tokenizer_selection_is_train_only_and_bounded (__main__.FamilyAndSelectionTests.test_tokenizer_selection_is_train_only_and_bounded) ... ok
+test_segmentation_is_lossless_and_bounded (__main__.SegmentationTests.test_segmentation_is_lossless_and_bounded) ... ok
+test_segmentation_rejects_nul_and_bad_limit (__main__.SegmentationTests.test_segmentation_rejects_nul_and_bad_limit) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.283s
+
+OK
+OUTPUT_END
+
+### build final-a
+UTC_START 2026-11-27T20:43:48Z
+COMMAND <SESSION_VENV>/bin/python tools/pilot_dataset.py build --registry configs/data/pilot-sources-v0.2.json --staging <SESSION_TMP>/acquisition --output <SESSION_TMP>/final-run-a
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 6.188739
+OUTPUT_BEGIN
+{
+  "actual_vocab_size": 16384,
+  "counts": {
+    "by_language": {
+      "en": {
+        "blocks": 80,
+        "content_tokens": 26941,
+        "ntp_labels": 27021,
+        "offset2_labels": 26941,
+        "pad_tokens": 13859,
+        "valid_tokens": 27101
+      },
+      "pl": {
+        "blocks": 80,
+        "content_tokens": 29260,
+        "ntp_labels": 29340,
+        "offset2_labels": 29260,
+        "pad_tokens": 11540,
+        "valid_tokens": 29420
+      }
+    },
+    "by_split": {
+      "test": {
+        "blocks": 16,
+        "content_tokens": 5019,
+        "ntp_labels": 5035,
+        "offset2_labels": 5019,
+        "pad_tokens": 3141,
+        "valid_tokens": 5051
+      },
+      "train": {
+        "blocks": 128,
+        "content_tokens": 45948,
+        "ntp_labels": 46076,
+        "offset2_labels": 45948,
+        "pad_tokens": 19332,
+        "valid_tokens": 46204
+      },
+      "validation": {
+        "blocks": 16,
+        "content_tokens": 5234,
+        "ntp_labels": 5250,
+        "offset2_labels": 5234,
+        "pad_tokens": 2926,
+        "valid_tokens": 5266
+      }
+    },
+    "by_split_language": {
+      "test/en": {
+        "blocks": 8,
+        "content_tokens": 2430,
+        "ntp_labels": 2438,
+        "offset2_labels": 2430,
+        "pad_tokens": 1650,
+        "valid_tokens": 2446
+      },
+      "test/pl": {
+        "blocks": 8,
+        "content_tokens": 2589,
+        "ntp_labels": 2597,
+        "offset2_labels": 2589,
+        "pad_tokens": 1491,
+        "valid_tokens": 2605
+      },
+      "train/en": {
+        "blocks": 64,
+        "content_tokens": 21938,
+        "ntp_labels": 22002,
+        "offset2_labels": 21938,
+        "pad_tokens": 10702,
+        "valid_tokens": 22066
+      },
+      "train/pl": {
+        "blocks": 64,
+        "content_tokens": 24010,
+        "ntp_labels": 24074,
+        "offset2_labels": 24010,
+        "pad_tokens": 8630,
+        "valid_tokens": 24138
+      },
+      "validation/en": {
+        "blocks": 8,
+        "content_tokens": 2573,
+        "ntp_labels": 2581,
+        "offset2_labels": 2573,
+        "pad_tokens": 1507,
+        "valid_tokens": 2589
+      },
+      "validation/pl": {
+        "blocks": 8,
+        "content_tokens": 2661,
+        "ntp_labels": 2669,
+        "offset2_labels": 2661,
+        "pad_tokens": 1419,
+        "valid_tokens": 2677
+      }
+    },
+    "overall": {
+      "blocks": 160,
+      "content_tokens": 56201,
+      "ntp_labels": 56361,
+      "offset2_labels": 56201,
+      "pad_tokens": 25399,
+      "valid_tokens": 56521
+    }
+  },
+  "dataset_name": "splot-pilot-v1",
+  "excluded": [],
+  "format": "splot-pilot-blocks-v1",
+  "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_bytes": 4674,
+  "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "model_vocab_size": 32768,
+  "shards": {
+    "test": {
+      "blocks": 16,
+      "ntp_labels": 5035,
+      "offset2_labels": 5019,
+      "valid_tokens": 5051
+    },
+    "train": {
+      "blocks": 128,
+      "ntp_labels": 46076,
+      "offset2_labels": 45948,
+      "valid_tokens": 46204
+    },
+    "validation": {
+      "blocks": 16,
+      "ntp_labels": 5250,
+      "offset2_labels": 5234,
+      "valid_tokens": 5266
+    }
+  },
+  "source_index_documents": 160,
+  "source_index_sha256": "f7d11bcdccc7a0df9e4b775ad5b6136a76d4fcfd0e87429a373d4d034dde3953",
+  "sources": [
+    {
+      "content_bytes": 150059,
+      "content_sha256": "f80db72561c49f51c79c9f5c573ee9d41da7d9c62cbb2de420298557fe3a3e52",
+      "family_id": "se-alices-adventures",
+      "language": "en",
+      "parts": 12,
+      "raw_bytes": 186803,
+      "raw_sha256": "109365790b5e6d949668ba98af815fe26ea0cbce11697c3ac2adcf4f1880942d",
+      "revision": "git:9e5eb58995d9fd2f609363d14786d8b0166bbbb9",
+      "segments": 41,
+      "split": "validation"
+    },
+    {
+      "content_bytes": 423191,
+      "content_sha256": "775c30fab445d5a2787b78e9c76d7d72352cb374201cf0170af8557ea792d198",
+      "family_id": "se-frankenstein",
+      "language": "en",
+      "parts": 28,
+      "raw_bytes": 454863,
+      "raw_sha256": "44c555028fed46e183f4683b4ce8e3620afc0b770202392505a12f4956dea9a7",
+      "revision": "git:abfa474c5e1df00ae8458ed8495b83e7f8b795cc",
+      "segments": 118,
+      "split": "train"
+    },
+    {
+      "content_bytes": 1217955,
+      "content_sha256": "2ac18fc1e9483639f4fa1b43118774e212d700af8f8a7fa313bb7a4249be5879",
+      "family_id": "se-moby-dick",
+      "language": "en",
+      "parts": 138,
+      "raw_bytes": 1376728,
+      "raw_sha256": "36e13e32c3415dc7b9513c0e79f85c61e7fe4e4ad11bed093428df5cf8fc556f",
+      "revision": "git:89725132954ec3f297e0d86f4a5ab636675d7f13",
+      "segments": 332,
+      "split": "test"
+    },
+    {
+      "content_bytes": 695770,
+      "content_sha256": "430f74f8e59c5255e8249e676f6348a85d87fa39a39d88197c34cef2eba27368",
+      "family_id": "se-pride-and-prejudice",
+      "language": "en",
+      "parts": 61,
+      "raw_bytes": 805814,
+      "raw_sha256": "7f7d41577829547de311af744e484b6f8e25a62d3a6972af334382e4cb624806",
+      "revision": "git:a77a2dbbc0d11a17d6c68c581f17e26a65bd8168",
+      "segments": 186,
+      "split": "train"
+    },
+    {
+      "content_bytes": 2106903,
+      "content_sha256": "0f1e5ff7683f36bf7c3cd3ead75ccb4d4d4e692504cf97c5936f52c320220a1f",
+      "family_id": "wl-chlopi",
+      "language": "pl",
+      "parts": 4,
+      "raw_bytes": 2734087,
+      "raw_sha256": "d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "revision": "local-sha256:d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "segments": 542,
+      "split": "train"
+    },
+    {
+      "content_bytes": 1435944,
+      "content_sha256": "ad97595a59f7d5b8566577fe0eaed5a9e602652701652c63d3753adb84fa2e6f",
+      "family_id": "wl-faraon",
+      "language": "pl",
+      "parts": 3,
+      "raw_bytes": 1742144,
+      "raw_sha256": "ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "revision": "local-sha256:ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "segments": 366,
+      "split": "test"
+    },
+    {
+      "content_bytes": 1779834,
+      "content_sha256": "5cdbc9e7ac46e51eccdbb2db90002b42c0671682f4f59093014c74ec2a13b245",
+      "family_id": "wl-lalka",
+      "language": "pl",
+      "parts": 2,
+      "raw_bytes": 2412914,
+      "raw_sha256": "f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "revision": "local-sha256:f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "segments": 457,
+      "split": "train"
+    },
+    {
+      "content_bytes": 1177767,
+      "content_sha256": "f8ea7a7ac40935bbf01b159f19ae0a18d32486e11d8ac158a92b965aa315626c",
+      "family_id": "wl-quo-vadis",
+      "language": "pl",
+      "parts": 1,
+      "raw_bytes": 1491373,
+      "raw_sha256": "cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "revision": "local-sha256:cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "segments": 318,
+      "split": "validation"
+    }
+  ],
+  "tokenizer_artifact_sha256": "95c5d111cacd3fb668d15d6d7a6cc501a043027b876953b96cc185f974275011",
+  "tokenizer_json_bytes": 708869,
+  "tokenizer_logical_digest": "4ab9dc91bdaf2a2d34dd09fc7fb53ce92aaccf09a633f174f6020956c4a98e9f",
+  "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+  "tokenizer_training": {
+    "bytes": 4194289,
+    "sampled": true,
+    "segments": 1094
+  },
+  "tokenizer_training_digest": "f35a114e77f07958a49c3faf5875e6b17c2410c9c5a86143de9ebf770c805a31",
+  "unused_logits": 16384,
+  "version": 1
+}
+OUTPUT_END
+
+### build final-b
+UTC_START 2026-11-27T20:43:54Z
+COMMAND <SESSION_VENV>/bin/python tools/pilot_dataset.py build --registry configs/data/pilot-sources-v0.2.json --staging <SESSION_TMP>/acquisition --output <SESSION_TMP>/final-run-b
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 6.207156
+OUTPUT_BEGIN
+{
+  "actual_vocab_size": 16384,
+  "counts": {
+    "by_language": {
+      "en": {
+        "blocks": 80,
+        "content_tokens": 26941,
+        "ntp_labels": 27021,
+        "offset2_labels": 26941,
+        "pad_tokens": 13859,
+        "valid_tokens": 27101
+      },
+      "pl": {
+        "blocks": 80,
+        "content_tokens": 29260,
+        "ntp_labels": 29340,
+        "offset2_labels": 29260,
+        "pad_tokens": 11540,
+        "valid_tokens": 29420
+      }
+    },
+    "by_split": {
+      "test": {
+        "blocks": 16,
+        "content_tokens": 5019,
+        "ntp_labels": 5035,
+        "offset2_labels": 5019,
+        "pad_tokens": 3141,
+        "valid_tokens": 5051
+      },
+      "train": {
+        "blocks": 128,
+        "content_tokens": 45948,
+        "ntp_labels": 46076,
+        "offset2_labels": 45948,
+        "pad_tokens": 19332,
+        "valid_tokens": 46204
+      },
+      "validation": {
+        "blocks": 16,
+        "content_tokens": 5234,
+        "ntp_labels": 5250,
+        "offset2_labels": 5234,
+        "pad_tokens": 2926,
+        "valid_tokens": 5266
+      }
+    },
+    "by_split_language": {
+      "test/en": {
+        "blocks": 8,
+        "content_tokens": 2430,
+        "ntp_labels": 2438,
+        "offset2_labels": 2430,
+        "pad_tokens": 1650,
+        "valid_tokens": 2446
+      },
+      "test/pl": {
+        "blocks": 8,
+        "content_tokens": 2589,
+        "ntp_labels": 2597,
+        "offset2_labels": 2589,
+        "pad_tokens": 1491,
+        "valid_tokens": 2605
+      },
+      "train/en": {
+        "blocks": 64,
+        "content_tokens": 21938,
+        "ntp_labels": 22002,
+        "offset2_labels": 21938,
+        "pad_tokens": 10702,
+        "valid_tokens": 22066
+      },
+      "train/pl": {
+        "blocks": 64,
+        "content_tokens": 24010,
+        "ntp_labels": 24074,
+        "offset2_labels": 24010,
+        "pad_tokens": 8630,
+        "valid_tokens": 24138
+      },
+      "validation/en": {
+        "blocks": 8,
+        "content_tokens": 2573,
+        "ntp_labels": 2581,
+        "offset2_labels": 2573,
+        "pad_tokens": 1507,
+        "valid_tokens": 2589
+      },
+      "validation/pl": {
+        "blocks": 8,
+        "content_tokens": 2661,
+        "ntp_labels": 2669,
+        "offset2_labels": 2661,
+        "pad_tokens": 1419,
+        "valid_tokens": 2677
+      }
+    },
+    "overall": {
+      "blocks": 160,
+      "content_tokens": 56201,
+      "ntp_labels": 56361,
+      "offset2_labels": 56201,
+      "pad_tokens": 25399,
+      "valid_tokens": 56521
+    }
+  },
+  "dataset_name": "splot-pilot-v1",
+  "excluded": [],
+  "format": "splot-pilot-blocks-v1",
+  "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_bytes": 4674,
+  "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "model_vocab_size": 32768,
+  "shards": {
+    "test": {
+      "blocks": 16,
+      "ntp_labels": 5035,
+      "offset2_labels": 5019,
+      "valid_tokens": 5051
+    },
+    "train": {
+      "blocks": 128,
+      "ntp_labels": 46076,
+      "offset2_labels": 45948,
+      "valid_tokens": 46204
+    },
+    "validation": {
+      "blocks": 16,
+      "ntp_labels": 5250,
+      "offset2_labels": 5234,
+      "valid_tokens": 5266
+    }
+  },
+  "source_index_documents": 160,
+  "source_index_sha256": "f7d11bcdccc7a0df9e4b775ad5b6136a76d4fcfd0e87429a373d4d034dde3953",
+  "sources": [
+    {
+      "content_bytes": 150059,
+      "content_sha256": "f80db72561c49f51c79c9f5c573ee9d41da7d9c62cbb2de420298557fe3a3e52",
+      "family_id": "se-alices-adventures",
+      "language": "en",
+      "parts": 12,
+      "raw_bytes": 186803,
+      "raw_sha256": "109365790b5e6d949668ba98af815fe26ea0cbce11697c3ac2adcf4f1880942d",
+      "revision": "git:9e5eb58995d9fd2f609363d14786d8b0166bbbb9",
+      "segments": 41,
+      "split": "validation"
+    },
+    {
+      "content_bytes": 423191,
+      "content_sha256": "775c30fab445d5a2787b78e9c76d7d72352cb374201cf0170af8557ea792d198",
+      "family_id": "se-frankenstein",
+      "language": "en",
+      "parts": 28,
+      "raw_bytes": 454863,
+      "raw_sha256": "44c555028fed46e183f4683b4ce8e3620afc0b770202392505a12f4956dea9a7",
+      "revision": "git:abfa474c5e1df00ae8458ed8495b83e7f8b795cc",
+      "segments": 118,
+      "split": "train"
+    },
+    {
+      "content_bytes": 1217955,
+      "content_sha256": "2ac18fc1e9483639f4fa1b43118774e212d700af8f8a7fa313bb7a4249be5879",
+      "family_id": "se-moby-dick",
+      "language": "en",
+      "parts": 138,
+      "raw_bytes": 1376728,
+      "raw_sha256": "36e13e32c3415dc7b9513c0e79f85c61e7fe4e4ad11bed093428df5cf8fc556f",
+      "revision": "git:89725132954ec3f297e0d86f4a5ab636675d7f13",
+      "segments": 332,
+      "split": "test"
+    },
+    {
+      "content_bytes": 695770,
+      "content_sha256": "430f74f8e59c5255e8249e676f6348a85d87fa39a39d88197c34cef2eba27368",
+      "family_id": "se-pride-and-prejudice",
+      "language": "en",
+      "parts": 61,
+      "raw_bytes": 805814,
+      "raw_sha256": "7f7d41577829547de311af744e484b6f8e25a62d3a6972af334382e4cb624806",
+      "revision": "git:a77a2dbbc0d11a17d6c68c581f17e26a65bd8168",
+      "segments": 186,
+      "split": "train"
+    },
+    {
+      "content_bytes": 2106903,
+      "content_sha256": "0f1e5ff7683f36bf7c3cd3ead75ccb4d4d4e692504cf97c5936f52c320220a1f",
+      "family_id": "wl-chlopi",
+      "language": "pl",
+      "parts": 4,
+      "raw_bytes": 2734087,
+      "raw_sha256": "d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "revision": "local-sha256:d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "segments": 542,
+      "split": "train"
+    },
+    {
+      "content_bytes": 1435944,
+      "content_sha256": "ad97595a59f7d5b8566577fe0eaed5a9e602652701652c63d3753adb84fa2e6f",
+      "family_id": "wl-faraon",
+      "language": "pl",
+      "parts": 3,
+      "raw_bytes": 1742144,
+      "raw_sha256": "ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "revision": "local-sha256:ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "segments": 366,
+      "split": "test"
+    },
+    {
+      "content_bytes": 1779834,
+      "content_sha256": "5cdbc9e7ac46e51eccdbb2db90002b42c0671682f4f59093014c74ec2a13b245",
+      "family_id": "wl-lalka",
+      "language": "pl",
+      "parts": 2,
+      "raw_bytes": 2412914,
+      "raw_sha256": "f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "revision": "local-sha256:f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "segments": 457,
+      "split": "train"
+    },
+    {
+      "content_bytes": 1177767,
+      "content_sha256": "f8ea7a7ac40935bbf01b159f19ae0a18d32486e11d8ac158a92b965aa315626c",
+      "family_id": "wl-quo-vadis",
+      "language": "pl",
+      "parts": 1,
+      "raw_bytes": 1491373,
+      "raw_sha256": "cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "revision": "local-sha256:cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "segments": 318,
+      "split": "validation"
+    }
+  ],
+  "tokenizer_artifact_sha256": "95c5d111cacd3fb668d15d6d7a6cc501a043027b876953b96cc185f974275011",
+  "tokenizer_json_bytes": 708869,
+  "tokenizer_logical_digest": "4ab9dc91bdaf2a2d34dd09fc7fb53ce92aaccf09a633f174f6020956c4a98e9f",
+  "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+  "tokenizer_training": {
+    "bytes": 4194289,
+    "sampled": true,
+    "segments": 1094
+  },
+  "tokenizer_training_digest": "f35a114e77f07958a49c3faf5875e6b17c2410c9c5a86143de9ebf770c805a31",
+  "unused_logits": 16384,
+  "version": 1
+}
+OUTPUT_END
+
+### compare final-a final-b
+UTC_START 2026-11-27T20:44:00Z
+COMMAND <SESSION_VENV>/bin/python tools/pilot_dataset.py compare <SESSION_TMP>/final-run-a/splot-pilot-v1 <SESSION_TMP>/final-run-b/splot-pilot-v1
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.188725
+OUTPUT_BEGIN
+{
+  "checks": {
+    "logical_equal": true,
+    "manifest_equal": true,
+    "shards_equal": true,
+    "tokenizer_equal": true
+  },
+  "logical_sha256_a": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "logical_sha256_b": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_sha256_a": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "manifest_sha256_b": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "status": "passed"
+}
+OUTPUT_END
+
+### verify final-a
+UTC_START 2026-11-27T20:44:00Z
+COMMAND <SESSION_VENV>/bin/python tools/pilot_dataset.py verify --dataset <SESSION_TMP>/final-run-a/splot-pilot-v1 --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.122770
+OUTPUT_BEGIN
+{
+  "format": "splot-pilot-blocks-v1",
+  "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "sequence_length": 512,
+  "source_snapshot_sha256": "c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087",
+  "splits": {
+    "test": {
+      "blocks": 16,
+      "ntp_labels": 5035,
+      "offset2_labels": 5019,
+      "valid_tokens": 5051
+    },
+    "train": {
+      "blocks": 128,
+      "ntp_labels": 46076,
+      "offset2_labels": 45948,
+      "valid_tokens": 46204
+    },
+    "validation": {
+      "blocks": 16,
+      "ntp_labels": 5250,
+      "offset2_labels": 5234,
+      "valid_tokens": 5266
+    }
+  },
+  "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+  "version": 1,
+  "vocab_size": 16384
+}
+OUTPUT_END
+
+### independent offset/token audit
+UTC_START 2026-11-27T20:44:00Z
+COMMAND <SESSION_VENV>/bin/python <SESSION_TMP>/verify_real.py <SESSION_TMP>/final-run-a/splot-pilot-v1 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 <SESSION_TMP>/final-run-a/source-index.json <SESSION_TMP>/final-run-a/tokenizer-artifact.json configs/data/pilot-sources-v0.2.json <SESSION_TMP>/acquisition <SESSION_TMP>/meta/final-audit
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 3.054077
+OUTPUT_BEGIN
+{
+  "segment_roundtrip": {
+    "bytes": 8987423,
+    "content_tokens": 2301483,
+    "failures": [],
+    "max_segment_tokens": 1443,
+    "segments": 2360,
+    "status": "passed"
+  },
+  "verification": {
+    "checks": {
+      "documents": 160,
+      "family_split_match": 160,
+      "offset_match": 160,
+      "roundtrip": 160,
+      "tokens": 56201,
+      "unique_doc_ids": 160
+    },
+    "family_splits": {
+      "test": [
+        "se-moby-dick",
+        "wl-faraon"
+      ],
+      "train": [
+        "se-frankenstein",
+        "se-pride-and-prejudice",
+        "wl-chlopi",
+        "wl-lalka"
+      ],
+      "validation": [
+        "se-alices-adventures",
+        "wl-quo-vadis"
+      ]
+    },
+    "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+    "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+    "source_index_sha256": "f7d11bcdccc7a0df9e4b775ad5b6136a76d4fcfd0e87429a373d4d034dde3953",
+    "status": "passed"
+  }
+}
+OUTPUT_END
+
+### artifact/source-index comparison
+UTC_START 2026-11-27T20:44:03Z
+COMMAND cmp -s <SESSION_TMP>/final-run-a/tokenizer-artifact.json <SESSION_TMP>/final-run-b/tokenizer-artifact.json
+ENV PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.004091
+
+### source-index comparison
+UTC_START 2026-11-27T20:44:03Z
+COMMAND cmp -s <SESSION_TMP>/final-run-a/source-index.json <SESSION_TMP>/final-run-b/source-index.json
+ENV PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.002626
+
+### build-summary comparison
+UTC_START 2026-11-27T20:44:03Z
+COMMAND cmp -s <SESSION_TMP>/meta/final-build-a.json <SESSION_TMP>/meta/final-build-b.json
+ENV PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.002393
+
+WORKTREE_PORCELAIN_AFTER []
+TESTED_SHA 0261ca0421abf4aa26c0b69626f06b5d9779f2a4
