@@ -1,0 +1,121 @@
+{
+  "attempt": 1,
+  "base_source_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "checks": {
+    "cpu_tests": {
+      "detail": "13/13 exact CPU suites exited 0 with 72 tests, 0 failures and 0 skips, including five focused BF16 tests on the actual SPLOTLM model; CUDA was hidden for the CPU matrix.",
+      "evidence": [
+        "cpu-regression.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_precision": {
+      "detail": "Five bounded CUDA runs exited 0: FP32 Nano one step, BF16 Nano one step, BF16 smoke 4-step continuous, BF16 smoke 2-step split and BF16 resume to 4. FP32 matches T0002 on all non-timing fields. BF16 Nano first-step absolute differences: final_ntp 0.0001373291015625, early_ntp 0.0005407333374023438, offset2 0.0000858306884765625, objective 0.00002002716064453125, all below predeclared thresholds (0.10/0.10/0.10/0.20). Same-mode resume comparator passed exactly; dtype report passed all checks; both Nano checkpoints have FP32 finite model/moments, 183 optimizer states, 366 moment entries and step 1. Route top-k set agreement 0.9926470588235294, top-1 1.0, balance difference 0.0003714561462402344 (descriptive).",
+      "evidence": [
+        "run-fp32.json",
+        "run-bf16.json",
+        "run-bf16-continuous.json",
+        "run-bf16-resumed.json",
+        "comparison.json",
+        "dtype-report.json",
+        "precision-comparison.json",
+        "checkpoint-state.json",
+        "cuda-bf16-tests.txt",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean base 0fcd9c6 and tested implementation e759576; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, numpy 1.26.4; RTX 4090 24,564 MiB, driver 580.178.04, GPU 0; CUDA BF16 supported and CPU autocast probe returned BF16; 24,077 MiB free before/after; 184,028,896 KiB disk before; source clean at start/end.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required REP evidence files are present and hashed; validator passed; branch feat/T0005-bf16-attempt-001, evidence PR and issue #40 handover follow this validated package. No merge or issue closure.",
+      "evidence": [
+        "summary.md",
+        "checkpoints.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Six changed files, all within the reviewed allowlist. Added explicit fp32/bf16 resolution and BF16 autocast around forward/objective/evaluation, FP32 master/Adam preservation, precision policy in identity/environment, new BF16 configs, focused tests and documentation. One required source fix in src/splot/dense.py wraps GQA score/softmax/value in autocast-disabled FP32; FP32 path remains unchanged. No fixture/data, existing FP32 config, topology, tolerance, checkpoint cadence or Mac change.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; not published",
+      "bytes": 493312599,
+      "name": "fp32/checkpoint.pt",
+      "sha256": "e3a612e64d3b5822050769d3b3a831d6b0dd05a96a4125be7fadc05c976dcd3d"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 493312663,
+      "name": "bf16/checkpoint.pt",
+      "sha256": "6fe7676d1d701b6d6a1e6fc310c13fd9fe5a3fd4144b8ee4579351cb21fdf067"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 2414859,
+      "name": "bf16-continuous/checkpoint.pt",
+      "sha256": "3402bfcf57e51ac8133f9affbb904d159a052e26f938e81ead0d0c5d6236ce9b"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 2415115,
+      "name": "bf16-resumed/checkpoint.pt",
+      "sha256": "ce155ffaf6e8023897ee9a5b4daa9a40e79a5287f8da3bf838f0039fb1288256"
+    }
+  ],
+  "files": {
+    "checkpoint-state.json": "40b9b58fde307e23989cbd03283b6e200f0b17f9e51729f4763a3be7c0058006",
+    "checkpoints.txt": "b63013c8912367842672c96afd4a1216fec7fd357589a77a7c87c3f63416a458",
+    "comparison.json": "c507d51c6d0bdd050801b1920515f8b452eb7938796046b36de78b9673d524d0",
+    "cpu-regression.json": "31e6af48b869528108e50e255330a1f5ea77cadba2d21e85acf2d812f225e43b",
+    "cuda-bf16-tests.txt": "b0d18a4ca2b4e606d03fea0a398418c2c57c7ee44b8eebbdf7c7f7acb147532a",
+    "dtype-report.json": "0bde484826a5fe28595eaaa74bb83e917dee1af0051fd75dca0bc2f1e5cc521d",
+    "environment.json": "cd6d1c31acafd0507a0dc1891fda90832769aea43accb5710833d85c0804a155",
+    "execution.log": "66d8d9cad2f7fdece28dcb186e6d7bc4bc8f144d331db7634517277594be4756",
+    "implementation.diff": "9a89435f59ba4d648835581403185384d61cbcb1b8cd69e0f8e373ac814c0138",
+    "implementation.files.json": "4de5b16b96e13e3155cc2a927afb4fe94bd073564cceb65df990f3b0f3f560c4",
+    "metrics.jsonl": "d18a4465b777c33dca01d471a039e828f84a68fd3abf87599b21983809c885b7",
+    "precision-comparison.json": "e231803c057500f197fd626064872b31662d7fc4515d2228736f030bdd2f9a87",
+    "route-agreement.json": "8ab5a6844f6a566f90bdd91e10fc8d09f21aa3032eeca02d9c8878194a893c5e",
+    "run-bf16-continuous.json": "02641a5c33b0e987392006c1182bd7d3051996446ea490cd2074410b29432477",
+    "run-bf16-resumed.json": "ba272c48b880e6840544c78fd039fe21f56f722c6602dceb05d37fd249fb0cbd",
+    "run-bf16.json": "2fcfef1d6c51187273be81ca0d222b73c8a47bbeaf2447ff46dcf15884cbabff",
+    "run-fp32.json": "97fcf193c883b9521d1dcb7fcd36fd4b2bbf51b4ed58a7846368790b8b0cf882",
+    "summary.md": "af35144b6191a4c54bc3dada715b3b2e6693aa7a050a9a8048c0a23b382a0b4e"
+  },
+  "limitations": [
+    "One paired Nano step and a 4-step BF16 smoke only; no convergence, full-epoch BF16/FP32 comparison, long-training or language-quality claim.",
+    "BF16 autocast is not a claim that all activations or kernels are BF16, nor that BF16 is faster; GQA value contraction is FP32 and GDN history remains BF16.",
+    "CPU BF16 is validated by focused tests when the backend supports it; it is not a CUDA substitute.",
+    "Synthetic byte fixture only; not a production tokenizer or corpus.",
+    "No FP8, quantization, activation checkpointing, MPS, Mini, real corpus, checkpoint-cadence or topology change.",
+    "No measured throughput, energy, PCIe/offload or production-hardware claim.",
+    "Checkpoints are local-only and not published; no tensors are committed.",
+    "Muon #42 and CUDA 13 #43 are separate qualifications and were not changed."
+  ],
+  "minimum_base_commit": "625e6a7bfac97344fab6a9b102aab3613a670b1e",
+  "schema_version": 1,
+  "source_commit": "e759576f607b97602e9d0407adae4307d3eb38f5",
+  "status": "passed",
+  "task_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "task_id": "T0005",
+  "tested_commit": "e759576f607b97602e9d0407adae4307d3eb38f5"
+}

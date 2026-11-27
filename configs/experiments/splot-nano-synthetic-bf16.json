@@ -1,0 +1,40 @@
+{
+  "dense": {
+    "vocab_size": 32768,
+    "width": 384,
+    "layers": 8,
+    "q_heads": 6,
+    "kv_heads": 2,
+    "head_dim": 64,
+    "intermediate": 1024,
+    "rope_theta": 1000000,
+    "eps": 0.00001,
+    "init_std": 0.02
+  },
+  "recurrence": {
+    "prelude": 2,
+    "core": 4,
+    "coda": 2,
+    "max_loops": 4,
+    "default_loops": 2,
+    "injection": "none",
+    "injection_strength": 0.1,
+    "residual_scale": "unscaled",
+    "depth_embedding": false
+  },
+  "expert_intermediate": 512,
+  "training": {
+    "data": "synthetic-v1",
+    "precision": "bf16",
+    "mode": "A2",
+    "loops": 2,
+    "seed": 42,
+    "sequence_length": 96,
+    "batch_size": 1,
+    "lr": 0.003,
+    "weight_decay": 0,
+    "depth_weight": 0.25,
+    "offset_weight": 0.25,
+    "balance_weight": 0.01
+  }
+}

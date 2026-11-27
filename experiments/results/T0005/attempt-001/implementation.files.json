@@ -1,0 +1,28 @@
+{
+  "allowed_files": [
+    "tools/experiment.py",
+    "tools/test_bf16_harness.py",
+    "configs/experiments/splot-smoke-synthetic-bf16.json",
+    "configs/experiments/splot-nano-synthetic-bf16.json",
+    "research/implementation/bf16-harness.md",
+    "src/splot/dense.py",
+    "src/splot/mtp.py",
+    "src/splot/gdn.py",
+    "src/splot/moe.py"
+  ],
+  "base_source_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "changed_files": [
+    "configs/experiments/splot-nano-synthetic-bf16.json",
+    "configs/experiments/splot-smoke-synthetic-bf16.json",
+    "research/implementation/bf16-harness.md",
+    "src/splot/dense.py",
+    "tools/experiment.py",
+    "tools/test_bf16_harness.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "625e6a7bfac97344fab6a9b102aab3613a670b1e",
+  "note": "No existing FP32 config, fixture/data, topology, tolerance or checkpoint-cadence file changed.",
+  "scope_check": "passed",
+  "task_commit": "0fcd9c6b5b9667af47603a63013b89d83e5f565f",
+  "tested_commit": "e759576f607b97602e9d0407adae4307d3eb38f5"
+}

@@ -1,0 +1,66 @@
+{
+  "absolute_differences": {
+    "early_ntp": 0.0005407333374023438,
+    "final_ntp": 0.0001373291015625,
+    "objective": 2.002716064453125e-05,
+    "offset2": 8.58306884765625e-05
+  },
+  "balance_abs_difference": 0.0003714561462402344,
+  "bf16": {
+    "history": {
+      "balance": 1.5905338525772095,
+      "batch_indices": [
+        9
+      ],
+      "early_ntp": 10.537418365478516,
+      "final_ntp": 10.53844928741455,
+      "ntp_labels": 50,
+      "objective": 15.798896789550781,
+      "offset2": 10.440749168395996,
+      "offset2_labels_available": 49,
+      "peak_cuda_allocated_bytes": 881575424,
+      "peak_cuda_reserved_bytes": 1138753536,
+      "step": 1,
+      "step_seconds": 0.4238082600058988,
+      "valid_tokens": 51
+    },
+    "ntp_labels": 50,
+    "parameters": 43055076,
+    "valid_tokens": 51,
+    "validation_labels": 376
+  },
+  "fp32": {
+    "history": {
+      "balance": 1.5909053087234497,
+      "batch_indices": [
+        9
+      ],
+      "early_ntp": 10.537959098815918,
+      "final_ntp": 10.538311958312988,
+      "ntp_labels": 50,
+      "objective": 15.798876762390137,
+      "offset2": 10.44066333770752,
+      "offset2_labels_available": 49,
+      "peak_cuda_allocated_bytes": 881575424,
+      "peak_cuda_reserved_bytes": 1033895936,
+      "step": 1,
+      "step_seconds": 0.4175280529889278,
+      "valid_tokens": 51
+    },
+    "ntp_labels": 50,
+    "parameters": 43055076,
+    "valid_tokens": 51,
+    "validation_labels": 376
+  },
+  "note": "Predeclared smoke tolerances; balance and routes are descriptive, not pass/fail gates.",
+  "status": "passed",
+  "t0002_fp32_non_timing_equal": true,
+  "t0002_non_timing_differences": {},
+  "thresholds": {
+    "early_ntp": 0.1,
+    "final_ntp": 0.1,
+    "objective": 0.2,
+    "offset2": 0.1
+  },
+  "within_thresholds": true
+}

@@ -127,10 +127,11 @@ class GQA(nn.Module):
                     v = torch.cat((final[1], v), dim=1)
                 past = k.shape[1]-n
                 q = q.reshape(c.kv_heads, c.q_heads//c.kv_heads, n, c.head_dim)
-                score = torch.einsum('hgtd,hsd->hgts', _accum(q), _accum(k))/math.sqrt(c.head_dim)
-                allowed = torch.arange(k.shape[1], device=x.device)[None, :] <= past+torch.arange(n, device=x.device)[:, None]
-                prob = score.masked_fill(~allowed, float('-inf')).softmax(-1)
-                y = torch.einsum('hgts,hsd->hgtd', prob, _accum(v)).to(x.dtype)
+                with torch.autocast(device_type=x.device.type, enabled=False):
+                    score = torch.einsum('hgtd,hsd->hgts', _accum(q), _accum(k))/math.sqrt(c.head_dim)
+                    allowed = torch.arange(k.shape[1], device=x.device)[None, :] <= past+torch.arange(n, device=x.device)[:, None]
+                    prob = score.masked_fill(~allowed, float('-inf')).softmax(-1)
+                    y = torch.einsum('hgts,hsd->hgtd', prob, _accum(v)).to(x.dtype)
                 y = y.reshape(c.q_heads, n, c.head_dim).transpose(0, 1).reshape(n, -1)
                 if self.output_gate is not None:
                     y = y*self.output_gate(u).sigmoid()

@@ -1,6 +1,7 @@
 """Synthetic-only experiment harness; no external corpus acquisition."""
 import argparse
 from collections import Counter
+from contextlib import nullcontext
 import hashlib
 import json
 import math
@@ -40,6 +41,28 @@ def seed_all(seed):
     if torch.cuda.is_available(): torch.cuda.manual_seed_all(seed)
 
 
+def resolve_precision(device, precision):
+    """Resolve the requested training precision and reject silent fallback."""
+    if precision not in ('fp32', 'bf16'):
+        raise ValueError('precision must be fp32 or bf16')
+    dev = torch.device(device)
+    if precision == 'fp32':
+        return {'requested': 'fp32', 'policy': 'fp32', 'autocast_dtype': None,
+                'autocast_dtype_name': None, 'probe_dtype': 'not_run', 'bf16_supported': None}
+    supported = None
+    if dev.type == 'cuda':
+        supported = torch.cuda.is_bf16_supported()
+        if not supported:
+            raise RuntimeError('CUDA BF16 is not supported on this device')
+    with torch.autocast(device_type=dev.type, dtype=torch.bfloat16):
+        probe = torch.nn.functional.linear(torch.ones(2, 4, device=dev), torch.ones(4, 4, device=dev))
+    if probe.dtype != torch.bfloat16:
+        raise RuntimeError(f'BF16 autocast unavailable on {dev.type}: probe projection returned {probe.dtype}')
+    return {'requested': 'bf16', 'policy': 'bf16-autocast-fp32-master',
+            'autocast_dtype': torch.bfloat16, 'autocast_dtype_name': 'bfloat16',
+            'probe_dtype': 'bfloat16', 'bf16_supported': supported}
+
+
 def batch_indices(n, batch_size, step, seed):
     if min(n, batch_size) < 1 or step < 0:
         raise ValueError('invalid schedule')
@@ -71,8 +94,11 @@ def restore_rng(state):
     if state['cuda'] is not None: torch.cuda.set_rng_state_all(state['cuda'])
 
 
-def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_size, seed, device, resume=False):
+def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_size, seed, device,
+          resume=False, autocast_dtype=None):
     """One optimizer step per batch. Checkpoint is sole authoritative progress ledger."""
+    if autocast_dtype is not None and autocast_dtype != torch.bfloat16:
+        raise ValueError('autocast dtype must be bfloat16')
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     cp = out/'checkpoint.pt'
     if resume:
@@ -93,7 +119,9 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
         if torch.device(device).type == 'cuda': torch.cuda.reset_peak_memory_stats(device)
         sync(device); start = time.perf_counter()
         optimizer.zero_grad(set_to_none=True)
-        o = objective(model, inputs, labels)
+        with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
+              if autocast_dtype is not None else nullcontext()):
+            o = objective(model, inputs, labels)
         if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
         o.total.backward()
         if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
@@ -114,11 +142,15 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
 
 
 @torch.no_grad()
-def evaluate(model, blocks, predict, *, batch_size, device):
+def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None):
+    if autocast_dtype is not None and autocast_dtype != torch.bfloat16:
+        raise ValueError('autocast dtype must be bfloat16')
     model.eval(); nll=0.; count=0
     for i in range(0,len(blocks),batch_size):
         x,y=collate(blocks,list(range(i,min(i+batch_size,len(blocks)))),device)
-        logits=predict(model,x)
+        with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
+              if autocast_dtype is not None else nullcontext()):
+            logits=predict(model,x)
         nll+=float(torch.nn.functional.cross_entropy(logits.float().flatten(0,1),y[1].flatten(),ignore_index=-100,reduction='sum'))
         count+=int(y[1].ne(-100).sum())
     if not count or not math.isfinite(nll): raise ValueError('invalid validation')
@@ -144,17 +176,27 @@ def main():
     if a.out.resolve().is_relative_to(root): p.error('output must be outside checkout')
     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
     rc=RecurrentConfig(dense=d,**c['recurrence'])
-    if d.vocab_size<264 or t['precision']!='fp32' or t['data']!='synthetic-v1': p.error('only synthetic FP32 runs supported')
+    if d.vocab_size<264 or t['data']!='synthetic-v1': p.error('only synthetic-v1 runs supported')
+    if t['precision'] not in ('fp32', 'bf16'): p.error('precision must be fp32 or bf16')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1 or not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
     if a.device=='cuda':
         torch.backends.cuda.matmul.allow_tf32=False; torch.backends.cudnn.allow_tf32=False
+    try:
+        policy=resolve_precision(a.device,t['precision'])
+    except (ValueError,RuntimeError) as exc:
+        p.error(str(exc))
     seed_all(t['seed'])
     splits=split_documents(synthetic_documents()); packed={k:pack(v,t['sequence_length']) for k,v in splits.items() if k!='test'}
     data=manifest(); env={'python':platform.python_version(),'torch':str(torch.__version__),'device':a.device,
         'cpu':platform.processor() or platform.machine(),'platform':platform.platform(),'threads':1,
-        'cuda_runtime':torch.version.cuda,'gpu':torch.cuda.get_device_name(0) if a.device=='cuda' else None}
+        'cuda_runtime':torch.version.cuda,'gpu':torch.cuda.get_device_name(0) if a.device=='cuda' else None,
+        'requested_precision':policy['requested'],'precision_policy':policy['policy'],
+        'autocast_dtype':policy['autocast_dtype_name'],'autocast_probe_dtype':policy['probe_dtype'],
+        'bf16_supported':policy['bf16_supported'],'master_dtype':'float32',
+        'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
+        'deterministic_algorithms':True}
     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
               'packed_sha256':digest(packed),'environment':env,'settings':t}
     model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
@@ -162,17 +204,21 @@ def main():
     if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
     opt=torch.optim.AdamW(model.parameters(),lr=t['lr'],weight_decay=t['weight_decay'])
     objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
-    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume)
-    val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device)
+    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'])
+    val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
     shape=Shape(d=d.width,vocab=d.vocab_size,q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
                 gdn_heads=d.q_heads,dense=d.intermediate,expert=c['expert_intermediate'])
     readouts=1 if t['mode']=='A0' else t['loops']
     offsets=min(2,t['loops']) if t['mode']=='A2' else 0
     count_document=lambda n:account(shape,loops=t['loops'],context=n,readouts=readouts,offsets=offsets)['prefill_all_logits_macs']
     macs=sum(logical_macs(packed['train'],r['batch_indices'],count_document) for r in history)
+    precision_policy={'requested':policy['requested'],'policy':policy['policy'],
+                      'autocast_dtype':policy['autocast_dtype_name'],'probe_dtype':policy['probe_dtype'],
+                      'bf16_supported':policy['bf16_supported']}
     report={'identity':identity,'config':c,'data_manifest':data,'parameters':actual,'history':history,'validation':val,
+            'precision_policy':precision_policy,
             'total_valid_tokens':sum(r['valid_tokens'] for r in history),'total_ntp_labels':sum(r['ntp_labels'] for r in history),
-            'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':['synthetic byte fixture; no production tokenizer','template overlap across splits','FP32 reference, not optimized','step timing excludes checkpoint I/O and validation','MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']}
+            'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':['synthetic byte fixture; no production tokenizer','template overlap across splits',('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else 'FP32 reference, not optimized'),'step timing excludes checkpoint I/O and validation','MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']}
     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))
 
 

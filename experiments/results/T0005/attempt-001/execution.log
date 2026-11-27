@@ -1,0 +1,283 @@
+--- cpu suite 1: tests/numerical/test_recurrent_semantics.py
+exit=0 tests=5 skipped=0 elapsed_seconds=1
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.029s
+
+OK
+
+--- cpu suite 2: tests/numerical/test_hybrid_mixer.py
+exit=0 tests=6 skipped=0 elapsed_seconds=0
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.015s
+
+OK
+
+--- cpu suite 3: tools/test_accounting.py
+exit=0 tests=6 skipped=0 elapsed_seconds=1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+OK
+
+--- cpu suite 4: tools/test_data_fixture.py
+exit=0 tests=6 skipped=0 elapsed_seconds=0
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+
+--- cpu suite 5: tests/test_dense.py
+exit=0 tests=6 skipped=0 elapsed_seconds=1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.045s
+
+OK
+
+--- cpu suite 6: tests/test_recurrent.py
+exit=0 tests=7 skipped=0 elapsed_seconds=2
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.338s
+
+OK
+
+--- cpu suite 7: tests/test_mtp.py
+exit=0 tests=7 skipped=0 elapsed_seconds=2
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.418s
+
+OK
+
+--- cpu suite 8: tests/test_speculative.py
+exit=0 tests=6 skipped=0 elapsed_seconds=2
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.255s
+
+OK
+
+--- cpu suite 9: tests/test_hybrid.py
+exit=0 tests=6 skipped=0 elapsed_seconds=2
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.685s
+
+OK
+
+--- cpu suite 10: tests/test_moe.py
+exit=0 tests=6 skipped=0 elapsed_seconds=3
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.842s
+
+OK
+
+--- cpu suite 11: tools/test_experiment.py
+exit=0 tests=5 skipped=0 elapsed_seconds=2
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.418s
+
+OK
+
+--- cpu suite 12: tools/test_experiment_integration.py
+exit=0 tests=1 skipped=0 elapsed_seconds=2
+
+----------------------------------------------------------------------
+Ran 1 test in 0.824s
+
+OK
+
+--- cpu suite 13: tools/test_bf16_harness.py
+exit=0 tests=5 skipped=0 elapsed_seconds=2
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.790s
+
+OK
+
+===== paired CUDA validation preflight (tested e759576f607b97602e9d0407adae4307d3eb38f5) =====
+2026-11-27T16:00:23Z
+Python 3.12.7
+2.10.0+cu128 12.8 True 1 True
+NVIDIA GeForce RTX 4090
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+e759576f607b97602e9d0407adae4307d3eb38f5
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 239971144 184028896      57% /
+===== cuda run: fp32-nano =====
+2026-11-27T16:00:24Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-nano-synthetic.json --out $RUNS/fp32 --steps 1 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3871.2344665527344,
+    "mean_nll": 10.295836347214719,
+    "perplexity": 29609.079916681367
+  }
+}
+--- stderr
+
+2026-11-27T16:00:27Z
+===== cuda run: bf16-nano =====
+2026-11-27T16:00:27Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-nano-synthetic-bf16.json --out $RUNS/bf16 --steps 1 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3862.8521728515625,
+    "mean_nll": 10.273543012903092,
+    "perplexity": 28956.298175657404
+  }
+}
+--- stderr
+
+2026-11-27T16:00:30Z
+===== cuda run: bf16-smoke-continuous =====
+2026-11-27T16:00:30Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-bf16.json --out $RUNS/bf16-continuous --steps 4 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1949.6082000732422,
+    "mean_nll": 5.1851281916841545,
+    "perplexity": 178.59634288842062
+  }
+}
+--- stderr
+
+2026-11-27T16:00:33Z
+===== cuda run: bf16-smoke-split =====
+2026-11-27T16:00:33Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-bf16.json --out $RUNS/bf16-resumed --steps 2 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 141,
+  "total_ntp_labels": 138,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2012.7201843261719,
+    "mean_nll": 5.352979213633436,
+    "perplexity": 211.23668055735442
+  }
+}
+--- stderr
+
+2026-11-27T16:00:36Z
+===== cuda run: bf16-smoke-resume =====
+2026-11-27T16:00:36Z
+$ nvidia-smi free before: 24077 MiB
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-bf16.json --out $RUNS/bf16-resumed --steps 4 --device cuda --resume
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1949.6082000732422,
+    "mean_nll": 5.1851281916841545,
+    "perplexity": 178.59634288842062
+  }
+}
+--- stderr
+
+2026-11-27T16:00:39Z
+===== bf16 same-mode resume comparison =====
+2026-11-27T16:01:00Z
+--- command: PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/rep/compare_resume.py $RUNS/bf16-continuous $RUNS/bf16-resumed --steps 4 --parameters 179952
+exit=0 elapsed_seconds=1
+--- stdout
+{
+  "status": "passed",
+  "steps": 4,
+  "parameters": 179952,
+  "model_optimizer_rng_equal": true,
+  "non_timing_history_equal": true,
+  "validation_equal": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ]
+}
+--- stderr
+
+===== focused BF16 tests on CUDA =====
+2026-11-27T16:01:03Z
+--- command: CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/test_bf16_harness.py --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+--- stderr
+test_bf16_resume_exact_and_cross_precision_rejected (__main__.BF16HarnessTests.test_bf16_resume_exact_and_cross_precision_rejected) ... ok
+test_fp32_master_weights_adam_and_evaluation (__main__.BF16HarnessTests.test_fp32_master_weights_adam_and_evaluation) ... ok
+test_gqa_gdn_router_and_reduction_dtypes (__main__.BF16HarnessTests.test_gqa_gdn_router_and_reduction_dtypes) ... ok
+test_rmsnorm_rope_and_ce_are_fp32 (__main__.BF16HarnessTests.test_rmsnorm_rope_and_ce_are_fp32) ... ok
+test_same_seed_batch_and_precision_resolution (__main__.BF16HarnessTests.test_same_seed_batch_and_precision_resolution) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.068s
+
+OK
+
+===== dtype, route and checkpoint-state verification =====
+2026-11-27T16:02:05Z
+--- command: CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:tools python - (dtype/route/checkpoint reports)
+exit=0 elapsed_seconds=4
+--- stdout
+{
+  "dtype_status": "passed",
+  "route_tokens": 408,
+  "route_exact_set": 0.9926470588235294,
+  "precision_status": "passed",
+  "precision_diffs": {
+    "final_ntp": 0.0001373291015625,
+    "early_ntp": 0.0005407333374023438,
+    "offset2": 8.58306884765625e-05,
+    "objective": 2.002716064453125e-05
+  },
+  "checkpoint_status": "passed"
+}
+--- stderr
+
+2026-11-27T16:02:09Z
+===== end-of-attempt source and resource verification =====
+2026-11-27T16:02:31Z
+$ git rev-parse HEAD
+e759576f607b97602e9d0407adae4307d3eb38f5
+$ git status --porcelain
+$ nvidia-smi --query-gpu=index,name,driver_version,memory.used,memory.free --format=csv
+index, name, driver_version, memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 240939484 183060556      57% /
