@@ -13,5 +13,6 @@ Append numbered decision records; never rewrite accepted rationale silently. Eac
 | D0008 | Nano 43,055,076 and Mini 146,987,784 proposed; shared offset-2 projection + RMSNorm, tied E; I0/S0 controls; separate unique active and contraction MAC accounting | Proposed, six accounting tests only | #3, RFC 0001 v0.2 |
 | D0009 | Proposed bilingual 40/40/20 PL/EN/code overall content mix, 32K shared byte BPE on train only; source registry gated, exact/group split before packing | Proposed; synthetic tests only | #8, research/data/README.md |
 | D0010 | All-GQA recurrent implementation uses fixed loops/readouts per cache, distinct P/C/Q logical keys, I0/S0 default, optional depth vector and independent injection/scaling ablations; hidden states exposed for MTP | Implemented in review; CPU synthetic evidence only | #4, research/implementation/recurrent-reference.md |
+| D0011 | Native offset-2 module reads pre-coda hidden state; shared dxd projection + RMSNorm + tied E, no future labels in forward, A0/A1/A2 distinct and R1 dedup; stateless auxiliary head | Implemented in review; CPU synthetic evidence | #2, research/implementation/native-mtp.md |
 
 Evidence status and design status are orthogonal. Link the exact commit or PR when a decision is accepted. Changes in hypothesis or protocol require dated amendments before examining results.
