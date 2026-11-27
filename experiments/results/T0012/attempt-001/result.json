@@ -1,0 +1,107 @@
+{
+  "attempt": 1,
+  "base_source_commit": "685df410e28a260d45c7cfa2685c6614d64d77e0",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py exit 0 from clean tested SHA: 22 CPU scripts, 188 tests, 0 failures, 0 skips, 15 REP reports. New tests cover contiguous boundaries/labels, fixed seed/identity, invalid input/device, phase math and paired model/config identity.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cross_platform": {
+      "detail": "Linux CUDA-hidden demo ran twice with byte-identical 19,754-byte output, SHA-256 e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf, exactly matching T0010 attempt-001 Mac evidence. Manifest, logical, packed, physical and count checks passed independently.",
+      "evidence": [
+        "cross-platform.json",
+        "t0010-demo-linux.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_context": {
+      "detail": "Required sequential BF16\u2192FP8 pairs T128/512/2048 all passed: exact parameters/labels, identical init/input/partition, finite logits/hidden/offset/grad/weights/state, positive native FP8 calls, audit nonfinite false, and first pre-update CE component/objective gates within .5/.75 nats. T4096 passed all eligibility gates and the optional pair also passed. Full phases, sync, memory and state recorded.",
+      "evidence": [
+        "cuda-context.json",
+        "context-summary.json",
+        "case-bf16-128.json",
+        "case-fp8-128.json",
+        "case-bf16-512.json",
+        "case-fp8-512.json",
+        "case-bf16-2048.json",
+        "case-fp8-2048.json",
+        "case-bf16-4096.json",
+        "case-fp8-4096.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested SHA 0ff3ff3; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090 SM89, native Muon and torch._scaled_mm; 24,077 MiB free before; sufficient disk; spec merged; T0011/T0010 present; no overlapping PR.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required REP records present and hashed; exact T0012 validator passed. Evidence branch/PR, hosted CPU CI and issue #66 handover follow. No merge or closure.",
+      "evidence": [
+        "summary.md",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "New isolated context_probe, focused CPU tests and implementation note only. No existing model, harness, optimizer, config, CI, data or evidence changes. Probe constructs exact contiguous documents, separates warm-up, measures synchronized phases, captures FP8 audit and verifies finite master/state before and after one full update.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "case-bf16-128.json": "6fdcf952973785dbdf7b72836022860e9e79bf2a0c44945acd6bfbfea06c111b",
+    "case-bf16-2048.json": "6568c27bd91563f186328a9b5b37798c53bc19b218d78f52658bd73697e76cdc",
+    "case-bf16-4096.json": "3f0b8e635d08a8fcecea45e09871309e26578f4bf7192a026b368ecd7efe8ea1",
+    "case-bf16-512.json": "0b0d491f73a646e91204e0f4d612aec259db0e683fb9153abf5ff7b2f75296f4",
+    "case-fp8-128.json": "de07bc67ccbda012c3a5db0e09552631f52da1ae501ddd26f3512a74452551bc",
+    "case-fp8-2048.json": "ba9200278de935f41491b149ee05a950263814556da5f3673ba44dcb2eda3487",
+    "case-fp8-4096.json": "192ec0db418528e57ae7ad81208cfb04a81fe3cbe9111ee2d83fc8e5b85ac2d5",
+    "case-fp8-512.json": "8d4c9d3e76bcef578a98cf97e6e791fc3db3e5b75e02c36a0b6bed4135550645",
+    "ci-cpu.txt": "b7e75fb00235acffc6e288ae2d8b4f657604952513f1adbe509bea58923cc419",
+    "context-summary.json": "722616e557e0bfbcbab4b500623b39ca8b17d3583c328602cf4183470bf988b7",
+    "cpu-ci.json": "044112e801503935e7cc20e3a8a17cb373f1e7a61c568e9cb3146c5cb490072c",
+    "cross-platform.json": "5f40eec5959dc231b4317b9b3e7dbfff6a20b56656a300ad1d7afbda1de601ad",
+    "cuda-context.json": "11904814b1c0ffee86aeacb07df06b85bc9d2a36fabbd0a2768d0b299ed702e9",
+    "environment.json": "9ac5c4e160c6d86c8ad644468b028ea2d1bbd2ec4df5a55882d992593b3c0b11",
+    "execution.log": "064be711e215302814ac54eede0f2a034a6baae12811d7138a7daf3c05217dd5",
+    "implementation.diff": "30b81e0da78bb03e7fab216f5a4a70121e71bd21d00b0ae7c5cae32cc61dbef3",
+    "implementation.files.json": "a73eb2686174d97e4f8a77c45edb55dbdf59af28d285b013491bceca2d93b23a",
+    "metrics.jsonl": "9a943cc7024ea55e15021e766784250b54c8c578bbfb36079cc36da940245499",
+    "summary.md": "c4911d3226ce003f8c4fa96b7f1914ddbd645eefa03dc31398d291b0caba2295",
+    "t0010-demo-linux.json": "e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf"
+  },
+  "limitations": [
+    "Resource qualification only; no convergence, quality, long-context capability, throughput or superiority claim.",
+    "One measured update per precision/context after one warm-up; not a training curve or production benchmark.",
+    "Synthetic single documents only; no real corpus, Mini model or data-rights claim.",
+    "T4096 optional case passed after its gate; no T8192 or other lengths.",
+    "Phase synchronizations and audit checks are reported, not subtracted; no kernel or optimizer speed claim.",
+    "Existing FP8 per-tensor scaling and Muon implementation are reused unchanged."
+  ],
+  "minimum_base_commit": "34506006f24a18a0222fb45a61eeaf2f51fd6289",
+  "schema_version": 1,
+  "source_commit": "0ff3ff3bab066324c534326aaadd400b6f1058ad",
+  "spec_commit": "fa91910c11063c407dab1aaf21d62b19dfd659e2",
+  "status": "passed",
+  "task_commit": "685df410e28a260d45c7cfa2685c6614d64d77e0",
+  "task_id": "T0012",
+  "tested_commit": "0ff3ff3bab066324c534326aaadd400b6f1058ad"
+}

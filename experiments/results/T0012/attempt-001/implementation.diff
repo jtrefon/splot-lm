@@ -1,0 +1,753 @@
+diff --git a/research/implementation/context-probe.md b/research/implementation/context-probe.md
+new file mode 100644
+index 0000000..43a4afd
+--- /dev/null
++++ b/research/implementation/context-probe.md
+@@ -0,0 +1,81 @@
++# Contiguous-context resource probe
++
++Status: T0012 implementation, resource-qualification scope only. Task [T0012](../tasks/T0012-contiguous-context.md), issue [#66](https://github.com/jtrefon/splot-lm/issues/66). This is not pretraining, a long-context quality result, a production throughput benchmark or an optimizer/precision superiority claim.
++
++## Scope
++
++`tools/context_probe.py` is an isolated probe. It does not modify the model, training harness, optimizer, existing configs, CI, data fixture or prior evidence. It reuses the merged T0011 Nano Muon configs, the existing R2 A2 objective, native FP8 projection adapter and Muon/AdamW helpers.
++
++Each process measures exactly one precision/context case. BF16+Muon and FP8+Muon cases are launched sequentially as fresh processes; no state is reused across cases.
++
++## Contiguous input
++
++For a requested length `T`:
++
++- one row with exactly `T` valid tokens;
++- `input_ids[0] = BOS(1)` and `input_ids[T-1] = EOS(2)`;
++- `T-2` interior content IDs drawn independently and uniformly from `8..32767` with a fixed seed;
++- all document IDs `0`, positions `0..T-1`, and all mask entries valid;
++- offset-1 labels have exactly `T-1` non-ignore positions and offset-2 labels exactly `T-2`; labels never cross the document end.
++
++The CPU-created input tensor digest, shape and counts are recorded. The probe does not repeat short documents or pad a short fixture to imitate a long context.
++
++## Warm-up and measured update
++
++The process first creates a fresh model/optimizer/input, performs one full untimed warm-up update, releases it and clears the CUDA allocator cache. It then recreates the same CPU-seeded model and input, verifies the initialization and input digests and partition plan match the warm-up, and performs one measured full update.
++
++A separate finite no-grad forward checks logits, hidden states and offset-2 outputs before measurement; the FP8 audit is reset afterwards. The measured step then performs:
++
++1. input transfer;
++2. forward including the existing weighted A2 loss;
++3. backward;
++4. loss/parameter/gradient/FP8 audit checks before the optimizer step;
++5. one native Muon/AdamW update;
++6. post-update master-weight and optimizer-state finite checks.
++
++No checkpoint is written inside the measured step. The probe does not hold the warm-up and measured models simultaneously.
++
++## Timing and memory
++
++Every phase is synchronized with `torch.cuda.synchronize` and timed with `time.perf_counter`. Reported fields include:
++
++- transfer, prepare/reset, forward, backward, finite/audit checks, optimizer step, post-update checks and end-to-end;
++- synchronization seconds per phase and in total;
++- the finite/audit portion, including the separately measured audit reduction time;
++- tokens divided by end-to-end seconds;
++- allocator current/peak allocated and reserved bytes, plus free VRAM before the case, before the measured update, after the update and after cleanup;
++- model/optimizer state bytes and dtypes.
++
++Synchronization and checkpoint-free overheads are reported, not subtracted or extrapolated. The single measured update is not a steady-state throughput claim.
++
++## Gates
++
++The probe fails closed if:
++
++- the model is not exactly 43,055,076 parameters;
++- labels are not exactly `T/T-1/T-2`;
++- warm-up and measured initialization/input/partition identities differ;
++- any loss, logit, hidden, offset output, gradient, master weight or present optimizer-state tensor is nonfinite;
++- FP8 native forward/backward calls are not positive or the audit reports nonfinite data;
++- a phase cannot be reported consistently.
++
++BF16/FP8 first pre-update CE differences are compared by the execution driver against the preregistered `.5` nats per component and `.75` nats total gates. Those are descriptive smoke thresholds, not trained equivalence.
++
++## CLI
++
++```bash
++PYTHONPATH=src:tools CUDA_VISIBLE_DEVICES=0 \
++CUBLAS_WORKSPACE_CONFIG=:4096:8 \
++python tools/context_probe.py --device cuda --precision bf16|fp8 \
++  --length 128|512|2048|4096 --seed 42 --out "$RUNS/<precision>-<length>.json"
++```
++
++Outputs must be outside the repository checkout. The probe always runs the warm-up and always keeps the FP8 audit enabled.
++
++## Limits
++
++- Resource qualification only; no convergence, quality, long-context capability, throughput or superiority claim.
++- One measured update per precision/context, not a training curve or a production benchmark.
++- Existing FP8 per-tensor scaling and Muon implementation are reused unchanged.
++- No real corpus, Mini model, new precision/kernel, CUDA upgrade, package installation or background service.
++- The T4096 case is conditional on the T2048 resource and time gates in the reviewed task.
+diff --git a/tools/context_probe.py b/tools/context_probe.py
+new file mode 100644
+index 0000000..dd597c5
+--- /dev/null
++++ b/tools/context_probe.py
+@@ -0,0 +1,520 @@
++"""Standalone contiguous-context resource probe for T0012.
++
++One process measures one precision/context pair. The probe reuses the existing
++Nano SPLOT model, A2 objective, FP8 adapter and Muon/AdamW helpers. It does not
++train to convergence, write a checkpoint, or make a throughput claim.
++"""
++from __future__ import annotations
++
++import argparse
++import gc
++import hashlib
++import json
++import math
++import os
++from pathlib import Path
++import time
++
++import torch
++
++from experiment import (annotate_fp8_policy, assert_loss_finite,
++                        assert_post_update_finite, resolve_precision, seed_all)
++from optimizers import build_optimizer, optimizer_state_inventory
++from splot import DenseConfig, RecurrentConfig, SPLOTLM, training_objective
++from splot.fp8 import (convert_selected_linears, fp8_assert_finite,
++                       fp8_diagnostics, has_fp8, reset_fp8_audit)
++
++MODEL_PARAMETERS = 43055076
++CONTENT_MIN = 8
++CONTENT_MAX = 32767
++LENGTHS = (128, 512, 2048)
++OPTIONAL_LENGTH = 4096
++CONFIG_NAMES = {
++    'bf16': 'splot-nano-synthetic-bf16-muon.json',
++    'fp8': 'splot-nano-synthetic-fp8-muon.json',
++}
++SYNC_PHASES = ('transfer', 'forward', 'backward', 'checks', 'optimizer_step',
++               'post_update_checks')
++
++
++def load_config(precision):
++    if precision not in CONFIG_NAMES:
++        raise ValueError('precision must be bf16 or fp8')
++    path = Path('configs/experiments') / CONFIG_NAMES[precision]
++    value = json.loads(path.read_text(encoding='utf-8'))
++    training = value['training']
++    if training.get('precision') != precision:
++        raise ValueError(f'config precision mismatch: {path}')
++    if training.get('mode') != 'A2' or training.get('loops') != 2:
++        raise ValueError('context probe requires the existing R2 A2 config')
++    if training.get('optimizer', {}).get('name') != 'muon':
++        raise ValueError('context probe requires the existing Muon config')
++    return path, value
++
++
++def model_from(cfg):
++    return SPLOTLM(
++        RecurrentConfig(dense=DenseConfig(**cfg['dense']), **cfg['recurrence']),
++        expert_intermediate=cfg['expert_intermediate'],
++    )
++
++
++def tensor_digest(named_tensors):
++    h = hashlib.sha256()
++    for name, value in sorted(named_tensors, key=lambda item: item[0]):
++        tensor = value.detach().cpu().contiguous()
++        h.update(name.encode('utf-8'))
++        h.update(str(tuple(tensor.shape)).encode('ascii'))
++        h.update(str(tensor.dtype).encode('ascii'))
++        h.update(tensor.numpy().tobytes())
++    return h.hexdigest()
++
++
++def initial_state_digest(model):
++    return tensor_digest(model.named_parameters())
++
++
++def build_contiguous_case(length, seed=42):
++    """Build one exact contiguous document with BOS/EOS and offset labels."""
++    if type(length) is not int or length < 3:
++        raise ValueError('length must be an integer >= 3')
++    if type(seed) is not int:
++        raise ValueError('seed must be an integer')
++    generator = torch.Generator(device='cpu')
++    generator.manual_seed(seed)
++    content = torch.randint(CONTENT_MIN, CONTENT_MAX + 1, (length - 2,),
++                            generator=generator, dtype=torch.long)
++    input_ids = torch.empty((1, length), dtype=torch.long)
++    input_ids[0, 0] = 1
++    input_ids[0, 1:-1] = content
++    input_ids[0, -1] = 2
++    document_ids = torch.zeros((1, length), dtype=torch.long)
++    position_ids = torch.arange(length, dtype=torch.long).unsqueeze(0)
++    valid = torch.ones((1, length), dtype=torch.bool)
++    labels = {
++        1: torch.cat((input_ids[:, 1:], torch.full((1, 1), -100, dtype=torch.long)), dim=1),
++        2: torch.cat((input_ids[:, 2:], torch.full((1, 2), -100, dtype=torch.long)), dim=1),
++    }
++    inputs = (input_ids, document_ids, position_ids, valid)
++    metadata = {
++        'length': length,
++        'seed': seed,
++        'input_sha256': tensor_digest(
++            [(f'input.{index}', value) for index, value in enumerate(inputs)]
++            + [(f'label.{key}', value) for key, value in sorted(labels.items())]
++        ),
++        'valid_tokens': int(valid.sum()),
++        'ntp_labels': int(labels[1].ne(-100).sum()),
++        'offset2_labels': int(labels[2].ne(-100).sum()),
++        'content_min': int(content.min()),
++        'content_max': int(content.max()),
++        'bos_ok': int(input_ids[0, 0]) == 1,
++        'eos_ok': int(input_ids[0, -1]) == 2,
++        'positions_ok': bool(torch.equal(position_ids[0], torch.arange(length))),
++        'documents_ok': bool(torch.count_nonzero(document_ids).item() == 0),
++        'valid_all': bool(valid.all()),
++    }
++    expected = {
++        'valid_tokens': length,
++        'ntp_labels': length - 1,
++        'offset2_labels': length - 2,
++    }
++    metadata['expected'] = expected
++    metadata['labels_exact'] = all(metadata[key] == value for key, value in expected.items())
++    return inputs, labels, metadata
++
++
++def _cuda_free(device):
++    free, total = torch.cuda.mem_get_info(device)
++    return {'free_bytes': int(free), 'total_bytes': int(total)}
++
++
++def _memory(device):
++    return {
++        'allocated_bytes': int(torch.cuda.memory_allocated(device)),
++        'reserved_bytes': int(torch.cuda.memory_reserved(device)),
++        'peak_allocated_bytes': int(torch.cuda.max_memory_allocated(device)),
++        'peak_reserved_bytes': int(torch.cuda.max_memory_reserved(device)),
++        **_cuda_free(device),
++    }
++
++
++def _sync(device, phase, sync_seconds):
++    started = time.perf_counter()
++    torch.cuda.synchronize(device)
++    sync_seconds[phase] = sync_seconds.get(phase, 0.) + time.perf_counter() - started
++
++
++def tokens_per_second(tokens, seconds):
++    if type(tokens) is not int or tokens < 1:
++        raise ValueError('tokens must be a positive integer')
++    if not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or seconds <= 0:
++        raise ValueError('seconds must be positive and finite')
++    return tokens / seconds
++
++
++def phase_summary(phases, tokens):
++    names = ('prepare', 'transfer', 'forward', 'backward', 'checks',
++             'optimizer_step', 'post_update_checks', 'end_to_end')
++    if not isinstance(phases, dict) or set(phases) != set(names):
++        raise ValueError('phase report has unexpected keys')
++    if any(not isinstance(phases[name], (int, float)) or not math.isfinite(phases[name])
++           or phases[name] < 0 for name in names):
++        raise ValueError('phase durations must be finite and nonnegative')
++    end_to_end = phases['end_to_end']
++    phase_sum = sum(phases[name] for name in names[:-1])
++    if end_to_end <= 0:
++        raise ValueError('end-to-end duration must be positive')
++    if phase_sum > end_to_end + 1e-6:
++        raise ValueError('phase sum exceeds end-to-end duration')
++    return {
++        'phase_sum_seconds': phase_sum,
++        'unaccounted_seconds': end_to_end - phase_sum,
++        'tokens_per_second': tokens_per_second(tokens, end_to_end),
++    }
++
++
++def _move_inputs(inputs, labels, device):
++    moved_inputs = tuple(value.to(device) for value in inputs)
++    moved_labels = {key: value.to(device) for key, value in labels.items()}
++    return moved_inputs, moved_labels
++
++
++def _assert_pre_update(model, objective, fp8):
++    assert_loss_finite(objective, 'pre-update')
++    for parameter in model.parameters():
++        if not torch.isfinite(parameter).all():
++            raise FloatingPointError('nonfinite master weight before update')
++    for parameter in model.parameters():
++        if parameter.grad is not None and not torch.isfinite(parameter.grad).all():
++            raise FloatingPointError('nonfinite gradient before update')
++    if fp8:
++        fp8_assert_finite(model, 'pre-update')
++
++
++def _model_dtypes(model):
++    return sorted({str(value.dtype).replace('torch.', '') for value in model.parameters()})
++
++
++def _state_summary(optimizer):
++    return optimizer_state_inventory(optimizer)
++
++
++def _partition_summary(optimizer_policy):
++    partition = optimizer_policy['partition']
++    return {
++        'plan_sha256': partition['plan_sha256'],
++        'parameter_count': partition['parameter_count'],
++        'inventory_numel': partition['inventory_numel'],
++        'muon_count': partition['groups']['muon']['count'],
++        'muon_numel': partition['groups']['muon']['numel'],
++        'adamw_count': partition['groups']['adamw']['count'],
++        'adamw_numel': partition['groups']['adamw']['numel'],
++        'ns_intermediate_dtype': optimizer_policy['ns_intermediate_dtype'],
++    }
++
++
++def _setup(cfg, precision, device):
++    path, value = load_config(precision)
++    started = time.perf_counter()
++    seed_all(42)
++    model = model_from(value)
++    actual = sum(parameter.numel() for parameter in model.parameters())
++    if actual != MODEL_PARAMETERS:
++        raise RuntimeError(f'parameter count mismatch: {actual}')
++    init_digest = initial_state_digest(model)
++    model = model.to(device)
++    if precision == 'fp8':
++        policy = convert_selected_linears(model)
++    else:
++        policy = None
++    if sum(parameter.numel() for parameter in model.parameters()) != MODEL_PARAMETERS:
++        raise RuntimeError('model parameter inventory changed')
++    optimizer, optimizer_policy = build_optimizer(model, value['training'])
++    if optimizer_policy['name'] != 'muon':
++        raise RuntimeError('expected Muon hybrid optimizer')
++    annotate_fp8_policy(policy, optimizer_policy)
++    model.train()
++    return {
++        'model': model,
++        'optimizer': optimizer,
++        'optimizer_policy': optimizer_policy,
++        'fp8_policy': policy,
++        'config_path': str(path),
++        'config': value,
++        'initialization_sha256': init_digest,
++        'parameters': actual,
++        'setup_seconds': time.perf_counter() - started,
++    }
++
++
++def _warmup(cfg, precision, device, length, seed):
++    started = time.perf_counter()
++    setup = _setup(cfg, precision, device)
++    inputs, labels, case = build_contiguous_case(length, seed)
++    moved_inputs, moved_labels = _move_inputs(inputs, labels, device)
++    optimizer = setup['optimizer']
++    model = setup['model']
++    if precision == 'fp8':
++        reset_fp8_audit(model)
++    optimizer.zero_grad(set_to_none=True)
++    with torch.autocast(device_type='cuda', dtype=torch.bfloat16):
++        objective = training_objective(model, moved_inputs, moved_labels, mode='A2', loops=2)
++    _assert_pre_update(model, objective, precision == 'fp8')
++    objective.total.backward()
++    _assert_pre_update(model, objective, precision == 'fp8')
++    audit = fp8_diagnostics(model) if precision == 'fp8' else None
++    optimizer.step()
++    assert_post_update_finite(model, optimizer, 'warmup post-update')
++    state = _state_summary(optimizer)
++    result = {
++        'seconds': time.perf_counter() - started,
++        'initialization_sha256': setup['initialization_sha256'],
++        'input_sha256': case['input_sha256'],
++        'parameters': setup['parameters'],
++        'partition_plan_sha256': _partition_summary(setup['optimizer_policy'])['plan_sha256'],
++        'losses': {name: float(getattr(objective, name).detach())
++                   for name in ('total', 'final_ntp', 'early_ntp', 'offset2', 'balance')},
++        'audit': audit,
++        'state': state,
++        'status': 'passed',
++    }
++    del model, optimizer, inputs, labels, moved_inputs, moved_labels, objective, audit, state
++    return result
++
++
++def _precheck(model, inputs, labels, device, fp8):
++    started = time.perf_counter()
++    moved_inputs, moved_labels = _move_inputs(inputs, labels, device)
++    model.eval()
++    with torch.no_grad(), torch.autocast(device_type='cuda', dtype=torch.bfloat16):
++        out = model(*moved_inputs, loops=2, readouts=(1, 2), offset2_depths=(1, 2))
++    torch.cuda.synchronize(device)
++    result = {
++        'seconds': time.perf_counter() - started,
++        'logits_finite': all(bool(torch.isfinite(out.logits[depth]).all())
++                             for depth in (1, 2)),
++        'hidden_finite': all(bool(torch.isfinite(out.hidden[depth]).all())
++                             for depth in (1, 2)),
++        'offset2_finite': all(bool(torch.isfinite(out.offset2[depth]).all())
++                              for depth in (1, 2)),
++    }
++    model.train()
++    if fp8:
++        reset_fp8_audit(model)
++    del out, moved_inputs, moved_labels
++    return result
++
++
++def _measured_update(setup, inputs, labels, device, precision):
++    model = setup['model']
++    optimizer = setup['optimizer']
++    fp8 = precision == 'fp8'
++    sync_seconds = {}
++    phases = {}
++    started = time.perf_counter()
++
++    phase = time.perf_counter()
++    moved_inputs, moved_labels = _move_inputs(inputs, labels, device)
++    _sync(device, 'transfer', sync_seconds)
++    phases['transfer'] = time.perf_counter() - phase
++
++    phase = time.perf_counter()
++    if fp8:
++        reset_fp8_audit(model)
++    optimizer.zero_grad(set_to_none=True)
++    phases['prepare'] = time.perf_counter() - phase
++
++    phase = time.perf_counter()
++    with torch.autocast(device_type='cuda', dtype=torch.bfloat16):
++        objective = training_objective(model, moved_inputs, moved_labels, mode='A2', loops=2)
++    _sync(device, 'forward', sync_seconds)
++    phases['forward'] = time.perf_counter() - phase
++
++    phase = time.perf_counter()
++    objective.total.backward()
++    _sync(device, 'backward', sync_seconds)
++    phases['backward'] = time.perf_counter() - phase
++
++    phase = time.perf_counter()
++    _assert_pre_update(model, objective, fp8)
++    audit_started = time.perf_counter()
++    audit = fp8_diagnostics(model) if fp8 else None
++    audit_seconds = time.perf_counter() - audit_started if fp8 else 0.
++    _sync(device, 'checks', sync_seconds)
++    phases['checks'] = time.perf_counter() - phase
++
++    phase = time.perf_counter()
++    optimizer.step()
++    _sync(device, 'optimizer_step', sync_seconds)
++    phases['optimizer_step'] = time.perf_counter() - phase
++
++    phase = time.perf_counter()
++    assert_post_update_finite(model, optimizer, 'measured post-update')
++    _sync(device, 'post_update_checks', sync_seconds)
++    phases['post_update_checks'] = time.perf_counter() - phase
++
++    end_to_end = time.perf_counter() - started
++    phases['end_to_end'] = end_to_end
++    state = _state_summary(optimizer)
++    losses = {name: float(getattr(objective, name).detach())
++              for name in ('total', 'final_ntp', 'early_ntp', 'offset2', 'balance')}
++    summary = phase_summary(phases, len(inputs[0][0]))
++    result = {
++        'losses': losses,
++        'audit': audit,
++        'state': state,
++        'phases_seconds': phases,
++        'sync_seconds': sync_seconds,
++        'sync_seconds_total': sum(sync_seconds.values()),
++        'phase_sum_seconds': summary['phase_sum_seconds'],
++        'unaccounted_seconds': summary['unaccounted_seconds'],
++        'tokens_per_second': summary['tokens_per_second'],
++        'audit_seconds': audit_seconds,
++        'finite_check_seconds': phases['checks'] + phases['post_update_checks'],
++        'status': 'passed',
++    }
++    return result
++
++
++def run_case(device, precision, length, seed=42):
++    """Run one warm-up and one measured update for one precision/context."""
++    if device != 'cuda':
++        raise RuntimeError('context probe requires a CUDA device')
++    if precision not in ('bf16', 'fp8'):
++        raise ValueError('precision must be bf16 or fp8')
++    if type(length) is not int or length < 3:
++        raise ValueError('length must be an integer >= 3')
++    if not torch.cuda.is_available():
++        raise RuntimeError('CUDA is unavailable')
++    config_path, cfg = load_config(precision)
++    precision_policy = resolve_precision(device, precision)
++    if isinstance(precision_policy.get('autocast_dtype'), torch.dtype):
++        precision_policy['autocast_dtype'] = str(
++            precision_policy['autocast_dtype']).replace('torch.', '')
++    report = {
++        'status': 'failed',
++        'stage': 'setup',
++        'device': device,
++        'precision': precision,
++        'length': length,
++        'seed': seed,
++        'config': str(config_path),
++        'precision_policy': precision_policy,
++        'memory': {},
++        'checks': {},
++    }
++    stage = 'warmup'
++    try:
++        report['memory']['free_before_case'] = _cuda_free(device)
++        warmup = _warmup(cfg, precision, device, length, seed)
++        report['warmup'] = warmup
++        report['checks']['warmup_status'] = warmup['status'] == 'passed'
++        gc.collect()
++        torch.cuda.empty_cache()
++        torch.cuda.reset_peak_memory_stats(device)
++        report['memory']['free_after_warmup'] = _cuda_free(device)
++
++        stage = 'measured_setup'
++        setup = _setup(cfg, precision, device)
++        report['checks']['parameters_exact'] = setup['parameters'] == MODEL_PARAMETERS
++        report['checks']['warmup_init_equal'] = (
++            warmup['initialization_sha256'] == setup['initialization_sha256'])
++        report['checks']['warmup_partition_equal'] = (
++            warmup['partition_plan_sha256'] ==
++            _partition_summary(setup['optimizer_policy'])['plan_sha256'])
++        inputs, labels, case = build_contiguous_case(length, seed)
++        report['input'] = case
++        report['checks']['warmup_input_equal'] = warmup['input_sha256'] == case['input_sha256']
++        report['checks']['labels_exact'] = case['labels_exact']
++
++        stage = 'precheck'
++        precheck = _precheck(setup['model'], inputs, labels, device, precision == 'fp8')
++        report['precheck'] = precheck
++        report['checks']['logits_finite'] = precheck['logits_finite']
++        report['checks']['hidden_finite'] = precheck['hidden_finite']
++        report['checks']['offset2_finite'] = precheck['offset2_finite']
++        gc.collect()
++        torch.cuda.empty_cache()
++        torch.cuda.reset_peak_memory_stats(device)
++        report['memory']['free_before_update'] = _cuda_free(device)
++        report['memory']['before_update'] = _memory(device)
++
++        stage = 'measured_update'
++        measured = _measured_update(setup, inputs, labels, device, precision)
++        report['measured'] = measured
++        report['memory']['after_update'] = _memory(device)
++        report['checks'].update({
++            'losses_finite': all(math.isfinite(value) for value in measured['losses'].values()),
++            'model_fp32': _model_dtypes(setup['model']) == ['float32'],
++            'state_fp32_finite': (measured['state']['total']['dtypes'] == ['float32']
++                                  and measured['state']['total']['finite']),
++            'audit_positive': True if precision == 'bf16' else (
++                measured['audit']['native_forward_calls'] > 0
++                and measured['audit']['native_backward_calls'] > 0),
++            'audit_finite': True if precision == 'bf16' else
++                not measured['audit']['quantization']['nonfinite'],
++            'partition': _partition_summary(setup['optimizer_policy']),
++        })
++        report['checks']['native_fp8'] = bool(has_fp8(setup['model'])) if precision == 'fp8' else False
++        required = ['warmup_status', 'parameters_exact', 'warmup_init_equal',
++                    'warmup_partition_equal', 'warmup_input_equal', 'labels_exact',
++                    'logits_finite', 'hidden_finite', 'offset2_finite',
++                    'losses_finite', 'model_fp32', 'state_fp32_finite']
++        if precision == 'fp8':
++            required += ['audit_positive', 'audit_finite', 'native_fp8']
++        report['status'] = 'passed' if all(report['checks'][key] for key in required) else 'failed'
++        report['stage'] = 'complete'
++    except Exception as exc:
++        report['status'] = 'failed'
++        report['stage'] = stage
++        report['error'] = f'{type(exc).__name__}: {exc}'
++        try:
++            report['memory']['failure_state'] = _memory(device)
++        except Exception:
++            pass
++    finally:
++        setup = None
++        inputs = labels = None
++        gc.collect()
++        try:
++            torch.cuda.empty_cache()
++            report['memory']['free_after_cleanup'] = _cuda_free(device)
++        except Exception:
++            pass
++    return report
++
++
++def main(argv=None):
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
++    parser.add_argument('--precision', choices=('bf16', 'fp8'), required=True)
++    parser.add_argument('--length', type=int, required=True)
++    parser.add_argument('--seed', type=int, default=42)
++    parser.add_argument('--out', type=Path, required=True)
++    args = parser.parse_args(argv)
++    if args.device != 'cuda':
++        parser.error('context probe requires --device cuda')
++    repo = Path(__file__).resolve().parents[1]
++    if args.out.resolve().is_relative_to(repo):
++        parser.error('output must be outside the repository checkout')
++    torch.set_num_threads(1)
++    torch.use_deterministic_algorithms(True)
++    torch.backends.cuda.matmul.allow_tf32 = False
++    torch.backends.cudnn.allow_tf32 = False
++    try:
++        report = run_case(args.device, args.precision, args.length, args.seed)
++    except Exception as exc:
++        report = {'status': 'failed', 'device': args.device,
++                  'precision': args.precision, 'length': args.length,
++                  'seed': args.seed, 'error': f'{type(exc).__name__}: {exc}'}
++    args.out.parent.mkdir(parents=True, exist_ok=True)
++    args.out.write_text(json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + '\n',
++                        encoding='utf-8')
++    print(json.dumps({'status': report['status'], 'precision': args.precision,
++                      'length': args.length, 'out': str(args.out)}, sort_keys=True))
++    return 0 if report['status'] == 'passed' else 1
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/tools/test_context_probe.py b/tools/test_context_probe.py
+new file mode 100644
+index 0000000..ff2fc9a
+--- /dev/null
++++ b/tools/test_context_probe.py
+@@ -0,0 +1,134 @@
++"""Focused CPU tests for the T0012 contiguous-context probe."""
++import argparse
++import json
++import math
++import sys
++import unittest
++from pathlib import Path
++
++import torch
++
++import context_probe as probe
++from experiment import seed_all
++from splot.fp8 import convert_selected_linears
++
++
++class ContiguousCaseTests(unittest.TestCase):
++    def test_boundaries_labels_and_counts(self):
++        for length in (128, 512, 2048, 4096):
++            inputs, labels, metadata = probe.build_contiguous_case(length, 42)
++            input_ids, document_ids, position_ids, valid = inputs
++            self.assertEqual(tuple(input_ids.shape), (1, length))
++            self.assertEqual(int(input_ids[0, 0]), 1)
++            self.assertEqual(int(input_ids[0, -1]), 2)
++            self.assertTrue(bool(((input_ids[0, 1:-1] >= probe.CONTENT_MIN)
++                                  & (input_ids[0, 1:-1] <= probe.CONTENT_MAX)).all()))
++            self.assertTrue(bool((document_ids == 0).all()))
++            self.assertTrue(torch.equal(position_ids[0], torch.arange(length)))
++            self.assertTrue(bool(valid.all()))
++            self.assertEqual(metadata['valid_tokens'], length)
++            self.assertEqual(metadata['ntp_labels'], length - 1)
++            self.assertEqual(metadata['offset2_labels'], length - 2)
++            self.assertTrue(metadata['labels_exact'])
++            self.assertTrue(metadata['bos_ok'] and metadata['eos_ok'])
++            self.assertTrue(metadata['positions_ok'] and metadata['documents_ok'])
++            for t in range(length - 1):
++                self.assertEqual(int(labels[1][0, t]), int(input_ids[0, t + 1]))
++            for t in range(length - 2):
++                self.assertEqual(int(labels[2][0, t]), int(input_ids[0, t + 2]))
++            self.assertEqual(int(labels[1][0, -1]), -100)
++            self.assertEqual(int(labels[2][0, -1]), -100)
++            self.assertEqual(int(labels[2][0, -2]), -100)
++
++    def test_fixed_seed_and_invalid_inputs(self):
++        a = probe.build_contiguous_case(128, 42)
++        b = probe.build_contiguous_case(128, 42)
++        c = probe.build_contiguous_case(128, 43)
++        self.assertEqual(a[2]['input_sha256'], b[2]['input_sha256'])
++        self.assertNotEqual(a[2]['input_sha256'], c[2]['input_sha256'])
++        self.assertTrue(torch.equal(a[0][0], b[0][0]))
++        self.assertFalse(torch.equal(a[0][0], c[0][0]))
++        for length in (0, 1, 2, -1, 3.5, True):
++            with self.assertRaises(ValueError):
++                probe.build_contiguous_case(length)
++        with self.assertRaises(ValueError):
++            probe.build_contiguous_case(128, 1.5)
++        with self.assertRaises(RuntimeError):
++            probe.run_case('cpu', 'bf16', 128)
++        with self.assertRaises(ValueError):
++            probe.load_config('fp16')
++
++    def test_phase_and_rate_math(self):
++        phases = {
++            'prepare': .1, 'transfer': .2, 'forward': 1., 'backward': 2.,
++            'checks': .3, 'optimizer_step': .4, 'post_update_checks': .2,
++            'end_to_end': 4.5,
++        }
++        summary = probe.phase_summary(phases, 512)
++        self.assertAlmostEqual(summary['phase_sum_seconds'], 4.2)
++        self.assertAlmostEqual(summary['unaccounted_seconds'], .3)
++        self.assertGreater(summary['tokens_per_second'], 0)
++        self.assertAlmostEqual(probe.tokens_per_second(512, 4.5), 512 / 4.5)
++        for tokens, seconds in ((0, 1), (-1, 1), (1, 0), (1, -1), (1, float('nan'))):
++            with self.assertRaises(ValueError):
++                probe.tokens_per_second(tokens, seconds)
++        bad = dict(phases, end_to_end=1.)
++        with self.assertRaises(ValueError):
++            probe.phase_summary(bad, 512)
++        with self.assertRaises(ValueError):
++            probe.phase_summary({'prepare': 1.}, 512)
++
++
++class ModelAndConfigTests(unittest.TestCase):
++    def setUp(self):
++        torch.set_num_threads(1)
++        torch.use_deterministic_algorithms(True)
++
++    def test_paired_configs_and_initial_model_identity(self):
++        path_bf16, cfg_bf16 = probe.load_config('bf16')
++        path_fp8, cfg_fp8 = probe.load_config('fp8')
++        self.assertEqual(path_bf16.name, 'splot-nano-synthetic-bf16-muon.json')
++        self.assertEqual(path_fp8.name, 'splot-nano-synthetic-fp8-muon.json')
++        left = json.loads(path_bf16.read_text())
++        right = json.loads(path_fp8.read_text())
++        left['training'].pop('precision')
++        right['training'].pop('precision')
++        self.assertEqual(left, right)
++        seed_all(42)
++        a = probe.model_from(cfg_bf16)
++        digest_a = probe.initial_state_digest(a)
++        seed_all(42)
++        b = probe.model_from(cfg_bf16)
++        digest_b = probe.initial_state_digest(b)
++        self.assertEqual(digest_a, digest_b)
++        self.assertEqual(sum(value.numel() for value in a.parameters()),
++                         probe.MODEL_PARAMETERS)
++        seed_all(42)
++        c = probe.model_from(cfg_fp8)
++        self.assertEqual(probe.initial_state_digest(c), digest_a)
++        policy = convert_selected_linears(c)
++        self.assertEqual(policy['selected_count'], 156)
++        self.assertEqual(policy['excluded_count'], 11)
++        self.assertEqual(policy['optimizer_scope'], 'adamw-or-muon-hybrid')
++        self.assertEqual(probe.initial_state_digest(c), digest_a)
++
++    def test_invalid_probe_arguments(self):
++        for precision, length in (('bf16', 2), ('fp8', 0), ('bf16', -1)):
++            with self.assertRaises(ValueError):
++                probe.run_case('cuda', precision, length)
++        with self.assertRaises(ValueError):
++            probe.run_case('cuda', 'fp16', 128)
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
++    args = parser.parse_args()
++    if args.device == 'cuda' and not torch.cuda.is_available():
++        parser.error('CUDA is unavailable')
++    torch.set_num_threads(1)
++    torch.use_deterministic_algorithms(True)
++    suite = unittest.defaultTestLoader.loadTestsFromTestCase(ContiguousCaseTests)
++    suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(ModelAndConfigTests))
++    result = unittest.TextTestRunner(verbosity=2).run(suite)
++    sys.exit(0 if result.wasSuccessful() else 1)

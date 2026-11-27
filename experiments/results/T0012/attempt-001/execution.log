@@ -1,0 +1,141 @@
+===== T0012 attempt-001 preflight =====
+2026-11-27T19:24:59Z
+0ff3ff3bab066324c534326aaadd400b6f1058ad
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 245986436 178013604      59% /
+3.12.7 2.10.0+cu128 12.8 True NVIDIA GeForce RTX 4090 (8, 9)
+muon True scaled_mm True
+===== cross-platform verification =====
+exit=0
+{
+  "status": "passed",
+  "checks": {
+    "linux_run_1_matches_mac_bytes": true,
+    "linux_run_2_matches_mac_bytes": true,
+    "linux_runs_identical": true,
+    "sha256_expected": true,
+    "manifest_sha256_recomputed": true,
+    "manifest_bytes_length": true,
+    "physical_digest_recomputed": true,
+    "logical_digest_equal_expected": true,
+    "packed_digest_equal_expected": true,
+    "physical_digest_equal_expected": true,
+    "manifest_counts_match_report": true,
+    "materialized_manifest_digests_match": true,
+    "materialized_counts_match": true,
+    "loaded_blocks_match": true,
+    "expected_counts": true
+  },
+  "linux_sha256": "e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf",
+  "linux_bytes": 19754,
+  "logical_digest": "5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba",
+  "packed_logical_digest": "7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f",
+  "physical_manifest_digest": "a413fbfd1c34e953b6f105cf70101cd16937440989775d215fd711cfc32abc7a",
+  "manifest_sha256": "d44629937047fc543f3ce028c7aabf01214f3e9e93547b81262d4f04dd3d47e9",
+  "counts": {
+    "blocks": 4,
+    "content_tokens": 203,
+    "documents": 11,
+    "ntp_labels": 214,
+    "offset2_labels": 203,
+    "pad_tokens": 159,
+    "special_tokens": 22,
+    "valid_tokens": 225
+  }
+}
+
+===== case bf16-128 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision bf16 --length 128 --seed 42 --out <RUNS>/cases/bf16-128.json
+exit=0 wall_seconds=3.672036
+stdout:
+{"length": 128, "out": "<RUNS>/cases/bf16-128.json", "precision": "bf16", "status": "passed"}
+stderr:
+===== case fp8-128 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision fp8 --length 128 --seed 42 --out <RUNS>/cases/fp8-128.json
+exit=0 wall_seconds=4.473949
+stdout:
+{"length": 128, "out": "<RUNS>/cases/fp8-128.json", "precision": "fp8", "status": "passed"}
+stderr:
+PAIR T128 status=passed diffs={'final_ntp': 0.024163246154785156, 'early_ntp': 0.011190414428710938, 'offset2': 0.0026988983154296875, 'total': 0.027662277221679688}
+===== case bf16-512 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision bf16 --length 512 --seed 42 --out <RUNS>/cases/bf16-512.json
+exit=0 wall_seconds=5.575450
+stdout:
+{"length": 512, "out": "<RUNS>/cases/bf16-512.json", "precision": "bf16", "status": "passed"}
+stderr:
+===== case fp8-512 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision fp8 --length 512 --seed 42 --out <RUNS>/cases/fp8-512.json
+exit=0 wall_seconds=6.527629
+stdout:
+{"length": 512, "out": "<RUNS>/cases/fp8-512.json", "precision": "fp8", "status": "passed"}
+stderr:
+PAIR T512 status=passed diffs={'final_ntp': 0.010992050170898438, 'early_ntp': 0.007880210876464844, 'offset2': 0.00211334228515625, 'total': 0.013486862182617188}
+===== case bf16-2048 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision bf16 --length 2048 --seed 42 --out <RUNS>/cases/bf16-2048.json
+exit=0 wall_seconds=13.992451
+stdout:
+{"length": 2048, "out": "<RUNS>/cases/bf16-2048.json", "precision": "bf16", "status": "passed"}
+stderr:
+===== case fp8-2048 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision fp8 --length 2048 --seed 42 --out <RUNS>/cases/fp8-2048.json
+exit=0 wall_seconds=14.845620
+stdout:
+{"length": 2048, "out": "<RUNS>/cases/fp8-2048.json", "precision": "fp8", "status": "passed"}
+stderr:
+PAIR T2048 status=passed diffs={'final_ntp': 0.0006608963012695312, 'early_ntp': 0.0013723373413085938, 'offset2': 0.0043792724609375, 'total': 8.7738037109375e-05}
+===== case bf16-4096 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision bf16 --length 4096 --seed 42 --out <RUNS>/cases/bf16-4096.json
+exit=0 wall_seconds=25.613748
+stdout:
+{"length": 4096, "out": "<RUNS>/cases/bf16-4096.json", "precision": "bf16", "status": "passed"}
+stderr:
+===== case fp8-4096 =====
+command: timeout --kill-after=15s 300s python tools/context_probe.py --device cuda --precision fp8 --length 4096 --seed 42 --out <RUNS>/cases/fp8-4096.json
+exit=0 wall_seconds=26.263777
+stdout:
+{"length": 4096, "out": "<RUNS>/cases/fp8-4096.json", "precision": "fp8", "status": "passed"}
+stderr:
+===== cuda context summary =====
+{
+  "core_status": "passed",
+  "optional": {
+    "reasons": [],
+    "remaining_window_seconds": 7150.907843112946,
+    "status": "passed",
+    "t2048_max_case_seconds": 14.845620233973023,
+    "t2048_max_peak_reserved_bytes": 7381975040,
+    "t2048_min_free_after_cleanup_bytes": 24555094016
+  },
+  "pairs": {
+    "128": "passed",
+    "2048": "passed",
+    "4096": "passed",
+    "512": "passed"
+  },
+  "status": "passed"
+}
+
+===== cross-platform commands and hashes =====
+CUDA_VISIBLE_DEVICES="" PYTHONPATH=src:tools python tools/tokenized_shards.py --demo (twice)
+linux_sha256=e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf expected_sha256=e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf bytes=19754
+
+===== case summary =====
+bf16-128 status passed params True init ba9bf9d8472a input b5e3019dae40 partition 1bed555467ef loss {'final_ntp': 10.519993, 'early_ntp': 10.501455, 'offset2': 10.532146, 'total': 15.789618} phases {'backward': 0.2242, 'checks': 0.0139, 'end_to_end': 0.4379, 'forward': 0.1196, 'optimizer_step': 0.065, 'post_update_checks': 0.015, 'prepare': 0.0001, 'transfer': 0.0001} sync 0.0005 audit_s 0.0 mem_peak 725014528 1000341504 free_before_update 24422973440 free_after_cleanup 24626397184 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native None audit_pad None audit_quant None tps 292.281
+fp8-128 status passed params True init ba9bf9d8472a input b5e3019dae40 partition 1bed555467ef loss {'final_ntp': 10.49583, 'early_ntp': 10.490265, 'offset2': 10.529448, 'total': 15.761956} phases {'backward': 0.3505, 'checks': 0.0366, 'end_to_end': 0.7361, 'forward': 0.264, 'optimizer_step': 0.0668, 'post_update_checks': 0.0153, 'prepare': 0.0028, 'transfer': 0.0001} sync 0.0004 audit_s 0.0078 mem_peak 728289280 1021313024 free_before_update 24420876288 free_after_cleanup 24622202880 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native (292, 292) audit_pad (1584, 1584) audit_quant {'grad_nonzero': 8791356, 'grad_saturation': 0, 'grad_saturation_fraction': 0.0, 'grad_underflow': 7, 'grad_underflow_fraction': 7.962366670170108e-07, 'input_nonzero': 8454097, 'input_saturation': 0, 'input_saturation_fraction': 0.0, 'input_underflow': 711, 'input_underflow_fraction': 8.410123517627015e-05, 'nonfinite': False, 'underflow_fraction': 1.6155080278023622e-05, 'weight_nonzero': 56229886, 'weight_saturation': 0, 'weight_saturation_fraction': 0.0, 'weight_underflow': 469, 'weight_underflow_fraction': 8.340760285375646e-06} tps 173.894
+bf16-512 status passed params True init ba9bf9d8472a input c0aa82fc0906 partition 1bed555467ef loss {'final_ntp': 10.493875, 'early_ntp': 10.484287, 'offset2': 10.487617, 'total': 15.747568} phases {'backward': 0.8005, 'checks': 0.0143, 'end_to_end': 1.2696, 'forward': 0.3718, 'optimizer_step': 0.0674, 'post_update_checks': 0.0153, 'prepare': 0.0001, 'transfer': 0.0001} sync 0.0006 audit_s 0.0 mem_peak 1762148864 1908408320 free_before_update 24410390528 free_after_cleanup 24592842752 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native None audit_pad None audit_quant None tps 403.289
+fp8-512 status passed params True init ba9bf9d8472a input c0aa82fc0906 partition 1bed555467ef loss {'final_ntp': 10.482882, 'early_ntp': 10.476407, 'offset2': 10.485504, 'total': 15.734081} phases {'backward': 0.9491, 'checks': 0.0375, 'end_to_end': 1.6069, 'forward': 0.5331, 'optimizer_step': 0.0686, 'post_update_checks': 0.0156, 'prepare': 0.0028, 'transfer': 0.0002} sync 0.0005 audit_s 0.008 mem_peak 1729731584 1874853888 free_before_update 24408293376 free_after_cleanup 24588648448 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native (298, 298) audit_pad (1440, 1440) audit_quant {'grad_nonzero': 35233273, 'grad_saturation': 0, 'grad_saturation_fraction': 0.0, 'grad_underflow': 9, 'grad_underflow_fraction': 2.554403617285286e-07, 'input_nonzero': 33816403, 'input_saturation': 0, 'input_saturation_fraction': 0.0, 'input_underflow': 3300, 'input_underflow_fraction': 9.7585778120754e-05, 'nonfinite': False, 'underflow_fraction': 2.997804588530958e-05, 'weight_nonzero': 57409534, 'weight_saturation': 0, 'weight_saturation_fraction': 0.0, 'weight_underflow': 482, 'weight_underflow_fraction': 8.395818018658712e-06} tps 318.623
+bf16-2048 status passed params True init ba9bf9d8472a input 80d31474470c partition 1bed555467ef loss {'final_ntp': 10.476771, 'early_ntp': 10.477264, 'offset2': 10.479271, 'total': 15.726152} phases {'backward': 3.2731, 'checks': 0.0148, 'end_to_end': 4.8264, 'forward': 1.453, 'optimizer_step': 0.0697, 'post_update_checks': 0.0156, 'prepare': 0.0001, 'transfer': 0.0002} sync 0.0006 audit_s 0.0 mem_peak 6717001728 7381975040 free_before_update 24406196224 free_after_cleanup 24559288320 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native None audit_pad None audit_quant None tps 424.335
+fp8-2048 status passed params True init ba9bf9d8472a input 80d31474470c partition 1bed555467ef loss {'final_ntp': 10.477432, 'early_ntp': 10.478637, 'offset2': 10.474892, 'total': 15.726065} phases {'backward': 3.4428, 'checks': 0.0381, 'end_to_end': 5.1894, 'forward': 1.6196, 'optimizer_step': 0.0703, 'post_update_checks': 0.0157, 'prepare': 0.0028, 'transfer': 0.0002} sync 0.0005 audit_s 0.0082 mem_peak 6575379456 7189037056 free_before_update 24374738944 free_after_cleanup 24555094016 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native (298, 298) audit_pad (1584, 1584) audit_quant {'grad_nonzero': 141001234, 'grad_saturation': 0, 'grad_saturation_fraction': 0.0, 'grad_underflow': 22, 'grad_underflow_fraction': 1.5602700328140392e-07, 'input_nonzero': 135265644, 'input_saturation': 0, 'input_saturation_fraction': 0.0, 'input_underflow': 14650, 'input_underflow_fraction': 0.00010830540236809873, 'nonfinite': False, 'underflow_fraction': 4.5415256982564295e-05, 'weight_nonzero': 57409534, 'weight_saturation': 0, 'weight_saturation_fraction': 0.0, 'weight_underflow': 482, 'weight_underflow_fraction': 8.395818018658712e-06} tps 394.649
+bf16-4096 status passed params True init ba9bf9d8472a input b7038a272e2f partition 1bed555467ef loss {'final_ntp': 10.468967, 'early_ntp': 10.464988, 'offset2': 10.483092, 'total': 15.716116} phases {'backward': 6.7651, 'checks': 0.0146, 'end_to_end': 9.8039, 'forward': 2.9382, 'optimizer_step': 0.0702, 'post_update_checks': 0.0156, 'prepare': 0.0001, 'transfer': 0.0002} sync 0.0006 audit_s 0.0 mem_peak 14775031808 16007561216 free_before_update 24125177856 free_after_cleanup 24257298432 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native None audit_pad None audit_quant None tps 417.794
+fp8-4096 status passed params True init ba9bf9d8472a input b7038a272e2f partition 1bed555467ef loss {'final_ntp': 10.467954, 'early_ntp': 10.464047, 'offset2': 10.480293, 'total': 15.714172} phases {'backward': 6.8773, 'checks': 0.0378, 'end_to_end': 10.1358, 'forward': 3.1332, 'optimizer_step': 0.069, 'post_update_checks': 0.0155, 'prepare': 0.0029, 'transfer': 0.0002} sync 0.0005 audit_s 0.0082 mem_peak 14513575936 15699279872 free_before_update 24123080704 free_after_cleanup 24253104128 state {'bytes': 222740420, 'dtypes': ['float32'], 'elements': 55685105, 'finite': True} audit_native (298, 298) audit_pad (1152, 1152) audit_quant {'grad_nonzero': 282025273, 'grad_saturation': 0, 'grad_saturation_fraction': 0.0, 'grad_underflow': 37, 'grad_underflow_fraction': 1.3119391608566938e-07, 'input_nonzero': 270531319, 'input_saturation': 0, 'input_saturation_fraction': 0.0, 'input_underflow': 30244, 'input_underflow_fraction': 0.00011179481958611971, 'nonfinite': False, 'underflow_fraction': 5.043394819600195e-05, 'weight_nonzero': 57409534, 'weight_saturation': 0, 'weight_saturation_fraction': 0.0, 'weight_underflow': 482, 'weight_underflow_fraction': 8.395818018658712e-06} tps 404.113
+
+===== development pre-commit smoke failures (transient) =====
+Attempt 1, BF16 T128 reproduction command:
+CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:tools python tools/context_probe.py --device cuda --precision bf16 --length 128 --seed 42 --out <outside-checkout>.json
+Observed: TypeError: Object of type PosixPath is not JSON serializable
+Attempt 2, FP8 T128 reproduction command:
+CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:tools python tools/context_probe.py --device cuda --precision fp8 --length 128 --seed 42 --out <outside-checkout>.json
+Observed: TypeError: Object of type dtype is not JSON serializable
+Both were report-serialization bugs fixed before the tested commit; the official cases were run once on the corrected SHA.

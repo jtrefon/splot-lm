@@ -1,0 +1,155 @@
+{
+  "artifact_actual_vocab_size": 320,
+  "artifact_sha256": "851742b8ae6fbe9cde68b9db6e09cb77c6f7f978e96b64da162841a311bd2b84",
+  "blocks": 4,
+  "bpe_training_digest": "ac0ddc51a214f38ea9779af63a7a0adddd94f4f087628f9de20e20e3da29e3cf",
+  "checks": {
+    "expected_counts": true,
+    "linux_run_1_matches_mac_bytes": true,
+    "linux_run_2_matches_mac_bytes": true,
+    "linux_runs_identical": true,
+    "loaded_blocks_match": true,
+    "logical_digest_equal_expected": true,
+    "manifest_bytes_length": true,
+    "manifest_counts_match_report": true,
+    "manifest_sha256_recomputed": true,
+    "materialized_counts_match": true,
+    "materialized_manifest_digests_match": true,
+    "packed_digest_equal_expected": true,
+    "physical_digest_equal_expected": true,
+    "physical_digest_recomputed": true,
+    "sha256_expected": true
+  },
+  "corpus_report_digest": "b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f",
+  "counts": {
+    "by_domain": {
+      "prose": {
+        "blocks": 4,
+        "content_tokens": 203,
+        "documents": 11,
+        "ntp_labels": 214,
+        "offset2_labels": 203,
+        "pad_tokens": 159,
+        "special_tokens": 22,
+        "valid_tokens": 225
+      }
+    },
+    "by_language": {
+      "en": {
+        "blocks": 2,
+        "content_tokens": 136,
+        "documents": 8,
+        "ntp_labels": 144,
+        "offset2_labels": 136,
+        "pad_tokens": 40,
+        "special_tokens": 16,
+        "valid_tokens": 152
+      },
+      "pl": {
+        "blocks": 2,
+        "content_tokens": 67,
+        "documents": 3,
+        "ntp_labels": 70,
+        "offset2_labels": 67,
+        "pad_tokens": 119,
+        "special_tokens": 6,
+        "valid_tokens": 73
+      }
+    },
+    "by_split": {
+      "test": {
+        "blocks": 1,
+        "content_tokens": 64,
+        "documents": 2,
+        "ntp_labels": 66,
+        "offset2_labels": 64,
+        "pad_tokens": 28,
+        "special_tokens": 4,
+        "valid_tokens": 68
+      },
+      "train": {
+        "blocks": 2,
+        "content_tokens": 126,
+        "documents": 8,
+        "ntp_labels": 134,
+        "offset2_labels": 126,
+        "pad_tokens": 50,
+        "special_tokens": 16,
+        "valid_tokens": 142
+      },
+      "validation": {
+        "blocks": 1,
+        "content_tokens": 13,
+        "documents": 1,
+        "ntp_labels": 14,
+        "offset2_labels": 13,
+        "pad_tokens": 81,
+        "special_tokens": 2,
+        "valid_tokens": 15
+      }
+    },
+    "by_split_language_domain": {
+      "test/en/prose": {
+        "blocks": 1,
+        "content_tokens": 64,
+        "documents": 2,
+        "ntp_labels": 66,
+        "offset2_labels": 64,
+        "pad_tokens": 28,
+        "special_tokens": 4,
+        "valid_tokens": 68
+      },
+      "train/en/prose": {
+        "blocks": 1,
+        "content_tokens": 72,
+        "documents": 6,
+        "ntp_labels": 78,
+        "offset2_labels": 72,
+        "pad_tokens": 12,
+        "special_tokens": 12,
+        "valid_tokens": 84
+      },
+      "train/pl/prose": {
+        "blocks": 1,
+        "content_tokens": 54,
+        "documents": 2,
+        "ntp_labels": 56,
+        "offset2_labels": 54,
+        "pad_tokens": 38,
+        "special_tokens": 4,
+        "valid_tokens": 58
+      },
+      "validation/pl/prose": {
+        "blocks": 1,
+        "content_tokens": 13,
+        "documents": 1,
+        "ntp_labels": 14,
+        "offset2_labels": 13,
+        "pad_tokens": 81,
+        "special_tokens": 2,
+        "valid_tokens": 15
+      }
+    },
+    "overall": {
+      "blocks": 4,
+      "content_tokens": 203,
+      "documents": 11,
+      "ntp_labels": 214,
+      "offset2_labels": 203,
+      "pad_tokens": 159,
+      "special_tokens": 22,
+      "valid_tokens": 225
+    }
+  },
+  "documents": 11,
+  "expected_sha256": "e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf",
+  "linux_bytes": 19754,
+  "linux_sha256": "e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf",
+  "logical_digest": "5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba",
+  "mac_bytes": 19754,
+  "manifest_sha256": "d44629937047fc543f3ce028c7aabf01214f3e9e93547b81262d4f04dd3d47e9",
+  "packed_logical_digest": "7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f",
+  "physical_manifest_digest": "a413fbfd1c34e953b6f105cf70101cd16937440989775d215fd711cfc32abc7a",
+  "shards": 3,
+  "status": "passed"
+}

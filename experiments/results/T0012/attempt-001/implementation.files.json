@@ -1,0 +1,20 @@
+{
+  "allowed_files": [
+    "tools/context_probe.py",
+    "tools/test_context_probe.py",
+    "research/implementation/context-probe.md"
+  ],
+  "base_source_commit": "685df410e28a260d45c7cfa2685c6614d64d77e0",
+  "changed_files": [
+    "research/implementation/context-probe.md",
+    "tools/context_probe.py",
+    "tools/test_context_probe.py"
+  ],
+  "forbidden_changes": [],
+  "minimum_base_commit": "34506006f24a18a0222fb45a61eeaf2f51fd6289",
+  "note": "New isolated probe, tests and documentation only; no existing model, harness, optimizer, config, CI, data or evidence was changed.",
+  "scope_check": "passed",
+  "spec_commit": "fa91910c11063c407dab1aaf21d62b19dfd659e2",
+  "task_commit": "685df410e28a260d45c7cfa2685c6614d64d77e0",
+  "tested_commit": "0ff3ff3bab066324c534326aaadd400b6f1058ad"
+}
