@@ -4,3 +4,5 @@ T0001–T0003 FP32 correctness; T0005 BF16 reference; T0006 hybrid Muon/AdamW co
 
 ## T0007 evidence and integration gate
 Native forward E4M3×E4M3, dgrad/wgrad E5M2×E4M3 passed 33/33 on RTX4090 cu128; see #51/#54. Host-synchronized probe including host-derived scale creation and audits is slower than BF16 for tested shapes, not kernel-only evidence. T0009 #56 introduces device-resident scales and first-order autograd in selected hidden projections; same master parameters and sensitive FP32 states, matched BF16 controls and R1/2/4 drift. No speed claim; grouped execution, weight reuse and actual trained stability still open.
+
+T0009 #56/#59 accepted: 156 FP8 projections, corrected per-depth audit, R1/2/4 finite/CE gates, exact FP8 same-mode smoke resume. Nano R4 full gradient drift .342295; no trained stability claim. T0011 #62 next native FP8+Muon compatibility and matched synthetic epoch; current scaling, FP32 masters/state, no native FP4 or speed claim. Quantization audit overhead and grouped execution remain separate.
