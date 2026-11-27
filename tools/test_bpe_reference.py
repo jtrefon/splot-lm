@@ -8,12 +8,16 @@ from collections import Counter
 
 from bpe_reference import (
     ALLOWED_VOCAB_SIZES,
+    ALGORITHM,
+    ARTIFACT_VERSION,
     BASE_VOCAB_SIZE,
     BYTE_COUNT,
     BYTE_OFFSET,
+    MAX_ARTIFACT_BYTES,
     MAX_DOCUMENTS,
     MAX_DOCUMENT_BYTES,
     MAX_MERGES,
+    SPECIAL_TOKENS,
     BpeError,
     Document,
     artifact_sha256,
@@ -60,6 +64,24 @@ def small_artifact():
         ),
         requested_vocab_size=288,
     )
+
+
+def doubling_artifact(depth):
+    merges = []
+    for index in range(depth):
+        token = BYTE_OFFSET if index == 0 else BASE_VOCAB_SIZE + index - 1
+        merges.append([token, token])
+    return {
+        "version": ARTIFACT_VERSION,
+        "algorithm": ALGORITHM,
+        "special_tokens": dict(SPECIAL_TOKENS),
+        "byte_offset": BYTE_OFFSET,
+        "byte_count": BYTE_COUNT,
+        "merges": merges,
+        "training_digest": "0" * 64,
+        "requested_vocab_size": 320,
+        "actual_vocab_size": BASE_VOCAB_SIZE + len(merges),
+    }
 
 
 class DocumentValidationTests(unittest.TestCase):
@@ -290,6 +312,33 @@ class ArtifactTests(unittest.TestCase):
             load_artifact("\ud800", "0" * 64)
         self.assertEqual(load_artifact(raw, digest), artifact)
 
+    def test_expansion_length_boundary_and_adversarial_chain(self):
+        exact = doubling_artifact(12)
+        validate_artifact(exact)
+        self.assertEqual(
+            len(token_ids_to_bytes([BASE_VOCAB_SIZE + 11], exact)),
+            MAX_DOCUMENT_BYTES,
+        )
+        with self.assertRaises(BpeError):
+            validate_artifact(doubling_artifact(13))
+        with self.assertRaises(BpeError):
+            validate_artifact(doubling_artifact(MAX_MERGES))
+
+    def test_load_artifact_caps_and_canonical_reload(self):
+        artifact = small_artifact()
+        raw = canonical_artifact_bytes(artifact)
+        digest = artifact_sha256(artifact)
+        pretty = json.dumps(artifact, indent=2, sort_keys=True).encode("utf-8")
+        with self.assertRaises(BpeError):
+            load_artifact(pretty, hashlib.sha256(pretty).hexdigest())
+        trailing = raw + b"\n"
+        with self.assertRaises(BpeError):
+            load_artifact(trailing, hashlib.sha256(trailing).hexdigest())
+        overlong = b" " * (MAX_ARTIFACT_BYTES + 1)
+        with self.assertRaises(BpeError):
+            load_artifact(overlong, hashlib.sha256(overlong).hexdigest())
+        self.assertEqual(load_artifact(raw, digest), artifact)
+
 
 class EncodingTests(unittest.TestCase):
     def setUp(self):
@@ -300,6 +349,37 @@ class EncodingTests(unittest.TestCase):
         tokens = bytes_to_token_ids(data)
         self.assertEqual(tokens, list(range(BYTE_OFFSET, BASE_VOCAB_SIZE)))
         self.assertEqual(token_ids_to_bytes(tokens, self.artifact), data)
+
+    def test_encode_input_boundary(self):
+        self.assertIsInstance(encode("A" * MAX_DOCUMENT_BYTES, self.artifact), list)
+        with self.assertRaises(BpeError):
+            encode("A" * (MAX_DOCUMENT_BYTES + 1), self.artifact)
+
+    def test_token_iterable_and_decoded_output_caps(self):
+        seen = []
+
+        def tokens():
+            for index in range(MAX_DOCUMENT_BYTES + 10):
+                seen.append(index)
+                yield BYTE_OFFSET
+
+        with self.assertRaises(BpeError):
+            token_ids_to_bytes(tokens(), self.artifact)
+        self.assertEqual(len(seen), MAX_DOCUMENT_BYTES + 1)
+        exact_tokens = [BYTE_OFFSET + ord("A")] * MAX_DOCUMENT_BYTES
+        self.assertEqual(
+            decode(exact_tokens, self.artifact),
+            "A" * MAX_DOCUMENT_BYTES,
+        )
+        exact_artifact = doubling_artifact(12)
+        self.assertEqual(
+            len(token_ids_to_bytes([BASE_VOCAB_SIZE + 11], exact_artifact)),
+            MAX_DOCUMENT_BYTES,
+        )
+        with self.assertRaises(BpeError):
+            token_ids_to_bytes([BASE_VOCAB_SIZE + 11, BYTE_OFFSET], exact_artifact)
+        with self.assertRaises(BpeError):
+            decode([BASE_VOCAB_SIZE + 11, BYTE_OFFSET], exact_artifact)
 
     def test_unicode_whitespace_and_control_roundtrip(self):
         texts = (
@@ -381,6 +461,28 @@ class DemoTests(unittest.TestCase):
             self.assertGreater(stats["tokens"], 0, key)
             self.assertTrue(stats["roundtrip"], key)
         self.assertNotIn("timestamp", json.dumps(first))
+
+    def test_demo_learned_hashes_unchanged(self):
+        first = demo_report()
+        self.assertEqual(
+            first["artifact_sha256"],
+            "f67ef4ab5c343e3c9f81570b0d7426a5668e578aa84806058265d0aaf633ce7e",
+        )
+        self.assertEqual(
+            first["corpus_digest"],
+            "6fa4bbf3cc680d4058d067059545b787edf87eba3c87a71cd1013684ee99e8cd",
+        )
+        serialized = json.dumps(
+            first,
+            indent=2,
+            sort_keys=True,
+            ensure_ascii=True,
+            allow_nan=False,
+        ) + "\n"
+        self.assertEqual(
+            hashlib.sha256(serialized.encode("utf-8")).hexdigest(),
+            "bd743d70d6d0c96d9c6bc7780b8fe004e1a9520d3b47e7a43c3b10945543215e",
+        )
 
     def test_cli_demo(self):
         output = io.StringIO()
