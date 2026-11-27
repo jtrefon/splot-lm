@@ -1,0 +1,27 @@
+# Exact speculative decoding reference v0.1
+2026-11-27 | #2 | [Polski — summary](exact-speculation.pl.md)
+
+## Scope
+Reference implementation in src/splot/speculative.py for MTPLM's fixed-depth all-GQA model. CPU float64 probability arithmetic, one sequence/one document, separate shallow and target prefill, default temperature 1.0, no top-k/top-p, no batching, no GPU timing. No change to model weights or architecture. Runners must be in eval mode, share vocabulary and immutable checkpoint/config during generation. They retain last-token logits and optional offset-2 logits with their own cache. The exactness claim is mathematical for the supplied distributions under ideal arithmetic, subject to floating-point and PRNG effects in the implementation; not bitwise equality of independently sampled strings. Greedy verification is a separate deterministic procedure.
+
+## Proposal and verifier
+D1 samples from shallow next-token distribution, advances shallow scratch for subsequent drafts; q_i conditions on prior proposed tokens. D2 independently draws the first and second tokens from shallow NTP and offset-2 logits at the same committed prefix. For D2, q_2 deliberately ignores the first draw, so its actual conditional proposal is the same fixed offset-2 distribution. Draft length defaults to two; D2 requires two (remaining budget may truncate to one), D1 allows positive lengths. Stop proposing after draft EOS, but only committed EOS terminates generation.
+
+For target prefix x, draft y_1..y_k is evaluated in one target forward call using a retained committed cache. p_1 comes from pending prefix logits, p_i for i>1 from the output after y_(i-1), and bonus distribution from output after y_k. Use the same positive temperature transform for both p and q. Subtract max before division, CPU float64 softmax; permit negative infinity for zero support, reject NaN, positive infinity and all-masked logits. Sample acceptance with u*q_i(y_i) < p_i(y_i) (equivalent to min(1,p/q) for q>0). At first rejection draw from normalized max(p_i-q_i,0), discard remaining proposals. Rejecting with zero residual mass is an arithmetic error, not silently replaced by target sampling. If all drafts accepted, optionally draw one bonus token from target, bounded by remaining budget and EOS. Greedy mode instead accepts iff draft equals target argmax; on mismatch emits target argmax.
+
+Proof for a single position: accepted contribution for token z is min(p(z),q(z)); rejection probability is sum_z max(p(z)-q(z),0). Adding residual contribution yields p(z). Applying this conditional on committed history yields target autoregressive joint distribution. The proof also applies to D2 independent proposals because actual conditional q is used, not a hypothetical autoregressive second-token head. EOS and fixed budget stop the sequence without changing the committed conditional probabilities.
+
+## Cache transactions
+Target verification returns scratch cache. If rejection occurs, discard scratch and advance the retained committed target cache by accepted tokens plus correction exactly once. If all accepted, retain verified cache; advance once for optional bonus. Always synchronize shallow by advancing from its retained committed prefix with emitted tokens; this correctness-first implementation may recompute shallow draft work. Pending logits track last committed token in each runner. Cache state is read-only by convention (the inherited all-GQA cache does not mutate old tensors). No cross-depth cache reuse. Generation state returned includes both synchronized caches, emitted tokens, total proposed (including unexamined suffix), accepted, rejected (one per failed round) and rounds. No GDN rollback yet; matrix and convolution history must be independently restored in #5 before hybrid verification can be considered valid. Caller owns checkpoint/device/precision consistency; no production cache manager.
+
+## Validation
+Six CPU tests and seven inherited MTP regression tests passed; see [evidence](../../experiments/results/exact-speculation-v0.1.md). Includes analytical single-position residual identity, forced disjoint/identical proposals, two-token conditional target joint distribution with 3000 draws per strategy, rejection at first and second position, EOS (accepted/rejected/correction), budget and bonus, actual FP64 untrained MTPLM greedy equality with ordinary full-depth autoregression and fresh-prefix cache/logit equivalence in greedy and sampling modes. Statistical test is a finite toy check, not proof of all model sampling distributions. Actual model check uses one seed, tiny model, short sequence. No acceptance-rate or speed claims from untrained weights. No GPU/BF16 or long-context tests; greedy near-ties may differ due to floating-point kernel changes. Temperature only; top-p/top-k/penalties require consistent transformed p/q and new tests.
+
+Run:
+```bash
+PYTHONPATH=src:tools python tests/test_speculative.py
+PYTHONPATH=src:tools python tests/test_mtp.py
+```
+
+## Next
+#5 integrate GDN v1 with PyTorch learned projections, convolution and recurrent matrix state; standalone forward/backward and chunk/step equivalence, then hybrid recurrent integration and rerun verifier tests with GDN rollback. #2 remains open for literature completion, wider statistical/precision tests, GPU/real data acceptance and performance studies, shallow cache reuse, and other proposal strategies. #6 MoE follows hybrid correctness. #8 production data gate unchanged.

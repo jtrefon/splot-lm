@@ -27,3 +27,5 @@ PR #18 merged. #8 data contract, candidate registry and tested synthetic fixture
 PRs #19 and #20 merged. #4 recurrent all-GQA implementation, actual fixture integration, seven new CPU tests and A1 smoke in review branch. Next #2 offset-2 head and A0/A1/A2, then exact verifier; #5/#6 after correctness. #8 production data remains gated; #9 GPU smoke outstanding. Live issue/PR state wins.
 
 PR #21 merged. Native MTP offset-2 and A0/A1/A2 implementation in review branch (#2); seven CPU tests, three synthetic 40-step smoke runs. Next exact D1/D2 verifier, EOS/budget, sampling correctness, cache replay; then #5 hybrid and #6 MoE. #8 production data and #9 GPU smoke pending.
+
+PR #22 merged. Exact D1/D2 all-GQA speculative reference in review (#2), six CPU tests and seven MTP regressions pass. Next #5 learned GDN v1 standalone and hybrid integration, matrix/convolution rollback; then #6 MoE. #2 remains open for broader validation and performance. #8 real corpus gate unchanged.
