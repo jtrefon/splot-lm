@@ -56,6 +56,12 @@ def load_manifest(root):
     return json.loads(data), data
 
 
+def refresh_report_digest(report):
+    report = copy.deepcopy(report)
+    report["digest"] = corpus.canonical_digest(report)
+    return report
+
+
 def refresh_manifest(root, manifest):
     manifest = copy.deepcopy(manifest)
     manifest["physical_manifest_digest"] = ts._digest_bytes(
@@ -129,6 +135,38 @@ class CorpusBridgeTests(unittest.TestCase):
             if cluster["split"] == "train"
         )
         self.assertEqual(bundle["source_identity"]["train_doc_ids"], train_ids)
+        inputs_by_id = {
+            item["record_id"]: item["text"] for item in report["inputs"]
+        }
+        train_docs = []
+        for cluster in report["clusters"]:
+            if cluster["split"] != "train":
+                continue
+            representative = cluster["representative"]
+            member = next(
+                item for item in cluster["members"] if item["record_id"] == representative
+            )
+            train_docs.append(
+                bpe.Document(
+                    representative,
+                    "train",
+                    member["language"],
+                    member["domain"],
+                    inputs_by_id[representative],
+                )
+            )
+        self.assertEqual(
+            bpe.train_input_digest(train_docs),
+            bundle["artifact"]["training_digest"],
+        )
+        self.assertEqual(
+            set(bundle["source_identity"]["cluster_splits"]),
+            {cluster["cluster_id"] for cluster in report["clusters"]},
+        )
+        self.assertEqual(
+            set(bundle["source_identity"]["cluster_representatives"]),
+            {cluster["cluster_id"] for cluster in report["clusters"]},
+        )
         split_clusters = {
             split: set(report["splits"][split])
             for split in ts.SPLIT_ORDER
@@ -169,6 +207,59 @@ class CorpusBridgeTests(unittest.TestCase):
             bpe.demo_report()["artifact_sha256"],
             "f67ef4ab5c343e3c9f81570b0d7426a5668e578aa84806058265d0aaf633ce7e",
         )
+
+    def test_report_digest_and_approved_sources_required(self):
+        report = corpus.demo_report()
+        tampered = copy.deepcopy(report)
+        tampered["inputs"][0]["text"] += " tampered"
+        with self.assertRaises(ts.ShardError):
+            ts.build_token_documents(tampered, ts._DEMO_APPROVALS)
+        with self.assertRaises(ts.ShardError):
+            ts.build_token_documents(report, (ts._DEMO_APPROVALS[0],))
+        with self.assertRaises(ts.ShardError):
+            ts.build_token_documents(
+                report,
+                (
+                    corpus.SourceApproval(
+                        "synthetic_en", "wrong-revision", corpus.SYNTHETIC_APPROVAL
+                    ),
+                    ts._DEMO_APPROVALS[1],
+                ),
+            )
+
+    def test_report_structure_tamper_rejected(self):
+        base = corpus.demo_report()
+        duplicate_cluster = copy.deepcopy(base)
+        duplicate_cluster["clusters"].append(
+            copy.deepcopy(duplicate_cluster["clusters"][0])
+        )
+        with self.assertRaises(ts.ShardError):
+            ts.build_token_documents(
+                refresh_report_digest(duplicate_cluster), ts._DEMO_APPROVALS
+            )
+        duplicate_member = copy.deepcopy(base)
+        duplicate_member["clusters"][1]["members"].append(
+            copy.deepcopy(duplicate_member["clusters"][0]["members"][0])
+        )
+        with self.assertRaises(ts.ShardError):
+            ts.build_token_documents(
+                refresh_report_digest(duplicate_member), ts._DEMO_APPROVALS
+            )
+        promoted_quarantine = copy.deepcopy(base)
+        quarantine = next(
+            cluster for cluster in promoted_quarantine["clusters"] if cluster["split"] is None
+        )
+        quarantine["split"] = "train"
+        with self.assertRaises(ts.ShardError):
+            ts.build_token_documents(
+                refresh_report_digest(promoted_quarantine), ts._DEMO_APPROVALS
+            )
+        duplicate_input = copy.deepcopy(base)
+        duplicate_input["inputs"].append(copy.deepcopy(duplicate_input["inputs"][0]))
+        with self.assertRaises(ts.ShardError):
+            ts.build_token_documents(
+                refresh_report_digest(duplicate_input), ts._DEMO_APPROVALS
+            )
 
 
 class PackingTests(unittest.TestCase):
@@ -397,6 +488,55 @@ class LoaderCorruptionTests(unittest.TestCase):
             with self.assertRaises(ts.ShardError):
                 ts.load_dataset(root, digest)
 
+    def test_rehashed_content_and_train_metadata_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root, manifest, _ = self._materialized(temp)
+            mutated = copy.deepcopy(manifest)
+            doc = mutated["documents"][0]
+            tokens = doc["tokens"]
+            tokens[0] = 8 + ord("Z")
+            text = bpe.decode(tokens, DEMO_BUNDLE["artifact"])
+            doc["content_sha256"] = bpe.document_content_sha256(text)
+            _, digest = refresh_manifest(root, mutated)
+            with self.assertRaises(ts.ShardError):
+                ts.load_dataset(root, digest)
+            mutated = copy.deepcopy(manifest)
+            mutated["documents"][0]["content_sha256"] = "0" * 64
+            _, digest = refresh_manifest(root, mutated)
+            with self.assertRaises(ts.ShardError):
+                ts.load_dataset(root, digest)
+            mutated = copy.deepcopy(manifest)
+            mutated["source_identity"]["bpe_training_digest"] = "0" * 64
+            _, digest = refresh_manifest(root, mutated)
+            with self.assertRaises(ts.ShardError):
+                ts.load_dataset(root, digest)
+
+    def test_incomplete_cluster_and_quarantine_mapping_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root, manifest, _ = self._materialized(temp)
+            mutated = copy.deepcopy(manifest)
+            cluster = next(iter(mutated["source_identity"]["cluster_splits"]))
+            del mutated["source_identity"]["cluster_splits"][cluster]
+            del mutated["source_identity"]["cluster_representatives"][cluster]
+            _, digest = refresh_manifest(root, mutated)
+            with self.assertRaises(ts.ShardError):
+                ts.load_dataset(root, digest)
+            mutated = copy.deepcopy(manifest)
+            quarantine = mutated["source_identity"]["quarantine"][0]["cluster_id"]
+            mutated["source_identity"]["cluster_splits"][quarantine] = "train"
+            _, digest = refresh_manifest(root, mutated)
+            with self.assertRaises(ts.ShardError):
+                ts.load_dataset(root, digest)
+
+    @unittest.skipUnless(hasattr(os, "mkfifo"), "mkfifo unavailable on this platform")
+    def test_nonregular_file_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root, manifest, digest = self._materialized(temp)
+            fifo = root / "unexpected-fifo"
+            os.mkfifo(fifo)
+            with self.assertRaises(ts.ShardError):
+                ts.load_dataset(root, digest)
+
     def test_invalid_token_and_position_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
             root, manifest, _ = self._materialized(temp)
@@ -461,6 +601,29 @@ class LoaderCorruptionTests(unittest.TestCase):
             _, digest = refresh_manifest(root, manifest)
             with self.assertRaises(ts.ShardError):
                 ts.load_dataset(root, digest)
+
+
+class SourceCandidateMetadataTests(unittest.TestCase):
+    def test_candidate_metadata_shape_and_boundary(self):
+        path = (
+            Path(__file__).resolve().parents[1]
+            / "research"
+            / "data"
+            / "pilot-source-candidates-v0.1.json"
+        )
+        data = json.loads(path.read_text(encoding="utf-8"))
+        candidates = data["candidates"]
+        self.assertGreaterEqual(len(candidates), 4)
+        counts = {"en": 0, "pl": 0}
+        for item in candidates:
+            counts[item["language"]] += 1
+        self.assertEqual(counts, {"en": 2, "pl": 2})
+        self.assertTrue(all(item["status"] == "pending" for item in candidates))
+        self.assertLessEqual(data["pilot_limits"]["max_raw_utf8_bytes"], 10 * 1024 * 1024)
+        self.assertNotIn('"text":', json.dumps(data))
+        for item in candidates:
+            self.assertTrue(item["source"]["catalog_url"].startswith("https://"))
+            self.assertTrue(item["evidence"])
 
 
 if __name__ == "__main__":

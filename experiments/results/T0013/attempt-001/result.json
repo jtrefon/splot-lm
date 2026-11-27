@@ -1,0 +1,80 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 17,179,869,184 bytes RAM, CPython 3.15.2, Unicode data 17.0.0; CPU only, no CUDA/MPS. Tested implementation HEAD 9ac54fc40d6524ad9d75fb9d33295270e3e4c8ae was clean at acceptance start and after the commands. Reviewed base/instruction commit 685df410e28a260d45c7cfa2685c6614d64d77e0; approved minimum base 34506006f24a18a0222fb45a61eeaf2f51fd6289. No packages, external corpora, full text, training or real data.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Implementation commit 9ac54fc40d6524ad9d75fb9d33295270e3e4c8ae is followed by a separate attempt-001 evidence commit containing the required REP records, source-review evidence, demo.json and manifest.json. Scope review found exactly the three allowed existing files and two allowed new metadata files plus this evidence directory and one INDEX append; no prior evidence was rewritten. PR #69 references #67/#8/#11 and records the validator output; hosted CPU success is required before merge. No merge or issue closure is claimed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Implementation commit 9ac54fc40d6524ad9d75fb9d33295270e3e4c8ae changes exactly the three allowed existing files and adds the two allowed metadata files: tools/tokenized_shards.py (SHA-256 bb61978484f860ad5a517943f12b241b56262d4aef8228be019d7df5f8e5cb46), tools/test_tokenized_shards.py (SHA-256 c730bc5fa1c0c783b4a9458265b5537b6859106f023a42b9e53345b413e042e1), research/data/tokenized-shards.md (SHA-256 010a84c3873e361a953621e9d2bd4c96ef8d2e8561cab593615b2e346ff9c6bc), research/data/pilot-source-candidates.md (SHA-256 f443956e884b22f3475a51c3e6182d23f5c467a4ebaef3a758c300424964641e) and research/data/pilot-source-candidates-v0.1.json (SHA-256 a1c9336d414f035b81729d6e4e6ca02a05f43a60b5c3abef0e87ccbbbe1923e4). The trusted tokenized-shard boundary is now v2: canonical report revalidation, explicit approved source/revision mapping, unique inputs/clusters/members, one representative per cluster, complete quarantine identity, decode/rehash content checks, recomputed train-only BPE identity, exact cluster/representative mapping and nonregular-file rejection. T0010 evidence remains historical.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "demo.json",
+        "manifest.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "source_review": {
+      "detail": "Four individually identifiable prose candidates were reviewed from official metadata only: Standard Ebooks Pride and Prejudice and Alice's Adventures in Wonderland (EN), Wolne Lektury Lalka and Pan Tadeusz (PL). All are pending, not acquisition-ready; blockers include EU/Polish rights review, edition/annotation/illustration handling and missing artifact checksums or immutable revisions. No full text, dataset shard, gated access or acquisition occurred. The bounded proposal caps raw UTF-8 at 10 MiB, targets 50/50 EN/PL content tokens, is prose-only and defers 16k/32k tokenizer qualification. No rights approval, source pin or legal opinion is claimed.",
+      "evidence": [
+        "source-review.md",
+        "source-review.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 without timeout or retry: 30/30 corpus-reference tests (0.070036 s), 28/28 BPE-reference tests (0.107701 s), 6/6 fixture tests (0.040775 s) and 27/27 tokenized-shard tests (0.200657 s) passed; the candidate JSON parsed successfully with 4 candidates (2 EN/2 PL, all pending). The demo ran twice in 0.058125 s and 0.058770 s, producing byte-identical 21,209-byte output with SHA-256 1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396. Manifest SHA-256 1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0; logical 5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba; packed 7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f; physical 3229cf587492afd31465fb3731f796f612dbaa279f05bebcedaabf1278813df6. The demo has 11 documents, 4 blocks, 3 shards, 203 content/22 special/225 valid/159 pad tokens and 214 NTP/203 offset-2 labels; independent materializations are byte-identical and a different shard partition preserves logical/packed digests while changing the physical manifest.",
+      "evidence": [
+        "summary.md",
+        "metrics.jsonl",
+        "demo.json",
+        "manifest.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "demo.json": "1c899be572c22105cf2d37766b9806a5db6daebd9f0a768ce2f793e369511396",
+    "environment.json": "6b701670a41ba2b3f0f955471a4f28544efbf701c3873994ae0aa30e6013ed5d",
+    "execution.log": "f45a8d04ea671585ddad333e6424859b9044c594b56bfd6219857646b9ed38e0",
+    "manifest.json": "1e2b8fa70aafff32331018488992c40ec82521ad26eed5b58532fdf58442bff0",
+    "metrics.jsonl": "b0ab92d15116e8e36b047a6b5343c60f8ab97137e5f6c3cb2be0740dbb4ab66b",
+    "source-review.json": "a1c9336d414f035b81729d6e4e6ca02a05f43a60b5c3abef0e87ccbbbe1923e4",
+    "source-review.md": "f443956e884b22f3475a51c3e6182d23f5c467a4ebaef3a758c300424964641e",
+    "summary.md": "77052afb74e4660c532645105f5ea76de9fd1ba2c8804a6ea4cff49b76e30d44"
+  },
+  "limitations": [
+    "Metadata-only review; no full text, corpus shard, tokenizer artifact or real-data materialization was acquired.",
+    "No candidate is acquisition-ready; EU/Polish rights, edition/annotation/illustration handling and checksums/revisions remain open.",
+    "Standard Ebooks provides U.S. public-domain warnings, not EU clearance; Wolne Lektury metadata lacks immutable revisions/checksums.",
+    "The four-work pilot cannot guarantee 50/50 train/validation/test balance without additional works; the proposal states this imbalance.",
+    "The shard loader provides integrity checks for a trusted local single-writer dataset; it is not a rights gate, multi-writer lock or adversarial filesystem guarantee.",
+    "The synthetic shard demo is not a production tokenizer, quality, throughput, fertility or downstream model claim.",
+    "Cross-platform shard equality is not claimed until a separate Linux comparison verifies the v2 canonical digests."
+  ],
+  "schema_version": 1,
+  "source_commit": "9ac54fc40d6524ad9d75fb9d33295270e3e4c8ae",
+  "status": "passed",
+  "task_commit": "685df410e28a260d45c7cfa2685c6614d64d77e0",
+  "task_id": "T0013",
+  "tested_commit": "9ac54fc40d6524ad9d75fb9d33295270e3e4c8ae"
+}

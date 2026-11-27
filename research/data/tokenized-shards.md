@@ -1,11 +1,18 @@
 # Portable tokenized shards and document-safe packing
-2026-11-27 | Synthetic reference only, #60 / #8 / #10 | T0010
+2026-11-27 | Synthetic reference only, #60 / #67 / #8 / #10 | T0010 / T0013
 
 **Status:** deterministic, dependency-free bridge from the accepted synthetic
 corpus oracle and byte BPE artifact to portable tokenized shard files. It is not
 a production-scale sharding/streaming pipeline, production tokenizer, source
 rights decision or data acquisition tool. Only original synthetic text is used;
 no external corpus or network storage is involved.
+
+**T0013 boundary update:** the manifest format is now
+`splot-tokenized-shards-v2` / version 2. The source identity includes the complete
+cluster-split mapping, cluster representatives and quarantine identity, and the
+producer requires an explicit approved synthetic source/revision mapping. T0010
+evidence remains historical and unchanged; the v2 demo/manifest digests are
+expected to differ because the hardened schema carries more identity.
 
 ## 1. Source bridge and train-only tokenizer
 
@@ -22,6 +29,16 @@ train-input identity and BPE training digest are recorded in the manifest.
 Encoding is performed once per representative. Every content token must be in
 the byte/merge range (8..actual_vocab_size-1), no raw control ID (0–7) may be
 emitted, and strict UTF-8 decode must reproduce the original text exactly.
+
+The producer does not trust `audit.ok` alone. It recomputes the corpus report
+canonical digest, requires unique input/cluster/member/representative identities,
+exactly one representative per cluster, explicit approved source/revision
+mapping, valid quarantine reasons and no quarantine/member overlap. It verifies
+each selected representative's original text hash and the train-only BPE input
+digest before accepting the artifact. The accepted corpus report identity,
+cluster splits (including `null` for quarantined clusters), cluster
+representatives, quarantine member IDs and BPE training digest are recorded in
+the manifest source identity.
 
 ## 2. Packing semantics
 
@@ -84,14 +101,16 @@ blank lines, timestamps or absolute paths in any digest.
 
 The strict manifest schema records:
 
-- format/version (`splot-tokenized-shards-v1`, version 1);
+- format/version (`splot-tokenized-shards-v2`, version 2);
 - pack config: length, offsets `[1,2]`, max blocks per shard, total block bound,
   PAD/BOS/EOS/IGNORE IDs;
 - tokenizer artifact SHA-256, requested/actual vocabulary size, algorithm and
   schema version;
 - source identity: corpus report digest, seed, split percentages, approved
   synthetic source/revision pairs, train document IDs, BPE training digest,
-  cluster/document split mapping and quarantine metadata;
+  complete cluster split mapping (split string or `null` for quarantine),
+  cluster representative mapping, document split mapping and quarantine
+  metadata;
 - ordered document records: stable doc/cluster IDs, split, language, domain,
   source/revision, exact content SHA-256, numeric ID and encoded content tokens;
 - ordered shard records: relative path, split, exact byte count, SHA-256, block
@@ -112,20 +131,30 @@ recomputed.
 
 ## 5. Verified loader
 
-`load_dataset(root, expected_manifest_sha256)` refuses symlinks and unsafe or
-absolute paths. It verifies the complete file set (manifest, tokenizer, every
-declared shard, no extras/missing files), per-file and total size limits before
-returning blocks, canonical UTF-8/JSON bytes, duplicate JSON keys, nonfinite
-numbers, manifest schema/types, tokenizer hash/reload, document identity,
-contiguous numeric IDs, cluster/document split consistency, source approvals,
-quarantine exclusion, shard ordering/ranges/hashes, block schema, token ranges,
-BOS/EOS boundaries, position resets, valid/pad consistency, label offsets and
-cross-document leakage.
+`load_dataset(root, expected_manifest_sha256)` refuses symlinks, unsafe or
+absolute paths and nonregular files. It verifies the complete file set
+(manifest, tokenizer, every declared shard, no extras/missing files), per-file
+and total size limits before returning blocks, canonical UTF-8/JSON bytes,
+duplicate JSON keys, nonfinite numbers, manifest schema/types, tokenizer
+hash/reload, document identity, contiguous numeric IDs, exact cluster/document
+split consistency, one representative per cluster, source approvals,
+quarantine cluster and member exclusion, shard ordering/ranges/hashes, block
+schema, token ranges, BOS/EOS boundaries, position resets, valid/pad
+consistency, label offsets and cross-document leakage.
 
+It decodes each document's token content with the frozen artifact, rechecks the
+content SHA-256 and recomputes the train-only `train_input_digest`; the result
+must match both the artifact training digest and the source identity metadata.
 It independently recomputes the logical and packed digests, recomputes counts
 from retained records and blocks, and repacks the manifest documents to compare
 the resulting canonical blocks with the loaded blocks. Caller-supplied counts
 are never trusted. All checks must pass before blocks are returned.
+
+The loader provides integrity checks for a trusted local single-writer dataset.
+`expected_manifest_sha256` must be independently pinned/reviewed; the manifest's
+self-declared source approvals do not establish real-world rights. Atomic rename
+is not a multi-writer locking protocol and there is no concurrent adversarial
+filesystem guarantee.
 
 ## 6. Atomic materialization
 
@@ -140,7 +169,7 @@ services, network operations or cleanup of unrelated paths.
 From `PYTHONPATH=tools`, `import tokenized_shards`:
 
 ```python
-build_token_documents(report, *, requested_vocab_size=320, max_merges=56) -> dict
+build_token_documents(report, approved_sources, *, requested_vocab_size=320, max_merges=56) -> dict
 build_demo_bundle() -> dict
 pack_documents(documents, artifact, config) -> list[dict]
 compute_counts(documents, blocks, config) -> dict
@@ -201,6 +230,7 @@ PYTHONPATH=tools python3 tools/tokenized_shards.py --demo
 ```
 
 Run the demo twice and compare bytes. REP evidence under
-`experiments/results/T0010/attempt-001/` records the tested implementation SHA,
+`experiments/results/T0013/attempt-001/` records the tested implementation SHA,
 commands, exit codes, test counts, demo hash, logical/physical digests and the
-manifest example.
+manifest example. T0010 evidence under `experiments/results/T0010/attempt-001/`
+remains historical and is not rewritten.

@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "document": "pilot-source-candidates",
+  "version": "0.1",
+  "retrieved_at": "2026-11-27",
+  "status": "metadata_only_no_acquisition_no_rights_approval",
+  "pilot_limits": {
+    "max_raw_utf8_bytes": 10485760,
+    "languages": ["en", "pl"],
+    "target_content_token_ratio": "50/50 EN/PL",
+    "domain": "prose",
+    "deferred_domains": ["code", "math", "technical"],
+    "tokenizer_candidates": [16384, 32768],
+    "tokenizer_qualification": "separate reviewed package/version qualification and train-only fitting"
+  },
+  "candidates": [
+    {
+      "candidate_id": "se-pride-and-prejudice",
+      "language": "en",
+      "title": "Pride and Prejudice",
+      "author": {
+        "name": "Jane Austen",
+        "life": null,
+        "life_note": "Author life dates are not stated on the Standard Ebooks item page; verify against an official authority record before an EU rights decision."
+      },
+      "work_first_published": "1813",
+      "source": {
+        "name": "Standard Ebooks",
+        "catalog_url": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice",
+        "item_id": "jane-austen/pride-and-prejudice",
+        "edition_id": "standardebooks-jane-austen-pride-and-prejudice-2026-11-15",
+        "edition_url": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice",
+        "source_revision": "a77a2dbbc0d11a17d6c68c581f17e26a65bd8168",
+        "source_revision_type": "Git commit shown in the official item history",
+        "artifact_sha256": null,
+        "checksum_note": "No release-artifact SHA-256 is published in the item metadata; checksum requires an owner-approved local download."
+      },
+      "rights": {
+        "underlying_work": "Standard Ebooks marks the ebook as believed free of U.S. copyright restrictions; EU status needs author-life/edition review.",
+        "edition_and_annotations": "Standard Ebooks dedicates content it produces to the public domain via CC0 1.0; third-party content may remain copyrighted.",
+        "source_terms": "Standard Ebooks about/catalog terms, CC0 1.0 dedication for its production",
+        "training_use": "not automatically cleared; separate rights review required",
+        "raw_redistribution": "not approved",
+        "processed_weights": "separate decision",
+        "attribution": "CC0 does not require attribution, but preserve source/edition provenance and commit."
+      },
+      "access": {
+        "gated": false,
+        "route": "Official Standard Ebooks item page or its GitHub edition source after owner approval",
+        "formats": ["epub", "advanced epub", "azw3", "kepub", "xhtml"],
+        "anticipated_raw_bytes": null,
+        "word_count": 121970,
+        "access_note": "No full-text download or artifact retrieval was performed in T0013."
+      },
+      "jurisdiction": {
+        "scope": "United States item warning with EU/Polish use unresolved",
+        "eu_tdm": "EU TDM reservation/exception review required; no legal opinion given",
+        "poland": "separate review required if material is used in Poland/EU",
+        "pii": "literary text; historical names only, no private data collected here",
+        "contamination": "classic literature may overlap benchmarks; exact/near benchmark check required later"
+      },
+      "status": "pending",
+      "blockers": [
+        "author/edition EU rights review",
+        "release artifact checksum not available from metadata",
+        "exact text extraction and annotation/cover exclusion not yet qualified"
+      ],
+      "evidence": [
+        {
+          "url": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice",
+          "excerpt": "Pride and Prejudice, by Jane Austen; dateModified 2026-11-15; GitHub commit a77a2dbbc0d11a17d6c68c581f17e26a65bd8168; schema:license CC0 1.0."
+        },
+        {
+          "url": "https://standardebooks.org/about",
+          "excerpt": "The text and cover art in our ebooks are already believed to be in the U.S. public domain, and Standard Ebooks dedicates its own work to the public domain."
+        }
+      ]
+    },
+    {
+      "candidate_id": "se-alices-adventures",
+      "language": "en",
+      "title": "Alice’s Adventures in Wonderland",
+      "author": {
+        "name": "Lewis Carroll",
+        "life": null,
+        "life_note": "Author life dates are not stated on the Standard Ebooks item page; verify against an official authority record before an EU rights decision."
+      },
+      "illustrator": {
+        "name": "John Tenniel",
+        "life": null,
+        "note": "Illustrations are present in this edition; their separate rights status must be reviewed."
+      },
+      "work_first_published": "1865",
+      "source": {
+        "name": "Standard Ebooks",
+        "catalog_url": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+        "item_id": "lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+        "edition_id": "standardebooks-lewis-carroll-alices-wonderland-tenniel-2026-11-24",
+        "edition_url": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+        "source_revision": "9e5eb58995d9fd2f609363d14786d8b0166bbbb9",
+        "source_revision_type": "Git commit shown in the official item history",
+        "artifact_sha256": null,
+        "checksum_note": "No release-artifact SHA-256 is published in the item metadata; checksum requires an owner-approved local download."
+      },
+      "rights": {
+        "underlying_work": "Standard Ebooks marks the ebook as believed free of U.S. copyright restrictions; EU status needs author/illustrator/edition review.",
+        "edition_and_annotations": "Standard Ebooks production is CC0 1.0; illustrations and third-party content require separate review.",
+        "source_terms": "Standard Ebooks about/catalog terms, CC0 1.0 dedication for its production",
+        "training_use": "not automatically cleared; separate rights review required",
+        "raw_redistribution": "not approved",
+        "processed_weights": "separate decision",
+        "attribution": "CC0 does not require attribution, but preserve source/edition/illustrator provenance."
+      },
+      "access": {
+        "gated": false,
+        "route": "Official Standard Ebooks item page or its GitHub edition source after owner approval",
+        "formats": ["epub", "advanced epub", "azw3", "kepub", "xhtml"],
+        "anticipated_raw_bytes": null,
+        "word_count": 26738,
+        "access_note": "No full-text download or artifact retrieval was performed in T0013."
+      },
+      "jurisdiction": {
+        "scope": "United States item warning with EU/Polish use unresolved",
+        "eu_tdm": "EU TDM reservation/exception review required; no legal opinion given",
+        "poland": "separate review required if material is used in Poland/EU",
+        "pii": "literary text; historical names only, no private data collected here",
+        "contamination": "classic literature may overlap benchmarks; exact/near benchmark check required later"
+      },
+      "status": "pending",
+      "blockers": [
+        "author/illustrator/edition EU rights review",
+        "release artifact checksum not available from metadata",
+        "illustration and annotation exclusion from training text not yet qualified"
+      ],
+      "evidence": [
+        {
+          "url": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+          "excerpt": "Alice’s Adventures in Wonderland; illustrated by John Tenniel; dateModified 2026-11-24; GitHub commit 9e5eb58995d9fd2f609363d14786d8b0166bbbb9; schema:license CC0 1.0."
+        },
+        {
+          "url": "https://standardebooks.org/about",
+          "excerpt": "Standard Ebooks dedicates its own work to the public domain; text and cover art are believed to be in the U.S. public domain."
+        }
+      ]
+    },
+    {
+      "candidate_id": "wl-lalka",
+      "language": "pl",
+      "title": "Lalka",
+      "author": {
+        "name": "Bolesław Prus",
+        "life": "1847-1912",
+        "life_source": "https://wolnelektury.pl/katalog/lektura/lalka/"
+      },
+      "work_first_published": "1890",
+      "source": {
+        "name": "Wolne Lektury",
+        "catalog_url": "https://wolnelektury.pl/katalog/lektura/lalka/",
+        "item_id": "lalka",
+        "edition_id": "wolnelektury-lalka-two-volumes",
+        "edition_url": "https://wolnelektury.pl/katalog/lektura/lalka/",
+        "volume_items": ["lalka-tom-pierwszy", "lalka-tom-drugi"],
+        "source_revision": null,
+        "source_revision_type": "catalog item ID only; no immutable revision published in the metadata",
+        "artifact_sha256": null,
+        "checksum_note": "No checksum published in the metadata; checksum requires an owner-approved local download."
+      },
+      "rights": {
+        "underlying_work": "The work is presented as public domain; author died in 1912 and Wolne Lektury states its works are public domain or free-licensed.",
+        "edition_and_annotations": "Wolne Lektury states annotations and literary motifs are additional material under a free license (CC BY-SA 3.0 or LAL 1.3); isolate or attribute them explicitly.",
+        "source_terms": "Wolne Lektury Regulamin and Zasady wykorzystania, retrieved 2026-11-27",
+        "training_use": "text public domain; edition/annotation obligations and any EU TDM/Polish review still required",
+        "raw_redistribution": "not approved",
+        "processed_weights": "separate decision",
+        "attribution": "Preserve author/title, Wolne Lektury source notice, license, and any annotation attribution."
+      },
+      "access": {
+        "gated": false,
+        "route": "Official Wolne Lektury item/API or EPUB/XML after owner approval",
+        "formats": ["epub", "pdf", "mobi", "xml"],
+        "anticipated_raw_bytes": null,
+        "access_note": "No full-text download or artifact retrieval was performed in T0013; API response contained no txt field for Lalka."
+      },
+      "jurisdiction": {
+        "scope": "Poland/EU",
+        "eu_tdm": "EU TDM and Polish implementation review required; no legal opinion given",
+        "poland": "Wolne Lektury terms and attribution/share-alike review required",
+        "pii": "literary text; historical names only, no private data collected here",
+        "contamination": "classic literature may overlap benchmarks; exact/near benchmark check required later"
+      },
+      "status": "pending",
+      "blockers": [
+        "immutable revision/checksum not published in catalog metadata",
+        "annotation/motif extraction and free-license attribution not yet qualified",
+        "edition identity and EU/Polish rights review"
+      ],
+      "evidence": [
+        {
+          "url": "https://wolnelektury.pl/api/books/lalka/",
+          "excerpt": "Title Lalka; author Bolesław Prus; language pol; two volume children; ISBN 978-83-288-0737-2 (PDF), 978-83-288-3733-1 (EPUB), 978-83-288-4819-1 (MOBI)."
+        },
+        {
+          "url": "https://wolnelektury.pl/katalog/lektura/lalka/",
+          "excerpt": "Bolesław Prus, born 20 August 1847, died 19 May 1912; first published 1890; item page identifies the two volumes."
+        },
+        {
+          "url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+          "excerpt": "Works are public domain or free-licensed; annotations and motifs are new editorial material under a free license; attribution and share-alike conditions apply."
+        }
+      ]
+    },
+    {
+      "candidate_id": "wl-pan-tadeusz",
+      "language": "pl",
+      "title": "Pan Tadeusz, czyli ostatni zajazd na Litwie",
+      "author": {
+        "name": "Adam Mickiewicz",
+        "life": "1798-1855",
+        "life_source": "https://wolnelektury.pl/katalog/lektura/pan-tadeusz/"
+      },
+      "work_first_published": "1834",
+      "source": {
+        "name": "Wolne Lektury",
+        "catalog_url": "https://wolnelektury.pl/katalog/lektura/pan-tadeusz/",
+        "item_id": "pan-tadeusz",
+        "edition_id": "wolnelektury-pan-tadeusz",
+        "edition_url": "https://wolnelektury.pl/katalog/lektura/pan-tadeusz/",
+        "source_revision": null,
+        "source_revision_type": "catalog item ID only; no immutable revision published in the metadata",
+        "artifact_sha256": null,
+        "checksum_note": "No checksum published in the metadata; checksum requires an owner-approved local download."
+      },
+      "rights": {
+        "underlying_work": "The work is presented as public domain; author died in 1855 and Wolne Lektury states its works are public domain or free-licensed.",
+        "edition_and_annotations": "Wolne Lektury states annotations and literary motifs are additional material under a free license (CC BY-SA 3.0 or LAL 1.3); isolate or attribute them explicitly.",
+        "source_terms": "Wolne Lektury Regulamin and Zasady wykorzystania, retrieved 2026-11-27",
+        "training_use": "text public domain; edition/annotation obligations and any EU TDM/Polish review still required",
+        "raw_redistribution": "not approved",
+        "processed_weights": "separate decision",
+        "attribution": "Preserve author/title, Wolne Lektury source notice, license, and any annotation attribution."
+      },
+      "access": {
+        "gated": false,
+        "route": "Official Wolne Lektury item/API or txt/EPUB/XML after owner approval",
+        "formats": ["epub", "pdf", "mobi", "txt", "fb2", "xml"],
+        "anticipated_raw_bytes": null,
+        "access_note": "No full-text download or artifact retrieval was performed in T0013."
+      },
+      "jurisdiction": {
+        "scope": "Poland/EU",
+        "eu_tdm": "EU TDM and Polish implementation review required; no legal opinion given",
+        "poland": "Wolne Lektury terms and attribution/share-alike review required",
+        "pii": "literary text; historical names only, no private data collected here",
+        "contamination": "classic literature may overlap benchmarks; exact/near benchmark check required later"
+      },
+      "status": "pending",
+      "blockers": [
+        "immutable revision/checksum not published in catalog metadata",
+        "annotation/motif extraction and free-license attribution not yet qualified",
+        "edition identity and EU/Polish rights review"
+      ],
+      "evidence": [
+        {
+          "url": "https://wolnelektury.pl/api/books/pan-tadeusz/",
+          "excerpt": "Title Pan Tadeusz, czyli ostatni zajazd na Litwie; author Adam Mickiewicz; language pol; txt/EPUB/XML links; ISBN 978-83-288-0542-2 (PDF), 978-83-288-3538-2 (EPUB), 978-83-288-4624-1 (MOBI)."
+        },
+        {
+          "url": "https://wolnelektury.pl/katalog/lektura/pan-tadeusz/",
+          "excerpt": "Adam Mickiewicz, born 24 December 1798, died 26 November 1855; published 1834; edition includes editorial annotations."
+        },
+        {
+          "url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+          "excerpt": "Works are public domain or free-licensed; annotations and motifs are new editorial material under a free license; attribution and share-alike conditions apply."
+        }
+      ]
+    }
+  ],
+  "recommendation": {
+    "status": "no_acquisition_ready_candidate",
+    "summary": "Four plausible prose candidates were identified, but none is acquisition-ready without resolving item/edition, checksum, annotation/illustration, EU TDM and Polish/English jurisdiction review.",
+    "strongest_initial_pair": ["se-pride-and-prejudice", "wl-pan-tadeusz"],
+    "alternate_pair": ["se-alices-adventures", "wl-lalka"],
+    "required_owner_decisions": [
+      "approve or reject each candidate after rights review",
+      "authorize exact source access route and local Linux materialization",
+      "qualify a 16k or 32k tokenizer package/version in a separate reviewed step"
+    ],
+    "residual_risks": [
+      "Standard Ebooks provides a U.S. public-domain warning, not an EU clearance",
+      "Wolne Lektury metadata does not publish an immutable revision or checksum",
+      "editorial annotations/motifs and illustrations may require exclusion or separate licensing",
+      "EU TDM reservations and Polish implementation require qualified review",
+      "classic canonical works may overlap evaluation benchmarks",
+      "small pilot cannot establish balanced production proportions"
+    ]
+  }
+}
