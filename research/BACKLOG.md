@@ -37,3 +37,5 @@ PR #24 merged. Full SPLOT sparse hybrid reference in review (#6/#3); exact candi
 PR #25 merged. #10 synthetic FP32 experiment harness, exact resume mechanics, executable full candidate configs, token-weighted evaluation and analytical MAC report in review. Five toy harness tests pass; full SPLOT integration/CLI and CUDA not executed (sandbox clone DNS failure). Next run integration, benchmark D0/D1/D2, add matched controls. #7 precision and #8 real data remain gated.
 
 PR #26 merged. REP v0.1 in review: one-repository task/evidence handoff, no runner infrastructure. T0001 #27 pinned GPU correctness task requires merged spec and explicit local launch; T0002 #28 blocked on reviewed evidence. Read EXECUTION.md and evidence index. #10 remains open.
+
+2026-11-27: #3/#4/#5/#9 closed for original specification/reference acceptance, #27 T0001 closed after merged #31/#32 and reviewed evidence. #2 literature verification, #6 locality/PCIe, #7 precision, #8 real data, #10 empirical benchmarks/matched controls and #11 licensing remain open. T0002 #28 finalized in review; owner launch only after merge.
