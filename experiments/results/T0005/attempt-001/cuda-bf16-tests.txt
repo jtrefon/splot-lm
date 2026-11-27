@@ -1,0 +1,10 @@
+test_bf16_resume_exact_and_cross_precision_rejected (__main__.BF16HarnessTests.test_bf16_resume_exact_and_cross_precision_rejected) ... ok
+test_fp32_master_weights_adam_and_evaluation (__main__.BF16HarnessTests.test_fp32_master_weights_adam_and_evaluation) ... ok
+test_gqa_gdn_router_and_reduction_dtypes (__main__.BF16HarnessTests.test_gqa_gdn_router_and_reduction_dtypes) ... ok
+test_rmsnorm_rope_and_ce_are_fp32 (__main__.BF16HarnessTests.test_rmsnorm_rope_and_ce_are_fp32) ... ok
+test_same_seed_batch_and_precision_resolution (__main__.BF16HarnessTests.test_same_seed_batch_and_precision_resolution) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.068s
+
+OK

@@ -1,0 +1,594 @@
+diff --git a/configs/experiments/splot-nano-synthetic-bf16.json b/configs/experiments/splot-nano-synthetic-bf16.json
+new file mode 100644
+index 0000000..f008eec
+--- /dev/null
++++ b/configs/experiments/splot-nano-synthetic-bf16.json
+@@ -0,0 +1,40 @@
++{
++  "dense": {
++    "vocab_size": 32768,
++    "width": 384,
++    "layers": 8,
++    "q_heads": 6,
++    "kv_heads": 2,
++    "head_dim": 64,
++    "intermediate": 1024,
++    "rope_theta": 1000000,
++    "eps": 0.00001,
++    "init_std": 0.02
++  },
++  "recurrence": {
++    "prelude": 2,
++    "core": 4,
++    "coda": 2,
++    "max_loops": 4,
++    "default_loops": 2,
++    "injection": "none",
++    "injection_strength": 0.1,
++    "residual_scale": "unscaled",
++    "depth_embedding": false
++  },
++  "expert_intermediate": 512,
++  "training": {
++    "data": "synthetic-v1",
++    "precision": "bf16",
++    "mode": "A2",
++    "loops": 2,
++    "seed": 42,
++    "sequence_length": 96,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0.25,
++    "offset_weight": 0.25,
++    "balance_weight": 0.01
++  }
++}
+diff --git a/configs/experiments/splot-smoke-synthetic-bf16.json b/configs/experiments/splot-smoke-synthetic-bf16.json
+new file mode 100644
+index 0000000..5c7cb96
+--- /dev/null
++++ b/configs/experiments/splot-smoke-synthetic-bf16.json
+@@ -0,0 +1,40 @@
++{
++  "dense": {
++    "vocab_size": 264,
++    "width": 32,
++    "layers": 8,
++    "q_heads": 4,
++    "kv_heads": 2,
++    "head_dim": 8,
++    "intermediate": 64,
++    "rope_theta": 1000000,
++    "eps": 0.00001,
++    "init_std": 0.02
++  },
++  "recurrence": {
++    "prelude": 2,
++    "core": 4,
++    "coda": 2,
++    "max_loops": 4,
++    "default_loops": 2,
++    "injection": "none",
++    "injection_strength": 0.1,
++    "residual_scale": "unscaled",
++    "depth_embedding": false
++  },
++  "expert_intermediate": 32,
++  "training": {
++    "data": "synthetic-v1",
++    "precision": "bf16",
++    "mode": "A2",
++    "loops": 2,
++    "seed": 42,
++    "sequence_length": 96,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0.25,
++    "offset_weight": 0.25,
++    "balance_weight": 0.01
++  }
++}
+diff --git a/research/implementation/bf16-harness.md b/research/implementation/bf16-harness.md
+new file mode 100644
+index 0000000..742b9a2
+--- /dev/null
++++ b/research/implementation/bf16-harness.md
+@@ -0,0 +1,72 @@
++# BF16 harness with FP32 numerical safeguards
++
++Status: T0005 implementation, reviewed smoke scope only. Task [T0005](../tasks/T0005-bf16-harness.md), issue [#40](https://github.com/jtrefon/splot-lm/issues/40). This is not a production-training or performance result.
++
++## Policy
++
++`training.precision` is explicit and opt-in:
++
++- `fp32` keeps the existing path unchanged: no autocast context, FP32 model parameters, FP32 AdamW state and FP32 sensitive arithmetic.
++- `bf16` keeps the model and optimizer in FP32 and enables `torch.autocast(device_type=..., dtype=torch.bfloat16)` only around the training objective's forward pass and the evaluation forward pass. Backward and `optimizer.step()` run outside autocast. No `GradScaler` is used.
++- Unsupported values and unavailable BF16 backends fail before training; there is no silent fallback. CUDA records `torch.cuda.is_bf16_supported()`. A small eligible projection probe must return BF16; CPU BF16 is accepted only when that probe and the focused model tests actually pass.
++- Deterministic algorithms remain enabled and TF32 remains disabled. Requested/actual policy, probe dtype, master dtype and BF16 support are recorded in the run identity/environment; `training.precision` is part of the checkpoint identity, so cross-precision resume is rejected.
++
++## FP32-sensitive boundaries
++
++The existing reference already used explicit FP32 accumulation in most sensitive paths. T0005 added one narrow source fix:
++
++- `src/splot/dense.py` GQA: score contraction, causal mask/softmax and value contraction now run inside `torch.autocast(..., enabled=False)`. GQA projections remain eligible BF16 under the outer autocast; the FP32 path is unchanged.
++
++Verified as FP32 under BF16 autocast:
++
++- FP32 master parameters, gradients and AdamW `exp_avg`/`exp_avg_sq`.
++- GDN `delta_scan` matrix recurrence and its contractions (autocast disabled), with FP32 matrix state and BF16 raw history.
++- Router linear/softmax, deterministic top-k and FP32 expert accumulation.
++- Cross-entropy, RMSNorm reductions, RoPE angle arithmetic and GQA score/softmax/value.
++- Composite A2 objective arithmetic and validation NLL.
++
++Eligible projections and other broad activations may be BF16; not every activation is guaranteed BF16. The value contraction was made FP32 as part of the GQA safeguard rather than left BF16.
++
++## Harness and configs
++
++- `tools/experiment.py`: `resolve_precision`, BF16-aware `train`/`evaluate`, identity/environment policy fields, precision-specific limitations and report policy.
++- New configs are identical to their FP32 counterparts except `training.precision`:
++  - `configs/experiments/splot-smoke-synthetic-bf16.json`
++  - `configs/experiments/splot-nano-synthetic-bf16.json`
++- Existing FP32 configs, topology, fixture/data, numerical tolerances and checkpoint cadence are unchanged.
++
++## Focused tests
++
++`tools/test_bf16_harness.py` uses the actual `SPLOTLM` model, not only a toy linear layer. It checks:
++
++- actual public projection output dtypes via hooks, GDN matrix state, router probabilities, GQA score/value einsum inputs and softmax dtypes;
++- FP32 RMSNorm reduction, RoPE angles and cross-entropy against FP32 references;
++- FP32 master parameters/Adam moments, finite losses/gradients, FP32 composite objective arithmetic and BF16 evaluation;
++- exact same-mode BF16 checkpoint resume on deterministic CPU and cross-precision resume rejection;
++- same initial weights/batch selection and precision resolution/fallback rejection.
++
++Run it with the other CPU regressions:
++
++```bash
++CUDA_VISIBLE_DEVICES="" PYTHONPATH=src:tools python tools/test_bf16_harness.py
++```
++
++## Bounded CUDA validation
++
++The reviewed validation compares one FP32 and one BF16 Nano step with the same seed/inputs, then checks BF16 smoke continuous/resumed equivalence. Predeclared provisional first-step gates:
++
++- absolute final-NTP CE difference <= 0.10 nats;
++- absolute early-NTP CE difference <= 0.10 nats;
++- absolute offset-2 CE difference <= 0.10 nats;
++- absolute composite objective difference <= 0.20.
++
++Balance and route agreement are descriptive only; top-k discontinuities may occur. These are smoke tolerances, not convergence or precision-superiority criteria. The FP32 run must also match the accepted T0002 non-timing first-step history.
++
++## Limitations
++
++- One-step paired Nano and short BF16 smoke only; no convergence, long-training, throughput, energy or production claim.
++- BF16 autocast is not a claim that all activations or kernels are BF16, nor that BF16 is faster on this stack.
++- CPU BF16 is validated only by the focused deterministic tests when the backend supports it; CPU BF16 is not a CUDA substitute.
++- The synthetic byte fixture is not a production tokenizer or corpus.
++- Checkpoints remain local-only; no tensors are committed.
++- Matched FP32/BF16 full-epoch validation, checkpoint-cadence measurement, activation checkpointing, FP8 and low-bit work require separate reviewed tasks.
+diff --git a/src/splot/dense.py b/src/splot/dense.py
+index a3fdd65..c6d38f7 100644
+--- a/src/splot/dense.py
++++ b/src/splot/dense.py
+@@ -127,10 +127,11 @@ class GQA(nn.Module):
+                     v = torch.cat((final[1], v), dim=1)
+                 past = k.shape[1]-n
+                 q = q.reshape(c.kv_heads, c.q_heads//c.kv_heads, n, c.head_dim)
+-                score = torch.einsum('hgtd,hsd->hgts', _accum(q), _accum(k))/math.sqrt(c.head_dim)
+-                allowed = torch.arange(k.shape[1], device=x.device)[None, :] <= past+torch.arange(n, device=x.device)[:, None]
+-                prob = score.masked_fill(~allowed, float('-inf')).softmax(-1)
+-                y = torch.einsum('hgts,hsd->hgtd', prob, _accum(v)).to(x.dtype)
++                with torch.autocast(device_type=x.device.type, enabled=False):
++                    score = torch.einsum('hgtd,hsd->hgts', _accum(q), _accum(k))/math.sqrt(c.head_dim)
++                    allowed = torch.arange(k.shape[1], device=x.device)[None, :] <= past+torch.arange(n, device=x.device)[:, None]
++                    prob = score.masked_fill(~allowed, float('-inf')).softmax(-1)
++                    y = torch.einsum('hgts,hsd->hgtd', prob, _accum(v)).to(x.dtype)
+                 y = y.reshape(c.q_heads, n, c.head_dim).transpose(0, 1).reshape(n, -1)
+                 if self.output_gate is not None:
+                     y = y*self.output_gate(u).sigmoid()
+diff --git a/tools/experiment.py b/tools/experiment.py
+index 6929c08..d701fd9 100644
+--- a/tools/experiment.py
++++ b/tools/experiment.py
+@@ -1,6 +1,7 @@
+ """Synthetic-only experiment harness; no external corpus acquisition."""
+ import argparse
+ from collections import Counter
++from contextlib import nullcontext
+ import hashlib
+ import json
+ import math
+@@ -40,6 +41,28 @@ def seed_all(seed):
+     if torch.cuda.is_available(): torch.cuda.manual_seed_all(seed)
+
+
++def resolve_precision(device, precision):
++    """Resolve the requested training precision and reject silent fallback."""
++    if precision not in ('fp32', 'bf16'):
++        raise ValueError('precision must be fp32 or bf16')
++    dev = torch.device(device)
++    if precision == 'fp32':
++        return {'requested': 'fp32', 'policy': 'fp32', 'autocast_dtype': None,
++                'autocast_dtype_name': None, 'probe_dtype': 'not_run', 'bf16_supported': None}
++    supported = None
++    if dev.type == 'cuda':
++        supported = torch.cuda.is_bf16_supported()
++        if not supported:
++            raise RuntimeError('CUDA BF16 is not supported on this device')
++    with torch.autocast(device_type=dev.type, dtype=torch.bfloat16):
++        probe = torch.nn.functional.linear(torch.ones(2, 4, device=dev), torch.ones(4, 4, device=dev))
++    if probe.dtype != torch.bfloat16:
++        raise RuntimeError(f'BF16 autocast unavailable on {dev.type}: probe projection returned {probe.dtype}')
++    return {'requested': 'bf16', 'policy': 'bf16-autocast-fp32-master',
++            'autocast_dtype': torch.bfloat16, 'autocast_dtype_name': 'bfloat16',
++            'probe_dtype': 'bfloat16', 'bf16_supported': supported}
++
++
+ def batch_indices(n, batch_size, step, seed):
+     if min(n, batch_size) < 1 or step < 0:
+         raise ValueError('invalid schedule')
+@@ -71,8 +94,11 @@ def restore_rng(state):
+     if state['cuda'] is not None: torch.cuda.set_rng_state_all(state['cuda'])
+
+
+-def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_size, seed, device, resume=False):
++def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_size, seed, device,
++          resume=False, autocast_dtype=None):
+     """One optimizer step per batch. Checkpoint is sole authoritative progress ledger."""
++    if autocast_dtype is not None and autocast_dtype != torch.bfloat16:
++        raise ValueError('autocast dtype must be bfloat16')
+     out = Path(out); out.mkdir(parents=True, exist_ok=True)
+     cp = out/'checkpoint.pt'
+     if resume:
+@@ -93,7 +119,9 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
+         if torch.device(device).type == 'cuda': torch.cuda.reset_peak_memory_stats(device)
+         sync(device); start = time.perf_counter()
+         optimizer.zero_grad(set_to_none=True)
+-        o = objective(model, inputs, labels)
++        with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
++              if autocast_dtype is not None else nullcontext()):
++            o = objective(model, inputs, labels)
+         if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
+         o.total.backward()
+         if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
+@@ -114,11 +142,15 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
+
+
+ @torch.no_grad()
+-def evaluate(model, blocks, predict, *, batch_size, device):
++def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None):
++    if autocast_dtype is not None and autocast_dtype != torch.bfloat16:
++        raise ValueError('autocast dtype must be bfloat16')
+     model.eval(); nll=0.; count=0
+     for i in range(0,len(blocks),batch_size):
+         x,y=collate(blocks,list(range(i,min(i+batch_size,len(blocks)))),device)
+-        logits=predict(model,x)
++        with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
++              if autocast_dtype is not None else nullcontext()):
++            logits=predict(model,x)
+         nll+=float(torch.nn.functional.cross_entropy(logits.float().flatten(0,1),y[1].flatten(),ignore_index=-100,reduction='sum'))
+         count+=int(y[1].ne(-100).sum())
+     if not count or not math.isfinite(nll): raise ValueError('invalid validation')
+@@ -144,17 +176,27 @@ def main():
+     if a.out.resolve().is_relative_to(root): p.error('output must be outside checkout')
+     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
+     rc=RecurrentConfig(dense=d,**c['recurrence'])
+-    if d.vocab_size<264 or t['precision']!='fp32' or t['data']!='synthetic-v1': p.error('only synthetic FP32 runs supported')
++    if d.vocab_size<264 or t['data']!='synthetic-v1': p.error('only synthetic-v1 runs supported')
++    if t['precision'] not in ('fp32', 'bf16'): p.error('precision must be fp32 or bf16')
+     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
+     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1 or not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
+     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
+     if a.device=='cuda':
+         torch.backends.cuda.matmul.allow_tf32=False; torch.backends.cudnn.allow_tf32=False
++    try:
++        policy=resolve_precision(a.device,t['precision'])
++    except (ValueError,RuntimeError) as exc:
++        p.error(str(exc))
+     seed_all(t['seed'])
+     splits=split_documents(synthetic_documents()); packed={k:pack(v,t['sequence_length']) for k,v in splits.items() if k!='test'}
+     data=manifest(); env={'python':platform.python_version(),'torch':str(torch.__version__),'device':a.device,
+         'cpu':platform.processor() or platform.machine(),'platform':platform.platform(),'threads':1,
+-        'cuda_runtime':torch.version.cuda,'gpu':torch.cuda.get_device_name(0) if a.device=='cuda' else None}
++        'cuda_runtime':torch.version.cuda,'gpu':torch.cuda.get_device_name(0) if a.device=='cuda' else None,
++        'requested_precision':policy['requested'],'precision_policy':policy['policy'],
++        'autocast_dtype':policy['autocast_dtype_name'],'autocast_probe_dtype':policy['probe_dtype'],
++        'bf16_supported':policy['bf16_supported'],'master_dtype':'float32',
++        'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
++        'deterministic_algorithms':True}
+     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
+               'packed_sha256':digest(packed),'environment':env,'settings':t}
+     model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
+@@ -162,17 +204,21 @@ def main():
+     if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
+     opt=torch.optim.AdamW(model.parameters(),lr=t['lr'],weight_decay=t['weight_decay'])
+     objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
+-    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume)
+-    val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device)
++    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'])
++    val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
+     shape=Shape(d=d.width,vocab=d.vocab_size,q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
+                 gdn_heads=d.q_heads,dense=d.intermediate,expert=c['expert_intermediate'])
+     readouts=1 if t['mode']=='A0' else t['loops']
+     offsets=min(2,t['loops']) if t['mode']=='A2' else 0
+     count_document=lambda n:account(shape,loops=t['loops'],context=n,readouts=readouts,offsets=offsets)['prefill_all_logits_macs']
+     macs=sum(logical_macs(packed['train'],r['batch_indices'],count_document) for r in history)
++    precision_policy={'requested':policy['requested'],'policy':policy['policy'],
++                      'autocast_dtype':policy['autocast_dtype_name'],'probe_dtype':policy['probe_dtype'],
++                      'bf16_supported':policy['bf16_supported']}
+     report={'identity':identity,'config':c,'data_manifest':data,'parameters':actual,'history':history,'validation':val,
++            'precision_policy':precision_policy,
+             'total_valid_tokens':sum(r['valid_tokens'] for r in history),'total_ntp_labels':sum(r['ntp_labels'] for r in history),
+-            'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':['synthetic byte fixture; no production tokenizer','template overlap across splits','FP32 reference, not optimized','step timing excludes checkpoint I/O and validation','MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']}
++            'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':['synthetic byte fixture; no production tokenizer','template overlap across splits',('BF16 autocast with FP32 master weights/state; not optimized' if t['precision']=='bf16' else 'FP32 reference, not optimized'),'step timing excludes checkpoint I/O and validation','MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs']}
+     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))
+
+
+diff --git a/tools/test_bf16_harness.py b/tools/test_bf16_harness.py
+new file mode 100644
+index 0000000..e8bddbf
+--- /dev/null
++++ b/tools/test_bf16_harness.py
+@@ -0,0 +1,260 @@
++"""Focused BF16 autocast and FP32-safeguard tests for the synthetic harness."""
++import argparse
++import math
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++
++import torch
++
++from data_fixture import synthetic_documents, split_documents, pack
++from experiment import batch_indices, evaluate, resolve_precision, seed_all, train
++from splot import SPLOTLM, RecurrentConfig, ntp_loss, training_objective
++from splot.dense import RMSNorm, rope
++
++
++def _autocast(device='cpu'):
++    return torch.autocast(device_type=device, dtype=torch.bfloat16)
++
++
++class BF16HarnessTests(unittest.TestCase):
++    device = 'cpu'
++
++    @classmethod
++    def setUpClass(cls):
++        cls.blocks = pack(split_documents(synthetic_documents())['train'], 96)
++        block = cls.blocks[0]
++        cls.x = tuple(torch.tensor([block[k]], device=cls.device) for k in
++                      ('input_ids', 'document_ids', 'position_ids', 'valid'))
++        cls.labels = {k: torch.tensor([block['labels'][k]], device=cls.device) for k in (1, 2)}
++
++    def setUp(self):
++        torch.set_num_threads(1)
++        torch.use_deterministic_algorithms(True)
++
++    def require_bf16(self):
++        if self.device == 'cuda' and (not torch.cuda.is_available() or not torch.cuda.is_bf16_supported()):
++            self.skipTest('CUDA BF16 unavailable')
++        try:
++            with _autocast(self.device):
++                probe = torch.nn.functional.linear(
++                    torch.ones(2, 4, device=self.device), torch.ones(4, 4, device=self.device))
++            if probe.dtype != torch.bfloat16:
++                self.skipTest(f'BF16 autocast on {self.device} returned {probe.dtype}')
++        except Exception as exc:
++            self.skipTest(f'BF16 autocast on {self.device} unavailable: {exc}')
++
++    def test_gqa_gdn_router_and_reduction_dtypes(self):
++        self.require_bf16()
++        torch.manual_seed(42)
++        model = SPLOTLM(RecurrentConfig()).float().to(self.device).eval()
++        seen = {}
++        for name, module in (('prelude_q', model.prelude[0].attn.q),
++                             ('core_gqa_q', model.core[3].attn.q)):
++            module.register_forward_hook(
++                lambda m, i, o, key=name: seen.__setitem__(key, o.dtype))
++        captured, softmax_dtypes = [], []
++        orig_einsum, orig_softmax = torch.einsum, torch.Tensor.softmax
++
++        def einsum(equation, *operands, **kwargs):
++            if equation in ('hgtd,hsd->hgts', 'hgts,hsd->hgtd'):
++                captured.append((equation, tuple(x.dtype for x in operands if isinstance(x, torch.Tensor))))
++            return orig_einsum(equation, *operands, **kwargs)
++
++        def softmax(self, *args, **kwargs):
++            softmax_dtypes.append(self.dtype)
++            return orig_softmax(self, *args, **kwargs)
++
++        torch.einsum = einsum
++        torch.Tensor.softmax = softmax
++        try:
++            with torch.no_grad(), _autocast(self.device):
++                out = model(*self.x, loops=2, readouts=(1, 2), offset2_depths=(1, 2), use_cache=True)
++        finally:
++            torch.einsum = orig_einsum
++            torch.Tensor.softmax = orig_softmax
++        self.assertTrue(seen)
++        self.assertTrue(all(dtype == torch.bfloat16 for dtype in seen.values()), seen)
++        self.assertEqual(out.logits[2].dtype, torch.bfloat16)
++        self.assertTrue(out.logits[2].isfinite().all())
++        self.assertTrue(out.routing)
++        self.assertTrue(all(r.probabilities.dtype == torch.float32 for _, r in out.routing))
++        gdn = [(key, rows) for key, rows in out.cache.states if key[0] == 'C' and key[2] < 3]
++        self.assertTrue(gdn)
++        for _, rows in gdn:
++            for matrix, history in rows:
++                self.assertEqual(matrix.dtype, torch.float32)
++                self.assertEqual(history.dtype, torch.bfloat16)
++        score = [dtypes for equation, dtypes in captured if equation == 'hgtd,hsd->hgts']
++        value = [dtypes for equation, dtypes in captured if equation == 'hgts,hsd->hgtd']
++        self.assertTrue(score)
++        self.assertTrue(value)
++        self.assertTrue(all(all(dtype == torch.float32 for dtype in dtypes) for dtypes in score))
++        self.assertTrue(all(all(dtype == torch.float32 for dtype in dtypes) for dtypes in value))
++        self.assertTrue(softmax_dtypes)
++        self.assertTrue(all(dtype == torch.float32 for dtype in softmax_dtypes), softmax_dtypes)
++
++    def test_fp32_master_weights_adam_and_evaluation(self):
++        self.require_bf16()
++        torch.manual_seed(42)
++        model = SPLOTLM(RecurrentConfig()).float().to(self.device).train()
++        opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=0)
++        with _autocast(self.device):
++            objective = training_objective(model, self.x, self.labels, mode='A2', loops=2)
++        self.assertEqual(objective.total.dtype, torch.float32)
++        for name in ('total', 'final_ntp', 'early_ntp', 'offset2', 'balance'):
++            self.assertEqual(getattr(objective, name).dtype, torch.float32)
++        torch.testing.assert_close(
++            objective.total,
++            objective.final_ntp + .25 * objective.early_ntp + .25 * objective.offset2 + .01 * objective.balance,
++            rtol=1e-6, atol=1e-6)
++        objective.total.backward()
++        self.assertTrue(all(p.dtype == torch.float32 for p in model.parameters()))
++        self.assertTrue(all(p.grad is None or (p.grad.dtype == torch.float32 and p.grad.isfinite().all())
++                            for p in model.parameters()))
++        opt.step()
++        self.assertTrue(all(p.dtype == torch.float32 for p in model.parameters()))
++        state = [s for s in opt.state.values() if s]
++        self.assertTrue(state)
++        for entry in state:
++            self.assertEqual(entry['exp_avg'].dtype, torch.float32)
++            self.assertEqual(entry['exp_avg_sq'].dtype, torch.float32)
++            self.assertTrue(entry['exp_avg'].isfinite().all())
++            self.assertTrue(entry['exp_avg_sq'].isfinite().all())
++            self.assertEqual(float(entry['step']), 1.0)
++        with _autocast(self.device):
++            val = evaluate(model, self.blocks[:1], lambda m, x: m(*x, loops=2).logits[2],
++                           batch_size=1, device=self.device, autocast_dtype=torch.bfloat16)
++        self.assertGreater(val['ntp_labels'], 0)
++        self.assertTrue(math.isfinite(val['mean_nll']) and math.isfinite(val['perplexity']))
++
++    def test_rmsnorm_rope_and_ce_are_fp32(self):
++        self.require_bf16()
++        torch.manual_seed(1)
++        x = torch.randn(2, 3, 16, device=self.device).to(torch.bfloat16)
++        norm = RMSNorm(16, 1e-5).to(self.device)
++        means, roots = [], []
++        orig_mean, orig_rsqrt = torch.Tensor.mean, torch.rsqrt
++
++        def mean(self, *args, **kwargs):
++            means.append(self.dtype)
++            return orig_mean(self, *args, **kwargs)
++
++        def rsqrt(self, *args, **kwargs):
++            roots.append(self.dtype)
++            return orig_rsqrt(self, *args, **kwargs)
++
++        torch.Tensor.mean = mean
++        torch.rsqrt = rsqrt
++        try:
++            with _autocast(self.device):
++                y = norm(x)
++        finally:
++            torch.Tensor.mean = orig_mean
++            torch.rsqrt = orig_rsqrt
++        reference = (x.float() * torch.rsqrt(x.float().square().mean(-1, keepdim=True) + norm.eps)
++                     * norm.weight).to(torch.bfloat16)
++        self.assertTrue(torch.equal(y, reference))
++        self.assertTrue(means and all(dtype == torch.float32 for dtype in means))
++        self.assertTrue(roots and all(dtype == torch.float32 for dtype in roots))
++
++        z = torch.randn(2, 5, 8, device=self.device).to(torch.bfloat16)
++        positions = torch.arange(5, device=self.device)
++        cosines, sines = [], []
++        orig_cos, orig_sin = torch.Tensor.cos, torch.Tensor.sin
++
++        def cos(self, *args, **kwargs):
++            cosines.append(self.dtype)
++            return orig_cos(self, *args, **kwargs)
++
++        def sin(self, *args, **kwargs):
++            sines.append(self.dtype)
++            return orig_sin(self, *args, **kwargs)
++
++        torch.Tensor.cos = cos
++        torch.Tensor.sin = sin
++        try:
++            with _autocast(self.device):
++                rotated = rope(z, positions, 1e6)
++        finally:
++            torch.Tensor.cos = orig_cos
++            torch.Tensor.sin = orig_sin
++        inv = 1e6 ** (-torch.arange(0, z.shape[-1], 2, dtype=torch.float32, device=self.device) / z.shape[-1])
++        angle = positions.to(torch.float32)[:, None] * inv
++        a, b = z[..., 0::2].float(), z[..., 1::2].float()
++        expected = torch.stack((a * angle.cos() - b * angle.sin(),
++                                a * angle.sin() + b * angle.cos()), -1).flatten(-2).to(torch.bfloat16)
++        self.assertTrue(torch.equal(rotated, expected))
++        self.assertTrue(cosines and all(dtype == torch.float32 for dtype in cosines))
++        self.assertTrue(sines and all(dtype == torch.float32 for dtype in sines))
++
++        logits = torch.randn(1, 5, 32, device=self.device).to(torch.bfloat16)
++        labels = torch.randint(0, 32, (1, 5), device=self.device)
++        with _autocast(self.device):
++            loss = ntp_loss(logits, labels)
++        expected_loss = torch.nn.functional.cross_entropy(
++            logits.float().reshape(-1, 32), labels.reshape(-1), reduction='sum') / labels.numel()
++        self.assertEqual(loss.dtype, torch.float32)
++        self.assertTrue(torch.equal(loss, expected_loss))
++
++    def test_bf16_resume_exact_and_cross_precision_rejected(self):
++        self.require_bf16()
++        identity_bf16 = {'schema': 1, 'settings': {'precision': 'bf16'}, 'environment': {'device': 'cpu'}}
++        identity_fp32 = {'schema': 1, 'settings': {'precision': 'fp32'}, 'environment': {'device': 'cpu'}}
++        objective = lambda m, x, y: training_objective(m, x, y, mode='A2', loops=2)
++
++        def run(path, steps, resume=False, identity=None, autocast_dtype=torch.bfloat16):
++            seed_all(42 if not resume else 99)
++            model = SPLOTLM(RecurrentConfig()).float().to(self.device)
++            opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=0)
++            history = train(model, opt, self.blocks, objective, identity or identity_bf16, out / path,
++                            steps=steps, batch_size=1, seed=42, device=self.device, resume=resume,
++                            autocast_dtype=autocast_dtype)
++            return model, opt, history
++
++        with tempfile.TemporaryDirectory() as tmp:
++            out = Path(tmp)
++            a, ao, ah = run('continuous', 2)
++            run('split', 1)
++            b, bo, bh = run('split', 2, resume=True)
++            for x, y in zip(a.parameters(), b.parameters()):
++                torch.testing.assert_close(x, y, rtol=0, atol=0)
++            for x, y in zip(ao.state.values(), bo.state.values()):
++                for key in x:
++                    torch.testing.assert_close(x[key], y[key], rtol=0, atol=0)
++            ignore = {'step_seconds', 'peak_cuda_allocated_bytes', 'peak_cuda_reserved_bytes'}
++            self.assertEqual([{k: v for k, v in row.items() if k not in ignore} for row in ah],
++                             [{k: v for k, v in row.items() if k not in ignore} for row in bh])
++            with self.assertRaises(ValueError):
++                run('split', 2, resume=True, identity=identity_fp32, autocast_dtype=None)
++
++    def test_same_seed_batch_and_precision_resolution(self):
++        self.require_bf16()
++        seed_all(42)
++        a = SPLOTLM(RecurrentConfig()).to(self.device)
++        seed_all(42)
++        b = SPLOTLM(RecurrentConfig()).to(self.device)
++        for x, y in zip(a.state_dict().values(), b.state_dict().values()):
++            torch.testing.assert_close(x, y, rtol=0, atol=0)
++        self.assertEqual(batch_indices(len(self.blocks), 1, 0, 42),
++                         batch_indices(len(self.blocks), 1, 0, 42))
++        fp32 = resolve_precision(self.device, 'fp32')
++        self.assertIsNone(fp32['autocast_dtype'])
++        bf16 = resolve_precision(self.device, 'bf16')
++        self.assertEqual(bf16['autocast_dtype'], torch.bfloat16)
++        self.assertEqual(bf16['probe_dtype'], 'bfloat16')
++        with self.assertRaises(ValueError):
++            resolve_precision(self.device, 'fp16')
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
++    args = parser.parse_args()
++    if args.device == 'cuda' and (not torch.cuda.is_available() or not torch.cuda.is_bf16_supported()):
++        parser.error('CUDA BF16 is unavailable')
++    BF16HarnessTests.device = args.device
++    torch.set_num_threads(1)
++    torch.use_deterministic_algorithms(True)
++    unittest.main(argv=[sys.argv[0]], verbosity=2)

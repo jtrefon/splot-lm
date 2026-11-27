@@ -1,0 +1,115 @@
+{
+  "ce_output_dtype": "float32",
+  "checks": {
+    "ce_output_fp32": true,
+    "eligible_projection_bf16": true,
+    "gdn_history_bf16": true,
+    "gdn_matrix_fp32": true,
+    "gqa_score_inputs_fp32": true,
+    "gqa_value_inputs_fp32": true,
+    "logits_bf16": true,
+    "master_parameters_fp32": true,
+    "rmsnorm_mean_fp32": true,
+    "rmsnorm_rsqrt_fp32": true,
+    "rope_cos_fp32": true,
+    "rope_sin_fp32": true,
+    "router_probability_fp32": true,
+    "softmax_inputs_fp32": true
+  },
+  "cuda_runtime": "12.8",
+  "device": "cuda",
+  "eligible_projection_dtypes": {
+    "core_gqa_q": "bfloat16",
+    "prelude_q": "bfloat16"
+  },
+  "gdn_history_dtype": "bfloat16",
+  "gdn_matrix_dtype": "float32",
+  "gqa_score_input_dtypes": [
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ]
+  ],
+  "gqa_value_input_dtypes": [
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ],
+    [
+      "float32",
+      "float32"
+    ]
+  ],
+  "rmsnorm_mean_dtypes": [
+    "float32"
+  ],
+  "rmsnorm_rsqrt_dtypes": [
+    "float32"
+  ],
+  "rope_cos_dtypes": [
+    "float32"
+  ],
+  "rope_sin_dtypes": [
+    "float32"
+  ],
+  "router_probability_dtypes": [
+    "float32"
+  ],
+  "softmax_input_dtypes": [
+    "float32"
+  ],
+  "status": "passed",
+  "torch": "2.10.0+cu128"
+}

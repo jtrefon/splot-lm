@@ -1,0 +1,280 @@
+{
+  "analytical_forward_macs": 60133888,
+  "config": {
+    "dense": {
+      "eps": 1e-05,
+      "head_dim": 8,
+      "init_std": 0.02,
+      "intermediate": 64,
+      "kv_heads": 2,
+      "layers": 8,
+      "q_heads": 4,
+      "rope_theta": 1000000,
+      "vocab_size": 264,
+      "width": 32
+    },
+    "expert_intermediate": 32,
+    "recurrence": {
+      "coda": 2,
+      "core": 4,
+      "default_loops": 2,
+      "depth_embedding": false,
+      "injection": "none",
+      "injection_strength": 0.1,
+      "max_loops": 4,
+      "prelude": 2,
+      "residual_scale": "unscaled"
+    },
+    "training": {
+      "balance_weight": 0.01,
+      "batch_size": 1,
+      "data": "synthetic-v1",
+      "depth_weight": 0.25,
+      "loops": 2,
+      "lr": 0.003,
+      "mode": "A2",
+      "offset_weight": 0.25,
+      "precision": "bf16",
+      "seed": 42,
+      "sequence_length": 96,
+      "weight_decay": 0
+    }
+  },
+  "data_manifest": {
+    "test": {
+      "byte_tokens": 666,
+      "documents": 14,
+      "ids": [
+        "synthetic-00-01",
+        "synthetic-00-05",
+        "synthetic-01-03",
+        "synthetic-02-09",
+        "synthetic-03-00",
+        "synthetic-03-02",
+        "synthetic-03-03",
+        "synthetic-04-00",
+        "synthetic-04-07",
+        "synthetic-06-02",
+        "synthetic-06-04",
+        "synthetic-06-06",
+        "synthetic-06-07",
+        "synthetic-07-03"
+      ],
+      "sha256": "9dcef6b6085352370e929b386a4cdfbfeaa6cc34b1c009029f4d8d0e087b543e"
+    },
+    "train": {
+      "byte_tokens": 2477,
+      "documents": 57,
+      "ids": [
+        "synthetic-00-00",
+        "synthetic-00-02",
+        "synthetic-00-03",
+        "synthetic-00-04",
+        "synthetic-00-06",
+        "synthetic-00-08",
+        "synthetic-01-00",
+        "synthetic-01-02",
+        "synthetic-01-04",
+        "synthetic-01-05",
+        "synthetic-01-06",
+        "synthetic-01-07",
+        "synthetic-01-08",
+        "synthetic-01-09",
+        "synthetic-02-00",
+        "synthetic-02-01",
+        "synthetic-02-02",
+        "synthetic-02-04",
+        "synthetic-02-05",
+        "synthetic-02-06",
+        "synthetic-02-08",
+        "synthetic-03-01",
+        "synthetic-03-04",
+        "synthetic-03-05",
+        "synthetic-03-06",
+        "synthetic-03-07",
+        "synthetic-03-08",
+        "synthetic-04-01",
+        "synthetic-04-03",
+        "synthetic-04-04",
+        "synthetic-04-05",
+        "synthetic-04-06",
+        "synthetic-04-09",
+        "synthetic-05-00",
+        "synthetic-05-01",
+        "synthetic-05-02",
+        "synthetic-05-03",
+        "synthetic-05-04",
+        "synthetic-05-05",
+        "synthetic-05-06",
+        "synthetic-05-07",
+        "synthetic-05-08",
+        "synthetic-05-09",
+        "synthetic-06-00",
+        "synthetic-06-01",
+        "synthetic-06-03",
+        "synthetic-06-05",
+        "synthetic-06-08",
+        "synthetic-06-09",
+        "synthetic-07-00",
+        "synthetic-07-02",
+        "synthetic-07-04",
+        "synthetic-07-05",
+        "synthetic-07-06",
+        "synthetic-07-07",
+        "synthetic-07-08",
+        "synthetic-07-09"
+      ],
+      "sha256": "ca2d80264a350429f079befdfc852cd476de3b2edfee06e89558fd4ee29d3c42"
+    },
+    "validation": {
+      "byte_tokens": 367,
+      "documents": 9,
+      "ids": [
+        "synthetic-00-07",
+        "synthetic-00-09",
+        "synthetic-01-01",
+        "synthetic-02-03",
+        "synthetic-02-07",
+        "synthetic-03-09",
+        "synthetic-04-02",
+        "synthetic-04-08",
+        "synthetic-07-01"
+      ],
+      "sha256": "94465781a1fb808c51a3d6ae76e2a464de442fba947f140cb9fcca24f4851131"
+    }
+  },
+  "energy_joules": null,
+  "history": [
+    {
+      "balance": 1.0136792659759521,
+      "batch_indices": [
+        9
+      ],
+      "early_ntp": 5.601912021636963,
+      "final_ntp": 5.600152492523193,
+      "ntp_labels": 50,
+      "objective": 8.403919219970703,
+      "offset2": 5.572608947753906,
+      "offset2_labels_available": 49,
+      "peak_cuda_allocated_bytes": 73178112,
+      "peak_cuda_reserved_bytes": 75497472,
+      "step": 1,
+      "step_seconds": 0.43931521801277995,
+      "valid_tokens": 51
+    },
+    {
+      "balance": 1.0188651084899902,
+      "batch_indices": [
+        12
+      ],
+      "early_ntp": 5.490502834320068,
+      "final_ntp": 5.480090618133545,
+      "ntp_labels": 88,
+      "objective": 8.24653434753418,
+      "offset2": 5.534515380859375,
+      "offset2_labels_available": 86,
+      "peak_cuda_allocated_bytes": 77639680,
+      "peak_cuda_reserved_bytes": 79691776,
+      "step": 2,
+      "step_seconds": 0.31232646701391786,
+      "valid_tokens": 90
+    },
+    {
+      "balance": 1.057361125946045,
+      "batch_indices": [
+        5
+      ],
+      "early_ntp": 5.339156627655029,
+      "final_ntp": 5.335745811462402,
+      "ntp_labels": 50,
+      "objective": 8.044402122497559,
+      "offset2": 5.45317268371582,
+      "offset2_labels_available": 49,
+      "peak_cuda_allocated_bytes": 75102720,
+      "peak_cuda_reserved_bytes": 79691776,
+      "step": 3,
+      "step_seconds": 0.20521151897264645,
+      "valid_tokens": 51
+    },
+    {
+      "balance": 1.041110873222351,
+      "batch_indices": [
+        20
+      ],
+      "early_ntp": 5.309704303741455,
+      "final_ntp": 5.307096481323242,
+      "ntp_labels": 72,
+      "objective": 7.99412202835083,
+      "offset2": 5.396753787994385,
+      "offset2_labels_available": 70,
+      "peak_cuda_allocated_bytes": 76544512,
+      "peak_cuda_reserved_bytes": 79691776,
+      "step": 4,
+      "step_seconds": 0.2708429929916747,
+      "valid_tokens": 74
+    }
+  ],
+  "identity": {
+    "commit": "e759576f607b97602e9d0407adae4307d3eb38f5",
+    "config_sha256": "815f48762b02659a173f5df9a4f4b7b43e5863da13dfaa1be3d30564b58dff37",
+    "data_sha256": "29f7da71fb1f6808e3f10719ca75174ad1fdb5e06252bdb4c7638d000f5441af",
+    "environment": {
+      "autocast_dtype": "bfloat16",
+      "autocast_probe_dtype": "bfloat16",
+      "bf16_supported": true,
+      "cpu": "x86_64",
+      "cuda_runtime": "12.8",
+      "deterministic_algorithms": true,
+      "device": "cuda",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "master_dtype": "float32",
+      "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+      "precision_policy": "bf16-autocast-fp32-master",
+      "python": "3.12.7",
+      "requested_precision": "bf16",
+      "tf32_enabled": false,
+      "threads": 1,
+      "torch": "2.10.0+cu128"
+    },
+    "packed_sha256": "e87b8022b0118b3dcce33b39c59950ca411bb56884b974d7495357520f722ad4",
+    "schema": 1,
+    "settings": {
+      "balance_weight": 0.01,
+      "batch_size": 1,
+      "data": "synthetic-v1",
+      "depth_weight": 0.25,
+      "loops": 2,
+      "lr": 0.003,
+      "mode": "A2",
+      "offset_weight": 0.25,
+      "precision": "bf16",
+      "seed": 42,
+      "sequence_length": 96,
+      "weight_decay": 0
+    }
+  },
+  "limitations": [
+    "synthetic byte fixture; no production tokenizer",
+    "template overlap across splits",
+    "BF16 autocast with FP32 master weights/state; not optimized",
+    "step timing excludes checkpoint I/O and validation",
+    "MAC estimate counts ideal unpadded contractions, not backward, padding or actual hardware FLOPs"
+  ],
+  "measured_flops": null,
+  "parameters": 179952,
+  "precision_policy": {
+    "autocast_dtype": "bfloat16",
+    "bf16_supported": true,
+    "policy": "bf16-autocast-fp32-master",
+    "probe_dtype": "bfloat16",
+    "requested": "bf16"
+  },
+  "total_ntp_labels": 260,
+  "total_valid_tokens": 266,
+  "validation": {
+    "mean_nll": 5.1851281916841545,
+    "nll_sum": 1949.6082000732422,
+    "ntp_labels": 376,
+    "perplexity": 178.59634288842062
+  }
+}
