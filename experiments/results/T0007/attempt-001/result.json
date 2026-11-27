@@ -1,0 +1,79 @@
+{
+  "attempt": 1,
+  "base_source_commit": "d2dfd903d252c1ba48641bf7de79fba42c385af8",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py exit 0 from clean tested SHA: 17 CPU scripts, 121 tests, 0 failures, 0 skips, plus 8 REP reports. New tools/test_fp8_probe.py passed 6/6 deterministic helper tests.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_fp8": {
+      "detail": "11/11 cases and 33/33 forward/dgrad/wgrad GEMMs passed. Native torch._scaled_mm dispatch on FP8 inputs succeeded for E4M3 forward and mixed E5M2 x E4M3 dgrad/wgrad on SM89. Max relative error vs FP32 0.062166 (gate 0.15); max vs dequantized operands 0.001681 (gate 0.025); all-zero outputs exact; nonfinite input rejected. Small-M padding M=1/3/7/17 to 16/16/16/32 recorded. Prequantized median 0.0698-0.0719 ms, quantization-inclusive 0.4723-0.5437 ms, BF16 0.0377-0.0424 ms; no speed threshold or claim. Profiler recorded aten::_scaled_mm and native sm89_xmma kernel name.",
+      "evidence": [
+        "fp8-probe.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested SHA d5ea0f9; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090 capability (8,9), driver 580.178.04, GPU 0; torch._scaled_mm present; float8 E4M3FN/E5M2 dtypes present; profiler available; 24,077 MiB free before/after; 182,197,180 KiB disk before; source clean at start/end.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required REP evidence files are present and hashed; validator passed; branch feat/T0007-fp8-attempt-001, evidence PR and issue #51 handover follow this validated package. No merge or closure.",
+      "evidence": [
+        "summary.md",
+        "fp8-probe.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Three new files, all within the reviewed allowlist: isolated fp8 probe, CPU helper tests and implementation note. No src/, optimizer, harness, existing config, CI, Mac or data edit. Probe records schema, FP8 dtypes, actual shapes/strides/scales/output, quantization saturation/underflow/zero audit, native dispatch and benchmark method.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "ci-cpu.txt": "c650535dfe0b861473a2eb89c485b95d50bdfd77317773ce1034505905f59521",
+    "cpu-ci.json": "c5697142fe111e1ac4026719e1bbb0d8a488cc031019060c40f84d1b7b3a4a7a",
+    "environment.json": "2ca18dfc35965c9cb800197cd8afb9a1001c34037322a71726e53dd3dbefba2c",
+    "execution.log": "6c6fa60fe6bd9b7fd03c681ead7a383a2ccfa87902268e50a8f79d609ea4cab2",
+    "fp8-probe.json": "edd54b7e5a94f5e97f26de0692d9b70db7feeff9e0975fddf2dc445dfd9245b3",
+    "implementation.diff": "6c2efb470c926d96e33be23c594a2e92f155f7ba28dba3552129266da242397a",
+    "implementation.files.json": "b78ea37f3ffcb8be2759eb7801b8e0e9b6d17107e3c6c2862c49f50db15ba79e",
+    "metrics.jsonl": "f55f5f80144021a0233d640146084174bf3cf41e12b025ce85e1cdf48a41133a",
+    "summary.md": "0c001be493523727709b23e85f2b7cc35ecb0405c3f65d8229791d421b97caaa"
+  },
+  "limitations": [
+    "Operator feasibility only; no FP8 model training, autograd integration, optimizer, checkpoint, convergence or language-quality claim.",
+    "Current per-tensor scaling only; no delayed scaling, MXFP8, NVFP4, block scaling, FP8 optimizer or FP8 checkpoint state.",
+    "BF16 output only; no FP8 output or FP8 accumulation claim.",
+    "Quantization-inclusive latency includes Python/layout overhead; small-shape observations are not production throughput.",
+    "Synthetic independent normal inputs and representative shapes, not a corpus benchmark.",
+    "No package, CUDA/driver/toolkit, model, harness, config, CI or data change.",
+    "No Tensor Core instruction claim beyond the recorded native kernel name."
+  ],
+  "minimum_base_commit": "f60bd5622733f3619e761681a20472d8c40f478c",
+  "schema_version": 1,
+  "source_commit": "d5ea0f94f3145f366675d4bf95cf1851bf18ebcd",
+  "status": "passed",
+  "task_commit": "d2dfd903d252c1ba48641bf7de79fba42c385af8",
+  "task_id": "T0007",
+  "tested_commit": "d5ea0f94f3145f366675d4bf95cf1851bf18ebcd"
+}

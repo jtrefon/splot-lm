@@ -1,0 +1,3983 @@
+{
+  "benchmark_method": "prequantized vs quantization-inclusive vs BF16; 5 warmups, 20 synchronized measured iterations",
+  "capability": [
+    8,
+    9
+  ],
+  "cases": [
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.3229025322943926e-05,
+            "median_seconds": 3.885148908011615e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.799301339313388e-05,
+            "p95_seconds": 3.9861013647168875e-05,
+            "peak_cuda_allocated_bytes": 38610944,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.795804413035512e-05,
+            "median_seconds": 7.028548861853778e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.966700311750174e-05,
+            "p95_seconds": 7.478299085050821e-05,
+            "peak_cuda_allocated_bytes": 38202880,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005358780035749078,
+            "median_seconds": 0.0005089954938739538,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0004922110238112509,
+            "p95_seconds": 0.0005274589639157057,
+            "peak_cuda_allocated_bytes": 41737728,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 16,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.3945969082415104e-05,
+            "median_seconds": 3.864150494337082e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.770901821553707e-05,
+            "p95_seconds": 4.180200630798936e-05,
+            "peak_cuda_allocated_bytes": 38610944,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 8.67210328578949e-05,
+            "median_seconds": 7.140752859413624e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 7.012905552983284e-05,
+            "p95_seconds": 7.785495836287737e-05,
+            "peak_cuda_allocated_bytes": 38206976,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005687389639206231,
+            "median_seconds": 0.0004903369990643114,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0004765489720739424,
+            "p95_seconds": 0.0004996050265617669,
+            "peak_cuda_allocated_bytes": 41735680,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 16,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.318798892199993e-05,
+            "median_seconds": 3.875349648296833e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.7996971514075994e-05,
+            "p95_seconds": 4.1117018554359674e-05,
+            "peak_cuda_allocated_bytes": 38610944,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 9.638199117034674e-05,
+            "median_seconds": 7.056398317217827e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.944104097783566e-05,
+            "p95_seconds": 7.345399353653193e-05,
+            "peak_cuda_allocated_bytes": 38583808,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005074529908597469,
+            "median_seconds": 0.00047226750757545233,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.00045613100519403815,
+            "p95_seconds": 0.0004878180334344506,
+            "peak_cuda_allocated_bytes": 38612480,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 16,
+            "N": 512,
+            "padded_M": 16
+          }
+        }
+      },
+      "case_id": "M16_K384_N512",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              8.041279735542567e-06,
+              0.00020146024014268602
+            ]
+          },
+          "error_vs_dequant": 0.0016814909176900983,
+          "error_vs_fp32": 0.0575769767165184,
+          "finite": true,
+          "output_shape": [
+            16,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.009045135762010301,
+              0.00020146024014268602
+            ]
+          },
+          "error_vs_dequant": 0.001673734630458057,
+          "error_vs_fp32": 0.036906447261571884,
+          "finite": true,
+          "output_shape": [
+            16,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                16
+              ],
+              [
+                16,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                16,
+                1
+              ],
+              [
+                1,
+                16
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              8.041279735542567e-06,
+              0.009045135762010301
+            ]
+          },
+          "error_vs_dequant": 0.0016648676246404648,
+          "error_vs_fp32": 0.05797119066119194,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 16,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 16
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 8192,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 8.041279735542567e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 1,
+          "quantized_zero_fraction": 5.086263020833333e-06,
+          "saturation_count": 1,
+          "scale": 0.00020146024014268602,
+          "underflow_count": 1,
+          "underflow_fraction": 5.086263020833333e-06
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 6144,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 0.009045135762010301,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 16,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.398799501359463e-05,
+            "median_seconds": 3.9170990930870175e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.83509905077517e-05,
+            "p95_seconds": 4.07769693993032e-05,
+            "peak_cuda_allocated_bytes": 39428096,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.697398541495204e-05,
+            "median_seconds": 7.185045978985727e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.998004391789436e-05,
+            "p95_seconds": 7.582700345665216e-05,
+            "peak_cuda_allocated_bytes": 38970880,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.000542702036909759,
+            "median_seconds": 0.0005339935014490038,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005244730273261666,
+            "p95_seconds": 0.00054093700600788,
+            "peak_cuda_allocated_bytes": 42493440,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 512,
+            "padded_M": 64
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.370999522507191e-05,
+            "median_seconds": 3.928100340999663e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.866100450977683e-05,
+            "p95_seconds": 3.99670097976923e-05,
+            "peak_cuda_allocated_bytes": 39428096,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.644901052117348e-05,
+            "median_seconds": 7.111698505468667e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 7.009698310866952e-05,
+            "p95_seconds": 7.558998186141253e-05,
+            "peak_cuda_allocated_bytes": 38987264,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005404060357250273,
+            "median_seconds": 0.0005223829939495772,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005082410061731935,
+            "p95_seconds": 0.0005328590050339699,
+            "peak_cuda_allocated_bytes": 42485248,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 512,
+            "padded_M": 64
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.554196493700147e-05,
+            "median_seconds": 3.8663012674078345e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.800500417128205e-05,
+            "p95_seconds": 3.952300176024437e-05,
+            "peak_cuda_allocated_bytes": 39428096,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.573398761451244e-05,
+            "median_seconds": 7.100350921973586e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.967299850657582e-05,
+            "p95_seconds": 7.485400419682264e-05,
+            "peak_cuda_allocated_bytes": 39314944,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005363349919207394,
+            "median_seconds": 0.0005293680005706847,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005212039686739445,
+            "p95_seconds": 0.0005352480220608413,
+            "peak_cuda_allocated_bytes": 39510528,
+            "peak_cuda_reserved_bytes": 62914560,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 512,
+            "padded_M": 64
+          }
+        }
+      },
+      "case_id": "M64_K384_N512",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              6.913688204284492e-06,
+              0.00021090498194098473
+            ]
+          },
+          "error_vs_dequant": 0.0016675809165462852,
+          "error_vs_fp32": 0.05921554192900658,
+          "finite": true,
+          "output_shape": [
+            64,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.008559004004512514,
+              0.00021090498194098473
+            ]
+          },
+          "error_vs_dequant": 0.0016749162459746003,
+          "error_vs_fp32": 0.037258580327034,
+          "finite": true,
+          "output_shape": [
+            64,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                64
+              ],
+              [
+                64,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                64,
+                1
+              ],
+              [
+                1,
+                64
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              6.913688204284492e-06,
+              0.008559004004512514
+            ]
+          },
+          "error_vs_dequant": 0.001656056847423315,
+          "error_vs_fp32": 0.05896829813718796,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 64,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 64
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 32768,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 6.913688204284492e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196607,
+          "quantized_zero_count": 2,
+          "quantized_zero_fraction": 1.0172526041666666e-05,
+          "saturation_count": 0,
+          "scale": 0.00021090498194098473,
+          "underflow_count": 1,
+          "underflow_fraction": 5.086288891036433e-06
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 24576,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 0.008559004004512514,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 64,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.6823988668620586e-05,
+            "median_seconds": 4.111099406145513e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 4.035502206534147e-05,
+            "p95_seconds": 4.623399581760168e-05,
+            "peak_cuda_allocated_bytes": 47054848,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.475604070350528e-05,
+            "median_seconds": 7.08709703758359e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.973004201427102e-05,
+            "p95_seconds": 7.406499935314059e-05,
+            "peak_cuda_allocated_bytes": 46138880,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005492860218510032,
+            "median_seconds": 0.0005381939990911633,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005322979995980859,
+            "p95_seconds": 0.0005464919959194958,
+            "peak_cuda_allocated_bytes": 50464256,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 512,
+            "N": 512,
+            "padded_M": 512
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.475499736145139e-05,
+            "median_seconds": 3.995301085524261e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.880000440403819e-05,
+            "p95_seconds": 4.114100011065602e-05,
+            "peak_cuda_allocated_bytes": 47054848,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.741799345239997e-05,
+            "median_seconds": 7.070100400596857e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.973999552428722e-05,
+            "p95_seconds": 7.460301276296377e-05,
+            "peak_cuda_allocated_bytes": 46269952,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005362450028769672,
+            "median_seconds": 0.0005258409946691245,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005206789937801659,
+            "p95_seconds": 0.0005356550100259483,
+            "peak_cuda_allocated_bytes": 49481216,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 512,
+            "N": 512,
+            "padded_M": 512
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.855496808886528e-05,
+            "median_seconds": 4.2403495172038674e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 4.190800245851278e-05,
+            "p95_seconds": 4.3906038627028465e-05,
+            "peak_cuda_allocated_bytes": 47054848,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.47059821151197e-05,
+            "median_seconds": 7.109300349839032e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 7.015501614660025e-05,
+            "p95_seconds": 7.419602479785681e-05,
+            "peak_cuda_allocated_bytes": 46138880,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005553949740715325,
+            "median_seconds": 0.0005437430227175355,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005373720196075737,
+            "p95_seconds": 0.0005523879663087428,
+            "peak_cuda_allocated_bytes": 50464256,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 512,
+            "N": 512,
+            "padded_M": 512
+          }
+        }
+      },
+      "case_id": "M512_K384_N512",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              8.480703399982303e-06,
+              0.00019045762850769928
+            ]
+          },
+          "error_vs_dequant": 0.0016602305695414543,
+          "error_vs_fp32": 0.05859099328517914,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.010108595447880881,
+              0.00019045762850769928
+            ]
+          },
+          "error_vs_dequant": 0.0016566417180001736,
+          "error_vs_fp32": 0.03761699050664902,
+          "finite": true,
+          "output_shape": [
+            512,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              8.480703399982303e-06,
+              0.010108595447880881
+            ]
+          },
+          "error_vs_dequant": 0.0016656004590913653,
+          "error_vs_fp32": 0.0588081069290638,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 512,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 512
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 262144,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 8.480703399982303e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 2,
+          "quantized_zero_fraction": 1.0172526041666666e-05,
+          "saturation_count": 0,
+          "scale": 0.00019045762850769928,
+          "underflow_count": 2,
+          "underflow_fraction": 1.0172526041666666e-05
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 2,
+          "quantized_zero_fraction": 1.0172526041666666e-05,
+          "saturation_count": 0,
+          "scale": 0.010108595447880881,
+          "underflow_count": 2,
+          "underflow_fraction": 1.0172526041666666e-05
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 512,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 6.53460156172514e-05,
+            "median_seconds": 3.811300848610699e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.715994535014033e-05,
+            "p95_seconds": 3.9627018850296736e-05,
+            "peak_cuda_allocated_bytes": 38338560,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 9.502196917310357e-05,
+            "median_seconds": 7.046951213851571e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.956799188628793e-05,
+            "p95_seconds": 8.363800588995218e-05,
+            "peak_cuda_allocated_bytes": 37996032,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005821789964102209,
+            "median_seconds": 0.0005270399851724505,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005162399611435831,
+            "p95_seconds": 0.0005313049769029021,
+            "peak_cuda_allocated_bytes": 40625664,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 384,
+            "padded_M": 64
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.468101542443037e-05,
+            "median_seconds": 3.877401468344033e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.812898648902774e-05,
+            "p95_seconds": 4.0098035242408514e-05,
+            "peak_cuda_allocated_bytes": 38338560,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.730495417490602e-05,
+            "median_seconds": 7.105598342604935e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 7.018598262220621e-05,
+            "p95_seconds": 7.443700451403856e-05,
+            "peak_cuda_allocated_bytes": 37996032,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005627889768220484,
+            "median_seconds": 0.0005187455099076033,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005070549668744206,
+            "p95_seconds": 0.0005576059920713305,
+            "peak_cuda_allocated_bytes": 40625664,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 384,
+            "padded_M": 64
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.9772963393479586e-05,
+            "median_seconds": 3.850250504910946e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.7677004002034664e-05,
+            "p95_seconds": 4.294503014534712e-05,
+            "peak_cuda_allocated_bytes": 38338560,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.623899728059769e-05,
+            "median_seconds": 6.977099110372365e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.813701475039124e-05,
+            "p95_seconds": 7.311702938750386e-05,
+            "peak_cuda_allocated_bytes": 38241792,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005408400320447981,
+            "median_seconds": 0.0005194395198486745,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005103049916215241,
+            "p95_seconds": 0.0005396030028350651,
+            "peak_cuda_allocated_bytes": 38412800,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 384,
+            "padded_M": 64
+          }
+        }
+      },
+      "case_id": "M64_K384_N384",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                384
+              ],
+              [
+                384,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              7.996561700045796e-06,
+              0.00019387551583349705
+            ]
+          },
+          "error_vs_dequant": 0.0016686792951077223,
+          "error_vs_fp32": 0.058380305767059326,
+          "finite": true,
+          "output_shape": [
+            64,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                384
+              ],
+              [
+                384,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.010044320353439875,
+              0.00019387551583349705
+            ]
+          },
+          "error_vs_dequant": 0.001642245682887733,
+          "error_vs_fp32": 0.0374947190284729,
+          "finite": true,
+          "output_shape": [
+            64,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                384,
+                64
+              ],
+              [
+                64,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                64,
+                1
+              ],
+              [
+                1,
+                64
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              384,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              7.996561700045796e-06,
+              0.010044320353439875
+            ]
+          },
+          "error_vs_dequant": 0.0016507453983649611,
+          "error_vs_fp32": 0.05862387269735336,
+          "finite": true,
+          "output_shape": [
+            384,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 64,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 64
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 24576,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 7.996561700045796e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 147456,
+          "quantized_zero_count": 1,
+          "quantized_zero_fraction": 6.781684027777777e-06,
+          "saturation_count": 0,
+          "scale": 0.00019387551583349705,
+          "underflow_count": 1,
+          "underflow_fraction": 6.781684027777777e-06
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 24576,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 0.010044320353439875,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 64,
+        "N": 384
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 3.9354024920612574e-05,
+            "median_seconds": 3.821452264674008e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.698799991980195e-05,
+            "p95_seconds": 3.868399653583765e-05,
+            "peak_cuda_allocated_bytes": 39428096,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 9.676098125055432e-05,
+            "median_seconds": 7.069300045259297e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.936595309525728e-05,
+            "p95_seconds": 7.357599679380655e-05,
+            "peak_cuda_allocated_bytes": 38987264,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005546419997699559,
+            "median_seconds": 0.0005261890182737261,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005212770192883909,
+            "p95_seconds": 0.0005336549947969615,
+            "peak_cuda_allocated_bytes": 42485248,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 512,
+            "M": 64,
+            "N": 384,
+            "padded_M": 64
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.4315995182842016e-05,
+            "median_seconds": 3.9312493754550815e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.8555997889488935e-05,
+            "p95_seconds": 4.061899380758405e-05,
+            "peak_cuda_allocated_bytes": 39428096,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.451197598129511e-05,
+            "median_seconds": 7.02829856891185e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.933597614988685e-05,
+            "p95_seconds": 7.439701585099101e-05,
+            "peak_cuda_allocated_bytes": 38970880,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005437670042738318,
+            "median_seconds": 0.0005207655194681138,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005128580378368497,
+            "p95_seconds": 0.000532712962012738,
+            "peak_cuda_allocated_bytes": 42493440,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 512,
+            "M": 64,
+            "N": 384,
+            "padded_M": 64
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.372099647298455e-05,
+            "median_seconds": 3.8453988963738084e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.814499359577894e-05,
+            "p95_seconds": 3.961101174354553e-05,
+            "peak_cuda_allocated_bytes": 39428096,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.386301876977086e-05,
+            "median_seconds": 7.029250264167786e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.934301927685738e-05,
+            "p95_seconds": 7.330701919272542e-05,
+            "peak_cuda_allocated_bytes": 39314944,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.00054721295600757,
+            "median_seconds": 0.000517418491654098,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005125139723531902,
+            "p95_seconds": 0.0005402130191214383,
+            "peak_cuda_allocated_bytes": 39535104,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 512,
+            "M": 64,
+            "N": 384,
+            "padded_M": 64
+          }
+        }
+      },
+      "case_id": "M64_K512_N384",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              8.452844277988853e-06,
+              0.0002184875276205795
+            ]
+          },
+          "error_vs_dequant": 0.0016578148351982236,
+          "error_vs_fp32": 0.058995988219976425,
+          "finite": true,
+          "output_shape": [
+            64,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.009090220289570945,
+              0.0002184875276205795
+            ]
+          },
+          "error_vs_dequant": 0.0016747332410886884,
+          "error_vs_fp32": 0.0371377170085907,
+          "finite": true,
+          "output_shape": [
+            64,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                384,
+                64
+              ],
+              [
+                64,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                64,
+                1
+              ],
+              [
+                1,
+                64
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              384,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              8.452844277988853e-06,
+              0.009090220289570945
+            ]
+          },
+          "error_vs_dequant": 0.0016565597616136074,
+          "error_vs_fp32": 0.058901965618133545,
+          "finite": true,
+          "output_shape": [
+            384,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 64,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 64
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 24576,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 8.452844277988853e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 2,
+          "quantized_zero_fraction": 1.0172526041666666e-05,
+          "saturation_count": 0,
+          "scale": 0.0002184875276205795,
+          "underflow_count": 2,
+          "underflow_fraction": 1.0172526041666666e-05
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 32768,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 1,
+          "scale": 0.009090220289570945,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 512,
+        "M": 64,
+        "N": 384
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.1162013076245785e-05,
+            "median_seconds": 3.982853377237916e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.906001802533865e-05,
+            "p95_seconds": 4.041101783514023e-05,
+            "peak_cuda_allocated_bytes": 44875776,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.475103484466672e-05,
+            "median_seconds": 7.074850145727396e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.947398651391268e-05,
+            "p95_seconds": 7.460301276296377e-05,
+            "peak_cuda_allocated_bytes": 43845120,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0006103169871494174,
+            "median_seconds": 0.0005286414816509932,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005208660149946809,
+            "p95_seconds": 0.0005688969977200031,
+            "peak_cuda_allocated_bytes": 51832320,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 1152,
+            "padded_M": 64
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.326499765738845e-05,
+            "median_seconds": 4.017146420665085e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.917701542377472e-05,
+            "p95_seconds": 4.1395018342882395e-05,
+            "peak_cuda_allocated_bytes": 44875776,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.404998177662492e-05,
+            "median_seconds": 7.01120006851852e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.909295916557312e-05,
+            "p95_seconds": 7.333897519856691e-05,
+            "peak_cuda_allocated_bytes": 43943424,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005441459943540394,
+            "median_seconds": 0.0005199340230319649,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005116509855724871,
+            "p95_seconds": 0.000539514992851764,
+            "peak_cuda_allocated_bytes": 51783168,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 1152,
+            "padded_M": 64
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.17269766330719e-05,
+            "median_seconds": 3.8021011278033257e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.734504571184516e-05,
+            "p95_seconds": 3.910099621862173e-05,
+            "peak_cuda_allocated_bytes": 44875776,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.44289718568325e-05,
+            "median_seconds": 6.994148134253919e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.934499833732843e-05,
+            "p95_seconds": 7.420900510624051e-05,
+            "peak_cuda_allocated_bytes": 44680704,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.000556152022909373,
+            "median_seconds": 0.0005231784889474511,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.000514189014211297,
+            "p95_seconds": 0.0005499689723365009,
+            "peak_cuda_allocated_bytes": 45122048,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 64,
+            "N": 1152,
+            "padded_M": 64
+          }
+        }
+      },
+      "case_id": "M64_K384_N1152",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                1152
+              ],
+              [
+                1152,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                1152,
+                1
+              ],
+              [
+                1,
+                1152
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              7.618652619255174e-06,
+              0.00023742241319268942
+            ]
+          },
+          "error_vs_dequant": 0.001666166353970766,
+          "error_vs_fp32": 0.06031295657157898,
+          "finite": true,
+          "output_shape": [
+            64,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                64,
+                384
+              ],
+              [
+                384,
+                1152
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              64,
+              1152
+            ],
+            "output_stride": [
+              1152,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.009163419050829751,
+              0.00023742241319268942
+            ]
+          },
+          "error_vs_dequant": 0.0016547820996493101,
+          "error_vs_fp32": 0.037556130439043045,
+          "finite": true,
+          "output_shape": [
+            64,
+            1152
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                1152,
+                64
+              ],
+              [
+                64,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                64,
+                1
+              ],
+              [
+                1,
+                64
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              1152,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              7.618652619255174e-06,
+              0.009163419050829751
+            ]
+          },
+          "error_vs_dequant": 0.0016571969026699662,
+          "error_vs_fp32": 0.058842264115810394,
+          "finite": true,
+          "output_shape": [
+            1152,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 64,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 64
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 73728,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 1,
+          "scale": 7.618652619255174e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 442368,
+          "quantized_zero_count": 2,
+          "quantized_zero_fraction": 4.521122685185185e-06,
+          "saturation_count": 0,
+          "scale": 0.00023742241319268942,
+          "underflow_count": 2,
+          "underflow_fraction": 4.521122685185185e-06
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 24576,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 0.009163419050829751,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 64,
+        "N": 1152
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.750897642225027e-05,
+            "median_seconds": 3.941301838494837e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.885902697220445e-05,
+            "p95_seconds": 4.24219761043787e-05,
+            "peak_cuda_allocated_bytes": 38534144,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.52990017645061e-05,
+            "median_seconds": 7.051150896586478e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.981496699154377e-05,
+            "p95_seconds": 7.374800043180585e-05,
+            "peak_cuda_allocated_bytes": 38152704,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005443959962576628,
+            "median_seconds": 0.0005117789842188358,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0004941989900544286,
+            "p95_seconds": 0.0005247319932095706,
+            "peak_cuda_allocated_bytes": 41687552,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 1,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.0997983887791634e-05,
+            "median_seconds": 3.802301944233477e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.723101690411568e-05,
+            "p95_seconds": 4.096701741218567e-05,
+            "peak_cuda_allocated_bytes": 38534144,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 9.701703675091267e-05,
+            "median_seconds": 7.086401456035674e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.999698234722018e-05,
+            "p95_seconds": 7.553200703114271e-05,
+            "peak_cuda_allocated_bytes": 38156800,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005079550319351256,
+            "median_seconds": 0.0004915695171803236,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.00047342799371108413,
+            "p95_seconds": 0.0005001579993404448,
+            "peak_cuda_allocated_bytes": 41685504,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 1,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.156696377322078e-05,
+            "median_seconds": 3.7663994589820504e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.687100252136588e-05,
+            "p95_seconds": 4.010397242382169e-05,
+            "peak_cuda_allocated_bytes": 38534144,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.541599916294217e-05,
+            "median_seconds": 7.015399751253426e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.888096686452627e-05,
+            "p95_seconds": 7.258000550791621e-05,
+            "peak_cuda_allocated_bytes": 38533632,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005024769925512373,
+            "median_seconds": 0.0004910125280730426,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.00046806700993329287,
+            "p95_seconds": 0.0005016930517740548,
+            "peak_cuda_allocated_bytes": 38562304,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 1,
+            "N": 512,
+            "padded_M": 16
+          }
+        }
+      },
+      "case_id": "M1_K384_N512_padded",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              5.583416558303205e-06,
+              0.00022030016407370567
+            ]
+          },
+          "error_vs_dequant": 0.0016316979890689254,
+          "error_vs_fp32": 0.06216555833816528,
+          "finite": true,
+          "output_shape": [
+            1,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.007025344563382012,
+              0.00022030016407370567
+            ]
+          },
+          "error_vs_dequant": 0.001665762858465314,
+          "error_vs_fp32": 0.04018717259168625,
+          "finite": true,
+          "output_shape": [
+            1,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                16
+              ],
+              [
+                16,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                16,
+                1
+              ],
+              [
+                1,
+                16
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              5.583416558303205e-06,
+              0.007025344563382012
+            ]
+          },
+          "error_vs_dequant": 0.0016296962276101112,
+          "error_vs_fp32": 0.05986088141798973,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 16.0,
+        "padded_M": 16,
+        "padding_fraction": 0.9375,
+        "padding_rows": 15,
+        "padding_value": 0,
+        "real_M": 1
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 512,
+          "quantized_zero_count": 7680,
+          "quantized_zero_fraction": 0.9375,
+          "saturation_count": 0,
+          "scale": 5.583416558303205e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 3,
+          "quantized_zero_fraction": 1.52587890625e-05,
+          "saturation_count": 0,
+          "scale": 0.00022030016407370567,
+          "underflow_count": 3,
+          "underflow_fraction": 1.52587890625e-05
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 384,
+          "quantized_zero_count": 5760,
+          "quantized_zero_fraction": 0.9375,
+          "saturation_count": 0,
+          "scale": 0.007025344563382012,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 1,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.163396079093218e-05,
+            "median_seconds": 4.04374732170254e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.979902248829603e-05,
+            "p95_seconds": 4.0971965063363314e-05,
+            "peak_cuda_allocated_bytes": 38552064,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.653300417587161e-05,
+            "median_seconds": 7.034750888124108e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.929098162800074e-05,
+            "p95_seconds": 7.368996739387512e-05,
+            "peak_cuda_allocated_bytes": 38167040,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005196810234338045,
+            "median_seconds": 0.000509098987095058,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.00048501696437597275,
+            "p95_seconds": 0.0005189620424062014,
+            "peak_cuda_allocated_bytes": 41701888,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 3,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 3.9995997212827206e-05,
+            "median_seconds": 3.866697079502046e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.826402826234698e-05,
+            "p95_seconds": 3.933999687433243e-05,
+            "peak_cuda_allocated_bytes": 38552064,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.472699508070946e-05,
+            "median_seconds": 7.04120029695332e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.924301851540804e-05,
+            "p95_seconds": 7.444998482242227e-05,
+            "peak_cuda_allocated_bytes": 38171136,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.000526880961842835,
+            "median_seconds": 0.00048169601359404624,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.000468259968329221,
+            "p95_seconds": 0.0004962999955751002,
+            "peak_cuda_allocated_bytes": 41699840,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 3,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.3181993532925844e-05,
+            "median_seconds": 3.866199404001236e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.7811987567692995e-05,
+            "p95_seconds": 4.081497900187969e-05,
+            "peak_cuda_allocated_bytes": 38552064,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.404503412544727e-05,
+            "median_seconds": 7.007652311585844e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.911199307069182e-05,
+            "p95_seconds": 7.399800233542919e-05,
+            "peak_cuda_allocated_bytes": 38547968,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0004984649713151157,
+            "median_seconds": 0.0004780854796990752,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.00045450194738805294,
+            "p95_seconds": 0.000498345005325973,
+            "peak_cuda_allocated_bytes": 38576640,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 3,
+            "N": 512,
+            "padded_M": 16
+          }
+        }
+      },
+      "case_id": "M3_K384_N512_padded",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              7.302857868905578e-06,
+              0.0002014869325129049
+            ]
+          },
+          "error_vs_dequant": 0.0016733149532228708,
+          "error_vs_fp32": 0.05863416567444801,
+          "finite": true,
+          "output_shape": [
+            3,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.007048298737832478,
+              0.0002014869325129049
+            ]
+          },
+          "error_vs_dequant": 0.0016564574325457215,
+          "error_vs_fp32": 0.03688855096697807,
+          "finite": true,
+          "output_shape": [
+            3,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                16
+              ],
+              [
+                16,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                16,
+                1
+              ],
+              [
+                1,
+                16
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              7.302857868905578e-06,
+              0.007048298737832478
+            ]
+          },
+          "error_vs_dequant": 0.0016580390511080623,
+          "error_vs_fp32": 0.05887192115187645,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 5.333333333333333,
+        "padded_M": 16,
+        "padding_fraction": 0.8125,
+        "padding_rows": 13,
+        "padding_value": 0,
+        "real_M": 3
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 1536,
+          "quantized_zero_count": 6656,
+          "quantized_zero_fraction": 0.8125,
+          "saturation_count": 0,
+          "scale": 7.302857868905578e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 0,
+          "quantized_zero_fraction": 0.0,
+          "saturation_count": 0,
+          "scale": 0.0002014869325129049,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 1152,
+          "quantized_zero_count": 4992,
+          "quantized_zero_fraction": 0.8125,
+          "saturation_count": 0,
+          "scale": 0.007048298737832478,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 3,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.660699050873518e-05,
+            "median_seconds": 4.058299236930907e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 4.002999048680067e-05,
+            "p95_seconds": 4.1789025999605656e-05,
+            "peak_cuda_allocated_bytes": 38587904,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.97079992480576e-05,
+            "median_seconds": 7.108552381396294e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 7.013999857008457e-05,
+            "p95_seconds": 7.413898129016161e-05,
+            "peak_cuda_allocated_bytes": 38195712,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005466379807330668,
+            "median_seconds": 0.0005162630113773048,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0004999099764972925,
+            "p95_seconds": 0.0005431189783848822,
+            "peak_cuda_allocated_bytes": 41730560,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 7,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.4231011997908354e-05,
+            "median_seconds": 3.9266509702429175e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.870396176353097e-05,
+            "p95_seconds": 4.0763989090919495e-05,
+            "peak_cuda_allocated_bytes": 38587904,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 9.663298260420561e-05,
+            "median_seconds": 7.094247848726809e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.982602644711733e-05,
+            "p95_seconds": 7.505400571972132e-05,
+            "peak_cuda_allocated_bytes": 38199808,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005703700007870793,
+            "median_seconds": 0.0004896204918622971,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.00046952604316174984,
+            "p95_seconds": 0.0005355150206014514,
+            "peak_cuda_allocated_bytes": 41728512,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 7,
+            "N": 512,
+            "padded_M": 16
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.375498974695802e-05,
+            "median_seconds": 3.8641999708488584e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.787502646446228e-05,
+            "p95_seconds": 3.9722013752907515e-05,
+            "peak_cuda_allocated_bytes": 38587904,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.376802386716008e-05,
+            "median_seconds": 7.043650839477777e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.961100734770298e-05,
+            "p95_seconds": 7.276202086359262e-05,
+            "peak_cuda_allocated_bytes": 38576640,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005229029920883477,
+            "median_seconds": 0.00048483151476830244,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0004638310056179762,
+            "p95_seconds": 0.0005050229956395924,
+            "peak_cuda_allocated_bytes": 38605312,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 7,
+            "N": 512,
+            "padded_M": 16
+          }
+        }
+      },
+      "case_id": "M7_K384_N512_padded",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              6.305698272106903e-06,
+              0.00024057776733700718
+            ]
+          },
+          "error_vs_dequant": 0.0016552457818761468,
+          "error_vs_fp32": 0.0585746206343174,
+          "finite": true,
+          "output_shape": [
+            7,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.007913254201412201,
+              0.00024057776733700718
+            ]
+          },
+          "error_vs_dequant": 0.0016785950865596533,
+          "error_vs_fp32": 0.036661144345998764,
+          "finite": true,
+          "output_shape": [
+            7,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                16
+              ],
+              [
+                16,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                16,
+                1
+              ],
+              [
+                1,
+                16
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              6.305698272106903e-06,
+              0.007913254201412201
+            ]
+          },
+          "error_vs_dequant": 0.0016641622642055154,
+          "error_vs_fp32": 0.05867490544915199,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 2.2857142857142856,
+        "padded_M": 16,
+        "padding_fraction": 0.5625,
+        "padding_rows": 9,
+        "padding_value": 0,
+        "real_M": 7
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 3584,
+          "quantized_zero_count": 4608,
+          "quantized_zero_fraction": 0.5625,
+          "saturation_count": 0,
+          "scale": 6.305698272106903e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 3,
+          "quantized_zero_fraction": 1.52587890625e-05,
+          "saturation_count": 0,
+          "scale": 0.00024057776733700718,
+          "underflow_count": 3,
+          "underflow_fraction": 1.52587890625e-05
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 2688,
+          "quantized_zero_count": 3456,
+          "quantized_zero_fraction": 0.5625,
+          "saturation_count": 0,
+          "scale": 0.007913254201412201,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 7,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": false,
+      "benchmarks": {
+        "dgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.3627049308270216e-05,
+            "median_seconds": 3.868649946525693e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.778602695092559e-05,
+            "p95_seconds": 3.9790989831089973e-05,
+            "peak_cuda_allocated_bytes": 38863872,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.464998634532094e-05,
+            "median_seconds": 7.023848593235016e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.936100544407964e-05,
+            "p95_seconds": 7.142196409404278e-05,
+            "peak_cuda_allocated_bytes": 38466048,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005706740194000304,
+            "median_seconds": 0.000514330982696265,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005080730188637972,
+            "p95_seconds": 0.000534660997800529,
+            "peak_cuda_allocated_bytes": 41996800,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 17,
+            "N": 512,
+            "padded_M": 32
+          }
+        },
+        "forward": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 4.432897549122572e-05,
+            "median_seconds": 3.891100641340017e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.794400254264474e-05,
+            "p95_seconds": 3.924703923985362e-05,
+            "peak_cuda_allocated_bytes": 38863872,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 7.429596735164523e-05,
+            "median_seconds": 7.056700997054577e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.92959874868393e-05,
+            "p95_seconds": 7.417995948344469e-05,
+            "peak_cuda_allocated_bytes": 38474240,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005360000068321824,
+            "median_seconds": 0.0005079979891888797,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005040409741923213,
+            "p95_seconds": 0.0005164920003153384,
+            "peak_cuda_allocated_bytes": 41992704,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 17,
+            "N": 512,
+            "padded_M": 32
+          }
+        },
+        "wgrad": {
+          "bf16_baseline": {
+            "iterations": 20,
+            "max_seconds": 5.8587989769876e-05,
+            "median_seconds": 3.86999745387584e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 3.7778052501380444e-05,
+            "p95_seconds": 5.66240050829947e-05,
+            "peak_cuda_allocated_bytes": 38863872,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "prequantized": {
+            "iterations": 20,
+            "max_seconds": 9.214301826432347e-05,
+            "median_seconds": 7.083051605150104e-05,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 6.910803494974971e-05,
+            "p95_seconds": 8.760800119489431e-05,
+            "peak_cuda_allocated_bytes": 38834688,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "quantization_inclusive": {
+            "iterations": 20,
+            "max_seconds": 0.0005290730041451752,
+            "median_seconds": 0.0005121195281390101,
+            "method": "host perf_counter around synchronized CUDA call",
+            "min_seconds": 0.0005067799938842654,
+            "p95_seconds": 0.0005255350260995328,
+            "peak_cuda_allocated_bytes": 38892032,
+            "peak_cuda_reserved_bytes": 71303168,
+            "warmups": 5
+          },
+          "shape": {
+            "K": 384,
+            "M": 17,
+            "N": 512,
+            "padded_M": 32
+          }
+        }
+      },
+      "case_id": "M17_K384_N512_padded",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                32,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              32,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              6.673010960054983e-06,
+              0.00020681986851351603
+            ]
+          },
+          "error_vs_dequant": 0.0016310057835653424,
+          "error_vs_fp32": 0.0587538443505764,
+          "finite": true,
+          "output_shape": [
+            17,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                32,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              32,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              0.009368473930018289,
+              0.00020681986851351603
+            ]
+          },
+          "error_vs_dequant": 0.001645582844503224,
+          "error_vs_fp32": 0.03667612373828888,
+          "finite": true,
+          "output_shape": [
+            17,
+            512
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                32
+              ],
+              [
+                32,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                32,
+                1
+              ],
+              [
+                1,
+                32
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              6.673010960054983e-06,
+              0.009368473930018289
+            ]
+          },
+          "error_vs_dequant": 0.0016563637182116508,
+          "error_vs_fp32": 0.05843239277601242,
+          "finite": true,
+          "output_shape": [
+            512,
+            384
+          ],
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          }
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.8823529411764706,
+        "padded_M": 32,
+        "padding_fraction": 0.46875,
+        "padding_rows": 15,
+        "padding_value": 0,
+        "real_M": 17
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 8704,
+          "quantized_zero_count": 7680,
+          "quantized_zero_fraction": 0.46875,
+          "saturation_count": 0,
+          "scale": 6.673010960054983e-06,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 196608,
+          "quantized_zero_count": 1,
+          "quantized_zero_fraction": 5.086263020833333e-06,
+          "saturation_count": 0,
+          "scale": 0.00020681986851351603,
+          "underflow_count": 1,
+          "underflow_fraction": 5.086263020833333e-06
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 6528,
+          "quantized_zero_count": 5760,
+          "quantized_zero_fraction": 0.46875,
+          "saturation_count": 0,
+          "scale": 0.009368473930018289,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 17,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    },
+    {
+      "all_zero": true,
+      "benchmarks": {},
+      "case_id": "all_zero_M16_K384_N512",
+      "formats": {
+        "dgrad": "e5m2 x e4m3fn",
+        "forward": "e4m3fn x e4m3fn",
+        "wgrad": "e5m2 x e4m3fn"
+      },
+      "ops": {
+        "dgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                512
+              ],
+              [
+                512,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                512,
+                1
+              ],
+              [
+                1,
+                512
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              1.0,
+              1.0
+            ]
+          },
+          "error_vs_dequant": 0.0,
+          "error_vs_fp32": 0.0,
+          "finite": true,
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          },
+          "zero_exact": true
+        },
+        "forward": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e4m3fn",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                16,
+                384
+              ],
+              [
+                384,
+                512
+              ]
+            ],
+            "input_strides": [
+              [
+                384,
+                1
+              ],
+              [
+                1,
+                384
+              ]
+            ],
+            "layout_copies": {
+              "copy_rhs": false
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              16,
+              512
+            ],
+            "output_stride": [
+              512,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              1.0,
+              1.0
+            ]
+          },
+          "error_vs_dequant": 0.0,
+          "error_vs_fp32": 0.0,
+          "finite": true,
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          },
+          "zero_exact": true
+        },
+        "wgrad": {
+          "dispatch": {
+            "input_dtypes": [
+              "float8_e5m2",
+              "float8_e4m3fn"
+            ],
+            "input_shapes": [
+              [
+                512,
+                16
+              ],
+              [
+                16,
+                384
+              ]
+            ],
+            "input_strides": [
+              [
+                16,
+                1
+              ],
+              [
+                1,
+                16
+              ]
+            ],
+            "layout_copies": {
+              "copy_lhs": true,
+              "copy_rhs": true
+            },
+            "native_fp8_inputs": true,
+            "operator": "torch._scaled_mm",
+            "out_dtype": "bfloat16",
+            "output_shape": [
+              512,
+              384
+            ],
+            "output_stride": [
+              384,
+              1
+            ],
+            "scale_dtype": "float32 scalar",
+            "scales": [
+              1.0,
+              1.0
+            ]
+          },
+          "error_vs_dequant": 0.0,
+          "error_vs_fp32": 0.0,
+          "finite": true,
+          "status": "passed",
+          "thresholds": {
+            "dequant": 0.025,
+            "fp32": 0.15
+          },
+          "zero_exact": true
+        }
+      },
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 16,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 16
+      },
+      "quantization": {
+        "dy": {
+          "dtype": "float8_e5m2",
+          "nonzero_input_count": 0,
+          "quantized_zero_count": 8192,
+          "quantized_zero_fraction": 1.0,
+          "saturation_count": 0,
+          "scale": 1.0,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "w": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 0,
+          "quantized_zero_count": 196608,
+          "quantized_zero_fraction": 1.0,
+          "saturation_count": 0,
+          "scale": 1.0,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        },
+        "x": {
+          "dtype": "float8_e4m3fn",
+          "nonzero_input_count": 0,
+          "quantized_zero_count": 6144,
+          "quantized_zero_fraction": 1.0,
+          "saturation_count": 0,
+          "scale": 1.0,
+          "underflow_count": 0,
+          "underflow_fraction": 0.0
+        }
+      },
+      "shape": {
+        "K": 384,
+        "M": 16,
+        "N": 512
+      },
+      "status": "passed",
+      "thresholds": {
+        "dequant": 0.025,
+        "fp32": 0.15
+      }
+    }
+  ],
+  "cuda_runtime": "12.8",
+  "device": "cuda",
+  "first_failure": null,
+  "float8_dtypes": [
+    "float8_e4m3fn",
+    "float8_e4m3fnuz",
+    "float8_e5m2",
+    "float8_e5m2fnuz",
+    "float8_e8m0fnu"
+  ],
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "limitations": [
+    "Operator feasibility only; not model training, convergence or language quality.",
+    "FP8 output is BF16; no FP8-only accumulation claim.",
+    "No Tensor Core instruction claim without profiler kernel verification.",
+    "Synthetic independent normal inputs; no production shapes or corpus.",
+    "Quantization is current per-tensor scaling only; no delayed scaling, MXFP8, NVFP4 or block scaling.",
+    "No package, CUDA driver/toolkit or model/harness change."
+  ],
+  "nonfinite_rejection": {
+    "exception": "ValueError: nonfinite input cannot be quantized",
+    "status": "passed"
+  },
+  "profiler": {
+    "operator_keys": [
+      {
+        "device_time_us": 0.9600000000000364,
+        "key": "aten::empty"
+      },
+      {
+        "device_time_us": 5.2159999999998945,
+        "key": "aten::fill_"
+      },
+      {
+        "device_time_us": 3.903999999999769,
+        "key": "aten::to"
+      },
+      {
+        "device_time_us": 3.903999999999769,
+        "key": "aten::_to_copy"
+      },
+      {
+        "device_time_us": 3.199999999999818,
+        "key": "aten::empty_strided"
+      },
+      {
+        "device_time_us": 1.0879999999999654,
+        "key": "Activity Buffer Request"
+      },
+      {
+        "device_time_us": 2.1119999999998527,
+        "key": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul> >(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)"
+      },
+      {
+        "device_time_us": 0.7039999999999509,
+        "key": "aten::copy_"
+      },
+      {
+        "device_time_us": 0.7039999999999509,
+        "key": "Memcpy HtoD (Pageable -> Device)"
+      },
+      {
+        "device_time_us": 5.344000000000051,
+        "key": "aten::_scaled_mm"
+      },
+      {
+        "device_time_us": 2.0160000000000764,
+        "key": "aten::resize_"
+      },
+      {
+        "device_time_us": 2.0160000000000764,
+        "key": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul>)"
+      },
+      {
+        "device_time_us": 3.3279999999999745,
+        "key": "sm89_xmma_gemm_e4m3bf16_e4m3f32_f32_tn_n_tilesize32x64x64_stage5_warpsize2x2x1_tensor16x8x32_algo2_execute_kernel__5x_cublas"
+      }
+    ],
+    "status": "passed",
+    "table_excerpt": "-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  \n                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  \n-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  \n                                            aten::fill_         1.42%      16.559us        84.06%     982.083us     140.298us       4.128us        50.59%       5.216us       0.745us             7  \n                                       aten::_scaled_mm         6.67%      77.880us         9.52%     111.201us     111.201us       3.328us        40.78%       5.344us       5.344us             1  \nsm89_xmma_gemm_e4m3bf16_e4m3f32_f32_tn_n_tilesize32x...         0.00%       0.000us         0.00%       0.000us       0.000us       3.328us        40.78%       3.328us       3.328us             1  \nvoid at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us       2.112us        25.88%       2.112us       1.056us             2  \nvoid at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us       2.016us        24.71%       2.016us       1.008us             2  \n                                Activity Buffer Request        80.51%     940.508us        80.51%     940.508us     940.508us       1.088us        13.33%       1.088us       1.088us             1  \n                                            aten::copy_         0.64%       7.480us         1.93%      22.573us      11.287us       0.704us         8.63%       0.704us       0.352us             2  \n                       Memcpy HtoD (Pageable -> Device)         0.00%       0.000us         0.00%       0.000us       0.000us       0.704us         8.63%       0.704us       0.352us             2  \n                                            aten::empty         3.02%      35.339us         3.68%      43.008us      10.752us       0.000us         0.00%       0.960us       0.240us             4  \n                                               aten::to         0.17%       1.954us        87.28%       1.020ms     509.831us       0.000us         0.00%       3.904us       1.952us             2  \n                                         aten::_to_copy         0.70%       8.180us        87.11%       1.018ms     508.854us       0.000us         0.00%       3.904us       1.952us             2  \n                                    aten::empty_strided         1.38%      16.146us        84.48%     986.955us     493.478us       0.000us         0.00%       3.200us       1.600us             2  \n                                       cudaLaunchKernel         2.14%      25.016us         2.14%      25.016us       6.254us       0.000us         0.00%       0.000us       0.000us             4  \n                                        cudaMemcpyAsync         0.86%      10.010us         0.86%      10.010us       5.005us       0.000us         0.00%       0.000us       0.000us             2  \n                                  cudaStreamSynchronize         0.44%       5.083us         0.44%       5.083us       2.542us       0.000us         0.00%       0.000us       0.000us             2  \n                                       aten::lift_fresh         0.02%       0.278us         0.02%       0.278us       0.139us       0.000us         0.00%       0.000us       0.000us             2  \n                                          aten::detach_         0.10%       1.121us         0.20%       2.334us       1.167us       0.000us         0.00%       0.000us       0.000us             2  \n                                       "
+  },
+  "profiler_available": true,
+  "scaled_mm_schema": "aten::_scaled_mm(Tensor self, Tensor mat2, Tensor scale_a, Tensor scale_b, Tensor? bias=None, Tensor? scale_result=None, ScalarType? out_dtype=None, bool use_fast_accum=False) -> Tensor",
+  "schema_version": 1,
+  "seed": 42,
+  "status": "passed",
+  "task": "T0007",
+  "thresholds": {
+    "dequantized_operand_relative_frobenius": 0.025,
+    "fp32_relative_frobenius": 0.15
+  },
+  "torch": "2.10.0+cu128"
+}
