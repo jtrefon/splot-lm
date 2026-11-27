@@ -48,3 +48,6 @@ T0007 #51/#54 accepted and merged; 33/33 GEMMs native on Ada, max relative error
 
 ## T0008/T0009 review handover
 T0008 #52 accepted after #58 correction merged; original #55 already merged, attempt-001 retained. T0009 #56/#59 native 156-projection FP8 training demonstrated, paired one-step and exact smoke resume reported; correction required for finite flags, per-depth clipping/underflow/padding, report exit status and full-vector gradient/routing audit. No merge until reviewed correction. T0010 #60 Mac portable tokenized shards/packing bridge specification in review, independent of Linux. Actual corpus acquisition/production tokenizer still gated under #8. FP8+Muon next only after T0009 accepted.
+
+## Current handover
+T0009 #56 accepted/closed after #59 merge; corrected per-depth audits and exact same-mode resume, no saturation/nonfinite, Nano R4 full gradient relative L2 .342295. #61 T0010 #60 Mac spec merged, no implementation submission yet. T0011 #62 Linux native FP8+Muon correctness and three one-epoch synthetic comparisons in review. Broader #7/#8/#10/#42/#43 remain open. Data rights/pins and production tokenizer are the next research gate; no acquisition approved. Historical status sections above are records, live issues and latest handover authoritative.
