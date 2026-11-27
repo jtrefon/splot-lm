@@ -12,7 +12,7 @@ The owner authorized the requested T0009 corrections within the approved scope: 
 - `_grad_stats` reports matched-only and full-vector (None as zero) relative L2, matched/full parameter counts, missing BF16/FP8 gradient counts and nonfinite counts.
 - `_routing_stats` now asserts identical route keys and selected shapes before comparing. Depth entries require both precisions finite for hidden/logits/losses/gradients, exact label counts, route keys/shapes and the CE gates.
 - `--report` now exits nonzero if the depth report status fails; the `report_exit_ok` contract is covered by a CPU test.
-- Wgrad dispatch is explicitly FP32. The dequantized-oracle comparison uses the actual effective upstream BF16 gradient received by the Function, not the pre-autograd FP32 tensor. Forward/dgrad outputs remain BF16.
+- Wgrad dispatch is explicitly FP32. The dequantized-oracle comparison uses the actual effective upstream BF16 gradient received by the Function, not the pre-autograd FP32 tensor. The forward output is BF16; dgrad is restored to the input dtype (BF16 under SPLOT autocast, FP32 for the direct FP32 linear cases, which report `dgrad_dtype: float32`).
 
 ## Checks
 | Check | Status | Evidence |
@@ -47,7 +47,12 @@ No unexpected failure in attempt-002 and no retry. Expected cross-precision reje
 - Some unused experts are not dispatched; coverage is recorded, not an all-expert claim.
 - Drift/routing are forward/backward comparisons, not trained-model stability.
 - No FP8+Muon, fused/grouped expert kernels, real corpus or production benchmark.
-- FP8 output/dgrad are BF16; wgrad is FP32. No Tensor Core instruction claim beyond recorded kernel names.
+- FP8 forward output is BF16; dgrad follows the input dtype (BF16 under autocast, FP32 in the direct FP32 linear cases) and wgrad is FP32. No Tensor Core instruction claim beyond recorded kernel names.
+
+
+## Post-test clarification
+
+The reviewed correction commit `572364ca6320ede03776c549a1eb7e884661984c` was tested as recorded above. A documentation-only clarification after those runs states that dgrad is restored to the input dtype (BF16 under SPLOT autocast, FP32 for the direct FP32 linear cases) rather than always BF16. No code, acceptance threshold, metric, run output or checkpoint changed.
 
 ## Proposed next action
 Maintainer review of attempt-002 evidence and PR #59. T0009 remains open; no merge or closure. Hosted CPU CI is required. FP8+Muon, long-context, real-corpus and kernel-performance work require separate reviewed tasks.

@@ -36,7 +36,7 @@ Quantization records device-resident saturation, underflow, nonzero and nonfinit
 
 `fp8_assert_finite` is called at the training step boundary before optimizer update and after backward, and at evaluation. It checks FP32 master parameters, FP8 quantization/output flags and gradients, raising `FloatingPointError` before an update or evaluation result if any nonfinite value is observed. Nonfinite input/weight/gradient cases are covered by tests.
 
-Forward and dgrad outputs are BF16; the explicit wgrad output is FP32. The dequantized-oracle comparison uses the actual effective upstream BF16 gradient received by the autograd Function, not the pre-autograd FP32 tensor.
+The forward output is BF16. dgrad is restored to the input dtype: BF16 under SPLOT autocast, FP32 for a direct FP32 linear call (the linear report uses and records FP32 dgrad). The explicit wgrad output is FP32. The dequantized-oracle comparison uses the actual effective upstream BF16 gradient received by the autograd Function, not the pre-autograd FP32 tensor.
 
 ## Integration and checkpointing
 

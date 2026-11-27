@@ -102,7 +102,7 @@
     "run-fp8-continuous.json": "642c9b405b522ecc6188f7304f868aa5705c38f93e5fc990696c37400500e77f",
     "run-fp8-nano.json": "e7cc1ab2470c860d858ab8d5c463daaeedde438d572094825789ba7ecf63d0ba",
     "run-fp8-resumed.json": "01ab80d91301e9fcf54d3bb18a8cf882b9f97dc1e2b2f357804936ad1f4cab0a",
-    "summary.md": "45a7758822a33ec11ff9d7318af3d4da5cf3e9b5f29ebaecb2b63dd239c713a0"
+    "summary.md": "357d5728e45a7cb139c479cbd6d564a63724f666a5d4215a5968947a9018c38e"
   },
   "limitations": [
     "Correctness integration only; no convergence, pretraining, long-context, throughput or language-quality claim.",
@@ -110,9 +110,10 @@
     "Some unused experts are not dispatched; coverage is recorded, not an all-expert claim.",
     "Drift/routing are forward/backward comparisons, not trained-model stability.",
     "No FP8+Muon, fused/grouped expert kernels, real corpus or production benchmark.",
-    "FP8 output/dgrad are BF16; wgrad is FP32. No Tensor Core instruction claim beyond recorded kernel names."
+    "FP8 forward output is BF16; dgrad follows the input dtype (BF16 under autocast, FP32 in the direct FP32 linear cases) and wgrad is FP32. No Tensor Core instruction claim beyond recorded kernel names."
   ],
   "minimum_base_commit": "31a3051d26850d5328912e1f9fc93f64591910f8",
+  "post_test_clarification": "Documentation-only wording fix: dgrad is restored to the input dtype (BF16 under SPLOT autocast, FP32 in the direct FP32 linear cases), not always BF16. Tested commit, thresholds, metrics, run outputs and checkpoints are unchanged.",
   "schema_version": 1,
   "source_commit": "572364ca6320ede03776c549a1eb7e884661984c",
   "status": "passed",
