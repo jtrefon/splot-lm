@@ -1,0 +1,2245 @@
+{
+  "acquisition": {
+    "excluded": [],
+    "extracted_utf8_bytes": 8987423,
+    "files": 249,
+    "network_bytes": 11204726,
+    "network_limit_bytes": 52428800,
+    "segments": 2360
+  },
+  "caps": {
+    "blocks_test": 16,
+    "blocks_train": 128,
+    "blocks_validation": 16,
+    "extracted_utf8_bytes": 10485760,
+    "local_output_bytes": 536870912,
+    "network_bytes": 52428800,
+    "per_work_utf8_bytes": 2621440,
+    "segments": 10000,
+    "sequence_length": 512,
+    "train_tokenizer_bytes": 4194304
+  },
+  "created_at": "2026-11-27",
+  "document": "splot-bilingual-pilot-sources",
+  "excluded_candidates": [
+    {
+      "family_id": "wl-pan-tadeusz",
+      "genre": "verse_epic",
+      "language": "pl",
+      "reason": "verse epic, excluded from prose pilot; no silent mixture",
+      "title": "Pan Tadeusz, czyli ostatni zajazd na Litwie"
+    }
+  ],
+  "materialization": {
+    "counts": {
+      "by_language": {
+        "en": {
+          "blocks": 80,
+          "content_tokens": 26941,
+          "ntp_labels": 27021,
+          "offset2_labels": 26941,
+          "pad_tokens": 13859,
+          "valid_tokens": 27101
+        },
+        "pl": {
+          "blocks": 80,
+          "content_tokens": 29260,
+          "ntp_labels": 29340,
+          "offset2_labels": 29260,
+          "pad_tokens": 11540,
+          "valid_tokens": 29420
+        }
+      },
+      "by_split": {
+        "test": {
+          "blocks": 16,
+          "content_tokens": 5019,
+          "ntp_labels": 5035,
+          "offset2_labels": 5019,
+          "pad_tokens": 3141,
+          "valid_tokens": 5051
+        },
+        "train": {
+          "blocks": 128,
+          "content_tokens": 45948,
+          "ntp_labels": 46076,
+          "offset2_labels": 45948,
+          "pad_tokens": 19332,
+          "valid_tokens": 46204
+        },
+        "validation": {
+          "blocks": 16,
+          "content_tokens": 5234,
+          "ntp_labels": 5250,
+          "offset2_labels": 5234,
+          "pad_tokens": 2926,
+          "valid_tokens": 5266
+        }
+      },
+      "by_split_language": {
+        "test/en": {
+          "blocks": 8,
+          "content_tokens": 2430,
+          "ntp_labels": 2438,
+          "offset2_labels": 2430,
+          "pad_tokens": 1650,
+          "valid_tokens": 2446
+        },
+        "test/pl": {
+          "blocks": 8,
+          "content_tokens": 2589,
+          "ntp_labels": 2597,
+          "offset2_labels": 2589,
+          "pad_tokens": 1491,
+          "valid_tokens": 2605
+        },
+        "train/en": {
+          "blocks": 64,
+          "content_tokens": 21938,
+          "ntp_labels": 22002,
+          "offset2_labels": 21938,
+          "pad_tokens": 10702,
+          "valid_tokens": 22066
+        },
+        "train/pl": {
+          "blocks": 64,
+          "content_tokens": 24010,
+          "ntp_labels": 24074,
+          "offset2_labels": 24010,
+          "pad_tokens": 8630,
+          "valid_tokens": 24138
+        },
+        "validation/en": {
+          "blocks": 8,
+          "content_tokens": 2573,
+          "ntp_labels": 2581,
+          "offset2_labels": 2573,
+          "pad_tokens": 1507,
+          "valid_tokens": 2589
+        },
+        "validation/pl": {
+          "blocks": 8,
+          "content_tokens": 2661,
+          "ntp_labels": 2669,
+          "offset2_labels": 2661,
+          "pad_tokens": 1419,
+          "valid_tokens": 2677
+        }
+      },
+      "overall": {
+        "blocks": 160,
+        "content_tokens": 56201,
+        "ntp_labels": 56361,
+        "offset2_labels": 56201,
+        "pad_tokens": 25399,
+        "valid_tokens": 56521
+      }
+    },
+    "dataset_format": "splot-pilot-blocks-v1",
+    "dataset_version": 1,
+    "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+    "manifest_bytes": 4674,
+    "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+    "model_vocab_size": 32768,
+    "repeat_logical_equal": true,
+    "repeat_manifest_equal": true,
+    "repeat_shards_equal": true,
+    "repeat_tokenizer_equal": true,
+    "sequence_length": 512,
+    "shards": {
+      "test": {
+        "blocks": 16,
+        "ntp_labels": 5035,
+        "offset2_labels": 5019,
+        "valid_tokens": 5051
+      },
+      "train": {
+        "blocks": 128,
+        "ntp_labels": 46076,
+        "offset2_labels": 45948,
+        "valid_tokens": 46204
+      },
+      "validation": {
+        "blocks": 16,
+        "ntp_labels": 5250,
+        "offset2_labels": 5234,
+        "valid_tokens": 5266
+      }
+    },
+    "source_index_documents": 160,
+    "source_index_sha256": "f7d11bcdccc7a0df9e4b775ad5b6136a76d4fcfd0e87429a373d4d034dde3953",
+    "tokenizer_artifact_sha256": "95c5d111cacd3fb668d15d6d7a6cc501a043027b876953b96cc185f974275011",
+    "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+    "tokenizer_training": {
+      "bytes": 4194289,
+      "sampled": true,
+      "segments": 1094
+    },
+    "tokenizer_training_digest": "f35a114e77f07958a49c3faf5875e6b17c2410c9c5a86143de9ebf770c805a31",
+    "unused_logits": 16384,
+    "vocab_size": 16384
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "author": {
+        "life": "1832-1898",
+        "name": "Lewis Carroll"
+      },
+      "authority_url": "https://www.wikidata.org/wiki/Special:EntityData/Q38082.json",
+      "content_bytes": 150059,
+      "content_sha256": "f80db72561c49f51c79c9f5c573ee9d41da7d9c62cbb2de420298557fe3a3e52",
+      "excluded_paths": [
+        "src/epub/text/colophon.xhtml",
+        "src/epub/text/epigraph.xhtml",
+        "src/epub/text/frontispiece.xhtml",
+        "src/epub/text/halftitlepage.xhtml",
+        "src/epub/text/imprint.xhtml",
+        "src/epub/text/loi.xhtml",
+        "src/epub/text/titlepage.xhtml",
+        "src/epub/text/uncopyright.xhtml"
+      ],
+      "family_id": "se-alices-adventures",
+      "item_id": "lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+      "language": "en",
+      "parts": [
+        {
+          "bytes": 13347,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "a006f6595337f1a3b35e46676352200514f1a50511125edda6bf898f83027486",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-1.xhtml"
+        },
+        {
+          "bytes": 14029,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "8da2811b383d846ef601d2a8a1b48d151f88dbb707dcbc18991ce5af7222f4ac",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-2.xhtml"
+        },
+        {
+          "bytes": 13470,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "2cc3e7f446b97a674961319697552d7ada2d48f23865c516c3e8038fb91ab42b",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-3.xhtml"
+        },
+        {
+          "bytes": 16813,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "87174c0007490c8bde0991e97d77fb3334b8cfcb7b93a7b5912ad8e6d000a301",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-4.xhtml"
+        },
+        {
+          "bytes": 16740,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "d2a6c805bf8cad6f5631f552b7390f4cd3ab5ef6a93551c49b04753231099471",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-5.xhtml"
+        },
+        {
+          "bytes": 17975,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "e8d9376e33e57085b90a830f7aecacc6fae8eb1a439186d8c6cb9a1033c59934",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-6.xhtml"
+        },
+        {
+          "bytes": 16431,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "0c88a01606bb2fa8447e7f01c3f311aea91853339ae14b9c5aa2b8c2b50ce1a7",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-7.xhtml"
+        },
+        {
+          "bytes": 16869,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "6bd55fbfb1c392427d63693a0b2f9121a8edccd1cc1dbecc61843182e2919379",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-8.xhtml"
+        },
+        {
+          "bytes": 16055,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "00ec54aa8e0a3ef1db3c84d05bf95b8d5030924552f78cbce65956ad89b021be",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-9.xhtml"
+        },
+        {
+          "bytes": 16042,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "b7e15f3a02c8e99a911027a21e4f2501f62787d22194a09f52819315ee3c59ce",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-10.xhtml"
+        },
+        {
+          "bytes": 13565,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "15c5479366bfe103062ea382a50237d7933b9762d6327c59c4f4a6da3201d9b3",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-11.xhtml"
+        },
+        {
+          "bytes": 15467,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "d977322adcaf0e0cc2bfbe6dd1335df6699656fb456a4307c3fe48e37f9d0dbe",
+          "url": "https://raw.githubusercontent.com/standardebooks/lewis-carroll_alices-adventures-in-wonderland_john-tenniel/9e5eb58995d9fd2f609363d14786d8b0166bbbb9/src/epub/text/chapter-12.xhtml"
+        }
+      ],
+      "raw_bytes": 186803,
+      "raw_sha256": "109365790b5e6d949668ba98af815fe26ea0cbce11697c3ac2adcf4f1880942d",
+      "retrieved_at_first_utc": "2026-11-27T20:36:58Z",
+      "retrieved_at_last_utc": "2026-11-27T20:37:02Z",
+      "revision": "git:9e5eb58995d9fd2f609363d14786d8b0166bbbb9",
+      "rights": {
+        "edition": "Standard Ebooks production released CC0 1.0; U.S. public-domain warning on item page",
+        "excluded": "modern introductions, prefaces, notes, endnotes, illustrations, colophon, imprint, titlepage and other paratext",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public domain; author death date from Wikidata authority record"
+      },
+      "rights_evidence_url": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+      "segments": 41,
+      "source_name": "Standard Ebooks",
+      "source_url": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel",
+      "split": "validation",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Alice's Adventures in Wonderland"
+    },
+    {
+      "author": {
+        "life": "1797-1851",
+        "name": "Mary Shelley"
+      },
+      "authority_url": "https://www.wikidata.org/wiki/Special:EntityData/Q47152.json",
+      "content_bytes": 423191,
+      "content_sha256": "775c30fab445d5a2787b78e9c76d7d72352cb374201cf0170af8557ea792d198",
+      "excluded_paths": [
+        "src/epub/text/colophon.xhtml",
+        "src/epub/text/dedication.xhtml",
+        "src/epub/text/endnotes.xhtml",
+        "src/epub/text/epigraph.xhtml",
+        "src/epub/text/halftitlepage.xhtml",
+        "src/epub/text/imprint.xhtml",
+        "src/epub/text/introduction.xhtml",
+        "src/epub/text/preface.xhtml",
+        "src/epub/text/titlepage.xhtml",
+        "src/epub/text/uncopyright.xhtml"
+      ],
+      "family_id": "se-frankenstein",
+      "item_id": "mary-shelley/frankenstein",
+      "language": "en",
+      "parts": [
+        {
+          "bytes": 8037,
+          "kind": "xhtml",
+          "path": "src/epub/text/letter-1.xhtml",
+          "sha256": "f938d5a312f42943627a856b095de55b5d5a0a37694ffa905811805bb80edf81",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/letter-1.xhtml"
+        },
+        {
+          "bytes": 8512,
+          "kind": "xhtml",
+          "path": "src/epub/text/letter-2.xhtml",
+          "sha256": "4ce5793bae36d12ada8cf52b3063f1c33eedd50e99c76403b490cc25c9225156",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/letter-2.xhtml"
+        },
+        {
+          "bytes": 2882,
+          "kind": "xhtml",
+          "path": "src/epub/text/letter-3.xhtml",
+          "sha256": "5186ebb96235e85bbc1520dc0c886ea8f7699b57d19c47273fc8d0e33ae1077b",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/letter-3.xhtml"
+        },
+        {
+          "bytes": 16911,
+          "kind": "xhtml",
+          "path": "src/epub/text/letter-4.xhtml",
+          "sha256": "e08bf1994744b8538707cf924b8649db6bf0f2b138ad7dbf68c5ba990c07237a",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/letter-4.xhtml"
+        },
+        {
+          "bytes": 11035,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "3dc161f1f60ad594583567b76040cbb7367106e51d24af213a19b2e893c67508",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-1.xhtml"
+        },
+        {
+          "bytes": 13622,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "1f1409a0d0c98dc5e92f4a8a417d941756a9df70abb8668c2917b970a7515780",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-2.xhtml"
+        },
+        {
+          "bytes": 16740,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "89c587d5b49a161c119eff66739eca28931139a1398275844c80b509430944cf",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-3.xhtml"
+        },
+        {
+          "bytes": 15408,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "7954e9a24896e147e65b2231665b70dc644cfc42f1ef45c8942f8b4d8837de6e",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-4.xhtml"
+        },
+        {
+          "bytes": 14380,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "0fca57401bc198b376bf139f0b870d5dc7a2fe9625c2ac62e1cb36946a41f241",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-5.xhtml"
+        },
+        {
+          "bytes": 17071,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "0796c8890cfa94b711da165414efdcb885fc22651794b338b61ef6494e585777",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-6.xhtml"
+        },
+        {
+          "bytes": 21394,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "b243a6b081be54828443420d78969dde42c0ab21beda949e168c097504d71650",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-7.xhtml"
+        },
+        {
+          "bytes": 18471,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "5a693da42fb30247f531fe7dfb21d9cdeca56bdccd4203baee18ea5d0ed6176a",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-8.xhtml"
+        },
+        {
+          "bytes": 13385,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "78bdcd07a48abd40ddee017379ca6f14197e553e89d02ee006e860c9f008b564",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-9.xhtml"
+        },
+        {
+          "bytes": 14210,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "f0f3e1674cf7a93f28b807947e6bb9abb17cbbd92141e19ec64d523aca4d41c7",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-10.xhtml"
+        },
+        {
+          "bytes": 16942,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "3e75bab2461981d3a4e25d7f9ab145792b04bdf96383a3f6611bdf6fa888b1da",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-11.xhtml"
+        },
+        {
+          "bytes": 12976,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "c23670a036055eea42fad1a0a9ef220eb2854919d98aed50acf230d7a5eaa4a9",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-12.xhtml"
+        },
+        {
+          "bytes": 12617,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "69aeeacd0eb1eb975e17f06dd6926d68c66d4652486130508d37559ec3983473",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-13.xhtml"
+        },
+        {
+          "bytes": 11403,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "cffdcb0bf50e124a01b14c3ef99ba77be33790465827077e1f1c3054a964b509",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-14.xhtml"
+        },
+        {
+          "bytes": 18783,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "b0a3592bb5fd494e411f8ec2f5dec65412db626e3d364d9130b2129cff2cfc8f",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-15.xhtml"
+        },
+        {
+          "bytes": 18840,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "a0f84c21a5c90e52e6dbf9e70e72c86f1a08379aab7f00d369081f9c6ccfc228",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-16.xhtml"
+        },
+        {
+          "bytes": 11271,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "eecdc6b2719a650cce88eea9fc9933e020e2739db1d4c153612bc1ae880b4b3a",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-17.xhtml"
+        },
+        {
+          "bytes": 17524,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "08d1ab7ada164663592d766ebea8c24c80d7ba590f58dec965f886955f6f4198",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-18.xhtml"
+        },
+        {
+          "bytes": 15839,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "8bd3ffca3ac6c4f41abba789ccba0259fc136a6f7225a58105d57e4b1484e6f8",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-19.xhtml"
+        },
+        {
+          "bytes": 20372,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "86124786c877853baa33b00e72eaa7adc5fcb76822c771b9b32fdade83f27253",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-20.xhtml"
+        },
+        {
+          "bytes": 22261,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "512d4673cbd7bcf8c9c64282dded60a476369a526a7be3d77a9780f71f8b59bb",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-21.xhtml"
+        },
+        {
+          "bytes": 20434,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "6ded40d7fc6243a74dc724579fe69f44f403b49dafa2c680e2aa929561dd773d",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-22.xhtml"
+        },
+        {
+          "bytes": 15135,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "2582ee1e71bf7146d5d3af0e089025998f84740c5852ba6b2e25eb97b4c6353d",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-23.xhtml"
+        },
+        {
+          "bytes": 48408,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "f8b370de17342923c06801c4d9dd521ce59ec598e8fae39dc635f757896e16ae",
+          "url": "https://raw.githubusercontent.com/standardebooks/mary-shelley_frankenstein/abfa474c5e1df00ae8458ed8495b83e7f8b795cc/src/epub/text/chapter-24.xhtml"
+        }
+      ],
+      "raw_bytes": 454863,
+      "raw_sha256": "44c555028fed46e183f4683b4ce8e3620afc0b770202392505a12f4956dea9a7",
+      "retrieved_at_first_utc": "2026-11-27T20:37:02Z",
+      "retrieved_at_last_utc": "2026-11-27T20:37:11Z",
+      "revision": "git:abfa474c5e1df00ae8458ed8495b83e7f8b795cc",
+      "rights": {
+        "edition": "Standard Ebooks production released CC0 1.0; U.S. public-domain warning on item page",
+        "excluded": "modern introductions, prefaces, notes, endnotes, illustrations, colophon, imprint, titlepage and other paratext",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public domain; author death date from Wikidata authority record"
+      },
+      "rights_evidence_url": "https://standardebooks.org/ebooks/mary-shelley/frankenstein",
+      "segments": 118,
+      "source_name": "Standard Ebooks",
+      "source_url": "https://standardebooks.org/ebooks/mary-shelley/frankenstein",
+      "split": "train",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Frankenstein"
+    },
+    {
+      "author": {
+        "life": "1819-1891",
+        "name": "Herman Melville"
+      },
+      "authority_url": "https://www.wikidata.org/wiki/Special:EntityData/Q4985.json",
+      "content_bytes": 1217955,
+      "content_sha256": "2ac18fc1e9483639f4fa1b43118774e212d700af8f8a7fa313bb7a4249be5879",
+      "excluded_paths": [
+        "src/epub/text/colophon.xhtml",
+        "src/epub/text/dedication.xhtml",
+        "src/epub/text/endnotes.xhtml",
+        "src/epub/text/halftitlepage.xhtml",
+        "src/epub/text/imprint.xhtml",
+        "src/epub/text/titlepage.xhtml",
+        "src/epub/text/uncopyright.xhtml"
+      ],
+      "family_id": "se-moby-dick",
+      "item_id": "herman-melville/moby-dick",
+      "language": "en",
+      "parts": [
+        {
+          "bytes": 3258,
+          "kind": "xhtml",
+          "path": "src/epub/text/etymology.xhtml",
+          "sha256": "50ee6dd8c5ba8271fb661abca41a6588e56047010057c1b7b2dd736ef20c9bc4",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/etymology.xhtml"
+        },
+        {
+          "bytes": 32609,
+          "kind": "xhtml",
+          "path": "src/epub/text/extracts.xhtml",
+          "sha256": "51ded28814f4f41cce19a91af0d2dbb7c612e0829e6b5521d043d4d5390ba097",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/extracts.xhtml"
+        },
+        {
+          "bytes": 13236,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "f8e8fae47616167274c293f0c0de27e51706f15c5e3ef9a980b4cb81a2c574e9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-1.xhtml"
+        },
+        {
+          "bytes": 8841,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "f182f6f32b75fc85ad5095d0e43a4db63471242f4a21a5a874683586c60ae9a2",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-2.xhtml"
+        },
+        {
+          "bytes": 34205,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "d4d9220cf2108de750d5587413f6466370153c1ec0a54571ceb829bcd407dd97",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-3.xhtml"
+        },
+        {
+          "bytes": 9962,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "85cf0fd6989833234db83981b9a5842e2247d38d7785e996d47ccaf72d027e96",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-4.xhtml"
+        },
+        {
+          "bytes": 4992,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "66827405971effb2521173ed0a3f41dfe44b0e8d546215561d01a44a7ac29a0c",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-5.xhtml"
+        },
+        {
+          "bytes": 5566,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "92dd78ce8d1a4ce6376a6a60a8784e6552556f15238c744a329bc8c9cf4d487f",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-6.xhtml"
+        },
+        {
+          "bytes": 7943,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "a4016e5fa9b1d47337a84c769c859c70f06880a368e0efe5dfcadd8e14a71254",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-7.xhtml"
+        },
+        {
+          "bytes": 6182,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "a76e921c8731574febf71ea6c9270b45a1730aae1ebbd2ee8f9be9960681bbeb",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-8.xhtml"
+        },
+        {
+          "bytes": 21759,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "830fbe2c9dc31797da7b7bd4af12c4fd20b5459e1b4880a7060efba3501e2dee",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-9.xhtml"
+        },
+        {
+          "bytes": 9552,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "1dbe3d9fbf13f593d66a3732c0f5be40b8bc68e8951e38c7f118560a08f6061e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-10.xhtml"
+        },
+        {
+          "bytes": 4640,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "c28acc4e3e6159c27d27c3a3710f92172863b7fa2d4dd28afcec659f40b6f732",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-11.xhtml"
+        },
+        {
+          "bytes": 5667,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "6b47cd8f99d672e44cceec33afdfea13d5f5f4f9edc547c52a3476759c6ff92d",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-12.xhtml"
+        },
+        {
+          "bytes": 10825,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "bf052ab136d5d1eba3e50eac70e360d90624fb0c1c67d13196a6bcdf43647580",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-13.xhtml"
+        },
+        {
+          "bytes": 5076,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "7c4ef183a85c382589f8cbb1690f2062ee07f0f1ae7cfabe2f8c3682aac918e5",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-14.xhtml"
+        },
+        {
+          "bytes": 8075,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "8748778e840353f7f20473c010ca15632300664d468130049fd8b545d70d445f",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-15.xhtml"
+        },
+        {
+          "bytes": 33521,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "efb97f855b4cb7806976f42f9ac72b4201e13e3f13871612f0dea9bd80eeb787",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-16.xhtml"
+        },
+        {
+          "bytes": 14115,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "1901d41a1a0eba6f4bf3c0e55d0766c05f75ca5ca0669068651e15aa5dcd87a0",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-17.xhtml"
+        },
+        {
+          "bytes": 9134,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "372dc98c60ada6a04428f72a7b27f6936387c23dbace7b1d88a46e45234db20a",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-18.xhtml"
+        },
+        {
+          "bytes": 8163,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "f0f63bd3045398c13d819b8f956738976caeed19ef854775087118a4616678d4",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-19.xhtml"
+        },
+        {
+          "bytes": 6070,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "4256e24d0ec3bc62c6886d5ac3c40b94d7aba16db946de98e6605e571481d8ca",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-20.xhtml"
+        },
+        {
+          "bytes": 7489,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "46ad4deba78c475ac328c25fb774b89ec56eac2c5996c3afad16acc43c24dd3b",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-21.xhtml"
+        },
+        {
+          "bytes": 10898,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "60fe3e414af76f6de908ee04d0bfc4815492a157d503d3c25c67f039c59c9705",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-22.xhtml"
+        },
+        {
+          "bytes": 2938,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "298ec86d671d3f62074be0108a05eb24a3959bf1c6448d6b098314a0f88849ef",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-23.xhtml"
+        },
+        {
+          "bytes": 10737,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "92b538de7799de9fc59c1c0410acc9940e6bbd2ea3765c001f132f6f51ca2d18",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-24.xhtml"
+        },
+        {
+          "bytes": 2331,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "be491e62666255306fb99ee5f8fce68188399522b6e28bfe29d224c0a78ccae3",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-25.xhtml"
+        },
+        {
+          "bytes": 7815,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "d9e460767c62006cfe098434dd4f197445b0afa2f2e9f78ab888fb175699306e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-26.xhtml"
+        },
+        {
+          "bytes": 10652,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "7a48eab16ab4243eaf6b076ce5b6dc26fc361326a5044ed5a93340d609e5a8bb",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-27.xhtml"
+        },
+        {
+          "bytes": 8928,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-28.xhtml",
+          "sha256": "df3448c8d042c580f6394b5ab736403b4bf9c3f82c6e35e7d347192e4ca424e8",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-28.xhtml"
+        },
+        {
+          "bytes": 7570,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-29.xhtml",
+          "sha256": "b7bc5685ad9d9a80e4c4edeaa940506f31a65ae190f7d305932b631ea0b17a4a",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-29.xhtml"
+        },
+        {
+          "bytes": 2311,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-30.xhtml",
+          "sha256": "30ecd189c16a112b7a14f92a650a3a09bd02b5a2ca92e6ee23d12af1ef15010d",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-30.xhtml"
+        },
+        {
+          "bytes": 5492,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-31.xhtml",
+          "sha256": "776b2eff53a98da10c204962adab64e87b4bd95c600d2e9a5c42bd5740277ee2",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-31.xhtml"
+        },
+        {
+          "bytes": 33396,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-32.xhtml",
+          "sha256": "3ae6c077dace77b0a16c23bb1fa15194a74c378ad826e22f183388e5e98152dc",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-32.xhtml"
+        },
+        {
+          "bytes": 6627,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-33.xhtml",
+          "sha256": "8c408e1ac3b2aea18990c2cbbc7f3a9730d243797e75932308dcd12da810653b",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-33.xhtml"
+        },
+        {
+          "bytes": 13769,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-34.xhtml",
+          "sha256": "20fee680e4ba17b84010287e0489f7808bd61d4effe796ac9c48d9ddfe372ddd",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-34.xhtml"
+        },
+        {
+          "bytes": 15859,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-35.xhtml",
+          "sha256": "1ce6be196fbc8bb4f7223de906d5fe0fcff4ecf3ebdb510fe16b1f25532a9f54",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-35.xhtml"
+        },
+        {
+          "bytes": 17613,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-36.xhtml",
+          "sha256": "e336868f5298be29db2ed2229fc40de6a0b02fda9e2620be8f78113eb006da76",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-36.xhtml"
+        },
+        {
+          "bytes": 3646,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-37.xhtml",
+          "sha256": "db5f61744a223179b72ba8b0e29536b8232e069ee05a04106c3f5b77410694d1",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-37.xhtml"
+        },
+        {
+          "bytes": 2882,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-38.xhtml",
+          "sha256": "739571311920a9863dcf4c6f4f08ea390dc11e4406ba388a714595644cf2abc6",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-38.xhtml"
+        },
+        {
+          "bytes": 2606,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-39.xhtml",
+          "sha256": "50968f47c2c57c0ab4c6eada784b73c7209efda6fb687342a7234eb4fbd63e12",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-39.xhtml"
+        },
+        {
+          "bytes": 14430,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-40.xhtml",
+          "sha256": "48357c99da979732619321c4c547cb1503878556c49277ba69ede340dae1e337",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-40.xhtml"
+        },
+        {
+          "bytes": 23058,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-41.xhtml",
+          "sha256": "a7dd90690d5b9d2a4d5d113ad692efc73f2e40fb2e4a3bb07dd187aa8e6b2664",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-41.xhtml"
+        },
+        {
+          "bytes": 18703,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-42.xhtml",
+          "sha256": "03560264ff8cfe7c6ed6ae20a77e77e07489aec92a6d29a65136afd5c01b9df9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-42.xhtml"
+        },
+        {
+          "bytes": 2594,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-43.xhtml",
+          "sha256": "42ce6c6f30c4ed977724ef5b38d42dc10c1bfed242cb140ae0418ac9b8d6af64",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-43.xhtml"
+        },
+        {
+          "bytes": 12251,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-44.xhtml",
+          "sha256": "d9fe927b2948f077c4342040044b59a12d691323dd39ca75cd9560818516cfff",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-44.xhtml"
+        },
+        {
+          "bytes": 19701,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-45.xhtml",
+          "sha256": "0e060128c9805384cfd25f938b991ab6325d54bdf82ee2b8e3566dc3510b75e5",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-45.xhtml"
+        },
+        {
+          "bytes": 6817,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-46.xhtml",
+          "sha256": "c9ff080456b49ed9f3901ac88c1c9da017eb78eff613f4ae3e35704d267efc15",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-46.xhtml"
+        },
+        {
+          "bytes": 6227,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-47.xhtml",
+          "sha256": "a9419278fa2154097efb52ce6d183aaa00ba9a6d27d5244c3252b30225a73f65",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-47.xhtml"
+        },
+        {
+          "bytes": 24331,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-48.xhtml",
+          "sha256": "64cd2baac2a3d52c49ed6f6bb84cc16642b3495f33da73c4b08d5209e4212f4e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-48.xhtml"
+        },
+        {
+          "bytes": 5747,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-49.xhtml",
+          "sha256": "f9bb45b7087fbcd9f1260b434e2013ed3ce00a19ea47677ea56a332219aeebd8",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-49.xhtml"
+        },
+        {
+          "bytes": 6628,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-50.xhtml",
+          "sha256": "66a89e9888481ca9a49fadacaa1f878b45245c59e49b45a318a0416a68c6f51a",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-50.xhtml"
+        },
+        {
+          "bytes": 9491,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-51.xhtml",
+          "sha256": "5f958f100cafed07342bb5ad940496a3c3885bb134369d99d11f70a2f8cb0df0",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-51.xhtml"
+        },
+        {
+          "bytes": 4966,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-52.xhtml",
+          "sha256": "ccf182e9f5741b9e7e1976dbb2b61174be53e9b5f3d63e7e55eb2dfd90a6a6bc",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-52.xhtml"
+        },
+        {
+          "bytes": 10272,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-53.xhtml",
+          "sha256": "17b22b0d665f207899886fd656f67b32d90c64d06c93853cc29883de701f6d1d",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-53.xhtml"
+        },
+        {
+          "bytes": 48401,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-54.xhtml",
+          "sha256": "9855416acec83472e759840c104adc338cbdfda546c40d1f24587d81c4de54cf",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-54.xhtml"
+        },
+        {
+          "bytes": 12223,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-55.xhtml",
+          "sha256": "c8bea0194af9651452a94e86378f089f01eb25711a6cc8de5ce2971982dfa53e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-55.xhtml"
+        },
+        {
+          "bytes": 8508,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-56.xhtml",
+          "sha256": "9a0db256d4f7f9db68ccfab71c2cfe7a92235e33093976e52526f1d9947b86fb",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-56.xhtml"
+        },
+        {
+          "bytes": 6471,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-57.xhtml",
+          "sha256": "8c8044acee80c12030e84487eefb94788d1fdefa3f7aaab2d5fe5e5f23f2de34",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-57.xhtml"
+        },
+        {
+          "bytes": 6286,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-58.xhtml",
+          "sha256": "2f4376cc1edf9949c96513fec5a1f6d67a04f71d322fc137b8d9a4419abf62fe",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-58.xhtml"
+        },
+        {
+          "bytes": 6179,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-59.xhtml",
+          "sha256": "78ca48debce56bf4c1b589f06696d83a1f8405f7e94946c2832e56385b738323",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-59.xhtml"
+        },
+        {
+          "bytes": 9006,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-60.xhtml",
+          "sha256": "325efc495a83962da889f2aa898f60c394c39f1910f25a240993f3ba00a60425",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-60.xhtml"
+        },
+        {
+          "bytes": 11493,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-61.xhtml",
+          "sha256": "e6e87fe10403e30316032cf83d02db7c39243107c06f30729f768b34458f9973",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-61.xhtml"
+        },
+        {
+          "bytes": 3863,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-62.xhtml",
+          "sha256": "2a7c39904d8a565efa5e7b5bb64c5d09adff470f553a704a42f5e2479f3dd93a",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-62.xhtml"
+        },
+        {
+          "bytes": 3538,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-63.xhtml",
+          "sha256": "f89d7838e0c78e7884e624eeeab1f1994e046d829a32d6f2c64f235a388fd2ec",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-63.xhtml"
+        },
+        {
+          "bytes": 17474,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-64.xhtml",
+          "sha256": "9eb72080646686ccf31fb30936705049eb82002a738eaec6f75d5e5fe1485316",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-64.xhtml"
+        },
+        {
+          "bytes": 6369,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-65.xhtml",
+          "sha256": "779f11afefafdcec623099567e622fd063010bb61578f56f12569442364607a9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-65.xhtml"
+        },
+        {
+          "bytes": 3963,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-66.xhtml",
+          "sha256": "238415b9e8cd4219387cc5aa93e36c46009d0ff395aa807655c88fa92428ea40",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-66.xhtml"
+        },
+        {
+          "bytes": 4961,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-67.xhtml",
+          "sha256": "315dad218c6fce0df7f62f098be6f005c9442b55a656c0adc317a35d3868004c",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-67.xhtml"
+        },
+        {
+          "bytes": 7566,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-68.xhtml",
+          "sha256": "712ab26b8e9a30a70c2fa33309564b202fc871d40e0c9b3e98a6daff7f042afb",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-68.xhtml"
+        },
+        {
+          "bytes": 3260,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-69.xhtml",
+          "sha256": "007bfd3ca4e6d0b1916d04b4228d3b1f2a98bffa6c1adf40043c017392be63da",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-69.xhtml"
+        },
+        {
+          "bytes": 5972,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-70.xhtml",
+          "sha256": "ebcc9dbdd1169b445c5a075c1772ee43fee34ebb2623cb61842eb41952150e5b",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-70.xhtml"
+        },
+        {
+          "bytes": 15342,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-71.xhtml",
+          "sha256": "c7a071d702fa21517659edb270c47993fe8cf1ccee3c9722f07c2a985cc2dbbb",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-71.xhtml"
+        },
+        {
+          "bytes": 10181,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-72.xhtml",
+          "sha256": "6981e13ce0a4129c32b0cfee56f11134ecf47d303c8d6662026ba41d5dbdb50f",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-72.xhtml"
+        },
+        {
+          "bytes": 13394,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-73.xhtml",
+          "sha256": "02f693de350f8b478df02315a7dd32e874fe3800c7cf63d4c7908dffcf9460ce",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-73.xhtml"
+        },
+        {
+          "bytes": 10050,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-74.xhtml",
+          "sha256": "8934a78a5a7b5c5fd86c0b7436162c6bae37df30d11d934d514108d146d0ddbc",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-74.xhtml"
+        },
+        {
+          "bytes": 7493,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-75.xhtml",
+          "sha256": "ded69b0aba150d28dfbb1bcbd77fcb60f5b34cdb0f155ab8f6a90856bbacf52b",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-75.xhtml"
+        },
+        {
+          "bytes": 5790,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-76.xhtml",
+          "sha256": "f4e12e9ffa2382263a2181d0a239a0fba9b3c576b0877dbf141126487984b4c9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-76.xhtml"
+        },
+        {
+          "bytes": 4370,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-77.xhtml",
+          "sha256": "7605847afe7d733014e5c24dcf4fcb1a03176f8a432a5169fbcdbeaa86ca7ed9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-77.xhtml"
+        },
+        {
+          "bytes": 10292,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-78.xhtml",
+          "sha256": "db53bbf6fad0103542de99edc2a6b4f80984dac921c87dc8b1222c84632565db",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-78.xhtml"
+        },
+        {
+          "bytes": 6129,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-79.xhtml",
+          "sha256": "4bb61fb59bcf5bb659f1203af830e2873b36bb01ff2e4f6606e997adad007834",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-79.xhtml"
+        },
+        {
+          "bytes": 5928,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-80.xhtml",
+          "sha256": "4cb22e4fa2824d4f21e86de9cf56f26fb3b293f0ab7764f11de813928ba9df25",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-80.xhtml"
+        },
+        {
+          "bytes": 26852,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-81.xhtml",
+          "sha256": "d54f83291ac9501e8e699b4b0cc6fa8ca3c9f5cda77358e8dee9c632429f3bec",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-81.xhtml"
+        },
+        {
+          "bytes": 7408,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-82.xhtml",
+          "sha256": "70dcb433f708670a6b2118cea0c3c65336ca96851d9a29e664caadfeda1bfe80",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-82.xhtml"
+        },
+        {
+          "bytes": 5517,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-83.xhtml",
+          "sha256": "21e436a69a0747e8a0c97e6540f23edeffc67f9e73b1f6f06d79bbc33aae6b46",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-83.xhtml"
+        },
+        {
+          "bytes": 5512,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-84.xhtml",
+          "sha256": "f85c114abcc3ed9f803718ef701f0dab4ab8995030e3b5e3237c7cf209683850",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-84.xhtml"
+        },
+        {
+          "bytes": 12380,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-85.xhtml",
+          "sha256": "6c18b10a4efc4e2b3e218b03e9e611272a7f90f71ffa52453e8fe5d2632523ee",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-85.xhtml"
+        },
+        {
+          "bytes": 10890,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-86.xhtml",
+          "sha256": "da50a40c1df82cb54dd36152fa2260575b81b59fb256e6e890b1dbef439e2c54",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-86.xhtml"
+        },
+        {
+          "bytes": 28506,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-87.xhtml",
+          "sha256": "f8bc10a0667e79500c21aefb7d5dcd60bee385a21e699624003bbe099f77b114",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-87.xhtml"
+        },
+        {
+          "bytes": 7937,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-88.xhtml",
+          "sha256": "49f4d2664be9c05880b56029fa29a78f4b09061c8a5f7ae17af8ecfabf6dc845",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-88.xhtml"
+        },
+        {
+          "bytes": 9213,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-89.xhtml",
+          "sha256": "f7224adc4a3358d42ef94d4ac918305e14a1f7db6d09af81401c478a38019457",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-89.xhtml"
+        },
+        {
+          "bytes": 7081,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-90.xhtml",
+          "sha256": "900d7e8c073a3e402702842ce2ec5a926edf5c15b54f1d25e7235714d93ce52a",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-90.xhtml"
+        },
+        {
+          "bytes": 16402,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-91.xhtml",
+          "sha256": "a9ae1724f6494c3074635d7607305bd0821ce97d1c6ed902b6029ec370055325",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-91.xhtml"
+        },
+        {
+          "bytes": 6280,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-92.xhtml",
+          "sha256": "5702a3de776337cb8c9a5cc5eb890cfce252c8966a11f93bf1c56510e6e0f9be",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-92.xhtml"
+        },
+        {
+          "bytes": 10207,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-93.xhtml",
+          "sha256": "e742dda67f5d1f3e69acd89b2ad70addc25fcf730085ccdd137c9208f9e7c9d3",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-93.xhtml"
+        },
+        {
+          "bytes": 8189,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-94.xhtml",
+          "sha256": "aaba5c6ab116db6d91fd0f1341d889db23a2c988f7d6aad8b290732ddc0fdeef",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-94.xhtml"
+        },
+        {
+          "bytes": 3319,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-95.xhtml",
+          "sha256": "0527ec7f5966d239bb22543b8387cd2369b2e8db69da632296e8146935ae3673",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-95.xhtml"
+        },
+        {
+          "bytes": 11252,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-96.xhtml",
+          "sha256": "6fd2aed9e5c8b421a0bec54d75a196ed63428e21948ae335c885aab47c5b33d9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-96.xhtml"
+        },
+        {
+          "bytes": 2134,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-97.xhtml",
+          "sha256": "bca817d7c144a54ecf52b260da76c90ab833e8ee4aa78949980fcbb2b4c699a4",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-97.xhtml"
+        },
+        {
+          "bytes": 6645,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-98.xhtml",
+          "sha256": "fc995b0276fcc384a17d3b8b3d7783cf05af4249097e0426e272d4e368334f58",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-98.xhtml"
+        },
+        {
+          "bytes": 14675,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-99.xhtml",
+          "sha256": "94305f4c08c6e9b03f26c158533a94e6d1f237d2dce2926178b6e07f276744dc",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-99.xhtml"
+        },
+        {
+          "bytes": 17073,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-100.xhtml",
+          "sha256": "42370b7a8f50f9ff14b68427849933f075ac7a4ca65b16fb496a63c1378703e1",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-100.xhtml"
+        },
+        {
+          "bytes": 12028,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-101.xhtml",
+          "sha256": "fb322d3db807b20396d95abac949023ab86f691f2893202115ffd65b796d67b9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-101.xhtml"
+        },
+        {
+          "bytes": 10032,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-102.xhtml",
+          "sha256": "ac6494e00237fe45deb246a2a55a2ac6c9fa35fb0e1fd001f17209b2464ff96e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-102.xhtml"
+        },
+        {
+          "bytes": 6007,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-103.xhtml",
+          "sha256": "1537bccf49fe367954db32cf4531272f66531101117584842c2b3dc92251d588",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-103.xhtml"
+        },
+        {
+          "bytes": 9181,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-104.xhtml",
+          "sha256": "e2c5525956babc28bf12b8436ed51a73966bed970e9fd16f46d83b4d8afa31d1",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-104.xhtml"
+        },
+        {
+          "bytes": 10021,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-105.xhtml",
+          "sha256": "8c2e784d78f87ec27fe1d64d9c470671737872ab55ad1f158ae89b44eeb36349",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-105.xhtml"
+        },
+        {
+          "bytes": 6353,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-106.xhtml",
+          "sha256": "001aa5417c0ff5243868912f198751ef97632503c7e85ff44c0bc7f8096f5a95",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-106.xhtml"
+        },
+        {
+          "bytes": 7066,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-107.xhtml",
+          "sha256": "61b5202557ce033288b25af5102d3f71afe21371a13e33af9a517b6d88b38235",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-107.xhtml"
+        },
+        {
+          "bytes": 10533,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-108.xhtml",
+          "sha256": "1c13bba85e392c92545bd9952637c6bd1d0b042f45c604cd3e64875efe3c21d4",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-108.xhtml"
+        },
+        {
+          "bytes": 5868,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-109.xhtml",
+          "sha256": "a8d5e83cb33ac1e94c7480e2fa786c7860aaa94eb89a75f5ae3d1db203537f6e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-109.xhtml"
+        },
+        {
+          "bytes": 13558,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-110.xhtml",
+          "sha256": "193d455e1e0fba7202c2b9595e1e622dbfaf640941c3f77afb00ebdfed46b158",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-110.xhtml"
+        },
+        {
+          "bytes": 3231,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-111.xhtml",
+          "sha256": "bd563518058db10203d6176f6e0bfb1861658f44026cd7d3c6df39a36ba0b143",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-111.xhtml"
+        },
+        {
+          "bytes": 6333,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-112.xhtml",
+          "sha256": "f8aea329bb2ab4770536a327a516cba9282910bc98b5fc1362617fb011c80b05",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-112.xhtml"
+        },
+        {
+          "bytes": 8026,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-113.xhtml",
+          "sha256": "30da1401a28fb426ac0b8550f1f83397718bdfe88cbc0beeeed7addc7f51c5ab",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-113.xhtml"
+        },
+        {
+          "bytes": 4610,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-114.xhtml",
+          "sha256": "c165c36dc14c7485524012bccf9617020537c1d5d3cf1ffbbb000779945e3f66",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-114.xhtml"
+        },
+        {
+          "bytes": 6396,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-115.xhtml",
+          "sha256": "0bb0074e18adee2402dbe0c99c8b54f343d9906b975c4ef3433f521d6b3d5ac3",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-115.xhtml"
+        },
+        {
+          "bytes": 3838,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-116.xhtml",
+          "sha256": "bbc6138e0129b2a8ee4e2bfe1c2cfb13733d7e24f53eaccee6dff12cd5c15697",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-116.xhtml"
+        },
+        {
+          "bytes": 3441,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-117.xhtml",
+          "sha256": "bf23983079c6f5d8113526cfeb1b3de29c8b9e975d0a2612248c7b41ada5615e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-117.xhtml"
+        },
+        {
+          "bytes": 5992,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-118.xhtml",
+          "sha256": "ff0c54097d591ed716be520e5ab609f177f3bd9560acadd7807310dfe5a9ee35",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-118.xhtml"
+        },
+        {
+          "bytes": 16165,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-119.xhtml",
+          "sha256": "c3ca0b018874497182c631a3cbf5ef37954e29fa42c0ce95821918a7d27afb2c",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-119.xhtml"
+        },
+        {
+          "bytes": 1870,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-120.xhtml",
+          "sha256": "aee154f2b1a9f55c7c2e2355e2608fe95a5ec556a3f3838164278ce61fc852fe",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-120.xhtml"
+        },
+        {
+          "bytes": 4285,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-121.xhtml",
+          "sha256": "f9f4c6479abebc9a8aa49bd5fb62039bab6761f6f712e5ec8fa8cd22f878bd76",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-121.xhtml"
+        },
+        {
+          "bytes": 1055,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-122.xhtml",
+          "sha256": "d685d9e509d6f5096170ae275c5c40d7f3dc23dea090cc3def78d3c3081077fc",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-122.xhtml"
+        },
+        {
+          "bytes": 7986,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-123.xhtml",
+          "sha256": "5df0670b0d0aef03db973a584c311f019c95d095b9243e6da5dddea13d00501e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-123.xhtml"
+        },
+        {
+          "bytes": 8118,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-124.xhtml",
+          "sha256": "2ebfd88c01f4bb59a6c7c8f86bfd8ad217ff3234f669eedac3e8505f68a48f4f",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-124.xhtml"
+        },
+        {
+          "bytes": 7422,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-125.xhtml",
+          "sha256": "8c80b02006c0c54a22ffec20813c50ad27c83637bb8599ed301162e8a429651d",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-125.xhtml"
+        },
+        {
+          "bytes": 8705,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-126.xhtml",
+          "sha256": "181291f6c4ad76bc5373a01018889779ecc8b2ede84c9d3e6a923c56d87e0a50",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-126.xhtml"
+        },
+        {
+          "bytes": 5079,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-127.xhtml",
+          "sha256": "d3c79232f706bb6396771b2f02b9a147367bf76117cff7c1cfb67a944b27c66e",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-127.xhtml"
+        },
+        {
+          "bytes": 9395,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-128.xhtml",
+          "sha256": "abcf26675b92b020d00dc63cc56fe920887a886dab0c95516d24d19e9c211e3b",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-128.xhtml"
+        },
+        {
+          "bytes": 3955,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-129.xhtml",
+          "sha256": "924491770c4f60447ad31ddd858793a77e7b53c4ca676aca27f9aeb6975d0d89",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-129.xhtml"
+        },
+        {
+          "bytes": 10605,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-130.xhtml",
+          "sha256": "4b398229cce901312d246fed156056009ae49f33e6c2cbdc663d63012135f8ce",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-130.xhtml"
+        },
+        {
+          "bytes": 3654,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-131.xhtml",
+          "sha256": "d06f90a74d169860e2aab71c1c4583a6e44017b955b718997ddc7693ce18f3d1",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-131.xhtml"
+        },
+        {
+          "bytes": 9842,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-132.xhtml",
+          "sha256": "130c7ee91cbca429a3e495d39245f2c8b348b3a6cf2a1bd31a509c6eb4cdced7",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-132.xhtml"
+        },
+        {
+          "bytes": 21951,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-133.xhtml",
+          "sha256": "d82597dc1af64b569a86185514ddb1250a85e1a426f0444a2161a9a0ec5eaad9",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-133.xhtml"
+        },
+        {
+          "bytes": 20529,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-134.xhtml",
+          "sha256": "f4afe28a5cd2ed984a70c16d4b91682e399e93add350ac269f7f5e7e70e93a58",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-134.xhtml"
+        },
+        {
+          "bytes": 27186,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-135.xhtml",
+          "sha256": "b315594a9ecd4e788b32db7fdbda0b0cad98c0383a12881e8b0f310f0edb7bb2",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/chapter-135.xhtml"
+        },
+        {
+          "bytes": 2272,
+          "kind": "xhtml",
+          "path": "src/epub/text/epilogue.xhtml",
+          "sha256": "2fdeb8cc8b2de85a140ed529ef5f5884583d2bca8a61d4d6313c763d656eb149",
+          "url": "https://raw.githubusercontent.com/standardebooks/herman-melville_moby-dick/89725132954ec3f297e0d86f4a5ab636675d7f13/src/epub/text/epilogue.xhtml"
+        }
+      ],
+      "raw_bytes": 1376728,
+      "raw_sha256": "36e13e32c3415dc7b9513c0e79f85c61e7fe4e4ad11bed093428df5cf8fc556f",
+      "retrieved_at_first_utc": "2026-11-27T20:37:14Z",
+      "retrieved_at_last_utc": "2026-11-27T20:37:58Z",
+      "revision": "git:89725132954ec3f297e0d86f4a5ab636675d7f13",
+      "rights": {
+        "edition": "Standard Ebooks production released CC0 1.0; U.S. public-domain warning on item page",
+        "excluded": "modern introductions, prefaces, notes, endnotes, illustrations, colophon, imprint, titlepage and other paratext",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public domain; author death date from Wikidata authority record"
+      },
+      "rights_evidence_url": "https://standardebooks.org/ebooks/herman-melville/moby-dick",
+      "segments": 332,
+      "source_name": "Standard Ebooks",
+      "source_url": "https://standardebooks.org/ebooks/herman-melville/moby-dick",
+      "split": "test",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Moby Dick"
+    },
+    {
+      "author": {
+        "life": "1775-1817",
+        "name": "Jane Austen"
+      },
+      "authority_url": "https://www.wikidata.org/wiki/Special:EntityData/Q36322.json",
+      "content_bytes": 695770,
+      "content_sha256": "430f74f8e59c5255e8249e676f6348a85d87fa39a39d88197c34cef2eba27368",
+      "excluded_paths": [
+        "src/epub/text/colophon.xhtml",
+        "src/epub/text/imprint.xhtml",
+        "src/epub/text/titlepage.xhtml",
+        "src/epub/text/uncopyright.xhtml"
+      ],
+      "family_id": "se-pride-and-prejudice",
+      "item_id": "jane-austen/pride-and-prejudice",
+      "language": "en",
+      "parts": [
+        {
+          "bytes": 6072,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "78e777101e7a3d6dc723dbf6df5d851ae1ba6fd1ebaad29264b14607c9e23214",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-1.xhtml"
+        },
+        {
+          "bytes": 6200,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "c5676c9d0b4ff82acea89cf03adbcec402dfa0f1be4fac1bf33c02fab3370db1",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-2.xhtml"
+        },
+        {
+          "bytes": 11911,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "1b3f3ea948d2051b31b653e91a2d81c07689ebce5ff7cac554b322b9f1c4ab44",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-3.xhtml"
+        },
+        {
+          "bytes": 7022,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "80455e033b965ce8f13db270bf839728d17ac31604b16e4251d443472304899e",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-4.xhtml"
+        },
+        {
+          "bytes": 6984,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "3de78d2f926fa02ffd599c721847884ae5e9c278647c81ecf8a5156000e5b464",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-5.xhtml"
+        },
+        {
+          "bytes": 15156,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "abb38f83382c5a8ffcf7e26653cff869549d75b0cc1cec9b5815ccb344b96e2c",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-6.xhtml"
+        },
+        {
+          "bytes": 13684,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "c23dfd04c31bb28d0a203b6582605c965d597f9e845774a5a2aa910daeb00531",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-7.xhtml"
+        },
+        {
+          "bytes": 13111,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "67dee293952ab2498f25505eccd129b2f07d3b16a3ab7c45935117fac6154a31",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-8.xhtml"
+        },
+        {
+          "bytes": 11977,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "b34c75be3b5d9daec2befa1e5210076b6b9cec2a40f67a46bf24007e7b2cc5ad",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-9.xhtml"
+        },
+        {
+          "bytes": 14973,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "6a766c8df48203478b58c01fa771ffab722524c16236f249254073b1b0630e04",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-10.xhtml"
+        },
+        {
+          "bytes": 10772,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "265256c8e542912cafeca1d769dfd72effbfff193c9e34310b1e0d8a38bb17c1",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-11.xhtml"
+        },
+        {
+          "bytes": 4895,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "50369fe46c7064cdf2f5ce861ad6d55704fa058b5f0ee7ce22ba16b631693415",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-12.xhtml"
+        },
+        {
+          "bytes": 11445,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "1ace0b6df210e94c71ca81c3066705618c5e12cf8500a28b99240e0d7ced2cd4",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-13.xhtml"
+        },
+        {
+          "bytes": 8024,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "36976697c7ec97fd145cf89559a013955bb9e6c3e900995957e6756173dc73c5",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-14.xhtml"
+        },
+        {
+          "bytes": 12120,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "2f2906aca7542cc7becde9853cec79f74e30d8ca3592508edb229ac3999c26e2",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-15.xhtml"
+        },
+        {
+          "bytes": 23145,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "82fc6002f077872a2c6e62637acbfa5e775f02c371fc2a551798d9574a6f5649",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-16.xhtml"
+        },
+        {
+          "bytes": 9141,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "6b5e27e722c8bcd90e52a2a8a5a34352a97b72b8b0f70d37e2d40df589af5161",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-17.xhtml"
+        },
+        {
+          "bytes": 34236,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "a86d9dcca9e12b50d72c1449790340f401caaeae1af03004d6b980c98b336dd2",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-18.xhtml"
+        },
+        {
+          "bytes": 12260,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "a287b373972b9f3f18f718eeb6d9bef971cbf66e39856bc2536b1f392dfe632c",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-19.xhtml"
+        },
+        {
+          "bytes": 11603,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "393ccd920966790f7687ee6a9698da0d7d7cbdc47039090a5e080a210699e757",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-20.xhtml"
+        },
+        {
+          "bytes": 12918,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "748005c8aa49e0735d5e95c709b79b5655a053243b869e55b4aeccd87104598d",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-21.xhtml"
+        },
+        {
+          "bytes": 11731,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "b00dd64d8ebfd753a6d8fcd1552c1558edc75b48bf50f6abe2733304fdaa9bf6",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-22.xhtml"
+        },
+        {
+          "bytes": 11291,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "8671d70ec9c21479ca3f47af476cc5ac1af9ddd3556da9a3cba3764e6709e4e4",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-23.xhtml"
+        },
+        {
+          "bytes": 12595,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "5e91952a29d99a491bbe8f355e42e21307b8b405196b234ca0f295e68fbbf9ed",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-24.xhtml"
+        },
+        {
+          "bytes": 10608,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "67f9fee0058be3203b08aed3c69664ad2399a6d41aee57160e08d4c0f4d5ba95",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-25.xhtml"
+        },
+        {
+          "bytes": 14627,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "434122c097ed8bea37798aebe843928f38305b9c0800dbb26d274b4203fb5abe",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-26.xhtml"
+        },
+        {
+          "bytes": 8483,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "828b2c183fbc4f5f944684c149b7f787cc836fa2ee4da5b3d5c63229934b07f0",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-27.xhtml"
+        },
+        {
+          "bytes": 9573,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-28.xhtml",
+          "sha256": "bd24356c3201e51333884c136b80cf4f58587bd6ef057d5466e78aa1427b1125",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-28.xhtml"
+        },
+        {
+          "bytes": 16025,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-29.xhtml",
+          "sha256": "6b5c3794e2a106367fa9585aaf88b6895797823ed66a4499e671f0d5ff677830",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-29.xhtml"
+        },
+        {
+          "bytes": 8401,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-30.xhtml",
+          "sha256": "05274643bae7ef84e90049a75b8d563570b5e44abe97c05ff82484f9b78509ac",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-30.xhtml"
+        },
+        {
+          "bytes": 10275,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-31.xhtml",
+          "sha256": "275aab2c9397a7f88c7c20dab369308b1fbd4eb7097fcc4b5e3e7174ff398cc2",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-31.xhtml"
+        },
+        {
+          "bytes": 10382,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-32.xhtml",
+          "sha256": "760bdef49d88b39f4a02891bd39a2c3894cf6bbc50fddc053c836738a0f3dfe8",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-32.xhtml"
+        },
+        {
+          "bytes": 12443,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-33.xhtml",
+          "sha256": "265f8fb0fb603fbdd1c77b810f45d550a0aa6f725168e56451d7617a248e6063",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-33.xhtml"
+        },
+        {
+          "bytes": 13483,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-34.xhtml",
+          "sha256": "e69f7e761a1143e22f3640e0ef46908f831ea4b48b0c25e74d6fa198330722df",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-34.xhtml"
+        },
+        {
+          "bytes": 18732,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-35.xhtml",
+          "sha256": "54f4af760339b35940809e1dec9955fa92a199871e6ed2b70508afc307bfb8e2",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-35.xhtml"
+        },
+        {
+          "bytes": 13393,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-36.xhtml",
+          "sha256": "11f726d7e066f0a1a2db933571957eac9e3c4fc982134f8cbcc5dfbb58d75505",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-36.xhtml"
+        },
+        {
+          "bytes": 9129,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-37.xhtml",
+          "sha256": "af18be0bd2a1ac21035dad44e2b80d9beeacbc6543656a63ac4d3796bc32b317",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-37.xhtml"
+        },
+        {
+          "bytes": 7189,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-38.xhtml",
+          "sha256": "1a98a6fa04f567e49edd9cd48ac5ed62d9f9bb5102003f718e2b0c70687903a1",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-38.xhtml"
+        },
+        {
+          "bytes": 10249,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-39.xhtml",
+          "sha256": "e73aebfb96d127672877b323e49ad65f26a7b7816efe9fe9285dbb156591ccfd",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-39.xhtml"
+        },
+        {
+          "bytes": 10768,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-40.xhtml",
+          "sha256": "1776fcebb142b4e4ccf8d684c060eb1300c0e8b852fbac1f38aa75790cad26cf",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-40.xhtml"
+        },
+        {
+          "bytes": 14860,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-41.xhtml",
+          "sha256": "2719d05dc65a90c19511c36846a86135ae5496269a0d8615a2aeafab54ddf9bf",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-41.xhtml"
+        },
+        {
+          "bytes": 12062,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-42.xhtml",
+          "sha256": "dd41a1b0220d625be354f5af415f823b3dece349a0e217d96aac23244e159d9e",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-42.xhtml"
+        },
+        {
+          "bytes": 31168,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-43.xhtml",
+          "sha256": "16945f18da2200ecc4aaefa67d360e5706e3980141ee2cc08945650ac63afc6a",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-43.xhtml"
+        },
+        {
+          "bytes": 14932,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-44.xhtml",
+          "sha256": "3dc66d911a5aa921e8d4a84de07b0a84b0c87e787d13520049503cf546c56190",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-44.xhtml"
+        },
+        {
+          "bytes": 11641,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-45.xhtml",
+          "sha256": "f95c3861b243ed4bb26557b83934969c605a2108e0e66c5f02585f7d1ddb0dad",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-45.xhtml"
+        },
+        {
+          "bytes": 19202,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-46.xhtml",
+          "sha256": "5fc03ad75b62f15067441afaeda11fb158cc4075842a47fc5f3f64ae0b42da02",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-46.xhtml"
+        },
+        {
+          "bytes": 24923,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-47.xhtml",
+          "sha256": "92f71491579009f24108cf323eceafdfa31a9a91068dede607b0cd4e2afad00b",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-47.xhtml"
+        },
+        {
+          "bytes": 14945,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-48.xhtml",
+          "sha256": "ae7e0c14f8e3112953bea72593029951e5d1d7659909a5a180844c43a5346c44",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-48.xhtml"
+        },
+        {
+          "bytes": 14746,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-49.xhtml",
+          "sha256": "1cd39638d6f513d4da1805e8921f173c94326ebec72458bf5a6d81eab7cd63f9",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-49.xhtml"
+        },
+        {
+          "bytes": 14650,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-50.xhtml",
+          "sha256": "d4a62aace286b619dbc8988d9242fe040c436b9d0e9e3f5b6fc7f17f041ff9a5",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-50.xhtml"
+        },
+        {
+          "bytes": 12826,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-51.xhtml",
+          "sha256": "642f374f1de8c91d23a3570440162f40eeeaa5d373eee7c8c8d12ea3901d26ca",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-51.xhtml"
+        },
+        {
+          "bytes": 18912,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-52.xhtml",
+          "sha256": "58289ebe09ff33b552b738f22003997a57542295a47faf9ae58a2be687300a8a",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-52.xhtml"
+        },
+        {
+          "bytes": 19245,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-53.xhtml",
+          "sha256": "7ac0e84338885ec2a10622aadc22b46f43d7fd0249dda931c56073f3dd3bed27",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-53.xhtml"
+        },
+        {
+          "bytes": 10422,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-54.xhtml",
+          "sha256": "0cae8d826b98a3df8c42b1036f3c209c1b9bca83f66e39b8005bd8c1bd2fd811",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-54.xhtml"
+        },
+        {
+          "bytes": 15153,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-55.xhtml",
+          "sha256": "fa531b146e8a1b13f6e68a92bf630c3bc6947d25240a7044db86d687e71ae5f1",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-55.xhtml"
+        },
+        {
+          "bytes": 17727,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-56.xhtml",
+          "sha256": "8f3608413c70c4d62291997eaf5eeba4f7f1173bc0f61216021d4f7b1e76b445",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-56.xhtml"
+        },
+        {
+          "bytes": 10961,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-57.xhtml",
+          "sha256": "7a4bb2dce8e7025032f7bd30f1d68861a82488b8812888afb488e4dc64234184",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-57.xhtml"
+        },
+        {
+          "bytes": 15345,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-58.xhtml",
+          "sha256": "95be56d24df391a5414e009df47ed9b54c390751e6b00c6775c5bf77a8202f7b",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-58.xhtml"
+        },
+        {
+          "bytes": 15926,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-59.xhtml",
+          "sha256": "ecd5795d9a772f48ade3a0e6f40f9869a955d8a310885f22d50b4155bfadb55b",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-59.xhtml"
+        },
+        {
+          "bytes": 10681,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-60.xhtml",
+          "sha256": "be7c90259a03f54295cbdffc51a31e31690f6a7958b8afa848455d971804a9ad",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-60.xhtml"
+        },
+        {
+          "bytes": 8461,
+          "kind": "xhtml",
+          "path": "src/epub/text/chapter-61.xhtml",
+          "sha256": "da154fb6cbc0fdec240a3edcd9a72ce4c5664989246d07ab67be6f65b59a8f96",
+          "url": "https://raw.githubusercontent.com/standardebooks/jane-austen_pride-and-prejudice/a77a2dbbc0d11a17d6c68c581f17e26a65bd8168/src/epub/text/chapter-61.xhtml"
+        }
+      ],
+      "raw_bytes": 805814,
+      "raw_sha256": "7f7d41577829547de311af744e484b6f8e25a62d3a6972af334382e4cb624806",
+      "retrieved_at_first_utc": "2026-11-27T20:36:35Z",
+      "retrieved_at_last_utc": "2026-11-27T20:36:54Z",
+      "revision": "git:a77a2dbbc0d11a17d6c68c581f17e26a65bd8168",
+      "rights": {
+        "edition": "Standard Ebooks production released CC0 1.0; U.S. public-domain warning on item page",
+        "excluded": "modern introductions, prefaces, notes, endnotes, illustrations, colophon, imprint, titlepage and other paratext",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public domain; author death date from Wikidata authority record"
+      },
+      "rights_evidence_url": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice",
+      "segments": 186,
+      "source_name": "Standard Ebooks",
+      "source_url": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice",
+      "split": "train",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Pride and Prejudice"
+    },
+    {
+      "author": {
+        "life": "1867-1925",
+        "name": "Władysław Stanisław Reymont"
+      },
+      "authority_url": "https://wolnelektury.pl/katalog/lektura/chlopi/",
+      "content_bytes": 2106903,
+      "content_sha256": "0f1e5ff7683f36bf7c3cd3ead75ccb4d4d4e692504cf97c5936f52c320220a1f",
+      "excluded_paths": [],
+      "family_id": "wl-chlopi",
+      "item_id": "chlopi",
+      "language": "pl",
+      "parts": [
+        {
+          "bytes": 615903,
+          "kind": "xml",
+          "part_title": "Chłopi, Część pierwsza - Jesień",
+          "path": "chlopi-czesc-pierwsza-jesien.xml",
+          "sha256": "a50e48c4e8e5fea780cee0ead7e9f2c956b148f4b4228559676d891dc21b551c",
+          "url": "https://wolnelektury.pl/media/book/xml/chlopi-czesc-pierwsza-jesien.xml"
+        },
+        {
+          "bytes": 643830,
+          "kind": "xml",
+          "part_title": "Chłopi, Część druga - Zima",
+          "path": "reymont-chlopi-zima.xml",
+          "sha256": "437df55d103727c0ff1382282a228c339d8873c7eef4b3591c5a56dac6668bb5",
+          "url": "https://wolnelektury.pl/media/book/xml/reymont-chlopi-zima.xml"
+        },
+        {
+          "bytes": 775857,
+          "kind": "xml",
+          "part_title": "Chłopi, Część trzecia - Wiosna",
+          "path": "chlopi-czesc-trzecia-wiosna.xml",
+          "sha256": "99318bc9022f226ec4448dcb6f6495e1753fe9189b50b1da28eb7a455e4f172f",
+          "url": "https://wolnelektury.pl/media/book/xml/chlopi-czesc-trzecia-wiosna.xml"
+        },
+        {
+          "bytes": 698497,
+          "kind": "xml",
+          "part_title": "Chłopi, Część czwarta - Lato",
+          "path": "chlopi-czesc-czwarta-lato.xml",
+          "sha256": "30427d983972243c6ffc3270885a6b1a34efeaa4a8246413cfbc43c719295c29",
+          "url": "https://wolnelektury.pl/media/book/xml/chlopi-czesc-czwarta-lato.xml"
+        }
+      ],
+      "raw_bytes": 2734087,
+      "raw_sha256": "d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "retrieved_at_first_utc": "2026-11-27T20:38:01Z",
+      "retrieved_at_last_utc": "2026-11-27T20:38:03Z",
+      "revision": "local-sha256:d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "rights": {
+        "edition": "annotations and motifs are CC BY-SA 3.0 or LAL 1.3; excluded from this text extraction",
+        "excluded": "motifs, footnotes, editorial notes, cover/illustrations, metadata",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public-domain text; author life dates from official Wolne Lektury item page"
+      },
+      "rights_evidence_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+      "segments": 542,
+      "source_name": "Wolne Lektury",
+      "source_url": "https://wolnelektury.pl/katalog/lektura/chlopi/",
+      "split": "train",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Chłopi"
+    },
+    {
+      "author": {
+        "life": "1847-1912",
+        "name": "Bolesław Prus"
+      },
+      "authority_url": "https://wolnelektury.pl/katalog/lektura/faraon/",
+      "content_bytes": 1435944,
+      "content_sha256": "ad97595a59f7d5b8566577fe0eaed5a9e602652701652c63d3753adb84fa2e6f",
+      "excluded_paths": [],
+      "family_id": "wl-faraon",
+      "item_id": "faraon",
+      "language": "pl",
+      "parts": [
+        {
+          "bytes": 538931,
+          "kind": "xml",
+          "part_title": "Faraon, tom pierwszy",
+          "path": "faraon-tom-pierwszy.xml",
+          "sha256": "d88bad3f751aec4ef27d5039d34b4d8ecd5afb8fb89d4a18eadb1f539160302b",
+          "url": "https://wolnelektury.pl/media/book/xml/faraon-tom-pierwszy.xml"
+        },
+        {
+          "bytes": 641370,
+          "kind": "xml",
+          "part_title": "Faraon, tom drugi",
+          "path": "faraon-tom-drugi.xml",
+          "sha256": "7100dbfd12b4e58ac2c5d05e92072c70f6f07a5dcca0d5a6de7910f510152eb9",
+          "url": "https://wolnelektury.pl/media/book/xml/faraon-tom-drugi.xml"
+        },
+        {
+          "bytes": 561843,
+          "kind": "xml",
+          "part_title": "Faraon, tom trzeci",
+          "path": "faraon-tom-trzeci.xml",
+          "sha256": "a21148e75412a9d1afb360ce613a1aee10ccc6f31c4dc812650ef06cf3516e63",
+          "url": "https://wolnelektury.pl/media/book/xml/faraon-tom-trzeci.xml"
+        }
+      ],
+      "raw_bytes": 1742144,
+      "raw_sha256": "ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "retrieved_at_first_utc": "2026-11-27T20:38:04Z",
+      "retrieved_at_last_utc": "2026-11-27T20:38:05Z",
+      "revision": "local-sha256:ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "rights": {
+        "edition": "annotations and motifs are CC BY-SA 3.0 or LAL 1.3; excluded from this text extraction",
+        "excluded": "motifs, footnotes, editorial notes, cover/illustrations, metadata",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public-domain text; author life dates from official Wolne Lektury item page"
+      },
+      "rights_evidence_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+      "segments": 366,
+      "source_name": "Wolne Lektury",
+      "source_url": "https://wolnelektury.pl/katalog/lektura/faraon/",
+      "split": "test",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Faraon"
+    },
+    {
+      "author": {
+        "life": "1847-1912",
+        "name": "Bolesław Prus"
+      },
+      "authority_url": "https://wolnelektury.pl/katalog/lektura/lalka/",
+      "content_bytes": 1779834,
+      "content_sha256": "5cdbc9e7ac46e51eccdbb2db90002b42c0671682f4f59093014c74ec2a13b245",
+      "excluded_paths": [],
+      "family_id": "wl-lalka",
+      "item_id": "lalka",
+      "language": "pl",
+      "parts": [
+        {
+          "bytes": 1173994,
+          "kind": "xml",
+          "part_title": "Lalka, tom pierwszy",
+          "path": "lalka-tom-pierwszy.xml",
+          "sha256": "2c5a68766021a9998aef88da8a992f4f75957eea1885c3f5fdd8894c6dc5019f",
+          "url": "https://wolnelektury.pl/media/book/xml/lalka-tom-pierwszy.xml"
+        },
+        {
+          "bytes": 1238920,
+          "kind": "xml",
+          "part_title": "Lalka, tom drugi",
+          "path": "lalka-tom-drugi.xml",
+          "sha256": "3e53d33c8f2d2e1c3a04e0bf1a9797a3e86b67c1312886df566aeedf0c276153",
+          "url": "https://wolnelektury.pl/media/book/xml/lalka-tom-drugi.xml"
+        }
+      ],
+      "raw_bytes": 2412914,
+      "raw_sha256": "f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "retrieved_at_first_utc": "2026-11-27T20:38:06Z",
+      "retrieved_at_last_utc": "2026-11-27T20:38:06Z",
+      "revision": "local-sha256:f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "rights": {
+        "edition": "annotations and motifs are CC BY-SA 3.0 or LAL 1.3; excluded from this text extraction",
+        "excluded": "motifs, footnotes, editorial notes, cover/illustrations, metadata",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public-domain text; author life dates from official Wolne Lektury item page"
+      },
+      "rights_evidence_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+      "segments": 457,
+      "source_name": "Wolne Lektury",
+      "source_url": "https://wolnelektury.pl/katalog/lektura/lalka/",
+      "split": "train",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Lalka"
+    },
+    {
+      "author": {
+        "life": "1846-1916",
+        "name": "Henryk Sienkiewicz"
+      },
+      "authority_url": "https://wolnelektury.pl/katalog/lektura/quo-vadis/",
+      "content_bytes": 1177767,
+      "content_sha256": "f8ea7a7ac40935bbf01b159f19ae0a18d32486e11d8ac158a92b965aa315626c",
+      "excluded_paths": [],
+      "family_id": "wl-quo-vadis",
+      "item_id": "quo-vadis",
+      "language": "pl",
+      "parts": [
+        {
+          "bytes": 1491373,
+          "kind": "xml",
+          "part_title": "Quo vadis",
+          "path": "quo-vadis.xml",
+          "sha256": "9200d9277f811f8094788c933bbac9b561c5986f109f0a3919a0702b0a2f7b5c",
+          "url": "https://wolnelektury.pl/media/book/xml/quo-vadis.xml"
+        }
+      ],
+      "raw_bytes": 1491373,
+      "raw_sha256": "cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "retrieved_at_first_utc": "2026-11-27T20:38:07Z",
+      "retrieved_at_last_utc": "2026-11-27T20:38:07Z",
+      "revision": "local-sha256:cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "rights": {
+        "edition": "annotations and motifs are CC BY-SA 3.0 or LAL 1.3; excluded from this text extraction",
+        "excluded": "motifs, footnotes, editorial notes, cover/illustrations, metadata",
+        "jurisdiction": "author died more than 70 years ago; EU/Polish/US public-domain assessment only, not a legal opinion",
+        "underlying": "public-domain text; author life dates from official Wolne Lektury item page"
+      },
+      "rights_evidence_url": "https://wolnelektury.pl/info/zasady-wykorzystania/",
+      "segments": 318,
+      "source_name": "Wolne Lektury",
+      "source_url": "https://wolnelektury.pl/katalog/lektura/quo-vadis/",
+      "split": "validation",
+      "status": "acquired_extracted_materialized_local_only",
+      "title": "Quo vadis"
+    }
+  ],
+  "status": "materialized_local_only",
+  "tokenizer": {
+    "max_token_length": 128,
+    "min_frequency": 2,
+    "model_vocab_size": 32768,
+    "package": "tokenizers",
+    "target_vocab_size": 16384,
+    "version": "0.23.3"
+  },
+  "version": "0.2"
+}
