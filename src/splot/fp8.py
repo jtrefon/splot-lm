@@ -100,6 +100,11 @@ def _record_output(module, value):
     _audit_or(module, 'audit_nonfinite', ~torch.isfinite(value).all())
 
 
+def _weight_cache_key(weight):
+    return (id(weight), int(weight._version), str(weight.device),
+            str(weight.dtype), tuple(weight.shape))
+
+
 def _mm(a, b, scale_a, scale_b, out_dtype):
     return torch._scaled_mm(a, b, scale_a, scale_b, out_dtype=out_dtype, use_fast_accum=False)
 
@@ -150,9 +155,13 @@ class _FP8LinearFunction(torch.autograd.Function):
         padded_m = plan['padded_M']
         x_pad = pad_rows(x.reshape(m, k).float(), padded_m)
         qx, sx, input_stats = _quantize_audit(x_pad, FP8_E4M3)
-        qw, sw, weight_stats = _quantize_audit(weight, FP8_E4M3)
+        qw, sw, weight_stats, weight_reused = module.quantize_weight(weight)
         _record_quant(module, 'input', input_stats)
         _record_quant(module, 'weight', weight_stats)
+        if weight_reused:
+            module.audit_weight_cache_hits += 1
+        else:
+            module.audit_weight_quantizations += 1
         rhs = _column_major(qw.t())
         out_pad = _mm(qx, rhs, sx, sw, torch.bfloat16)
         _record_output(module, out_pad)
@@ -222,6 +231,11 @@ class FP8Linear(nn.Linear):
         return module
 
     def reset_stats(self):
+        self.weight_reuse = bool(getattr(self, 'weight_reuse', False))
+        self._weight_cache = None
+        self.audit_weight_quantizations = 0
+        self.audit_weight_cache_hits = 0
+        self.audit_weight_cache_bytes = 0
         self.forward_calls = 0
         self.backward_calls = 0
         self.empty_forward_calls = 0
@@ -240,6 +254,30 @@ class FP8Linear(nn.Linear):
         self.last_forward_scales = None
         self.last_backward_scales = None
         self.last_forward_dispatched = False
+
+    def set_weight_reuse(self, enabled):
+        if not isinstance(enabled, bool):
+            raise TypeError('weight reuse flag must be boolean')
+        self.weight_reuse = enabled
+        if not enabled:
+            self.clear_weight_cache()
+
+    def clear_weight_cache(self):
+        self._weight_cache = None
+        self.audit_weight_cache_bytes = 0
+
+    def quantize_weight(self, weight):
+        key = _weight_cache_key(weight)
+        if self.weight_reuse and self._weight_cache is not None:
+            cached = self._weight_cache
+            if cached['key'] == key:
+                return cached['qw'], cached['sw'], cached['stats'], True
+        qw, sw, stats = _quantize_audit(weight, FP8_E4M3)
+        if self.weight_reuse:
+            self._weight_cache = {'key': key, 'qw': qw, 'sw': sw, 'stats': stats}
+            self.audit_weight_cache_bytes = (qw.numel() * qw.element_size()
+                                              + sw.numel() * sw.element_size())
+        return qw, sw, stats, False
 
     def forward(self, x):
         if self.bias is not None:
@@ -271,7 +309,9 @@ def classify_linear(model, module_path):
     return 'unknown', type(parent).__name__
 
 
-def convert_selected_linears(model):
+def convert_selected_linears(model, weight_reuse=False):
+    if not isinstance(weight_reuse, bool):
+        raise TypeError('weight reuse flag must be boolean')
     before_ids = {id(p) for p in model.parameters()}
     before_keys = set(model.state_dict())
     selected, excluded, unknown = [], [], []
@@ -284,7 +324,9 @@ def convert_selected_linears(model):
                 raise ValueError(f'selected projection has bias: {path}')
             parent_path, local = path.rsplit('.', 1) if '.' in path else ('', path)
             parent = model.get_submodule(parent_path) if parent_path else model
-            setattr(parent, local, FP8Linear.from_linear(module))
+            fp8_module = FP8Linear.from_linear(module)
+            fp8_module.set_weight_reuse(weight_reuse)
+            setattr(parent, local, fp8_module)
             selected.append({'name': path, 'role': role})
         elif status == 'excluded':
             excluded.append({'name': path, 'role': role})
@@ -311,6 +353,8 @@ def convert_selected_linears(model):
         'native_dispatch': True,
         'optimizer_scope': 'adamw-or-muon-hybrid',
         'no_host_scale_roundtrip': True,
+        'weight_reuse': weight_reuse,
+        'weight_reuse_scope': 'per-update' if weight_reuse else 'disabled',
         'policy_version': POLICY_VERSION,
         'audit_version': AUDIT_VERSION,
     }
@@ -342,6 +386,25 @@ def reset_fp8_audit(model):
     for module in model.modules():
         if isinstance(module, FP8Linear):
             module.reset_stats()
+
+
+def clear_fp8_weight_cache(model):
+    for module in model.modules():
+        if isinstance(module, FP8Linear):
+            module.clear_weight_cache()
+
+
+def set_fp8_weight_reuse(model, enabled):
+    if not isinstance(enabled, bool):
+        raise TypeError('weight reuse flag must be boolean')
+    for module in model.modules():
+        if isinstance(module, FP8Linear):
+            module.set_weight_reuse(enabled)
+
+
+def fp8_weight_reuse_enabled(model):
+    modules = [module for module in model.modules() if isinstance(module, FP8Linear)]
+    return bool(modules) and all(module.weight_reuse for module in modules)
 
 
 def _audit_total(modules, name):
@@ -413,6 +476,14 @@ def fp8_diagnostics(model):
         'native_forward_calls': sum(module.audit_native_forward_calls for module in modules),
         'native_backward_calls': sum(module.audit_native_backward_calls for module in modules),
         'wgrad_fp32_calls': sum(module.audit_wgrad_fp32_calls for module in modules),
+        'weight_reuse_enabled': bool(modules) and all(module.weight_reuse for module in modules),
+        'weight_quantizations': sum(module.audit_weight_quantizations for module in modules),
+        'weight_cache_hits': sum(module.audit_weight_cache_hits for module in modules),
+        'weight_reuse_ratio': _ratio(
+            sum(module.audit_weight_cache_hits for module in modules),
+            sum(module.audit_weight_quantizations + module.audit_weight_cache_hits
+                for module in modules)),
+        'weight_cache_bytes': sum(module.audit_weight_cache_bytes for module in modules),
         'quantization': quantization,
         'scales_resident_cuda': bool(selected_scales) and all(s.device.type == 'cuda' for s in selected_scales),
         'scale_devices': sorted({s.device.type for s in selected_scales}),
@@ -428,9 +499,17 @@ def aggregate_fp8_diagnostics(diags):
         return None
     count_keys = ('forward_calls', 'backward_calls', 'empty_forward_calls',
                   'empty_backward_calls', 'padded_forward_rows', 'padded_backward_rows',
-                  'native_forward_calls', 'native_backward_calls', 'wgrad_fp32_calls')
+                  'native_forward_calls', 'native_backward_calls', 'wgrad_fp32_calls',
+                  'weight_quantizations', 'weight_cache_hits')
     result = {key: sum(int(item.get(key, 0) or 0) for item in items)
               for key in count_keys}
+    result['weight_reuse_enabled'] = all(bool(item.get('weight_reuse_enabled'))
+                                         for item in items)
+    result['weight_reuse_ratio'] = _ratio(
+        result['weight_cache_hits'],
+        result['weight_quantizations'] + result['weight_cache_hits'])
+    result['weight_cache_bytes_max'] = max(
+        int(item.get('weight_cache_bytes', 0) or 0) for item in items)
     result['audit_version'] = AUDIT_VERSION
     result['steps'] = len(items)
     result['selected_modules'] = max(int(item.get('selected_modules', 0)) for item in items)
