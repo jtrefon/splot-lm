@@ -19,7 +19,9 @@ Snapshot: 2026-11-27. **Live GitHub issues and PRs are authoritative.** This fil
 - PR #25 merged: complete sparse hybrid SPLOTLM: exact Nano/Mini model inventories, six CPU MoE tests and 19 regressions, synthetic A2+balance training and short full Nano forward/backward. [Contract](research/implementation/sparse-moe.md), [evidence](experiments/results/sparse-moe-v0.1.md). Mini meta only.
 
 - PR #26 merged: reproducible synthetic FP32 experiment harness, five toy mechanics tests, full actual SPLOT integration and CUDA still pending.
-- REP v0.1 in review: [EXECUTION.md](EXECUTION.md), [task specs](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). T0001 (#27) ready only after spec merged and explicit owner launch; T0002 (#28) blocked until reviewed evidence and new authorization. No local GPU execution yet.
+- PR #29 merged: REP v0.1: [EXECUTION.md](EXECUTION.md), [task specs](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). T0001 (#27) ready only after spec merged and explicit owner launch; T0002 (#28) blocked until reviewed evidence and new authorization. No local GPU execution yet.
+
+- REP v0.2 issue-dialogue amendment in review: task issues are the communication channel; [T0001 preflight](https://github.com/jtrefon/splot-lm/issues/27#issuecomment-7219541277) reports a predicted deterministic CUDA index_add blocker (not executed); [research response](https://github.com/jtrefon/splot-lm/issues/27#issuecomment-7219602428) advises original pinned task based on versioned API docs. No model change or repin; prior CPU report is preliminary. Await owner-authorized actual T0001 evidence.
 
 ## Next work
 - #10: first delegated task T0001 (#27) CPU regression/integration and CUDA same-device checkpoint validation. Research agent reviews evidence PR before further implementation or Nano run. T0002 (#28) remains blocked. Then inference benchmarks/budget matching. #7 precision and activation memory policy in parallel; #8 approved corpus/tokenizer gate before real training.
