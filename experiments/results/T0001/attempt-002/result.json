@@ -1,0 +1,108 @@
+{
+  "attempt": 2,
+  "checks": {
+    "cpu_integration": {
+      "detail": "Exit 0; 1 test passed; actual and declared parameters both 179952; bitwise resumed CPU parameters asserted by the test.",
+      "evidence": [
+        "cpu-integration.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cpu_regression": {
+      "detail": "11/11 suites exited 0; 66 unittest tests reported; CUDA hidden; PYTHONPATH=src:tools set.",
+      "evidence": [
+        "cpu-regression.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_continuous": {
+      "detail": "Exit 0; 4 steps; parameters 179952; 266 valid tokens; 260 NTP labels; finite losses/validation; positive CUDA peak allocated/reserved; checkpoint sha256 18a16598001bd04a19eb708cff900d121c5fd33d9d573f4f14cbb00d5f04d9fe (2414603 bytes).",
+      "evidence": [
+        "run-continuous.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_equivalence": {
+      "detail": "compare_resume.py exit 0; model/optimizer/RNG states equal; non-timing history and validation equal; step timing and CUDA allocator peaks excluded as specified.",
+      "evidence": [
+        "comparison.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_resume": {
+      "detail": "Exit 0; 4 total steps; 266 valid tokens; 260 NTP labels; validation identical to continuous; final checkpoint sha256 6f3e59e3a9d92c9a2e43a75c2e6203aea95e186dbc370deacae57c008aceb984 (2414795 bytes).",
+      "evidence": [
+        "run-resumed.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_split": {
+      "detail": "Exit 0; 2 steps; 141 valid tokens; 138 NTP labels; finite losses/validation; checkpoint sha256 6aa3b67cb96afc5b4fe4c8935f14422353148d9ec5cad8760897c90eb6b587c5 (2414283 bytes) recorded before resume.",
+      "evidence": [
+        "run-split.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Source HEAD exact and worktree clean at start/end. Python 3.12.7, torch 2.10.0+cu128, CUDA runtime 12.8, numpy 1.26.4, RTX 4090 driver 580.178.04, GPU 0; 24077 MiB free after authorized inference stop.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; not published",
+      "bytes": 2414603,
+      "name": "continuous/checkpoint.pt",
+      "sha256": "18a16598001bd04a19eb708cff900d121c5fd33d9d573f4f14cbb00d5f04d9fe"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 2414795,
+      "name": "resumed/checkpoint.pt",
+      "sha256": "6f3e59e3a9d92c9a2e43a75c2e6203aea95e186dbc370deacae57c008aceb984"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 2414283,
+      "name": "split-checkpoint-before-resume.pt",
+      "sha256": "6aa3b67cb96afc5b4fe4c8935f14422353148d9ec5cad8760897c90eb6b587c5"
+    }
+  ],
+  "files": {
+    "comparison.json": "c507d51c6d0bdd050801b1920515f8b452eb7938796046b36de78b9673d524d0",
+    "cpu-integration.json": "79a2efe6e9cc7955409c918b95d432c7dcb6bbdda3faae5970a53f4f93b46734",
+    "cpu-regression.json": "44b9402703bb767faac3bec2888f5ddd8625904845348b8755cd87ad537b1c42",
+    "environment.json": "dca8fcadede562acb42ec54313cc6b865fef65e0a136e942ff8ddad6ab351941",
+    "execution.log": "203a06d4844e58d738e942d49b5e26a3dbbe96f89cb283ffe19ac4a19986af20",
+    "metrics.jsonl": "87042b05aff615f8794ff3aee94cd727391bd31932f6e7831043583943ca8392",
+    "run-continuous.json": "8a1df1cc2173090baacccf7b880f564e550004be527bb63052b7b32b79541a80",
+    "run-resumed.json": "022032ef10f848f97002daf492644c62a4985730604daa58f4c05044e1e71a57",
+    "run-split.json": "4f42a0de12199e58ed4d3aa4fb5b73bdebdcc3219a00df4882aa0c0a3d93491b",
+    "summary.md": "186bd4d2c581feb386123c0cea31386ebcbece04b63c6954916b14d4abd4d080"
+  },
+  "limitations": [
+    "Smoke topology (179952 parameters) and synthetic-v1 fixture only; not Nano/Mini feasibility.",
+    "FP32 only; no BF16/FP8, activation checkpointing or optimizer-memory study.",
+    "Single machine, single GPU and one software stack; no cross-device or cross-version determinism claim.",
+    "Synthetic-template validation is not language quality or generalization evidence.",
+    "No measured FLOPs, energy, throughput or PCIe/offload claim.",
+    "No real corpus or production tokenizer."
+  ],
+  "schema_version": 1,
+  "source_commit": "d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa",
+  "status": "passed",
+  "task_commit": "1cb139df8e870c42a7a01eaf57624c85e3aa8a80",
+  "task_id": "T0001",
+  "tested_commit": "d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa"
+}
