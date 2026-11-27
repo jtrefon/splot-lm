@@ -1,0 +1,69 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 17,179,869,184 bytes RAM, CPython 3.15.2, Unicode data 17.0.0; CPU only, no CUDA/MPS. Tested implementation HEAD 4edff6d4d9de0cf9d0da24845e751ec8f7eea23f was clean at acceptance start and after the commands. Reviewed base/instruction commit 9aabfa9dae9d1d7b5713cee09a73e0e4d50b5d88; approved minimum base 9fc3b48c10d2e477df971a1a133562da9d699c7b. No packages, external corpora, model training or real data; GitHub API was used only for issue/PR coordination.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Implementation commit 4edff6d4d9de0cf9d0da24845e751ec8f7eea23f is followed by a separate attempt-001 evidence commit containing the required REP records, demo.json and manifest.json. Scope review found exactly the three allowed implementation files plus this evidence directory and one INDEX append; no existing or historical file was rewritten. PR #64 references #60/#8/#10 and records the validator output; hosted CPU success is required before merge. No merge or issue closure is claimed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Implementation commit 4edff6d4d9de0cf9d0da24845e751ec8f7eea23f adds exactly three allowed new files and changes no existing file: tools/tokenized_shards.py (SHA-256 379f3fff79720dc8fb057836daa5173d48fad6fc03f65c2320463df0974b4744), tools/test_tokenized_shards.py (SHA-256 1e7f79d9b41917b597913006d24fc4ca32b1e3c2d9854148d512651039a70f80) and research/data/tokenized-shards.md (SHA-256 3d61df55ff0dccc55c2d4c4d7dab251377d35d01562845ae45fc481126bdaca7). The bridge uses the accepted corpus report and train-only BPE artifact, encodes eligible representatives once, packs whole documents with exact BOS/EOS/pad/valid/document/position and offset-1/2 semantics, and emits canonical tokenizer/manifest/JSONL shards with logical, packed-logical and physical manifest digests. The verified loader checks the complete file set, canonical bytes, schemas, counts, token ranges, masks, labels, hash integrity and independently repacked blocks; materialization is atomic and refuses overwrite. No model, fixture, harness, registry, config or CI file changed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "demo.json",
+        "manifest.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 without timeout or retry: 30/30 corpus-reference tests (0.078373 s), 28/28 BPE-reference tests (0.109476 s), 6/6 fixture tests (0.041408 s) and 21/21 tokenized-shard tests (0.168155 s) passed. The demo ran twice in 0.055080 s and 0.054925 s, producing byte-identical 19,754-byte output with SHA-256 e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf. Manifest SHA-256 d44629937047fc543f3ce028c7aabf01214f3e9e93547b81262d4f04dd3d47e9; logical 5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba; packed 7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f; physical a413fbfd1c34e953b6f105cf70101cd16937440989775d215fd711cfc32abc7a. The demo has 11 documents, 4 blocks, 3 shards, 203 content/22 special/225 valid/159 pad tokens and 214 NTP/203 offset-2 labels; two independent materializations were byte-identical, and a different shard partition preserved logical/packed digests while changing the physical manifest.",
+      "evidence": [
+        "summary.md",
+        "metrics.jsonl",
+        "demo.json",
+        "manifest.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "demo.json": "e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf",
+    "environment.json": "a9b377d8b2d06d0f654f011b84c76350a409536c8ca09c187da1dad025c06211",
+    "execution.log": "7dfcbaaadb2af2b0ab77f331788c240488b64c775defa1e881998df4ccbc3b40",
+    "manifest.json": "d44629937047fc543f3ce028c7aabf01214f3e9e93547b81262d4f04dd3d47e9",
+    "metrics.jsonl": "881528131c456240c3c82d7b83934d858ac4ca7f3385f371e4f82aba0524700f",
+    "summary.md": "af94eacb81f92aed191b5d60262672f8d98286b00f2ccdea3819a78903e1a85b"
+  },
+  "limitations": [
+    "Synthetic documents only; no external corpus, source-rights decision, clearance, acquisition, PII filtering or benchmark corpus.",
+    "Small reference format, not production-scale sharding, streaming, compression, memory mapping, concurrent writers or distributed storage.",
+    "Packed shards intentionally use whole documents and homogeneous blocks; no automatic document segmentation for overlong documents.",
+    "No production tokenizer backend, special-token training, SentencePiece/HF compatibility or serving work.",
+    "No quality, throughput, tokenizer fertility or downstream model claim.",
+    "Cross-platform shard equality is not claimed until a separate Linux comparison verifies the canonical demo digests.",
+    "Production tokenizer/source provenance and materialization remain separate reviewed gates."
+  ],
+  "schema_version": 1,
+  "source_commit": "4edff6d4d9de0cf9d0da24845e751ec8f7eea23f",
+  "status": "passed",
+  "task_commit": "9aabfa9dae9d1d7b5713cee09a73e0e4d50b5d88",
+  "task_id": "T0010",
+  "tested_commit": "4edff6d4d9de0cf9d0da24845e751ec8f7eea23f"
+}
