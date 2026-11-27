@@ -45,3 +45,6 @@ T0004 #38/#45 and T0006 #48/#50 accepted/merged/closed; T0005 #40 and CI #46 pre
 
 ## Native FP8 handover
 T0007 #51/#54 accepted and merged; 33/33 GEMMs native on Ada, max relative error 0.062166 vs FP32 /0.001681 vs dequant reference. Current probe includes host scalar scale copies, diagnostics and synchronization; not optimized performance. T0009 #56 integrates native autograd in selected projections, BF16/FP32 controls. T0008 #52/#55 correction requested: cap artifact expansion and codec inputs, canonical reload; original evidence retained. Mac next after acceptance: real-source provenance gate and portable tokenizer-to-shard packing pipeline, no real data until explicit rights and acquisition approval. #7/#8/#10/#42/#43 remain open.
+
+## T0008/T0009 review handover
+T0008 #52 accepted after #58 correction merged; original #55 already merged, attempt-001 retained. T0009 #56/#59 native 156-projection FP8 training demonstrated, paired one-step and exact smoke resume reported; correction required for finite flags, per-depth clipping/underflow/padding, report exit status and full-vector gradient/routing audit. No merge until reviewed correction. T0010 #60 Mac portable tokenized shards/packing bridge specification in review, independent of Linux. Actual corpus acquisition/production tokenizer still gated under #8. FP8+Muon next only after T0009 accepted.
