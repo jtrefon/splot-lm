@@ -35,3 +35,5 @@ PR #23 merged. #5 learned hybrid dense GDN/GQA + MTP implemented on review branc
 PR #24 merged. Full SPLOT sparse hybrid reference in review (#6/#3); exact candidate counts, six tests, 19 regressions, synthetic A2+balance smoke and actual short Nano forward/backward. Next #10 reproducible harness, checkpoint/resume and GPU smoke; #7 precision, #8 approved data/tokenizer in parallel. Locality experiments remain #6.
 
 PR #25 merged. #10 synthetic FP32 experiment harness, exact resume mechanics, executable full candidate configs, token-weighted evaluation and analytical MAC report in review. Five toy harness tests pass; full SPLOT integration/CLI and CUDA not executed (sandbox clone DNS failure). Next run integration, benchmark D0/D1/D2, add matched controls. #7 precision and #8 real data remain gated.
+
+PR #26 merged. REP v0.1 in review: one-repository task/evidence handoff, no runner infrastructure. T0001 #27 pinned GPU correctness task requires merged spec and explicit local launch; T0002 #28 blocked on reviewed evidence. Read EXECUTION.md and evidence index. #10 remains open.

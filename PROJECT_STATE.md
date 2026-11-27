@@ -18,9 +18,12 @@ Snapshot: 2026-11-27. **Live GitHub issues and PRs are authoritative.** This fil
 
 - PR #25 merged: complete sparse hybrid SPLOTLM: exact Nano/Mini model inventories, six CPU MoE tests and 19 regressions, synthetic A2+balance training and short full Nano forward/backward. [Contract](research/implementation/sparse-moe.md), [evidence](experiments/results/sparse-moe-v0.1.md). Mini meta only.
 
+- PR #26 merged: reproducible synthetic FP32 experiment harness, five toy mechanics tests, full actual SPLOT integration and CUDA still pending.
+- REP v0.1 in review: [EXECUTION.md](EXECUTION.md), [task specs](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). T0001 (#27) ready only after spec merged and explicit owner launch; T0002 (#28) blocked until reviewed evidence and new authorization. No local GPU execution yet.
+
 ## Next work
-- #10: synthetic FP32 harness, executable candidate configs, checkpoint/resume and validation on review branch; five toy harness tests pass, actual SPLOT CLI/integration pending (local checkout blocked by DNS). Next execute integration and add inference benchmarks/budget matching. #7 precision and activation memory policy in parallel; #8 approved corpus/tokenizer gate before real training.
-- #6: full sparse reference in review; full-text literature, locality objectives, chronological trace/cache simulation and measured PCIe/offload experiments remain open.
+- #10: first delegated task T0001 (#27) CPU regression/integration and CUDA same-device checkpoint validation. Research agent reviews evidence PR before further implementation or Nano run. T0002 (#28) remains blocked. Then inference benchmarks/budget matching. #7 precision and activation memory policy in parallel; #8 approved corpus/tokenizer gate before real training.
+- #6: full sparse reference merged; full-text literature, locality objectives, chronological trace/cache simulation and measured PCIe/offload experiments remain open.
 - #5: learned hybrid implementation merged; GPU, precision, long context, kernel and empirical tests remain.
 - #2: exact all-GQA reference merged; full literature, broader sampling/precision tests, shallow-cache reuse and empirical work remain open.
 - #4: recurrent all-GQA and GDN integration merged; activation checkpointing and GPU acceptance outstanding.

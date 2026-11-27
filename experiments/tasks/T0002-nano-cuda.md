@@ -1,0 +1,6 @@
+# T0002 — SPLOT-Nano CUDA resource and short-step validation
+Issue [#28](https://github.com/jtrefon/splot-lm/issues/28) | Parent #10; supports #7/#3 | Class VAL
+**DRAFT / BLOCKED. Do not execute.** Requires reviewed T0001 evidence (#27), corrected and reviewed source if needed, explicit new owner authorization and source pin. No automatic dependency activation.
+Objective: establish whether actual 43,055,076-parameter Nano completes a short synthetic FP32 AdamW step on the owner's RTX4090; capture peak allocated/reserved memory, step duration, finite losses/gradients and exact inventory. This is not full training feasibility or optimized throughput.
+Proposed one step using configs/experiments/splot-nano-synthetic.json, R2/A2/seed42/B1/T96 and --device cuda, with free-memory check and a separately authorized wall-time ceiling. No longer run, Mini, BF16, real corpus or architecture changes. Review T0001 failures before finalizing commands, thresholds, safe sequence length/budget and source SHA. If source fixes needed, new IMP task; no silent fixes here.
+Completion will use REP attempt evidence with exact check IDs and validator invocation to be written when unblocked. Do not mark ready, run or claim without maintainer-approved amendment. No results exist.
