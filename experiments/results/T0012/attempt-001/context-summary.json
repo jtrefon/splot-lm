@@ -1,0 +1,2397 @@
+{
+  "cases": {
+    "bf16-128": {
+      "audit": null,
+      "audit_seconds": 0.0,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": false,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+      "finite_check_seconds": 0.02893438801402226,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32578,
+        "content_min": 69,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 127,
+          "offset2_labels": 126,
+          "valid_tokens": 128
+        },
+        "input_sha256": "b5e3019dae408c4787e6b4fc667ebc732eab50a48806a360672635197b3e8167",
+        "labels_exact": true,
+        "length": 128,
+        "ntp_labels": 127,
+        "offset2_labels": 126,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 128
+      },
+      "input_sha256": "b5e3019dae408c4787e6b4fc667ebc732eab50a48806a360672635197b3e8167",
+      "length": 128,
+      "losses": {
+        "balance": 1.1224474906921387,
+        "early_ntp": 10.501455307006836,
+        "final_ntp": 10.51999282836914,
+        "offset2": 10.532146453857422,
+        "total": 15.789618492126465
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 636925952,
+          "free_bytes": 23693164544,
+          "peak_allocated_bytes": 725014528,
+          "peak_reserved_bytes": 1000341504,
+          "reserved_bytes": 1000341504,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 239332864,
+          "free_bytes": 24422973440,
+          "peak_allocated_bytes": 239332864,
+          "peak_reserved_bytes": 270532608,
+          "reserved_bytes": 270532608,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24626397184,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24626397184,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24422973440,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 0.437931391003076,
+      "phases_seconds": {
+        "backward": 0.22419777000322938,
+        "checks": 0.013910942012444139,
+        "end_to_end": 0.43793458701111376,
+        "forward": 0.11956213699886575,
+        "optimizer_step": 0.06497422198299319,
+        "post_update_checks": 0.015023446001578122,
+        "prepare": 0.00012034800602123141,
+        "transfer": 0.0001425259979441762
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 0.09879059001104906
+      },
+      "precision": "bf16",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 4.967401036992669e-05,
+        "checks": 2.0217965357005596e-05,
+        "forward": 2.9495975468307734e-05,
+        "optimizer_step": 0.0003916569985449314,
+        "post_update_checks": 1.818698365241289e-05,
+        "transfer": 1.5721016097813845e-05
+      },
+      "sync_seconds_total": 0.0005249529494903982,
+      "tokens_per_second": 292.2810935614721,
+      "unaccounted_seconds": 3.196008037775755e-06,
+      "warmup": {
+        "audit": null,
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "b5e3019dae408c4787e6b4fc667ebc732eab50a48806a360672635197b3e8167",
+        "losses": {
+          "balance": 1.1224474906921387,
+          "early_ntp": 10.501455307006836,
+          "final_ntp": 10.51999282836914,
+          "offset2": 10.532146453857422,
+          "total": 15.789618492126465
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 1.0526689240359701,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    },
+    "bf16-2048": {
+      "audit": null,
+      "audit_seconds": 0.0,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": false,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+      "finite_check_seconds": 0.030383636010810733,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32759,
+        "content_min": 8,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 2047,
+          "offset2_labels": 2046,
+          "valid_tokens": 2048
+        },
+        "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+        "labels_exact": true,
+        "length": 2048,
+        "ntp_labels": 2047,
+        "offset2_labels": 2046,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 2048
+      },
+      "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+      "length": 2048,
+      "losses": {
+        "balance": 1.0247498750686646,
+        "early_ntp": 10.477264404296875,
+        "final_ntp": 10.476771354675293,
+        "offset2": 10.479270935058594,
+        "total": 15.726152420043945
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 637974528,
+          "free_bytes": 17311531008,
+          "peak_allocated_bytes": 6717001728,
+          "peak_reserved_bytes": 7381975040,
+          "reserved_bytes": 7381975040,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 240381440,
+          "free_bytes": 24406196224,
+          "peak_allocated_bytes": 240381440,
+          "peak_reserved_bytes": 287309824,
+          "reserved_bytes": 287309824,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24559288320,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24559288320,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24406196224,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 4.826375529053621,
+      "phases_seconds": {
+        "backward": 3.273055777011905,
+        "checks": 0.014755178999621421,
+        "end_to_end": 4.826378650963306,
+        "forward": 1.4529696280369535,
+        "optimizer_step": 0.06968815298750997,
+        "post_update_checks": 0.015628457011189312,
+        "prepare": 0.0001253020018339157,
+        "transfer": 0.00015303300460800529
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 1.1203989389468916
+      },
+      "precision": "bf16",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 6.355502409860492e-05,
+        "checks": 2.4007982574403286e-05,
+        "forward": 2.9663031455129385e-05,
+        "optimizer_step": 0.00047197198728099465,
+        "post_update_checks": 1.6884005162864923e-05,
+        "transfer": 1.7253973055630922e-05
+      },
+      "sync_seconds_total": 0.0006233360036276281,
+      "tokens_per_second": 424.33471306509193,
+      "unaccounted_seconds": 3.121909685432911e-06,
+      "warmup": {
+        "audit": null,
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+        "losses": {
+          "balance": 1.0247498750686646,
+          "early_ntp": 10.477264404296875,
+          "final_ntp": 10.476771354675293,
+          "offset2": 10.479270935058594,
+          "total": 15.726152420043945
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 5.487312631041277,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    },
+    "bf16-4096": {
+      "audit": null,
+      "audit_seconds": 0.0,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": false,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+      "finite_check_seconds": 0.030189286975655705,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32761,
+        "content_min": 8,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 4095,
+          "offset2_labels": 4094,
+          "valid_tokens": 4096
+        },
+        "input_sha256": "b7038a272e2fec3f995d591f0cfc9718e97c46d48b7f2a0181688b3ca009a02c",
+        "labels_exact": true,
+        "length": 4096,
+        "ntp_labels": 4095,
+        "offset2_labels": 4094,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 4096
+      },
+      "input_sha256": "b7038a272e2fec3f995d591f0cfc9718e97c46d48b7f2a0181688b3ca009a02c",
+      "length": 4096,
+      "losses": {
+        "balance": 1.0128488540649414,
+        "early_ntp": 10.464987754821777,
+        "final_ntp": 10.46896743774414,
+        "offset2": 10.483092308044434,
+        "total": 15.716115951538086
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 637678592,
+          "free_bytes": 8685944832,
+          "peak_allocated_bytes": 14775031808,
+          "peak_reserved_bytes": 16007561216,
+          "reserved_bytes": 16007561216,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 239332864,
+          "free_bytes": 24125177856,
+          "peak_allocated_bytes": 239332864,
+          "peak_reserved_bytes": 568328192,
+          "reserved_bytes": 568328192,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24257298432,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24257298432,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24125177856,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 9.803872401826084,
+      "phases_seconds": {
+        "backward": 6.765081086952705,
+        "checks": 0.014637637010309845,
+        "end_to_end": 9.803875438985415,
+        "forward": 2.9381532229599543,
+        "optimizer_step": 0.07016332796774805,
+        "post_update_checks": 0.01555164996534586,
+        "prepare": 0.00011590996291488409,
+        "transfer": 0.00016956700710579753
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 2.2620380310108885
+      },
+      "precision": "bf16",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 6.309302989393473e-05,
+        "checks": 2.8019945602864027e-05,
+        "forward": 2.790300641208887e-05,
+        "optimizer_step": 0.0004816430155187845,
+        "post_update_checks": 1.6877020243555307e-05,
+        "transfer": 1.763598993420601e-05
+      },
+      "sync_seconds_total": 0.0006351720076054335,
+      "tokens_per_second": 417.79396581398095,
+      "unaccounted_seconds": 3.0371593311429024e-06,
+      "warmup": {
+        "audit": null,
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "b7038a272e2fec3f995d591f0cfc9718e97c46d48b7f2a0181688b3ca009a02c",
+        "losses": {
+          "balance": 1.0128488540649414,
+          "early_ntp": 10.464987754821777,
+          "final_ntp": 10.46896743774414,
+          "offset2": 10.483092308044434,
+          "total": 15.716115951538086
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 10.546964870998636,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    },
+    "bf16-512": {
+      "audit": null,
+      "audit_seconds": 0.0,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": false,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+      "finite_check_seconds": 0.02962266793474555,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32750,
+        "content_min": 69,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 511,
+          "offset2_labels": 510,
+          "valid_tokens": 512
+        },
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "labels_exact": true,
+        "length": 512,
+        "ntp_labels": 511,
+        "offset2_labels": 510,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 512
+      },
+      "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+      "length": 512,
+      "losses": {
+        "balance": 1.0717132091522217,
+        "early_ntp": 10.48428726196289,
+        "final_ntp": 10.493874549865723,
+        "offset2": 10.487617492675781,
+        "total": 15.747568130493164
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 635353088,
+          "free_bytes": 22785097728,
+          "peak_allocated_bytes": 1762148864,
+          "peak_reserved_bytes": 1908408320,
+          "reserved_bytes": 1908408320,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 239332864,
+          "free_bytes": 24410390528,
+          "peak_allocated_bytes": 239332864,
+          "peak_reserved_bytes": 283115520,
+          "reserved_bytes": 283115520,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24592842752,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24592842752,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24410390528,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 1.2695563799352385,
+      "phases_seconds": {
+        "backward": 0.8004672899842262,
+        "checks": 0.014331857964862138,
+        "end_to_end": 1.2695597350248136,
+        "forward": 0.3717532000155188,
+        "optimizer_step": 0.06744684994919226,
+        "post_update_checks": 0.015290809969883412,
+        "prepare": 0.00011835701297968626,
+        "transfer": 0.0001480150385759771
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 0.30204983602743596
+      },
+      "precision": "bf16",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 5.2476010750979185e-05,
+        "checks": 2.0602019503712654e-05,
+        "forward": 2.763001248240471e-05,
+        "optimizer_step": 0.0004950219881720841,
+        "post_update_checks": 1.714198151603341e-05,
+        "transfer": 1.593196066096425e-05
+      },
+      "sync_seconds_total": 0.0006288039730861783,
+      "tokens_per_second": 403.2894127585048,
+      "unaccounted_seconds": 3.3550895750522614e-06,
+      "warmup": {
+        "audit": null,
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "losses": {
+          "balance": 1.0717132091522217,
+          "early_ntp": 10.48428726196289,
+          "final_ntp": 10.493874549865723,
+          "offset2": 10.487617492675781,
+          "total": 15.747568130493164
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 1.8581500920117833,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    },
+    "fp8-128": {
+      "audit": {
+        "audit_version": 1,
+        "backward_calls": 292,
+        "backward_coverage": 1.0,
+        "empty_backward_calls": 0,
+        "empty_forward_calls": 0,
+        "forward_calls": 292,
+        "forward_coverage": 1.0,
+        "last_forward_padded_m": [
+          16,
+          32,
+          48,
+          64,
+          80,
+          96,
+          128
+        ],
+        "native_backward_calls": 292,
+        "native_forward_calls": 292,
+        "padded_backward_rows": 1584,
+        "padded_forward_rows": 1584,
+        "quantization": {
+          "grad_nonzero": 8791356,
+          "grad_saturation": 0,
+          "grad_saturation_fraction": 0.0,
+          "grad_underflow": 7,
+          "grad_underflow_fraction": 7.962366670170108e-07,
+          "input_nonzero": 8454097,
+          "input_saturation": 0,
+          "input_saturation_fraction": 0.0,
+          "input_underflow": 711,
+          "input_underflow_fraction": 8.410123517627015e-05,
+          "nonfinite": false,
+          "underflow_fraction": 1.6155080278023622e-05,
+          "weight_nonzero": 56229886,
+          "weight_saturation": 0,
+          "weight_saturation_fraction": 0.0,
+          "weight_underflow": 469,
+          "weight_underflow_fraction": 8.340760285375646e-06
+        },
+        "scale_devices": [
+          "cuda"
+        ],
+        "scales_resident_cuda": true,
+        "selected_modules": 156,
+        "wgrad_fp32_calls": 292
+      },
+      "audit_seconds": 0.0077932950225658715,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": true,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+      "finite_check_seconds": 0.0518810169887729,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32578,
+        "content_min": 69,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 127,
+          "offset2_labels": 126,
+          "valid_tokens": 128
+        },
+        "input_sha256": "b5e3019dae408c4787e6b4fc667ebc732eab50a48806a360672635197b3e8167",
+        "labels_exact": true,
+        "length": 128,
+        "ntp_labels": 127,
+        "offset2_labels": 126,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 128
+      },
+      "input_sha256": "b5e3019dae408c4787e6b4fc667ebc732eab50a48806a360672635197b3e8167",
+      "length": 128,
+      "losses": {
+        "balance": 1.1198680400848389,
+        "early_ntp": 10.490264892578125,
+        "final_ntp": 10.495829582214355,
+        "offset2": 10.529447555541992,
+        "total": 15.761956214904785
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 640200704,
+          "free_bytes": 23672193024,
+          "peak_allocated_bytes": 728289280,
+          "peak_reserved_bytes": 1021313024,
+          "reserved_bytes": 1021313024,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 241430016,
+          "free_bytes": 24420876288,
+          "peak_allocated_bytes": 241430016,
+          "peak_reserved_bytes": 272629760,
+          "reserved_bytes": 272629760,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24622202880,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24622202880,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24420876288,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 0.7360786458593793,
+      "phases_seconds": {
+        "backward": 0.35047990595921874,
+        "checks": 0.03656836098525673,
+        "end_to_end": 0.7360814799903892,
+        "forward": 0.26402459800010547,
+        "optimizer_step": 0.06676202995004132,
+        "post_update_checks": 0.015312656003516167,
+        "prepare": 0.0027851180057041347,
+        "transfer": 0.00014597695553675294
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 0.23926470102742314
+      },
+      "precision": "fp8",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 4.000903572887182e-05,
+        "checks": 2.2195978090167046e-05,
+        "forward": 2.800603397190571e-05,
+        "optimizer_step": 0.00025136099429801106,
+        "post_update_checks": 2.1096027921885252e-05,
+        "transfer": 1.710501965135336e-05
+      },
+      "sync_seconds_total": 0.00037977308966219425,
+      "tokens_per_second": 173.89379230363363,
+      "unaccounted_seconds": 2.834131009876728e-06,
+      "warmup": {
+        "audit": {
+          "audit_version": 1,
+          "backward_calls": 292,
+          "backward_coverage": 1.0,
+          "empty_backward_calls": 0,
+          "empty_forward_calls": 0,
+          "forward_calls": 292,
+          "forward_coverage": 1.0,
+          "last_forward_padded_m": [
+            16,
+            32,
+            48,
+            64,
+            80,
+            96,
+            128
+          ],
+          "native_backward_calls": 292,
+          "native_forward_calls": 292,
+          "padded_backward_rows": 1584,
+          "padded_forward_rows": 1584,
+          "quantization": {
+            "grad_nonzero": 8791356,
+            "grad_saturation": 0,
+            "grad_saturation_fraction": 0.0,
+            "grad_underflow": 7,
+            "grad_underflow_fraction": 7.962366670170108e-07,
+            "input_nonzero": 8454097,
+            "input_saturation": 0,
+            "input_saturation_fraction": 0.0,
+            "input_underflow": 711,
+            "input_underflow_fraction": 8.410123517627015e-05,
+            "nonfinite": false,
+            "underflow_fraction": 1.6155080278023622e-05,
+            "weight_nonzero": 56229886,
+            "weight_saturation": 0,
+            "weight_saturation_fraction": 0.0,
+            "weight_underflow": 469,
+            "weight_underflow_fraction": 8.340760285375646e-06
+          },
+          "scale_devices": [
+            "cuda"
+          ],
+          "scales_resident_cuda": true,
+          "selected_modules": 156,
+          "wgrad_fp32_calls": 292
+        },
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "b5e3019dae408c4787e6b4fc667ebc732eab50a48806a360672635197b3e8167",
+        "losses": {
+          "balance": 1.1198680400848389,
+          "early_ntp": 10.490264892578125,
+          "final_ntp": 10.495829582214355,
+          "offset2": 10.529447555541992,
+          "total": 15.761956214904785
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 1.3600588210392743,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    },
+    "fp8-2048": {
+      "audit": {
+        "audit_version": 1,
+        "backward_calls": 298,
+        "backward_coverage": 1.0,
+        "empty_backward_calls": 0,
+        "empty_forward_calls": 0,
+        "forward_calls": 298,
+        "forward_coverage": 1.0,
+        "last_forward_padded_m": [
+          256,
+          320,
+          336,
+          368,
+          416,
+          432,
+          448,
+          496,
+          512,
+          544,
+          576,
+          656,
+          688,
+          720,
+          736,
+          800,
+          864,
+          2048
+        ],
+        "native_backward_calls": 298,
+        "native_forward_calls": 298,
+        "padded_backward_rows": 1584,
+        "padded_forward_rows": 1584,
+        "quantization": {
+          "grad_nonzero": 141001234,
+          "grad_saturation": 0,
+          "grad_saturation_fraction": 0.0,
+          "grad_underflow": 22,
+          "grad_underflow_fraction": 1.5602700328140392e-07,
+          "input_nonzero": 135265644,
+          "input_saturation": 0,
+          "input_saturation_fraction": 0.0,
+          "input_underflow": 14650,
+          "input_underflow_fraction": 0.00010830540236809873,
+          "nonfinite": false,
+          "underflow_fraction": 4.5415256982564295e-05,
+          "weight_nonzero": 57409534,
+          "weight_saturation": 0,
+          "weight_saturation_fraction": 0.0,
+          "weight_underflow": 482,
+          "weight_underflow_fraction": 8.395818018658712e-06
+        },
+        "scale_devices": [
+          "cuda"
+        ],
+        "scales_resident_cuda": true,
+        "selected_modules": 156,
+        "wgrad_fp32_calls": 298
+      },
+      "audit_seconds": 0.00822968001011759,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": true,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+      "finite_check_seconds": 0.05373651802074164,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32759,
+        "content_min": 8,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 2047,
+          "offset2_labels": 2046,
+          "valid_tokens": 2048
+        },
+        "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+        "labels_exact": true,
+        "length": 2048,
+        "ntp_labels": 2047,
+        "offset2_labels": 2046,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 2048
+      },
+      "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+      "length": 2048,
+      "losses": {
+        "balance": 1.025026798248291,
+        "early_ntp": 10.478636741638184,
+        "final_ntp": 10.477432250976562,
+        "offset2": 10.474891662597656,
+        "total": 15.726064682006836
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 642304000,
+          "free_bytes": 17504468992,
+          "peak_allocated_bytes": 6575379456,
+          "peak_reserved_bytes": 7189037056,
+          "reserved_bytes": 7189037056,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 241430016,
+          "free_bytes": 24374738944,
+          "peak_allocated_bytes": 241430016,
+          "peak_reserved_bytes": 318767104,
+          "reserved_bytes": 318767104,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24555094016,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24555094016,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24374738944,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 5.189415720000397,
+      "phases_seconds": {
+        "backward": 3.442761494021397,
+        "checks": 0.03808154899161309,
+        "end_to_end": 5.189419620030094,
+        "forward": 1.6196253270027228,
+        "optimizer_step": 0.07029623398557305,
+        "post_update_checks": 0.01565496902912855,
+        "prepare": 0.002840782981365919,
+        "transfer": 0.000155363988596946
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 1.2690641569788568
+      },
+      "precision": "fp8",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 6.905896589159966e-05,
+        "checks": 2.6703986804932356e-05,
+        "forward": 2.8753012884408236e-05,
+        "optimizer_step": 0.00032617500983178616,
+        "post_update_checks": 1.94270396605134e-05,
+        "transfer": 1.5720026567578316e-05
+      },
+      "sync_seconds_total": 0.0004858380416408181,
+      "tokens_per_second": 394.6491418992484,
+      "unaccounted_seconds": 3.900029696524143e-06,
+      "warmup": {
+        "audit": {
+          "audit_version": 1,
+          "backward_calls": 298,
+          "backward_coverage": 1.0,
+          "empty_backward_calls": 0,
+          "empty_forward_calls": 0,
+          "forward_calls": 298,
+          "forward_coverage": 1.0,
+          "last_forward_padded_m": [
+            256,
+            320,
+            336,
+            368,
+            416,
+            432,
+            448,
+            496,
+            512,
+            544,
+            576,
+            656,
+            688,
+            720,
+            736,
+            800,
+            864,
+            2048
+          ],
+          "native_backward_calls": 298,
+          "native_forward_calls": 298,
+          "padded_backward_rows": 1584,
+          "padded_forward_rows": 1584,
+          "quantization": {
+            "grad_nonzero": 141001234,
+            "grad_saturation": 0,
+            "grad_saturation_fraction": 0.0,
+            "grad_underflow": 22,
+            "grad_underflow_fraction": 1.5602700328140392e-07,
+            "input_nonzero": 135265644,
+            "input_saturation": 0,
+            "input_saturation_fraction": 0.0,
+            "input_underflow": 14650,
+            "input_underflow_fraction": 0.00010830540236809873,
+            "nonfinite": false,
+            "underflow_fraction": 4.5415256982564295e-05,
+            "weight_nonzero": 57409534,
+            "weight_saturation": 0,
+            "weight_saturation_fraction": 0.0,
+            "weight_underflow": 482,
+            "weight_underflow_fraction": 8.395818018658712e-06
+          },
+          "scale_devices": [
+            "cuda"
+          ],
+          "scales_resident_cuda": true,
+          "selected_modules": 156,
+          "wgrad_fp32_calls": 298
+        },
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+        "losses": {
+          "balance": 1.025026798248291,
+          "early_ntp": 10.478636741638184,
+          "final_ntp": 10.477432250976562,
+          "offset2": 10.474891662597656,
+          "total": 15.726064682006836
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 5.862743900041096,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    },
+    "fp8-4096": {
+      "audit": {
+        "audit_version": 1,
+        "backward_calls": 298,
+        "backward_coverage": 1.0,
+        "empty_backward_calls": 0,
+        "empty_forward_calls": 0,
+        "forward_calls": 298,
+        "forward_coverage": 1.0,
+        "last_forward_padded_m": [
+          608,
+          704,
+          768,
+          800,
+          848,
+          864,
+          928,
+          944,
+          960,
+          976,
+          992,
+          1008,
+          1024,
+          1088,
+          1104,
+          1232,
+          1248,
+          1280,
+          1312,
+          1328,
+          1344,
+          1456,
+          1488,
+          4096
+        ],
+        "native_backward_calls": 298,
+        "native_forward_calls": 298,
+        "padded_backward_rows": 1152,
+        "padded_forward_rows": 1152,
+        "quantization": {
+          "grad_nonzero": 282025273,
+          "grad_saturation": 0,
+          "grad_saturation_fraction": 0.0,
+          "grad_underflow": 37,
+          "grad_underflow_fraction": 1.3119391608566938e-07,
+          "input_nonzero": 270531319,
+          "input_saturation": 0,
+          "input_saturation_fraction": 0.0,
+          "input_underflow": 30244,
+          "input_underflow_fraction": 0.00011179481958611971,
+          "nonfinite": false,
+          "underflow_fraction": 5.043394819600195e-05,
+          "weight_nonzero": 57409534,
+          "weight_saturation": 0,
+          "weight_saturation_fraction": 0.0,
+          "weight_underflow": 482,
+          "weight_underflow_fraction": 8.395818018658712e-06
+        },
+        "scale_devices": [
+          "cuda"
+        ],
+        "scales_resident_cuda": true,
+        "selected_modules": 156,
+        "wgrad_fp32_calls": 298
+      },
+      "audit_seconds": 0.008243567950557917,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": true,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+      "finite_check_seconds": 0.05328163196099922,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32761,
+        "content_min": 8,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 4095,
+          "offset2_labels": 4094,
+          "valid_tokens": 4096
+        },
+        "input_sha256": "b7038a272e2fec3f995d591f0cfc9718e97c46d48b7f2a0181688b3ca009a02c",
+        "labels_exact": true,
+        "length": 4096,
+        "ntp_labels": 4095,
+        "offset2_labels": 4094,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 4096
+      },
+      "input_sha256": "b7038a272e2fec3f995d591f0cfc9718e97c46d48b7f2a0181688b3ca009a02c",
+      "length": 4096,
+      "losses": {
+        "balance": 1.0134193897247314,
+        "early_ntp": 10.4640474319458,
+        "final_ntp": 10.4679536819458,
+        "offset2": 10.480293273925781,
+        "total": 15.71417236328125
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 640206848,
+          "free_bytes": 8994226176,
+          "peak_allocated_bytes": 14513575936,
+          "peak_reserved_bytes": 15699279872,
+          "reserved_bytes": 15699279872,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 241430016,
+          "free_bytes": 24123080704,
+          "peak_allocated_bytes": 241430016,
+          "peak_reserved_bytes": 570425344,
+          "reserved_bytes": 570425344,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24253104128,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24253104128,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24123080704,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 10.135772527952213,
+      "phases_seconds": {
+        "backward": 6.877273434016388,
+        "checks": 0.037777631951030344,
+        "end_to_end": 10.135775961040054,
+        "forward": 3.13319797499571,
+        "optimizer_step": 0.06896814098581672,
+        "post_update_checks": 0.015504000009968877,
+        "prepare": 0.002873983990866691,
+        "transfer": 0.00017736200243234634
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 2.4005703150178306
+      },
+      "precision": "fp8",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 6.461003795266151e-05,
+        "checks": 2.5989022105932236e-05,
+        "forward": 3.0402967240661383e-05,
+        "optimizer_step": 0.0003424690221436322,
+        "post_update_checks": 1.791701652109623e-05,
+        "transfer": 1.695397077128291e-05
+      },
+      "sync_seconds_total": 0.0004983420367352664,
+      "tokens_per_second": 404.11311533958775,
+      "unaccounted_seconds": 3.4330878406763077e-06,
+      "warmup": {
+        "audit": {
+          "audit_version": 1,
+          "backward_calls": 298,
+          "backward_coverage": 1.0,
+          "empty_backward_calls": 0,
+          "empty_forward_calls": 0,
+          "forward_calls": 298,
+          "forward_coverage": 1.0,
+          "last_forward_padded_m": [
+            608,
+            704,
+            768,
+            800,
+            848,
+            864,
+            928,
+            944,
+            960,
+            976,
+            992,
+            1008,
+            1024,
+            1088,
+            1104,
+            1232,
+            1248,
+            1280,
+            1312,
+            1328,
+            1344,
+            1456,
+            1488,
+            4096
+          ],
+          "native_backward_calls": 298,
+          "native_forward_calls": 298,
+          "padded_backward_rows": 1152,
+          "padded_forward_rows": 1152,
+          "quantization": {
+            "grad_nonzero": 282025273,
+            "grad_saturation": 0,
+            "grad_saturation_fraction": 0.0,
+            "grad_underflow": 37,
+            "grad_underflow_fraction": 1.3119391608566938e-07,
+            "input_nonzero": 270531319,
+            "input_saturation": 0,
+            "input_saturation_fraction": 0.0,
+            "input_underflow": 30244,
+            "input_underflow_fraction": 0.00011179481958611971,
+            "nonfinite": false,
+            "underflow_fraction": 5.043394819600195e-05,
+            "weight_nonzero": 57409534,
+            "weight_saturation": 0,
+            "weight_saturation_fraction": 0.0,
+            "weight_underflow": 482,
+            "weight_underflow_fraction": 8.395818018658712e-06
+          },
+          "scale_devices": [
+            "cuda"
+          ],
+          "scales_resident_cuda": true,
+          "selected_modules": 156,
+          "wgrad_fp32_calls": 298
+        },
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "b7038a272e2fec3f995d591f0cfc9718e97c46d48b7f2a0181688b3ca009a02c",
+        "losses": {
+          "balance": 1.0134193897247314,
+          "early_ntp": 10.4640474319458,
+          "final_ntp": 10.4679536819458,
+          "offset2": 10.480293273925781,
+          "total": 15.71417236328125
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 10.748977562994696,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    },
+    "fp8-512": {
+      "audit": {
+        "audit_version": 1,
+        "backward_calls": 298,
+        "backward_coverage": 1.0,
+        "empty_backward_calls": 0,
+        "empty_forward_calls": 0,
+        "forward_calls": 298,
+        "forward_coverage": 1.0,
+        "last_forward_padded_m": [
+          32,
+          64,
+          80,
+          112,
+          128,
+          144,
+          160,
+          192,
+          208,
+          256,
+          272,
+          512
+        ],
+        "native_backward_calls": 298,
+        "native_forward_calls": 298,
+        "padded_backward_rows": 1440,
+        "padded_forward_rows": 1440,
+        "quantization": {
+          "grad_nonzero": 35233273,
+          "grad_saturation": 0,
+          "grad_saturation_fraction": 0.0,
+          "grad_underflow": 9,
+          "grad_underflow_fraction": 2.554403617285286e-07,
+          "input_nonzero": 33816403,
+          "input_saturation": 0,
+          "input_saturation_fraction": 0.0,
+          "input_underflow": 3300,
+          "input_underflow_fraction": 9.7585778120754e-05,
+          "nonfinite": false,
+          "underflow_fraction": 2.997804588530958e-05,
+          "weight_nonzero": 57409534,
+          "weight_saturation": 0,
+          "weight_saturation_fraction": 0.0,
+          "weight_underflow": 482,
+          "weight_underflow_fraction": 8.395818018658712e-06
+        },
+        "scale_devices": [
+          "cuda"
+        ],
+        "scales_resident_cuda": true,
+        "selected_modules": 156,
+        "wgrad_fp32_calls": 298
+      },
+      "audit_seconds": 0.00796880602138117,
+      "checks": {
+        "audit_finite": true,
+        "audit_positive": true,
+        "hidden_finite": true,
+        "labels_exact": true,
+        "logits_finite": true,
+        "losses_finite": true,
+        "model_fp32": true,
+        "native_fp8": true,
+        "offset2_finite": true,
+        "parameters_exact": true,
+        "partition": {
+          "adamw_count": 41,
+          "adamw_numel": 12629988,
+          "inventory_numel": 43055076,
+          "muon_count": 157,
+          "muon_numel": 30425088,
+          "ns_intermediate_dtype": "bfloat16",
+          "parameter_count": 198,
+          "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+        },
+        "state_fp32_finite": true,
+        "warmup_init_equal": true,
+        "warmup_input_equal": true,
+        "warmup_partition_equal": true,
+        "warmup_status": true
+      },
+      "config": "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+      "finite_check_seconds": 0.05312115099513903,
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input": {
+        "bos_ok": true,
+        "content_max": 32750,
+        "content_min": 69,
+        "documents_ok": true,
+        "eos_ok": true,
+        "expected": {
+          "ntp_labels": 511,
+          "offset2_labels": 510,
+          "valid_tokens": 512
+        },
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "labels_exact": true,
+        "length": 512,
+        "ntp_labels": 511,
+        "offset2_labels": 510,
+        "positions_ok": true,
+        "seed": 42,
+        "valid_all": true,
+        "valid_tokens": 512
+      },
+      "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+      "length": 512,
+      "losses": {
+        "balance": 1.0720744132995605,
+        "early_ntp": 10.476407051086426,
+        "final_ntp": 10.482882499694824,
+        "offset2": 10.485504150390625,
+        "total": 15.734081268310547
+      },
+      "memory": {
+        "after_update": {
+          "allocated_bytes": 638633984,
+          "free_bytes": 22818652160,
+          "peak_allocated_bytes": 1729731584,
+          "peak_reserved_bytes": 1874853888,
+          "reserved_bytes": 1874853888,
+          "total_bytes": 25250627584
+        },
+        "before_update": {
+          "allocated_bytes": 241430016,
+          "free_bytes": 24408293376,
+          "peak_allocated_bytes": 241430016,
+          "peak_reserved_bytes": 285212672,
+          "reserved_bytes": 285212672,
+          "total_bytes": 25250627584
+        },
+        "free_after_cleanup": {
+          "free_bytes": 24588648448,
+          "total_bytes": 25250627584
+        },
+        "free_after_warmup": {
+          "free_bytes": 24588648448,
+          "total_bytes": 25250627584
+        },
+        "free_before_case": {
+          "free_bytes": 24693506048,
+          "total_bytes": 25250627584
+        },
+        "free_before_update": {
+          "free_bytes": 24408293376,
+          "total_bytes": 25250627584
+        }
+      },
+      "parameters": 43055076,
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+      "phase_sum_seconds": 1.6069113720441237,
+      "phases_seconds": {
+        "backward": 0.9491368039743975,
+        "checks": 0.037541066005360335,
+        "end_to_end": 1.6069146289955825,
+        "forward": 0.5330828510341235,
+        "optimizer_step": 0.06859566102502868,
+        "post_update_checks": 0.015580084989778697,
+        "prepare": 0.0028217490180395544,
+        "transfer": 0.00015315599739551544
+      },
+      "precheck": {
+        "hidden_finite": true,
+        "logits_finite": true,
+        "offset2_finite": true,
+        "seconds": 0.45435188204282895
+      },
+      "precision": "fp8",
+      "state": {
+        "adamw": {
+          "bytes": 101040068,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 25260017,
+          "finite": true
+        },
+        "adapter_version": 1,
+        "muon": {
+          "bytes": 121700352,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 30425088,
+          "finite": true
+        },
+        "total": {
+          "bytes": 222740420,
+          "dtypes": [
+            "float32"
+          ],
+          "elements": 55685105,
+          "finite": true
+        }
+      },
+      "status": "passed",
+      "sync_seconds": {
+        "backward": 4.3742009438574314e-05,
+        "checks": 2.2936961613595486e-05,
+        "forward": 2.9265007469803095e-05,
+        "optimizer_step": 0.00037366297328844666,
+        "post_update_checks": 1.782097388058901e-05,
+        "transfer": 1.6778998542577028e-05
+      },
+      "sync_seconds_total": 0.0005042069242335856,
+      "tokens_per_second": 318.6230249954414,
+      "unaccounted_seconds": 3.2569514587521553e-06,
+      "warmup": {
+        "audit": {
+          "audit_version": 1,
+          "backward_calls": 298,
+          "backward_coverage": 1.0,
+          "empty_backward_calls": 0,
+          "empty_forward_calls": 0,
+          "forward_calls": 298,
+          "forward_coverage": 1.0,
+          "last_forward_padded_m": [
+            32,
+            64,
+            80,
+            112,
+            128,
+            144,
+            160,
+            192,
+            208,
+            256,
+            272,
+            512
+          ],
+          "native_backward_calls": 298,
+          "native_forward_calls": 298,
+          "padded_backward_rows": 1440,
+          "padded_forward_rows": 1440,
+          "quantization": {
+            "grad_nonzero": 35233273,
+            "grad_saturation": 0,
+            "grad_saturation_fraction": 0.0,
+            "grad_underflow": 9,
+            "grad_underflow_fraction": 2.554403617285286e-07,
+            "input_nonzero": 33816403,
+            "input_saturation": 0,
+            "input_saturation_fraction": 0.0,
+            "input_underflow": 3300,
+            "input_underflow_fraction": 9.7585778120754e-05,
+            "nonfinite": false,
+            "underflow_fraction": 2.997804588530958e-05,
+            "weight_nonzero": 57409534,
+            "weight_saturation": 0,
+            "weight_saturation_fraction": 0.0,
+            "weight_underflow": 482,
+            "weight_underflow_fraction": 8.395818018658712e-06
+          },
+          "scale_devices": [
+            "cuda"
+          ],
+          "scales_resident_cuda": true,
+          "selected_modules": 156,
+          "wgrad_fp32_calls": 298
+        },
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "losses": {
+          "balance": 1.0720744132995605,
+          "early_ntp": 10.476407051086426,
+          "final_ntp": 10.482882499694824,
+          "offset2": 10.485504150390625,
+          "total": 15.734081268310547
+        },
+        "parameters": 43055076,
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+        "seconds": 2.2565186099964194,
+        "state": {
+          "adamw": {
+            "bytes": 101040068,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 25260017,
+            "finite": true
+          },
+          "adapter_version": 1,
+          "muon": {
+            "bytes": 121700352,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 30425088,
+            "finite": true
+          },
+          "total": {
+            "bytes": 222740420,
+            "dtypes": [
+              "float32"
+            ],
+            "elements": 55685105,
+            "finite": true
+          }
+        },
+        "status": "passed"
+      }
+    }
+  },
+  "core_status": "passed",
+  "cross_platform": {
+    "artifact_actual_vocab_size": 320,
+    "artifact_sha256": "851742b8ae6fbe9cde68b9db6e09cb77c6f7f978e96b64da162841a311bd2b84",
+    "blocks": 4,
+    "bpe_training_digest": "ac0ddc51a214f38ea9779af63a7a0adddd94f4f087628f9de20e20e3da29e3cf",
+    "checks": {
+      "expected_counts": true,
+      "linux_run_1_matches_mac_bytes": true,
+      "linux_run_2_matches_mac_bytes": true,
+      "linux_runs_identical": true,
+      "loaded_blocks_match": true,
+      "logical_digest_equal_expected": true,
+      "manifest_bytes_length": true,
+      "manifest_counts_match_report": true,
+      "manifest_sha256_recomputed": true,
+      "materialized_counts_match": true,
+      "materialized_manifest_digests_match": true,
+      "packed_digest_equal_expected": true,
+      "physical_digest_equal_expected": true,
+      "physical_digest_recomputed": true,
+      "sha256_expected": true
+    },
+    "corpus_report_digest": "b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f",
+    "counts": {
+      "by_domain": {
+        "prose": {
+          "blocks": 4,
+          "content_tokens": 203,
+          "documents": 11,
+          "ntp_labels": 214,
+          "offset2_labels": 203,
+          "pad_tokens": 159,
+          "special_tokens": 22,
+          "valid_tokens": 225
+        }
+      },
+      "by_language": {
+        "en": {
+          "blocks": 2,
+          "content_tokens": 136,
+          "documents": 8,
+          "ntp_labels": 144,
+          "offset2_labels": 136,
+          "pad_tokens": 40,
+          "special_tokens": 16,
+          "valid_tokens": 152
+        },
+        "pl": {
+          "blocks": 2,
+          "content_tokens": 67,
+          "documents": 3,
+          "ntp_labels": 70,
+          "offset2_labels": 67,
+          "pad_tokens": 119,
+          "special_tokens": 6,
+          "valid_tokens": 73
+        }
+      },
+      "by_split": {
+        "test": {
+          "blocks": 1,
+          "content_tokens": 64,
+          "documents": 2,
+          "ntp_labels": 66,
+          "offset2_labels": 64,
+          "pad_tokens": 28,
+          "special_tokens": 4,
+          "valid_tokens": 68
+        },
+        "train": {
+          "blocks": 2,
+          "content_tokens": 126,
+          "documents": 8,
+          "ntp_labels": 134,
+          "offset2_labels": 126,
+          "pad_tokens": 50,
+          "special_tokens": 16,
+          "valid_tokens": 142
+        },
+        "validation": {
+          "blocks": 1,
+          "content_tokens": 13,
+          "documents": 1,
+          "ntp_labels": 14,
+          "offset2_labels": 13,
+          "pad_tokens": 81,
+          "special_tokens": 2,
+          "valid_tokens": 15
+        }
+      },
+      "by_split_language_domain": {
+        "test/en/prose": {
+          "blocks": 1,
+          "content_tokens": 64,
+          "documents": 2,
+          "ntp_labels": 66,
+          "offset2_labels": 64,
+          "pad_tokens": 28,
+          "special_tokens": 4,
+          "valid_tokens": 68
+        },
+        "train/en/prose": {
+          "blocks": 1,
+          "content_tokens": 72,
+          "documents": 6,
+          "ntp_labels": 78,
+          "offset2_labels": 72,
+          "pad_tokens": 12,
+          "special_tokens": 12,
+          "valid_tokens": 84
+        },
+        "train/pl/prose": {
+          "blocks": 1,
+          "content_tokens": 54,
+          "documents": 2,
+          "ntp_labels": 56,
+          "offset2_labels": 54,
+          "pad_tokens": 38,
+          "special_tokens": 4,
+          "valid_tokens": 58
+        },
+        "validation/pl/prose": {
+          "blocks": 1,
+          "content_tokens": 13,
+          "documents": 1,
+          "ntp_labels": 14,
+          "offset2_labels": 13,
+          "pad_tokens": 81,
+          "special_tokens": 2,
+          "valid_tokens": 15
+        }
+      },
+      "overall": {
+        "blocks": 4,
+        "content_tokens": 203,
+        "documents": 11,
+        "ntp_labels": 214,
+        "offset2_labels": 203,
+        "pad_tokens": 159,
+        "special_tokens": 22,
+        "valid_tokens": 225
+      }
+    },
+    "documents": 11,
+    "expected_sha256": "e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf",
+    "linux_bytes": 19754,
+    "linux_sha256": "e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf",
+    "logical_digest": "5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba",
+    "mac_bytes": 19754,
+    "manifest_sha256": "d44629937047fc543f3ce028c7aabf01214f3e9e93547b81262d4f04dd3d47e9",
+    "packed_logical_digest": "7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f",
+    "physical_manifest_digest": "a413fbfd1c34e953b6f105cf70101cd16937440989775d215fd711cfc32abc7a",
+    "shards": 3,
+    "status": "passed"
+  },
+  "optional": {
+    "reasons": [],
+    "remaining_window_seconds": 7150.907843112946,
+    "status": "passed",
+    "t2048_max_case_seconds": 14.845620233973023,
+    "t2048_max_peak_reserved_bytes": 7381975040,
+    "t2048_min_free_after_cleanup_bytes": 24555094016
+  },
+  "pairs": {
+    "128": {
+      "absolute_differences": {
+        "early_ntp": 0.011190414428710938,
+        "final_ntp": 0.024163246154785156,
+        "offset2": 0.0026988983154296875,
+        "total": 0.027662277221679688
+      },
+      "bf16_free_after_cleanup_bytes": 24626397184,
+      "bf16_peak_reserved_bytes": 1000341504,
+      "bf16_wall_seconds": 3.6720364820212126,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.1224474906921387,
+          "early_ntp": 10.501455307006836,
+          "final_ntp": 10.51999282836914,
+          "offset2": 10.532146453857422,
+          "total": 15.789618492126465
+        },
+        "fp8": {
+          "balance": 1.1198680400848389,
+          "early_ntp": 10.490264892578125,
+          "final_ntp": 10.495829582214355,
+          "offset2": 10.529447555541992,
+          "total": 15.761956214904785
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24622202880,
+      "fp8_peak_reserved_bytes": 1021313024,
+      "fp8_wall_seconds": 4.473949481034651,
+      "status": "passed"
+    },
+    "2048": {
+      "absolute_differences": {
+        "early_ntp": 0.0013723373413085938,
+        "final_ntp": 0.0006608963012695312,
+        "offset2": 0.0043792724609375,
+        "total": 8.7738037109375e-05
+      },
+      "bf16_free_after_cleanup_bytes": 24559288320,
+      "bf16_peak_reserved_bytes": 7381975040,
+      "bf16_wall_seconds": 13.992450963007286,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.0247498750686646,
+          "early_ntp": 10.477264404296875,
+          "final_ntp": 10.476771354675293,
+          "offset2": 10.479270935058594,
+          "total": 15.726152420043945
+        },
+        "fp8": {
+          "balance": 1.025026798248291,
+          "early_ntp": 10.478636741638184,
+          "final_ntp": 10.477432250976562,
+          "offset2": 10.474891662597656,
+          "total": 15.726064682006836
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24555094016,
+      "fp8_peak_reserved_bytes": 7189037056,
+      "fp8_wall_seconds": 14.845620233973023,
+      "status": "passed"
+    },
+    "4096": {
+      "absolute_differences": {
+        "early_ntp": 0.0009403228759765625,
+        "final_ntp": 0.0010137557983398438,
+        "offset2": 0.0027990341186523438,
+        "total": 0.0019435882568359375
+      },
+      "bf16_free_after_cleanup_bytes": 24257298432,
+      "bf16_peak_reserved_bytes": 16007561216,
+      "bf16_wall_seconds": 25.613748345989734,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.0128488540649414,
+          "early_ntp": 10.464987754821777,
+          "final_ntp": 10.46896743774414,
+          "offset2": 10.483092308044434,
+          "total": 15.716115951538086
+        },
+        "fp8": {
+          "balance": 1.0134193897247314,
+          "early_ntp": 10.4640474319458,
+          "final_ntp": 10.4679536819458,
+          "offset2": 10.480293273925781,
+          "total": 15.71417236328125
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24253104128,
+      "fp8_peak_reserved_bytes": 15699279872,
+      "fp8_wall_seconds": 26.26377700001467,
+      "status": "passed"
+    },
+    "512": {
+      "absolute_differences": {
+        "early_ntp": 0.007880210876464844,
+        "final_ntp": 0.010992050170898438,
+        "offset2": 0.00211334228515625,
+        "total": 0.013486862182617188
+      },
+      "bf16_free_after_cleanup_bytes": 24592842752,
+      "bf16_peak_reserved_bytes": 1908408320,
+      "bf16_wall_seconds": 5.57545006100554,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.0717132091522217,
+          "early_ntp": 10.48428726196289,
+          "final_ntp": 10.493874549865723,
+          "offset2": 10.487617492675781,
+          "total": 15.747568130493164
+        },
+        "fp8": {
+          "balance": 1.0720744132995605,
+          "early_ntp": 10.476407051086426,
+          "final_ntp": 10.482882499694824,
+          "offset2": 10.485504150390625,
+          "total": 15.734081268310547
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24588648448,
+      "fp8_peak_reserved_bytes": 1874853888,
+      "fp8_wall_seconds": 6.5276291240006685,
+      "status": "passed"
+    }
+  },
+  "status": "passed"
+}

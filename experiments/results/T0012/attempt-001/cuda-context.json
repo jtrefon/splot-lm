@@ -1,0 +1,275 @@
+{
+  "cases": {
+    "bf16-128": {
+      "exit": 0,
+      "json": "case-bf16-128.json",
+      "length": 128,
+      "precision": "bf16",
+      "status": "passed",
+      "wall_seconds": 3.6720364820212126
+    },
+    "bf16-2048": {
+      "exit": 0,
+      "json": "case-bf16-2048.json",
+      "length": 2048,
+      "precision": "bf16",
+      "status": "passed",
+      "wall_seconds": 13.992450963007286
+    },
+    "bf16-4096": {
+      "exit": 0,
+      "json": "case-bf16-4096.json",
+      "length": 4096,
+      "precision": "bf16",
+      "status": "passed",
+      "wall_seconds": 25.613748345989734
+    },
+    "bf16-512": {
+      "exit": 0,
+      "json": "case-bf16-512.json",
+      "length": 512,
+      "precision": "bf16",
+      "status": "passed",
+      "wall_seconds": 5.57545006100554
+    },
+    "fp8-128": {
+      "exit": 0,
+      "json": "case-fp8-128.json",
+      "length": 128,
+      "precision": "fp8",
+      "status": "passed",
+      "wall_seconds": 4.473949481034651
+    },
+    "fp8-2048": {
+      "exit": 0,
+      "json": "case-fp8-2048.json",
+      "length": 2048,
+      "precision": "fp8",
+      "status": "passed",
+      "wall_seconds": 14.845620233973023
+    },
+    "fp8-4096": {
+      "exit": 0,
+      "json": "case-fp8-4096.json",
+      "length": 4096,
+      "precision": "fp8",
+      "status": "passed",
+      "wall_seconds": 26.26377700001467
+    },
+    "fp8-512": {
+      "exit": 0,
+      "json": "case-fp8-512.json",
+      "length": 512,
+      "precision": "fp8",
+      "status": "passed",
+      "wall_seconds": 6.5276291240006685
+    }
+  },
+  "core_status": "passed",
+  "end_utc": "2026-11-27T19:27:39Z",
+  "optional": {
+    "reasons": [],
+    "remaining_window_seconds": 7150.907843112946,
+    "status": "passed",
+    "t2048_max_case_seconds": 14.845620233973023,
+    "t2048_max_peak_reserved_bytes": 7381975040,
+    "t2048_min_free_after_cleanup_bytes": 24555094016
+  },
+  "pairs": {
+    "128": {
+      "absolute_differences": {
+        "early_ntp": 0.011190414428710938,
+        "final_ntp": 0.024163246154785156,
+        "offset2": 0.0026988983154296875,
+        "total": 0.027662277221679688
+      },
+      "bf16_free_after_cleanup_bytes": 24626397184,
+      "bf16_peak_reserved_bytes": 1000341504,
+      "bf16_wall_seconds": 3.6720364820212126,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.1224474906921387,
+          "early_ntp": 10.501455307006836,
+          "final_ntp": 10.51999282836914,
+          "offset2": 10.532146453857422,
+          "total": 15.789618492126465
+        },
+        "fp8": {
+          "balance": 1.1198680400848389,
+          "early_ntp": 10.490264892578125,
+          "final_ntp": 10.495829582214355,
+          "offset2": 10.529447555541992,
+          "total": 15.761956214904785
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24622202880,
+      "fp8_peak_reserved_bytes": 1021313024,
+      "fp8_wall_seconds": 4.473949481034651,
+      "status": "passed"
+    },
+    "2048": {
+      "absolute_differences": {
+        "early_ntp": 0.0013723373413085938,
+        "final_ntp": 0.0006608963012695312,
+        "offset2": 0.0043792724609375,
+        "total": 8.7738037109375e-05
+      },
+      "bf16_free_after_cleanup_bytes": 24559288320,
+      "bf16_peak_reserved_bytes": 7381975040,
+      "bf16_wall_seconds": 13.992450963007286,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.0247498750686646,
+          "early_ntp": 10.477264404296875,
+          "final_ntp": 10.476771354675293,
+          "offset2": 10.479270935058594,
+          "total": 15.726152420043945
+        },
+        "fp8": {
+          "balance": 1.025026798248291,
+          "early_ntp": 10.478636741638184,
+          "final_ntp": 10.477432250976562,
+          "offset2": 10.474891662597656,
+          "total": 15.726064682006836
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24555094016,
+      "fp8_peak_reserved_bytes": 7189037056,
+      "fp8_wall_seconds": 14.845620233973023,
+      "status": "passed"
+    },
+    "4096": {
+      "absolute_differences": {
+        "early_ntp": 0.0009403228759765625,
+        "final_ntp": 0.0010137557983398438,
+        "offset2": 0.0027990341186523438,
+        "total": 0.0019435882568359375
+      },
+      "bf16_free_after_cleanup_bytes": 24257298432,
+      "bf16_peak_reserved_bytes": 16007561216,
+      "bf16_wall_seconds": 25.613748345989734,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.0128488540649414,
+          "early_ntp": 10.464987754821777,
+          "final_ntp": 10.46896743774414,
+          "offset2": 10.483092308044434,
+          "total": 15.716115951538086
+        },
+        "fp8": {
+          "balance": 1.0134193897247314,
+          "early_ntp": 10.4640474319458,
+          "final_ntp": 10.4679536819458,
+          "offset2": 10.480293273925781,
+          "total": 15.71417236328125
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24253104128,
+      "fp8_peak_reserved_bytes": 15699279872,
+      "fp8_wall_seconds": 26.26377700001467,
+      "status": "passed"
+    },
+    "512": {
+      "absolute_differences": {
+        "early_ntp": 0.007880210876464844,
+        "final_ntp": 0.010992050170898438,
+        "offset2": 0.00211334228515625,
+        "total": 0.013486862182617188
+      },
+      "bf16_free_after_cleanup_bytes": 24592842752,
+      "bf16_peak_reserved_bytes": 1908408320,
+      "bf16_wall_seconds": 5.57545006100554,
+      "checks": {
+        "bf16_json_passed": true,
+        "both_case_status": true,
+        "ce_component_gate": true,
+        "ce_total_gate": true,
+        "finite": true,
+        "fp8_audit_finite": true,
+        "fp8_audit_positive": true,
+        "fp8_json_passed": true,
+        "fp8_native": true,
+        "init_equal": true,
+        "input_equal": true,
+        "labels": true,
+        "parameters": true,
+        "partition_equal": true,
+        "warmup_status": true
+      },
+      "first_pre_update_losses": {
+        "bf16": {
+          "balance": 1.0717132091522217,
+          "early_ntp": 10.48428726196289,
+          "final_ntp": 10.493874549865723,
+          "offset2": 10.487617492675781,
+          "total": 15.747568130493164
+        },
+        "fp8": {
+          "balance": 1.0720744132995605,
+          "early_ntp": 10.476407051086426,
+          "final_ntp": 10.482882499694824,
+          "offset2": 10.485504150390625,
+          "total": 15.734081268310547
+        }
+      },
+      "fp8_free_after_cleanup_bytes": 24588648448,
+      "fp8_peak_reserved_bytes": 1874853888,
+      "fp8_wall_seconds": 6.5276291240006685,
+      "status": "passed"
+    }
+  },
+  "start_utc": "2026-11-27T19:25:58Z",
+  "status": "passed",
+  "wall_seconds": 100.97168922424316
+}
