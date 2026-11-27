@@ -1,0 +1,11 @@
+{
+  "actual_parameters": 179952,
+  "check": "cpu_integration",
+  "command": "CUDA_VISIBLE_DEVICES=\"\" timeout --kill-after=15s 180s python tools/test_experiment_integration.py",
+  "declared_parameters": 179952,
+  "elapsed_seconds": 2,
+  "exit": 0,
+  "parameter_count_match": true,
+  "status": "passed",
+  "test_count": 1
+}
