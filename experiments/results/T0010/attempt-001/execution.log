@@ -1,0 +1,1039 @@
+SPLOT REP v0.2 execution log
+Task: T0010 (IMP), attempt 001
+Issue: #60, parent #8/#10, evidence PR #64
+Instruction/task commit: 9aabfa9dae9d1d7b5713cee09a73e0e4d50b5d88
+Approved minimum base: 9fc3b48c10d2e477df971a1a133562da9d699c7b
+Tested implementation commit: 4edff6d4d9de0cf9d0da24845e751ec8f7eea23f
+Branch: feat/T0010-shards-attempt-001
+Host: macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 16 GiB RAM
+Python: 3.15.2 via python3 (this host has no python executable)
+Unicode data: 17.0.0
+Scope: synthetic corpus/BPE -> canonical tokenized shards and document-safe packing.
+Limits: one foreground session <=90 minutes; <=1000 docs <=4096 UTF-8 bytes; <=256 KiB train;
+pack lengths 96/128/256; <=8 blocks/shard; <=1024 blocks; <=1 MiB/shard; <=16 MiB total;
+each command <=120 s; no downloads, packages, external corpora, model training, MPS or system changes.
+Observed window: 2026-11-27T18:54:18Z to 2026-11-27T18:54:47Z.
+
+Repository synchronization
+$ git rev-parse origin/main
+9aabfa9dae9d1d7b5713cee09a73e0e4d50b5d88
+
+$ git diff --name-status 9aabfa9dae9d1d7b5713cee09a73e0e4d50b5d88..4edff6d4d9de0cf9d0da24845e751ec8f7eea23f
+A	research/data/tokenized-shards.md
+A	tools/test_tokenized_shards.py
+A	tools/tokenized_shards.py
+
+$ git status --porcelain
+(empty; clean worktree at acceptance start)
+
+Acceptance environment
+$ sw_vers
+ProductName:		macOS
+ProductVersion:		27.2.1
+BuildVersion:		26B131
+
+$ uname -m
+arm64
+
+$ python3 -c 'import platform; print(platform.python_version())'
+3.15.2
+
+$ python3 -c 'import unicodedata; print(unicodedata.unidata_version)'
+17.0.0
+
+$ sysctl -n hw.memsize
+17179869184
+
+$ sysctl -n hw.ncpu
+10
+
+$ sysctl -n kern.memorystatus_level
+42
+
+$ df -Pk .
+Filesystem     1024-blocks      Used Available Capacity  Mounted on
+/dev/disk3s5     482797652 373392976  81695732    83%  /System/Volumes/Data
+
+$ git rev-parse HEAD
+4edff6d4d9de0cf9d0da24845e751ec8f7eea23f
+
+Acceptance command: PYTHONPATH=tools python3 tools/test_corpus_reference.py
+started_utc: 2026-11-27T18:54:39.769799Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.078373
+stdout_bytes: 0
+stderr_bytes: 3571
+stdout_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+stderr_sha256: bfe074fe6b6fad1d4e741d57694aee596b4b0afcbc2f3676720b9bbee2575f5b
+--- stdout ---
+(empty)
+--- stderr ---
+test_audit_detects_cross_split_fingerprint_leak (__main__.AuditTests.test_audit_detects_cross_split_fingerprint_leak) ... ok
+test_audit_detects_cross_split_group_leak (__main__.AuditTests.test_audit_detects_cross_split_group_leak) ... ok
+test_no_split_leakage (__main__.AuditTests.test_no_split_leakage) ... ok
+test_group_union_across_nonidentical_texts_and_sources (__main__.ClusteringTests.test_group_union_across_nonidentical_texts_and_sources) ... ok
+test_near_below_threshold_is_rejected (__main__.ClusteringTests.test_near_below_threshold_is_rejected) ... ok
+test_near_threshold_is_inclusive (__main__.ClusteringTests.test_near_threshold_is_inclusive) ... ok
+test_short_documents_have_no_near_edges (__main__.ClusteringTests.test_short_documents_have_no_near_edges) ... ok
+test_transitive_closure_across_exact_group_and_near_edges (__main__.ClusteringTests.test_transitive_closure_across_exact_group_and_near_edges) ... ok
+test_transitive_closure_across_source_ids_and_languages (__main__.ClusteringTests.test_transitive_closure_across_source_ids_and_languages) ... ok
+test_cli_demo (__main__.DemoTests.test_cli_demo) ... ok
+test_demo_is_deterministic_and_covers_scenarios (__main__.DemoTests.test_demo_is_deterministic_and_covers_scenarios) ... ok
+test_representative_ordering_and_shuffled_input (__main__.DeterminismAndStatsTests.test_representative_ordering_and_shuffled_input) ... ok
+test_split_bucket_and_invalid_config (__main__.DeterminismAndStatsTests.test_split_bucket_and_invalid_config) ... ok
+test_stats_counts_bytes_and_reasons (__main__.DeterminismAndStatsTests.test_stats_counts_bytes_and_reasons) ... ok
+test_exact_raw_and_normalized_reasons (__main__.PreservationAndHashTests.test_exact_raw_and_normalized_reasons) ... ok
+test_nfc_and_crlf_duplicates (__main__.PreservationAndHashTests.test_nfc_and_crlf_duplicates) ... ok
+test_no_casefold_or_diacritic_stripping (__main__.PreservationAndHashTests.test_no_casefold_or_diacritic_stripping) ... ok
+test_text_is_preserved_and_hashes_are_independent (__main__.PreservationAndHashTests.test_text_is_preserved_and_hashes_are_independent) ... ok
+test_benchmark_and_excluded_reasons_combine (__main__.QuarantineTests.test_benchmark_and_excluded_reasons_combine) ... ok
+test_benchmark_exact_normalized_quarantines_whole_cluster (__main__.QuarantineTests.test_benchmark_exact_normalized_quarantines_whole_cluster) ... ok
+test_excluded_record_id_quarantines_whole_cluster (__main__.QuarantineTests.test_excluded_record_id_quarantines_whole_cluster) ... ok
+test_capacity_and_byte_boundaries (__main__.RecordValidationTests.test_capacity_and_byte_boundaries) ... ok
+test_empty_corpus_is_valid (__main__.RecordValidationTests.test_empty_corpus_is_valid) ... ok
+test_malformed_records_fail_closed (__main__.RecordValidationTests.test_malformed_records_fail_closed) ... ok
+test_record_iterable_consumption_is_bounded (__main__.RecordValidationTests.test_record_iterable_consumption_is_bounded) ... ok
+test_utf8_decode_helper (__main__.RecordValidationTests.test_utf8_decode_helper) ... ok
+test_allowlist_fail_closed (__main__.SourceAllowlistTests.test_allowlist_fail_closed) ... ok
+test_approval_must_be_explicit (__main__.SourceAllowlistTests.test_approval_must_be_explicit) ... ok
+test_swapped_mapping_keys_rejected (__main__.SourceAllowlistTests.test_swapped_mapping_keys_rejected) ... ok
+test_validate_records_revalidates_mapping (__main__.SourceAllowlistTests.test_validate_records_revalidates_mapping) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.010s
+
+OK
+
+Acceptance command: PYTHONPATH=tools python3 tools/test_bpe_reference.py
+started_utc: 2026-11-27T18:54:39.848699Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.109476
+stdout_bytes: 0
+stderr_bytes: 3263
+stdout_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+stderr_sha256: 9bb8ebfefb9cd42f6a5aec59c35bb958613dc798d96518d6b4be6f7892d0ecde
+--- stdout ---
+(empty)
+--- stderr ---
+test_artifact_malformed_rejected (__main__.ArtifactTests.test_artifact_malformed_rejected) ... ok
+test_artifact_roundtrip_reload_and_digest (__main__.ArtifactTests.test_artifact_roundtrip_reload_and_digest) ... ok
+test_expansion_length_boundary_and_adversarial_chain (__main__.ArtifactTests.test_expansion_length_boundary_and_adversarial_chain) ... ok
+test_load_artifact_caps_and_canonical_reload (__main__.ArtifactTests.test_load_artifact_caps_and_canonical_reload) ... ok
+test_load_artifact_rejects_bad_input (__main__.ArtifactTests.test_load_artifact_rejects_bad_input) ... ok
+test_cli_demo (__main__.DemoTests.test_cli_demo) ... ok
+test_corpus_digest_and_demo_documents (__main__.DemoTests.test_corpus_digest_and_demo_documents) ... ok
+test_demo_is_deterministic_and_reports_heldout (__main__.DemoTests.test_demo_is_deterministic_and_reports_heldout) ... ok
+test_demo_learned_hashes_unchanged (__main__.DemoTests.test_demo_learned_hashes_unchanged) ... ok
+test_document_validation_fail_closed (__main__.DocumentValidationTests.test_document_validation_fail_closed) ... ok
+test_documents_are_sorted_and_preserved (__main__.DocumentValidationTests.test_documents_are_sorted_and_preserved) ... ok
+test_all_256_byte_alphabet_roundtrip (__main__.EncodingTests.test_all_256_byte_alphabet_roundtrip) ... ok
+test_decode_rejects_control_and_unknown (__main__.EncodingTests.test_decode_rejects_control_and_unknown) ... ok
+test_encode_input_boundary (__main__.EncodingTests.test_encode_input_boundary) ... ok
+test_no_normalization (__main__.EncodingTests.test_no_normalization) ... ok
+test_raw_special_spellings_never_emit_control (__main__.EncodingTests.test_raw_special_spellings_never_emit_control) ... ok
+test_token_iterable_and_decoded_output_caps (__main__.EncodingTests.test_token_iterable_and_decoded_output_caps) ... ok
+test_unicode_whitespace_and_control_roundtrip (__main__.EncodingTests.test_unicode_whitespace_and_control_roundtrip) ... ok
+test_original_corpus_demo_digest_stable (__main__.OriginalCorpusDigestTests.test_original_corpus_demo_digest_stable) ... ok
+test_adjacent_pair_counts_are_independent (__main__.PairAndMergeTests.test_adjacent_pair_counts_are_independent) ... ok
+test_best_pair_tie_break (__main__.PairAndMergeTests.test_best_pair_tie_break) ... ok
+test_merge_sequence_nonoverlapping_left_to_right (__main__.PairAndMergeTests.test_merge_sequence_nonoverlapping_left_to_right) ... ok
+test_no_document_boundary_merge (__main__.PairAndMergeTests.test_no_document_boundary_merge) ... ok
+test_holdout_only_corpus_has_base_vocabulary (__main__.TrainingTests.test_holdout_only_corpus_has_base_vocabulary) ... ok
+test_tiny_corpus_stops_before_capacity (__main__.TrainingTests.test_tiny_corpus_stops_before_capacity) ... ok
+test_train_input_digest_is_sorted_and_content_sensitive (__main__.TrainingTests.test_train_input_digest_is_sorted_and_content_sensitive) ... ok
+test_train_only_artifact_equality_after_holdout_and_quarantine_changes (__main__.TrainingTests.test_train_only_artifact_equality_after_holdout_and_quarantine_changes) ... ok
+test_vocab_targets_and_merge_limits (__main__.TrainingTests.test_vocab_targets_and_merge_limits) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.058s
+
+OK
+
+Acceptance command: PYTHONPATH=tools python3 tools/test_data_fixture.py
+started_utc: 2026-11-27T18:54:39.958501Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.041408
+stdout_bytes: 0
+stderr_bytes: 638
+stdout_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+stderr_sha256: 001ae2eacc11c1ba7723b367a8cd862346db78a79bfcb210ef2be321c7d1ca63
+--- stdout ---
+(empty)
+--- stderr ---
+test_manifest (__main__.DataContract.test_manifest) ... ok
+test_no_silent_truncation_and_no_empty_batch (__main__.DataContract.test_no_silent_truncation_and_no_empty_batch) ... ok
+test_packing_and_offset_masks (__main__.DataContract.test_packing_and_offset_masks) ... ok
+test_split_determinism_and_disjointness (__main__.DataContract.test_split_determinism_and_disjointness) ... ok
+test_transitive_group_dedup (__main__.DataContract.test_transitive_group_dedup) ... ok
+test_utf8_roundtrip (__main__.DataContract.test_utf8_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+
+Acceptance command: PYTHONPATH=tools python3 tools/test_tokenized_shards.py
+started_utc: 2026-11-27T18:54:40.000194Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.168155
+stdout_bytes: 0
+stderr_bytes: 2559
+stdout_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+stderr_sha256: ef9f4192d4c957ca465092225252e0ec695d9bf748172c16e08a42863ff2ad9c
+--- stdout ---
+(empty)
+--- stderr ---
+test_old_demo_digests_unchanged (__main__.CorpusBridgeTests.test_old_demo_digests_unchanged) ... ok
+test_train_only_bpe_and_cluster_split_identity (__main__.CorpusBridgeTests.test_train_only_bpe_and_cluster_split_identity) ... ok
+test_corrupt_block_labels_and_mask (__main__.LoaderCorruptionTests.test_corrupt_block_labels_and_mask) ... ok
+test_corrupt_manifest_counts_and_logical_digest (__main__.LoaderCorruptionTests.test_corrupt_manifest_counts_and_logical_digest) ... ok
+test_corrupt_shard_bytes_and_unsafe_path (__main__.LoaderCorruptionTests.test_corrupt_shard_bytes_and_unsafe_path) ... ok
+test_duplicate_json_keys_and_oversized_manifest_rejected (__main__.LoaderCorruptionTests.test_duplicate_json_keys_and_oversized_manifest_rejected) ... ok
+test_duplicate_manifest_document_rejected (__main__.LoaderCorruptionTests.test_duplicate_manifest_document_rejected) ... ok
+test_extra_file_missing_shard_and_symlink (__main__.LoaderCorruptionTests.test_extra_file_missing_shard_and_symlink) ... ok
+test_invalid_token_and_position_rejected (__main__.LoaderCorruptionTests.test_invalid_token_and_position_rejected) ... ok
+test_noncanonical_manifest_and_shard_utf8 (__main__.LoaderCorruptionTests.test_noncanonical_manifest_and_shard_utf8) ... ok
+test_symlink_rejected (__main__.LoaderCorruptionTests.test_symlink_rejected) ... ok
+test_atomic_failure_leaves_no_destination (__main__.MaterializationTests.test_atomic_failure_leaves_no_destination) ... ok
+test_demo_is_deterministic_and_cli (__main__.MaterializationTests.test_demo_is_deterministic_and_cli) ... ok
+test_demo_materialization_and_partition_invariance (__main__.MaterializationTests.test_demo_materialization_and_partition_invariance) ... ok
+test_materialize_load_and_no_overwrite (__main__.MaterializationTests.test_materialize_load_and_no_overwrite) ... ok
+test_stable_order_and_identical_materialization (__main__.MaterializationTests.test_stable_order_and_identical_materialization) ... ok
+test_exact_tiny_counts (__main__.PackingTests.test_exact_tiny_counts) ... ok
+test_hand_calculated_tiny_sequence_and_fixture_semantics (__main__.PackingTests.test_hand_calculated_tiny_sequence_and_fixture_semantics) ... ok
+test_invalid_pack_config (__main__.PackingTests.test_invalid_pack_config) ... ok
+test_multi_document_boundary_masks (__main__.PackingTests.test_multi_document_boundary_masks) ... ok
+test_overlong_document_is_rejected (__main__.PackingTests.test_overlong_document_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.107s
+
+OK
+
+Acceptance command: PYTHONPATH=tools python3 tools/tokenized_shards.py --demo
+started_utc: 2026-11-27T18:54:40.168632Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.05508
+stdout_bytes: 19754
+stderr_bytes: 0
+stdout_sha256: e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf
+stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (full) ---
+{
+  "artifact_actual_vocab_size": 320,
+  "artifact_sha256": "851742b8ae6fbe9cde68b9db6e09cb77c6f7f978e96b64da162841a311bd2b84",
+  "blocks": 4,
+  "bpe_training_digest": "ac0ddc51a214f38ea9779af63a7a0adddd94f4f087628f9de20e20e3da29e3cf",
+  "corpus_report_digest": "b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f",
+  "counts": {
+    "by_domain": {
+      "prose": {
+        "blocks": 4,
+        "content_tokens": 203,
+        "documents": 11,
+        "ntp_labels": 214,
+        "offset2_labels": 203,
+        "pad_tokens": 159,
+        "special_tokens": 22,
+        "valid_tokens": 225
+      }
+    },
+    "by_language": {
+      "en": {
+        "blocks": 2,
+        "content_tokens": 136,
+        "documents": 8,
+        "ntp_labels": 144,
+        "offset2_labels": 136,
+        "pad_tokens": 40,
+        "special_tokens": 16,
+        "valid_tokens": 152
+      },
+      "pl": {
+        "blocks": 2,
+        "content_tokens": 67,
+        "documents": 3,
+        "ntp_labels": 70,
+        "offset2_labels": 67,
+        "pad_tokens": 119,
+        "special_tokens": 6,
+        "valid_tokens": 73
+      }
+    },
+    "by_split": {
+      "test": {
+        "blocks": 1,
+        "content_tokens": 64,
+        "documents": 2,
+        "ntp_labels": 66,
+        "offset2_labels": 64,
+        "pad_tokens": 28,
+        "special_tokens": 4,
+        "valid_tokens": 68
+      },
+      "train": {
+        "blocks": 2,
+        "content_tokens": 126,
+        "documents": 8,
+        "ntp_labels": 134,
+        "offset2_labels": 126,
+        "pad_tokens": 50,
+        "special_tokens": 16,
+        "valid_tokens": 142
+      },
+      "validation": {
+        "blocks": 1,
+        "content_tokens": 13,
+        "documents": 1,
+        "ntp_labels": 14,
+        "offset2_labels": 13,
+        "pad_tokens": 81,
+        "special_tokens": 2,
+        "valid_tokens": 15
+      }
+    },
+    "by_split_language_domain": {
+      "test/en/prose": {
+        "blocks": 1,
+        "content_tokens": 64,
+        "documents": 2,
+        "ntp_labels": 66,
+        "offset2_labels": 64,
+        "pad_tokens": 28,
+        "special_tokens": 4,
+        "valid_tokens": 68
+      },
+      "train/en/prose": {
+        "blocks": 1,
+        "content_tokens": 72,
+        "documents": 6,
+        "ntp_labels": 78,
+        "offset2_labels": 72,
+        "pad_tokens": 12,
+        "special_tokens": 12,
+        "valid_tokens": 84
+      },
+      "train/pl/prose": {
+        "blocks": 1,
+        "content_tokens": 54,
+        "documents": 2,
+        "ntp_labels": 56,
+        "offset2_labels": 54,
+        "pad_tokens": 38,
+        "special_tokens": 4,
+        "valid_tokens": 58
+      },
+      "validation/pl/prose": {
+        "blocks": 1,
+        "content_tokens": 13,
+        "documents": 1,
+        "ntp_labels": 14,
+        "offset2_labels": 13,
+        "pad_tokens": 81,
+        "special_tokens": 2,
+        "valid_tokens": 15
+      }
+    },
+    "overall": {
+      "blocks": 4,
+      "content_tokens": 203,
+      "documents": 11,
+      "ntp_labels": 214,
+      "offset2_labels": 203,
+      "pad_tokens": 159,
+      "special_tokens": 22,
+      "valid_tokens": 225
+    }
+  },
+  "documents": 11,
+  "format": "splot-tokenized-shards-v1",
+  "independent_materializations_identical": true,
+  "loaded_blocks": 4,
+  "logical_digest": "5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba",
+  "manifest": {
+    "block_count": 4,
+    "counts": {
+      "by_domain": {
+        "prose": {
+          "blocks": 4,
+          "content_tokens": 203,
+          "documents": 11,
+          "ntp_labels": 214,
+          "offset2_labels": 203,
+          "pad_tokens": 159,
+          "special_tokens": 22,
+          "valid_tokens": 225
+        }
+      },
+      "by_language": {
+        "en": {
+          "blocks": 2,
+          "content_tokens": 136,
+          "documents": 8,
+          "ntp_labels": 144,
+          "offset2_labels": 136,
+          "pad_tokens": 40,
+          "special_tokens": 16,
+          "valid_tokens": 152
+        },
+        "pl": {
+          "blocks": 2,
+          "content_tokens": 67,
+          "documents": 3,
+          "ntp_labels": 70,
+          "offset2_labels": 67,
+          "pad_tokens": 119,
+          "special_tokens": 6,
+          "valid_tokens": 73
+        }
+      },
+      "by_split": {
+        "test": {
+          "blocks": 1,
+          "content_tokens": 64,
+          "documents": 2,
+          "ntp_labels": 66,
+          "offset2_labels": 64,
+          "pad_tokens": 28,
+          "special_tokens": 4,
+          "valid_tokens": 68
+        },
+        "train": {
+          "blocks": 2,
+          "content_tokens": 126,
+          "documents": 8,
+          "ntp_labels": 134,
+          "offset2_labels": 126,
+          "pad_tokens": 50,
+          "special_tokens": 16,
+          "valid_tokens": 142
+        },
+        "validation": {
+          "blocks": 1,
+          "content_tokens": 13,
+          "documents": 1,
+          "ntp_labels": 14,
+          "offset2_labels": 13,
+          "pad_tokens": 81,
+          "special_tokens": 2,
+          "valid_tokens": 15
+        }
+      },
+      "by_split_language_domain": {
+        "test/en/prose": {
+          "blocks": 1,
+          "content_tokens": 64,
+          "documents": 2,
+          "ntp_labels": 66,
+          "offset2_labels": 64,
+          "pad_tokens": 28,
+          "special_tokens": 4,
+          "valid_tokens": 68
+        },
+        "train/en/prose": {
+          "blocks": 1,
+          "content_tokens": 72,
+          "documents": 6,
+          "ntp_labels": 78,
+          "offset2_labels": 72,
+          "pad_tokens": 12,
+          "special_tokens": 12,
+          "valid_tokens": 84
+        },
+        "train/pl/prose": {
+          "blocks": 1,
+          "content_tokens": 54,
+          "documents": 2,
+          "ntp_labels": 56,
+          "offset2_labels": 54,
+          "pad_tokens": 38,
+          "special_tokens": 4,
+          "valid_tokens": 58
+        },
+        "validation/pl/prose": {
+          "blocks": 1,
+          "content_tokens": 13,
+          "documents": 1,
+          "ntp_labels": 14,
+          "offset2_labels": 13,
+          "pad_tokens": 81,
+          "special_tokens": 2,
+          "valid_tokens": 15
+        }
+      },
+      "overall": {
+        "blocks": 4,
+        "content_tokens": 203,
+        "documents": 11,
+        "ntp_labels": 214,
+        "offset2_labels": 203,
+        "pad_tokens": 159,
+        "special_tokens": 22,
+        "valid_tokens": 225
+      }
+    },
+    "documents": [
+      {
+        "cluster_id": "a51969240191386f9dcfcb838dce41e3c34c493136723d8a7394cd0e0a0d4b34",
+        "content_sha256": "a614ed90fa120c0c7dca5a14e9562ab29c055d8a57fbc493515628c5828fe0bc",
+        "doc_id": "demo-en-below-a",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 0,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "train",
+        "tokens": [
+          305,
+          109
+        ]
+      },
+      {
+        "cluster_id": "cefeee59d7b322211b05891396b2241aa3b407e599583cd53778ef7eacc422d3",
+        "content_sha256": "07c92b523171ab8eaae63cff7fa1f9c44c1911ef195e051eb88c14002d951990",
+        "doc_id": "demo-en-below-b",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 1,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "train",
+        "tokens": [
+          305,
+          287,
+          316,
+          270
+        ]
+      },
+      {
+        "cluster_id": "d730fe228be4620ab39cb2d1de2b47b40a9b052171d0ed138f52cab089461082",
+        "content_sha256": "847327c8de7a531ac15a1231977357b35cdf78e293a722f356eaf67c2298e0ec",
+        "doc_id": "demo-en-near-a",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 2,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "train",
+        "tokens": [
+          124,
+          112,
+          269,
+          121,
+          125,
+          113,
+          318,
+          267,
+          122,
+          292,
+          118,
+          307,
+          119,
+          128,
+          280,
+          125,
+          117,
+          120,
+          275,
+          119,
+          126,
+          286,
+          277,
+          269,
+          116,
+          282,
+          129
+        ]
+      },
+      {
+        "cluster_id": "aac12af8a2fab133f198d1edadbbc46c407e65d597155705aa79556e0644e9ac",
+        "content_sha256": "b097aa308a6ddbbe5d6f154773df395c5b20b607de6dbc2b483fc90827b7bae2",
+        "doc_id": "demo-en-short-a",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 3,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "train",
+        "tokens": [
+          306,
+          124,
+          268,
+          109,
+          128,
+          124
+        ]
+      },
+      {
+        "cluster_id": "b7c5ea806eb7d7764eebd12f487fb0dace40e42298c9ab3cc113c07ab3db2a66",
+        "content_sha256": "4362416fb47b39cbb7d1ec22ef1aea3b2519a821264db1bd8ed863e72580fe5f",
+        "doc_id": "demo-en-short-b",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 4,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "train",
+        "tokens": [
+          306,
+          294,
+          271,
+          108,
+          123
+        ]
+      },
+      {
+        "cluster_id": "0646fcf7d78427bda4e5c498de463e5598141bea363ffff306c33427eaca8cf5",
+        "content_sha256": "702add8655014389a99f4d3a702512646911cfcf378a5ed7e318feab3a15b52b",
+        "doc_id": "demo-en-trans-a",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 5,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "train",
+        "tokens": [
+          272,
+          108,
+          312,
+          315,
+          111,
+          269,
+          129,
+          109,
+          273,
+          292,
+          279,
+          116,
+          125,
+          269,
+          264,
+          319,
+          111,
+          119,
+          311,
+          113,
+          119,
+          116,
+          109,
+          294,
+          112,
+          113,
+          124,
+          109
+        ]
+      },
+      {
+        "cluster_id": "eefffd3a95a1123ef237813863cc1ef07a76c3c73b0a2767dac767e1c7fb5fb2",
+        "content_sha256": "39d128bd9d0f5d61aa20d605f0fd457793bc8b2a43cdf0d494a98d88f0daeb85",
+        "doc_id": "demo-pl-diacritic-a",
+        "domain": "prose",
+        "language": "pl",
+        "numeric_id": 6,
+        "source_id": "synthetic_pl",
+        "source_revision": "rev-pl-001",
+        "split": "train",
+        "tokens": [
+          205,
+          195,
+          296,
+          205,
+          138,
+          204,
+          143,
+          265,
+          204,
+          161,
+          205,
+          163,
+          116,
+          204,
+          141,
+          280,
+          283,
+          194,
+          205,
+          140,
+          54
+        ]
+      },
+      {
+        "cluster_id": "bf962d590b19e2833cd6694de626f268d654d3a3849af66444f8a2bee7f940a1",
+        "content_sha256": "444af97d40a9d65ed262557abae13eb02d22140f6b3776030a6db9daadffb9a4",
+        "doc_id": "demo-pl-family-a",
+        "domain": "prose",
+        "language": "pl",
+        "numeric_id": 7,
+        "source_id": "synthetic_pl",
+        "source_revision": "rev-pl-001",
+        "split": "train",
+        "tokens": [
+          313,
+          286,
+          127,
+          123,
+          130,
+          129,
+          310,
+          119,
+          130,
+          108,
+          130,
+          113,
+          283,
+          138,
+          309,
+          120,
+          113,
+          123,
+          125,
+          114,
+          287,
+          296,
+          122,
+          123,
+          115,
+          113,
+          308,
+          122,
+          314,
+          119,
+          317,
+          282,
+          54
+        ]
+      },
+      {
+        "cluster_id": "1dd25d450172d56cc5dfb602bf54e8a39d73ecac37b5af36e1da901d1db7c949",
+        "content_sha256": "4d36c5a47810796fbcafda8ca20d51ee276281b234f79fe1517e5566d8ea8f10",
+        "doc_id": "demo-pl-diacritic-b",
+        "domain": "prose",
+        "language": "pl",
+        "numeric_id": 8,
+        "source_id": "synthetic_pl",
+        "source_revision": "rev-pl-001",
+        "split": "validation",
+        "tokens": [
+          98,
+          119,
+          116,
+          107,
+          265,
+          109,
+          123,
+          116,
+          105,
+          280,
+          282,
+          118,
+          54
+        ]
+      },
+      {
+        "cluster_id": "8fc3f96c9d4979496a735093ee00f910a730c272548c61b9d9069a31239f74bc",
+        "content_sha256": "df6aea29a2f22ccbd3f77227db454097d7c4d578a7afbd2819aa551f7a8051be",
+        "doc_id": "demo-en-near-bench",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 9,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "test",
+        "tokens": [
+          75,
+          105,
+          110,
+          203,
+          177,
+          267,
+          270,
+          107,
+          112,
+          117,
+          105,
+          122,
+          115,
+          40,
+          121,
+          125,
+          109,
+          123,
+          124,
+          113,
+          119,
+          118,
+          18,
+          127,
+          113,
+          124,
+          112,
+          268,
+          127,
+          119,
+          40,
+          116,
+          264,
+          109,
+          123,
+          41
+        ]
+      },
+      {
+        "cluster_id": "68380c5fc70be9c26c706d35c1b3a4edac1cd9d97e9bee6f89c7130c849ba508",
+        "content_sha256": "2bef6d5ad675207fc6d759663da8a6f6aed52b77fd9cad86e0f994e75572232f",
+        "doc_id": "demo-en-nfc-a",
+        "domain": "prose",
+        "language": "en",
+        "numeric_id": 10,
+        "source_id": "synthetic_en",
+        "source_revision": "rev-en-001",
+        "split": "test",
+        "tokens": [
+          75,
+          105,
+          110,
+          203,
+          177,
+          266,
+          119,
+          107,
+          113,
+          109,
+          124,
+          129,
+          21,
+          18,
+          117,
+          109,
+          109,
+          124,
+          275,
+          264,
+          40,
+          83,
+          122,
+          105,
+          115,
+          296,
+          127,
+          54
+        ]
+      }
+    ],
+    "format": "splot-tokenized-shards-v1",
+    "logical_digest": "5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba",
+    "pack_config": {
+      "bos": 1,
+      "eos": 2,
+      "ignore": -100,
+      "length": 96,
+      "max_blocks_per_shard": 8,
+      "max_blocks_total": 1024,
+      "offsets": [
+        1,
+        2
+      ],
+      "pad": 0
+    },
+    "packed_logical_digest": "7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f",
+    "physical_manifest_digest": "a413fbfd1c34e953b6f105cf70101cd16937440989775d215fd711cfc32abc7a",
+    "shard_count": 3,
+    "shards": [
+      {
+        "blocks": 2,
+        "bytes": 4459,
+        "first_block": 0,
+        "last_block": 1,
+        "path": "shards/train-00000.jsonl",
+        "sha256": "b879cc318935cfae48f514175395327aa68f911a8ce757da646a99e015f565da",
+        "split": "train"
+      },
+      {
+        "blocks": 1,
+        "bytes": 2326,
+        "first_block": 0,
+        "last_block": 0,
+        "path": "shards/validation-00001.jsonl",
+        "sha256": "7f19ddbe8d4c8b159d8f6588d676d83d31214feb320198ad3f485bab58700fb8",
+        "split": "validation"
+      },
+      {
+        "blocks": 1,
+        "bytes": 2256,
+        "first_block": 0,
+        "last_block": 0,
+        "path": "shards/test-00002.jsonl",
+        "sha256": "4f5d269b57b4115c0d5658f47a78babf5109b48d80bfffbd904737124809fd89",
+        "split": "test"
+      }
+    ],
+    "source_identity": {
+      "bpe_training_digest": "ac0ddc51a214f38ea9779af63a7a0adddd94f4f087628f9de20e20e3da29e3cf",
+      "cluster_splits": {
+        "0646fcf7d78427bda4e5c498de463e5598141bea363ffff306c33427eaca8cf5": "train",
+        "1dd25d450172d56cc5dfb602bf54e8a39d73ecac37b5af36e1da901d1db7c949": "validation",
+        "68380c5fc70be9c26c706d35c1b3a4edac1cd9d97e9bee6f89c7130c849ba508": "test",
+        "8fc3f96c9d4979496a735093ee00f910a730c272548c61b9d9069a31239f74bc": "test",
+        "a51969240191386f9dcfcb838dce41e3c34c493136723d8a7394cd0e0a0d4b34": "train",
+        "aac12af8a2fab133f198d1edadbbc46c407e65d597155705aa79556e0644e9ac": "train",
+        "b7c5ea806eb7d7764eebd12f487fb0dace40e42298c9ab3cc113c07ab3db2a66": "train",
+        "bf962d590b19e2833cd6694de626f268d654d3a3849af66444f8a2bee7f940a1": "train",
+        "cefeee59d7b322211b05891396b2241aa3b407e599583cd53778ef7eacc422d3": "train",
+        "d730fe228be4620ab39cb2d1de2b47b40a9b052171d0ed138f52cab089461082": "train",
+        "eefffd3a95a1123ef237813863cc1ef07a76c3c73b0a2767dac767e1c7fb5fb2": "train"
+      },
+      "corpus_report_digest": "b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f",
+      "document_splits": {
+        "demo-en-below-a": "train",
+        "demo-en-below-b": "train",
+        "demo-en-near-a": "train",
+        "demo-en-near-bench": "test",
+        "demo-en-nfc-a": "test",
+        "demo-en-short-a": "train",
+        "demo-en-short-b": "train",
+        "demo-en-trans-a": "train",
+        "demo-pl-diacritic-a": "train",
+        "demo-pl-diacritic-b": "validation",
+        "demo-pl-family-a": "train"
+      },
+      "quarantine": [
+        {
+          "cluster_id": "493ad8f7e2ff995a0cb7633e4312fd827c4f39b389baeb4215a2117291a0419d",
+          "member_ids": [
+            "demo-en-bench-a",
+            "demo-en-bench-b"
+          ],
+          "reasons": [
+            "benchmark_exact_normalized"
+          ]
+        },
+        {
+          "cluster_id": "c332d9907309438248b1d62ea76cf36c6fd261f00668c5bf4c564d63d1d29d2c",
+          "member_ids": [
+            "demo-en-excluded-a",
+            "demo-en-excluded-b"
+          ],
+          "reasons": [
+            "excluded_record_id"
+          ]
+        }
+      ],
+      "seed": "splot-t0004-demo-v1",
+      "source_approvals": [
+        {
+          "revision": "rev-en-001",
+          "source_id": "synthetic_en"
+        },
+        {
+          "revision": "rev-pl-001",
+          "source_id": "synthetic_pl"
+        }
+      ],
+      "split_percentages": {
+        "test": 25,
+        "train": 50,
+        "validation": 25
+      },
+      "train_doc_ids": [
+        "demo-en-below-a",
+        "demo-en-below-b",
+        "demo-en-near-a",
+        "demo-en-short-a",
+        "demo-en-short-b",
+        "demo-en-trans-a",
+        "demo-pl-diacritic-a",
+        "demo-pl-family-a"
+      ]
+    },
+    "tokenizer": {
+      "actual_vocab_size": 320,
+      "algorithm": "byte_bpe_reference_v1",
+      "artifact_sha256": "851742b8ae6fbe9cde68b9db6e09cb77c6f7f978e96b64da162841a311bd2b84",
+      "requested_vocab_size": 320,
+      "version": 1
+    },
+    "version": 1
+  },
+  "manifest_bytes": 9497,
+  "manifest_sha256": "d44629937047fc543f3ce028c7aabf01214f3e9e93547b81262d4f04dd3d47e9",
+  "pack_length": 96,
+  "packed_logical_digest": "7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f",
+  "partition_invariance": {
+    "logical_digest_equal": true,
+    "packed_logical_digest_equal": true,
+    "physical_manifest_digest_differs": true,
+    "shard_count": 4
+  },
+  "physical_manifest_digest": "a413fbfd1c34e953b6f105cf70101cd16937440989775d215fd711cfc32abc7a",
+  "shards": 3,
+  "train_doc_ids": [
+    "demo-en-below-a",
+    "demo-en-below-b",
+    "demo-en-near-a",
+    "demo-en-short-a",
+    "demo-en-short-b",
+    "demo-en-trans-a",
+    "demo-pl-diacritic-a",
+    "demo-pl-family-a"
+  ],
+  "version": 1
+}
+--- stderr ---
+(empty)
+
+Acceptance command: PYTHONPATH=tools python3 tools/tokenized_shards.py --demo
+started_utc: 2026-11-27T18:54:40.224089Z
+exit_code: 0
+timed_out: False
+elapsed_s: 0.054925
+stdout_bytes: 19754
+stderr_bytes: 0
+stdout_sha256: e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf
+stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout ---
+Byte-identical to demo_run_1 stdout; see demo.json. 19754 bytes, SHA-256 e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf.
+--- stderr ---
+(empty)
+
+Demo comparison and dataset identity
+demo_bytes_identical: true
+demo_bytes: 19754
+demo_sha256: e329c8fbb2fb34e4f7de66ec7c0ad661786e70725db620bfb6d85fb4743e2dcf
+manifest_bytes: 9497
+manifest_sha256: d44629937047fc543f3ce028c7aabf01214f3e9e93547b81262d4f04dd3d47e9
+logical_digest: 5d8d5898c41c36ac21cc7ba4785c8747c0a6ec8b20830419a0a082dfd931b5ba
+packed_logical_digest: 7585194a799c1bc839591362929bf4e041bb18b4acaf9d15d677ff951743635f
+physical_manifest_digest: a413fbfd1c34e953b6f105cf70101cd16937440989775d215fd711cfc32abc7a
+artifact_sha256: 851742b8ae6fbe9cde68b9db6e09cb77c6f7f978e96b64da162841a311bd2b84
+artifact_actual_vocab_size: 320
+corpus_report_digest: b80708762570ce1ba31eb5ed34e0c025dedf7e3728dcf9b53974490e7a942e0f
+bpe_training_digest: ac0ddc51a214f38ea9779af63a7a0adddd94f4f087628f9de20e20e3da29e3cf
+documents: 11
+blocks: 4
+shards: 3
+content_tokens: 203
+special_tokens: 22
+valid_tokens: 225
+pad_tokens: 159
+ntp_labels: 214
+offset2_labels: 203
+independent_materializations_identical: true
+partition_logical_equal: true
+partition_packed_equal: true
+partition_physical_differs: true
+partition_shards: 4
+
+Post-acceptance checkout
+$ git rev-parse HEAD
+4edff6d4d9de0cf9d0da24845e751ec8f7eea23f
+
+$ git status --porcelain
+(empty; clean worktree after acceptance commands)
+
+First failure
+None. All acceptance commands exited 0; no timeout and no retry was run.
