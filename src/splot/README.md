@@ -39,3 +39,14 @@ PYTHONPATH=src:tools python tests/test_speculative.py
 ```
 
 Single sequence, CPU probability arithmetic, no optimization or speed claim. Hybrid GDN rollback remains pending.
+
+## Learned hybrid GDN/GQA control
+
+`gdn.py` and `hybrid.py`: three learned GDN core mixers plus gated GQA, native MTP and existing D1/D2 verifier; dense FFNs. [Contract](../../research/implementation/hybrid-gdn.md) and [evidence](../../experiments/results/hybrid-gdn-v0.1.md).
+
+```bash
+PYTHONPATH=src:tools python tests/test_hybrid.py
+PYTHONPATH=src:tools python tools/smoke_mtp.py --hybrid --mode A2 --loops 2 --steps 40
+```
+
+No sparse MoE or production corpus yet. Slow scan oracle, not a throughput baseline.

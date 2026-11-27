@@ -12,13 +12,15 @@ Snapshot: 2026-11-27. **Live GitHub issues and PRs are authoritative.** This fil
 
 - PR #22 merged: native MTP offset-2 head and A0/A1/A2 training; seven CPU tests and three synthetic smoke runs. [Contract](research/implementation/native-mtp.md), [evidence](experiments/results/native-mtp-v0.1.md).
 
-- Exact D1/D2 speculative reference in review: six CPU tests and seven MTP regressions passed; [contract](research/implementation/exact-speculation.md), [evidence](experiments/results/exact-speculation-v0.1.md). No speed claims.
+- PR #23 merged: exact D1/D2 speculative reference: six CPU tests and seven MTP regressions passed; [contract](research/implementation/exact-speculation.md), [evidence](experiments/results/exact-speculation-v0.1.md). No speed claims.
+
+- Learned GDN/GQA hybrid dense reference in current review branch: six CPU tests, 13 regressions, 40-step A2 smoke, short Nano forward/backward. [Contract](research/implementation/hybrid-gdn.md), [evidence](experiments/results/hybrid-gdn-v0.1.md). No sparse experts yet.
 
 ## Next work
-- #5 next: implement standalone learned GDN v1, numerical forward/backward and recurrent/scan/chunk equivalence, then hybrid integration and matrix/convolution rollback verifier tests.
-- #2: exact all-GQA reference in review; full literature, broader sampling/precision tests, shallow-cache reuse and empirical work remain open.
+- #6 next: implement learned routed/shared SwiGLU experts, FP32 top-k router, balance loss and correctness oracle, then full hybrid/MTP/speculation integration. Full-text prior art and locality experiments remain open.
+- #5: learned hybrid implementation in review; GPU, precision, long context, kernel and empirical tests remain.
+- #2: exact all-GQA reference merged; full literature, broader sampling/precision tests, shallow-cache reuse and empirical work remain open.
 - #4: recurrent all-GQA reference merged; checkpointing, full GDN integration and other acceptance tests outstanding.
-- #6: MoE and locality research after correctness; full-text priority sources outstanding.
 - #9: synthetic fixture integration now exercised in recurrent reference; GPU smoke still outstanding. #8: actual corpus source approvals and tokenizer remain required before real training.
 - #3 reconcile actual full-candidate parameter counts when GDN/MoE/MTP exist; #7/#10 precision and hardware measurement; #11 publication/license approval.
 
