@@ -1,0 +1,375 @@
+===== T0001 attempt-002 raw execution log =====
+start_utc=2026-11-27T13:49:18Z
+repo=<REPO>
+task_commit=1cb139df8e870c42a7a01eaf57624c85e3aa8a80
+source_pin=d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa
+worktree=<WORK>
+runs=<RUNS>
+PYTHONPATH=src:tools
+
+===== check: environment (pinned source) =====
+2026-11-27T13:49:33Z
+$ git rev-parse HEAD
+d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa
+$ git status --porcelain
+$ python --version
+Python 3.12.7
+$ python -c 'import platform,torch,numpy; ...'
+Linux x86_64
+2.10.0+cu128 12.8 True 1.26.4
+$ nvidia-smi --query-gpu=index,name,driver_version,memory.total,memory.free --format=csv
+index, name, driver_version, memory.total [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 24077 MiB
+$ CUDA_VISIBLE_DEVICES=0 python -c 'torch device check'
+cuda_available True
+device_count 1
+device_name NVIDIA GeForce RTX 4090
+total_memory_bytes 25250627584
+capability (8, 9)
+$ identity hashes
+config_sha256 7468a427faec654a8f9e18fb2d7e859de900f7e75f2123c17d3cc50ca83cced1
+data_sha256 29f7da71fb1f6808e3f10719ca75174ad1fdb5e06252bdb4c7638d000f5441af
+packed_sha256 e87b8022b0118b3dcce33b39c59950ca411bb56884b974d7495357520f722ad4
+train_documents 57
+validation_documents 9
+train_blocks 35
+validation_blocks 5
+
+===== check: cpu_regression (pinned source; CUDA hidden; PYTHONPATH=src:tools) =====
+2026-11-27T13:49:42Z
+--- command 1: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/numerical/test_recurrent_semantics.py
+exit=0 elapsed_seconds=1 test_count=5
+test_document_reset (__main__.Semantics.test_document_reset) ... ok
+test_prefix_and_depth_invariance (__main__.Semantics.test_prefix_and_depth_invariance) ... ok
+test_rollback (__main__.Semantics.test_rollback) ... ok
+test_shared_gradient_equals_sum_of_untied_copies (__main__.Semantics.test_shared_gradient_equals_sum_of_untied_copies) ... ok
+test_stage_major_vs_token_major (__main__.Semantics.test_stage_major_vs_token_major) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.029s
+
+OK
+
+--- command 2: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/numerical/test_hybrid_mixer.py
+exit=0 elapsed_seconds=0 test_count=6
+test_chunk_vs_recurrent_nonzero_state (__main__.HybridSemantics.test_chunk_vs_recurrent_nonzero_state) ... ok
+test_conv_reset_and_rollback (__main__.HybridSemantics.test_conv_reset_and_rollback) ... ok
+test_gate_limits (__main__.HybridSemantics.test_gate_limits) ... ok
+test_grouped_rope_attention_vs_explicit_causal (__main__.HybridSemantics.test_grouped_rope_attention_vs_explicit_causal) ... ok
+test_irregular_chunks_and_prefix (__main__.HybridSemantics.test_irregular_chunks_and_prefix) ... ok
+test_matrix_rollback (__main__.HybridSemantics.test_matrix_rollback) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.015s
+
+OK
+
+--- command 3: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/test_accounting.py
+exit=0 elapsed_seconds=1 test_count=6
+test_depth_and_active_bounds (__main__.Accounting.test_depth_and_active_bounds) ... ok
+test_invalid_config (__main__.Accounting.test_invalid_config) ... ok
+test_meta_inventory (__main__.Accounting.test_meta_inventory) ... ok
+test_mini_counts (__main__.Accounting.test_mini_counts) ... ok
+test_prefill_sum (__main__.Accounting.test_prefill_sum) ... ok
+test_readout_cost (__main__.Accounting.test_readout_cost) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+OK
+
+--- command 4: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/test_data_fixture.py
+exit=0 elapsed_seconds=0 test_count=6
+test_manifest (__main__.DataContract.test_manifest) ... ok
+test_no_silent_truncation_and_no_empty_batch (__main__.DataContract.test_no_silent_truncation_and_no_empty_batch) ... ok
+test_packing_and_offset_masks (__main__.DataContract.test_packing_and_offset_masks) ... ok
+test_split_determinism_and_disjointness (__main__.DataContract.test_split_determinism_and_disjointness) ... ok
+test_transitive_group_dedup (__main__.DataContract.test_transitive_group_dedup) ... ok
+test_utf8_roundtrip (__main__.DataContract.test_utf8_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+
+--- command 5: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_dense.py
+exit=0 elapsed_seconds=1 test_count=6
+test_cache_branch_and_padding_noop (__main__.DenseTests.test_cache_branch_and_padding_noop) ... ok
+test_cached_chunks_and_document_reset (__main__.DenseTests.test_cached_chunks_and_document_reset) ... ok
+test_count_and_tied_output (__main__.DenseTests.test_count_and_tied_output) ... ok
+test_future_and_document_isolation (__main__.DenseTests.test_future_and_document_isolation) ... ok
+test_invalid_metadata_and_cache_contract (__main__.DenseTests.test_invalid_metadata_and_cache_contract) ... ok
+test_loss_gradients_and_empty (__main__.DenseTests.test_loss_gradients_and_empty) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.044s
+
+OK
+
+--- command 6: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_recurrent.py
+exit=0 elapsed_seconds=3 test_count=7
+test_cache_branch_replay_and_contract (__main__.RecurrentTests.test_cache_branch_replay_and_contract) ... ok
+test_cache_equivalence_and_distinct_logical_states (__main__.RecurrentTests.test_cache_equivalence_and_distinct_logical_states) ... ok
+test_causal_document_isolation_and_padding (__main__.RecurrentTests.test_causal_document_isolation_and_padding) ... ok
+test_depth_prefix_invariance_variants (__main__.RecurrentTests.test_depth_prefix_invariance_variants) ... ok
+test_fixture_training_and_finite_gradients (__main__.RecurrentTests.test_fixture_training_and_finite_gradients) ... ok
+test_physical_count_and_r1_dense_equivalence (__main__.RecurrentTests.test_physical_count_and_r1_dense_equivalence) ... ok
+test_shared_gradients_equal_untied_sum (__main__.RecurrentTests.test_shared_gradients_equal_untied_sum) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.332s
+
+OK
+
+--- command 7: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_mtp.py
+exit=0 elapsed_seconds=1 test_count=7
+test_all_ignored_labels (__main__.MTPTests.test_all_ignored_labels) ... ok
+test_auxiliary_gradient_and_inactive_controls (__main__.MTPTests.test_auxiliary_gradient_and_inactive_controls) ... ok
+test_cached_offset_equivalence_and_no_extra_state (__main__.MTPTests.test_cached_offset_equivalence_and_no_extra_state) ... ok
+test_causal_offset_and_document_isolation (__main__.MTPTests.test_causal_offset_and_document_isolation) ... ok
+test_exact_objective_and_depth_one_dedup (__main__.MTPTests.test_exact_objective_and_depth_one_dedup) ... ok
+test_invalid_objective_inputs (__main__.MTPTests.test_invalid_objective_inputs) ... ok
+test_inventory_and_unchanged_target (__main__.MTPTests.test_inventory_and_unchanged_target) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.407s
+
+OK
+
+--- command 8: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_speculative.py
+exit=0 elapsed_seconds=2 test_count=6
+test_actual_model_greedy_and_cache_replay (__main__.SpeculativeTests.test_actual_model_greedy_and_cache_replay) ... ok
+test_eos_budget_and_bonus (__main__.SpeculativeTests.test_eos_budget_and_bonus) ... ok
+test_forced_rejection_replay_at_each_position (__main__.SpeculativeTests.test_forced_rejection_replay_at_each_position) ... ok
+test_joint_sampling_both_proposals (__main__.SpeculativeTests.test_joint_sampling_both_proposals) ... ok
+test_single_token_probability_identity (__main__.SpeculativeTests.test_single_token_probability_identity) ... ok
+test_validation (__main__.SpeculativeTests.test_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.405s
+
+OK
+model D1 greedy True tokens (20, 20, 20, 20, 20, 20) proposed 6 accepted 4 rejected 1
+model D1 greedy False tokens (168, 170, 49, 22, 117, 0) proposed 4 accepted 4 rejected 0
+model D2 greedy True tokens (20, 20, 20, 20, 20, 20) proposed 7 accepted 3 rejected 3
+model D2 greedy False tokens (168, 170, 49, 22, 117, 0) proposed 4 accepted 4 rejected 0
+D1 joint counts {(0, 0): 1907, (0, 1): 464, (1, 0): 240, (1, 1): 389} max error 0.009999999999999995
+D2 joint counts {(0, 0): 1924, (0, 1): 484, (1, 0): 198, (1, 1): 394} max error 0.0040000000000000036
+
+--- command 9: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_hybrid.py
+exit=0 elapsed_seconds=3 test_count=6
+test_counts (__main__.HybridTests.test_counts) ... ok
+test_depth_and_document_isolation (__main__.HybridTests.test_depth_and_document_isolation) ... ok
+test_fp32_training_and_state_dtype (__main__.HybridTests.test_fp32_training_and_state_dtype) ... ok
+test_full_chunk_and_token_cache (__main__.HybridTests.test_full_chunk_and_token_cache) ... ok
+test_learned_chunk_scan_and_gradients (__main__.HybridTests.test_learned_chunk_scan_and_gradients) ... ok
+test_replay_and_speculation (__main__.HybridTests.test_replay_and_speculation) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.801s
+
+OK
+hybrid A2 12 steps 8.405920028686523 5.716072082519531
+D1 True accepted 4 rejected 0
+D1 False accepted 4 rejected 0
+D2 True accepted 3 rejected 3
+D2 False accepted 4 rejected 0
+
+--- command 10: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_moe.py
+exit=0 elapsed_seconds=3 test_count=6
+test_depth_document_cache_and_routes (__main__.MoETests.test_depth_document_cache_and_routes) ... ok
+test_dispatch_and_gradient_oracle (__main__.MoETests.test_dispatch_and_gradient_oracle) ... ok
+test_exact_candidate_counts (__main__.MoETests.test_exact_candidate_counts) ... ok
+test_sparse_objective_and_precision (__main__.MoETests.test_sparse_objective_and_precision) ... ok
+test_speculative_replay (__main__.MoETests.test_speculative_replay) ... ok
+test_ties_padding_and_balance (__main__.MoETests.test_ties_padding_and_balance) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.834s
+
+OK
+12-step loss 8.412958145141602 5.7237114906311035
+D1 True 4 1
+D1 False 4 0
+D2 True 3 3
+D2 False 4 0
+
+--- command 11: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/test_experiment.py
+exit=0 elapsed_seconds=1 test_count=5
+test_hash (__main__.HarnessTests.test_hash) ... ok
+test_logical_macs (__main__.HarnessTests.test_logical_macs) ... ok
+test_resume_exact_and_reject_mismatch (__main__.HarnessTests.test_resume_exact_and_reject_mismatch) ... ok
+test_schedule (__main__.HarnessTests.test_schedule) ... ok
+test_token_weighted_eval (__main__.HarnessTests.test_token_weighted_eval) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.425s
+
+OK
+
+cpu_regression_summary_total=11 failed=0
+2026-11-27T13:49:58Z
+
+===== check: cpu_integration (pinned source; CUDA hidden; PYTHONPATH=src:tools) =====
+2026-11-27T13:50:03Z
+--- command: CUDA_VISIBLE_DEVICES='' PYTHONPATH=src:tools timeout --kill-after=15s 180s python tools/test_experiment_integration.py
+exit=0 elapsed_seconds=2 test_count=1
+test_sparse_resume_and_validation (__main__.Integration.test_sparse_resume_and_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.828s
+
+OK
+
+--- diagnostic: actual parameter inventory
+exit=0
+actual_parameters 179952
+declared_parameters 179952
+match True
+
+2026-11-27T13:50:06Z
+===== check: cuda_continuous (4 steps, FP32, deterministic) =====
+2026-11-27T13:50:13Z
+PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+device_check True 1 NVIDIA GeForce RTX 4090
+output_dir=<RUNS>/continuous
+continuous_dir_absent
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic.json --out $RUNS/continuous --steps 4 --device cuda
+exit=0 elapsed_seconds=4
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1949.4920654296875,
+    "mean_nll": 5.184819322951297,
+    "perplexity": 178.54118858045874
+  }
+}
+--- stderr
+
+2026-11-27T13:50:18Z
+--- cuda_continuous gate verification
+gates {"checkpoint_exists": true, "checkpoint_history_length": true, "device_cuda": true, "gpu_name": true, "history_finite": true, "history_length": true, "identity_commit": true, "parameters": true, "peak_allocated_positive": true, "peak_reserved_positive": true, "total_ntp_labels_positive": true, "total_valid_tokens_positive": true, "validation_finite": true, "validation_labels_positive": true}
+parameters 179952
+history_steps 4
+total_valid_tokens 266
+total_ntp_labels 260
+validation {"mean_nll": 5.184819322951297, "nll_sum": 1949.4920654296875, "ntp_labels": 376, "perplexity": 178.54118858045874}
+step 1 objective 8.40405559539795 ntp 50 valid 51 peak_alloc 73659392 peak_reserved 75497472 seconds 0.8252181429998018
+step 2 objective 8.245919227600098 ntp 88 valid 90 peak_alloc 78261248 peak_reserved 79691776 seconds 0.29635070299264044
+step 3 objective 8.044877052307129 ntp 50 valid 51 peak_alloc 75453440 peak_reserved 79691776 seconds 0.21320579899474978
+step 4 objective 7.995279788970947 ntp 72 valid 74 peak_alloc 77060608 peak_reserved 79691776 seconds 0.25996427895734087
+config_sha256 7468a427faec654a8f9e18fb2d7e859de900f7e75f2123c17d3cc50ca83cced1
+data_sha256 29f7da71fb1f6808e3f10719ca75174ad1fdb5e06252bdb4c7638d000f5441af
+packed_sha256 e87b8022b0118b3dcce33b39c59950ca411bb56884b974d7495357520f722ad4
+checkpoint_sha256 18a16598001bd04a19eb708cff900d121c5fd33d9d573f4f14cbb00d5f04d9fe
+checkpoint_bytes 2414603
+all_gates True
+
+===== check: cuda_split (2 steps, FP32, deterministic) =====
+2026-11-27T13:50:36Z
+output_dir=<RUNS>/resumed
+resumed_dir_absent
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic.json --out $RUNS/resumed --steps 2 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 141,
+  "total_ntp_labels": 138,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2012.6712951660156,
+    "mean_nll": 5.352849189271319,
+    "perplexity": 211.2092164282508
+  }
+}
+--- stderr
+
+2026-11-27T13:50:39Z
+--- cuda_split gate verification and checkpoint copy
+gates {"checkpoint_exists": true, "device_cuda": true, "gpu_name": true, "history_finite": true, "history_length": true, "identity_commit": true, "parameters": true, "peak_allocated_positive": true, "peak_reserved_positive": true, "total_ntp_labels_positive": true, "validation_finite": true, "validation_labels_positive": true}
+parameters 179952
+history_steps 2
+total_valid_tokens 141
+total_ntp_labels 138
+validation {"mean_nll": 5.352849189271319, "nll_sum": 2012.6712951660156, "ntp_labels": 376, "perplexity": 211.2092164282508}
+step 1 objective 8.40405559539795 ntp 50 valid 51 peak_alloc 73659392 peak_reserved 75497472 seconds 0.42181252397131175
+step 2 objective 8.245919227600098 ntp 88 valid 90 peak_alloc 78261248 peak_reserved 79691776 seconds 0.2932507650111802
+checkpoint_sha256 6aa3b67cb96afc5b4fe4c8935f14422353148d9ec5cad8760897c90eb6b587c5
+checkpoint_bytes 2414283
+all_gates True
+copied_run_json <REPO>/experiments/results/T0001/attempt-002/run-split.json
+copied_checkpoint <RUNS>/split-checkpoint-before-resume.pt
+copied_checkpoint_sha256 6aa3b67cb96afc5b4fe4c8935f14422353148d9ec5cad8760897c90eb6b587c5
+copied_checkpoint_bytes 2414283
+
+===== check: cuda_resume (2 -> 4 total steps, FP32, deterministic) =====
+2026-11-27T13:50:50Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic.json --out $RUNS/resumed --steps 4 --device cuda --resume
+exit=0 elapsed_seconds=2
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1949.4920654296875,
+    "mean_nll": 5.184819322951297,
+    "perplexity": 178.54118858045874
+  }
+}
+--- stderr
+
+2026-11-27T13:50:52Z
+--- cuda_resume gate verification and run.json copies
+gates {"checkpoint_exists": true, "device_cuda": true, "gpu_name": true, "history_finite": true, "history_length": true, "identity_commit": true, "parameters": true, "peak_allocated_positive": true, "peak_reserved_positive": true, "total_ntp_labels_positive": true, "validation_finite": true, "validation_labels_positive": true}
+parameters 179952
+history_steps 4
+total_valid_tokens 266
+total_ntp_labels 260
+validation {"mean_nll": 5.184819322951297, "nll_sum": 1949.4920654296875, "ntp_labels": 376, "perplexity": 178.54118858045874}
+step 1 objective 8.40405559539795 ntp 50 valid 51 peak_alloc 73659392 peak_reserved 75497472 seconds 0.42181252397131175
+step 2 objective 8.245919227600098 ntp 88 valid 90 peak_alloc 78261248 peak_reserved 79691776 seconds 0.2932507650111802
+step 3 objective 8.044877052307129 ntp 50 valid 51 peak_alloc 75092992 peak_reserved 75497472 seconds 0.40844286198262125
+step 4 objective 7.995279788970947 ntp 72 valid 74 peak_alloc 77060608 peak_reserved 77594624 seconds 0.2505651320097968
+checkpoint_sha256 6f3e59e3a9d92c9a2e43a75c2e6203aea95e186dbc370deacae57c008aceb984
+checkpoint_bytes 2414795
+all_gates True
+copied_run_json <REPO>/experiments/results/T0001/attempt-002/run-resumed.json
+copied_run_json <REPO>/experiments/results/T0001/attempt-002/run-continuous.json
+
+===== check: cuda_equivalence (deterministic resume comparison) =====
+2026-11-27T13:51:08Z
+--- command: PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/rep/compare_resume.py $RUNS/continuous $RUNS/resumed --steps 4 --parameters 179952
+exit=0 elapsed_seconds=1
+--- stdout
+{
+  "status": "passed",
+  "steps": 4,
+  "parameters": 179952,
+  "model_optimizer_rng_equal": true,
+  "non_timing_history_equal": true,
+  "validation_equal": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ]
+}
+--- stderr
+
+2026-11-27T13:51:08Z
+===== end-of-attempt source verification =====
+2026-11-27T13:51:34Z
+$ git rev-parse HEAD
+d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa
+$ git status --porcelain
+end_status_exit=0
+GPU state at attempt end (inference left stopped for owner manual restart):
+0, NVIDIA GeForce RTX 4090, 24564 MiB, 4 MiB, 24077 MiB

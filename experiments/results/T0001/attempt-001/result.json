@@ -1,0 +1,75 @@
+{
+  "attempt": 1,
+  "checks": {
+    "cpu_integration": {
+      "detail": "Exit 0; 1 test passed; actual and declared parameters both 179952; bitwise resumed CPU parameters asserted by the test.",
+      "evidence": [
+        "cpu-integration.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cpu_regression": {
+      "detail": "11/11 suites exited 0; 66 unittest tests reported; CUDA hidden.",
+      "evidence": [
+        "cpu-regression.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_continuous": {
+      "detail": "Exit 1 before model import: ModuleNotFoundError: No module named 'splot' because PYTHONPATH=src:tools was absent in the CUDA shell. No model code executed, no checkpoint produced.",
+      "evidence": [
+        "execution.log"
+      ],
+      "status": "blocked"
+    },
+    "cuda_equivalence": {
+      "detail": "No two 4-step runs; blocked by cuda_continuous setup failure.",
+      "evidence": [],
+      "status": "not_run"
+    },
+    "cuda_resume": {
+      "detail": "No split checkpoint; blocked by cuda_continuous setup failure.",
+      "evidence": [],
+      "status": "not_run"
+    },
+    "cuda_split": {
+      "detail": "No continuous checkpoint; blocked by cuda_continuous setup failure.",
+      "evidence": [],
+      "status": "not_run"
+    },
+    "environment": {
+      "detail": "Source HEAD exact and worktree clean at start/end. Python 3.12.7, torch 2.10.0+cu128, CUDA runtime 12.8, numpy 1.26.4, RTX 4090 driver 580.178.04, GPU 0 selected.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [
+    "CUDA step 4 first invocation omitted the step-2 PYTHONPATH=src:tools environment and exited with ModuleNotFoundError before model import; no model execution; attempt stopped rather than retried in place."
+  ],
+  "external_artifacts": [],
+  "files": {
+    "cpu-integration.json": "0b64c8101686d80d2f77b8579e5f66cb9cc8bc0528e2d23a0f73de41f3910d1b",
+    "cpu-regression.json": "90eda8bf5535f8d8c6ed6319e76357eda58c0d77efa816adb44d1319a47faf15",
+    "environment.json": "69e6a003c768761f91d5a548631d66c067ed43327a0f01826c34b797ac41f88f",
+    "execution.log": "72f4d52acc7f9c16f103cfc73dbd4f835ac5d94f95f1e8a3524c6fab1be9fc65",
+    "metrics.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "summary.md": "6ab37485b70ddd1095bd8ae69b7ef14a5c7a3cb727b736f69e29d7a97b836552"
+  },
+  "limitations": [
+    "No CUDA model execution, checkpoint, resume or equivalence evidence in attempt-001.",
+    "Blocked on operator environment setup, not a model or hardware result.",
+    "Smoke topology and synthetic-v1 only; no Nano/Mini feasibility, performance or quality claim.",
+    "Local inference was stopped for the GPU window and left stopped for manual owner restart."
+  ],
+  "schema_version": 1,
+  "source_commit": "d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa",
+  "status": "blocked",
+  "task_commit": "1cb139df8e870c42a7a01eaf57624c85e3aa8a80",
+  "task_id": "T0001",
+  "tested_commit": "d424a2ad75619dfb8821f260edaa6ab5fc1bb3aa"
+}

@@ -1,0 +1,101 @@
+{
+  "check": "cpu_regression",
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "PYTHONPATH": "src:tools"
+  },
+  "failed_suites": 0,
+  "status": "passed",
+  "suites": [
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/numerical/test_recurrent_semantics.py",
+      "elapsed_seconds": 1,
+      "exit": 0,
+      "index": 1,
+      "status": "passed",
+      "test_count": 5
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/numerical/test_hybrid_mixer.py",
+      "elapsed_seconds": 0,
+      "exit": 0,
+      "index": 2,
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/test_accounting.py",
+      "elapsed_seconds": 1,
+      "exit": 0,
+      "index": 3,
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/test_data_fixture.py",
+      "elapsed_seconds": 0,
+      "exit": 0,
+      "index": 4,
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_dense.py",
+      "elapsed_seconds": 1,
+      "exit": 0,
+      "index": 5,
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_recurrent.py",
+      "elapsed_seconds": 3,
+      "exit": 0,
+      "index": 6,
+      "status": "passed",
+      "test_count": 7
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_mtp.py",
+      "elapsed_seconds": 1,
+      "exit": 0,
+      "index": 7,
+      "status": "passed",
+      "test_count": 7
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_speculative.py",
+      "elapsed_seconds": 2,
+      "exit": 0,
+      "index": 8,
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_hybrid.py",
+      "elapsed_seconds": 3,
+      "exit": 0,
+      "index": 9,
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tests/test_moe.py",
+      "elapsed_seconds": 3,
+      "exit": 0,
+      "index": 10,
+      "status": "passed",
+      "test_count": 6
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:tools timeout --kill-after=15s 120s python tools/test_experiment.py",
+      "elapsed_seconds": 1,
+      "exit": 0,
+      "index": 11,
+      "status": "passed",
+      "test_count": 5
+    }
+  ],
+  "total_suites": 11,
+  "total_tests": 66
+}
