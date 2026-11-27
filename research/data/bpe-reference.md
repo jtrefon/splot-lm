@@ -101,6 +101,20 @@ compact separators and UTF-8 encoding. `artifact_sha256` is the SHA-256 of those
 canonical bytes. `serialize_artifact` returns the canonical text without a
 trailing newline.
 
+Resource bounds enforced by the oracle:
+
+- Every learned token expansion is length-checked as an integer before any bytes
+  are allocated. Any expansion above 4096 bytes is rejected; a self-doubling
+  merge chain is therefore rejected rather than expanded.
+- `load_artifact` caps serialized input at 64 KiB and requires the parsed object
+  to serialize back to exactly the supplied bytes. A matching caller SHA-256 is
+  necessary but not sufficient: noncanonical whitespace, key order or trailing
+  bytes are rejected.
+- `encode` caps raw UTF-8 input at 4096 bytes.
+- `token_ids_to_bytes` and `decode` consume at most 4097 token IDs, reject more
+  than 4096 tokens, and reject accumulated decoded output above 4096 bytes
+  before extending the output buffer.
+
 ## 5. Encode and decode safety
 
 `encode(text, artifact)` maps strict UTF-8 bytes to base IDs and applies learned
@@ -182,6 +196,9 @@ digest remains unchanged and is locked by a regression test.
   MPS, CUDA or tokenizer-fertility claim.
 - Do not claim cross-platform equality until a separate Linux comparison checks
   the canonical artifact digest.
+- The 4096-byte expansion, encode-input and decoded-output caps are deliberate
+  for this synthetic oracle; valid training documents cannot produce a longer
+  token.
 - The oracle is a mathematical reference; production backend choice, source
   approvals and corpus materialization remain separate reviewed work.
 
@@ -198,6 +215,7 @@ PYTHONPATH=tools python3 tools/bpe_reference.py --demo
 ```
 
 Run the demo twice and compare bytes. Evidence under
-`experiments/results/T0008/attempt-001/` records the tested implementation SHA,
+`experiments/results/T0008/attempt-001/` and
+`experiments/results/T0008/attempt-002/` records the tested implementation SHA,
 commands, exit codes, test counts, elapsed durations, artifact hash and corpus
 digest.

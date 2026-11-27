@@ -1,0 +1,66 @@
+{
+  "attempt": 2,
+  "checks": {
+    "environment": {
+      "detail": "macOS 27.2.1 (build 26B131), arm64 Apple M4, 10 cores, 17,179,869,184 bytes RAM, CPython 3.15.2, Unicode data 17.0.0; CPU only, no CUDA/MPS. Tested implementation HEAD 58c094f36b468c515d30ae1902a5057c7ff11b18 was clean at acceptance start and after the commands. Correction starting base 441a9ec57ed502d04cff55f59eed417cb5aa1f72; reviewed specification d2dfd903d252c1ba48641bf7de79fba42c385af8; approved minimum base f60bd5622733f3619e761681a20472d8c40f478c. No packages, external corpora, model training or real data.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Correction implementation commit 58c094f36b468c515d30ae1902a5057c7ff11b18 is followed by a separate attempt-002 evidence commit containing the required REP records and demo.json. Scope review found exactly the three allowed implementation files plus this evidence directory and one INDEX append; attempt-001 is untouched. The original evidence PR #55 was already merged, so attempt-002 is published in follow-up PR #58 referencing #52/#55. Hosted CPU success is required before merge; no merge or issue closure is claimed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Correction implementation commit 58c094f36b468c515d30ae1902a5057c7ff11b18 changes exactly three allowed files and no other file: tools/bpe_reference.py (SHA-256 7a58426db82bd49e6b3e992b55344e6e36e26410ae348cfb35169bc88322cabe), tools/test_bpe_reference.py (SHA-256 5607270e853718b80144ffdaf6c795e7fd78ee49b90fb1e8190218a8a88fe51b) and research/data/bpe-reference.md (SHA-256 1518f1e73414bd6ebd6335e579063bfc71be26b78d21e8707f53a4d3a0e0d181). validate_artifact now computes integer expansion lengths and rejects tokens above 4096 bytes before allocation; load_artifact caps serialized input at 64 KiB and requires canonical byte equality; encode caps raw UTF-8 input at 4096 bytes; token_ids_to_bytes/decode consume at most 4097 IDs and reject more than 4096 tokens or 4096 output bytes before extension. Adversarial doubling-chain, overlong JSON, generator and exact-boundary tests were added. Attempt-001 evidence is untouched.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "All acceptance commands exited 0 without timeout or retry: 30/30 corpus-reference tests (0.072546 s), 6/6 fixture tests (0.043723 s) and 28/28 BPE-reference tests (0.107550 s; 5 added) passed. The demo ran twice in 0.037137 s and 0.036300 s, producing byte-identical 4,343-byte output with SHA-256 bd743d70d6d0c96d9c6bc7780b8fe004e1a9520d3b47e7a43c3b10945543215e; artifact SHA-256 f67ef4ab5c343e3c9f81570b0d7426a5668e578aa84806058265d0aaf633ce7e and corpus digest 6fa4bbf3cc680d4058d067059545b787edf87eba3c87a71cd1013684ee99e8cd are unchanged from attempt-001. Demo training remains 6 documents/612 bytes, 1 quarantined document, 56 merges, actual vocabulary 320, all 8 held-out groups round-tripping and zero control IDs. The exact 4096 expansion/input/output boundaries are accepted; 8192 expansion, the 2^56 doubling chain, 64 KiB+ artifact, 4097-byte encode input, 4097-token generator and 4097-byte decoded output are rejected.",
+      "evidence": [
+        "summary.md",
+        "metrics.jsonl",
+        "demo.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "demo.json": "bd743d70d6d0c96d9c6bc7780b8fe004e1a9520d3b47e7a43c3b10945543215e",
+    "environment.json": "e1580d96a9ffcad0a75d028013c55a26480f9509d5e4d5065eedf30452e8e16c",
+    "execution.log": "262c0e62806433b28d7d840bbea5fcaa526f06184e77f23916bb9d030b45432a",
+    "metrics.jsonl": "fac4474861af9660ec3a22f4a79ab13c6b67d21097e19b65a62b1f702b50f0c0",
+    "summary.md": "2367fbef21bd5ab8621323ef9f84ad8db6268b1cba1469a3cfe643bef0f2963f"
+  },
+  "limitations": [
+    "Synthetic documents only; no external corpus, source-rights decision, clearance, acquisition, PII filtering or benchmark corpus.",
+    "Small correctness oracle, not a production BPE trainer or an HF ByteLevel-equivalent tokenizer; it merges across whitespace and performs no regex pretokenization by design.",
+    "The 4096-byte expansion, encode-input and decoded-output caps are deliberate for this oracle; valid training documents cannot produce a longer token.",
+    "No cross-platform artifact equality claim until a separate Linux comparison verifies the canonical digest.",
+    "No quality, compression, fertility, throughput or downstream model claim.",
+    "No production tokenizer backend, special-token training, sentencepiece/HF compatibility, sharding, streaming or serving work.",
+    "Document text has strict UTF-8/surrogate rejection and IDs are nonempty and unique; separate metadata-surrogate hardening is not claimed."
+  ],
+  "schema_version": 1,
+  "source_commit": "58c094f36b468c515d30ae1902a5057c7ff11b18",
+  "status": "passed",
+  "task_commit": "d2dfd903d252c1ba48641bf7de79fba42c385af8",
+  "task_id": "T0008",
+  "tested_commit": "58c094f36b468c515d30ae1902a5057c7ff11b18"
+}
