@@ -1,0 +1,4 @@
+artifact: nano/checkpoint.pt
+sha256: 36e161590bf7b5c8a8dc4d6df8b7bcd92d30744de0b73646b51327217bc3695b
+bytes: 493312343
+availability: local-only; not published

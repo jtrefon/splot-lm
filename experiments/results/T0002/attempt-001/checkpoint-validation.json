@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "parameters": 43055076,
+  "optimizer_state_entries": 183,
+  "validation": {
+    "mean_nll": 10.295836347214719,
+    "nll_sum": 3871.2344665527344,
+    "ntp_labels": 376,
+    "perplexity": 29609.079916681367
+  }
+}
