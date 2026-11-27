@@ -36,6 +36,42 @@ def _digest(value):
                                     allow_nan=False).encode()).hexdigest()
 
 
+def _state_inventory(state):
+    elements = bytes_ = 0
+    dtypes = set()
+    finite = True
+    for entry in state.get('state', {}).values():
+        for value in entry.values():
+            if torch.is_tensor(value):
+                elements += value.numel()
+                bytes_ += value.numel() * value.element_size()
+                dtypes.add(str(value.dtype).replace('torch.', ''))
+                if value.is_floating_point():
+                    finite = finite and bool(torch.isfinite(value).all())
+    return {'elements': elements, 'bytes': bytes_,
+            'dtypes': sorted(dtypes), 'finite': finite}
+
+
+def is_hybrid_optimizer(optimizer):
+    return isinstance(optimizer, MuonAdamW)
+
+
+def assert_optimizer_state_finite(optimizer, stage='post-update'):
+    if isinstance(optimizer, MuonAdamW):
+        groups = (('muon', optimizer.muon.state), ('adamw', optimizer.adamw.state))
+    else:
+        groups = (('adamw', optimizer.state),)
+    for group, state in groups:
+        for index, entry in state.items():
+            if not isinstance(entry, dict):
+                continue
+            for key, value in entry.items():
+                if torch.is_tensor(value) and value.is_floating_point():
+                    if not torch.isfinite(value).all():
+                        raise FloatingPointError(
+                            f'nonfinite {group} optimizer state {key} for parameter {index} at {stage}')
+
+
 def _classify(model, name):
     """Return (group, role) for one canonical parameter name."""
     parent_path, local = name.rsplit('.', 1) if '.' in name else ('', name)
@@ -234,21 +270,15 @@ class MuonAdamW:
         except (KeyError, TypeError, ValueError, RuntimeError) as exc:
             raise ValueError(f'invalid MuonAdamW state: {exc}') from exc
 
-    def _inventory(self, state):
-        elements = bytes_ = 0
-        for entry in state.get('state', {}).values():
-            for value in entry.values():
-                if torch.is_tensor(value):
-                    elements += value.numel()
-                    bytes_ += value.numel() * value.element_size()
-        return {'elements': elements, 'bytes': bytes_}
-
     def state_inventory(self):
-        muon = self._inventory(self.muon.state_dict())
-        adamw = self._inventory(self.adamw.state_dict())
-        return {'muon': muon, 'adamw': adamw,
+        muon = _state_inventory(self.muon.state_dict())
+        adamw = _state_inventory(self.adamw.state_dict())
+        return {'adapter_version': self.adapter_version,
+                'muon': muon, 'adamw': adamw,
                 'total': {'elements': muon['elements'] + adamw['elements'],
-                          'bytes': muon['bytes'] + adamw['bytes']}}
+                          'bytes': muon['bytes'] + adamw['bytes'],
+                          'dtypes': sorted(set(muon['dtypes']) | set(adamw['dtypes'])),
+                          'finite': muon['finite'] and adamw['finite']}}
 
 
 def _finite(value, name):
@@ -310,14 +340,16 @@ def _parse_muon(spec, training):
 
 def build_optimizer(model, training):
     """Build the default AdamW path or the opt-in native Muon/AdamW hybrid."""
-    spec = training.get('optimizer')
-    if spec is None:
+    if 'optimizer' not in training:
         opt = torch.optim.AdamW(model.parameters(), lr=training['lr'],
                                 weight_decay=training['weight_decay'])
         return opt, {'name': 'adamw', 'implementation': 'torch.optim.AdamW',
                      'source': 'default', 'lr': training['lr'],
                      'weight_decay': training['weight_decay'],
                      'betas': list(ADAMW_DEFAULTS['betas']), 'eps': ADAMW_DEFAULTS['eps']}
+    spec = training['optimizer']
+    if spec is None:
+        raise ValueError('optimizer selector must not be null')
     if isinstance(spec, str):
         if spec not in ('adamw', 'muon'):
             raise ValueError(f'unknown optimizer selector: {spec}')
@@ -330,6 +362,11 @@ def build_optimizer(model, training):
     name = spec.get('name')
     if name not in ('adamw', 'muon'):
         raise ValueError(f'unknown optimizer name: {name}')
+    if name == 'adamw' and 'muon' in spec:
+        raise ValueError('Muon settings are not allowed when AdamW is selected')
+    for block in ('muon', 'adamw'):
+        if block in spec and spec[block] is None:
+            raise ValueError(f'optimizer.{block} must be an object')
     adamw = _parse_adamw(spec.get('adamw'), training)
     if name == 'adamw':
         opt = torch.optim.AdamW(model.parameters(), **adamw)
@@ -355,12 +392,7 @@ def build_optimizer(model, training):
 def optimizer_state_inventory(opt):
     if isinstance(opt, MuonAdamW):
         return opt.state_inventory()
-    state = opt.state_dict().get('state', {})
-    elements = bytes_ = 0
-    for entry in state.values():
-        for value in entry.values():
-            if torch.is_tensor(value):
-                elements += value.numel()
-                bytes_ += value.numel() * value.element_size()
-    return {'adamw': {'elements': elements, 'bytes': bytes_},
-            'total': {'elements': elements, 'bytes': bytes_}}
+    adamw = _state_inventory(opt.state_dict())
+    return {'adamw': adamw,
+            'total': {'elements': adamw['elements'], 'bytes': adamw['bytes'],
+                      'dtypes': list(adamw['dtypes']), 'finite': adamw['finite']}}

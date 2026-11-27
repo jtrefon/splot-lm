@@ -20,6 +20,8 @@ FP8_E4M3 = torch.float8_e4m3fn
 FP8_E5M2 = torch.float8_e5m2
 ALIGNMENT = 16
 SCALE_DTYPE = torch.float32
+POLICY_VERSION = 1
+AUDIT_VERSION = 1
 
 
 def padding_plan(real_m, multiple=ALIGNMENT):
@@ -306,8 +308,11 @@ def convert_selected_linears(model):
         'selected': selected, 'excluded': excluded,
         'selected_count': len(selected), 'excluded_count': len(excluded),
         'parameter_count': len(before_ids),
-        'native_dispatch': True, 'adamw_only': True,
+        'native_dispatch': True,
+        'optimizer_scope': 'adamw-or-muon-hybrid',
         'no_host_scale_roundtrip': True,
+        'policy_version': POLICY_VERSION,
+        'audit_version': AUDIT_VERSION,
     }
 
 
@@ -345,6 +350,10 @@ def _audit_total(modules, name):
     return sum(int(value.item()) for value in values)
 
 
+def _ratio(numerator, denominator):
+    return numerator / denominator if denominator else 0.
+
+
 def fp8_assert_finite(model, stage='boundary'):
     modules = [module for module in model.modules() if isinstance(module, FP8Linear)]
     if not modules:
@@ -380,12 +389,18 @@ def fp8_diagnostics(model):
         'nonfinite': any(module.audit_nonfinite is not None and bool(module.audit_nonfinite.item())
                          for module in modules),
     }
+    for role in ('input', 'weight', 'grad'):
+        quantization[f'{role}_underflow_fraction'] = _ratio(
+            quantization[f'{role}_underflow'], quantization[f'{role}_nonzero'])
+        quantization[f'{role}_saturation_fraction'] = _ratio(
+            quantization[f'{role}_saturation'], quantization[f'{role}_nonzero'])
     total_underflow = (quantization['input_underflow'] + quantization['weight_underflow']
                        + quantization['grad_underflow'])
     total_nonzero = (quantization['input_nonzero'] + quantization['weight_nonzero']
                      + quantization['grad_nonzero'])
-    quantization['underflow_fraction'] = total_underflow / total_nonzero if total_nonzero else 0.
+    quantization['underflow_fraction'] = _ratio(total_underflow, total_nonzero)
     return {
+        'audit_version': AUDIT_VERSION,
         'selected_modules': len(modules),
         'forward_calls': forward,
         'backward_calls': backward,
@@ -404,3 +419,46 @@ def fp8_diagnostics(model):
         'last_forward_padded_m': sorted({module.last_forward_padded_m for module in modules
                                          if module.last_forward_padded_m is not None}),
     }
+
+
+def aggregate_fp8_diagnostics(diags):
+    """Aggregate per-step training diagnostics without adding timing fields."""
+    items = [item for item in diags if item]
+    if not items:
+        return None
+    count_keys = ('forward_calls', 'backward_calls', 'empty_forward_calls',
+                  'empty_backward_calls', 'padded_forward_rows', 'padded_backward_rows',
+                  'native_forward_calls', 'native_backward_calls', 'wgrad_fp32_calls')
+    result = {key: sum(int(item.get(key, 0) or 0) for item in items)
+              for key in count_keys}
+    result['audit_version'] = AUDIT_VERSION
+    result['steps'] = len(items)
+    result['selected_modules'] = max(int(item.get('selected_modules', 0)) for item in items)
+    for key in ('forward_coverage', 'backward_coverage'):
+        values = [item[key] for item in items if item.get(key) is not None]
+        result[key] = min(values) if values else None
+        result[f'{key}_mean'] = sum(values) / len(values) if values else None
+        result[f'{key}_max'] = max(values) if values else None
+    qkeys = ('input_saturation', 'weight_saturation', 'grad_saturation',
+             'input_underflow', 'weight_underflow', 'grad_underflow',
+             'input_nonzero', 'weight_nonzero', 'grad_nonzero')
+    quantization = {key: sum(int(item['quantization'][key]) for item in items)
+                    for key in qkeys}
+    quantization['nonfinite'] = any(bool(item['quantization']['nonfinite'])
+                                   for item in items)
+    for role in ('input', 'weight', 'grad'):
+        quantization[f'{role}_underflow_fraction'] = _ratio(
+            quantization[f'{role}_underflow'], quantization[f'{role}_nonzero'])
+        quantization[f'{role}_saturation_fraction'] = _ratio(
+            quantization[f'{role}_saturation'], quantization[f'{role}_nonzero'])
+    total_underflow = sum(quantization[f'{role}_underflow'] for role in ('input', 'weight', 'grad'))
+    total_nonzero = sum(quantization[f'{role}_nonzero'] for role in ('input', 'weight', 'grad'))
+    quantization['underflow_fraction'] = _ratio(total_underflow, total_nonzero)
+    result['quantization'] = quantization
+    result['scales_resident_cuda'] = all(bool(item.get('scales_resident_cuda'))
+                                         for item in items)
+    result['scale_devices'] = sorted({device for item in items
+                                      for device in item.get('scale_devices', [])})
+    result['last_forward_padded_m'] = sorted({padded for item in items
+                                               for padded in item.get('last_forward_padded_m', [])})
+    return result
