@@ -1,0 +1,7 @@
+{
+  "command": "python tools/experiment.py --config configs/experiments/splot-nano-synthetic-fp8.json --out $RUNS/cross --steps 2 --device cuda --resume",
+  "exit": 1,
+  "expected_exception": "ValueError: run identity mismatch",
+  "status": "passed",
+  "note": "Cross-precision resume rejected before model/optimizer load."
+}

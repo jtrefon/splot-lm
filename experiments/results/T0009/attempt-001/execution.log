@@ -1,0 +1,966 @@
+===== T0009 attempt-001 preflight =====
+2026-11-27T18:04:08Z
+$ git rev-parse HEAD
+3c81e1299f6a7b6a9e332354c4d6996e12999667
+$ git status --porcelain
+$ python/torch/gpu
+2.10.0+cu128 12.8 True NVIDIA GeForce RTX 4090 (8, 9)
+scaled_mm True
+$ nvidia-smi
+index, name, driver_version, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 241804620 182195420      58% /
+===== cuda run: bf16-nano =====
+2026-11-27T18:04:09Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-nano-synthetic-bf16.json --out $RUNS/bf16-nano --steps 1 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3862.8521728515625,
+    "mean_nll": 10.273543012903092,
+    "perplexity": 28956.298175657404
+  }
+}
+--- stderr
+
+2026-11-27T18:04:12Z
+===== cuda run: fp8-nano =====
+2026-11-27T18:04:12Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-nano-synthetic-fp8.json --out $RUNS/fp8-nano --steps 1 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 51,
+  "total_ntp_labels": 50,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3896.8469848632812,
+    "mean_nll": 10.363954746976813,
+    "perplexity": 31696.284569185107
+  }
+}
+--- stderr
+
+2026-11-27T18:04:16Z
+===== cuda run: fp8-smoke-continuous =====
+2026-11-27T18:04:16Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-fp8.json --out $RUNS/fp8-continuous --steps 4 --device cuda
+exit=0 elapsed_seconds=4
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1949.7781066894531,
+    "mean_nll": 5.185580070982588,
+    "perplexity": 178.67706511552583
+  }
+}
+--- stderr
+
+2026-11-27T18:04:20Z
+===== cuda run: fp8-smoke-split =====
+2026-11-27T18:04:20Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-fp8.json --out $RUNS/fp8-resumed --steps 2 --device cuda
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 141,
+  "total_ntp_labels": 138,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2013.3634643554688,
+    "mean_nll": 5.354690064775183,
+    "perplexity": 211.59838439595157
+  }
+}
+--- stderr
+
+2026-11-27T18:04:23Z
+===== cuda run: fp8-smoke-resume =====
+2026-11-27T18:04:23Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/experiment.py --config configs/experiments/splot-smoke-synthetic-fp8.json --out $RUNS/fp8-resumed --steps 4 --device cuda --resume
+exit=0 elapsed_seconds=3
+--- stdout
+{
+  "parameters": 179952,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 1949.7781066894531,
+    "mean_nll": 5.185580070982588,
+    "perplexity": 178.67706511552583
+  }
+}
+--- stderr
+
+2026-11-27T18:04:26Z
+===== fp8 resume comparison =====
+exit=0 elapsed_seconds=1
+--- stdout
+{
+  "status": "passed",
+  "steps": 4,
+  "parameters": 179952,
+  "model_optimizer_rng_equal": true,
+  "non_timing_history_equal": true,
+  "validation_equal": true,
+  "ignored_history_fields": [
+    "peak_cuda_allocated_bytes",
+    "peak_cuda_reserved_bytes",
+    "step_seconds"
+  ]
+}
+--- stderr
+
+===== cross-precision resume rejection =====
+exit=1
+--- stdout
+--- stderr
+Traceback (most recent call last):
+  File "<REPO>/tools/experiment.py", line 268, in <module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "<REPO>/tools/experiment.py", line 238, in main
+    history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO>/tools/experiment.py", line 120, in train
+    if state['identity'] != identity: raise ValueError('run identity mismatch')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: run identity mismatch
+
+===== official CUDA autograd tests and depth report =====
+2026-11-27T18:05:04Z
+--- command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 300s python tools/test_fp8_autograd.py --device cuda --report $RUNS/depth-report.json
+exit=0 elapsed_seconds=8
+--- stdout
+{
+  "depth_report": "<RUNS>/depth-report.json",
+  "status": "passed"
+}
+--- stderr
+test_linear_autograd_thresholds_and_padding (__main__.FP8CUDATests.test_linear_autograd_thresholds_and_padding) ... ok
+test_profiler_and_scale_residency (__main__.FP8CUDATests.test_profiler_and_scale_residency) ... <HOME>/miniconda3/lib/python3.12/site-packages/torch/profiler/profiler.py:217: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+ok
+test_repeated_weight_gradient_and_no_duplicate_parameter (__main__.FP8CUDATests.test_repeated_weight_gradient_and_no_duplicate_parameter) ... ok
+test_zero_m_and_exact_zero (__main__.FP8CUDATests.test_zero_m_and_exact_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.259s
+
+OK
+
+===== linear autograd and profiler report =====
+exit=0
+{
+  "cases": {
+    "M1": {
+      "dgrad_dtype": "float32",
+      "errors": {
+        "dgrad": {
+          "vs_dequant": 0.019123341888189316,
+          "vs_fp32": 0.05727740749716759
+        },
+        "forward": {
+          "vs_dequant": 0.0016618944937363267,
+          "vs_fp32": 0.03490673750638962
+        },
+        "wgrad": {
+          "vs_dequant": 0.01785954274237156,
+          "vs_fp32": 0.05342675745487213
+        }
+      },
+      "forward_dtype": "bfloat16",
+      "native_dispatch": true,
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 16.0,
+        "padded_M": 16,
+        "padding_fraction": 0.9375,
+        "padding_rows": 15,
+        "padding_value": 0,
+        "real_M": 1
+      },
+      "scales_device": "cuda",
+      "wgrad_dtype": "float32"
+    },
+    "M17": {
+      "dgrad_dtype": "float32",
+      "errors": {
+        "dgrad": {
+          "vs_dequant": 0.020385123789310455,
+          "vs_fp32": 0.059671126306056976
+        },
+        "forward": {
+          "vs_dequant": 0.0016660597175359726,
+          "vs_fp32": 0.0366838313639164
+        },
+        "wgrad": {
+          "vs_dequant": 0.01987822912633419,
+          "vs_fp32": 0.05921366065740585
+        }
+      },
+      "forward_dtype": "bfloat16",
+      "native_dispatch": true,
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.8823529411764706,
+        "padded_M": 32,
+        "padding_fraction": 0.46875,
+        "padding_rows": 15,
+        "padding_value": 0,
+        "real_M": 17
+      },
+      "scales_device": "cuda",
+      "wgrad_dtype": "float32"
+    },
+    "M64": {
+      "dgrad_dtype": "float32",
+      "errors": {
+        "dgrad": {
+          "vs_dequant": 0.013186097145080566,
+          "vs_fp32": 0.05962396785616875
+        },
+        "forward": {
+          "vs_dequant": 0.00168099463917315,
+          "vs_fp32": 0.03698655217885971
+        },
+        "wgrad": {
+          "vs_dequant": 0.013033702038228512,
+          "vs_fp32": 0.059114355593919754
+        }
+      },
+      "forward_dtype": "bfloat16",
+      "native_dispatch": true,
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 64,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 64
+      },
+      "scales_device": "cuda",
+      "wgrad_dtype": "float32"
+    },
+    "M64K32N64": {
+      "dgrad_dtype": "float32",
+      "errors": {
+        "dgrad": {
+          "vs_dequant": 0.02293413132429123,
+          "vs_fp32": 0.05920208990573883
+        },
+        "forward": {
+          "vs_dequant": 0.001654266263358295,
+          "vs_fp32": 0.03785376623272896
+        },
+        "wgrad": {
+          "vs_dequant": 0.023032817989587784,
+          "vs_fp32": 0.058531343936920166
+        }
+      },
+      "forward_dtype": "bfloat16",
+      "native_dispatch": true,
+      "padding": {
+        "multiple": 16,
+        "overhead_ratio": 1.0,
+        "padded_M": 64,
+        "padding_fraction": 0.0,
+        "padding_rows": 0,
+        "padding_value": 0,
+        "real_M": 64
+      },
+      "scales_device": "cuda",
+      "wgrad_dtype": "float32"
+    }
+  },
+  "device": "cuda",
+  "profiler": {
+    "dtoh_present": false,
+    "htod_present": false,
+    "operator_keys": [
+      "cudaLaunchKernel",
+      "Activity Buffer Request",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul> >(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)",
+      "cudaMemcpyAsync",
+      "Memcpy DtoD (Device -> Device)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::AbsFunctor<float>, std::array<char*, 2ul> >(int, at::native::AbsFunctor<float>, std::array<char*, 2ul>)",
+      "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::MaxNanFunctor<float> >, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::MaxNanFunctor<float> >, unsigned int, float, 4, 4>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul> >(int, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::compare_scalar_kernel<float>(at::TensorIteratorBase&, at::native::(anonymous namespace)::OpType, float)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::compare_scalar_kernel<float>(at::TensorIteratorBase&, at::native::(anonymous namespace)::OpType, float)::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::where_kernel_impl(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#11}::operator()() const::{lambda(bool, float, float)#1}, std::array<char*, 4ul> >(int, at::native::(anonymous namespace)::where_kernel_impl(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#11}::operator()() const::{lambda(bool, float, float)#1}, std::array<char*, 4ul>)",
+      "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1})",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "cudaMemsetAsync",
+      "Memset (Device)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul>)",
+      "cudaLaunchKernelExC",
+      "sm89_xmma_gemm_e4m3bf16_e4m3f32_f32_tn_n_tilesize32x64x64_stage5_warpsize2x2x1_tensor16x8x32_algo2_execute_kernel__5x_cublas",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e5m2>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e5m2>, std::array<char*, 1ul>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#2}, std::array<char*, 2ul> >(int, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#2}, std::array<char*, 2ul>)",
+      "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e4m3fn)#1}>(at::TensorIteratorBase&, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e4m3fn)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e4m3fn)#1}>(at::TensorIteratorBase&, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e4m3fn)#1} const&)::{lambda(int)#1})",
+      "sm89_xmma_gemm_e4m3e5m2bf16_e4m3e5m2f32_f32_tn_n_tilesize32x64x64_stage5_warpsize2x2x1_tensor16x8x32_algo2_execute_kernel__5x_cublas",
+      "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e5m2)#1}>(at::TensorIteratorBase&, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e5m2)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e5m2)#1}>(at::TensorIteratorBase&, at::native::float8_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(c10::Float8_e5m2)#1} const&)::{lambda(int)#1})",
+      "sm89_xmma_gemm_e4m3e5m2f32_e4m3e5m2f32_f32_tn_n_tilesize32x64x64_stage5_warpsize2x2x1_tensor16x8x32_algo2_execute_kernel__5x_cublas",
+      "cudaDeviceSynchronize"
+    ],
+    "scaled_mm_present": false,
+    "scales_device": "cuda",
+    "sm89_kernel_present": true
+  },
+  "status": "passed"
+}
+<HOME>/miniconda3/lib/python3.12/site-packages/torch/profiler/profiler.py:217: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+
+===== linear autograd/profiler report (CPU+CUDA activities) =====
+exit=0
+{
+  "status": "passed",
+  "cases": {
+    "M1": {
+      "forward": {
+        "vs_fp32": 0.034907,
+        "vs_dequant": 0.001662
+      },
+      "dgrad": {
+        "vs_fp32": 0.057277,
+        "vs_dequant": 0.019123
+      },
+      "wgrad": {
+        "vs_fp32": 0.053427,
+        "vs_dequant": 0.01786
+      }
+    },
+    "M17": {
+      "forward": {
+        "vs_fp32": 0.036684,
+        "vs_dequant": 0.001666
+      },
+      "dgrad": {
+        "vs_fp32": 0.059671,
+        "vs_dequant": 0.020385
+      },
+      "wgrad": {
+        "vs_fp32": 0.059214,
+        "vs_dequant": 0.019878
+      }
+    },
+    "M64": {
+      "forward": {
+        "vs_fp32": 0.036987,
+        "vs_dequant": 0.001681
+      },
+      "dgrad": {
+        "vs_fp32": 0.059624,
+        "vs_dequant": 0.013186
+      },
+      "wgrad": {
+        "vs_fp32": 0.059114,
+        "vs_dequant": 0.013034
+      }
+    },
+    "M64K32N64": {
+      "forward": {
+        "vs_fp32": 0.037854,
+        "vs_dequant": 0.001654
+      },
+      "dgrad": {
+        "vs_fp32": 0.059202,
+        "vs_dequant": 0.022934
+      },
+      "wgrad": {
+        "vs_fp32": 0.058531,
+        "vs_dequant": 0.023033
+      }
+    }
+  },
+  "profiler": {
+    "scaled_mm_present": true,
+    "sm89_kernel_present": true,
+    "dtoh_present": false,
+    "htod_present": false,
+    "scales_device": "cuda"
+  },
+  "operator_keys": [
+    "aten::_scaled_mm",
+    "sm89_xmma_gemm_e4m3bf16_e4m3f32_f32_tn_n_tilesize32x64x64_stage5_warpsize2x2x1_tensor16x8x32_algo2_execute_kernel__5x_cublas",
+    "sm89_xmma_gemm_e4m3e5m2bf16_e4m3e5m2f32_f32_tn_n_tilesize32x64x64_stage5_warpsize2x2x1_tensor16x8x32_algo2_execute_kernel__5x_cublas",
+    "sm89_xmma_gemm_e4m3e5m2f32_e4m3e5m2f32_f32_tn_n_tilesize32x64x64_stage5_warpsize2x2x1_tensor16x8x32_algo2_execute_kernel__5x_cublas"
+  ]
+}
+<HOME>/miniconda3/lib/python3.12/site-packages/torch/profiler/profiler.py:217: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+
+===== checkpoint state verification =====
+exit=0
+{
+  "model_keys_equal": true,
+  "runs": {
+    "bf16-nano": {
+      "checkpoint_bytes": 493312727,
+      "checkpoint_sha256": "cf798982d93544118193cef23573840edfe368fac87fd6dca5f55462531e1382",
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "model_keys": [
+        "coda.0.attn.k.weight",
+        "coda.0.attn.o.weight",
+        "coda.0.attn.q.weight",
+        "coda.0.attn.v.weight",
+        "coda.0.down.weight",
+        "coda.0.gate.weight",
+        "coda.0.n1.weight",
+        "coda.0.n2.weight",
+        "coda.0.up.weight",
+        "coda.1.attn.k.weight",
+        "coda.1.attn.o.weight",
+        "coda.1.attn.q.weight",
+        "coda.1.attn.v.weight",
+        "coda.1.down.weight",
+        "coda.1.gate.weight",
+        "coda.1.n1.weight",
+        "coda.1.n2.weight",
+        "coda.1.up.weight",
+        "core.0.attn.a.weight",
+        "core.0.attn.b.weight",
+        "core.0.attn.conv",
+        "core.0.attn.dt_bias",
+        "core.0.attn.k.weight",
+        "core.0.attn.log_A",
+        "core.0.attn.norm.weight",
+        "core.0.attn.o.weight",
+        "core.0.attn.q.weight",
+        "core.0.attn.v.weight",
+        "core.0.attn.z.weight",
+        "core.0.moe.experts.0.down.weight",
+        "core.0.moe.experts.0.gate.weight",
+        "core.0.moe.experts.0.up.weight",
+        "core.0.moe.experts.1.down.weight",
+        "core.0.moe.experts.1.gate.weight",
+        "core.0.moe.experts.1.up.weight",
+        "core.0.moe.experts.2.down.weight",
+        "core.0.moe.experts.2.gate.weight",
+        "core.0.moe.experts.2.up.weight",
+        "core.0.moe.experts.3.down.weight",
+        "core.0.moe.experts.3.gate.weight",
+        "core.0.moe.experts.3.up.weight",
+        "core.0.moe.experts.4.down.weight",
+        "core.0.moe.experts.4.gate.weight",
+        "core.0.moe.experts.4.up.weight",
+        "core.0.moe.experts.5.down.weight",
+        "core.0.moe.experts.5.gate.weight",
+        "core.0.moe.experts.5.up.weight",
+        "core.0.moe.experts.6.down.weight",
+        "core.0.moe.experts.6.gate.weight",
+        "core.0.moe.experts.6.up.weight",
+        "core.0.moe.experts.7.down.weight",
+        "core.0.moe.experts.7.gate.weight",
+        "core.0.moe.experts.7.up.weight",
+        "core.0.moe.router.weight",
+        "core.0.moe.shared.down.weight",
+        "core.0.moe.shared.gate.weight",
+        "core.0.moe.shared.up.weight",
+        "core.0.n1.weight",
+        "core.0.n2.weight",
+        "core.1.attn.a.weight",
+        "core.1.attn.b.weight",
+        "core.1.attn.conv",
+        "core.1.attn.dt_bias",
+        "core.1.attn.k.weight",
+        "core.1.attn.log_A",
+        "core.1.attn.norm.weight",
+        "core.1.attn.o.weight",
+        "core.1.attn.q.weight",
+        "core.1.attn.v.weight",
+        "core.1.attn.z.weight",
+        "core.1.moe.experts.0.down.weight",
+        "core.1.moe.experts.0.gate.weight",
+        "core.1.moe.experts.0.up.weight",
+        "core.1.moe.experts.1.down.weight",
+        "core.1.moe.experts.1.gate.weight",
+        "core.1.moe.experts.1.up.weight",
+        "core.1.moe.experts.2.down.weight",
+        "core.1.moe.experts.2.gate.weight",
+        "core.1.moe.experts.2.up.weight",
+        "core.1.moe.experts.3.down.weight",
+        "core.1.moe.experts.3.gate.weight",
+        "core.1.moe.experts.3.up.weight",
+        "core.1.moe.experts.4.down.weight",
+        "core.1.moe.experts.4.gate.weight",
+        "core.1.moe.experts.4.up.weight",
+        "core.1.moe.experts.5.down.weight",
+        "core.1.moe.experts.5.gate.weight",
+        "core.1.moe.experts.5.up.weight",
+        "core.1.moe.experts.6.down.weight",
+        "core.1.moe.experts.6.gate.weight",
+        "core.1.moe.experts.6.up.weight",
+        "core.1.moe.experts.7.down.weight",
+        "core.1.moe.experts.7.gate.weight",
+        "core.1.moe.experts.7.up.weight",
+        "core.1.moe.router.weight",
+        "core.1.moe.shared.down.weight",
+        "core.1.moe.shared.gate.weight",
+        "core.1.moe.shared.up.weight",
+        "core.1.n1.weight",
+        "core.1.n2.weight",
+        "core.2.attn.a.weight",
+        "core.2.attn.b.weight",
+        "core.2.attn.conv",
+        "core.2.attn.dt_bias",
+        "core.2.attn.k.weight",
+        "core.2.attn.log_A",
+        "core.2.attn.norm.weight",
+        "core.2.attn.o.weight",
+        "core.2.attn.q.weight",
+        "core.2.attn.v.weight",
+        "core.2.attn.z.weight",
+        "core.2.moe.experts.0.down.weight",
+        "core.2.moe.experts.0.gate.weight",
+        "core.2.moe.experts.0.up.weight",
+        "core.2.moe.experts.1.down.weight",
+        "core.2.moe.experts.1.gate.weight",
+        "core.2.moe.experts.1.up.weight",
+        "core.2.moe.experts.2.down.weight",
+        "core.2.moe.experts.2.gate.weight",
+        "core.2.moe.experts.2.up.weight",
+        "core.2.moe.experts.3.down.weight",
+        "core.2.moe.experts.3.gate.weight",
+        "core.2.moe.experts.3.up.weight",
+        "core.2.moe.experts.4.down.weight",
+        "core.2.moe.experts.4.gate.weight",
+        "core.2.moe.experts.4.up.weight",
+        "core.2.moe.experts.5.down.weight",
+        "core.2.moe.experts.5.gate.weight",
+        "core.2.moe.experts.5.up.weight",
+        "core.2.moe.experts.6.down.weight",
+        "core.2.moe.experts.6.gate.weight",
+        "core.2.moe.experts.6.up.weight",
+        "core.2.moe.experts.7.down.weight",
+        "core.2.moe.experts.7.gate.weight",
+        "core.2.moe.experts.7.up.weight",
+        "core.2.moe.router.weight",
+        "core.2.moe.shared.down.weight",
+        "core.2.moe.shared.gate.weight",
+        "core.2.moe.shared.up.weight",
+        "core.2.n1.weight",
+        "core.2.n2.weight",
+        "core.3.attn.k.weight",
+        "core.3.attn.o.weight",
+        "core.3.attn.output_gate.weight",
+        "core.3.attn.q.weight",
+        "core.3.attn.v.weight",
+        "core.3.moe.experts.0.down.weight",
+        "core.3.moe.experts.0.gate.weight",
+        "core.3.moe.experts.0.up.weight",
+        "core.3.moe.experts.1.down.weight",
+        "core.3.moe.experts.1.gate.weight",
+        "core.3.moe.experts.1.up.weight",
+        "core.3.moe.experts.2.down.weight",
+        "core.3.moe.experts.2.gate.weight",
+        "core.3.moe.experts.2.up.weight",
+        "core.3.moe.experts.3.down.weight",
+        "core.3.moe.experts.3.gate.weight",
+        "core.3.moe.experts.3.up.weight",
+        "core.3.moe.experts.4.down.weight",
+        "core.3.moe.experts.4.gate.weight",
+        "core.3.moe.experts.4.up.weight",
+        "core.3.moe.experts.5.down.weight",
+        "core.3.moe.experts.5.gate.weight",
+        "core.3.moe.experts.5.up.weight",
+        "core.3.moe.experts.6.down.weight",
+        "core.3.moe.experts.6.gate.weight",
+        "core.3.moe.experts.6.up.weight",
+        "core.3.moe.experts.7.down.weight",
+        "core.3.moe.experts.7.gate.weight",
+        "core.3.moe.experts.7.up.weight",
+        "core.3.moe.router.weight",
+        "core.3.moe.shared.down.weight",
+        "core.3.moe.shared.gate.weight",
+        "core.3.moe.shared.up.weight",
+        "core.3.n1.weight",
+        "core.3.n2.weight",
+        "embedding.weight",
+        "norm.weight",
+        "offset_norm.weight",
+        "offset_projection.weight",
+        "prelude.0.attn.k.weight",
+        "prelude.0.attn.o.weight",
+        "prelude.0.attn.q.weight",
+        "prelude.0.attn.v.weight",
+        "prelude.0.down.weight",
+        "prelude.0.gate.weight",
+        "prelude.0.n1.weight",
+        "prelude.0.n2.weight",
+        "prelude.0.up.weight",
+        "prelude.1.attn.k.weight",
+        "prelude.1.attn.o.weight",
+        "prelude.1.attn.q.weight",
+        "prelude.1.attn.v.weight",
+        "prelude.1.down.weight",
+        "prelude.1.gate.weight",
+        "prelude.1.n1.weight",
+        "prelude.1.n2.weight",
+        "prelude.1.up.weight"
+      ],
+      "moment_dtypes": [
+        "float32"
+      ],
+      "moment_entries": 366,
+      "moments_finite": true,
+      "optimizer_state_entries": 183,
+      "optimizer_step_values": [
+        1.0
+      ],
+      "parameters": 43055076,
+      "precision": "bf16",
+      "run_state_inventory": {
+        "adamw": {
+          "bytes": 320848380,
+          "elements": 80212095
+        },
+        "total": {
+          "bytes": 320848380,
+          "elements": 80212095
+        }
+      },
+      "state_inventory": {
+        "bytes": 320848380,
+        "elements": 80212095
+      },
+      "status": "failed"
+    },
+    "fp8-nano": {
+      "checkpoint_bytes": 488608819,
+      "checkpoint_sha256": "beab8bfe561f7143b3c7caa45a8255809e0807e63ab51b2759e7bf4aa65c68aa",
+      "model_dtypes": [
+        "float32"
+      ],
+      "model_entries": 198,
+      "model_finite": true,
+      "model_keys": [
+        "coda.0.attn.k.weight",
+        "coda.0.attn.o.weight",
+        "coda.0.attn.q.weight",
+        "coda.0.attn.v.weight",
+        "coda.0.down.weight",
+        "coda.0.gate.weight",
+        "coda.0.n1.weight",
+        "coda.0.n2.weight",
+        "coda.0.up.weight",
+        "coda.1.attn.k.weight",
+        "coda.1.attn.o.weight",
+        "coda.1.attn.q.weight",
+        "coda.1.attn.v.weight",
+        "coda.1.down.weight",
+        "coda.1.gate.weight",
+        "coda.1.n1.weight",
+        "coda.1.n2.weight",
+        "coda.1.up.weight",
+        "core.0.attn.a.weight",
+        "core.0.attn.b.weight",
+        "core.0.attn.conv",
+        "core.0.attn.dt_bias",
+        "core.0.attn.k.weight",
+        "core.0.attn.log_A",
+        "core.0.attn.norm.weight",
+        "core.0.attn.o.weight",
+        "core.0.attn.q.weight",
+        "core.0.attn.v.weight",
+        "core.0.attn.z.weight",
+        "core.0.moe.experts.0.down.weight",
+        "core.0.moe.experts.0.gate.weight",
+        "core.0.moe.experts.0.up.weight",
+        "core.0.moe.experts.1.down.weight",
+        "core.0.moe.experts.1.gate.weight",
+        "core.0.moe.experts.1.up.weight",
+        "core.0.moe.experts.2.down.weight",
+        "core.0.moe.experts.2.gate.weight",
+        "core.0.moe.experts.2.up.weight",
+        "core.0.moe.experts.3.down.weight",
+        "core.0.moe.experts.3.gate.weight",
+        "core.0.moe.experts.3.up.weight",
+        "core.0.moe.experts.4.down.weight",
+        "core.0.moe.experts.4.gate.weight",
+        "core.0.moe.experts.4.up.weight",
+        "core.0.moe.experts.5.down.weight",
+        "core.0.moe.experts.5.gate.weight",
+        "core.0.moe.experts.5.up.weight",
+        "core.0.moe.experts.6.down.weight",
+        "core.0.moe.experts.6.gate.weight",
+        "core.0.moe.experts.6.up.weight",
+        "core.0.moe.experts.7.down.weight",
+        "core.0.moe.experts.7.gate.weight",
+        "core.0.moe.experts.7.up.weight",
+        "core.0.moe.router.weight",
+        "core.0.moe.shared.down.weight",
+        "core.0.moe.shared.gate.weight",
+        "core.0.moe.shared.up.weight",
+        "core.0.n1.weight",
+        "core.0.n2.weight",
+        "core.1.attn.a.weight",
+        "core.1.attn.b.weight",
+        "core.1.attn.conv",
+        "core.1.attn.dt_bias",
+        "core.1.attn.k.weight",
+        "core.1.attn.log_A",
+        "core.1.attn.norm.weight",
+        "core.1.attn.o.weight",
+        "core.1.attn.q.weight",
+        "core.1.attn.v.weight",
+        "core.1.attn.z.weight",
+        "core.1.moe.experts.0.down.weight",
+        "core.1.moe.experts.0.gate.weight",
+        "core.1.moe.experts.0.up.weight",
+        "core.1.moe.experts.1.down.weight",
+        "core.1.moe.experts.1.gate.weight",
+        "core.1.moe.experts.1.up.weight",
+        "core.1.moe.experts.2.down.weight",
+        "core.1.moe.experts.2.gate.weight",
+        "core.1.moe.experts.2.up.weight",
+        "core.1.moe.experts.3.down.weight",
+        "core.1.moe.experts.3.gate.weight",
+        "core.1.moe.experts.3.up.weight",
+        "core.1.moe.experts.4.down.weight",
+        "core.1.moe.experts.4.gate.weight",
+        "core.1.moe.experts.4.up.weight",
+        "core.1.moe.experts.5.down.weight",
+        "core.1.moe.experts.5.gate.weight",
+        "core.1.moe.experts.5.up.weight",
+        "core.1.moe.experts.6.down.weight",
+        "core.1.moe.experts.6.gate.weight",
+        "core.1.moe.experts.6.up.weight",
+        "core.1.moe.experts.7.down.weight",
+        "core.1.moe.experts.7.gate.weight",
+        "core.1.moe.experts.7.up.weight",
+        "core.1.moe.router.weight",
+        "core.1.moe.shared.down.weight",
+        "core.1.moe.shared.gate.weight",
+        "core.1.moe.shared.up.weight",
+        "core.1.n1.weight",
+        "core.1.n2.weight",
+        "core.2.attn.a.weight",
+        "core.2.attn.b.weight",
+        "core.2.attn.conv",
+        "core.2.attn.dt_bias",
+        "core.2.attn.k.weight",
+        "core.2.attn.log_A",
+        "core.2.attn.norm.weight",
+        "core.2.attn.o.weight",
+        "core.2.attn.q.weight",
+        "core.2.attn.v.weight",
+        "core.2.attn.z.weight",
+        "core.2.moe.experts.0.down.weight",
+        "core.2.moe.experts.0.gate.weight",
+        "core.2.moe.experts.0.up.weight",
+        "core.2.moe.experts.1.down.weight",
+        "core.2.moe.experts.1.gate.weight",
+        "core.2.moe.experts.1.up.weight",
+        "core.2.moe.experts.2.down.weight",
+        "core.2.moe.experts.2.gate.weight",
+        "core.2.moe.experts.2.up.weight",
+        "core.2.moe.experts.3.down.weight",
+        "core.2.moe.experts.3.gate.weight",
+        "core.2.moe.experts.3.up.weight",
+        "core.2.moe.experts.4.down.weight",
+        "core.2.moe.experts.4.gate.weight",
+        "core.2.moe.experts.4.up.weight",
+        "core.2.moe.experts.5.down.weight",
+        "core.2.moe.experts.5.gate.weight",
+        "core.2.moe.experts.5.up.weight",
+        "core.2.moe.experts.6.down.weight",
+        "core.2.moe.experts.6.gate.weight",
+        "core.2.moe.experts.6.up.weight",
+        "core.2.moe.experts.7.down.weight",
+        "core.2.moe.experts.7.gate.weight",
+        "core.2.moe.experts.7.up.weight",
+        "core.2.moe.router.weight",
+        "core.2.moe.shared.down.weight",
+        "core.2.moe.shared.gate.weight",
+        "core.2.moe.shared.up.weight",
+        "core.2.n1.weight",
+        "core.2.n2.weight",
+        "core.3.attn.k.weight",
+        "core.3.attn.o.weight",
+        "core.3.attn.output_gate.weight",
+        "core.3.attn.q.weight",
+        "core.3.attn.v.weight",
+        "core.3.moe.experts.0.down.weight",
+        "core.3.moe.experts.0.gate.weight",
+        "core.3.moe.experts.0.up.weight",
+        "core.3.moe.experts.1.down.weight",
+        "core.3.moe.experts.1.gate.weight",
+        "core.3.moe.experts.1.up.weight",
+        "core.3.moe.experts.2.down.weight",
+        "core.3.moe.experts.2.gate.weight",
+        "core.3.moe.experts.2.up.weight",
+        "core.3.moe.experts.3.down.weight",
+        "core.3.moe.experts.3.gate.weight",
+        "core.3.moe.experts.3.up.weight",
+        "core.3.moe.experts.4.down.weight",
+        "core.3.moe.experts.4.gate.weight",
+        "core.3.moe.experts.4.up.weight",
+        "core.3.moe.experts.5.down.weight",
+        "core.3.moe.experts.5.gate.weight",
+        "core.3.moe.experts.5.up.weight",
+        "core.3.moe.experts.6.down.weight",
+        "core.3.moe.experts.6.gate.weight",
+        "core.3.moe.experts.6.up.weight",
+        "core.3.moe.experts.7.down.weight",
+        "core.3.moe.experts.7.gate.weight",
+        "core.3.moe.experts.7.up.weight",
+        "core.3.moe.router.weight",
+        "core.3.moe.shared.down.weight",
+        "core.3.moe.shared.gate.weight",
+        "core.3.moe.shared.up.weight",
+        "core.3.n1.weight",
+        "core.3.n2.weight",
+        "embedding.weight",
+        "norm.weight",
+        "offset_norm.weight",
+        "offset_projection.weight",
+        "prelude.0.attn.k.weight",
+        "prelude.0.attn.o.weight",
+        "prelude.0.attn.q.weight",
+        "prelude.0.attn.v.weight",
+        "prelude.0.down.weight",
+        "prelude.0.gate.weight",
+        "prelude.0.n1.weight",
+        "prelude.0.n2.weight",
+        "prelude.0.up.weight",
+        "prelude.1.attn.k.weight",
+        "prelude.1.attn.o.weight",
+        "prelude.1.attn.q.weight",
+        "prelude.1.attn.v.weight",
+        "prelude.1.down.weight",
+        "prelude.1.gate.weight",
+        "prelude.1.n1.weight",
+        "prelude.1.n2.weight",
+        "prelude.1.up.weight"
+      ],
+      "moment_dtypes": [
+        "float32"
+      ],
+      "moment_entries": 360,
+      "moments_finite": true,
+      "optimizer_state_entries": 180,
+      "optimizer_step_values": [
+        1.0
+      ],
+      "parameters": 43055076,
+      "precision": "fp8",
+      "run_state_inventory": {
+        "adamw": {
+          "bytes": 316129776,
+          "elements": 79032444
+        },
+        "total": {
+          "bytes": 316129776,
+          "elements": 79032444
+        }
+      },
+      "state_inventory": {
+        "bytes": 316129776,
+        "elements": 79032444
+      },
+      "status": "failed"
+    }
+  },
+  "status": "failed"
+}
+
+===== cross-precision resume rejection =====
+{
+  "command": "python tools/experiment.py --config configs/experiments/splot-nano-synthetic-fp8.json --out $RUNS/cross --steps 2 --device cuda --resume",
+  "exit": 1,
+  "expected_exception": "ValueError: run identity mismatch",
+  "status": "passed",
+  "note": "Cross-precision resume rejected before model/optimizer load."
+}
+
+===== end-of-attempt source and resource verification =====
+2026-11-27T18:05:52Z
+$ git rev-parse HEAD
+3c81e1299f6a7b6a9e332354c4d6996e12999667
+$ git status --porcelain
+$ nvidia-smi
+index, name, driver_version, memory.used [MiB], memory.free [MiB]
+0, NVIDIA GeForce RTX 4090, 580.178.04, 4 MiB, 24077 MiB
+$ df -Pk $RUNS
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+<DISK>   446768064 243250496 180749544      58% /
+
+===== corrected checkpoint state verification =====
+exit=0
+{
+  "status": "passed",
+  "model_keys_equal": true,
+  "runs": {
+    "bf16-nano": {
+      "precision": "bf16",
+      "parameters": 43055076,
+      "model_entries": 198,
+      "optimizer_state_entries": 183,
+      "moment_entries": 366,
+      "optimizer_step_values": [
+        1.0
+      ],
+      "checkpoint_bytes": 493312727,
+      "checkpoint_sha256": "cf798982d93544118193cef23573840edfe368fac87fd6dca5f55462531e1382",
+      "state_inventory": {
+        "adamw": {
+          "elements": 80212095,
+          "bytes": 320848380
+        },
+        "total": {
+          "elements": 80212095,
+          "bytes": 320848380
+        }
+      },
+      "status": "passed"
+    },
+    "fp8-nano": {
+      "precision": "fp8",
+      "parameters": 43055076,
+      "model_entries": 198,
+      "optimizer_state_entries": 180,
+      "moment_entries": 360,
+      "optimizer_step_values": [
+        1.0
+      ],
+      "checkpoint_bytes": 488608819,
+      "checkpoint_sha256": "beab8bfe561f7143b3c7caa45a8255809e0807e63ab51b2759e7bf4aa65c68aa",
+      "state_inventory": {
+        "adamw": {
+          "elements": 79032444,
+          "bytes": 316129776
+        },
+        "total": {
+          "elements": 79032444,
+          "bytes": 316129776
+        }
+      },
+      "status": "passed"
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "attempt": 1,
+  "base_source_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py exit 0 from clean tested SHA: 19 CPU scripts, 149 tests, 0 failures, 0 skips, 10 REP reports. New CPU suite covers selection/exclusion, parameter/state_dict/recurrent identity, optimizer partition, padding/layout, CPU FP8 rejection and FP32/BF16 defaults.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_fp8": {
+      "detail": "4/4 focused CUDA tests passed. Linear shapes M=1/17/64 K384 N512 and M64 K32 N64: errors vs FP32 0.034907-0.059671 (gate .15), vs dequantized operands 0.001654-0.023033 (gate .025); finite, zero exact, zero-M no dispatch, repeated weight gradients sum correctly, scales CUDA-resident, profiler shows aten::_scaled_mm and SM89 kernels with no DtoH/HtoD. R1/R2/R4 smoke/Nano CE gates pass; labels exact; hidden/logit/grad/routing descriptive. FP8 smoke 4-vs-2+2 resume exact; cross-precision resume rejected. Both checkpoints preserve FP32 master/Adam state and model keys; step 1.",
+      "evidence": [
+        "run-bf16-nano.json",
+        "run-fp8-nano.json",
+        "run-fp8-continuous.json",
+        "run-fp8-resumed.json",
+        "comparison.json",
+        "depth-report.json",
+        "linear-report.json",
+        "checkpoint-state.json",
+        "cuda-tests.txt",
+        "cross-precision.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested SHA 3c81e12; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090 capability (8,9), driver 580.178.04, GPU 0; torch._scaled_mm present; 24,077 MiB free before/after; 182,195,892 KiB disk before; source clean start/end.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "All required REP evidence files present and hashed; validator passed; branch feat/T0009-fp8-attempt-001, hosted-CI PR and issue #56 handover follow this validated package. No merge or closure.",
+      "evidence": [
+        "summary.md",
+        "checkpoints.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Six allowed files: FP8Linear first-order autograd with preserved FP32 Parameter/state_dict identity, semantic 156 selected/11 excluded projection inventory, device-resident FP32 scales, M padding to 16, E4M3 forward/E5M2 backward, BF16 residual and FP32 AdamW master/state. Default FP32/BF16 paths unchanged; no model-equation, optimizer, T0007 probe, existing-config, Mac/data, comparator or CI edit.",
+      "evidence": [
+        "implementation.files.json",
+        "implementation.diff",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; not published",
+      "bytes": 493312727,
+      "name": "bf16-nano/checkpoint.pt",
+      "sha256": "cf798982d93544118193cef23573840edfe368fac87fd6dca5f55462531e1382"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 488608819,
+      "name": "fp8-nano/checkpoint.pt",
+      "sha256": "beab8bfe561f7143b3c7caa45a8255809e0807e63ab51b2759e7bf4aa65c68aa"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 2432907,
+      "name": "fp8-continuous/checkpoint.pt",
+      "sha256": "2983c7496055c7bc2e4dee31815852b87c1f838ab9bafb09cb35658d9e91fe38"
+    },
+    {
+      "availability": "local-only; not published",
+      "bytes": 2433163,
+      "name": "fp8-resumed/checkpoint.pt",
+      "sha256": "656e2d289663b6b3bc21f6bdc8025bd6814fa971d376ad399222753edbc3ad6a"
+    }
+  ],
+  "files": {
+    "checkpoint-state.json": "490aaa29e2bebbc7f06a9320f1c1926bc8a8251a432b56b2d0e0117ac75a1c00",
+    "checkpoints.txt": "c7d4071946ec97cd7a2a3f31dfa1a8252482d1c07b9a54f856620f8a5284693f",
+    "ci-cpu.txt": "e128c4678286e08844de220581579214b1b759ac2fd9db94d939a313c10a57a7",
+    "comparison.json": "c507d51c6d0bdd050801b1920515f8b452eb7938796046b36de78b9673d524d0",
+    "cpu-ci.json": "dd7fa8e66d27eb308595d976e59fd804be0e28e55b5ecddda4f10e245165b607",
+    "cross-precision.json": "55a8047fd88067eb2c9c81dac829c818e2f2fe339bf2b4e6a35b25ccd542a331",
+    "cuda-tests.txt": "ac33ae13e785d37e6e252bd78fa3e36968512300840de00d3415c85a4967826d",
+    "depth-report.json": "80efbbe0324ae933b903478d5ff66caa32b93ece43c40767e03dd1ad6434e032",
+    "environment.json": "de1f2f064787922632c750739b9c9f94f30d43b73d45de264636745988517350",
+    "execution.log": "c6a3bb3f9a3def5ee592e958f6db825d823bf723754c464f810ada6eceba7f0c",
+    "implementation.diff": "ff397798d6136a010f684673ea86565a30de932b731e7f2293b2e3fb68f95530",
+    "implementation.files.json": "a623ed2a1e3dcda3a75fb779b07ee4f2b7261afb80d8d3c71fe7c8e08d11e0a6",
+    "linear-report.json": "e96fc0c519a7471a5e77d855eab9158e0c61389af6a7283014e16a08085300d6",
+    "metrics.jsonl": "90cfa1c2c6a83a0d8b07000d1244cc4371f52b9e036433c56e8a3458562548a4",
+    "run-bf16-nano.json": "40a8f0232dec4819cc29411f9f0ed4d29e14cd864d2697f70351ce5de52f735b",
+    "run-fp8-continuous.json": "00b87a581c0e73e15333a4a689d3b8305af2de3f1dc1634730669e67af7d236a",
+    "run-fp8-nano.json": "9efcce1539caf410ecb27a7ef6912904becfcbdca906fbbe3fd16bb2dfb503f6",
+    "run-fp8-resumed.json": "86881bee9b873e1b9a71ca6fb8260cad337af7a477bb99d043dbc2c9612f60ee",
+    "summary.md": "dedbff050ffc275105ed80a4526fb11810db3ed5cd35852fcff3ae8b8f6da58f"
+  },
+  "limitations": [
+    "Correctness integration only; no convergence, pretraining, long-context, throughput or language-quality claim.",
+    "Current per-tensor scaling only; no delayed/persistent scaling, MXFP8/NVFP4, FP8 optimizer/state or FP8 output.",
+    "Some unused experts are not dispatched; coverage is recorded, not an all-expert claim.",
+    "Drift/routing are forward/backward comparisons, not trained-model stability.",
+    "No FP8+Muon, fused/grouped expert kernels, real corpus or production benchmark.",
+    "FP8 output is BF16; no Tensor Core instruction claim beyond recorded kernel names."
+  ],
+  "minimum_base_commit": "31a3051d26850d5328912e1f9fc93f64591910f8",
+  "schema_version": 1,
+  "source_commit": "3c81e1299f6a7b6a9e332354c4d6996e12999667",
+  "status": "passed",
+  "task_commit": "441a9ec57ed502d04cff55f59eed417cb5aa1f72",
+  "task_id": "T0009",
+  "tested_commit": "3c81e1299f6a7b6a9e332354c4d6996e12999667"
+}
