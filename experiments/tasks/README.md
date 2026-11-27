@@ -3,3 +3,5 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md) before 
 - [T0001](T0001-gpu-validation.md) / [#27](https://github.com/jtrefon/splot-lm/issues/27): completed/closed; both attempts on main.
 - [T0002](T0002-nano-cuda.md) / [#28](https://github.com/jtrefon/splot-lm/issues/28): Nano one-step validation; ready after reviewed amendment merges and explicit owner launch.
 Use [TEMPLATE.md](TEMPLATE.md) for future tasks. Evidence path per attempt; [results index](../results/INDEX.md). Read live issues and evidence index for status.
+
+- [T0003](T0003-nano-epoch.md) / [#35](https://github.com/jtrefon/splot-lm/issues/35): full synthetic Nano FP32 epoch; depends on reviewed/merged #34 and reviewed task amendment, explicit owner launch. No automatic execution.

@@ -33,3 +33,6 @@ Experimental injection/stability choice, MTP strategy beyond initial offset-2, h
 
 ## Restart
 Read AGENTS.md and query GitHub. Do not rely on this snapshot for current PR/issue state. Continue the highest-priority unblocked task unless maintainer chooses otherwise.
+
+## Latest execution handover (2026-11-27)
+T0002 #28 attempt-001 #34 reviewed: all three gates and seven evidence hashes pass; Nano 43,055,076 parameters, 840.7 MiB allocated / 986 MiB reserved, one FP32 step, 183 optimizer-state entries. Evidence PR pending merge; no closure yet. T0003 #35 specification in review: one full synthetic epoch (35 steps), state growth and repeated checkpoint integrity, no new architecture. Next parallel research: #7 BF16 autocast with FP32 master weights/Adam/GDN matrix/router and loss; require implementation PR, then matched FP32/BF16 tests; #8 data/tokenizer provenance; #10 realistic long-document fixture, inference and matched controls. No production training before corpus/tokenizer gate.

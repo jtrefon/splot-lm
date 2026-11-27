@@ -39,3 +39,5 @@ PR #25 merged. #10 synthetic FP32 experiment harness, exact resume mechanics, ex
 PR #26 merged. REP v0.1 in review: one-repository task/evidence handoff, no runner infrastructure. T0001 #27 pinned GPU correctness task requires merged spec and explicit local launch; T0002 #28 blocked on reviewed evidence. Read EXECUTION.md and evidence index. #10 remains open.
 
 2026-11-27: #3/#4/#5/#9 closed for original specification/reference acceptance, #27 T0001 closed after merged #31/#32 and reviewed evidence. #2 literature verification, #6 locality/PCIe, #7 precision, #8 real data, #10 empirical benchmarks/matched controls and #11 licensing remain open. T0002 #28 finalized in review; owner launch only after merge.
+
+T0002 #28/#34 reviewed accepted within one-step scope, awaiting merge. T0003 #35 one complete synthetic FP32 Nano epoch proposed, 35 steps, memory/time and optimizer coverage. Follow #7 with explicit BF16 implementation (current CLI rejects BF16), then numerical and resource validation; #8 corpus/tokenizer licensing and #10 inference/matched controls remain open. Do not interpret padded T96 as contiguous 96-token context.
