@@ -1,0 +1,558 @@
+T0015 attempt-001 acceptance from tested SHA 34ba392e16df1273dcd54f68a25563f2c0597f7c
+RECORDED_AT 2026-11-27T20:09:24Z
+WORKTREE_PORCELAIN_BEFORE []
+
+### json_parse
+UTC_START 2026-11-27T20:09:24Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -c import json; json.load(open('research/data/pilot-approval-packet-v0.1.json')); json.load(open('configs/data/tokenizers-0.23.3-lock.json')); print('JSON_OK')
+ENV PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.017683
+OUTPUT_BEGIN
+JSON_OK
+OUTPUT_END
+
+### tools/test_corpus_reference.py
+UTC_START 2026-11-27T20:09:24Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_corpus_reference.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.063404
+OUTPUT_BEGIN
+test_audit_detects_cross_split_fingerprint_leak (__main__.AuditTests.test_audit_detects_cross_split_fingerprint_leak) ... ok
+test_audit_detects_cross_split_group_leak (__main__.AuditTests.test_audit_detects_cross_split_group_leak) ... ok
+test_no_split_leakage (__main__.AuditTests.test_no_split_leakage) ... ok
+test_group_union_across_nonidentical_texts_and_sources (__main__.ClusteringTests.test_group_union_across_nonidentical_texts_and_sources) ... ok
+test_near_below_threshold_is_rejected (__main__.ClusteringTests.test_near_below_threshold_is_rejected) ... ok
+test_near_threshold_is_inclusive (__main__.ClusteringTests.test_near_threshold_is_inclusive) ... ok
+test_short_documents_have_no_near_edges (__main__.ClusteringTests.test_short_documents_have_no_near_edges) ... ok
+test_transitive_closure_across_exact_group_and_near_edges (__main__.ClusteringTests.test_transitive_closure_across_exact_group_and_near_edges) ... ok
+test_transitive_closure_across_source_ids_and_languages (__main__.ClusteringTests.test_transitive_closure_across_source_ids_and_languages) ... ok
+test_cli_demo (__main__.DemoTests.test_cli_demo) ... ok
+test_demo_is_deterministic_and_covers_scenarios (__main__.DemoTests.test_demo_is_deterministic_and_covers_scenarios) ... ok
+test_representative_ordering_and_shuffled_input (__main__.DeterminismAndStatsTests.test_representative_ordering_and_shuffled_input) ... ok
+test_split_bucket_and_invalid_config (__main__.DeterminismAndStatsTests.test_split_bucket_and_invalid_config) ... ok
+test_stats_counts_bytes_and_reasons (__main__.DeterminismAndStatsTests.test_stats_counts_bytes_and_reasons) ... ok
+test_exact_raw_and_normalized_reasons (__main__.PreservationAndHashTests.test_exact_raw_and_normalized_reasons) ... ok
+test_nfc_and_crlf_duplicates (__main__.PreservationAndHashTests.test_nfc_and_crlf_duplicates) ... ok
+test_no_casefold_or_diacritic_stripping (__main__.PreservationAndHashTests.test_no_casefold_or_diacritic_stripping) ... ok
+test_text_is_preserved_and_hashes_are_independent (__main__.PreservationAndHashTests.test_text_is_preserved_and_hashes_are_independent) ... ok
+test_benchmark_and_excluded_reasons_combine (__main__.QuarantineTests.test_benchmark_and_excluded_reasons_combine) ... ok
+test_benchmark_exact_normalized_quarantines_whole_cluster (__main__.QuarantineTests.test_benchmark_exact_normalized_quarantines_whole_cluster) ... ok
+test_excluded_record_id_quarantines_whole_cluster (__main__.QuarantineTests.test_excluded_record_id_quarantines_whole_cluster) ... ok
+test_capacity_and_byte_boundaries (__main__.RecordValidationTests.test_capacity_and_byte_boundaries) ... ok
+test_empty_corpus_is_valid (__main__.RecordValidationTests.test_empty_corpus_is_valid) ... ok
+test_malformed_records_fail_closed (__main__.RecordValidationTests.test_malformed_records_fail_closed) ... ok
+test_record_iterable_consumption_is_bounded (__main__.RecordValidationTests.test_record_iterable_consumption_is_bounded) ... ok
+test_utf8_decode_helper (__main__.RecordValidationTests.test_utf8_decode_helper) ... ok
+test_allowlist_fail_closed (__main__.SourceAllowlistTests.test_allowlist_fail_closed) ... ok
+test_approval_must_be_explicit (__main__.SourceAllowlistTests.test_approval_must_be_explicit) ... ok
+test_swapped_mapping_keys_rejected (__main__.SourceAllowlistTests.test_swapped_mapping_keys_rejected) ... ok
+test_validate_records_revalidates_mapping (__main__.SourceAllowlistTests.test_validate_records_revalidates_mapping) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.009s
+
+OK
+OUTPUT_END
+
+### tools/test_bpe_reference.py
+UTC_START 2026-11-27T20:09:24Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_bpe_reference.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.109828
+OUTPUT_BEGIN
+test_artifact_malformed_rejected (__main__.ArtifactTests.test_artifact_malformed_rejected) ... ok
+test_artifact_roundtrip_reload_and_digest (__main__.ArtifactTests.test_artifact_roundtrip_reload_and_digest) ... ok
+test_expansion_length_boundary_and_adversarial_chain (__main__.ArtifactTests.test_expansion_length_boundary_and_adversarial_chain) ... ok
+test_load_artifact_caps_and_canonical_reload (__main__.ArtifactTests.test_load_artifact_caps_and_canonical_reload) ... ok
+test_load_artifact_rejects_bad_input (__main__.ArtifactTests.test_load_artifact_rejects_bad_input) ... ok
+test_cli_demo (__main__.DemoTests.test_cli_demo) ... ok
+test_corpus_digest_and_demo_documents (__main__.DemoTests.test_corpus_digest_and_demo_documents) ... ok
+test_demo_is_deterministic_and_reports_heldout (__main__.DemoTests.test_demo_is_deterministic_and_reports_heldout) ... ok
+test_demo_learned_hashes_unchanged (__main__.DemoTests.test_demo_learned_hashes_unchanged) ... ok
+test_document_validation_fail_closed (__main__.DocumentValidationTests.test_document_validation_fail_closed) ... ok
+test_documents_are_sorted_and_preserved (__main__.DocumentValidationTests.test_documents_are_sorted_and_preserved) ... ok
+test_all_256_byte_alphabet_roundtrip (__main__.EncodingTests.test_all_256_byte_alphabet_roundtrip) ... ok
+test_decode_rejects_control_and_unknown (__main__.EncodingTests.test_decode_rejects_control_and_unknown) ... ok
+test_encode_input_boundary (__main__.EncodingTests.test_encode_input_boundary) ... ok
+test_no_normalization (__main__.EncodingTests.test_no_normalization) ... ok
+test_raw_special_spellings_never_emit_control (__main__.EncodingTests.test_raw_special_spellings_never_emit_control) ... ok
+test_token_iterable_and_decoded_output_caps (__main__.EncodingTests.test_token_iterable_and_decoded_output_caps) ... ok
+test_unicode_whitespace_and_control_roundtrip (__main__.EncodingTests.test_unicode_whitespace_and_control_roundtrip) ... ok
+test_original_corpus_demo_digest_stable (__main__.OriginalCorpusDigestTests.test_original_corpus_demo_digest_stable) ... ok
+test_adjacent_pair_counts_are_independent (__main__.PairAndMergeTests.test_adjacent_pair_counts_are_independent) ... ok
+test_best_pair_tie_break (__main__.PairAndMergeTests.test_best_pair_tie_break) ... ok
+test_merge_sequence_nonoverlapping_left_to_right (__main__.PairAndMergeTests.test_merge_sequence_nonoverlapping_left_to_right) ... ok
+test_no_document_boundary_merge (__main__.PairAndMergeTests.test_no_document_boundary_merge) ... ok
+test_holdout_only_corpus_has_base_vocabulary (__main__.TrainingTests.test_holdout_only_corpus_has_base_vocabulary) ... ok
+test_tiny_corpus_stops_before_capacity (__main__.TrainingTests.test_tiny_corpus_stops_before_capacity) ... ok
+test_train_input_digest_is_sorted_and_content_sensitive (__main__.TrainingTests.test_train_input_digest_is_sorted_and_content_sensitive) ... ok
+test_train_only_artifact_equality_after_holdout_and_quarantine_changes (__main__.TrainingTests.test_train_only_artifact_equality_after_holdout_and_quarantine_changes) ... ok
+test_vocab_targets_and_merge_limits (__main__.TrainingTests.test_vocab_targets_and_merge_limits) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.058s
+
+OK
+OUTPUT_END
+
+### tools/test_data_fixture.py
+UTC_START 2026-11-27T20:09:24Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_data_fixture.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.041888
+OUTPUT_BEGIN
+test_manifest (__main__.DataContract.test_manifest) ... ok
+test_no_silent_truncation_and_no_empty_batch (__main__.DataContract.test_no_silent_truncation_and_no_empty_batch) ... ok
+test_packing_and_offset_masks (__main__.DataContract.test_packing_and_offset_masks) ... ok
+test_split_determinism_and_disjointness (__main__.DataContract.test_split_determinism_and_disjointness) ... ok
+test_transitive_group_dedup (__main__.DataContract.test_transitive_group_dedup) ... ok
+test_utf8_roundtrip (__main__.DataContract.test_utf8_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+OUTPUT_END
+
+### tools/test_tokenized_shards.py
+UTC_START 2026-11-27T20:09:24Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_tokenized_shards.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.203057
+OUTPUT_BEGIN
+test_old_demo_digests_unchanged (__main__.CorpusBridgeTests.test_old_demo_digests_unchanged) ... ok
+test_report_digest_and_approved_sources_required (__main__.CorpusBridgeTests.test_report_digest_and_approved_sources_required) ... ok
+test_report_structure_tamper_rejected (__main__.CorpusBridgeTests.test_report_structure_tamper_rejected) ... ok
+test_train_only_bpe_and_cluster_split_identity (__main__.CorpusBridgeTests.test_train_only_bpe_and_cluster_split_identity) ... ok
+test_corrupt_block_labels_and_mask (__main__.LoaderCorruptionTests.test_corrupt_block_labels_and_mask) ... ok
+test_corrupt_manifest_counts_and_logical_digest (__main__.LoaderCorruptionTests.test_corrupt_manifest_counts_and_logical_digest) ... ok
+test_corrupt_shard_bytes_and_unsafe_path (__main__.LoaderCorruptionTests.test_corrupt_shard_bytes_and_unsafe_path) ... ok
+test_duplicate_json_keys_and_oversized_manifest_rejected (__main__.LoaderCorruptionTests.test_duplicate_json_keys_and_oversized_manifest_rejected) ... ok
+test_duplicate_manifest_document_rejected (__main__.LoaderCorruptionTests.test_duplicate_manifest_document_rejected) ... ok
+test_extra_file_missing_shard_and_symlink (__main__.LoaderCorruptionTests.test_extra_file_missing_shard_and_symlink) ... ok
+test_incomplete_cluster_and_quarantine_mapping_rejected (__main__.LoaderCorruptionTests.test_incomplete_cluster_and_quarantine_mapping_rejected) ... ok
+test_invalid_token_and_position_rejected (__main__.LoaderCorruptionTests.test_invalid_token_and_position_rejected) ... ok
+test_noncanonical_manifest_and_shard_utf8 (__main__.LoaderCorruptionTests.test_noncanonical_manifest_and_shard_utf8) ... ok
+test_nonregular_file_rejected (__main__.LoaderCorruptionTests.test_nonregular_file_rejected) ... ok
+test_rehashed_content_and_train_metadata_rejected (__main__.LoaderCorruptionTests.test_rehashed_content_and_train_metadata_rejected) ... ok
+test_symlink_rejected (__main__.LoaderCorruptionTests.test_symlink_rejected) ... ok
+test_atomic_failure_leaves_no_destination (__main__.MaterializationTests.test_atomic_failure_leaves_no_destination) ... ok
+test_demo_is_deterministic_and_cli (__main__.MaterializationTests.test_demo_is_deterministic_and_cli) ... ok
+test_demo_materialization_and_partition_invariance (__main__.MaterializationTests.test_demo_materialization_and_partition_invariance) ... ok
+test_materialize_load_and_no_overwrite (__main__.MaterializationTests.test_materialize_load_and_no_overwrite) ... ok
+test_stable_order_and_identical_materialization (__main__.MaterializationTests.test_stable_order_and_identical_materialization) ... ok
+test_exact_tiny_counts (__main__.PackingTests.test_exact_tiny_counts) ... ok
+test_hand_calculated_tiny_sequence_and_fixture_semantics (__main__.PackingTests.test_hand_calculated_tiny_sequence_and_fixture_semantics) ... ok
+test_invalid_pack_config (__main__.PackingTests.test_invalid_pack_config) ... ok
+test_multi_document_boundary_masks (__main__.PackingTests.test_multi_document_boundary_masks) ... ok
+test_overlong_document_is_rejected (__main__.PackingTests.test_overlong_document_is_rejected) ... ok
+test_candidate_metadata_shape_and_boundary (__main__.SourceCandidateMetadataTests.test_candidate_metadata_shape_and_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.145s
+
+OK
+OUTPUT_END
+
+### tools/test_production_tokenizer.py
+UTC_START 2026-11-27T20:09:24Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_production_tokenizer.py
+ENV PYTHONPATH=tools PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.047825
+OUTPUT_BEGIN
+backend unavailable: tokenizers module not installed; stdlib tests only
+test_approval_packet_and_lock_metadata (__main__.StdlibBoundaryTests.test_approval_packet_and_lock_metadata) ... ok
+test_backend_status_is_explicit (__main__.StdlibBoundaryTests.test_backend_status_is_explicit) ... ok
+test_document_validation_bounds (__main__.StdlibBoundaryTests.test_document_validation_bounds) ... ok
+test_malformed_artifact_rejected_without_backend (__main__.StdlibBoundaryTests.test_malformed_artifact_rejected_without_backend) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+OUTPUT_END
+
+### tools/test_production_tokenizer.py (backend venv)
+UTC_START 2026-11-27T20:09:24Z
+COMMAND <SESSION_VENV>/bin/python tools/test_production_tokenizer.py
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.335114
+OUTPUT_BEGIN
+test_artifact_malformed_rejected (__main__.BackendTests.test_artifact_malformed_rejected) ... ok
+test_artifact_roundtrip_reload_and_digest (__main__.BackendTests.test_artifact_roundtrip_reload_and_digest) ... ok
+test_boundaries_are_explicit (__main__.BackendTests.test_boundaries_are_explicit) ... ok
+test_decode_token_iterable_is_bounded (__main__.BackendTests.test_decode_token_iterable_is_bounded) ... ok
+test_demo_and_cli (__main__.BackendTests.test_demo_and_cli) ... ok
+test_independently_pinned_demo_digests (__main__.BackendTests.test_independently_pinned_demo_digests) ... ok
+test_literal_special_strings_fail_closed (__main__.BackendTests.test_literal_special_strings_fail_closed) ... ok
+test_special_ids_byte_alphabet_and_target_bound (__main__.BackendTests.test_special_ids_byte_alphabet_and_target_bound) ... ok
+test_train_only_isolation_and_order (__main__.BackendTests.test_train_only_isolation_and_order) ... ok
+test_unicode_whitespace_code_and_all_bytes (__main__.BackendTests.test_unicode_whitespace_code_and_all_bytes) ... ok
+test_approval_packet_and_lock_metadata (__main__.StdlibBoundaryTests.test_approval_packet_and_lock_metadata) ... ok
+test_backend_status_is_explicit (__main__.StdlibBoundaryTests.test_backend_status_is_explicit) ... ok
+test_document_validation_bounds (__main__.StdlibBoundaryTests.test_document_validation_bounds) ... ok
+test_malformed_artifact_rejected_without_backend (__main__.StdlibBoundaryTests.test_malformed_artifact_rejected_without_backend) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.244s
+
+OK
+OUTPUT_END
+
+### demo_run_1
+UTC_START 2026-11-27T20:09:24Z
+COMMAND <SESSION_VENV>/bin/python tools/production_tokenizer.py --demo
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.089129
+OUTPUT_BEGIN
+{
+  "format": "splot-production-tokenizer-v1",
+  "package": {
+    "name": "tokenizers",
+    "version": "0.23.3"
+  },
+  "quality_claim": false,
+  "targets": {
+    "16384": {
+      "actual_vocab_size": 431,
+      "artifact_bytes": 9711,
+      "artifact_sha256": "2f148ac98771660e8479411f90fa8c1ff0e80907896a1d823bf0a322542e6fff",
+      "bytes_per_token": 1.3246753246753247,
+      "heldout": {
+        "test/en/code": {
+          "bytes": 83,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 57
+        },
+        "test/en/prose": {
+          "bytes": 67,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "test/pl/code": {
+          "bytes": 73,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 54
+        },
+        "test/pl/prose": {
+          "bytes": 39,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 37
+        },
+        "validation/en/code": {
+          "bytes": 37,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 25
+        },
+        "validation/en/prose": {
+          "bytes": 68,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "validation/pl/code": {
+          "bytes": 69,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 46
+        },
+        "validation/pl/prose": {
+          "bytes": 74,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 60
+        }
+      },
+      "heldout_bytes": 510,
+      "heldout_tokens": 385,
+      "logical_digest": "b6474d4cff55fdd526c4bfcba342dada259353864fce33e1863d614b02972cf0",
+      "repeat_artifact_identical": true,
+      "repeat_logical_equal": true,
+      "requested_vocab_size": 16384,
+      "tokens_per_byte": 0.7549019607843137
+    },
+    "32768": {
+      "actual_vocab_size": 431,
+      "artifact_bytes": 9711,
+      "artifact_sha256": "8026f3058d154ce86105ebf4b66ee4ccab941a9d569d39267edd5d84c8827b40",
+      "bytes_per_token": 1.3246753246753247,
+      "heldout": {
+        "test/en/code": {
+          "bytes": 83,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 57
+        },
+        "test/en/prose": {
+          "bytes": 67,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "test/pl/code": {
+          "bytes": 73,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 54
+        },
+        "test/pl/prose": {
+          "bytes": 39,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 37
+        },
+        "validation/en/code": {
+          "bytes": 37,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 25
+        },
+        "validation/en/prose": {
+          "bytes": 68,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "validation/pl/code": {
+          "bytes": 69,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 46
+        },
+        "validation/pl/prose": {
+          "bytes": 74,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 60
+        }
+      },
+      "heldout_bytes": 510,
+      "heldout_tokens": 385,
+      "logical_digest": "1a49d99f5ffaa2be78aa9722dfcc8adf78bf41af3ea7faa9910dedb8bcdf0c58",
+      "repeat_artifact_identical": true,
+      "repeat_logical_equal": true,
+      "requested_vocab_size": 32768,
+      "tokens_per_byte": 0.7549019607843137
+    }
+  },
+  "training_bytes": 612,
+  "training_documents": 6,
+  "version": 1
+}
+OUTPUT_END
+
+### demo_run_2
+UTC_START 2026-11-27T20:09:25Z
+COMMAND <SESSION_VENV>/bin/python tools/production_tokenizer.py --demo
+ENV PYTHONPATH=tools TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.088835
+OUTPUT_BEGIN
+{
+  "format": "splot-production-tokenizer-v1",
+  "package": {
+    "name": "tokenizers",
+    "version": "0.23.3"
+  },
+  "quality_claim": false,
+  "targets": {
+    "16384": {
+      "actual_vocab_size": 431,
+      "artifact_bytes": 9711,
+      "artifact_sha256": "2f148ac98771660e8479411f90fa8c1ff0e80907896a1d823bf0a322542e6fff",
+      "bytes_per_token": 1.3246753246753247,
+      "heldout": {
+        "test/en/code": {
+          "bytes": 83,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 57
+        },
+        "test/en/prose": {
+          "bytes": 67,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "test/pl/code": {
+          "bytes": 73,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 54
+        },
+        "test/pl/prose": {
+          "bytes": 39,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 37
+        },
+        "validation/en/code": {
+          "bytes": 37,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 25
+        },
+        "validation/en/prose": {
+          "bytes": 68,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "validation/pl/code": {
+          "bytes": 69,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 46
+        },
+        "validation/pl/prose": {
+          "bytes": 74,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 60
+        }
+      },
+      "heldout_bytes": 510,
+      "heldout_tokens": 385,
+      "logical_digest": "b6474d4cff55fdd526c4bfcba342dada259353864fce33e1863d614b02972cf0",
+      "repeat_artifact_identical": true,
+      "repeat_logical_equal": true,
+      "requested_vocab_size": 16384,
+      "tokens_per_byte": 0.7549019607843137
+    },
+    "32768": {
+      "actual_vocab_size": 431,
+      "artifact_bytes": 9711,
+      "artifact_sha256": "8026f3058d154ce86105ebf4b66ee4ccab941a9d569d39267edd5d84c8827b40",
+      "bytes_per_token": 1.3246753246753247,
+      "heldout": {
+        "test/en/code": {
+          "bytes": 83,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 57
+        },
+        "test/en/prose": {
+          "bytes": 67,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "test/pl/code": {
+          "bytes": 73,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 54
+        },
+        "test/pl/prose": {
+          "bytes": 39,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 37
+        },
+        "validation/en/code": {
+          "bytes": 37,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 25
+        },
+        "validation/en/prose": {
+          "bytes": 68,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 53
+        },
+        "validation/pl/code": {
+          "bytes": 69,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 46
+        },
+        "validation/pl/prose": {
+          "bytes": 74,
+          "control_or_unk": 0,
+          "documents": 1,
+          "roundtrip": true,
+          "tokens": 60
+        }
+      },
+      "heldout_bytes": 510,
+      "heldout_tokens": 385,
+      "logical_digest": "1a49d99f5ffaa2be78aa9722dfcc8adf78bf41af3ea7faa9910dedb8bcdf0c58",
+      "repeat_artifact_identical": true,
+      "repeat_logical_equal": true,
+      "requested_vocab_size": 32768,
+      "tokens_per_byte": 0.7549019607843137
+    }
+  },
+  "training_bytes": 612,
+  "training_documents": 6,
+  "version": 1
+}
+OUTPUT_END
+
+### demo_compare
+UTC_START 2026-11-27T20:09:25Z
+COMMAND cmp -s <SESSION_TMP>/demo-a.json <SESSION_TMP>/demo-b.json
+ENV PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.003910
+
+### default_probe_no_import
+UTC_START 2026-11-27T20:09:25Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -c import sys; sys.path.insert(0, 'tools'); import production_tokenizer as pt; info = pt.backend_info(); print(info); assert 'tokenizers' not in sys.modules; print('TOKENIZERS_NOT_IMPORTED')
+ENV PYTHONHASHSEED=0 PYTHONUTF8=1
+EXIT 0
+DURATION_SECONDS 0.028147
+OUTPUT_BEGIN
+{'available': False, 'version': None, 'expected': '0.23.3', 'reason': 'tokenizers module not installed'}
+TOKENIZERS_NOT_IMPORTED
+OUTPUT_END
+
+WORKTREE_PORCELAIN_AFTER []
+TESTED_SHA 34ba392e16df1273dcd54f68a25563f2c0597f7c
+DEMO_SHA256 769a2d2b36bb625b444e493c43bfb4e1598903b89f1e32db8c53e78600527d98
+DEMO_BYTES 4103

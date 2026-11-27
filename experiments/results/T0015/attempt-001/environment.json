@@ -1,0 +1,74 @@
+{
+  "task_id": "T0015",
+  "attempt": 1,
+  "captured_at": "2026-11-27T20:09:30Z",
+  "os": {
+    "system": "Darwin",
+    "macos_version": "27.2.1",
+    "darwin_kernel": "27.2.0",
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "logical_cores": 10,
+    "ram_bytes": 17179869184
+  },
+  "python": {
+    "default": {
+      "implementation": "CPython",
+      "version": "3.15.2",
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "unicode": "17.0.0",
+      "utf8_mode": 1,
+      "role": "default stdlib tests and JSON metadata checks"
+    },
+    "backend": {
+      "implementation": "CPython",
+      "version": "3.12.16",
+      "executable": "/opt/homebrew/opt/python@3.12/bin/python3.12",
+      "unicode": "15.0.0",
+      "utf8_mode": 0,
+      "role": "isolated venv interpreter for tokenizers backend"
+    },
+    "interpreter_installed_or_changed": false
+  },
+  "tokenizers": {
+    "version": "0.23.3",
+    "requires_python": ">=3.10",
+    "wheel": "tokenizers-0.23.3-cp310-abi3-macosx_11_0_arm64.whl",
+    "wheel_sha256": "68649e97d5b43c44c031d8d848874a6eecae8f8fe40ea989aa777a5a83aca716",
+    "wheel_bytes": 3101381,
+    "download_bytes": 3101381,
+    "download_limit_bytes": 104857600,
+    "source": "official PyPI JSON file listing",
+    "venv": "<SESSION_VENV>",
+    "installation": "binary-only wheel, --no-index --no-deps --only-binary=:all:",
+    "system_changes": false,
+    "other_packages_installed": false,
+    "huggingface_hub_installed": false,
+    "declared_dependency": "huggingface-hub>=0.16.4,<3.0 (not installed; no Hub/model access)"
+  },
+  "hardware": {
+    "device": "CPU only",
+    "cuda": false,
+    "mps_used": false
+  },
+  "synthetic_bounds": {
+    "max_documents": 1000,
+    "max_document_utf8_bytes": 4096,
+    "max_train_utf8_bytes": 262144,
+    "max_text_utf8_bytes": 4096,
+    "max_decode_tokens": 4098,
+    "train_documents": 6,
+    "train_utf8_bytes": 612,
+    "target_vocab_sizes": [
+      16384,
+      32768
+    ]
+  },
+  "commits": {
+    "tested_implementation": "34ba392e16df1273dcd54f68a25563f2c0597f7c",
+    "task_instruction": "cb97b045c965beb614083b54dd7be26393bbe7b8",
+    "approved_minimum_base": "3fb9388e782a9da8ca68e1458d9caaeb296c2312"
+  },
+  "seed": null,
+  "seed_reason": "ByteLevel BPE training is deterministic by sorted document order; no random seed is used."
+}
