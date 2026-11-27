@@ -14,3 +14,5 @@ Use [TEMPLATE.md](TEMPLATE.md) for future tasks. Evidence path per attempt; [res
 - [T0008](T0008-byte-bpe-oracle.md) #52: independent Mac tokenizer oracle and mapping fix, owner launch after merge.
 
 - [T0009](T0009-fp8-autograd.md) #56: native FP8 autograd integration, owner launch after reviewed spec merge. T0007 accepted/closed. T0008 #52 correction pending.
+
+- [T0010](T0010-tokenized-shards.md) #60: Mac portable tokenized shards/packing bridge, owner launch after reviewed merge. T0008 #52 closed; T0009 #56 correction pending.
