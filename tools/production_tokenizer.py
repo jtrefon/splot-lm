@@ -42,6 +42,8 @@ SPECIAL_STRINGS = tuple(SPECIAL_TOKENS.values())
 MAX_DOCUMENTS = 1000
 MAX_DOCUMENT_BYTES = 4096
 MAX_TRAIN_BYTES = 256 * 1024
+REAL_PILOT_MAX_DOCUMENTS = 10000
+REAL_PILOT_MAX_TRAIN_BYTES = 4 * 1024 * 1024
 MAX_TEXT_BYTES = 4096
 MAX_TOKEN_COUNT = MAX_TEXT_BYTES + 2
 MAX_ARTIFACT_BYTES = 8 * 1024 * 1024
@@ -211,9 +213,7 @@ def _train_documents(documents: tuple[TrainingDocument, ...]) -> tuple[TrainingD
     )
 
 
-def training_digest(documents: Iterable[TrainingDocument]) -> str:
-    docs = validate_documents(documents)
-    train = _train_documents(docs)
+def _training_digest(train: tuple[TrainingDocument, ...]) -> str:
     payload = [
         {
             "doc_id": doc.doc_id,
@@ -224,6 +224,56 @@ def training_digest(documents: Iterable[TrainingDocument]) -> str:
         for doc in train
     ]
     return _sha(_canonical_json(payload))
+
+
+def training_digest(documents: Iterable[TrainingDocument]) -> str:
+    docs = validate_documents(documents)
+    return _training_digest(_train_documents(docs))
+
+
+def validate_real_pilot_documents(
+    documents: Iterable[TrainingDocument],
+) -> tuple[TrainingDocument, ...]:
+    """Validate the larger T0016 train-only bounds without changing synthetic limits."""
+    try:
+        iterator = iter(documents)
+    except TypeError as exc:
+        raise TokenizerError("documents must be iterable") from exc
+    docs = tuple(islice(iterator, REAL_PILOT_MAX_DOCUMENTS + 1))
+    if len(docs) > REAL_PILOT_MAX_DOCUMENTS:
+        raise TokenizerError(
+            f"real pilot document count exceeds {REAL_PILOT_MAX_DOCUMENTS}"
+        )
+    seen: set[str] = set()
+    train_bytes = 0
+    for doc in docs:
+        if not isinstance(doc, TrainingDocument):
+            raise TokenizerError("documents must be TrainingDocument instances")
+        if not isinstance(doc.doc_id, str) or not doc.doc_id.strip():
+            raise TokenizerError("document ID must be nonempty")
+        if doc.doc_id in seen:
+            raise TokenizerError(f"duplicate document ID: {doc.doc_id!r}")
+        seen.add(doc.doc_id)
+        if doc.split != "train":
+            raise TokenizerError("real pilot tokenizer accepts train-only documents")
+        if doc.language not in ("en", "pl"):
+            raise TokenizerError(f"unsupported language: {doc.language!r}")
+        if doc.domain != "prose":
+            raise TokenizerError("real pilot tokenizer accepts prose only")
+        if doc.quarantined:
+            raise TokenizerError("real pilot tokenizer rejects quarantined documents")
+        if not isinstance(doc.text, str) or not doc.text:
+            raise TokenizerError(f"document {doc.doc_id!r} text must be nonempty")
+        data = _utf8(doc.text, f"document {doc.doc_id!r}")
+        if len(data) > MAX_DOCUMENT_BYTES:
+            raise TokenizerError(f"document {doc.doc_id!r} is too large")
+        _text_is_safe(doc.text)
+        train_bytes += len(data)
+        if train_bytes > REAL_PILOT_MAX_TRAIN_BYTES:
+            raise TokenizerError(
+                f"real pilot train bytes exceed {REAL_PILOT_MAX_TRAIN_BYTES}"
+            )
+    return tuple(sorted(docs, key=lambda item: item.doc_id))
 
 
 def _config(
@@ -281,15 +331,11 @@ def _text_is_safe(text: str) -> None:
             )
 
 
-def train_tokenizer(
-    documents: Iterable[TrainingDocument],
-    target_vocab_size: int = 16384,
+def _train_artifact(
+    train: tuple[TrainingDocument, ...],
+    target_vocab_size: int,
+    digest: str,
 ) -> dict[str, Any]:
-    """Train a deterministic ByteLevel BPE artifact on non-quarantined train docs."""
-    if target_vocab_size not in TARGET_VOCAB_SIZES:
-        raise TokenizerError(f"target vocabulary must be one of {TARGET_VOCAB_SIZES}")
-    docs = validate_documents(documents)
-    train = _train_documents(docs)
     if not train:
         raise TokenizerError("no non-quarantined train documents")
     Tokenizer, decoders, models, pre_tokenizers, trainers = _backend()
@@ -316,7 +362,7 @@ def train_tokenizer(
         "version": VERSION,
         "package": {"name": "tokenizers", "version": TOKENIZERS_VERSION},
         "config": config,
-        "training_digest": training_digest(docs),
+        "training_digest": digest,
         "train_doc_ids": [doc.doc_id for doc in train],
         "tokenizer": tokenizer_json,
     }
@@ -325,6 +371,29 @@ def train_tokenizer(
     )
     validate_artifact(artifact)
     return artifact
+
+
+def train_tokenizer(
+    documents: Iterable[TrainingDocument],
+    target_vocab_size: int = 16384,
+) -> dict[str, Any]:
+    """Train a deterministic ByteLevel BPE artifact on non-quarantined train docs."""
+    if target_vocab_size not in TARGET_VOCAB_SIZES:
+        raise TokenizerError(f"target vocabulary must be one of {TARGET_VOCAB_SIZES}")
+    docs = validate_documents(documents)
+    train = _train_documents(docs)
+    return _train_artifact(train, target_vocab_size, training_digest(docs))
+
+
+def train_real_pilot_tokenizer(
+    documents: Iterable[TrainingDocument],
+    target_vocab_size: int = 16384,
+) -> dict[str, Any]:
+    """Train the T0016 16k candidate on bounded train-only real-pilot text."""
+    if target_vocab_size != 16384:
+        raise TokenizerError("real pilot tokenizer target must be 16384")
+    docs = validate_real_pilot_documents(documents)
+    return _train_artifact(docs, target_vocab_size, _training_digest(docs))
 
 
 def validate_artifact(artifact: Any) -> None:
@@ -446,6 +515,64 @@ def load_artifact(data: bytes | bytearray | str, expected_sha256: str) -> dict[s
 def _tokenizer(artifact: Mapping[str, Any]):
     validate_artifact(artifact)
     return _tokenizer_from_json(artifact["tokenizer"])
+
+
+class TokenizerSession:
+    """A single validated tokenizer instance reused for bounded pilot work."""
+
+    def __init__(self, artifact: Mapping[str, Any]):
+        validate_artifact(artifact)
+        self.artifact = artifact
+        self.actual_vocab_size = artifact["config"]["actual_vocab_size"]
+        self._tokenizer = _tokenizer_from_json(artifact["tokenizer"])
+
+    def encode(self, text: str, *, add_boundaries: bool = False) -> list[int]:
+        _text_is_safe(text)
+        encoding = self._tokenizer.encode(text, add_special_tokens=False)
+        ids = list(encoding.ids)
+        if len(ids) > MAX_TOKEN_COUNT:
+            raise TokenizerError(f"encoded token count exceeds {MAX_TOKEN_COUNT}")
+        if any(token < 8 for token in ids):
+            raise TokenizerError("tokenizer emitted a control/special ID for raw text")
+        if 3 in ids:
+            raise TokenizerError("tokenizer emitted UNK for raw text")
+        if any(token >= self.actual_vocab_size for token in ids):
+            raise TokenizerError("tokenizer emitted an out-of-vocabulary ID")
+        if self._tokenizer.decode(ids, skip_special_tokens=False) != text:
+            raise TokenizerError("tokenizer round-trip failed")
+        if add_boundaries:
+            return [1, *ids, 2]
+        return ids
+
+    def decode(
+        self,
+        token_ids: Iterable[int],
+        *,
+        allow_control: bool = False,
+    ) -> str:
+        try:
+            iterator = iter(token_ids)
+        except TypeError as exc:
+            raise TokenizerError("token_ids must be iterable") from exc
+        ids = list(islice(iterator, MAX_TOKEN_COUNT + 1))
+        if len(ids) > MAX_TOKEN_COUNT:
+            raise TokenizerError(f"token count exceeds {MAX_TOKEN_COUNT}")
+        if any(
+            type(token) is not int or not 0 <= token < self.actual_vocab_size
+            for token in ids
+        ):
+            raise TokenizerError("token ID is invalid")
+        if not allow_control and any(token < 8 for token in ids):
+            raise TokenizerError("control/special token requires explicit handling")
+        content = [token for token in ids if token >= 8]
+        try:
+            return self._tokenizer.decode(content, skip_special_tokens=False)
+        except Exception as exc:
+            raise TokenizerError(f"token decode failed: {exc}") from exc
+
+
+def create_session(artifact: Mapping[str, Any]) -> TokenizerSession:
+    return TokenizerSession(artifact)
 
 
 def encode(
