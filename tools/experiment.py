@@ -14,7 +14,8 @@ import time
 import torch
 
 from optimizers import build_optimizer, optimizer_state_inventory
-from splot.fp8 import convert_selected_linears, fp8_diagnostics, fp8_runtime_probe
+from splot.fp8 import (convert_selected_linears, fp8_assert_finite, fp8_diagnostics,
+                       fp8_runtime_probe, has_fp8)
 
 
 def digest(value):
@@ -136,9 +137,11 @@ def train(model, optimizer, blocks, objective, identity, out, *, steps, batch_si
               if autocast_dtype is not None else nullcontext()):
             o = objective(model, inputs, labels)
         if not torch.isfinite(o.total): raise FloatingPointError('nonfinite objective')
+        if has_fp8(model): fp8_assert_finite(model, 'forward')
         o.total.backward()
         if not all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None):
             raise FloatingPointError('nonfinite gradient')
+        if has_fp8(model): fp8_assert_finite(model, 'backward')
         optimizer.step(); sync(device)
         elapsed = time.perf_counter()-start
         row = {'step':step+1, 'batch_indices':indices, 'valid_tokens':int(inputs[3].sum()),
@@ -164,6 +167,10 @@ def evaluate(model, blocks, predict, *, batch_size, device, autocast_dtype=None)
         with (torch.autocast(device_type=torch.device(device).type, dtype=autocast_dtype)
               if autocast_dtype is not None else nullcontext()):
             logits=predict(model,x)
+        if has_fp8(model):
+            fp8_assert_finite(model, 'evaluation')
+            if not torch.isfinite(logits).all():
+                raise FloatingPointError('nonfinite evaluation logits')
         nll+=float(torch.nn.functional.cross_entropy(logits.float().flatten(0,1),y[1].flatten(),ignore_index=-100,reduction='sum'))
         count+=int(y[1].ne(-100).sum())
     if not count or not math.isfinite(nll): raise ValueError('invalid validation')

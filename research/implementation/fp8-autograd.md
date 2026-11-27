@@ -30,6 +30,14 @@ The adapter is an `nn.Linear` subclass that keeps the original FP32 `Parameter` 
 
 Scales are device-resident FP32 tensors computed as `absmax / dtype.max`, with all-zero scale 1 and a positive FP32 normal clamp. The hot path does not use `.item()`, `.cpu()` or Python scalar reconstruction. Per-module counters record calls, padding rows, empty calls and last-scale devices without synchronizing per projection.
 
+## Audit and finite guards
+
+Quantization records device-resident saturation, underflow, nonzero and nonfinite counters for input, weight and gradient roles. Outputs, dX and dW also set a device-side nonfinite flag. These counters are reset before each depth report and reduced only at a report or step boundary; there is no per-projection host synchronization. `fp8_diagnostics` reports native forward/backward calls, wgrad FP32 calls, padding rows, per-role quantization counts and underflow fractions.
+
+`fp8_assert_finite` is called at the training step boundary before optimizer update and after backward, and at evaluation. It checks FP32 master parameters, FP8 quantization/output flags and gradients, raising `FloatingPointError` before an update or evaluation result if any nonfinite value is observed. Nonfinite input/weight/gradient cases are covered by tests.
+
+Forward and dgrad outputs are BF16; the explicit wgrad output is FP32. The dequantized-oracle comparison uses the actual effective upstream BF16 gradient received by the autograd Function, not the pre-autograd FP32 tensor.
+
 ## Integration and checkpointing
 
 - `tools/experiment.py` resolves `fp8`, records the selected/excluded module inventory, FP8 runtime probe and dispatch/diagnostic counters, and keeps BF16 autocast around the residual/non-FP8 operations.
@@ -44,7 +52,7 @@ Scales are device-resident FP32 tensors computed as `absmax / dtype.max`, with a
 
 - default CPU: selection/exclusion, parameter identity, state_dict names, recurrent identity, optimizer partition invariance, padding/layout math, CPU FP8 rejection, FP32/BF16 no-FP8 defaults;
 - `--device cuda`: actual forward/dX/dW for M=1/17/64 K=384 N=512 and M=64 K=32 N=64; FP32 and dequantized-operand error gates; exact zero; repeated same-weight gradient sum; actual E4M3/E5M2 kernel/copy profile and scale residency; zero-M behavior;
-- `--device cuda --report PATH`: BF16-vs-FP8 R1/R2/R4 smoke/Nano CE differences, hidden/logit drift, gradient drift, label counts and routing agreement.
+- `--device cuda --report PATH`: BF16-vs-FP8 R1/R2/R4 smoke/Nano CE differences, hidden/logit/gradient finite checks, exact labels, per-depth native/padding/quantization audit and routing key/shape agreement. Matched-only and full-vector gradient drift are both reported; missing gradients count as zero in the full-vector metric. The report exits nonzero if its status fails.
 
 Requirements: forward/dX/dW relative Frobenius <= 0.15 versus FP32, <= 0.025 versus FP32 products of dequantized operands; exact zero; each SPLOT CE absolute difference <= 0.5 nats and composite <= 0.75; all finite; exact label counts and topology. Drift/routing are descriptive only.
 
