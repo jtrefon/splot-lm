@@ -19,6 +19,7 @@ class RecurrentConfig:
     injection_strength: float = .1
     residual_scale: str = 'unscaled'
     depth_embedding: bool = False
+    gdn_algorithm: str = 'scan'
 
     def __post_init__(self):
         if min(self.prelude, self.core, self.coda) < 1 or self.dense.layers != self.prelude+self.core+self.coda:
@@ -29,6 +30,8 @@ class RecurrentConfig:
             raise ValueError('invalid injection')
         if self.residual_scale not in ('unscaled', 'sqrt_cap', 'linear_cap'):
             raise ValueError('invalid residual scale')
+        if self.gdn_algorithm not in ('scan', 'chunk64'):
+            raise ValueError('gdn_algorithm must be scan or chunk64')
 
     def parameter_count(self):
         return self.dense.parameter_count() + (self.max_loops*self.dense.width if self.depth_embedding else 0)

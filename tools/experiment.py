@@ -375,6 +375,8 @@ def main():
     if type(interval) is not int or interval < 1:
         p.error('checkpoint interval must be a positive integer')
     if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
+    if family=='splot' and rc.gdn_algorithm != 'scan' and t['precision']=='fp8':
+        p.error('gdn_algorithm chunk64 is not qualified for FP8')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1: p.error('invalid training settings')
     if family=='splot' and not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
