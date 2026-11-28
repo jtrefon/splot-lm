@@ -12,6 +12,9 @@
 - Portable corpus, BPE and shard reference; cross-platform synthetic digests; HF Tokenizers 0.23.3 qualification; real EN/PL pilot corpus and 16,384-token tokenizer materialized. T0004, T0008, T0010, T0013–T0016.
 - Structured REP evidence, issue dialogue and hosted CPU regression/integrity checks.
 
+### Research direction
+- Foundational bilingual research charter and quality–cost evaluation framework; credible matched controls and scale-aware evaluation. Queue T0019/T0020 after active tasks. v0.3 candidates remain proposals, not adopted architecture.
+
 ### Pending
 - T0017 actual 64-step run and full cache-on resume qualification; T0018 exact MTP observer/benchmark contract. No public pretrained weights, production throughput or language-quality claims.
 

@@ -1,8 +1,10 @@
 # SPLOT — Sparse Predictive Looped Optimized Transformer
 
-[English](README.md) · [Kontrakt architektury](research/rfcs/0001-architecture/contract-v0.2.pl.md) · [Stan projektu](PROJECT_STATE.md) · [Wyniki](experiments/results/INDEX.md) · [Plan badań](ROADMAP.md)
+[English](README.md) · [Karta badawcza](research/CHARTER.pl.md) · [Kontrakt architektury](research/rfcs/0001-architecture/contract-v0.2.pl.md) · [Stan projektu](PROJECT_STATE.md) · [Wyniki](experiments/results/INDEX.md) · [Plan badań](ROADMAP.md)
 
-**Niezależny, otwarty projekt badawczy nad efektywnymi architekturami modeli językowych na sprzęcie konsumenckim.**
+**Osiągać więcej dzięki lepszej architekturze, nie większej skali.**
+
+Niezależny, otwarty program badań nad architekturami modeli językowych, ukierunkowany na lepszą jakość przy równoważnym lub niższym koszcie obliczeniowym. Sprzęt konsumencki jest początkowym warunkiem walidacji, nie celem badań. Zob. [kartę założycielską](research/CHARTER.pl.md) i [ramy oceny](research/evaluation/README.md) (EN).
 
 SPLOT łączy rekurencyjną głębokość obliczeń, hybrydę Gated DeltaNet / grouped-query attention (GDN/GQA), rzadką aktywację ekspertów (MoE), natywną predykcję wielotokenową (MTP) oraz trening z obniżoną precyzją. Badamy, czy ich połączenie poprawia kompromis między jakością, kosztem obliczeń, opóźnieniem i zużyciem pamięci.
 

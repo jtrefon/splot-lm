@@ -21,3 +21,5 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0016 | [Real bilingual corpus](T0016-real-corpus.md) | [#76](https://github.com/jtrefon/splot-lm/issues/76) | Closed |
 | T0017 | [FP8 reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | [#77](https://github.com/jtrefon/splot-lm/issues/77) | Implementation accepted; [attempt-002 continuation](T0017-continuation.md) ready for owner launch |
 | T0018 | [MTP observability](T0018-mtp-observability.md) | [#81](https://github.com/jtrefon/splot-lm/issues/81) | Mac, reviewed spec merged; owner launch required |
+| T0019 | [Matched baseline design](T0019-baseline-design.md) | [#89](https://github.com/jtrefon/splot-lm/issues/89) | Mac, queued after accepted T0018; reviewed merge + owner launch required |
+| T0020 | [CUDA cost baseline](T0020-cuda-cost-baseline.md) | [#90](https://github.com/jtrefon/splot-lm/issues/90) | Linux, queued after accepted T0017; reviewed merge + owner launch required |

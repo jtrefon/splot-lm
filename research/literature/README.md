@@ -31,3 +31,6 @@ Search priorities: Medusa, EAGLE-3, DeepSeek MTP, GLM/Kimi Delta Attention, all-
 
 ## Hybrid attention review v0.1
 [Primary-source notes](../rfcs/0003-hybrid-attention/sources.md): GDN v1, Qwen3-Next code conventions, GQA, RoPE, GDN-2 and Integral DeltaNet (newer variants abstract only). No external kernel reproduction.
+
+## Architecture decision review — 2026-11-28
+[EN](../architecture-review/2026-11-28-en.md) · [PL](../architecture-review/2026-11-28-pl.md) · [Source register](../architecture-review/sources.md). Selected contemporary model cards, preprints and engineering reports, with coverage level and limitations; includes Engram, Qwen3.8-Flash-Next, Inkling 2 Mini, Foil, MoRE, SSD-LLaMA and Strata. Candidate design, not evidence of SPLOT superiority.

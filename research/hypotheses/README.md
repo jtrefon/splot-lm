@@ -1,5 +1,5 @@
 # Hypothesis register / Rejestr hipotez
-All untested. Pre-register effect sizes, budget and metrics before execution.
+Subordinate to the [foundational charter](../CHARTER.md) and [evaluation framework](../evaluation/README.md). Overarching question: how can architectural organization improve capabilities at equivalent or lower computational cost? All hypotheses remain untested; feasibility is not confirmation. For each choose a primary quality/cost metric, matched comparator, capability guardrails and a preregistered effect/noninferiority margin. Pre-register effect sizes, budget and metrics before execution.
 
 | ID | Hypothesis | Falsification |
 |---|---|---|
@@ -12,3 +12,6 @@ All untested. Pre-register effect sizes, budget and metrics before execution.
 | H7 | Adaptive halting improves quality per compute | Fixed depth dominates at matched budgets |
 
 Candidate papers: hardware-aware expert routing in recurrent-depth models; quantization error propagation; adaptive sparse computation under consumer constraints. Prior-art review is mandatory.
+
+## Additional proposed hypotheses (architecture review #85)
+H8: at matched total capacity and comparable active compute, causal conditional n-gram memory improves held-out quality and/or reduces measured bytes per committed token versus additional expert capacity. Falsified by absent Pareto gain or unacceptable collision/quality cost. H9: recurrence-aware tiered scheduling with deterministic row prefetch reduces bytes and decode latency against equal-budget exact LRU without target change. Falsified by RFC0004 joint transfer/latency gate or numerical/causal failure. H10: bounded residual/injection and selective mixer/router untying improve incremental depth quality and stability at disclosed equal-budget controls. Falsified if full sharing dominates or overhead exceeds gain. These are untested; preregister before observing confirmatory results. See [review](../architecture-review/2026-11-28-en.md).

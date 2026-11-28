@@ -15,11 +15,17 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 | Scaling | Nano first; Mini inventory validated | Larger token budgets and Mini only after quality/resource gates |
 | Publication | Open repository and versioned evidence | Matched ablations, independent replication, prior-art review, licensing and release decisions |
 
+## Scientific objective
+[Foundational charter](research/CHARTER.md) · [Evaluation framework](research/evaluation/README.md). First milestone: credible matched comparison demonstrating equivalent/superior held-out language-model quality at lower cost (or superior quality at equivalent cost), with capability guardrails. Nano is a mechanism-discovery instrument, not a production model.
+
 ## Immediate sequence
 
 1. **Linux:** [T0017 continuation](experiments/tasks/T0017-continuation.md) — missing exact 4-step resume/RNG gate, verified actual data and 64-step Nano FP8/Muon pilot. [#77](https://github.com/jtrefon/splot-lm/issues/77)
 2. **Mac:** [T0018](experiments/tasks/T0018-mtp-observability.md) — exact MTP observability, D0 comparator and benchmark contract. [#81](https://github.com/jtrefon/splot-lm/issues/81)
-3. Use the reviewed pilot checkpoint for inference and routing experiments; profile bottlenecks before larger training. Prepare full factorial matched precision/optimizer and architecture controls with adequate seeds and token budgets. CUDA 13 qualification is separate (#43).
+3. Queue Mac [T0019/#89](experiments/tasks/T0019-baseline-design.md) after accepted T0018; Linux [T0020/#90](experiments/tasks/T0020-cuda-cost-baseline.md) after accepted T0017. Reviewed specs and named owner launch required. Use the reviewed pilot checkpoint for inference and routing experiments; profile bottlenecks before larger training. Prepare full factorial matched precision/optimizer and architecture controls with adequate seeds and token budgets. CUDA 13 qualification is separate (#43).
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.
+
+## Proposed v0.3 decision gate — review requested
+[Architecture review EN](research/architecture-review/2026-11-28-en.md) / [PL](research/architecture-review/2026-11-28-pl.md), [#85](https://github.com/jtrefon/splot-lm/issues/85). Preserve active v0.2 T0017/T0018 unchanged. Before larger training, review conditional n-gram memory #86, heterogeneous exact residency #6, recurrent topology/granularity #87, MTP and profiling. These are proposals to elevate previously deferred memory/offload research, not implemented or adopted features. No new hardware run or model release authorized.
