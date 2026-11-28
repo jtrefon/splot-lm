@@ -5,7 +5,9 @@
 ### Architecture and implementation
 - Dense GQA control; shared 2/4/2 recurrent reference; learned GDN/GQA hybrid; sparse top-2 + shared expert SPLOTLM; native offset-2 MTP and exact D1/D2 verifier. Architecture contract v0.2, Nano/Mini inventories. PRs #15–#26.
 - Native FP8 selected projection autograd with BF16/FP32 controls, hybrid Muon/AdamW and finite-state auditing; T0005–T0011.
-- Opt-in per-update FP8 weight reuse, pilot loader and separate checkpoint timing. T0014, T0017 attempt-001; independent implementation accepted, real pilot remains pending.
+- Opt-in per-update FP8 weight reuse, pilot loader and separate checkpoint timing. T0014, T0017 attempt-001; independent implementation accepted, real pilot accepted as bounded feasibility with documented procedural deviations (#92).
+
+- T0018 attempt-002 / #91 merged: exact D0 baseline, opt-in D1/D2 trace v2, actual model calls and full decode timing. No trained-checkpoint throughput claim.
 
 ### Experiments and data
 - RTX 4090 native GEMMs, synthetic training, exact resume and contiguous contexts through 4096 tokens; T0001–T0012.
@@ -16,6 +18,6 @@
 - Foundational bilingual research charter and quality–cost evaluation framework; credible matched controls and scale-aware evaluation. Queue T0019/T0020 after active tasks. v0.3 candidates remain proposals, not adopted architecture.
 
 ### Pending
-- T0017 actual 64-step run and full cache-on resume qualification; T0018 exact MTP observer/benchmark contract. No public pretrained weights, production throughput or language-quality claims.
+- T0019 design submitted and partially accepted; correct same-vocabulary matching before implementation. T0020 independent synthetic cost baseline. T0017 supplement complete, checkpoint preserved locally; exceptions recorded. No public pretrained weights, production throughput or language-quality claims.
 
 See [evidence index](experiments/results/INDEX.md) and [current state](PROJECT_STATE.md). This changelog summarizes merged milestones; experiment records retain their original timestamps and outcomes.

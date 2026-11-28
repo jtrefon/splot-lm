@@ -8,7 +8,7 @@ An independent, open architecture-first research programme investigating better 
 
 SPLOT (Polish for an interweaving) combines recurrent depth, hybrid Gated DeltaNet / grouped-query attention (GDN/GQA), sparse mixture-of-experts (MoE), native multi-token prediction (MTP), and native low-precision training. The aim is to understand whether these mechanisms together improve the quality–compute–latency–memory frontier, not to assume that any component guarantees acceleration.
 
-**Current status — 28 November 2026: working research architecture, native CUDA training validated; first bounded real-data pilot next.** The reference is implemented and trainable, with public, revision-pinned CPU/GPU experiment evidence. No production language model or public pretrained weights are released. This is independent research, not affiliated with PLLuM, NASK or another institution.
+**Current status — 28 November 2026: working research architecture, native CUDA training validated; first bounded real-data feasibility pilot completed.** The reference is implemented and trainable, with public, revision-pinned CPU/GPU experiment evidence. No production language model or public pretrained weights are released. This is independent research, not affiliated with PLLuM, NASK or another institution.
 
 ## Architecture
 
@@ -25,7 +25,7 @@ flowchart TD
 
 - Eight physical blocks; fixed 1–4 recurrent passes, separate causal state per logical execution.
 - Eight routed experts per core FFN, top-2 routing plus a shared expert; FP32 router and load balancing.
-- Native offset-2 MTP and exact D1/D2 speculative reference; trained-checkpoint acceptance and latency evaluation remain open.
+- Native offset-2 MTP and exact D1/D2 speculative reference with accepted D0 baseline and trace v2 ([T0018](experiments/results/T0018/attempt-002/summary.md)); trained-checkpoint acceptance and latency evaluation remain open.
 - Native FP8 E4M3 weights/activations and E5M2 backward operands for selected projections; BF16 residual stream and FP32 masters, sensitive state and optimizer buffers. FP32/BF16 controls retained; not an all-FP8 model.
 - Hybrid Muon/AdamW and opt-in per-update FP8 weight quantization reuse across recurrent passes.
 
@@ -49,7 +49,7 @@ All hardware measurements below are scoped to the reported reference implementat
 | Recurrent weight reuse | T512: 298 → 156 actual weight quantizations, exact model/optimizer state and loss; 1.949 → 1.633 s in a single paired update | [T0017 attempt-001](experiments/results/T0017/attempt-001/t512-pair.json) |
 | Real bilingual corpus | 8 work families, 8.57 MiB extracted text, trained 16,384-token BPE, 56,201 selected content tokens in 128/16/16 blocks | [T0016](experiments/results/T0016/attempt-001/summary.md) |
 
-The synthetic loss results are single-seed feasibility measurements, not evidence of generalization or optimizer superiority. The weight-reuse timing is descriptive; sustained speedup is not established. The real corpus is materialized and verified on Mac; the Linux real-data run and exact local snapshot verification remain pending. T0017 attempt-001 is correctly recorded as **blocked** for the real pilot, although its independent implementation is accepted. No data or checkpoint tensors are committed.
+The synthetic loss results are single-seed feasibility measurements, not evidence of generalization or optimizer superiority. The weight-reuse timing is descriptive; sustained speedup is not established. The real corpus is materialized and verified on Mac; the [Linux pilot](experiments/results/T0017/attempt-002/summary.md) completed 64 updates, validation NLL 7.744022, 45.1% weight-quantization cache hits. Accepted as bounded feasibility with [documented procedural exceptions](experiments/results/T0017/review-supplement-001/summary.md), not a clean compliance pass or evidence of superiority. The trained checkpoint is retained in private durable local storage. T0017 attempt-001 is correctly recorded as **blocked** for the real pilot, although its independent implementation is accepted. No data or checkpoint tensors are committed. No trained-checkpoint inference benchmark has been executed.
 
 ## Reproduce and contribute
 

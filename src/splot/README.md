@@ -9,10 +9,10 @@ Trainable PyTorch research architecture. The dense baseline is retained for corr
 | `mtp.py` | Native offset-2 head, A0/A1/A2 objectives | [MTP](../../research/implementation/native-mtp.md) |
 | `gdn.py`, `hybrid.py` | Learned GDN recurrence, hybrid GDN/GQA, dense FFN control | [Hybrid](../../research/implementation/hybrid-gdn.md) |
 | `moe.py`, `sparse.py` | Eight routed experts, top-2 + shared, FP32 routing and balance | [Sparse SPLOT](../../research/implementation/sparse-moe.md) |
-| `speculative.py` | Exact D1/D2 sampling and retained-prefix replay, single row | [Speculation](../../research/implementation/exact-speculation.md) |
+| `speculative.py` | Exact D1/D2 sampling and retained-prefix replay, single row; optional trace v2 | [Speculation](../../research/implementation/exact-speculation.md) |
 | `fp8.py` | Native selected linear autograd, device scales, audits, opt-in weight reuse | [FP8](../../research/implementation/fp8-autograd.md), [reuse](../../research/implementation/fp8-weight-reuse-pilot.md) |
 
-Nano (43,055,076 physical parameters at V32768) has passed RTX 4090 synthetic CUDA training including native FP8 + Muon and contiguous T4096 qualification. Mini (146,987,784) inventory is implemented; sustained GPU training is not qualified. FP32/BF16 controls retained. The real-data loader and 16K corpus are available; first actual run still pending. See [current state](../../PROJECT_STATE.md) and [experimental evidence](../../experiments/results/INDEX.md).
+Nano (43,055,076 physical parameters at V32768) has passed RTX 4090 synthetic CUDA training including native FP8 + Muon and contiguous T4096 qualification. Mini (146,987,784) inventory is implemented; sustained GPU training is not qualified. FP32/BF16 controls retained. The real-data loader and 16K corpus are available; first actual run accepted as bounded feasibility with documented deviations in [#92](https://github.com/jtrefon/splot-lm/pull/92). [T0018](../../research/implementation/mtp-benchmark-contract.md) D0 and exact trace v2 accepted; no trained-checkpoint benchmark. See [current state](../../PROJECT_STATE.md) and [experimental evidence](../../experiments/results/INDEX.md).
 
 From a clean checkout with a compatible existing PyTorch runtime:
 ```bash

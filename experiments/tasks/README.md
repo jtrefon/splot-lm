@@ -19,7 +19,7 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0014 | [Verified ingestion](T0014-dataset-ingestion.md) | [#71](https://github.com/jtrefon/splot-lm/issues/71) | Closed |
 | T0015 | [Production tokenizer](T0015-production-tokenizer.md) | [#72](https://github.com/jtrefon/splot-lm/issues/72) | Closed |
 | T0016 | [Real bilingual corpus](T0016-real-corpus.md) | [#76](https://github.com/jtrefon/splot-lm/issues/76) | Closed |
-| T0017 | [FP8 reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | [#77](https://github.com/jtrefon/splot-lm/issues/77) | [Attempt-002 continuation](T0017-continuation.md) real pilot passed; maintainer review pending, task open |
-| T0018 | [MTP observability](T0018-mtp-observability.md) | [#81](https://github.com/jtrefon/splot-lm/issues/81) | Mac, reviewed spec merged; owner launch required |
-| T0019 | [Matched baseline design](T0019-baseline-design.md) | [#89](https://github.com/jtrefon/splot-lm/issues/89) | Mac, queued after accepted T0018; reviewed merge + owner launch required |
-| T0020 | [CUDA cost baseline](T0020-cuda-cost-baseline.md) | [#90](https://github.com/jtrefon/splot-lm/issues/90) | Linux, queued after accepted T0017; reviewed merge + owner launch required |
+| T0017 | [FP8 reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | [#77](https://github.com/jtrefon/splot-lm/issues/77) | Closed; #92 merged, bounded feasibility accepted with documented procedural deviations |
+| T0018 | [MTP observability](T0018-mtp-observability.md) | [#81](https://github.com/jtrefon/splot-lm/issues/81) | Closed; attempt-002 accepted (#91); attempt-001 review-rejected |
+| T0019 | [Matched baseline design](T0019-baseline-design.md) | [#89](https://github.com/jtrefon/splot-lm/issues/89) | Mac, attempt-001 partial; attempt-002 same-vocabulary correction after integration merge + owner launch |
+| T0020 | [CUDA cost baseline](T0020-cuda-cost-baseline.md) | [#90](https://github.com/jtrefon/splot-lm/issues/90) | Linux, independent synthetic VAL; named owner launch after integration merge |

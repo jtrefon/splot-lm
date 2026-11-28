@@ -1,0 +1,83 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "Reviewed main f49af5b; source pin 6e89116 is clean detached inventory checkout. The pin predates the merged T0019 specification by design; the spec was read from instruction main. T0018 issue #81 is closed and PR #91 merged at f49af5b. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2. torch is absent and was not installed. No GPU/MPS, training, network data, system change, test-data access or private checkpoint access.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "evaluation_design": {
+      "detail": "Design uses T0016 pilot only after exact local identity verification, whole-family train/validation/test separation and no test access before freeze. Metrics are token-weighted NTP NLL per valid label, per language and aggregate; bits/byte with explicit UTF-8 coverage and BOS/EOS/pad reconciliation; PPL only with identical tokenizer. Two guardrails are key-value retrieval with distractors and compositional pattern/arithmetic completion, with unseen generators and chance baselines. Planning design is 3 arms x 3 seeds x 128 updates B1/T512, 46,076 training NTP labels per pass, 1,152 updates and 589,824 valid-token presentations. Proposed margins: NTP NLL +0.05 noninferiority / -0.03 meaningful advantage, bits/byte +0.01, guardrail -2 pp, cost +10% descriptive; paired bootstrap over held-out blocks/families. Estimated 45-75 minutes, up to about 2 hours with tuning, from accepted T0012/T0011 anchors; rough planning only. Margins and budget are not preregistered until review.",
+      "evidence": [
+        "design.md",
+        "summary.md",
+        "metrics.jsonl"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat analysis evidence only; no raw text, token arrays, weights, checkpoints, virtualenvs or secrets. The first consistency-check attempt failed with FileNotFoundError from a relative evidence path; the script was corrected to be __file__-relative and rerun successfully, with both recorded in execution.log. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0019/attempt-001 --task T0019 --source 6e8911662ac56df665147cb79e412f0383cf71d8 --checks environment,inventory,matched_design,evaluation_design,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One T0019 INDEX row is appended. PR and issue #89 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "design.md"
+      ],
+      "status": "passed"
+    },
+    "inventory": {
+      "detail": "Four exact pinned accounting commands exited 0. Nano at V32768 is 43,055,076 physical (42,907,236 base + 147,840 MTP auxiliary), logical blocks 12 NTP-only / 14 A2. NTP-only decode/prefill MACs are 41,416,704/20,602,552,320 at 512 and 48,494,592/89,657,966,592 at 2048; A2 is 83,392,512/41,893,232,640 and 92,829,696/177,236,606,976. Existing dense 8-block is 25,172,352 without MTP, confirmed by component formula 12,582,912 + 8*1,573,632 + 384; with a matched head it is 25,320,192. Audit records actual dense reference, harness, optimizer, MTP and precision gaps. All MACs are analytical contractions, not training FLOPs.",
+      "evidence": [
+        "accounting.json",
+        "candidate-counts.json",
+        "candidate-counts.py",
+        "consistency-check.py",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "matched_design": {
+      "detail": "Primary V16384 candidates: iso-parameter 512x9, 8/2 heads, FFN 1920, 41,101,312 params (-4.54%), prefill512 22,114,729,984 (+7.34%) and prefill2048 102,954,434,560 (+14.83%); iso-forward-MAC 512x6, 8/2, FFN 2816, 38,542,336 params (-10.48%), prefill512 20,402,667,520 (-0.97%) and prefill2048 91,274,346,496 (+1.80%). V32768 compatibility candidates are 512x6/FFN2176 (iso-parameter, -4.70% params, +5.22% prefill512 with explicit 0.22 pp gap) and 512x6/FFN1920 (iso-MAC, -10.18% params, -0.64%/+2.10% prefill). NTP-only primary and A2 auxiliary comparisons are separated; the latter requires a matched dense offset head. Fairness requires same data/tokenizer/order, BF16+FP32 master state, optimizer family/settings, tuning budget and evaluation; MAC matching is not training-compute matching.",
+      "evidence": [
+        "design.md",
+        "candidate-counts.json",
+        "candidate-counts.py",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "accounting.json": "44bdbb258626229f2f40e18d0ee5ae5a09899af3253ffd7623986e8f8094c5a9",
+    "candidate-counts.json": "d8c6918a4adb16619373603a943bca8a419a96646042ef8fb5fe95e41b752cd1",
+    "candidate-counts.py": "3b167e57862b48d27c4850ee0c2faa14e293b199ee1e8d9d8ca396213f985fea",
+    "consistency-check.py": "42dda988f87b96cb698a9d774bcf38bd94316e2a03c7bf9340a741c7e77c1640",
+    "design.md": "6a4e0af62ddbfe5e07a29cfd64036f37ac43d1147ca6d4be298938bad002dce0",
+    "environment.json": "4424b62f5632c9188888d32f7c0cb23931390e61e7b09d4cf82b56b3678fff4a",
+    "execution.log": "92a45a0f8cc02d26e005034cc4a68b0df5e6ffedccf8759ad9525eb91639c787",
+    "metrics.jsonl": "b0e7e709a2a712647736af6712071b0f376260651232ca376f10fff3760bb362",
+    "summary.md": "2406e2d65c44b50c5ac3aa142f05be063e46994c7966121f911f9a170458ac78"
+  },
+  "limitations": [
+    "Analysis/design only: no model training, architecture implementation, data acquisition, package install, GPU/MPS use, test access or private checkpoint access.",
+    "Local Mac has no torch; parameter and MAC formulas were not instantiated as modules locally.",
+    "Candidate counts are ideal contraction arithmetic and exclude backward, optimizer, padding, memory traffic and kernel efficiency.",
+    "The T0016 pilot is small and not representative; no quality or scaling claim is possible from this design.",
+    "The 3-seed budget and proposed margins are planning proposals, not a powered confirmatory protocol or preregistered gates.",
+    "The 45-75 minute budget is extrapolated from different accepted synthetic measurements and may not transfer to the matched study.",
+    "T0017 real-pilot results are not accepted and were not used; no T0017 checkpoint or test data was accessed."
+  ],
+  "schema_version": 1,
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "status": "passed",
+  "task_commit": "f49af5bfb0085cbbc7161d5b3354b8e8fe309696",
+  "task_id": "T0019",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+}
