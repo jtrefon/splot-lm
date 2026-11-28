@@ -1,0 +1,91 @@
+{
+  "attempt": 1,
+  "branch": "feat/T0032-pilot-stream-attempt-001",
+  "captured_at": "2026-11-28T20:02:22Z",
+  "class": "IMP",
+  "compatibility": "v1/v2 immutable; stream-v1 standalone and not accepted training input",
+  "hosted": {
+    "conclusion": "success",
+    "cpu_scripts": 33,
+    "head_sha": "42ca0df0cf535abcc63b142a51091597bdb512a9",
+    "numpy": "1.26.4",
+    "python": "3.12.7",
+    "rep_reports": 40,
+    "run_id": 46184014190,
+    "stream_tests": {
+      "failures": 0,
+      "tests": 8
+    },
+    "torch": "2.10.0+cpu",
+    "url": "https://github.com/jtrefon/splot-lm/actions/runs/46184014190"
+  },
+  "instruction_base_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "local": {
+    "architecture": "arm64",
+    "build": "26B131",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "packages": "stdlib only",
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "installed": false
+    }
+  },
+  "pr": 122,
+  "preflight": {
+    "local_head": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+    "note": "Zero open PRs were verified before branch creation; only this draft was open at capture.",
+    "open_pr_count_at_start": 0,
+    "open_prs_at_capture": [
+      {
+        "number": 122,
+        "scope": "T0032",
+        "state": "draft"
+      }
+    ],
+    "origin_main": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+    "started_at": "2026-11-28T19:59:24Z"
+  },
+  "scale": {
+    "audit_matches": true,
+    "audit_seconds": 0.7638396669935901,
+    "caps": {
+      "cap_usage_fraction": 0.3400273472070694,
+      "file_bytes": 134217728
+    },
+    "content_tokens": 986880,
+    "file_bytes": 45637698,
+    "manifest_sha256": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+    "peak_rss_bytes_macos": 188006400,
+    "test_blocks_exposed": false,
+    "total_seconds": 2.527829083992401,
+    "write_seconds": 1.7629502500058152
+  },
+  "scope": {
+    "command_timeout_seconds": 120,
+    "foreground_minutes": 120,
+    "not_performed": [
+      "actual corpus acquisition",
+      "tokenizer fit",
+      "real corpus/test/checkpoint access",
+      "training",
+      "package install",
+      "GPU/MPS",
+      "CLI/config/workflow change",
+      "shared project-state document edit"
+    ]
+  },
+  "task_id": "T0032",
+  "tested_commit": "42ca0df0cf535abcc63b142a51091597bdb512a9"
+}

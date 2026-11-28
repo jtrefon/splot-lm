@@ -1,0 +1,27 @@
+{
+  "bytes": 11635,
+  "caps": {
+    "documents": 20000,
+    "metadata_line": 131072,
+    "sequence": 512,
+    "shard_line": 262144,
+    "sources": 32,
+    "test_valid": 50000,
+    "total_bytes": 134217728,
+    "total_positions": 1600000,
+    "total_valid": 1100000,
+    "train_valid": 1000000,
+    "validation_valid": 50000,
+    "vocab": 16384
+  },
+  "format": "splot-pilot-stream-v1",
+  "non_claims": [
+    "synthetic prototype",
+    "not accepted training input",
+    "no real source authenticity or tokenizer fit"
+  ],
+  "path": "research/data/pilot-stream-schema.md",
+  "schema": "splot-t0032-schema-ref-v1",
+  "sha256": "4c212122223d9f75a3fa5d3e8e6f2acdf80a50a0cf7e491b8551ff23772d55be",
+  "version": 1
+}

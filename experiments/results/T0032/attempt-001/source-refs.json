@@ -1,0 +1,55 @@
+{
+  "instruction_base_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "refs": {
+    "experiments/tasks/T0032-streaming-corpus.md": {
+      "bytes": 5241,
+      "sha256": "6049479c7cb37de4aae22faa39505f5daa65c6e55cfddb4f25dee8c46b4950ec"
+    },
+    "research/data/pilot-stream-schema.md": {
+      "bytes": 11635,
+      "sha256": "4c212122223d9f75a3fa5d3e8e6f2acdf80a50a0cf7e491b8551ff23772d55be"
+    },
+    "research/data/pilot-v2-scale-plan.md": {
+      "bytes": 10486,
+      "sha256": "2793fcab747242f4a54dc9f62a97e4b50a9b64ced87bfdf7c369254986c2a4ba"
+    },
+    "research/data/source-registry-template.md": {
+      "bytes": 6220,
+      "sha256": "1b3c8545425c2edc2d0d9a735fb8a5775789b6aef0c18065b22d3c2a77d7cb70"
+    },
+    "research/evaluation/T0030-acceptance.md": {
+      "bytes": 1601,
+      "sha256": "f3a5a5f511ce648329caec12934d6c217b192a0801fa4c353d17a8ec9c26ffed"
+    },
+    "research/evaluation/T0031-acceptance.md": {
+      "bytes": 1860,
+      "sha256": "71b96e383292a2d42a120980c7f79ced11425356d06c45dfacbd6c82b6eaa9f7"
+    },
+    "tools/pilot_ingestion.py": {
+      "bytes": 16293,
+      "sha256": "2187d93ae109ec8c56d2a9782634f27aded455da576f14ec044cc00a70634e75"
+    },
+    "tools/pilot_stream.py": {
+      "bytes": 39839,
+      "sha256": "2869f14880d95ba0830d09f7915c4300da7becccc8574f44aea4152227839027"
+    },
+    "tools/pilot_stream_audit.py": {
+      "bytes": 19564,
+      "sha256": "914e1d4ec9c8e06e31ff2481fc3a32656c1cad53206aa7f90773bb18e5deaff5"
+    },
+    "tools/pilot_stream_producer.py": {
+      "bytes": 29163,
+      "sha256": "2c130d2767200a6c1b1ae342c46b09460ac8ed03d705ffa47674f0882cb1f529"
+    },
+    "tools/pilot_v2.py": {
+      "bytes": 54155,
+      "sha256": "4b80718d7a08a1a458fc05af3cf97befd072fadaa35355a6698ad48a66f5d4e7"
+    },
+    "tools/test_pilot_stream.py": {
+      "bytes": 9933,
+      "sha256": "f7d600c275b636f9586412c523edaa1857e6245c08e58a8dc140969ad7e30de1"
+    }
+  },
+  "schema": "splot-t0032-source-refs-v1",
+  "tested_commit": "42ca0df0cf535abcc63b142a51091597bdb512a9"
+}

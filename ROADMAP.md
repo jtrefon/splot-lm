@@ -11,7 +11,7 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 | Recurrent weight reuse | Independent qualification accepted, opt-in | Repeat synthetic phase measurements independently |
 | Native MTP inference | Exact D1/D2 reference, accepted D0 and trace v2 (#91) | Trained-checkpoint acceptance and latency |
 | Expert locality and execution | Sparse reference and locality design | Trace actual routing, test cache policies; only then grouped execution/offload |
-| Kernel and memory efficiency | Slow reference only | Profile GDN scan, attention/logit allocation and FP8 quantization overhead; validate optimized paths against reference |
+| Kernel and memory efficiency | FP32 chunk64 opt-in, qualified complete synthetic updates | Matched learning, attention/logit allocation and precision-specific optimization; scan default |
 | Scaling | Nano first; Mini inventory validated | Larger token budgets and Mini only after quality/resource gates |
 | Publication | Open repository and versioned evidence | Matched ablations, independent replication, prior-art review, licensing and release decisions |
 
@@ -20,9 +20,9 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** [T0032/#120](experiments/tasks/T0032-streaming-corpus.md) bounded streaming corpus format and independent synthetic scale audit; actual registry/acquisition and training adapter separately reviewed.
-2. **Linux:** [T0033/#121](experiments/tasks/T0033-fp32-chunk64-opt-in.md) FP32-only experimental chunk64, packed/cache/resume and full optimizer qualification. T0031 8.23x/12.19x forward-backward, P1/P2 rejected; scan remains default.
-3. After both gates, review larger lawful corpus and matched FP32 learning/optimized dense controls; no quality-cost superiority. Trained-checkpoint MTP separately.
+1. **Mac:** [T0034/#124](experiments/tasks/T0034-streaming-completion.md) bounded streaming completion and actual candidate registry, no raw acquisition; T0032 scoped scale accepted.
+2. **Linux:** [T0035/#125](experiments/tasks/T0035-fp32-matched-learning.md) matched FP32 scan/chunk64/dense MAC-control learning on exact T0016 snapshot; T0033 opt-in accepted, default scan retained.
+3. [QAT pretraining RFC #126](research/precision/qat-pretraining.md) proposed expert-first W4A32, PTQ/from-start/late-QAT controls after learning baseline. Native FP8 scan remains available; no BF16/FP8 chunk64 or native FP4 on Ada. Review source acquisition and tokenizer binding separately; trained-checkpoint MTP separately.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.

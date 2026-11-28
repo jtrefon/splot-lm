@@ -1,0 +1,13 @@
+test_complete_alphabet_requires_264_vocab (__main__.StreamTests.test_complete_alphabet_requires_264_vocab) ... ok
+test_deterministic_and_existing_output (__main__.StreamTests.test_deterministic_and_existing_output) ... ok
+test_file_hash_and_path_rejections (__main__.StreamTests.test_file_hash_and_path_rejections) ... ok
+test_forged_target_identity (__main__.StreamTests.test_forged_target_identity) ... ok
+test_hand_computed_bpb_and_targets (__main__.StreamTests.test_hand_computed_bpb_and_targets) ... ok
+test_positive_loader_counts_and_streaming (__main__.StreamTests.test_positive_loader_counts_and_streaming) ... ok
+test_semantic_tokenizer_and_counts_rejections (__main__.StreamTests.test_semantic_tokenizer_and_counts_rejections) ... ok
+test_test_non_exposure (__main__.StreamTests.test_test_non_exposure) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.081s
+
+OK

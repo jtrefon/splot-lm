@@ -1,0 +1,24 @@
+T0032 attempt-001 development failures before the tested commit (preserved)
+
+These were local streaming-fixture/producer errors while bringing up the new
+format. They did not involve real data, training or a hosted gate.
+
+1. Missing content constant
+   Error: AttributeError: module 'pilot_stream' has no attribute 'CONTENT_MIN'.
+   Cause: the producer referenced a stream constant that had not been exported.
+   Resolution: added CONTENT_MIN=8; no format/value change.
+
+2. Partial-segment fixture
+   Error: token bytes do not equal segment.
+   Cause: the tiny partial-document fixture used the full source interval as the
+   selected segment interval.
+   Resolution: gave the two segments 0-1/1-2 intervals within the full 0-2 doc.
+
+3. Full-interval bookkeeping
+   Error: full intervals overlap.
+   Cause: full-document intervals were appended once per segment rather than once
+   per document group; two segments of one doc looked like overlapping docs.
+   Resolution: append one full interval per group in verifier and producer.
+   No scientific gate or real data was involved.
+
+The first hosted implementation run (46184014190) passed.

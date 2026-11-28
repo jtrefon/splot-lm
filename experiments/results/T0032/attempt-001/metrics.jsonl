@@ -1,0 +1,51 @@
+{"attempt": 1, "metric": "count", "run": "local/open-pr-at-start", "status": "observed", "task_id": "T0032", "unit": "PRs", "value": 0}
+{"attempt": 1, "metric": "count", "run": "local/open-pr-at-capture", "status": "observed", "task_id": "T0032", "unit": "PRs", "value": 1}
+{"attempt": 1, "metric": "available", "run": "local/torch", "status": "observed", "task_id": "T0032", "unit": "bool", "value": 0}
+{"attempt": 1, "duration_seconds": 0.107499, "metric": "exit_code", "run": "local/py-compile", "status": "observed", "task_id": "T0032", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.2519, "metric": "exit_code", "run": "local/test-pilot-stream", "status": "observed", "task_id": "T0032", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.24575, "metric": "exit_code", "run": "local/test-v2-regression", "status": "observed", "task_id": "T0032", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.183158, "metric": "exit_code", "run": "local/test-v2-producer-regression", "status": "observed", "task_id": "T0032", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.009399, "metric": "exit_code", "run": "local/diff-check", "status": "observed", "task_id": "T0032", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "tests", "run": "local/test-pilot-stream", "status": "observed", "task_id": "T0032", "unit": "tests", "value": 8}
+{"attempt": 1, "metric": "failures", "run": "local/test-pilot-stream", "status": "observed", "task_id": "T0032", "unit": "tests", "value": 0}
+{"attempt": 1, "metric": "tests", "run": "local/test-v2-regression", "status": "observed", "task_id": "T0032", "unit": "tests", "value": 19}
+{"attempt": 1, "metric": "tests", "run": "local/test-v2-producer-regression", "status": "observed", "task_id": "T0032", "unit": "tests", "value": 6}
+{"attempt": 1, "metric": "cases", "run": "negative", "status": "observed", "task_id": "T0032", "unit": "cases", "value": 12}
+{"attempt": 1, "metric": "content_tokens", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "count", "value": 986880}
+{"attempt": 1, "metric": "file_bytes", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "bytes", "value": 45637698}
+{"attempt": 1, "metric": "write_seconds", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "seconds", "value": 1.7629502500058152}
+{"attempt": 1, "metric": "audit_seconds", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "seconds", "value": 0.7638396669935901}
+{"attempt": 1, "metric": "total_seconds", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "seconds", "value": 2.527829083992401}
+{"attempt": 1, "metric": "peak_rss_bytes_macos", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "bytes", "value": 188006400}
+{"attempt": 1, "metric": "cap_usage_fraction", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "count", "value": 0.3400273472070694}
+{"attempt": 1, "metric": "file_cap_bytes", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "bytes", "value": 134217728}
+{"attempt": 1, "metric": "audit_matches", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "bool", "value": 1}
+{"attempt": 1, "metric": "test_blocks_exposed", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "bool", "value": 0}
+{"attempt": 1, "metric": "test_blocks_audited", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "blocks", "value": 94}
+{"attempt": 1, "metric": "sources", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "sources", "value": 16}
+{"attempt": 1, "metric": "segments", "run": "scale", "status": "observed", "task_id": "T0032", "unit": "segments", "value": 12320}
+{"attempt": 1, "metric": "blocks", "run": "scale/train", "status": "observed", "task_id": "T0032", "unit": "blocks", "value": 1868}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale/train", "status": "observed", "task_id": "T0032", "unit": "tokens", "value": 919040}
+{"attempt": 1, "metric": "content_tokens", "run": "scale/train", "status": "observed", "task_id": "T0032", "unit": "tokens", "value": 896640}
+{"attempt": 1, "metric": "eos_labels", "run": "scale/train", "status": "observed", "task_id": "T0032", "unit": "labels", "value": 11200}
+{"attempt": 1, "metric": "blocks", "run": "scale/validation", "status": "observed", "task_id": "T0032", "unit": "blocks", "value": 94}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale/validation", "status": "observed", "task_id": "T0032", "unit": "tokens", "value": 46240}
+{"attempt": 1, "metric": "content_tokens", "run": "scale/validation", "status": "observed", "task_id": "T0032", "unit": "tokens", "value": 45120}
+{"attempt": 1, "metric": "eos_labels", "run": "scale/validation", "status": "observed", "task_id": "T0032", "unit": "labels", "value": 560}
+{"attempt": 1, "metric": "blocks", "run": "scale/test", "status": "observed", "task_id": "T0032", "unit": "blocks", "value": 94}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale/test", "status": "observed", "task_id": "T0032", "unit": "tokens", "value": 46240}
+{"attempt": 1, "metric": "content_tokens", "run": "scale/test", "status": "observed", "task_id": "T0032", "unit": "tokens", "value": 45120}
+{"attempt": 1, "metric": "eos_labels", "run": "scale/test", "status": "observed", "task_id": "T0032", "unit": "labels", "value": 560}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale/total", "status": "observed", "task_id": "T0032", "unit": "tokens", "value": 1011520}
+{"attempt": 1, "metric": "content_target_bytes", "run": "scale/total", "status": "observed", "task_id": "T0032", "unit": "bytes", "value": 986880}
+{"attempt": 1, "metric": "ntp_labels", "run": "scale/total", "status": "observed", "task_id": "T0032", "unit": "labels", "value": 999200}
+{"attempt": 1, "metric": "train", "run": "scale/shards", "status": "observed", "task_id": "T0032", "unit": "shards", "value": 4}
+{"attempt": 1, "metric": "validation", "run": "scale/shards", "status": "observed", "task_id": "T0032", "unit": "shards", "value": 1}
+{"attempt": 1, "metric": "test", "run": "scale/shards", "status": "observed", "task_id": "T0032", "unit": "shards", "value": 1}
+{"attempt": 1, "metric": "tests", "run": "hosted/implementation", "run_id": 46184014190, "status": "observed", "task_id": "T0032", "unit": "tests", "value": 8}
+{"attempt": 1, "metric": "failures", "run": "hosted/implementation", "run_id": 46184014190, "status": "observed", "task_id": "T0032", "unit": "tests", "value": 0}
+{"attempt": 1, "metric": "cpu_scripts", "run": "hosted/implementation", "run_id": 46184014190, "status": "observed", "task_id": "T0032", "unit": "scripts", "value": 33}
+{"attempt": 1, "metric": "rep_reports", "run": "hosted/implementation", "run_id": 46184014190, "status": "observed", "task_id": "T0032", "unit": "reports", "value": 40}
+{"attempt": 1, "metric": "exit_code", "run": "hosted/implementation", "run_id": 46184014190, "status": "observed", "task_id": "T0032", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "v1_v2_unchanged", "run": "compatibility", "status": "observed", "task_id": "T0032", "unit": "bool", "value": 1}
+{"attempt": 1, "metric": "stream_training_input", "run": "compatibility", "status": "observed", "task_id": "T0032", "unit": "bool", "value": 0}

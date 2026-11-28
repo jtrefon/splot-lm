@@ -1,0 +1,47 @@
+{
+  "attempt": 1,
+  "files": {
+    "research/data/pilot-stream-schema.md": {
+      "bytes": 11635,
+      "sha256": "4c212122223d9f75a3fa5d3e8e6f2acdf80a50a0cf7e491b8551ff23772d55be"
+    },
+    "research/data/source-registry-template.md": {
+      "bytes": 6220,
+      "sha256": "1b3c8545425c2edc2d0d9a735fb8a5775789b6aef0c18065b22d3c2a77d7cb70"
+    },
+    "tools/README.md": {
+      "bytes": 2745,
+      "sha256": "d42bcab11a4144cf98dde10319592caa82b7b7ccc71e0e93cd1dbe898278e21b"
+    },
+    "tools/pilot_stream.py": {
+      "bytes": 39839,
+      "sha256": "2869f14880d95ba0830d09f7915c4300da7becccc8574f44aea4152227839027"
+    },
+    "tools/pilot_stream_audit.py": {
+      "bytes": 19564,
+      "sha256": "914e1d4ec9c8e06e31ff2481fc3a32656c1cad53206aa7f90773bb18e5deaff5"
+    },
+    "tools/pilot_stream_producer.py": {
+      "bytes": 29163,
+      "sha256": "2c130d2767200a6c1b1ae342c46b09460ac8ed03d705ffa47674f0882cb1f529"
+    },
+    "tools/test_pilot_stream.py": {
+      "bytes": 9933,
+      "sha256": "f7d600c275b636f9586412c523edaa1857e6245c08e58a8dc140969ad7e30de1"
+    }
+  },
+  "instruction_base_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "schema": "splot-t0032-implementation-files-v1",
+  "task_id": "T0032",
+  "tested_commit": "42ca0df0cf535abcc63b142a51091597bdb512a9",
+  "unchanged": [
+    "tools/pilot_ingestion.py",
+    "tools/pilot_v2.py",
+    "tools/pilot_v2_producer.py",
+    "configs",
+    ".github/workflows",
+    "PROJECT_STATE.md",
+    "ROADMAP.md",
+    "experiments/tasks"
+  ]
+}
