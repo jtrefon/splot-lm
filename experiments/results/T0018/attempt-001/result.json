@@ -1,0 +1,83 @@
+{
+  "attempt": 1,
+  "checks": {
+    "benchmark_contract": {
+      "detail": "research/implementation/mtp-benchmark-contract.md and its evidence copy define the later Linux trained-checkpoint D0/D1/D2 protocol: same reviewed checkpoint, prompt, budget, tokenizer, precision and EOS; exact greedy token/cache/pending-logit gates; separate stochastic acceptance; contexts 128/512 with 2048 resource-gated; 3+ paired repetitions with warmup and order rotation; synchronized phases and measured observer overhead; TTFT, committed tokens/s, per-offset proposed/verified denominators, rejection replay, correction/bonus calls, peak memory, actual device/precision and checkpoint/tokenizer/manifest hashes; no test-set access and no untrained speed claim. This check is a contract review only; no trained-checkpoint benchmark was executed.",
+      "evidence": [
+        "benchmark-contract.md",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Reviewed main 4c4e23e..d3752ee; minimum base a93141e is an ancestor. Local env: macOS 27.2.1 arm64 Apple M4, 10 logical cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2 (Unicode 17.0.0). torch is absent (ModuleNotFoundError) and was not installed per T0018. Hosted run 46153049369: Ubuntu 24.04, CPython 3.12.7, torch 2.10.0+cpu, numpy 1.26.4, CUDA hidden. No system/package change, MPS/CUDA use, model training or real checkpoint access.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat REP evidence only; no raw text, token arrays, tensors, checkpoints, virtualenvs or secrets. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0018/attempt-001 --task T0018 --source d32c52780a0e6d565ae20422fc83061596a12110 --checks environment,implementation,unit_tests,benchmark_contract,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One T0018 INDEX row is appended; PR #91 and issue #81 carry the handover. No merge, closure or T0019 launch is performed.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "hosted-ci.json"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Tested d32c52780a0e6d565ae20422fc83061596a12110 (superseded a199bc9). Adds optional observer/clock to src/splot/speculative.py with observer=None preserving tokens, RNG draws, model calls, Result and caches; stdlib tools/speculation_trace.py schema/reducer plus target-only run_d0; tools/test_speculation_trace.py; tests/test_speculative_observer.py; research/implementation/mtp-benchmark-contract.md. No model equation, cache, sampling, existing test, data, harness, CI or FP8 change. Events contain only counts, lengths, role/phase/status names, booleans and integer monotonic nanoseconds; no tokens, text, logits or caches. Diff and tested-file hashes are recorded.",
+      "evidence": [
+        "implementation.diff",
+        "implementation.files.json",
+        "benchmark-contract.md",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "Local stdlib 24/24 passed (0.050771 s). Hosted run 46153049369 succeeded on d32c527: 12/12 torch integration tests and 24/24 stdlib trace tests; 29 scripts and 21 existing REP reports validated overall. Integration covers observer off/on token, RNG, model-call, target/shallow cache and pending-logit identity; D0 greedy equality with D1/D2; fresh-prefix replay; zero budget; EOS; first and later rejection; unexamined suffix; all-accepted bonus; short final draft; and no extra target advance. First hosted run 46152872698 on a199bc9 failed four D2 count tests because requested_tokens was 1 despite zero advances; tested d32c527 reports zero D2 requested work. Local Mac has no torch, so no local integration pass is claimed.",
+      "evidence": [
+        "trace-tests.txt",
+        "trace-fixtures.json",
+        "hosted-ci.json",
+        "hosted-ci.txt",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "benchmark-contract.md": "dd87f64ca0d4048ebf495160bd653b704f09c426849d9c84200d29102b2a030f",
+    "environment.json": "78ca554ebbd631407a7bb04d87e4dbd77a57b9a0685debd98e4e94f440ddb62a",
+    "execution.log": "2936d469ed65a56b937470de3756c20311e7d4921dcb535b495e0c2a86c597e3",
+    "hosted-ci.json": "66002ae993d23a027c015464c596cbbb7981b57db1d4cc3b84dad669c2ca3bd6",
+    "hosted-ci.txt": "9f38b0401a056bc5191776d827db33323ebe54431bbed77dd3d9b0f80b2398f9",
+    "implementation.diff": "e272eea6af92a5502d7ba9e3dca37e60182893bc21923796cec2eca4736ec461",
+    "implementation.files.json": "ec52ac9049651e4e4eef5e3429c8a5b2ce58a430d0b1314c5518d5d810fc9c3c",
+    "metrics.jsonl": "3e86ab0baeeb7e5b32aebea00d7362a84fd106fc9e952194a64a4016d49aab17",
+    "summary.md": "a1f9aa26d066f3316522b94e83689216588f88ee8897178b953134286c644bf2",
+    "trace-fixtures.json": "354ff9048a259c7fb8d6d386ca4f70591833ea68e6eeea8412fe8deba74aa923",
+    "trace-tests.txt": "7dfd989fa14a29a55ca573bf64d043fa526676f7ce285432cb97658ca4610ef8"
+  },
+  "limitations": [
+    "Local Mac has no torch module; the 12 torch integration tests were executed only on hosted CPU, and no local integration pass is claimed.",
+    "Synthetic fixture timings use an injected fake clock and are not throughput or latency measurements.",
+    "Observer callback overhead was not measured; the future benchmark must pair observer-off/on and synchronize device work outside callbacks.",
+    "D0 stochastic output is not expected to match D1/D2 token sequences because RNG consumption differs; only greedy equality is claimed.",
+    "The benchmark document is a protocol only. No trained-checkpoint speed, memory, acceptance-rate or quality result is reported.",
+    "The observer is exact-reference instrumentation, not a production cache manager or fused kernel."
+  ],
+  "schema_version": 1,
+  "source_commit": "d32c52780a0e6d565ae20422fc83061596a12110",
+  "status": "passed",
+  "task_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "task_id": "T0018",
+  "tested_commit": "d32c52780a0e6d565ae20422fc83061596a12110"
+}

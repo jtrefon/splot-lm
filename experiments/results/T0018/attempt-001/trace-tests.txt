@@ -1,0 +1,29 @@
+test_event_values_are_scalar (__main__.ApiTests.test_event_values_are_scalar) ... ok
+test_validate_trace_returns_summary (__main__.ApiTests.test_validate_trace_returns_summary) ... ok
+test_all_accepted_plus_bonus (__main__.FixtureTests.test_all_accepted_plus_bonus) ... ok
+test_all_fixtures_validate_and_are_json_safe (__main__.FixtureTests.test_all_fixtures_validate_and_are_json_safe) ... ok
+test_collector_bounded (__main__.FixtureTests.test_collector_bounded) ... ok
+test_d0_has_no_shallow_work_or_proposals (__main__.FixtureTests.test_d0_has_no_shallow_work_or_proposals) ... ok
+test_eos_and_short_budget (__main__.FixtureTests.test_eos_and_short_budget) ... ok
+test_first_rejection_unexamined_suffix (__main__.FixtureTests.test_first_rejection_unexamined_suffix) ... ok
+test_later_rejection_and_replay_amplification (__main__.FixtureTests.test_later_rejection_and_replay_amplification) ... ok
+test_required_cases_exist (__main__.FixtureTests.test_required_cases_exist) ... ok
+test_zero_output_has_null_ttft (__main__.FixtureTests.test_zero_output_has_null_ttft) ... ok
+test_commit_arithmetic_and_lengths (__main__.MalformedTests.test_commit_arithmetic_and_lengths) ... ok
+test_d0_proposal_is_invalid (__main__.MalformedTests.test_d0_proposal_is_invalid) ... ok
+test_draft_after_rejection_must_be_unexamined (__main__.MalformedTests.test_draft_after_rejection_must_be_unexamined) ... ok
+test_duplicate_rejection (__main__.MalformedTests.test_duplicate_rejection) ... ok
+test_eos_without_flag_and_early_end (__main__.MalformedTests.test_eos_without_flag_and_early_end) ... ok
+test_missing_or_reordered_prefill (__main__.MalformedTests.test_missing_or_reordered_prefill) ... ok
+test_phase_count_mismatch (__main__.MalformedTests.test_phase_count_mismatch) ... ok
+test_run_end_totals (__main__.MalformedTests.test_run_end_totals) ... ok
+test_timestamp_decrease (__main__.MalformedTests.test_timestamp_decrease) ... ok
+test_top_level_shape (__main__.MalformedTests.test_top_level_shape) ... ok
+test_unexamined_requires_rejection_or_eos (__main__.MalformedTests.test_unexamined_requires_rejection_or_eos) ... ok
+test_unknown_kind_and_content_field (__main__.MalformedTests.test_unknown_kind_and_content_field) ... ok
+test_wrong_schema_and_seq (__main__.MalformedTests.test_wrong_schema_and_seq) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.003s
+
+OK
