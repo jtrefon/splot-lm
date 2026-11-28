@@ -31,3 +31,6 @@ Architecture alignment first, not corpus optimization. Owner authorized acquisit
 
 ## Architecture decision review (proposed)
 [2026-11-28 EN](research/architecture-review/2026-11-28-en.md) / [PL](research/architecture-review/2026-11-28-pl.md), #85, #86 conditional memory and #87 recurrence/topology; #6 tier-aware exact residency. Current assignments #77/#81 unchanged. Conditional GO for v0.2 reference; no freeze for larger pretraining before the reviewed v0.3 gates. No claim that candidate extensions are implemented; owner review pending.
+
+## Scientific direction and queued assignments
+Maintainer-approved [charter](research/CHARTER.md) / [PL](research/CHARTER.pl.md): achieve more through better architecture, not greater scale. [Evaluation framework](research/evaluation/README.md): quality–cost improvements against credible matched controls. Commodity hardware is a validation constraint. T0017/T0018 remain unchanged; queued Mac [T0019/#89](experiments/tasks/T0019-baseline-design.md) after T0018 acceptance, Linux [T0020/#90](experiments/tasks/T0020-cuda-cost-baseline.md) after T0017 acceptance; each requires reviewed merge and separate named local owner launch. No v0.3 mechanism adopted by the charter.

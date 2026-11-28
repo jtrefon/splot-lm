@@ -1,8 +1,10 @@
 # SPLOT — Sparse Predictive Looped Optimized Transformer
 
-[Polski](README.pl.md) · [Architecture contract](research/rfcs/0001-architecture/contract-v0.2.md) · [Research status](PROJECT_STATE.md) · [Evidence](experiments/results/INDEX.md) · [Roadmap](ROADMAP.md)
+[Polski](README.pl.md) · [Research charter](research/CHARTER.md) · [Architecture contract](research/rfcs/0001-architecture/contract-v0.2.md) · [Research status](PROJECT_STATE.md) · [Evidence](experiments/results/INDEX.md) · [Roadmap](ROADMAP.md)
 
-**An independent, open research project developing efficient language-model architectures for commodity hardware.**
+**Achieve more through better architecture, not greater scale.**
+
+An independent, open architecture-first research programme investigating better language-model quality at equivalent or lower computational cost. Commodity hardware is an initial validation constraint, not the research objective. See the [foundational charter](research/CHARTER.md) and [evaluation framework](research/evaluation/README.md).
 
 SPLOT (Polish for an interweaving) combines recurrent depth, hybrid Gated DeltaNet / grouped-query attention (GDN/GQA), sparse mixture-of-experts (MoE), native multi-token prediction (MTP), and native low-precision training. The aim is to understand whether these mechanisms together improve the quality–compute–latency–memory frontier, not to assume that any component guarantees acceleration.
 

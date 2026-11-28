@@ -1,6 +1,9 @@
 # SPLOT — repository-first instructions for contributors and AI agents
 Scope: entire repository. Maintainer: jtrefon. English canonical; Polish translations welcome. Read this file first in any new session. This is project guidance, not a substitute for user authorization or tool permissions.
 
+## Scientific direction
+Read the [foundational research charter](research/CHARTER.md) and [evaluation framework](research/evaluation/README.md) when proposing research or adopting architecture. Achieve more through better architecture, not greater scale. Quality–cost evidence against credible matched controls governs adoption; hardware is a validation constraint, not the mission. Preserve reviewed execution scope.
+
 ## Role selection and mandatory execution handoff (REP v0.2)
 Research coordinators follow [RESEARCH_COORDINATION.md](RESEARCH_COORDINATION.md) and the current maintainer's [session-start authorization](SESSION_START.md). Execution agents follow REP and the named task; coordination authority does not authorize local compute. The role-specific launch prompts are distinct.
 

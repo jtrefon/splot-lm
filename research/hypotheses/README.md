@@ -1,5 +1,5 @@
 # Hypothesis register / Rejestr hipotez
-All untested. Pre-register effect sizes, budget and metrics before execution.
+Subordinate to the [foundational charter](../CHARTER.md) and [evaluation framework](../evaluation/README.md). Overarching question: how can architectural organization improve capabilities at equivalent or lower computational cost? All hypotheses remain untested; feasibility is not confirmation. For each choose a primary quality/cost metric, matched comparator, capability guardrails and a preregistered effect/noninferiority margin. Pre-register effect sizes, budget and metrics before execution.
 
 | ID | Hypothesis | Falsification |
 |---|---|---|

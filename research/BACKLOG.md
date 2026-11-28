@@ -19,3 +19,5 @@ Snapshot 2026-11-28. Live issues are authoritative; no duplicate tracker. Previo
 | [#11](https://github.com/jtrefon/splot-lm/issues/11) | Open science, licensing | P2: explicit research/weights licensing and replication |
 
 Closed foundational work: #3/#4/#5/#9/#13 and T0001–T0016; see [task index](../experiments/tasks/README.md) and [evidence](../experiments/results/INDEX.md). T0017 implementation accepted, overall pilot still open. Scope priorities are proposals, not deadlines or local execution authorization.
+
+Charter-aligned next task queue: [#89 T0019](https://github.com/jtrefon/splot-lm/issues/89) Mac matched comparator/evaluation design after #81; [#90 T0020](https://github.com/jtrefon/splot-lm/issues/90) Linux repeated cost baseline after #77. See [evaluation](evaluation/README.md); no execution without merged spec and explicit owner launch.
