@@ -8,13 +8,13 @@ Niezależny, otwarty program badań nad architekturami modeli językowych, ukier
 
 SPLOT łączy rekurencyjną głębokość obliczeń, hybrydę Gated DeltaNet / grouped-query attention (GDN/GQA), rzadką aktywację ekspertów (MoE), natywną predykcję wielotokenową (MTP) oraz trening z obniżoną precyzją. Badamy, czy ich połączenie poprawia kompromis między jakością, kosztem obliczeń, opóźnieniem i zużyciem pamięci.
 
-**Stan na 28 listopada 2026: działająca architektura badawcza, zweryfikowany natywny trening CUDA; kolejnym etapem jest ograniczony pilotaż na rzeczywistych danych.** Implementacja, testy CPU/GPU i wersjonowane wyniki są dostępne publicznie. Nie wydano produkcyjnego modelu ani publicznych wag po pretreningu. Projekt nie jest afiliowany przy PLLuM, NASK ani innej instytucji.
+**Stan na 28 listopada 2026: działająca architektura badawcza, zweryfikowany natywny trening CUDA; ograniczony pilotaż na rzeczywistych danych przekazano do recenzji.** Implementacja, testy CPU/GPU i wersjonowane wyniki są dostępne publicznie. Nie wydano produkcyjnego modelu ani publicznych wag po pretreningu. Projekt nie jest afiliowany przy PLLuM, NASK ani innej instytucji.
 
 ## Architektura
 
 - Osiem fizycznych bloków w układzie 2/4/2: dwa GQA, współdzielony rdzeń 3 GDN + 1 bramkowane GQA z MoE, dwa GQA. Stała głębokość 1–4, oddzielne stany przyczynowe dla logicznych wywołań.
 - Ośmiu ekspertów kierowanych, top-2 i jeden współdzielony; router FP32 i regularyzacja obciążenia.
-- Natywne MTP offsetu 2 oraz referencyjna dokładna weryfikacja spekulacyjna D1/D2. Pomiary akceptacji i latencji na trenowanych wagach pozostają do wykonania.
+- Natywne MTP offsetu 2 oraz referencyjna dokładna weryfikacja spekulacyjna D1/D2 z zaakceptowanym baseline D0 i śladem v2 ([T0018](experiments/results/T0018/attempt-002/summary.md)). Pomiary akceptacji i latencji na trenowanych wagach pozostają do wykonania.
 - Natywne FP8 (E4M3 dla wag i aktywacji, E5M2 w propagacji wstecznej), BF16 w strumieniu rezydualnym, FP32 dla wag nadrzędnych, stanów wrażliwych i optymalizatora. Kontrole FP32/BF16.
 - Hybrydowy Muon/AdamW oraz opcjonalne ponowne wykorzystanie skwantowanych wag FP8 w ramach jednej aktualizacji.
 
@@ -36,7 +36,7 @@ Pomiary sprzętowe dotyczą referencji na jednej karcie RTX 4090 24 GB, PyTorch 
 | Współdzielenie wag FP8 | T512: 298 → 156 kwantyzacji, identyczny stan modelu/optymalizatora i loss; 1,949 → 1,633 s w jednym pomiarze | [T0017](experiments/results/T0017/attempt-001/t512-pair.json) |
 | Korpus PL/EN | 8 rodzin utworów, 8,57 MiB tekstu, BPE 16 384, 56 201 wybranych tokenów treści | [T0016](experiments/results/T0016/attempt-001/summary.md) |
 
-Wyniki syntetyczne z jednym seedem nie dowodzą generalizacji ani przewagi optymalizatora. Pojedynczy pomiar czasu nie dowodzi trwałego przyspieszenia. Korpus przygotowano na Macu; rzeczywisty trening na Linuksie i weryfikacja lokalnej kopii pozostają do wykonania. T0017 ma status blocked w pierwszej próbie z powodu niewykonanego pilotażu, mimo akceptacji niezależnej implementacji. Surowe dane i tensory wag pozostają lokalne.
+Wyniki syntetyczne z jednym seedem nie dowodzą generalizacji ani przewagi optymalizatora. Pojedynczy pomiar czasu nie dowodzi trwałego przyspieszenia. Korpus przygotowano na Macu; wyniki treningu na Linuksie przekazano w [PR #92](https://github.com/jtrefon/splot-lm/pull/92); recenzja potwierdziła wykonalność, kwestie proceduralne i pochodzenie artefaktów pozostają otwarte. T0017 ma status blocked w pierwszej próbie z powodu niewykonanego pilotażu, mimo akceptacji niezależnej implementacji. Surowe dane i tensory wag pozostają lokalne.
 
 ## Współpraca i reprodukcja
 
