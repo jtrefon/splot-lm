@@ -51,4 +51,4 @@ No evidence was deleted or overwritten. Hosted CPU CI was run on the combined fi
 3. The original tokenizer `.whl` container is absent, so the PyPI SHA-256 is the trusted release identity but was not locally recomputed from wheel bytes.
 4. T0017 #77 remains open pending explicit maintainer disposition of these deviations; T0020 remains gated by its own reviewed amendment and separate owner launch.
 
-No training, package installation, network download, automatic retry, merge or closure was performed in this addendum.
+No training, package installation, network download, automatic retry, PR merge or task closure was performed in this addendum.
