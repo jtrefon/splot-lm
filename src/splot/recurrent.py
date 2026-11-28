@@ -19,6 +19,7 @@ class RecurrentConfig:
     injection_strength: float = .1
     residual_scale: str = 'unscaled'
     depth_embedding: bool = False
+    gdn_algorithm: str = 'scan'
 
     def __post_init__(self):
         if min(self.prelude, self.core, self.coda) < 1 or self.dense.layers != self.prelude+self.core+self.coda:
@@ -29,6 +30,8 @@ class RecurrentConfig:
             raise ValueError('invalid injection')
         if self.residual_scale not in ('unscaled', 'sqrt_cap', 'linear_cap'):
             raise ValueError('invalid residual scale')
+        if self.gdn_algorithm not in ('scan', 'chunk64'):
+            raise ValueError('gdn_algorithm must be scan or chunk64')
 
     def parameter_count(self):
         return self.dense.parameter_count() + (self.max_loops*self.dense.width if self.depth_embedding else 0)
@@ -48,6 +51,7 @@ class RecurrentCache:
     loops: int
     readouts: tuple
     states: tuple  # ordered ((stage, depth, block), per-row KV) pairs
+    algorithm: str = 'scan'
 
 
 @dataclass(frozen=True)
@@ -105,8 +109,9 @@ class RecurrentLM(nn.Module):
         previous = {} if cache is None else dict(cache.states)
         if cache is not None and (cache.owner is not self._cache_owner or len(cache.rows) != b or
                                   cache.loops != loops or cache.readouts != requested or
+                                  cache.algorithm != c.gdn_algorithm or
                                   len(cache.states) != len(keys) or set(previous) != set(keys)):
-            raise ValueError('cache ownership, depth, readout or layout mismatch')
+            raise ValueError('cache ownership, depth, readout, algorithm or layout mismatch')
         plans, rows = segments(document_ids, position_ids, valid, cache.rows if cache else (None,)*b)
         states = {}
         routing = []
@@ -138,5 +143,6 @@ class RecurrentLM(nn.Module):
                 y = run(self.coda, h, 'Q', r)
                 logits[r] = F.linear(self.norm(y), self.embedding.weight).masked_fill(~valid[..., None], 0)
         next_cache = RecurrentCache(self._cache_owner, rows, loops, requested,
-                                    tuple((k, states[k]) for k in keys)) if use_cache else None
+                                    tuple((k, states[k]) for k in keys),
+                                    c.gdn_algorithm) if use_cache else None
         return RecurrentOutput(logits, hidden, next_cache, routing=tuple(routing))

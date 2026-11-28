@@ -1,0 +1,249 @@
+{
+  "bf16_scan_context": {
+    "2048_end_to_end_median": 4.733520150999539,
+    "512_end_to_end_median": 1.2386662240023725
+  },
+  "cases": [
+    {
+      "baseline_allocated_bytes": 172244992,
+      "labels_per_second_max": 409.4270689937461,
+      "labels_per_second_median": 407.59671059050476,
+      "labels_per_second_min": 404.72457121764256,
+      "length": 512,
+      "method": "scan",
+      "phase_summary": {
+        "backward": {
+          "max": 0.8150798159767874,
+          "median": 0.8079175720340572,
+          "min": 0.8033170499838889
+        },
+        "end_to_end": {
+          "max": 1.2625870439806022,
+          "median": 1.2536901960265823,
+          "min": 1.2480855290195905
+        },
+        "forward": {
+          "max": 0.37827434099745005,
+          "median": 0.37751918204594404,
+          "min": 0.3768464180175215
+        },
+        "optimizer": {
+          "max": 0.06910086597781628,
+          "median": 0.06814057903829962,
+          "min": 0.06779225100763142
+        },
+        "peak_allocated_bytes": 2182651904,
+        "peak_reserved_bytes": 2233466880,
+        "prepare": {
+          "max": 0.00012805702863261104,
+          "median": 0.00012664898531511426,
+          "min": 0.00010827003279700875
+        }
+      },
+      "policy": "fp32_scan",
+      "status": "passed"
+    },
+    {
+      "baseline_allocated_bytes": 172244992,
+      "labels_per_second_max": 2342.68201425789,
+      "labels_per_second_median": 2339.41975552301,
+      "labels_per_second_min": 2295.0795034813686,
+      "length": 512,
+      "method": "chunk64",
+      "phase_summary": {
+        "backward": {
+          "max": 0.08611534495139495,
+          "median": 0.08514250797452405,
+          "min": 0.08484415902057663
+        },
+        "end_to_end": {
+          "max": 0.2226502390112728,
+          "median": 0.21843023202382028,
+          "min": 0.21812606102321297
+        },
+        "forward": {
+          "max": 0.0692869300255552,
+          "median": 0.06509085994912311,
+          "min": 0.06470264802919701
+        },
+        "optimizer": {
+          "max": 0.06837561400607228,
+          "median": 0.0681595090427436,
+          "min": 0.06714487302815542
+        },
+        "peak_allocated_bytes": 1627993088,
+        "peak_reserved_bytes": 1681915904,
+        "prepare": {
+          "max": 0.00011848501162603498,
+          "median": 0.00011722597992047668,
+          "min": 9.929900988936424e-05
+        }
+      },
+      "policy": "fp32_chunk64",
+      "status": "passed"
+    },
+    {
+      "baseline_allocated_bytes": 172244992,
+      "labels_per_second_max": 413.9949400004178,
+      "labels_per_second_median": 412.5405134151953,
+      "labels_per_second_min": 405.6045799514464,
+      "length": 512,
+      "method": "original_bf16_scan",
+      "phase_summary": {
+        "backward": {
+          "max": 0.8108908659778535,
+          "median": 0.8022802919731475,
+          "min": 0.7970660110004246
+        },
+        "end_to_end": {
+          "max": 1.2598477069986984,
+          "median": 1.2386662240023725,
+          "min": 1.2343146029743366
+        },
+        "forward": {
+          "max": 0.3845009329961613,
+          "median": 0.3730629979982041,
+          "min": 0.3721590939676389
+        },
+        "optimizer": {
+          "max": 0.0643453189986758,
+          "median": 0.06409353803610429,
+          "min": 0.06405874801566824
+        },
+        "peak_allocated_bytes": 2053050880,
+        "peak_reserved_bytes": 2145386496,
+        "prepare": {
+          "max": 0.000129210005979985,
+          "median": 0.0001233890070579946,
+          "min": 0.00010630598990246654
+        }
+      },
+      "policy": "original_bf16_scan",
+      "status": "passed"
+    },
+    {
+      "baseline_allocated_bytes": 172307968,
+      "labels_per_second_max": 428.1807988942385,
+      "labels_per_second_median": 426.9038712061026,
+      "labels_per_second_min": 421.4864080120744,
+      "length": 2048,
+      "method": "scan",
+      "phase_summary": {
+        "backward": {
+          "max": 3.312116610992234,
+          "median": 3.2734956719796173,
+          "min": 3.266849667998031
+        },
+        "end_to_end": {
+          "max": 4.856621615996119,
+          "median": 4.794990483962465,
+          "min": 4.780690785963088
+        },
+        "forward": {
+          "max": 1.4743093299912289,
+          "median": 1.4528784659923986,
+          "min": 1.445634878007695
+        },
+        "optimizer": {
+          "max": 0.07007661502575502,
+          "median": 0.06847451499197632,
+          "min": 0.06807074596872553
+        },
+        "peak_allocated_bytes": 7977949696,
+        "peak_reserved_bytes": 8218738688,
+        "prepare": {
+          "max": 0.0001380119938403368,
+          "median": 0.00013220601249486208,
+          "min": 0.00011464598355814815
+        }
+      },
+      "policy": "fp32_scan",
+      "status": "passed"
+    },
+    {
+      "baseline_allocated_bytes": 172307968,
+      "labels_per_second_max": 4528.417453327159,
+      "labels_per_second_median": 4519.892572585613,
+      "labels_per_second_min": 4387.938044117814,
+      "length": 2048,
+      "method": "chunk64",
+      "phase_summary": {
+        "backward": {
+          "max": 0.24159217602573335,
+          "median": 0.23483856400707737,
+          "min": 0.2342888630228117
+        },
+        "end_to_end": {
+          "max": 0.46650613099336624,
+          "median": 0.45288687001448125,
+          "min": 0.4520342969917692
+        },
+        "forward": {
+          "max": 0.15751842502504587,
+          "median": 0.15071915596490726,
+          "min": 0.15006185101810843
+        },
+        "optimizer": {
+          "max": 0.06756141397636384,
+          "median": 0.06728476699208841,
+          "min": 0.06720026198308915
+        },
+        "peak_allocated_bytes": 5762677760,
+        "peak_reserved_bytes": 6008340480,
+        "prepare": {
+          "max": 0.00012482504826039076,
+          "median": 0.00011929305037483573,
+          "min": 0.0001063559902831912
+        }
+      },
+      "policy": "fp32_chunk64",
+      "status": "passed"
+    },
+    {
+      "baseline_allocated_bytes": 172307968,
+      "labels_per_second_max": 436.70440359125604,
+      "labels_per_second_median": 432.4477206604374,
+      "labels_per_second_min": 431.5511869380277,
+      "length": 2048,
+      "method": "original_bf16_scan",
+      "phase_summary": {
+        "backward": {
+          "max": 3.2416766139795072,
+          "median": 3.2085918419761583,
+          "min": 3.200470909010619
+        },
+        "end_to_end": {
+          "max": 4.743353886995465,
+          "median": 4.733520150999539,
+          "min": 4.687381174007896
+        },
+        "forward": {
+          "max": 1.4593893470009789,
+          "median": 1.4360531470156275,
+          "min": 1.4218416110379621
+        },
+        "optimizer": {
+          "max": 0.06549239699961618,
+          "median": 0.06540048000169918,
+          "min": 0.06494660797761753
+        },
+        "peak_allocated_bytes": 7214868480,
+        "peak_reserved_bytes": 7614758912,
+        "prepare": {
+          "max": 0.00013508397387340665,
+          "median": 0.00012764096027240157,
+          "min": 0.00011713104322552681
+        }
+      },
+      "policy": "original_bf16_scan",
+      "status": "passed"
+    }
+  ],
+  "fp32_scan_chunk_end_to_end_ratio": {
+    "2048": 10.587612053776573,
+    "512": 5.739545228747753
+  },
+  "no_sustained_training_or_throughput_claim": true,
+  "scope": "Fresh process/method, fresh identical initialization per repeat, warmup complete update discarded, three measured synchronized complete optimizer updates; diagnostics outside timing.",
+  "status": "passed"
+}

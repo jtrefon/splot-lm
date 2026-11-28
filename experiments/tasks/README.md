@@ -34,5 +34,7 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0029 | [GDN localization](T0029-gdn-localization.md) | [#113](https://github.com/jtrefon/splot-lm/issues/113) | Closed; exact reproduction and bounded forward diagnostic, no adoption |
 | T0030 | [V2 coverage and producer](T0030-v2-coverage-producer.md) | [#116](https://github.com/jtrefon/splot-lm/issues/116) | Closed; synthetic hardening and deterministic producer accepted, streaming required |
 | T0031 | [GDN matched precision](T0031-gdn-matched-precision.md) | [#117](https://github.com/jtrefon/splot-lm/issues/117) | Closed; FP32 feasibility accepted, P1/P2 rejected |
-| T0032 | [Streaming corpus](T0032-streaming-corpus.md) | [#120](https://github.com/jtrefon/splot-lm/issues/120) | Mac; bounded synthetic scale qualification; owner launch after integration |
-| T0033 | [FP32 chunk64 opt-in](T0033-fp32-chunk64-opt-in.md) | [#121](https://github.com/jtrefon/splot-lm/issues/121) | Linux; opt-in implementation/optimizer qualification; owner launch after integration |
+| T0032 | [Streaming corpus](T0032-streaming-corpus.md) | [#120](https://github.com/jtrefon/splot-lm/issues/120) | Closed; scoped synthetic scale accepted; streaming gaps remain |
+| T0033 | [FP32 chunk64 opt-in](T0033-fp32-chunk64-opt-in.md) | [#121](https://github.com/jtrefon/splot-lm/issues/121) | Closed; FP32 opt-in accepted, scan default retained |
+| T0034 | [Streaming completion](T0034-streaming-completion.md) | [#124](https://github.com/jtrefon/splot-lm/issues/124) | Mac; bounded I/O and registry candidates; owner launch after integration |
+| T0035 | [Matched FP32 learning](T0035-fp32-matched-learning.md) | [#125](https://github.com/jtrefon/splot-lm/issues/125) | Linux; exact T0016 pilot, owner launch after integration |

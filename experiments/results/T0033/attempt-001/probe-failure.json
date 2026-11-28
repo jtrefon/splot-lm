@@ -1,0 +1,21 @@
+{
+  "correction": {
+    "commit": "a8df3f0488a3b4987acfbe50e4f1791a8fabf133",
+    "data_config_change": false,
+    "gate_change": false,
+    "kind": "read-only probe fix: use existing post-update finite validator instead of torch optimizer state key",
+    "source_model_change": false
+  },
+  "first_invocation": {
+    "end_utc": "2026-11-28T19:56:42Z",
+    "error": "KeyError: 'state'",
+    "exit_code": 1,
+    "numerical_report_written": false,
+    "source_head": "49db3927c4671c042060512a7f36302741edba98",
+    "stage": "post-update optimizer inventory in probe",
+    "start_utc": "2026-11-28T19:56:38Z"
+  },
+  "note": "No numerical gate result was produced by the failed invocation; the corrected probe was committed and the qualification rerun from the exact tested SHA.",
+  "status": "documented",
+  "subsequent_invocations": "All qualification, packed-resume, resource-gate and resource invocations exited 0."
+}

@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "algorithm": "scan",
+      "checkpoint_changed": true,
+      "history_exact_non_timing": true,
+      "model_optimizer_rng_exact": true,
+      "status": "passed",
+      "validation_exact": true
+    },
+    {
+      "algorithm": "chunk64",
+      "checkpoint_changed": true,
+      "history_exact_non_timing": true,
+      "model_optimizer_rng_exact": true,
+      "status": "passed",
+      "validation_exact": true
+    }
+  ],
+  "cross_mode": {
+    "checkpoint_unchanged": true,
+    "error": "run identity mismatch",
+    "status": "passed"
+  },
+  "status": "passed"
+}

@@ -10,7 +10,8 @@ Snapshot 2026-11-28. Live issues are authoritative; no duplicate tracker. Previo
 | [#86](https://github.com/jtrefon/splot-lm/issues/86) | Conditional memory RFC | P0: proposed causal memory and matched allocation controls |
 | [#87](https://github.com/jtrefon/splot-lm/issues/87) | Recurrent topology/granularity | P0: proposed stability/partial untying/expert pool ablations |
 | [#2](https://github.com/jtrefon/splot-lm/issues/2) | Native MTP / recurrent self-speculation | P0: trained-checkpoint inference comparisons |
-| [#7](https://github.com/jtrefon/splot-lm/issues/7) | Numerical precision | P1: recurrent stability, profile and optimize reference |
+| [#7](https://github.com/jtrefon/splot-lm/issues/7) | Numerical precision | P1: native FP8 scan retained; matched learning and precision optimization |
+| [#126](https://github.com/jtrefon/splot-lm/issues/126) | QAT pretraining | P1 proposed: expert-first W4A32, deployment format and matched PTQ/from-start/late QAT after T0035 |
 | [#10](https://github.com/jtrefon/splot-lm/issues/10) | Experiment/hardware protocol | P1: profile GDN/attention, matched controls and context scaling |
 | [#6](https://github.com/jtrefon/splot-lm/issues/6) | MoE locality | P0 design: actual route traces, tiered expert/row residency and exact cache scheduling, then measured hardware validation |
 | [#42](https://github.com/jtrefon/splot-lm/issues/42) | Muon hybrid | P1: matched tuning/precision factorial on real data |
@@ -20,4 +21,4 @@ Snapshot 2026-11-28. Live issues are authoritative; no duplicate tracker. Previo
 
 Closed foundational work: #3/#4/#5/#9/#13 and T0001–T0016; see [task index](../experiments/tasks/README.md) and [evidence](../experiments/results/INDEX.md). T0017 implementation accepted, overall pilot still open. Scope priorities are proposals, not deadlines or local execution authorization.
 
-Charter-aligned next task queue: [#89 T0019](https://github.com/jtrefon/splot-lm/issues/89) Mac matched comparator/evaluation design after #81; [#90 T0020](https://github.com/jtrefon/splot-lm/issues/90) Linux repeated cost baseline after #77. See [evaluation](evaluation/README.md); no execution without merged spec and explicit owner launch.
+Charter-aligned next task queue: [#124 T0034](https://github.com/jtrefon/splot-lm/issues/124) Mac streaming completion and candidate registry; [#125 T0035](https://github.com/jtrefon/splot-lm/issues/125) Linux matched FP32 learning. See [evaluation](evaluation/README.md); no execution without merged spec and explicit owner launch.
