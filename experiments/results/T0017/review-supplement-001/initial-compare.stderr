@@ -1,0 +1,4 @@
+# Sanitized supplementary copy of original local log: initial-compare.stderr
+# Original local raw SHA-256: 5f692d9830a482e34f4eae21de589e7afb743840737c00986e1ef35825c81234
+# Redactions: local workspace -> <local-work>; user home -> <home>; no other changes.
+FAILED: unexpected inventory or step count
