@@ -1,0 +1,147 @@
+{
+  "attempt": 2,
+  "authorization": "owner explicitly authorized T0017 attempt-002 on the local RTX 4090 within the reviewed continuation specification and resource limits",
+  "base_source_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "branch": "feat/T0017-pilot-attempt-002",
+  "configuration": {
+    "gate_config_base_sha256": "370fb892a514f7bc129490112eba35a22d30f2b4f5bc2236d9fb4221f89642be",
+    "gate_config_temporary_sha256": "7c9e604bd47a0391efaac449ac2d8180b428a81470e8f9813b8c6acbc2a6dfd5",
+    "pilot_config": "configs/experiments/splot-nano-pilot-fp8-muon.json",
+    "pilot_config_identity_sha256": "15e73e4d2bcb7d91b60887a696af794df414d727c2ad95f1de7ec25f8fc2cd0b",
+    "pilot_config_sha256": "2f8b97b18d8c98929843a5717cedd6f5634125627e43cbf777d595a224d46e99"
+  },
+  "dataset": {
+    "actual_vocab_size": 16384,
+    "files": {
+      "manifest.json": {
+        "bytes": 4674,
+        "sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55"
+      },
+      "test.jsonl": {
+        "bytes": 202373,
+        "sha256": "00968bee8f71dccf1fa5e52dc6ca8fa948e3ffb89577e45bb6bb00c74172b06d"
+      },
+      "tokenizer.json": {
+        "bytes": 708869,
+        "sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b"
+      },
+      "train.jsonl": {
+        "bytes": 1608729,
+        "sha256": "7f1156eeed4c0de8f802d5db41df0884791429d3f91bff1b2348d0a14ca92a39"
+      },
+      "validation.jsonl": {
+        "bytes": 202943,
+        "sha256": "e5d858a12c975f416c393889d1915110c1854003c922cc26f498af807a7c214f"
+      }
+    },
+    "format": "splot-pilot-blocks-v1",
+    "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+    "manifest_bytes": 4674,
+    "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+    "model_vocab_size": 32768,
+    "sequence_length": 512,
+    "source_snapshot_sha256": "c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087",
+    "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+    "total_bytes": 2727588,
+    "unused_token_id_ranges": [
+      [
+        16384,
+        32767
+      ]
+    ],
+    "version": 1
+  },
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "tf32_enabled": false,
+    "torch_threads": 1
+  },
+  "disk": {
+    "available_bytes_at_capture": 13339881472,
+    "available_gib_preflight_approx": 14,
+    "checkpoint_bytes": 395220707,
+    "dataset_bytes": 2727588,
+    "run_directory_bytes": 395472391,
+    "total_bytes_at_capture": 16447307776
+  },
+  "evidence_build_utc": "2026-11-28T14:12:32Z",
+  "gpu": {
+    "driver_version": "580.178.04",
+    "index": 0,
+    "model": "NVIDIA GeForce RTX 4090",
+    "selected_by_owner": true,
+    "vram_free_preflight_mib": 24077,
+    "vram_total_mib": 24564
+  },
+  "instruction_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "minimum_reviewed_base": "a93141e3160c0e9bb845d5b0a64df69c0e97157b",
+  "observed": {
+    "automatic_retries": 0,
+    "checkpoint_bytes": 395220707,
+    "peak_cuda_allocated_bytes": 1918267904,
+    "peak_cuda_reserved_bytes": 2109734912,
+    "real_pilot_exit_code": 0,
+    "real_pilot_wall_seconds": 89,
+    "source_changes": 0,
+    "timeout_used": false
+  },
+  "os": {
+    "cpu_count": 24,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "release": "7.0.0-43-generic",
+    "system": "Linux"
+  },
+  "pilot_end_utc": "2026-11-28T14:04:59Z",
+  "pilot_start_utc": "2026-11-28T14:03:30Z",
+  "python": {
+    "implementation": "CPython",
+    "training_process": "CPython 3.12.7",
+    "version": "3.12.7"
+  },
+  "regeneration": {
+    "caps_respected": true,
+    "dataset_bytes": 2727588,
+    "extracted_limit_bytes": 10485760,
+    "extracted_utf8_bytes": 8987423,
+    "network_bytes": 11204726,
+    "network_limit_bytes": 52428800,
+    "output_bytes_observed": 3518035,
+    "path": "reviewed alternative: accepted producer acquire/build/verify from committed registry and official URLs; no owner-supplied dataset directory was present",
+    "staging_bytes_observed": 11294344,
+    "tokenizer_environment": {
+      "abi3_sha256": "4b1458a379296762a034d3bc89299c0c35b4eefb0577acca922f481b262c65a1",
+      "dist_info_sha256": {
+        "METADATA": "87032ea29ec14be956ce0f15d164a8f436d6f1adbe19b261d6c179d9184f5cba",
+        "RECORD": "594502c82016a506018a24f94c695aedbb52432e63e705b29c75e80e886500a5",
+        "WHEEL": "3e005108b72ca995d6499010b85d3f9c55b21a1a1b731b9118eb012029bfe0a9"
+      },
+      "encoded_token_count": 19,
+      "installation": "isolated venv outside checkout; uv pip install --offline --no-deps --only-binary=:all: tokenizers==0.23.3 from local uv cache of official PyPI wheel; no network package download",
+      "local_tokenizer_import": true,
+      "module": "tokenizers",
+      "pypi_project_url": "https://pypi.org/project/tokenizers/0.23.3/",
+      "python": "3.12.7",
+      "roundtrip": true,
+      "tokenizers_version": "0.23.3",
+      "wheel_tag": "cp310-abi3-manylinux_2_17_x86_64"
+    }
+  },
+  "resource_limits": {
+    "cuda_qualification_timeout_seconds": 300,
+    "minimum_free_vram_mib": 20480,
+    "minimum_output_disk_bytes": 4294967296,
+    "preparation_qualification_seconds": 7200,
+    "real_cli_timeout_seconds": 1800,
+    "real_run_window_seconds": 2700
+  },
+  "session_start_utc": "2026-11-28T13:58:59Z",
+  "specification_merge_commit": "b91a68843b25624abfdc11c6eb4978d3e4c73e39",
+  "task_id": "T0017",
+  "tested_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "torch": {
+    "cuda_runtime": "12.8",
+    "version": "2.10.0+cu128"
+  }
+}

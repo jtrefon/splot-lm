@@ -1,0 +1,18 @@
+{
+  "command": "CUDA_VISIBLE_DEVICES= PYTHONPATH=src:tools python3 tools/ci_cpu.py",
+  "cpu_scripts": 27,
+  "elapsed_seconds": 33,
+  "errors": 0,
+  "exit_code": 0,
+  "failures": 0,
+  "rep_reports": 21,
+  "rep_statuses": {
+    "T0016/attempt-001": "passed (structural)",
+    "T0017/attempt-001": "blocked (structural)",
+    "other_attempts": "passed (structural)"
+  },
+  "skips": 0,
+  "status": "passed",
+  "tests": 231,
+  "unittest_modules": 27
+}
