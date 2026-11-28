@@ -266,7 +266,7 @@ def summarize(events, *, synthetic=False):
                                                          round_index, shallow_len)
             phase_pairs.append(("shallow", "shallow_draft", draft_start["timestamp_ns"], draft_end["timestamp_ns"], draft_end))
             if strategy == "D2" and (draft_end["actual_tokens"] != 0 or draft_end["requested_tokens"] != 0):
-                raise TraceError("D2 shallow_draft must not advance a scratch cache")
+                raise TraceError("D2 shallow_draft must not request or advance a scratch cache")
             if draft_end["requested_tokens"] > run["draft_length"] - 1:
                 raise TraceError("shallow_draft requested_tokens exceeds draft length minus one")
 

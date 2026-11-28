@@ -152,7 +152,7 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
         if emit:
             emit('phase_end',role='shallow',phase='shallow_draft',round=rounds,
                  before_length=s_before,after_length=scratch.length,
-                 requested_tokens=max(0,count-1),
+                 requested_tokens=0 if strategy=='D2' else max(0,count-1),
                  actual_tokens=scratch.length-s_before)
         proposed+=len(drafts)
         if emit:
