@@ -1,0 +1,36 @@
+T0026 attempt-001 local evidence-capture failures (preserved)
+
+These are local command-context errors in the evidence runner, not analysis or
+acceptance-gate failures. Analytical outputs and protocol values were unchanged.
+
+1. Evidence-size command
+Command: wc -c analysis.json corpus-design.md design.md proposed-protocol.json protocol_analysis.py source-refs.json
+CWD: /Users/jack/Projects/splot-lm
+Exit: 1
+Output:
+wc: analysis.json: open: No such file or directory
+wc: corpus-design.md: open: No such file or directory
+wc: design.md: open: No such file or directory
+wc: proposed-protocol.json: open: No such file or directory
+wc: protocol_analysis.py: open: No such file or directory
+wc: source-refs.json: open: No such file or directory
+0 total
+
+2. Compile/analysis commands
+Command: python3.15 -m py_compile protocol_analysis.py
+CWD: /Users/jack/Projects/splot-lm
+Exit: 1
+Output: [Errno 2] No such file or directory: 'protocol_analysis.py'
+
+Command: python3.15 protocol_analysis.py
+CWD: /Users/jack/Projects/splot-lm
+Exit: 2
+Output: can't open file '/Users/jack/Projects/splot-lm/protocol_analysis.py':
+[Errno 2] No such file or directory
+
+Cause: all three commands were launched from the repository root instead of
+experiments/results/T0026/attempt-001.
+
+Resolution: rerun with cwd=experiments/results/T0026/attempt-001. The corrected
+execution.log records exit 0 for compile, analysis and size capture. No source,
+protocol value or shared document changed.

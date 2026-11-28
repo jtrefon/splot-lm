@@ -28,5 +28,7 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0023 | [Actual-vocabulary pilot](T0023-actual-vocab-pilot.md) / [continuation](T0023-continuation.md) | [#101](https://github.com/jtrefon/splot-lm/issues/101) | Closed; attempt-003 accepted, two failed REP records preserved |
 | T0024 | [Chunked GDN feasibility](T0024-gdn-chunk-feasibility.md) | [#102](https://github.com/jtrefon/splot-lm/issues/102) | Closed; component evidence and T0025 reset/tail prerequisite accepted |
 | T0025 | [Opt-in chunk64 GDN](T0025-gdn-opt-in.md) | [#105](https://github.com/jtrefon/splot-lm/issues/105) | Closed; negative full-model qualification, candidate source excluded |
-| T0026 | [Matched evaluation protocol](T0026-matched-evaluation-protocol.md) | [#108](https://github.com/jtrefon/splot-lm/issues/108) | Mac, prospective design; owner launch after integration |
-| T0027 | [Matched NTP pilot](T0027-matched-ntp-pilot.md) | [#109](https://github.com/jtrefon/splot-lm/issues/109) | Linux, bounded 9-run feasibility; exact local snapshot + owner launch |
+| T0026 | [Matched evaluation protocol](T0026-matched-evaluation-protocol.md) | [#108](https://github.com/jtrefon/splot-lm/issues/108) | Closed; prospective draft accepted with review corrections, no preregistration |
+| T0027 | [Matched NTP pilot](T0027-matched-ntp-pilot.md) | [#109](https://github.com/jtrefon/splot-lm/issues/109) | Closed; 9/9 descriptive reference runs accepted |
+| T0028 | [Byte-auditable v2](T0028-byte-auditable-v2.md) | [#112](https://github.com/jtrefon/splot-lm/issues/112) | Mac, isolated verifier prototype, owner launch after integration |
+| T0029 | [GDN localization](T0029-gdn-localization.md) | [#113](https://github.com/jtrefon/splot-lm/issues/113) | Linux, detached rejected source diagnostic, owner launch after integration |

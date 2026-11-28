@@ -1,0 +1,23 @@
+T0026 attempt-001 first hosted CPU failure (preserved)
+
+Run: 46172330479
+Head: 72a289daede0173c54c95fe37d3422936330b189
+Conclusion: failure
+URL: https://github.com/jtrefon/splot-lm/actions/runs/46172330479
+
+Tests before evidence validation passed; the job failed while validating the
+T0026 evidence directory:
+
+  File "tools/rep/validate_result.py", line 60, in validate
+    require(actual == set(files), 'unlisted or missing evidence files')
+  ValueError: unlisted or missing evidence files
+
+Cause: result.json listed `execution-first-failures.log`, but the repository
+`.gitignore` ignores `*.log` except `experiments/results/T*/attempt-*/execution.log`.
+The file therefore existed locally but was absent from the commit, so the
+validator's actual file set did not match the declared set.
+
+This is an evidence-packaging failure, not a design or analysis failure. The
+file was renamed to `execution-first-failures.txt`, all evidence hashes were
+recomputed, and the required hosted gate was rerun. The design values were not
+changed.

@@ -1,0 +1,75 @@
+{
+  "task_id": "T0026",
+  "attempt": 1,
+  "captured_at": "2026-11-28T17:44:58Z",
+  "instruction_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "source_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "branch": "research/T0026-matched-eval-attempt-001",
+  "class": "ANA",
+  "preflight": {
+    "origin_main": "003cf8db6126f0aaefdd599ac159f2503457f709",
+    "local_head": "003cf8db6126f0aaefdd599ac159f2503457f709",
+    "open_pr_count": 0,
+    "working_tree": "clean apart from the new untracked T0026 evidence directory",
+    "dependencies": {
+      "T0023": "accepted and integrated; corrected V16384 CLI evidence on main",
+      "T0025": "full-model chunk64 candidate rejected and excluded; component evidence retained",
+      "T0027": "independent and unreviewed; outcomes not read or used for tuning"
+    }
+  },
+  "local": {
+    "os": "macOS 27.2.1",
+    "build": "26B131",
+    "kernel": "Darwin 27.2.0",
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "logical_cores": 10,
+    "ram_bytes": 17179869184,
+    "device": "CPU only",
+    "python": {
+      "implementation": "CPython",
+      "version": "3.15.2",
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "packages": "stdlib only",
+      "unicode": "17.0.0",
+      "utf8_mode": 1
+    },
+    "torch": {
+      "available": false,
+      "error": "not installed",
+      "install_attempted": false
+    },
+    "cuda": false,
+    "mps_used": false,
+    "tools": [
+      "git", "gh (GitHub issue/PR metadata only)", "python3.15 stdlib", "wc", "sw_vers", "uname", "sysctl"
+    ]
+  },
+  "scope": {
+    "allowed": [
+      "new design notes in the T0026 evidence package",
+      "new stdlib analysis script in the T0026 evidence package",
+      "evidence and INDEX row"
+    ],
+    "not_performed": [
+      "model training",
+      "dataset acquisition or text download",
+      "tokenizer fit",
+      "package installation",
+      "GPU or MPS use",
+      "actual corpus, test or checkpoint access",
+      "model/source change",
+      "shared project-state document edit",
+      "merge, issue closure or next-task launch"
+    ],
+    "foreground_minutes": 90,
+    "command_timeout_seconds": 120
+  },
+  "evidence_read": {
+    "source_refs_file": "source-refs.json",
+    "source_ref_count": 23,
+    "notes": "Only committed summaries, manifests, configs and source code were read; no raw text, token arrays, tokenizer JSON, shards or checkpoints were present."
+  },
+  "hosted": null,
+  "result": "local analysis/design only; no training or measured quality result"
+}
