@@ -1,0 +1,820 @@
+{
+  "candidates": {
+    "existing_dense_8block_v32768": {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 1024,
+        "kv_heads": 2,
+        "layers": 8,
+        "mtp_auxiliary_head": false,
+        "q_heads": 6,
+        "tied_embeddings": true,
+        "vocab": 32768,
+        "width": 384
+      },
+      "decode_macs": {
+        "2048": 37748736,
+        "512": 28311552
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "gaps_vs_ntp": {
+        "decode_macs": {
+          "2048": {
+            "relative_gap": -0.2215887495248955,
+            "target_ntp": 48494592,
+            "value": 37748736
+          },
+          "512": {
+            "relative_gap": -0.3164218958611482,
+            "target_ntp": 41416704,
+            "value": 28311552
+          }
+        },
+        "physical_params": {
+          "relative_gap": -0.415345312594501,
+          "target": 43055076,
+          "value": 25172352
+        },
+        "prefill_all_logits_macs": {
+          "2048": {
+            "relative_gap": -0.28137115590407524,
+            "target_ntp": 89657966592,
+            "value": 64430800896
+          },
+          "512": {
+            "relative_gap": -0.33543277030250973,
+            "target_ntp": 20602552320,
+            "value": 13691781120
+          }
+        }
+      },
+      "mtp_aux_params": 0,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 26071793664,
+          "512": 6517948416
+        },
+        "2_offsets": {
+          "2048": 52143587328,
+          "512": 13035896832
+        }
+      },
+      "physical_no_mtp": 25172352,
+      "physical_params": 25172352,
+      "prefill_all_logits_macs": {
+        "2048": 64430800896,
+        "512": 13691781120
+      }
+    },
+    "v16384_iso_forward_mac": {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 2816,
+        "kv_heads": 2,
+        "layers": 6,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 50855936,
+        "512": 41418752
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "gaps_vs_ntp": {
+        "decode_macs": {
+          "2048": {
+            "relative_gap": 0.048692934667849075,
+            "target_ntp": 48494592,
+            "value": 50855936
+          },
+          "512": {
+            "relative_gap": 4.944864757949752e-05,
+            "target_ntp": 41416704,
+            "value": 41418752
+          }
+        },
+        "physical_params": {
+          "relative_gap": -0.10481319322255989,
+          "target": 43055076,
+          "value": 38542336
+        },
+        "prefill_all_logits_macs": {
+          "2048": {
+            "relative_gap": 0.018028290908665534,
+            "target_ntp": 89657966592,
+            "value": 91274346496
+          },
+          "512": {
+            "relative_gap": -0.009701943569679017,
+            "target_ntp": 20602552320,
+            "value": 20402667520
+          }
+        }
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 17716740096,
+          "512": 4429185024
+        },
+        "2_offsets": {
+          "2048": 35433480192,
+          "512": 8858370048
+        }
+      },
+      "physical_no_mtp": 38279680,
+      "physical_params": 38542336,
+      "prefill_all_logits_macs": {
+        "2048": 91274346496,
+        "512": 20402667520
+      }
+    },
+    "v16384_iso_parameter": {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 2,
+        "layers": 9,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 59703296,
+        "512": 45547520
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "gaps_vs_ntp": {
+        "decode_macs": {
+          "2048": {
+            "relative_gap": 0.23113307149795181,
+            "target_ntp": 48494592,
+            "value": 59703296
+          },
+          "512": {
+            "relative_gap": 0.09973792216782873,
+            "target_ntp": 41416704,
+            "value": 45547520
+          }
+        },
+        "physical_params": {
+          "relative_gap": -0.04537824994200457,
+          "target": 43055076,
+          "value": 41101312
+        },
+        "prefill_all_logits_macs": {
+          "2048": {
+            "relative_gap": 0.1483021361448813,
+            "target_ntp": 89657966592,
+            "value": 102954434560
+          },
+          "512": {
+            "relative_gap": 0.0733975888284506,
+            "target_ntp": 20602552320,
+            "value": 22114729984
+          }
+        }
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 17716740096,
+          "512": 4429185024
+        },
+        "2_offsets": {
+          "2048": 35433480192,
+          "512": 8858370048
+        }
+      },
+      "physical_no_mtp": 40838656,
+      "physical_params": 41101312,
+      "prefill_all_logits_macs": {
+        "2048": 102954434560,
+        "512": 22114729984
+      }
+    },
+    "v32768_iso_forward_mac": {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 2,
+        "layers": 6,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 50987008,
+        "512": 41549824
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "gaps_vs_ntp": {
+        "decode_macs": {
+          "2048": {
+            "relative_gap": 0.05139575150977649,
+            "target_ntp": 48494592,
+            "value": 50987008
+          },
+          "512": {
+            "relative_gap": 0.0032141620926666725,
+            "target_ntp": 41416704,
+            "value": 41549824
+          }
+        },
+        "physical_params": {
+          "relative_gap": -0.1017689064118712,
+          "target": 43055076,
+          "value": 38673408
+        },
+        "prefill_all_logits_macs": {
+          "2048": {
+            "relative_gap": 0.02102228537679296,
+            "target_ntp": 89657966592,
+            "value": 91542781952
+          },
+          "512": {
+            "relative_gap": -0.006444635302350732,
+            "target_ntp": 20602552320,
+            "value": 20469776384
+          }
+        }
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 34896609280,
+          "512": 8724152320
+        },
+        "2_offsets": {
+          "2048": 69793218560,
+          "512": 17448304640
+        }
+      },
+      "physical_no_mtp": 38410752,
+      "physical_params": 38673408,
+      "prefill_all_logits_macs": {
+        "2048": 91542781952,
+        "512": 20469776384
+      }
+    },
+    "v32768_iso_parameter": {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 6,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 53346304,
+        "512": 43909120
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "gaps_vs_ntp": {
+        "decode_macs": {
+          "2048": {
+            "relative_gap": 0.1000464546644706,
+            "target_ntp": 48494592,
+            "value": 53346304
+          },
+          "512": {
+            "relative_gap": 0.06017900410423782,
+            "target_ntp": 41416704,
+            "value": 43909120
+          }
+        },
+        "physical_params": {
+          "relative_gap": -0.04697174381947433,
+          "target": 43055076,
+          "value": 41032704
+        },
+        "prefill_all_logits_macs": {
+          "2048": {
+            "relative_gap": 0.0749141858030864,
+            "target_ntp": 89657966592,
+            "value": 96374620160
+          },
+          "512": {
+            "relative_gap": 0.05218691350955873,
+            "target_ntp": 20602552320,
+            "value": 21677735936
+          }
+        }
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 34896609280,
+          "512": 8724152320
+        },
+        "2_offsets": {
+          "2048": 69793218560,
+          "512": 17448304640
+        }
+      },
+      "physical_no_mtp": 40770048,
+      "physical_params": 41032704,
+      "prefill_all_logits_macs": {
+        "2048": 96374620160,
+        "512": 21677735936
+      }
+    }
+  },
+  "enumeration": [
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 2,
+        "layers": 14,
+        "mtp_auxiliary_head": true,
+        "q_heads": 6,
+        "tied_embeddings": true,
+        "vocab": 16384,
+        "width": 384
+      },
+      "decode_macs": {
+        "2048": 64782336,
+        "512": 48267264
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 147840,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 13186891776,
+          "512": 3296722944
+        },
+        "2_offsets": {
+          "2048": 26373783552,
+          "512": 6593445888
+        }
+      },
+      "physical_no_mtp": 42773376,
+      "physical_params": 42921216,
+      "prefill_all_logits_macs": {
+        "2048": 110136655872,
+        "512": 23306305536
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 2048,
+        "kv_heads": 2,
+        "layers": 9,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 61472768,
+        "512": 47316992
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 17716740096,
+          "512": 4429185024
+        },
+        "2_offsets": {
+          "2048": 35433480192,
+          "512": 8858370048
+        }
+      },
+      "physical_no_mtp": 42608128,
+      "physical_params": 42870784,
+      "prefill_all_logits_macs": {
+        "2048": 106578313216,
+        "512": 23020699648
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 1280,
+        "kv_heads": 2,
+        "layers": 11,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 60293120,
+        "512": 42991616
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 17716740096,
+          "512": 4429185024
+        },
+        "2_offsets": {
+          "2048": 35433480192,
+          "512": 8858370048
+        }
+      },
+      "physical_no_mtp": 37236224,
+      "physical_params": 37498880,
+      "prefill_all_logits_macs": {
+        "2048": 99869523968,
+        "512": 20538195968
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 2816,
+        "kv_heads": 2,
+        "layers": 6,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 50855936,
+        "512": 41418752
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 17716740096,
+          "512": 4429185024
+        },
+        "2_offsets": {
+          "2048": 35433480192,
+          "512": 8858370048
+        }
+      },
+      "physical_no_mtp": 38279680,
+      "physical_params": 38542336,
+      "prefill_all_logits_macs": {
+        "2048": 91274346496,
+        "512": 20402667520
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 7,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 51052544,
+        "512": 40042496
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 17716740096,
+          "512": 4429185024
+        },
+        "2_offsets": {
+          "2048": 35433480192,
+          "512": 8858370048
+        }
+      },
+      "physical_no_mtp": 36380160,
+      "physical_params": 36642816,
+      "prefill_all_logits_macs": {
+        "2048": 89530564608,
+        "512": 19564068864
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 2048,
+        "kv_heads": 2,
+        "layers": 11,
+        "mtp_auxiliary_head": true,
+        "q_heads": 6,
+        "tied_embeddings": true,
+        "vocab": 32768,
+        "width": 384
+      },
+      "decode_macs": {
+        "2048": 60162048,
+        "512": 47185920
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 147840,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 26071793664,
+          "512": 6517948416
+        },
+        "2_offsets": {
+          "2048": 52143587328,
+          "512": 13035896832
+        }
+      },
+      "physical_no_mtp": 42869376,
+      "physical_params": 43017216,
+      "prefill_all_logits_macs": {
+        "2048": 105503784960,
+        "512": 23054057472
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 1664,
+        "kv_heads": 2,
+        "layers": 8,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 59244544,
+        "512": 46661632
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 34896609280,
+          "512": 8724152320
+        },
+        "2_offsets": {
+          "2048": 69793218560,
+          "512": 17448304640
+        }
+      },
+      "physical_no_mtp": 42476032,
+      "physical_params": 42738688,
+      "prefill_all_logits_macs": {
+        "2048": 104161345536,
+        "512": 22819110912
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 2,
+        "layers": 6,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 50987008,
+        "512": 41549824
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 34896609280,
+          "512": 8724152320
+        },
+        "2_offsets": {
+          "2048": 69793218560,
+          "512": 17448304640
+        }
+      },
+      "physical_no_mtp": 38410752,
+      "physical_params": 38673408,
+      "prefill_all_logits_macs": {
+        "2048": 91542781952,
+        "512": 20469776384
+      }
+    },
+    {
+      "config": {
+        "bias": false,
+        "head_dim": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 6,
+        "mtp_auxiliary_head": true,
+        "q_heads": 8,
+        "tied_embeddings": true,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 53346304,
+        "512": 43909120
+      },
+      "formula": {
+        "decode_macs": "L*(d*(2q+2kv)+3*d*m) + L*2*q*T + d*V",
+        "mtp_aux": "d*d + d",
+        "mtp_offsets": "offsets*T*(d*d + d*V)",
+        "physical_no_mtp": "V*d + L*(d*(2q+2kv) + 3*d*m + 2*d) + d",
+        "prefill_macs": "T*(L*(d*(2q+2kv)+3*d*m) + d*V) + L*q*T*(T+1)"
+      },
+      "mtp_aux_params": 262656,
+      "mtp_offset_macs": {
+        "1_offset": {
+          "2048": 34896609280,
+          "512": 8724152320
+        },
+        "2_offsets": {
+          "2048": 69793218560,
+          "512": 17448304640
+        }
+      },
+      "physical_no_mtp": 40770048,
+      "physical_params": 41032704,
+      "prefill_all_logits_macs": {
+        "2048": 96374620160,
+        "512": 21677735936
+      }
+    }
+  ],
+  "instruction_commit": "f49af5bfb0085cbbc7161d5b3354b8e8fe309696",
+  "schema": "splot-t0019-candidate-counts-v1",
+  "selection": {
+    "primary_vocab": 16384,
+    "rationale": [
+      "T0016 actual tokenizer vocabulary is 16384; V32768 is compatibility only.",
+      "Width 512, head 64 and 8/2 GQA preserve integer head grouping and a conventional aspect ratio.",
+      "V16384 iso-parameter is within 5% physical parameters; its forward MAC gap is explicit.",
+      "V16384 iso-forward-MAC is within 5% prefill MAC at both 512 and 2048; its parameter gap is explicit.",
+      "A2 auxiliary comparison requires a matching dense offset head, not an unmodified NTP-only DenseLM."
+    ]
+  },
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "splot_accounting": {
+    "nano_a2_context2048": {
+      "auxiliary": 147840,
+      "base": 42907236,
+      "cache_bytes": 9019904,
+      "decode_macs": 92829696,
+      "logical_blocks": 14,
+      "physical": 43055076,
+      "prefill_all_logits_macs": 177236606976
+    },
+    "nano_a2_context512": {
+      "auxiliary": 147840,
+      "base": 42907236,
+      "cache_bytes": 2728448,
+      "decode_macs": 83392512,
+      "logical_blocks": 14,
+      "physical": 43055076,
+      "prefill_all_logits_macs": 41893232640
+    },
+    "nano_ntp_context2048": {
+      "auxiliary": 147840,
+      "base": 42907236,
+      "cache_bytes": 6922752,
+      "decode_macs": 48494592,
+      "logical_blocks": 12,
+      "physical": 43055076,
+      "prefill_all_logits_macs": 89657966592
+    },
+    "nano_ntp_context512": {
+      "auxiliary": 147840,
+      "base": 42907236,
+      "cache_bytes": 2204160,
+      "decode_macs": 41416704,
+      "logical_blocks": 12,
+      "physical": 43055076,
+      "prefill_all_logits_macs": 20602552320
+    }
+  },
+  "status": "analytical only; no training, latency, memory or quality result",
+  "targets": {
+    "a2_decode_macs": {
+      "2048": 92829696,
+      "512": 83392512
+    },
+    "a2_prefill_macs": {
+      "2048": 177236606976,
+      "512": 41893232640
+    },
+    "nano_physical": 43055076,
+    "ntp_decode_macs": {
+      "2048": 48494592,
+      "512": 41416704
+    },
+    "ntp_prefill_macs": {
+      "2048": 89657966592,
+      "512": 20602552320
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "captured_at": "2026-11-28T15:24:38Z",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "512",
+        "--readouts",
+        "2",
+        "--offsets",
+        "2"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.030165082978783175,
+      "exit": 0,
+      "name": "nano_a2_context512",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2728448,
+        "decode_macs": 83392512,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 41893232640,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "2048",
+        "--readouts",
+        "2",
+        "--offsets",
+        "2"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.02367662501637824,
+      "exit": 0,
+      "name": "nano_a2_context2048",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 9019904,
+        "decode_macs": 92829696,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 177236606976,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "512",
+        "--readouts",
+        "1",
+        "--offsets",
+        "0"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.02466329201706685,
+      "exit": 0,
+      "name": "nano_ntp_context512",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2204160,
+        "decode_macs": 41416704,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 20602552320,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "2048",
+        "--readouts",
+        "1",
+        "--offsets",
+        "0"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.023525249998783693,
+      "exit": 0,
+      "name": "nano_ntp_context2048",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 6922752,
+        "decode_macs": 48494592,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 89657966592,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    }
+  ],
+  "dense_existing_8block": {
+    "config": {
+      "head_dim": 64,
+      "intermediate": 1024,
+      "kv_heads": 2,
+      "layers": 8,
+      "q_heads": 6,
+      "vocab": 32768,
+      "width": 384
+    },
+    "embedding": 12582912,
+    "ffn_per_layer": 1179648,
+    "final_norm": 384,
+    "formula": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+    "layers": 8,
+    "mtp_aux": 147840,
+    "norms_per_layer": 768,
+    "per_layer": 1573632,
+    "physical_no_mtp": 25172352,
+    "physical_with_mtp": 25320192,
+    "qkv_and_output_per_layer": 393216
+  },
+  "instruction_commit": "f49af5bfb0085cbbc7161d5b3354b8e8fe309696",
+  "schema": "splot-t0019-accounting-v1",
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+}
