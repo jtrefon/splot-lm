@@ -20,9 +20,9 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** [T0019/#89](experiments/tasks/T0019-baseline-design.md) attempt-002 correction of same-vocabulary matched candidates; [review](research/evaluation/T0019-review.md); named local launch after integrated review.
-2. **Linux:** T0017 accepted bounded feasibility with documented procedural exceptions; #92 merged, #77 closed; durable checkpoint preserved. No pilot rerun.
-3. [T0020/#90](experiments/tasks/T0020-cuda-cost-baseline.md) is an independent synthetic pinned-source VAL task. Scheduling amendment removes T0017 closure dependency; exact original methodology and limits unchanged. Requires reviewed spec merge and named owner launch. Future actual trained-checkpoint MTP benchmark remains dependent on checkpoint identity/availability and reviewed spec.
+1. **Mac:** T0019 corrected design accepted; [T0021/#97](experiments/tasks/T0021-dense-ntp-harness.md) implements credible dense NTP harness with exact parity gates, no full training.
+2. **Linux:** T0020 paired cost evidence accepted; [T0022/#98](experiments/tasks/T0022-backward-attribution.md) profiles BF16 backward, exactness before optimization. FP8 reuse disabled in T0020; no speed advantage established.
+3. After both accepted, design bounded matched NTP study and targeted reference optimization; later trained-checkpoint MTP benchmark separately. No larger training before reviewed gates.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.

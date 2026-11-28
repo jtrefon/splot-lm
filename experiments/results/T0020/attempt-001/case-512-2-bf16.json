@@ -1,0 +1,210 @@
+{
+  "checks": {
+    "audit_finite": true,
+    "audit_positive": true,
+    "hidden_finite": true,
+    "labels_exact": true,
+    "logits_finite": true,
+    "losses_finite": true,
+    "model_fp32": true,
+    "native_fp8": false,
+    "offset2_finite": true,
+    "parameters_exact": true,
+    "partition": {
+      "adamw_count": 41,
+      "adamw_numel": 12629988,
+      "inventory_numel": 43055076,
+      "muon_count": 157,
+      "muon_numel": 30425088,
+      "ns_intermediate_dtype": "bfloat16",
+      "parameter_count": 198,
+      "plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+    },
+    "state_fp32_finite": true,
+    "warmup_init_equal": true,
+    "warmup_input_equal": true,
+    "warmup_partition_equal": true,
+    "warmup_status": true
+  },
+  "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+  "device": "cuda",
+  "input": {
+    "bos_ok": true,
+    "content_max": 32750,
+    "content_min": 69,
+    "documents_ok": true,
+    "eos_ok": true,
+    "expected": {
+      "ntp_labels": 511,
+      "offset2_labels": 510,
+      "valid_tokens": 512
+    },
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "labels_exact": true,
+    "length": 512,
+    "ntp_labels": 511,
+    "offset2_labels": 510,
+    "positions_ok": true,
+    "seed": 42,
+    "valid_all": true,
+    "valid_tokens": 512
+  },
+  "length": 512,
+  "measured": {
+    "audit": null,
+    "audit_seconds": 0.0,
+    "finite_check_seconds": 0.03044145298190415,
+    "losses": {
+      "balance": 1.0717132091522217,
+      "early_ntp": 10.48428726196289,
+      "final_ntp": 10.493874549865723,
+      "offset2": 10.487617492675781,
+      "total": 15.747568130493164
+    },
+    "phase_sum_seconds": 1.2920559779158793,
+    "phases_seconds": {
+      "backward": 0.8176458479720168,
+      "checks": 0.01487838797038421,
+      "end_to_end": 1.2920595860341564,
+      "forward": 0.3764866819838062,
+      "optimizer_step": 0.06722763896686956,
+      "post_update_checks": 0.015563065011519939,
+      "prepare": 0.00011276098666712642,
+      "transfer": 0.0001415950246155262
+    },
+    "state": {
+      "adamw": {
+        "bytes": 101040068,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 25260017,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "muon": {
+        "bytes": 121700352,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 30425088,
+        "finite": true
+      },
+      "total": {
+        "bytes": 222740420,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 55685105,
+        "finite": true
+      }
+    },
+    "status": "passed",
+    "sync_seconds": {
+      "backward": 5.3661991842091084e-05,
+      "checks": 3.1457049772143364e-05,
+      "forward": 2.89780437014997e-05,
+      "optimizer_step": 0.00048224901547655463,
+      "post_update_checks": 1.916097244247794e-05,
+      "transfer": 1.566403079777956e-05
+    },
+    "sync_seconds_total": 0.0006311711040325463,
+    "tokens_per_second": 396.2665542163819,
+    "unaccounted_seconds": 3.608118277043104e-06
+  },
+  "memory": {
+    "after_update": {
+      "allocated_bytes": 635353088,
+      "free_bytes": 22785097728,
+      "peak_allocated_bytes": 1762148864,
+      "peak_reserved_bytes": 1908408320,
+      "reserved_bytes": 1908408320,
+      "total_bytes": 25250627584
+    },
+    "before_update": {
+      "allocated_bytes": 239332864,
+      "free_bytes": 24410390528,
+      "peak_allocated_bytes": 239332864,
+      "peak_reserved_bytes": 283115520,
+      "reserved_bytes": 283115520,
+      "total_bytes": 25250627584
+    },
+    "free_after_cleanup": {
+      "free_bytes": 24592842752,
+      "total_bytes": 25250627584
+    },
+    "free_after_warmup": {
+      "free_bytes": 24592842752,
+      "total_bytes": 25250627584
+    },
+    "free_before_case": {
+      "free_bytes": 24693506048,
+      "total_bytes": 25250627584
+    },
+    "free_before_update": {
+      "free_bytes": 24410390528,
+      "total_bytes": 25250627584
+    }
+  },
+  "precheck": {
+    "hidden_finite": true,
+    "logits_finite": true,
+    "offset2_finite": true,
+    "seconds": 0.30311387800611556
+  },
+  "precision": "bf16",
+  "precision_policy": {
+    "autocast_dtype": "bfloat16",
+    "autocast_dtype_name": "bfloat16",
+    "bf16_supported": true,
+    "policy": "bf16-autocast-fp32-master",
+    "probe_dtype": "bfloat16",
+    "requested": "bf16"
+  },
+  "seed": 42,
+  "stage": "complete",
+  "status": "passed",
+  "warmup": {
+    "audit": null,
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "losses": {
+      "balance": 1.0717132091522217,
+      "early_ntp": 10.48428726196289,
+      "final_ntp": 10.493874549865723,
+      "offset2": 10.487617492675781,
+      "total": 15.747568130493164
+    },
+    "parameters": 43055076,
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+    "seconds": 1.9085884150117636,
+    "state": {
+      "adamw": {
+        "bytes": 101040068,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 25260017,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "muon": {
+        "bytes": 121700352,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 30425088,
+        "finite": true
+      },
+      "total": {
+        "bytes": 222740420,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 55685105,
+        "finite": true
+      }
+    },
+    "status": "passed"
+  }
+}

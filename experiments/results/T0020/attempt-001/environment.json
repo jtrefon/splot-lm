@@ -1,0 +1,244 @@
+{
+  "attempt": 1,
+  "authorization": "owner explicitly named and authorized T0020 on the local RTX 4090 within the reviewed merged specification and resource limits",
+  "branch": "research/T0020-cost-attempt-001",
+  "class": "VAL",
+  "data": {
+    "checkpoint_used": false,
+    "kind": "synthetic contiguous single-document cases",
+    "lengths": [
+      512,
+      2048
+    ],
+    "pairs": 3,
+    "real_data_used": false,
+    "seed": 42
+  },
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "tf32_enabled": false,
+    "torch_threads": 1
+  },
+  "disk": {
+    "output_available_bytes_at_capture": 13330108416,
+    "output_total_bytes": 16447307776,
+    "repo_available_bytes_at_capture": 181955522560
+  },
+  "end_utc": "2026-11-28T15:54:55Z",
+  "evidence_build_utc": "2026-11-28T15:58:52Z",
+  "gpu": {
+    "driver_version": "580.178.04",
+    "index": 0,
+    "model": "NVIDIA GeForce RTX 4090",
+    "owner_selected": true,
+    "vram_free_preflight_mib": 24077,
+    "vram_total_mib": 24564
+  },
+  "instruction_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "notes": [
+    "The first case (512-p1-bf16) completed successfully, but the shell launcher then failed on zsh reserved variable status before writing its start/order metadata. Its probe JSON was preserved and not rerun; completion time is file mtime 2026-11-28T15:52:28Z and start time was not captured.",
+    "FP8 weight reuse is disabled in the existing probe; no cache reuse is measured."
+  ],
+  "observed": {
+    "case_order": [
+      {
+        "case_file": "case-512-1-bf16.json",
+        "elapsed_seconds": null,
+        "end_utc": "2026-11-28T15:52:28Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 512,
+        "note": "probe completed; launcher bookkeeping failed before timestamp/order write; JSON preserved, not rerun",
+        "pair": 1,
+        "precision": "bf16",
+        "start_utc": null,
+        "status": "passed"
+      },
+      {
+        "case_file": "case-512-1-fp8.json",
+        "elapsed_seconds": 7,
+        "end_utc": "2026-11-28T15:53:04Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 512,
+        "pair": 1,
+        "precision": "fp8",
+        "start_utc": "2026-11-28T15:52:57Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-512-2-fp8.json",
+        "elapsed_seconds": 6,
+        "end_utc": "2026-11-28T15:53:10Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 512,
+        "pair": 2,
+        "precision": "fp8",
+        "start_utc": "2026-11-28T15:53:04Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-512-2-bf16.json",
+        "elapsed_seconds": 6,
+        "end_utc": "2026-11-28T15:53:16Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 512,
+        "pair": 2,
+        "precision": "bf16",
+        "start_utc": "2026-11-28T15:53:10Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-512-3-bf16.json",
+        "elapsed_seconds": 6,
+        "end_utc": "2026-11-28T15:53:22Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 512,
+        "pair": 3,
+        "precision": "bf16",
+        "start_utc": "2026-11-28T15:53:16Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-512-3-fp8.json",
+        "elapsed_seconds": 6,
+        "end_utc": "2026-11-28T15:53:28Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 512,
+        "pair": 3,
+        "precision": "fp8",
+        "start_utc": "2026-11-28T15:53:22Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-2048-1-bf16.json",
+        "elapsed_seconds": 14,
+        "end_utc": "2026-11-28T15:53:42Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 2048,
+        "pair": 1,
+        "precision": "bf16",
+        "start_utc": "2026-11-28T15:53:28Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-2048-1-fp8.json",
+        "elapsed_seconds": 15,
+        "end_utc": "2026-11-28T15:53:57Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 2048,
+        "pair": 1,
+        "precision": "fp8",
+        "start_utc": "2026-11-28T15:53:42Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-2048-2-fp8.json",
+        "elapsed_seconds": 15,
+        "end_utc": "2026-11-28T15:54:12Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 2048,
+        "pair": 2,
+        "precision": "fp8",
+        "start_utc": "2026-11-28T15:53:57Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-2048-2-bf16.json",
+        "elapsed_seconds": 14,
+        "end_utc": "2026-11-28T15:54:26Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 2048,
+        "pair": 2,
+        "precision": "bf16",
+        "start_utc": "2026-11-28T15:54:12Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-2048-3-bf16.json",
+        "elapsed_seconds": 14,
+        "end_utc": "2026-11-28T15:54:40Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 2048,
+        "pair": 3,
+        "precision": "bf16",
+        "start_utc": "2026-11-28T15:54:26Z",
+        "status": "passed"
+      },
+      {
+        "case_file": "case-2048-3-fp8.json",
+        "elapsed_seconds": 15,
+        "end_utc": "2026-11-28T15:54:55Z",
+        "exit_code": 0,
+        "free_before_mib": 24077,
+        "length": 2048,
+        "pair": 3,
+        "precision": "fp8",
+        "start_utc": "2026-11-28T15:54:40Z",
+        "status": "passed"
+      }
+    ],
+    "cases": 12,
+    "cases_passed": 12,
+    "max_probe_end_to_end_seconds": 5.184571692952886,
+    "max_probe_peak_reserved_bytes": 7381975040,
+    "max_shell_case_elapsed_seconds": 15,
+    "min_free_before_case_mib": 24077,
+    "retries": 0,
+    "source_changes": 0,
+    "timeouts": 0
+  },
+  "os": {
+    "cpu_count": 24,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "release": "7.0.0-43-generic",
+    "system": "Linux"
+  },
+  "python": {
+    "implementation": "CPython",
+    "process": "CPython 3.12.7",
+    "version": "3.12.7"
+  },
+  "resource_limits": {
+    "foreground_seconds": 3600,
+    "minimum_disk_bytes": 4294967296,
+    "minimum_free_vram_mib": 20480,
+    "per_case_grace_seconds": 15,
+    "per_case_timeout_seconds": 300
+  },
+  "scheduling_amendment_merge": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "source": {
+    "bf16_config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+    "bf16_config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+    "clean_before_and_after": true,
+    "fp8_config": "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+    "fp8_config_sha256": "5171e50ca004a5b47fd76b3cedaad52ccf174d6b0dd50665b8a17adb5b141160",
+    "fp8_weight_reuse_enabled": false,
+    "fp8_weight_reuse_note": "probe calls convert_selected_linears(model) with the default false; unchanged",
+    "head": "6e8911662ac56df665147cb79e412f0383cf71d8",
+    "probe": "tools/context_probe.py",
+    "probe_sha256": "4e8e96382e01532bf016568cc92af22d5eae8f3e138abf8b0b92c20d19febb5d",
+    "source_edits": false,
+    "worktree": "<local-source-checkout>"
+  },
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "specification": "experiments/tasks/T0020-cuda-cost-baseline.md",
+  "start_utc": "2026-11-28T15:52:05Z",
+  "task_id": "T0020",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "torch": {
+    "cuda_runtime": "12.8",
+    "version": "2.10.0+cu128"
+  }
+}
