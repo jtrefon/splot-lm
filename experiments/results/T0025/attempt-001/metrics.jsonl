@@ -1,0 +1,25 @@
+{"a": {"max_abs": 5.551115123125783e-17, "max_rel_l2": 6.429352891144014e-16}, "a_rerun_after_b": {"max_abs": 5.551115123125783e-17, "max_rel_l2": 6.429352891144014e-16}, "b": {"max_abs": 5.551115123125783e-17, "max_rel_l2": 6.67155199462588e-16}, "check": "prerequisite_reset", "chunk": 16, "metric": "independent_documents", "status": "passed"}
+{"a": {"max_abs": 8.326672684688674e-17, "max_rel_l2": 7.018101065062103e-16}, "a_rerun_after_b": {"max_abs": 8.326672684688674e-17, "max_rel_l2": 7.018101065062103e-16}, "b": {"max_abs": 6.938893903907228e-17, "max_rel_l2": 7.263780905643436e-16}, "check": "prerequisite_reset", "chunk": 32, "metric": "independent_documents", "status": "passed"}
+{"a": {"max_abs": 6.591949208711867e-17, "max_rel_l2": 9.003559140951105e-16}, "a_rerun_after_b": {"max_abs": 6.591949208711867e-17, "max_rel_l2": 9.003559140951105e-16}, "b": {"max_abs": 8.326672684688674e-17, "max_rel_l2": 8.365462485353899e-16}, "check": "prerequisite_reset", "chunk": 64, "metric": "independent_documents", "status": "passed"}
+{"check": "prerequisite_reset", "chunk": 16, "max_abs": 4.85722573273506e-17, "max_rel_l2": 6.431993073863739e-16, "metric": "carried_split", "split": 37, "status": "passed", "tail": 92}
+{"check": "prerequisite_reset", "chunk": 32, "max_abs": 5.551115123125783e-17, "max_rel_l2": 6.916481225207553e-16, "metric": "carried_split", "split": 37, "status": "passed", "tail": 92}
+{"check": "prerequisite_reset", "chunk": 64, "max_abs": 5.551115123125783e-17, "max_rel_l2": 7.033287484098335e-16, "metric": "carried_split", "split": 37, "status": "passed", "tail": 92}
+{"check": "full_model", "identity_match": true, "length": 512, "losses_match": true, "metric": "baseline", "status": "passed"}
+{"abs_diff": 6.389617919921875e-05, "check": "full_model", "component": "balance", "length": 512, "metric": "loss_component", "status": "passed"}
+{"abs_diff": 5.91278076171875e-05, "check": "full_model", "component": "early_ntp", "length": 512, "metric": "loss_component", "status": "passed"}
+{"abs_diff": 0.00012493133544921875, "check": "full_model", "component": "final_ntp", "length": 512, "metric": "loss_component", "status": "passed"}
+{"abs_diff": 0.00013446807861328125, "check": "full_model", "component": "offset2", "length": 512, "metric": "loss_component", "status": "passed"}
+{"abs_diff": 0.000171661376953125, "check": "full_model", "component": "total", "length": 512, "metric": "loss_component", "status": "passed"}
+{"check": "full_model", "length": 512, "max_abs": 0.09012463688850403, "metric": "tensor", "reference_max_abs": 0.7818672060966492, "rel_l2": 0.015143682165508817, "status": "failed", "tensor": "hidden_1"}
+{"check": "full_model", "length": 512, "max_abs": 0.1758652776479721, "metric": "tensor", "reference_max_abs": 1.0939202308654785, "rel_l2": 0.032721815649652666, "status": "failed", "tensor": "hidden_2"}
+{"check": "full_model", "length": 512, "max_abs": 0.2392578125, "metric": "tensor", "reference_max_abs": 2.203125, "rel_l2": 0.013530820728977407, "status": "failed", "tensor": "logits_1"}
+{"check": "full_model", "length": 512, "max_abs": 0.392578125, "metric": "tensor", "reference_max_abs": 2.140625, "rel_l2": 0.03227545065544488, "status": "failed", "tensor": "logits_2"}
+{"check": "full_model", "length": 512, "max_abs": 0.312255859375, "metric": "tensor", "reference_max_abs": 2.125, "rel_l2": 0.01581708433558624, "status": "failed", "tensor": "offset2_1"}
+{"check": "full_model", "length": 512, "max_abs": 0.396484375, "metric": "tensor", "reference_max_abs": 2.09375, "rel_l2": 0.033235788357566146, "status": "failed", "tensor": "offset2_2"}
+{"check": "full_model", "global_rel_l2": 0.005046449591402201, "inventory_same": true, "length": 512, "metric": "gradients", "missing": {"chunk64": [], "scan": []}, "status": "passed"}
+{"by_pass": {"C": 0.00830078125}, "by_pool": {"0": 0.00390625, "1": 0.0087890625, "2": 0.0126953125, "3": 0.0078125}, "check": "full_model", "disagreement_fraction": 0.01953125, "length": 512, "metric": "routing", "status": "failed"}
+{"check": "unit_tests", "metric": "same_mode_resume", "mode": "scan", "parameters": 179952, "status": "passed", "steps": 4}
+{"check": "unit_tests", "metric": "same_mode_resume", "mode": "chunk64", "parameters": 179952, "status": "passed", "steps": 4}
+{"check": "unit_tests", "checkpoint_unchanged": true, "metric": "cross_mode_rejection", "status": "rejected"}
+{"check": "unit_tests", "failures": 0, "metric": "local_ci", "rep_reports": 31, "scripts": 31, "tests": 288}
+{"check": "resources", "metric": "status", "reason": "T512 full-model candidate gate failed", "value": "not_run"}

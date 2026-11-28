@@ -1,0 +1,1194 @@
+{
+  "baseline": {
+    "identity_match": true,
+    "losses_match": true,
+    "reference": "case-512-control.json",
+    "status": "passed"
+  },
+  "chunk64_identity": {
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+  },
+  "device": "cuda",
+  "finite": {
+    "chunk64": {
+      "gradients": true,
+      "model": true,
+      "optimizer": true
+    },
+    "scan": {
+      "gradients": true,
+      "model": true,
+      "optimizer": true
+    }
+  },
+  "gradients": {
+    "all_per_tensor_ok": true,
+    "global_ok": true,
+    "global_rel_l2": 0.005046449591402201,
+    "inventory_same": true,
+    "missing": {
+      "chunk64": [],
+      "scan": []
+    },
+    "missing_inventory_same": true,
+    "per_tensor": {
+      "coda.0.attn.k.weight": {
+        "abs_l2": 0.008931598671177139,
+        "rel_l2": 0.0020100129354448048,
+        "status": "passed"
+      },
+      "coda.0.attn.o.weight": {
+        "abs_l2": 0.026880391448492684,
+        "rel_l2": 0.0034994960044518715,
+        "status": "passed"
+      },
+      "coda.0.attn.q.weight": {
+        "abs_l2": 0.019506497374021978,
+        "rel_l2": 0.0025418355809785458,
+        "status": "passed"
+      },
+      "coda.0.attn.v.weight": {
+        "abs_l2": 0.02236673001722521,
+        "rel_l2": 0.005073194242466938,
+        "status": "passed"
+      },
+      "coda.0.down.weight": {
+        "abs_l2": 0.020699631941129993,
+        "rel_l2": 0.0016469320825007049,
+        "status": "passed"
+      },
+      "coda.0.gate.weight": {
+        "abs_l2": 0.026424350243977306,
+        "rel_l2": 0.00210339685761718,
+        "status": "passed"
+      },
+      "coda.0.n1.weight": {
+        "abs_l2": 0.0059615765767936915,
+        "rel_l2": 0.0003042145534767211,
+        "status": "passed"
+      },
+      "coda.0.n2.weight": {
+        "abs_l2": 0.013387660241695961,
+        "rel_l2": 0.0006830767242192933,
+        "status": "passed"
+      },
+      "coda.0.up.weight": {
+        "abs_l2": 0.026541774586833506,
+        "rel_l2": 0.002115700595841754,
+        "status": "passed"
+      },
+      "coda.1.attn.k.weight": {
+        "abs_l2": 0.009152624712684854,
+        "rel_l2": 0.0020799178934002064,
+        "status": "passed"
+      },
+      "coda.1.attn.o.weight": {
+        "abs_l2": 0.026730752135137942,
+        "rel_l2": 0.0034733678763415356,
+        "status": "passed"
+      },
+      "coda.1.attn.q.weight": {
+        "abs_l2": 0.019790714420948135,
+        "rel_l2": 0.0025793729702394924,
+        "status": "passed"
+      },
+      "coda.1.attn.v.weight": {
+        "abs_l2": 0.02062418175140312,
+        "rel_l2": 0.0046490809867450545,
+        "status": "passed"
+      },
+      "coda.1.down.weight": {
+        "abs_l2": 0.020591457973647146,
+        "rel_l2": 0.001640296693051426,
+        "status": "passed"
+      },
+      "coda.1.gate.weight": {
+        "abs_l2": 0.027190986347686418,
+        "rel_l2": 0.0021671997613519943,
+        "status": "passed"
+      },
+      "coda.1.n1.weight": {
+        "abs_l2": 0.005888784320330891,
+        "rel_l2": 0.0003005844350595498,
+        "status": "passed"
+      },
+      "coda.1.n2.weight": {
+        "abs_l2": 0.010368639848232771,
+        "rel_l2": 0.0005290787991419094,
+        "status": "passed"
+      },
+      "coda.1.up.weight": {
+        "abs_l2": 0.0272422833401159,
+        "rel_l2": 0.0021720923419706445,
+        "status": "passed"
+      },
+      "core.0.attn.a.weight": {
+        "abs_l2": 0.031585198709031044,
+        "rel_l2": 0.032444315843593835,
+        "status": "passed"
+      },
+      "core.0.attn.b.weight": {
+        "abs_l2": 0.041773121980846,
+        "rel_l2": 0.04296827905562457,
+        "status": "passed"
+      },
+      "core.0.attn.conv": {
+        "abs_l2": 0.05189307252246263,
+        "rel_l2": 0.00261648905531717,
+        "status": "passed"
+      },
+      "core.0.attn.dt_bias": {
+        "abs_l2": 0.0,
+        "rel_l2": 0.0,
+        "status": "passed"
+      },
+      "core.0.attn.k.weight": {
+        "abs_l2": 0.02216270769476206,
+        "rel_l2": 0.0028785670134085827,
+        "status": "passed"
+      },
+      "core.0.attn.log_A": {
+        "abs_l2": 0.0,
+        "rel_l2": 0.0,
+        "status": "passed"
+      },
+      "core.0.attn.norm.weight": {
+        "abs_l2": 0.008482137994209034,
+        "rel_l2": 0.0010606602799366628,
+        "status": "passed"
+      },
+      "core.0.attn.o.weight": {
+        "abs_l2": 0.020786148242123735,
+        "rel_l2": 0.002705063324314894,
+        "status": "passed"
+      },
+      "core.0.attn.q.weight": {
+        "abs_l2": 0.02164287735157348,
+        "rel_l2": 0.002814631043266551,
+        "status": "passed"
+      },
+      "core.0.attn.v.weight": {
+        "abs_l2": 0.020994824950120942,
+        "rel_l2": 0.0027319196541148306,
+        "status": "passed"
+      },
+      "core.0.attn.z.weight": {
+        "abs_l2": 0.0213043869030326,
+        "rel_l2": 0.0027790623617819873,
+        "status": "passed"
+      },
+      "core.0.moe.experts.0.down.weight": {
+        "abs_l2": 0.03560424744016225,
+        "rel_l2": 0.004017662742334577,
+        "status": "passed"
+      },
+      "core.0.moe.experts.0.gate.weight": {
+        "abs_l2": 0.03548200515621786,
+        "rel_l2": 0.0039986362418855375,
+        "status": "passed"
+      },
+      "core.0.moe.experts.0.up.weight": {
+        "abs_l2": 0.035980681707285314,
+        "rel_l2": 0.004056977646932035,
+        "status": "passed"
+      },
+      "core.0.moe.experts.1.down.weight": {
+        "abs_l2": 0.02778303240156691,
+        "rel_l2": 0.0031329009074303354,
+        "status": "passed"
+      },
+      "core.0.moe.experts.1.gate.weight": {
+        "abs_l2": 0.02778999131064023,
+        "rel_l2": 0.0031386817616608125,
+        "status": "passed"
+      },
+      "core.0.moe.experts.1.up.weight": {
+        "abs_l2": 0.027421752018808435,
+        "rel_l2": 0.003083814439162272,
+        "status": "passed"
+      },
+      "core.0.moe.experts.2.down.weight": {
+        "abs_l2": 0.028674734185397486,
+        "rel_l2": 0.003231133435638749,
+        "status": "passed"
+      },
+      "core.0.moe.experts.2.gate.weight": {
+        "abs_l2": 0.025458419552890285,
+        "rel_l2": 0.0028773501526741197,
+        "status": "passed"
+      },
+      "core.0.moe.experts.2.up.weight": {
+        "abs_l2": 0.026395337220346475,
+        "rel_l2": 0.0029803576254841214,
+        "status": "passed"
+      },
+      "core.0.moe.experts.3.down.weight": {
+        "abs_l2": 0.028898894656155416,
+        "rel_l2": 0.0032577977145941232,
+        "status": "passed"
+      },
+      "core.0.moe.experts.3.gate.weight": {
+        "abs_l2": 0.028033577697456943,
+        "rel_l2": 0.003164118051275414,
+        "status": "passed"
+      },
+      "core.0.moe.experts.3.up.weight": {
+        "abs_l2": 0.028947361632317155,
+        "rel_l2": 0.0032611240699449914,
+        "status": "passed"
+      },
+      "core.0.moe.experts.4.down.weight": {
+        "abs_l2": 0.022262730598447203,
+        "rel_l2": 0.0025134565100136622,
+        "status": "passed"
+      },
+      "core.0.moe.experts.4.gate.weight": {
+        "abs_l2": 0.020675238096347182,
+        "rel_l2": 0.002332521878229098,
+        "status": "passed"
+      },
+      "core.0.moe.experts.4.up.weight": {
+        "abs_l2": 0.02065865097908402,
+        "rel_l2": 0.002327979317324854,
+        "status": "passed"
+      },
+      "core.0.moe.experts.5.down.weight": {
+        "abs_l2": 0.027187580111983894,
+        "rel_l2": 0.0030574318791831145,
+        "status": "passed"
+      },
+      "core.0.moe.experts.5.gate.weight": {
+        "abs_l2": 0.027041982414254047,
+        "rel_l2": 0.0030471659988152732,
+        "status": "passed"
+      },
+      "core.0.moe.experts.5.up.weight": {
+        "abs_l2": 0.02708938039649557,
+        "rel_l2": 0.003062913488346858,
+        "status": "passed"
+      },
+      "core.0.moe.experts.6.down.weight": {
+        "abs_l2": 0.02764285079107475,
+        "rel_l2": 0.0031061950043449133,
+        "status": "passed"
+      },
+      "core.0.moe.experts.6.gate.weight": {
+        "abs_l2": 0.028396798729602064,
+        "rel_l2": 0.0032088019519550567,
+        "status": "passed"
+      },
+      "core.0.moe.experts.6.up.weight": {
+        "abs_l2": 0.02754555812235582,
+        "rel_l2": 0.003098254640135836,
+        "status": "passed"
+      },
+      "core.0.moe.experts.7.down.weight": {
+        "abs_l2": 0.02626887386128486,
+        "rel_l2": 0.002963563495675662,
+        "status": "passed"
+      },
+      "core.0.moe.experts.7.gate.weight": {
+        "abs_l2": 0.023920029951989153,
+        "rel_l2": 0.0027009359124044985,
+        "status": "passed"
+      },
+      "core.0.moe.experts.7.up.weight": {
+        "abs_l2": 0.024365214302761486,
+        "rel_l2": 0.0027396630404863264,
+        "status": "passed"
+      },
+      "core.0.moe.router.weight": {
+        "abs_l2": 0.04600060337942446,
+        "rel_l2": 0.04083632393987995,
+        "status": "passed"
+      },
+      "core.0.moe.shared.down.weight": {
+        "abs_l2": 0.023949854867596772,
+        "rel_l2": 0.0027059673812667097,
+        "status": "passed"
+      },
+      "core.0.moe.shared.gate.weight": {
+        "abs_l2": 0.022391841648629195,
+        "rel_l2": 0.002525572460905704,
+        "status": "passed"
+      },
+      "core.0.moe.shared.up.weight": {
+        "abs_l2": 0.022306024401009813,
+        "rel_l2": 0.002522056334608983,
+        "status": "passed"
+      },
+      "core.0.n1.weight": {
+        "abs_l2": 0.01696398199699969,
+        "rel_l2": 0.0008655910333281028,
+        "status": "passed"
+      },
+      "core.0.n2.weight": {
+        "abs_l2": 0.008480331303925741,
+        "rel_l2": 0.0004329002096100395,
+        "status": "passed"
+      },
+      "core.1.attn.a.weight": {
+        "abs_l2": 0.03521081382550055,
+        "rel_l2": 0.03597728473415675,
+        "status": "passed"
+      },
+      "core.1.attn.b.weight": {
+        "abs_l2": 0.039555070960580904,
+        "rel_l2": 0.04100361524846312,
+        "status": "passed"
+      },
+      "core.1.attn.conv": {
+        "abs_l2": 0.0562302963104066,
+        "rel_l2": 0.0028686537315558676,
+        "status": "passed"
+      },
+      "core.1.attn.dt_bias": {
+        "abs_l2": 0.0,
+        "rel_l2": 0.0,
+        "status": "passed"
+      },
+      "core.1.attn.k.weight": {
+        "abs_l2": 0.021863321249406917,
+        "rel_l2": 0.002845410447806589,
+        "status": "passed"
+      },
+      "core.1.attn.log_A": {
+        "abs_l2": 0.0,
+        "rel_l2": 0.0,
+        "status": "passed"
+      },
+      "core.1.attn.norm.weight": {
+        "abs_l2": 1.2374245817677197e-06,
+        "rel_l2": 1.546773696444512e-07,
+        "status": "passed"
+      },
+      "core.1.attn.o.weight": {
+        "abs_l2": 0.02177640296914129,
+        "rel_l2": 0.0028409876590226005,
+        "status": "passed"
+      },
+      "core.1.attn.q.weight": {
+        "abs_l2": 0.0214571356851214,
+        "rel_l2": 0.0027907064305862537,
+        "status": "passed"
+      },
+      "core.1.attn.v.weight": {
+        "abs_l2": 0.021878752999672364,
+        "rel_l2": 0.002847081262975431,
+        "status": "passed"
+      },
+      "core.1.attn.z.weight": {
+        "abs_l2": 0.021605094525920507,
+        "rel_l2": 0.0028180182188415615,
+        "status": "passed"
+      },
+      "core.1.moe.experts.0.down.weight": {
+        "abs_l2": 0.0328251386579747,
+        "rel_l2": 0.0037020724603623652,
+        "status": "passed"
+      },
+      "core.1.moe.experts.0.gate.weight": {
+        "abs_l2": 0.03134353756562191,
+        "rel_l2": 0.0035261485129121136,
+        "status": "passed"
+      },
+      "core.1.moe.experts.0.up.weight": {
+        "abs_l2": 0.031468518305913885,
+        "rel_l2": 0.003548227612354114,
+        "status": "passed"
+      },
+      "core.1.moe.experts.1.down.weight": {
+        "abs_l2": 0.0274916788244921,
+        "rel_l2": 0.003093934368411325,
+        "status": "passed"
+      },
+      "core.1.moe.experts.1.gate.weight": {
+        "abs_l2": 0.026990277873253785,
+        "rel_l2": 0.0030441615871772657,
+        "status": "passed"
+      },
+      "core.1.moe.experts.1.up.weight": {
+        "abs_l2": 0.02731515275522938,
+        "rel_l2": 0.0030808472912514785,
+        "status": "passed"
+      },
+      "core.1.moe.experts.2.down.weight": {
+        "abs_l2": 0.04207611972751226,
+        "rel_l2": 0.004742711111412692,
+        "status": "passed"
+      },
+      "core.1.moe.experts.2.gate.weight": {
+        "abs_l2": 0.0421695361947337,
+        "rel_l2": 0.004762853043417603,
+        "status": "passed"
+      },
+      "core.1.moe.experts.2.up.weight": {
+        "abs_l2": 0.042437420522876856,
+        "rel_l2": 0.004792745371544743,
+        "status": "passed"
+      },
+      "core.1.moe.experts.3.down.weight": {
+        "abs_l2": 0.02598093312015222,
+        "rel_l2": 0.0029233624334900512,
+        "status": "passed"
+      },
+      "core.1.moe.experts.3.gate.weight": {
+        "abs_l2": 0.02612995743633177,
+        "rel_l2": 0.002946737968021137,
+        "status": "passed"
+      },
+      "core.1.moe.experts.3.up.weight": {
+        "abs_l2": 0.026025111824631693,
+        "rel_l2": 0.0029346755799675504,
+        "status": "passed"
+      },
+      "core.1.moe.experts.4.down.weight": {
+        "abs_l2": 0.028200174199007163,
+        "rel_l2": 0.003181147819439771,
+        "status": "passed"
+      },
+      "core.1.moe.experts.4.gate.weight": {
+        "abs_l2": 0.02838295816440262,
+        "rel_l2": 0.0031957979874561505,
+        "status": "passed"
+      },
+      "core.1.moe.experts.4.up.weight": {
+        "abs_l2": 0.02902436941187223,
+        "rel_l2": 0.0032717989661199295,
+        "status": "passed"
+      },
+      "core.1.moe.experts.5.down.weight": {
+        "abs_l2": 0.03303719904595274,
+        "rel_l2": 0.0037131490330823192,
+        "status": "passed"
+      },
+      "core.1.moe.experts.5.gate.weight": {
+        "abs_l2": 0.03369023375313165,
+        "rel_l2": 0.0038015708313330772,
+        "status": "passed"
+      },
+      "core.1.moe.experts.5.up.weight": {
+        "abs_l2": 0.03416091575722416,
+        "rel_l2": 0.0038450699923425185,
+        "status": "passed"
+      },
+      "core.1.moe.experts.6.down.weight": {
+        "abs_l2": 0.038165465226392956,
+        "rel_l2": 0.004288697642255679,
+        "status": "passed"
+      },
+      "core.1.moe.experts.6.gate.weight": {
+        "abs_l2": 0.039017565999449146,
+        "rel_l2": 0.004407297434105904,
+        "status": "passed"
+      },
+      "core.1.moe.experts.6.up.weight": {
+        "abs_l2": 0.03893742301073988,
+        "rel_l2": 0.004391272349080632,
+        "status": "passed"
+      },
+      "core.1.moe.experts.7.down.weight": {
+        "abs_l2": 0.029254032555901765,
+        "rel_l2": 0.003291414410164829,
+        "status": "passed"
+      },
+      "core.1.moe.experts.7.gate.weight": {
+        "abs_l2": 0.027512502820570446,
+        "rel_l2": 0.003106201189414281,
+        "status": "passed"
+      },
+      "core.1.moe.experts.7.up.weight": {
+        "abs_l2": 0.026971674706566404,
+        "rel_l2": 0.0030358108515100264,
+        "status": "passed"
+      },
+      "core.1.moe.router.weight": {
+        "abs_l2": 0.05463146108713059,
+        "rel_l2": 0.04872797595516992,
+        "status": "passed"
+      },
+      "core.1.moe.shared.down.weight": {
+        "abs_l2": 0.022769091457224815,
+        "rel_l2": 0.002568225096863196,
+        "status": "passed"
+      },
+      "core.1.moe.shared.gate.weight": {
+        "abs_l2": 0.02117361120981596,
+        "rel_l2": 0.0023841634668964264,
+        "status": "passed"
+      },
+      "core.1.moe.shared.up.weight": {
+        "abs_l2": 0.021221141342437255,
+        "rel_l2": 0.0023844890386274945,
+        "status": "passed"
+      },
+      "core.1.n1.weight": {
+        "abs_l2": 0.014677112906072822,
+        "rel_l2": 0.0007489615025286455,
+        "status": "passed"
+      },
+      "core.1.n2.weight": {
+        "abs_l2": 0.01324709706923967,
+        "rel_l2": 0.000675862004786989,
+        "status": "passed"
+      },
+      "core.2.attn.a.weight": {
+        "abs_l2": 0.036196726561518594,
+        "rel_l2": 0.03765416647109504,
+        "status": "passed"
+      },
+      "core.2.attn.b.weight": {
+        "abs_l2": 0.042513082614341655,
+        "rel_l2": 0.0441283362531527,
+        "status": "passed"
+      },
+      "core.2.attn.conv": {
+        "abs_l2": 0.05487879432204537,
+        "rel_l2": 0.0028048177404334713,
+        "status": "passed"
+      },
+      "core.2.attn.dt_bias": {
+        "abs_l2": 0.0,
+        "rel_l2": 0.0,
+        "status": "passed"
+      },
+      "core.2.attn.k.weight": {
+        "abs_l2": 0.02175811604334863,
+        "rel_l2": 0.0028439632032404897,
+        "status": "passed"
+      },
+      "core.2.attn.log_A": {
+        "abs_l2": 0.0,
+        "rel_l2": 0.0,
+        "status": "passed"
+      },
+      "core.2.attn.norm.weight": {
+        "abs_l2": 2.873116998482056e-05,
+        "rel_l2": 3.5910418602927467e-06,
+        "status": "passed"
+      },
+      "core.2.attn.o.weight": {
+        "abs_l2": 0.02151403186843389,
+        "rel_l2": 0.0027999760962729298,
+        "status": "passed"
+      },
+      "core.2.attn.q.weight": {
+        "abs_l2": 0.021547536800332515,
+        "rel_l2": 0.0028034362989836775,
+        "status": "passed"
+      },
+      "core.2.attn.v.weight": {
+        "abs_l2": 0.022055016664521657,
+        "rel_l2": 0.0028809416348595635,
+        "status": "passed"
+      },
+      "core.2.attn.z.weight": {
+        "abs_l2": 0.021441926175056025,
+        "rel_l2": 0.0027944154553742966,
+        "status": "passed"
+      },
+      "core.2.moe.experts.0.down.weight": {
+        "abs_l2": 0.04340098406942521,
+        "rel_l2": 0.004881768619582606,
+        "status": "passed"
+      },
+      "core.2.moe.experts.0.gate.weight": {
+        "abs_l2": 0.04271171932992934,
+        "rel_l2": 0.0048131781608296694,
+        "status": "passed"
+      },
+      "core.2.moe.experts.0.up.weight": {
+        "abs_l2": 0.041234754797705254,
+        "rel_l2": 0.004651658866503282,
+        "status": "passed"
+      },
+      "core.2.moe.experts.1.down.weight": {
+        "abs_l2": 0.03214306181532969,
+        "rel_l2": 0.0036279416063851756,
+        "status": "passed"
+      },
+      "core.2.moe.experts.1.gate.weight": {
+        "abs_l2": 0.03181914682285356,
+        "rel_l2": 0.0035965505550696903,
+        "status": "passed"
+      },
+      "core.2.moe.experts.1.up.weight": {
+        "abs_l2": 0.03242823482502614,
+        "rel_l2": 0.0036541179545561226,
+        "status": "passed"
+      },
+      "core.2.moe.experts.2.down.weight": {
+        "abs_l2": 0.048178608029708365,
+        "rel_l2": 0.005413478800395477,
+        "status": "passed"
+      },
+      "core.2.moe.experts.2.gate.weight": {
+        "abs_l2": 0.04799326146081871,
+        "rel_l2": 0.00541601418195585,
+        "status": "passed"
+      },
+      "core.2.moe.experts.2.up.weight": {
+        "abs_l2": 0.04788561909551518,
+        "rel_l2": 0.005386350137668847,
+        "status": "passed"
+      },
+      "core.2.moe.experts.3.down.weight": {
+        "abs_l2": 0.03451625452970033,
+        "rel_l2": 0.0038898208363685265,
+        "status": "passed"
+      },
+      "core.2.moe.experts.3.gate.weight": {
+        "abs_l2": 0.03445849784851557,
+        "rel_l2": 0.0038924761693748,
+        "status": "passed"
+      },
+      "core.2.moe.experts.3.up.weight": {
+        "abs_l2": 0.0338124562934494,
+        "rel_l2": 0.0038037043867338825,
+        "status": "passed"
+      },
+      "core.2.moe.experts.4.down.weight": {
+        "abs_l2": 0.04021968166501217,
+        "rel_l2": 0.0045450704869506205,
+        "status": "passed"
+      },
+      "core.2.moe.experts.4.gate.weight": {
+        "abs_l2": 0.04085943006359048,
+        "rel_l2": 0.004610449627948425,
+        "status": "passed"
+      },
+      "core.2.moe.experts.4.up.weight": {
+        "abs_l2": 0.040964368034477644,
+        "rel_l2": 0.0046305716348987915,
+        "status": "passed"
+      },
+      "core.2.moe.experts.5.down.weight": {
+        "abs_l2": 0.03807535011970345,
+        "rel_l2": 0.004290741359395208,
+        "status": "passed"
+      },
+      "core.2.moe.experts.5.gate.weight": {
+        "abs_l2": 0.04019953200879989,
+        "rel_l2": 0.00452415267073524,
+        "status": "passed"
+      },
+      "core.2.moe.experts.5.up.weight": {
+        "abs_l2": 0.039602295393280834,
+        "rel_l2": 0.004465473127124018,
+        "status": "passed"
+      },
+      "core.2.moe.experts.6.down.weight": {
+        "abs_l2": 0.027102276007577784,
+        "rel_l2": 0.003058502314215537,
+        "status": "passed"
+      },
+      "core.2.moe.experts.6.gate.weight": {
+        "abs_l2": 0.026707372652186655,
+        "rel_l2": 0.0030109753887439606,
+        "status": "passed"
+      },
+      "core.2.moe.experts.6.up.weight": {
+        "abs_l2": 0.027044754993226765,
+        "rel_l2": 0.003042578558586352,
+        "status": "passed"
+      },
+      "core.2.moe.experts.7.down.weight": {
+        "abs_l2": 0.03639415336783123,
+        "rel_l2": 0.004100967018840836,
+        "status": "passed"
+      },
+      "core.2.moe.experts.7.gate.weight": {
+        "abs_l2": 0.03497924665758721,
+        "rel_l2": 0.003945590713591546,
+        "status": "passed"
+      },
+      "core.2.moe.experts.7.up.weight": {
+        "abs_l2": 0.03477404100137433,
+        "rel_l2": 0.003927386518116637,
+        "status": "passed"
+      },
+      "core.2.moe.router.weight": {
+        "abs_l2": 0.06289258363034392,
+        "rel_l2": 0.057107791995122406,
+        "status": "passed"
+      },
+      "core.2.moe.shared.down.weight": {
+        "abs_l2": 0.021285158329668985,
+        "rel_l2": 0.002403661330435584,
+        "status": "passed"
+      },
+      "core.2.moe.shared.gate.weight": {
+        "abs_l2": 0.020523095853758992,
+        "rel_l2": 0.002318032128777759,
+        "status": "passed"
+      },
+      "core.2.moe.shared.up.weight": {
+        "abs_l2": 0.020764214137750155,
+        "rel_l2": 0.002340680688524235,
+        "status": "passed"
+      },
+      "core.2.n1.weight": {
+        "abs_l2": 0.015797523912842087,
+        "rel_l2": 0.0008062612745738205,
+        "status": "passed"
+      },
+      "core.2.n2.weight": {
+        "abs_l2": 0.015861968698233354,
+        "rel_l2": 0.000809752632919622,
+        "status": "passed"
+      },
+      "core.3.attn.k.weight": {
+        "abs_l2": 0.008950246251350557,
+        "rel_l2": 0.0020101646648687764,
+        "status": "passed"
+      },
+      "core.3.attn.o.weight": {
+        "abs_l2": 0.018231889945250646,
+        "rel_l2": 0.0023709428230339813,
+        "status": "passed"
+      },
+      "core.3.attn.output_gate.weight": {
+        "abs_l2": 0.018394600241842245,
+        "rel_l2": 0.0023969803434510956,
+        "status": "passed"
+      },
+      "core.3.attn.q.weight": {
+        "abs_l2": 0.02056977960434891,
+        "rel_l2": 0.002673291776299741,
+        "status": "passed"
+      },
+      "core.3.attn.v.weight": {
+        "abs_l2": 0.021202575398056412,
+        "rel_l2": 0.004803632399800643,
+        "status": "passed"
+      },
+      "core.3.moe.experts.0.down.weight": {
+        "abs_l2": 0.0319384343577765,
+        "rel_l2": 0.003605782171828381,
+        "status": "passed"
+      },
+      "core.3.moe.experts.0.gate.weight": {
+        "abs_l2": 0.03222083987244655,
+        "rel_l2": 0.0036335333232496844,
+        "status": "passed"
+      },
+      "core.3.moe.experts.0.up.weight": {
+        "abs_l2": 0.03285615680037055,
+        "rel_l2": 0.0037004131314275633,
+        "status": "passed"
+      },
+      "core.3.moe.experts.1.down.weight": {
+        "abs_l2": 0.029560787440205943,
+        "rel_l2": 0.0033420131770669818,
+        "status": "passed"
+      },
+      "core.3.moe.experts.1.gate.weight": {
+        "abs_l2": 0.02844800212146723,
+        "rel_l2": 0.0032004674087825944,
+        "status": "passed"
+      },
+      "core.3.moe.experts.1.up.weight": {
+        "abs_l2": 0.029620820942295328,
+        "rel_l2": 0.003336552383649634,
+        "status": "passed"
+      },
+      "core.3.moe.experts.2.down.weight": {
+        "abs_l2": 0.03534358947364585,
+        "rel_l2": 0.003980109912843461,
+        "status": "passed"
+      },
+      "core.3.moe.experts.2.gate.weight": {
+        "abs_l2": 0.034689684985052024,
+        "rel_l2": 0.0039045927934556156,
+        "status": "passed"
+      },
+      "core.3.moe.experts.2.up.weight": {
+        "abs_l2": 0.03460785201564034,
+        "rel_l2": 0.0039008035018105046,
+        "status": "passed"
+      },
+      "core.3.moe.experts.3.down.weight": {
+        "abs_l2": 0.03144903034987902,
+        "rel_l2": 0.0035483051926848835,
+        "status": "passed"
+      },
+      "core.3.moe.experts.3.gate.weight": {
+        "abs_l2": 0.03145757028477404,
+        "rel_l2": 0.0035460325106184826,
+        "status": "passed"
+      },
+      "core.3.moe.experts.3.up.weight": {
+        "abs_l2": 0.030876147249455303,
+        "rel_l2": 0.003481461475093176,
+        "status": "passed"
+      },
+      "core.3.moe.experts.4.down.weight": {
+        "abs_l2": 0.041841611158832274,
+        "rel_l2": 0.00471039993817025,
+        "status": "passed"
+      },
+      "core.3.moe.experts.4.gate.weight": {
+        "abs_l2": 0.041374388489008894,
+        "rel_l2": 0.004657584071469029,
+        "status": "passed"
+      },
+      "core.3.moe.experts.4.up.weight": {
+        "abs_l2": 0.041397920706140005,
+        "rel_l2": 0.004661796186005454,
+        "status": "passed"
+      },
+      "core.3.moe.experts.5.down.weight": {
+        "abs_l2": 0.029618008105319348,
+        "rel_l2": 0.0033387553562792284,
+        "status": "passed"
+      },
+      "core.3.moe.experts.5.gate.weight": {
+        "abs_l2": 0.029415779464550734,
+        "rel_l2": 0.0033214581642436528,
+        "status": "passed"
+      },
+      "core.3.moe.experts.5.up.weight": {
+        "abs_l2": 0.029005995722594158,
+        "rel_l2": 0.0032642466241813092,
+        "status": "passed"
+      },
+      "core.3.moe.experts.6.down.weight": {
+        "abs_l2": 0.03446948665817581,
+        "rel_l2": 0.003879932109902977,
+        "status": "passed"
+      },
+      "core.3.moe.experts.6.gate.weight": {
+        "abs_l2": 0.03421458027928692,
+        "rel_l2": 0.003850703900578558,
+        "status": "passed"
+      },
+      "core.3.moe.experts.6.up.weight": {
+        "abs_l2": 0.03467487706967678,
+        "rel_l2": 0.003913058950459143,
+        "status": "passed"
+      },
+      "core.3.moe.experts.7.down.weight": {
+        "abs_l2": 0.026607606519203787,
+        "rel_l2": 0.0030000515601108857,
+        "status": "passed"
+      },
+      "core.3.moe.experts.7.gate.weight": {
+        "abs_l2": 0.025791698186241423,
+        "rel_l2": 0.002901745585842237,
+        "status": "passed"
+      },
+      "core.3.moe.experts.7.up.weight": {
+        "abs_l2": 0.025449488572068413,
+        "rel_l2": 0.0028745865592117825,
+        "status": "passed"
+      },
+      "core.3.moe.router.weight": {
+        "abs_l2": 0.06198374861575791,
+        "rel_l2": 0.05619702857199978,
+        "status": "passed"
+      },
+      "core.3.moe.shared.down.weight": {
+        "abs_l2": 0.022387662587356756,
+        "rel_l2": 0.002524543004923782,
+        "status": "passed"
+      },
+      "core.3.moe.shared.gate.weight": {
+        "abs_l2": 0.021359304043121353,
+        "rel_l2": 0.0024083750768676892,
+        "status": "passed"
+      },
+      "core.3.moe.shared.up.weight": {
+        "abs_l2": 0.021669910134822026,
+        "rel_l2": 0.002443392922725838,
+        "status": "passed"
+      },
+      "core.3.n1.weight": {
+        "abs_l2": 0.008465043011428796,
+        "rel_l2": 0.0004320252334735622,
+        "status": "passed"
+      },
+      "core.3.n2.weight": {
+        "abs_l2": 0.019865504141783907,
+        "rel_l2": 0.0010137051719260434,
+        "status": "passed"
+      },
+      "embedding.weight": {
+        "abs_l2": 0.7061616963403153,
+        "rel_l2": 0.009879177803092429,
+        "status": "passed"
+      },
+      "norm.weight": {
+        "abs_l2": 0.010380821596063738,
+        "rel_l2": 0.0005304466472732544,
+        "status": "passed"
+      },
+      "offset_norm.weight": {
+        "abs_l2": 0.00582780897225721,
+        "rel_l2": 0.0002977841677499117,
+        "status": "passed"
+      },
+      "offset_projection.weight": {
+        "abs_l2": 0.012036895873217502,
+        "rel_l2": 0.0015679400559238136,
+        "status": "passed"
+      },
+      "prelude.0.attn.k.weight": {
+        "abs_l2": 0.009604489908803332,
+        "rel_l2": 0.0021654586350335933,
+        "status": "passed"
+      },
+      "prelude.0.attn.o.weight": {
+        "abs_l2": 0.020359184919909665,
+        "rel_l2": 0.002649829152141775,
+        "status": "passed"
+      },
+      "prelude.0.attn.q.weight": {
+        "abs_l2": 0.021111936005540913,
+        "rel_l2": 0.002744058730047468,
+        "status": "passed"
+      },
+      "prelude.0.attn.v.weight": {
+        "abs_l2": 0.014833541788679709,
+        "rel_l2": 0.003334547407826957,
+        "status": "passed"
+      },
+      "prelude.0.down.weight": {
+        "abs_l2": 0.03383682198763405,
+        "rel_l2": 0.0026944957035832484,
+        "status": "passed"
+      },
+      "prelude.0.gate.weight": {
+        "abs_l2": 0.02458512906517456,
+        "rel_l2": 0.00195831811405255,
+        "status": "passed"
+      },
+      "prelude.0.n1.weight": {
+        "abs_l2": 0.013406429375577868,
+        "rel_l2": 0.0006841302272402408,
+        "status": "passed"
+      },
+      "prelude.0.n2.weight": {
+        "abs_l2": 0.017992403135150565,
+        "rel_l2": 0.0009183533592888142,
+        "status": "passed"
+      },
+      "prelude.0.up.weight": {
+        "abs_l2": 0.02452130950552501,
+        "rel_l2": 0.0019563334125040866,
+        "status": "passed"
+      },
+      "prelude.1.attn.k.weight": {
+        "abs_l2": 0.009580533278540209,
+        "rel_l2": 0.002164667840592514,
+        "status": "passed"
+      },
+      "prelude.1.attn.o.weight": {
+        "abs_l2": 0.023880800062677395,
+        "rel_l2": 0.003101160742640719,
+        "status": "passed"
+      },
+      "prelude.1.attn.q.weight": {
+        "abs_l2": 0.020884603083089967,
+        "rel_l2": 0.0027208447712967574,
+        "status": "passed"
+      },
+      "prelude.1.attn.v.weight": {
+        "abs_l2": 0.01957004031199465,
+        "rel_l2": 0.004426998125231165,
+        "status": "passed"
+      },
+      "prelude.1.down.weight": {
+        "abs_l2": 0.03384696314510192,
+        "rel_l2": 0.002694115818399846,
+        "status": "passed"
+      },
+      "prelude.1.gate.weight": {
+        "abs_l2": 0.026107741601272563,
+        "rel_l2": 0.002080270095901028,
+        "status": "passed"
+      },
+      "prelude.1.n1.weight": {
+        "abs_l2": 0.010377262703464188,
+        "rel_l2": 0.0005295352231942674,
+        "status": "passed"
+      },
+      "prelude.1.n2.weight": {
+        "abs_l2": 0.020757090899345382,
+        "rel_l2": 0.001059102109674607,
+        "status": "passed"
+      },
+      "prelude.1.up.weight": {
+        "abs_l2": 0.026417932679689036,
+        "rel_l2": 0.0021047878336325596,
+        "status": "passed"
+      }
+    },
+    "status": "passed"
+  },
+  "identity_match": true,
+  "length": 512,
+  "limitations": [
+    "One BF16 synthetic update per mode; no learning-quality or convergence claim.",
+    "Candidate chunk64 is a different contraction order; cross-mode bitwise equality is not required.",
+    "Routing equality is top2 sets per valid position; no raw IDs are published."
+  ],
+  "losses": {
+    "chunk64": {
+      "balance": 1.0716493129730225,
+      "early_ntp": 10.484346389770508,
+      "final_ntp": 10.493999481201172,
+      "offset2": 10.487751960754395,
+      "total": 15.747739791870117
+    },
+    "components": {
+      "balance": {
+        "abs_diff": 6.389617919921875e-05,
+        "status": "passed"
+      },
+      "early_ntp": {
+        "abs_diff": 5.91278076171875e-05,
+        "status": "passed"
+      },
+      "final_ntp": {
+        "abs_diff": 0.00012493133544921875,
+        "status": "passed"
+      },
+      "offset2": {
+        "abs_diff": 0.00013446807861328125,
+        "status": "passed"
+      },
+      "total": {
+        "abs_diff": 0.000171661376953125,
+        "status": "passed"
+      }
+    },
+    "scan": {
+      "balance": 1.0717132091522217,
+      "early_ntp": 10.48428726196289,
+      "final_ntp": 10.493874549865723,
+      "offset2": 10.487617492675781,
+      "total": 15.747568130493164
+    }
+  },
+  "mode": "numerical",
+  "routing": {
+    "by_key": {
+      "('C', 1, 0)": {
+        "disagreement_fraction": 0.0,
+        "exact_sets": true,
+        "tokens": 512
+      },
+      "('C', 1, 1)": {
+        "disagreement_fraction": 0.0,
+        "exact_sets": true,
+        "tokens": 512
+      },
+      "('C', 1, 2)": {
+        "disagreement_fraction": 0.005859375,
+        "exact_sets": false,
+        "tokens": 512
+      },
+      "('C', 1, 3)": {
+        "disagreement_fraction": 0.00390625,
+        "exact_sets": false,
+        "tokens": 512
+      },
+      "('C', 2, 0)": {
+        "disagreement_fraction": 0.0078125,
+        "exact_sets": false,
+        "tokens": 512
+      },
+      "('C', 2, 1)": {
+        "disagreement_fraction": 0.017578125,
+        "exact_sets": false,
+        "tokens": 512
+      },
+      "('C', 2, 2)": {
+        "disagreement_fraction": 0.01953125,
+        "exact_sets": false,
+        "tokens": 512
+      },
+      "('C', 2, 3)": {
+        "disagreement_fraction": 0.01171875,
+        "exact_sets": false,
+        "tokens": 512
+      }
+    },
+    "by_pass": {
+      "C": 0.00830078125
+    },
+    "by_pool": {
+      "0": 0.00390625,
+      "1": 0.0087890625,
+      "2": 0.0126953125,
+      "3": 0.0078125
+    },
+    "disagreement_fraction": 0.01953125,
+    "status": "failed"
+  },
+  "scan_identity": {
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+  },
+  "source_commit": null,
+  "status": "failed",
+  "tensors": {
+    "hidden_1": {
+      "finite": true,
+      "max_abs": 0.09012463688850403,
+      "max_abs_ok": false,
+      "reference_max_abs": 0.7818672060966492,
+      "rel_l2": 0.015143682165508817,
+      "relative_ok": true,
+      "status": "failed"
+    },
+    "hidden_2": {
+      "finite": true,
+      "max_abs": 0.1758652776479721,
+      "max_abs_ok": false,
+      "reference_max_abs": 1.0939202308654785,
+      "rel_l2": 0.032721815649652666,
+      "relative_ok": false,
+      "status": "failed"
+    },
+    "logits_1": {
+      "finite": true,
+      "max_abs": 0.2392578125,
+      "max_abs_ok": false,
+      "reference_max_abs": 2.203125,
+      "rel_l2": 0.013530820728977407,
+      "relative_ok": true,
+      "status": "failed"
+    },
+    "logits_2": {
+      "finite": true,
+      "max_abs": 0.392578125,
+      "max_abs_ok": false,
+      "reference_max_abs": 2.140625,
+      "rel_l2": 0.03227545065544488,
+      "relative_ok": false,
+      "status": "failed"
+    },
+    "offset2_1": {
+      "finite": true,
+      "max_abs": 0.312255859375,
+      "max_abs_ok": false,
+      "reference_max_abs": 2.125,
+      "rel_l2": 0.01581708433558624,
+      "relative_ok": true,
+      "status": "failed"
+    },
+    "offset2_2": {
+      "finite": true,
+      "max_abs": 0.396484375,
+      "max_abs_ok": false,
+      "reference_max_abs": 2.09375,
+      "rel_l2": 0.033235788357566146,
+      "relative_ok": false,
+      "status": "failed"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "attempt": 1,
+  "base_source_commit": "a87adbd1e7186926fa1766adc4aa8470b71d8579",
+  "checks": {
+    "environment": {
+      "detail": "Base a87adbd, tested 7dac49e; RTX 4090/driver 580.178.04, 24,077 MiB free; Python 3.12.7/torch 2.10.0+cu128/CUDA 12.8; host RAM and scratch above limits; deterministic/TF32 off; no packages/retries.",
+      "evidence": [
+        "environment.json",
+        "source-verification.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "full_model": {
+      "detail": "T512 scan baseline exactly matched T0022; losses and gradients passed, but hidden/logit/offset2 tensor gates failed (max abs 0.090-0.396 vs scaled limits; rel up to 0.0332) and routing top2 disagreement was 1.953125%. T2048 was stopped; no threshold was relaxed.",
+      "evidence": [
+        "full-model-512.json",
+        "execution.log"
+      ],
+      "status": "failed"
+    },
+    "handover": {
+      "detail": "Flat package with prerequisite, implementation diff/files, unit-test log, resume/mode-identity gates, T512 failure metrics and summary; validator result reported in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "implementation.diff"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Added delta_chunk64, validated optional RecurrentConfig.gdn_algorithm (default scan), HybridLM wiring, probe/tests/docs and FP8+chunk64 rejection. No new parameters/state_dict entries; existing oracle chunk unchanged; legacy absent-option identity preserved; scan default reproduces T0022 baseline.",
+      "evidence": [
+        "implementation.diff",
+        "implementation.files.json",
+        "source-verification.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "prerequisite_reset": {
+      "detail": "FP64 T129 seed42 carry input matched T0024; independent docs A/B and A rerun after B passed for C16/32/64; 37+92 carried split/tail passed for C16/32/64; all output/state/six-gradient relative L2 and max abs <=1e-9.",
+      "evidence": [
+        "prerequisite-reset.json",
+        "gdn_prereq.py",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "resources": {
+      "detail": "T2048 and all resource measurements were not run because the first T512 candidate gate failed, per specification.",
+      "evidence": [
+        "full-model-512.json",
+        "summary.md"
+      ],
+      "status": "not_run"
+    },
+    "unit_tests": {
+      "detail": "Local full CPU 31 scripts, 288 tests, 31 REP reports, 0 failures; new chunk64 tests 4/4. Tiny CPU 4 vs 2+2 resume exact for scan and chunk64; cross-mode chunk64 checkpoint with scan config rejected with unchanged checkpoint.",
+      "evidence": [
+        "unit-tests.txt",
+        "resume-gate.json",
+        "resume-scan-compare.json",
+        "resume-chunk-compare.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "IMP+VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "environment.json": "e531b27707ead89f1b5116d3aeecb54524c636daa2fc1921e918cb07e27b917d",
+    "execution.log": "2b0c2c56e1832e568dfa07c22da00fcd5360228c042494b9632cef4218f2a43e",
+    "full-model-512.json": "7af225f12c1353ff6621c13a13f22c983d1c0bca3ba379b23874181fb58bcd4d",
+    "gdn_chunk_probe.py": "b1867358f24cb1eb183e8b85d22d76090ff7dbdb24c88b35f6bc38f1c8d52f5c",
+    "gdn_prereq.py": "f1cf05015d215d857c08e49e6fcd28542ce73ad69d2eaff9c5e1415155c2922e",
+    "implementation.diff": "0a3a0412ef193b9c06e5fe6f85590dea3c1c75e941beb55978a168cb347f299d",
+    "implementation.files.json": "9e152a1f84abf048c62aa364f9767d7eeacaabbd6c39e180726679b34c28e229",
+    "metrics.jsonl": "3d98c416c179cf09a4e66a72a02e3ec0920b6590930c048738226a57383eac3b",
+    "prerequisite-reset.json": "38396a1c0413fbae23dbf3d0e1bcd3ce28b4a923eef446b5c87a82c02ace4319",
+    "resume-chunk-compare.json": "c507d51c6d0bdd050801b1920515f8b452eb7938796046b36de78b9673d524d0",
+    "resume-gate.json": "782df8b18fd3eb4dd6a22e6b175aa70442a7eab0ac3aac1d0cb01078e5946afb",
+    "resume-scan-compare.json": "c507d51c6d0bdd050801b1920515f8b452eb7938796046b36de78b9673d524d0",
+    "source-verification.json": "dd349455302caacac0f636dc4a109cacde4f9e46e48acfe69ea3606213386593",
+    "summary.md": "eadbf323a3f46d561644b858c373d0811c0ff38f5fa2c7e763a4ecb4184835fb",
+    "unit-tests.txt": "b3b0445f689fb688424fd0e22874292a7cc9516501210627417cbbf0dd0ab78b"
+  },
+  "limitations": [
+    "Full-model evidence is one BF16 synthetic update at T512; T2048 and resources were stopped after the candidate gate failed.",
+    "Chunk64 hidden/logit/offset2 tensor gates failed and routing top2 sets disagreed by 1.953125%; this is a negative result, not a tolerance to relax.",
+    "The scan default remains unchanged; chunk64 is experimental and not adopted.",
+    "Existing delta_chunk is a small finite-log-decay dense triangular oracle, not a production kernel.",
+    "No resource, learning-quality, throughput or architecture-superiority claim; no real data, checkpoints, packages, Mini or automatic retries."
+  ],
+  "schema_version": 1,
+  "source_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "spec_commit": "a87adbd1e7186926fa1766adc4aa8470b71d8579",
+  "status": "failed",
+  "task_commit": "a87adbd1e7186926fa1766adc4aa8470b71d8579",
+  "task_id": "T0025",
+  "tested_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f"
+}
