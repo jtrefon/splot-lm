@@ -1,0 +1,29 @@
+{
+  "files": {
+    "research/implementation/mtp-benchmark-contract.md": {
+      "bytes": 13148,
+      "sha256": "7abbf964f69bfa462e353b2679ec30c9b84a586e85a8929a4ca98e01b0ef33a6"
+    },
+    "src/splot/speculative.py": {
+      "bytes": 11482,
+      "sha256": "55396c1e031dd02f3e2b96037bbe39f0459007cd234205ede021e1c72f9c0e4d"
+    },
+    "tests/test_speculative_observer.py": {
+      "bytes": 18579,
+      "sha256": "03a6e1c303997e12ec2b13de81c3ac751f60a1e9c77c90312c29c6131515304b"
+    },
+    "tools/speculation_trace.py": {
+      "bytes": 41759,
+      "sha256": "c0b6d90c3e320118cee713434cf5068e7b34313b7c0192d124df53d01a1d2ec4"
+    },
+    "tools/test_speculation_trace.py": {
+      "bytes": 17909,
+      "sha256": "44949f608bd30759cc363aa8d264835629a192ed2bace99853833bd3198607b5"
+    }
+  },
+  "instruction_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "prior_evidence_commit": "339969cf4964adf20e52e3e329cd2a7f170b61a5",
+  "prior_tested_commit": "d32c52780a0e6d565ae20422fc83061596a12110",
+  "protected_base": "a93141e3160c0e9bb845d5b0a64df69c0e97157b",
+  "tested_commit": "42b8e6ca07ca5d3be1de1241a92f30a8d1b1cf01"
+}

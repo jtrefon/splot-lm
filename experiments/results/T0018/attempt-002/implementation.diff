@@ -1,0 +1,685 @@
+diff --git a/research/implementation/mtp-benchmark-contract.md b/research/implementation/mtp-benchmark-contract.md
+index 46b729b..b678c5b 100644
+--- a/research/implementation/mtp-benchmark-contract.md
++++ b/research/implementation/mtp-benchmark-contract.md
+@@ -10,7 +10,9 @@ Status: T0018 implementation contract, 2026-11-28. Task [T0018](../../experiment
+ - No extra model call, sampling draw, tensor mutation or per-token host synchronization is added on the default path. The observer adds phase-boundary callbacks only when requested.
+ - T0018 makes no trained-checkpoint, throughput, latency, memory or acceptance claim. Synthetic fixture timings are fake-clock and are not performance measurements.
+ 
+-## 2. Trace schema `splot.mtp.trace.v1`
++## 2. Trace schema `splot.mtp.trace.v2`
++
++Version 2 adds explicit `model_calls` per phase boundary; attempt-001 v1 evidence is historical and is not rewritten.
+ 
+ The trace is a bounded list (at most 100,000 events), strictly ordered by contiguous `seq` and nondecreasing `timestamp_ns`. The first event is `run_start`; the last is `run_end`.
+ 
+@@ -18,7 +20,7 @@ The trace is a bounded list (at most 100,000 events), strictly ordered by contig
+ |---|---|---|
+ | `run_start` | strategy D0/D1/D2, draft_length, max_new_tokens, prompt_length, greedy, temperature, eos | Run identity and fixed settings; no prompt tokens. |
+ | `phase_start` | role, phase, round, before_length | Opens one measured work boundary. |
+-| `phase_end` | role, phase, round, before_length, after_length, requested_tokens, actual_tokens | Closes the boundary; `actual = after - before`. |
++| `phase_end` | role, phase, round, before_length, after_length, requested_tokens, actual_tokens, model_calls | Closes the boundary; `actual = after - before`; `model_calls` is the number of actual runner `advance` invocations in that phase. |
+ | `draft` | round, offset, status accepted/rejected/unexamined, proposed, verified | Per-offset opportunity and examination result. |
+ | `round_commit` | strategy, round, proposed, verified, accepted, rejected, unexamined, correction, bonus, committed, target/shallow/output before/after, eos_committed | Reconciles one round. |
+ | `run_end` | rounds, proposed, accepted, rejected, output_length, target_length, shallow_length | Final totals and cache lengths. |
+@@ -30,6 +32,8 @@ Phases are role-specific:
+ 
+ `before_length` and `after_length` are prefix lengths, not output lengths. For a round, `target_after - target_before = shallow_after - shallow_before = committed` and `target_after = shallow_after = prompt_length + output_after`. D0 mirrors target lengths into shallow counters solely for schema reconciliation and emits no shallow phase.
+ 
++Phase occurrences and model calls are distinct. A phase pair is one instrumentation boundary; `model_calls` counts actual `advance` invocations. `target_prefill`, `target_verify`, `target_rejection_replay`, `target_bonus_advance`, `target_step`, `shallow_prefill`, and `shallow_committed_replay` are one call per occurrence. `shallow_draft` is variable under the current D1 contract: one call per actual scratch token (0 with EOS or a short final draft, 1 for the usual second proposal, greater than 1 for `draft_length>2`). D2 performs zero shallow-draft calls. The reducer exposes `model_calls_by_phase` and `phase_occurrences_by_phase` separately, plus role totals from model calls.
++
+ Draft status forms one accepted prefix, at most one rejected position, then an unexamined suffix. A rejection is followed by exactly one correction token; all-accepted rounds may draw at most one bonus token. EOS may commit from a draft, correction or bonus, after which no further round is allowed.
+ 
+ ## 3. Metric definitions
+@@ -45,8 +49,8 @@ Draft status forms one accepted prefix, at most one rejected position, then an u
+ - `correction_tokens`: one per rejected round. `bonus_tokens`: at most one per all-accepted round that still has budget.
+ - `committed_tokens = accepted + correction + bonus = output length`.
+ - `per_offset`: proposed, verified, accepted, rejected and unexamined counts plus the two ratios. Offset 1 and offset 2 are never collapsed in D2 analysis.
+-- Target work: calls and advanced tokens per phase, with prefill separated. `target_decode_tokens` excludes target prefill.
+-- Shallow work: calls and advanced tokens, with prefill and committed-prefix replay separated.
++- Target work: actual model calls and advanced tokens per phase, with prefill separated. `target_decode_tokens` excludes target prefill.
++- Shallow work: actual model calls and advanced tokens, with prefill, variable serial draft calls and committed-prefix replay separated. `shallow_draft` model calls equal its actual scratch advances; D2 reports zero.
+ - `target_tokens_per_committed_token = target_decode_tokens / committed`, null for zero output. This is the target replay/work amplification, not a speedup.
+ - `target_extra_tokens_over_committed = target_decode_tokens - committed`.
+ 
+@@ -56,8 +60,11 @@ T0018 uses `time.monotonic_ns()` or an injected integer fake clock. Event timest
+ 
+ - `prefill_seconds`: start of run to the end of the last prefill phase (target plus shallow).
+ - `ttft_seconds`: start of run to the first `round_commit` (first committed output token); null for zero generation.
+-- `decode_seconds`: first commit to `run_end`; null for zero generation. It includes later verification, replay and bonus work.
+-- `total_seconds = ttft_seconds + decode_seconds` for nonzero output.
++- `decode_seconds`: end of prefill to `run_end`. It includes the complete first generation round, including a multi-token first commit, plus all later verification, replay and bonus work. This is the denominator for committed-token throughput.
++- `post_first_commit_seconds`: first commit to `run_end`; null for zero generation. This is a diagnostic tail, not a throughput denominator.
++- `first_round_committed_tokens` and `tokens_after_first_commit`: expose how much work the first commit carried.
++- `committed_tokens_per_decode_second = committed_tokens / decode_seconds`; null when nothing was committed or decode is zero. Never divide all committed tokens by post-first-commit time.
++- `total_seconds = prefill_seconds + decode_seconds`; for nonzero output, `ttft_seconds + post_first_commit_seconds = total_seconds`.
+ - `phase_seconds`: sum of paired start/end durations per role and phase.
+ 
+ A later GPU benchmark must wrap each timed region with explicit device synchronization outside the observer. Synchronization overhead is measured and reported separately. An observer-off/observer-on paired control estimates callback overhead. The reported latency is **observed committed-token advance wall time**, not true kernel latency. No claim may present it as kernel-only time.
+@@ -92,7 +99,7 @@ This protocol is not executed by T0018. It becomes eligible only after the T0017
+ - At least three paired repetitions per system/context/prompt after one warmup. Rotate system order across repetitions to reduce drift; report every pair, not only the best.
+ - Synchronize before and after each measured prefill, verification, replay, bonus and full generation region. Keep synchronization outside the observer callbacks.
+ - Record observer-off and observer-on controls. Report callback overhead and exclude it from no claim; do not hide it.
+-- Report TTFT, committed tokens/second, prefill seconds, decode seconds, target/shallow calls and tokens, per-offset proposed/verified, rejection replay, correction and bonus counts, peak allocated/reserved memory, actual precision/device, and checkpoint/tokenizer/manifest hashes.
++- Report TTFT, prefill seconds, decode seconds, committed tokens/second using all committed tokens over `decode_seconds`, post-first-commit tail separately, target/shallow model calls and tokens, per-offset proposed/verified, rejection replay, correction and bonus counts, peak allocated/reserved memory, actual precision/device, and checkpoint/tokenizer/manifest hashes.
+ - Use the same process-level thread settings and device clocks policy for all systems. Record thermal/clock caveats rather than normalizing them away.
+ - No performance claim from untrained weights. No quality or convergence claim from this benchmark.
+ 
+@@ -112,4 +119,4 @@ After T0017 checkpoint review, propose one benchmark task that executes this pro
+ 
+ ## Polski — podsumowanie
+ 
+-T0018 dodaje opcjonalny obserwator do dokładnego mechanizmu spekulacji D1/D2 bez zmiany wyników, losowania, wywołań modelu ani pamięci podręcznych. Reduktor w `tools/speculation_trace.py` waliduje zdarzenia, liczy akceptację i pracę celu/płytkiego modelu oraz definiuje metryki czasu. D0 to baseline tylko z modelem docelowym. Kontrakt przyszłego benchmarku na wytrenowanym checkpoincie wymaga tych samych wejść, dokładnych bramek zachłannych, osobnej analizy stochastycznej, synchronizacji urządzenia i raportowania narzutu obserwatora. Ten dokument nie zawiera zmierzonych wyników wydajności.
++T0018 dodaje opcjonalny obserwator do dokładnego mechanizmu spekulacji D1/D2 bez zmiany wyników, losowania, wywołań modelu ani pamięci podręcznych. Reduktor w `tools/speculation_trace.py` waliduje zdarzenia, rozdziela wystąpienia faz od rzeczywistych wywołań `advance`, liczy akceptację i pracę celu/płytkiego modelu oraz definiuje metryki czasu. Dekodowanie liczone jest od końca prefillu i obejmuje pełną pierwszą rundę; przepustowość używa wszystkich zakomitowanych tokenów. D0 to baseline tylko z modelem docelowym. Kontrakt przyszłego benchmarku na wytrenowanym checkpoincie wymaga tych samych wejść, dokładnych bramek zachłannych, osobnej analizy stochastycznej, synchronizacji urządzenia i raportowania narzutu obserwatora. Ten dokument nie zawiera zmierzonych wyników wydajności.
+diff --git a/src/splot/speculative.py b/src/splot/speculative.py
+index 70b3104..da336af 100644
+--- a/src/splot/speculative.py
++++ b/src/splot/speculative.py
+@@ -4,7 +4,7 @@ import math
+ import time
+ import torch
+ 
+-TRACE_SCHEMA = 'splot.mtp.trace.v1'
++TRACE_SCHEMA = 'splot.mtp.trace.v2'
+ 
+ 
+ @dataclass(frozen=True)
+@@ -123,13 +123,13 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
+     if emit:
+         emit('phase_end',role='target',phase='target_prefill',round=0,
+              before_length=0,after_length=t.length,requested_tokens=len(prompt),
+-             actual_tokens=len(prompt))
++             actual_tokens=len(prompt),model_calls=1)
+         emit('phase_start',role='shallow',phase='shallow_prefill',round=0,before_length=0)
+     s,_=shallow.advance(None,list(prompt))
+     if emit:
+         emit('phase_end',role='shallow',phase='shallow_prefill',round=0,
+              before_length=0,after_length=s.length,requested_tokens=len(prompt),
+-             actual_tokens=len(prompt))
++             actual_tokens=len(prompt),model_calls=1)
+     output=[]; proposed=accepted=rejected=rounds=0
+     while len(output)<max_new_tokens:
+         rounds+=1
+@@ -153,7 +153,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
+             emit('phase_end',role='shallow',phase='shallow_draft',round=rounds,
+                  before_length=s_before,after_length=scratch.length,
+                  requested_tokens=0 if strategy=='D2' else max(0,count-1),
+-                 actual_tokens=scratch.length-s_before)
++                 actual_tokens=scratch.length-s_before,
++                 model_calls=scratch.length-s_before)
+         proposed+=len(drafts)
+         if emit:
+             emit('phase_start',role='target',phase='target_verify',round=rounds,
+@@ -162,7 +163,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
+         if emit:
+             emit('phase_end',role='target',phase='target_verify',round=rounds,
+                  before_length=t_before,after_length=verified.length,
+-                 requested_tokens=len(drafts),actual_tokens=len(drafts))
++                 requested_tokens=len(drafts),actual_tokens=len(drafts),
++                 model_calls=1)
+         emitted=[]; failed=False; statuses=['unexamined']*len(drafts)
+         round_accepted=0
+         for i,(y,q) in enumerate(zip(drafts,qs)):
+@@ -193,7 +195,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
+             if emit:
+                 emit('phase_end',role='target',phase='target_rejection_replay',
+                      round=rounds,before_length=replay_before,after_length=t.length,
+-                     requested_tokens=len(emitted),actual_tokens=len(emitted))
++                     requested_tokens=len(emitted),actual_tokens=len(emitted),
++                     model_calls=1)
+         else:
+             t=verified
+             if emitted[-1]!=eos and len(emitted)<remaining:
+@@ -208,7 +211,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
+                 if emit:
+                     emit('phase_end',role='target',phase='target_bonus_advance',
+                          round=rounds,before_length=bonus_before,
+-                         after_length=t.length,requested_tokens=1,actual_tokens=1)
++                         after_length=t.length,requested_tokens=1,actual_tokens=1,
++                         model_calls=1)
+         # Reference replay: always synchronize shallow from committed prefix.
+         if emit:
+             emit('phase_start',role='shallow',phase='shallow_committed_replay',
+@@ -217,7 +221,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
+         if emit:
+             emit('phase_end',role='shallow',phase='shallow_committed_replay',
+                  round=rounds,before_length=s_before,after_length=s.length,
+-                 requested_tokens=len(emitted),actual_tokens=len(emitted))
++                 requested_tokens=len(emitted),actual_tokens=len(emitted),
++                 model_calls=1)
+         output.extend(emitted)
+         eos_committed=bool(eos is not None and output[-1]==eos)
+         if emit:
+diff --git a/tests/test_speculative_observer.py b/tests/test_speculative_observer.py
+index fd20ce9..aa09940 100644
+--- a/tests/test_speculative_observer.py
++++ b/tests/test_speculative_observer.py
+@@ -42,6 +42,20 @@ class Clock:
+         return value
+ 
+ 
++class CountingRunner:
++    """Delegate runner that records each actual ``advance`` invocation."""
++    def __init__(self, runner):
++        self.runner = runner
++        self.calls = []
++
++    def advance(self, prefix, tokens):
++        self.calls.append(tuple(tokens))
++        return self.runner.advance(prefix, tokens)
++
++    def __getattr__(self, name):
++        return getattr(self.runner, name)
++
++
+ def toy_prefix_equal(test, expected, actual):
+     test.assertEqual(expected.length, actual.length)
+     test.assertEqual(expected.cache, actual.cache)
+@@ -177,7 +191,9 @@ class ScenarioTests(unittest.TestCase):
+         summary = summarize(collector.events)
+         self.assertEqual((result.tokens, summary["rounds"], summary["committed_tokens"]), ((), 0, 0))
+         self.assertIsNone(summary["timing"]["ttft_seconds"])
+-        self.assertIsNone(summary["timing"]["decode_seconds"])
++        self.assertIsNone(summary["timing"]["post_first_commit_seconds"])
++        self.assertIsNone(summary["timing"]["committed_tokens_per_decode_second"])
++        self.assertGreaterEqual(summary["timing"]["decode_seconds"], 0)
+ 
+     def test_short_final_draft(self):
+         collector = TraceCollector()
+@@ -189,6 +205,70 @@ class ScenarioTests(unittest.TestCase):
+                          ((0,), 1, 1, 0))
+ 
+ 
++class RunnerCallAccountingTests(unittest.TestCase):
++    def check(self, summary, target, shallow, target_lengths, shallow_lengths):
++        self.assertEqual([len(call) for call in target.calls], target_lengths)
++        self.assertEqual([len(call) for call in shallow.calls], shallow_lengths)
++        self.assertEqual(len(target.calls), summary["work"]["target_calls"])
++        self.assertEqual(len(shallow.calls), summary["work"]["shallow_calls"])
++        self.assertEqual(sum(summary["work"]["model_calls_by_phase"].values()),
++                         len(target.calls) + len(shallow.calls))
++
++    def test_d1_all_accepted_bonus_calls(self):
++        target, shallow = CountingRunner(Toy(forced=[1., 0.])), CountingRunner(Toy(forced=[1., 0.]))
++        collector = TraceCollector()
++        generate(target, shallow, [1], 3, strategy="D1", greedy=True,
++                 observer=collector, clock=Clock())
++        summary = summarize(collector.events)
++        self.check(summary, target, shallow, [1, 2, 1], [1, 1, 3])
++        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 1)
++        self.assertEqual(summary["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
++
++    def test_d1_draft_three_uses_two_scratch_calls(self):
++        target, shallow = CountingRunner(Toy(forced=[1., 0.])), CountingRunner(Toy(forced=[1., 0.]))
++        collector = TraceCollector()
++        generate(target, shallow, [1], 4, strategy="D1", draft_length=3, greedy=True,
++                 observer=collector, clock=Clock())
++        summary = summarize(collector.events)
++        self.check(summary, target, shallow, [1, 3, 1], [1, 1, 1, 4])
++        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 2)
++        self.assertEqual(summary["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
++        self.assertEqual(summary["timing"]["first_round_committed_tokens"], 4)
++
++    def test_d2_has_no_draft_calls(self):
++        class Target(Toy):
++            def logits(self, tokens):
++                return torch.tensor([1., 0.] if len(tokens) == 1 else [0., 1.],
++                                    dtype=torch.float64).log()
++        target = CountingRunner(Target())
++        shallow = CountingRunner(Toy(forced=[1., 0.]))
++        collector = TraceCollector()
++        generate(target, shallow, [0], 2, strategy="D2", greedy=True,
++                 observer=collector, clock=Clock())
++        summary = summarize(collector.events)
++        self.check(summary, target, shallow, [1, 2, 2], [1, 2])
++        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
++        self.assertEqual(summary["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
++
++    def test_eos_and_short_budget_make_zero_draft_calls(self):
++        target, shallow = CountingRunner(Toy(forced=[0., 1.])), CountingRunner(Toy(forced=[0., 1.]))
++        collector = TraceCollector()
++        generate(target, shallow, [0], 5, strategy="D1", eos=1, greedy=True,
++                 observer=collector, clock=Clock())
++        summary = summarize(collector.events)
++        self.check(summary, target, shallow, [1, 1], [1, 1])
++        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
++
++        target = CountingRunner(Toy(forced=[1., 0.]))
++        shallow = CountingRunner(Toy(forced=[1., 0.]))
++        collector = TraceCollector()
++        generate(target, shallow, [1], 1, strategy="D2", greedy=True,
++                 observer=collector, clock=Clock())
++        summary = summarize(collector.events)
++        self.check(summary, target, shallow, [1, 1], [1, 1])
++        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
++
++
+ class D0Tests(unittest.TestCase):
+     def test_d0_greedy_matches_d1_d2_on_actual_model(self):
+         torch.manual_seed(42)
+@@ -207,7 +287,8 @@ class D0Tests(unittest.TestCase):
+         d1 = generate(target, shallow, prompt, budget, strategy="D1", greedy=True)
+         d2 = generate(target, shallow, prompt, budget, strategy="D2", greedy=True)
+         d0_collector = TraceCollector()
+-        d0 = run_d0(target, prompt, budget, greedy=True,
++        d0_target = CountingRunner(target)
++        d0 = run_d0(d0_target, prompt, budget, greedy=True,
+                     observer=d0_collector, clock=Clock())
+         self.assertEqual(list(d1.tokens), expected)
+         self.assertEqual(list(d2.tokens), expected)
+@@ -221,6 +302,7 @@ class D0Tests(unittest.TestCase):
+                           summary["committed_tokens"]), ("D0", 0, budget))
+         self.assertEqual(summary["work"]["shallow_calls"], 0)
+         self.assertEqual(summary["work"]["target_calls"], budget + 1)
++        self.assertEqual(len(d0_target.calls), summary["work"]["target_calls"])
+ 
+     def test_d0_eos_and_zero_budget(self):
+         target = Toy(forced=[0., 1.])
+@@ -236,6 +318,8 @@ class D0Tests(unittest.TestCase):
+         summary = summarize(collector.events)
+         self.assertEqual((result.tokens, result.rounds), ((), 0))
+         self.assertIsNone(summary["timing"]["ttft_seconds"])
++        self.assertIsNone(summary["timing"]["post_first_commit_seconds"])
++        self.assertIsNone(summary["timing"]["committed_tokens_per_decode_second"])
+ 
+     def test_d0_stochastic_returns_valid_tokens(self):
+         target = Toy(forced=[.5, .5])
+@@ -255,8 +339,10 @@ class ActualModelObserverIdentityTests(unittest.TestCase):
+         baseline = generate(target, shallow, prompt, 4, strategy="D1", greedy=False, rng=rng_a)
+         rng_b = torch.Generator().manual_seed(9)
+         collector = TraceCollector()
+-        observed = generate(target, shallow, prompt, 4, strategy="D1", greedy=False,
+-                            rng=rng_b, observer=collector, clock=Clock())
++        target_count = CountingRunner(target)
++        shallow_count = CountingRunner(shallow)
++        observed = generate(target_count, shallow_count, prompt, 4, strategy="D1",
++                            greedy=False, rng=rng_b, observer=collector, clock=Clock())
+         self.assertEqual(baseline.tokens, observed.tokens)
+         self.assertTrue(torch.equal(rng_a.get_state(), rng_b.get_state()))
+         model_prefix_equal(self, baseline.target, observed.target)
+@@ -265,6 +351,8 @@ class ActualModelObserverIdentityTests(unittest.TestCase):
+         self.assertEqual(summary["committed_tokens"], len(observed.tokens))
+         self.assertGreaterEqual(summary["work"]["target_calls"], 2)
+         self.assertGreaterEqual(summary["work"]["shallow_calls"], 2)
++        self.assertEqual(len(target_count.calls), summary["work"]["target_calls"])
++        self.assertEqual(len(shallow_count.calls), summary["work"]["shallow_calls"])
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/tools/speculation_trace.py b/tools/speculation_trace.py
+index 0ef962d..2c01d14 100644
+--- a/tools/speculation_trace.py
++++ b/tools/speculation_trace.py
+@@ -14,7 +14,7 @@ from dataclasses import dataclass
+ import math
+ import time
+ 
+-SCHEMA = "splot.mtp.trace.v1"
++SCHEMA = "splot.mtp.trace.v2"
+ MAX_EVENTS = 100000
+ STRATEGIES = ("D0", "D1", "D2")
+ STATUSES = ("accepted", "rejected", "unexamined")
+@@ -29,7 +29,7 @@ _FIELDS = {
+                   "greedy", "temperature", "eos"},
+     "phase_start": {"role", "phase", "round", "before_length"},
+     "phase_end": {"role", "phase", "round", "before_length", "after_length",
+-                  "requested_tokens", "actual_tokens"},
++                  "requested_tokens", "actual_tokens", "model_calls"},
+     "draft": {"round", "offset", "status", "proposed", "verified"},
+     "round_commit": {"round", "strategy", "proposed", "verified", "accepted",
+                      "rejected", "unexamined", "correction", "bonus",
+@@ -131,12 +131,20 @@ def _check_event(event, index):
+             after = _int(event["after_length"], "after_length")
+             requested = _int(event["requested_tokens"], "requested_tokens")
+             actual = _int(event["actual_tokens"], "actual_tokens")
++            calls = _int(event["model_calls"], "model_calls")
+             if after < before:
+                 raise TraceError("phase after_length is below before_length")
+             if actual != after - before:
+                 raise TraceError("phase actual_tokens does not equal after-before")
+             if actual > requested:
+                 raise TraceError("phase actual_tokens exceeds requested_tokens")
++            # A serial D1 scratch advance moves exactly one token per call; D2
++            # performs zero draft calls. Every other phase is one model call.
++            if phase == "shallow_draft":
++                if calls != actual:
++                    raise TraceError("shallow_draft model_calls must equal actual scratch advances")
++            elif calls != 1:
++                raise TraceError(f"{phase} must make exactly one model call per phase occurrence")
+     elif kind == "draft":
+         _int(event["round"], "round", 1)
+         _int(event["offset"], "offset", 1)
+@@ -236,6 +244,7 @@ def summarize(events, *, synthetic=False):
+     total_correction = total_bonus = total_unexamined = 0
+     per_offset = {}
+     first_commit = last_commit = None
++    first_round_committed = 0
+     eos_seen = False
+ 
+     while cursor < len(events) - 1:
+@@ -388,6 +397,7 @@ def summarize(events, *, synthetic=False):
+         rounds = round_index
+         if first_commit is None:
+             first_commit = commit["timestamp_ns"]
++            first_round_committed = commit["committed"]
+         last_commit = commit["timestamp_ns"]
+         if commit["eos_committed"]:
+             if not eos_enabled:
+@@ -419,12 +429,14 @@ def summarize(events, *, synthetic=False):
+             raise TraceError("run_end rejection count disagrees with rounds")
+ 
+     calls = {}
++    occurrences = {}
+     tokens = {}
+     phase_seconds = {}
+     prefill_end = events[0]["timestamp_ns"]
+     for role, phase, start_ts, end_ts, event in phase_pairs:
+         key = f"{role}:{phase}"
+-        calls[key] = calls.get(key, 0) + 1
++        calls[key] = calls.get(key, 0) + event["model_calls"]
++        occurrences[key] = occurrences.get(key, 0) + 1
+         tokens[key] = tokens.get(key, 0) + event["actual_tokens"]
+         phase_seconds[key] = phase_seconds.get(key, 0.0) + (end_ts - start_ts) / 1e9
+         if phase in PREFILL_PHASES:
+@@ -443,8 +455,12 @@ def summarize(events, *, synthetic=False):
+     total_seconds = (end_ns - start_ns) / 1e9
+     prefill_seconds = (prefill_end - start_ns) / 1e9
+     ttft = None if first_commit is None else (first_commit - start_ns) / 1e9
+-    decode = None if first_commit is None else (end_ns - first_commit) / 1e9
++    # Decode excludes prefill but includes the complete first generation round.
++    decode = (end_ns - prefill_end) / 1e9
++    post_first = None if first_commit is None else (end_ns - first_commit) / 1e9
+     committed = output_len
++    tokens_after_first = (committed - first_round_committed
++                          if first_commit is not None else None)
+     offsets = []
+     for offset in sorted(per_offset):
+         row = dict(per_offset[offset])
+@@ -491,7 +507,13 @@ def summarize(events, *, synthetic=False):
+             "shallow_tokens": shallow_tokens,
+             "shallow_prefill_calls": calls.get("shallow:shallow_prefill", 0),
+             "shallow_prefill_tokens": shallow_prefill_tokens,
++            "model_calls_by_phase": dict(sorted(calls.items())),
+             "calls_by_phase": dict(sorted(calls.items())),
++            "phase_occurrences_by_phase": dict(sorted(occurrences.items())),
++            "target_phase_occurrences": sum(value for key, value in occurrences.items()
++                                            if key.startswith("target:")),
++            "shallow_phase_occurrences": sum(value for key, value in occurrences.items()
++                                             if key.startswith("shallow:")),
+             "tokens_by_phase": dict(sorted(tokens.items())),
+             "target_tokens_per_committed_token": (target_decode_tokens / committed
+                                                   if committed else None),
+@@ -505,6 +527,12 @@ def summarize(events, *, synthetic=False):
+             "prefill_seconds": prefill_seconds,
+             "ttft_seconds": ttft,
+             "decode_seconds": decode,
++            "post_first_commit_seconds": post_first,
++            "first_round_committed_tokens": (first_round_committed
++                                             if first_commit is not None else None),
++            "tokens_after_first_commit": tokens_after_first,
++            "committed_tokens_per_decode_second": (committed / decode
++                                                   if committed and decode > 0 else None),
+             "phase_seconds": dict(sorted(phase_seconds.items())),
+         },
+     }
+@@ -567,7 +595,8 @@ def run_d0(target, prompt, max_new_tokens, *, eos=None, temperature=1.,
+     if emit:
+         emit("phase_end", role="target", phase="target_prefill", round=0,
+              before_length=0, after_length=state.length,
+-             requested_tokens=len(prompt), actual_tokens=len(prompt))
++             requested_tokens=len(prompt), actual_tokens=len(prompt),
++             model_calls=1)
+ 
+     output = []
+     rounds = 0
+@@ -585,7 +614,7 @@ def run_d0(target, prompt, max_new_tokens, *, eos=None, temperature=1.,
+             emit("phase_end", role="target", phase="target_step",
+                  round=rounds, before_length=before,
+                  after_length=state.length, requested_tokens=1,
+-                 actual_tokens=1)
++                 actual_tokens=1, model_calls=1)
+             commit = {
+                 "schema": SCHEMA, "seq": seq, "kind": "round_commit",
+                 "timestamp_ns": now(),
+@@ -624,12 +653,15 @@ def synthetic_fixtures():
+             max_new_tokens=budget, prompt_length=prompt, greedy=False,
+             temperature=1.0, eos=eos)
+ 
+-        def phase(role, name, round_index, before, requested, actual):
++        def phase(role, name, round_index, before, requested, actual, calls=None):
++            if calls is None:
++                calls = actual if name == "shallow_draft" else 1
+             add("phase_start", role=role, phase=name, round=round_index,
+                 before_length=before)
+             add("phase_end", role=role, phase=name, round=round_index,
+                 before_length=before, after_length=before + actual,
+-                requested_tokens=requested, actual_tokens=actual)
++                requested_tokens=requested, actual_tokens=actual,
++                model_calls=calls)
+             return before + actual
+ 
+         phase("target", "target_prefill", 0, 0, prompt, prompt)
+@@ -736,4 +768,43 @@ def synthetic_fixtures():
+     add("run_end", rounds=2, proposed=0, accepted=0, rejected=0,
+         output_length=2, target_length=6, shallow_length=6)
+     cases["d0_target_only"] = events
++    events, add, phase = build("D1", 4, 4, 3)
++    phase("shallow", "shallow_draft", 1, 4, 2, 2)
++    phase("target", "target_verify", 1, 4, 3, 3)
++    add("draft", round=1, offset=1, status="accepted", proposed=True, verified=True)
++    add("draft", round=1, offset=2, status="accepted", proposed=True, verified=True)
++    add("draft", round=1, offset=3, status="accepted", proposed=True, verified=True)
++    phase("target", "target_bonus_advance", 1, 7, 1, 1)
++    phase("shallow", "shallow_committed_replay", 1, 4, 4, 4)
++    add("round_commit", round=1, strategy="D1", proposed=3, verified=3,
++        accepted=3, rejected=0, unexamined=0, correction=0, bonus=1,
++        committed=4, target_before=4, target_after=8, shallow_before=4,
++        shallow_after=8, output_before=0, output_after=4, eos_committed=False)
++    add("run_end", rounds=1, proposed=3, accepted=3, rejected=0,
++        output_length=4, target_length=8, shallow_length=8)
++    cases["d1_draft_three_calls"] = events
++
++    events, add, phase = build("D2", 4, 3, 2)
++    phase("shallow", "shallow_draft", 1, 4, 0, 0)
++    phase("target", "target_verify", 1, 4, 2, 2)
++    add("draft", round=1, offset=1, status="accepted", proposed=True, verified=True)
++    add("draft", round=1, offset=2, status="rejected", proposed=True, verified=True)
++    phase("target", "target_rejection_replay", 1, 4, 2, 2)
++    phase("shallow", "shallow_committed_replay", 1, 4, 2, 2)
++    add("round_commit", round=1, strategy="D2", proposed=2, verified=2,
++        accepted=1, rejected=1, unexamined=0, correction=1, bonus=0,
++        committed=2, target_before=4, target_after=6, shallow_before=4,
++        shallow_after=6, output_before=0, output_after=2, eos_committed=False)
++    phase("shallow", "shallow_draft", 2, 6, 0, 0)
++    phase("target", "target_verify", 2, 6, 1, 1)
++    add("draft", round=2, offset=1, status="accepted", proposed=True, verified=True)
++    phase("shallow", "shallow_committed_replay", 2, 6, 1, 1)
++    add("round_commit", round=2, strategy="D2", proposed=1, verified=1,
++        accepted=1, rejected=0, unexamined=0, correction=0, bonus=0,
++        committed=1, target_before=6, target_after=7, shallow_before=6,
++        shallow_after=7, output_before=2, output_after=3, eos_committed=False)
++    add("run_end", rounds=2, proposed=3, accepted=2, rejected=1,
++        output_length=3, target_length=7, shallow_length=7)
++    cases["d2_multiple_rounds"] = events
++
+     return cases
+diff --git a/tools/test_speculation_trace.py b/tools/test_speculation_trace.py
+index db9ee9a..91cfed1 100644
+--- a/tools/test_speculation_trace.py
++++ b/tools/test_speculation_trace.py
+@@ -22,7 +22,8 @@ class FixtureTests(unittest.TestCase):
+         self.assertEqual(set(synthetic_fixtures()), {
+             "d1_all_accepted_bonus", "d1_first_rejection_unexamined",
+             "d2_later_rejection", "d1_eos", "d2_short_budget",
+-            "d1_zero_output", "d0_target_only"})
++            "d1_zero_output", "d0_target_only", "d1_draft_three_calls",
++            "d2_multiple_rounds"})
+ 
+     def test_all_fixtures_validate_and_are_json_safe(self):
+         summaries = {}
+@@ -51,7 +52,11 @@ class FixtureTests(unittest.TestCase):
+         self.assertEqual(s["work"]["target_tokens_per_committed_token"], 1.0)
+         self.assertEqual(s["work"]["target_extra_tokens_over_committed"], 0)
+         self.assertAlmostEqual(s["timing"]["ttft_seconds"], 0.015)
+-        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.001)
++        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.012)
++        self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"], 0.001)
++        self.assertEqual(s["timing"]["first_round_committed_tokens"], 3)
++        self.assertEqual(s["timing"]["tokens_after_first_commit"], 0)
++        self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"], 250.0)
+         self.assertAlmostEqual(s["timing"]["total_seconds"], 0.016)
+         self.assertAlmostEqual(s["timing"]["prefill_seconds"], 0.004)
+         self.assertIn("target:target_bonus_advance", s["timing"]["phase_seconds"])
+@@ -74,7 +79,11 @@ class FixtureTests(unittest.TestCase):
+         self.assertIsNone(s["per_offset"][1]["acceptance_per_verified"])
+         self.assertEqual(s["work"]["target_calls"], 4)
+         self.assertEqual(s["work"]["target_tokens"], 8)
+-        self.assertEqual(s["work"]["shallow_calls"], 5)
++        self.assertEqual(s["work"]["shallow_calls"], 4)
++        self.assertEqual(s["work"]["shallow_phase_occurrences"], 5)
++        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.020)
++        self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"], 0.009)
++        self.assertEqual(s["timing"]["tokens_after_first_commit"], 1)
+ 
+     def test_later_rejection_and_replay_amplification(self):
+         s = summarize(fixture("d2_later_rejection"))
+@@ -87,8 +96,12 @@ class FixtureTests(unittest.TestCase):
+         self.assertEqual(s["work"]["target_prefill_tokens"], 4)
+         self.assertEqual(s["work"]["target_decode_tokens"], 4)
+         self.assertEqual(s["work"]["target_tokens_per_committed_token"], 2.0)
+-        self.assertEqual(s["work"]["shallow_calls"], 3)
++        self.assertEqual(s["work"]["shallow_calls"], 2)
++        self.assertEqual(s["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
++        self.assertEqual(s["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
+         self.assertEqual(s["work"]["shallow_tokens"], 6)
++        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.012)
++        self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"], 500 / 3)
+ 
+     def test_eos_and_short_budget(self):
+         eos = summarize(fixture("d1_eos"))
+@@ -96,18 +109,24 @@ class FixtureTests(unittest.TestCase):
+         self.assertEqual((eos["proposed_tokens"], eos["accepted_tokens"],
+                           eos["bonus_tokens"], eos["committed_tokens"]),
+                          (1, 1, 0, 1))
++        self.assertEqual(eos["work"]["shallow_calls"], 2)
++        self.assertEqual(eos["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
+         short = summarize(fixture("d2_short_budget"))
+         self.assertFalse(short["eos_committed"])
+         self.assertEqual((short["proposed_tokens"], short["accepted_tokens"],
+                           short["bonus_tokens"], short["committed_tokens"]),
+                          (1, 1, 0, 1))
++        self.assertEqual(short["work"]["shallow_calls"], 2)
++        self.assertEqual(short["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
+ 
+     def test_zero_output_has_null_ttft(self):
+         s = summarize(fixture("d1_zero_output"))
+         self.assertEqual((s["rounds"], s["committed_tokens"], s["proposed_tokens"]),
+                          (0, 0, 0))
+         self.assertIsNone(s["timing"]["ttft_seconds"])
+-        self.assertIsNone(s["timing"]["decode_seconds"])
++        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.001)
++        self.assertIsNone(s["timing"]["post_first_commit_seconds"])
++        self.assertIsNone(s["timing"]["committed_tokens_per_decode_second"])
+         self.assertIsNone(s["acceptance_per_verified"])
+         self.assertIsNone(s["accepted_per_proposed"])
+         self.assertIsNone(s["work"]["target_tokens_per_committed_token"])
+@@ -125,8 +144,75 @@ class FixtureTests(unittest.TestCase):
+         self.assertEqual(s["work"]["target_calls"], 3)
+         self.assertEqual(s["work"]["target_tokens"], 6)
+         self.assertEqual(s["work"]["target_tokens_per_committed_token"], 1.0)
++        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.007)
++        self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"], 0.004)
++        self.assertEqual(s["timing"]["tokens_after_first_commit"], 1)
++        self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"], 2 / 0.007)
+         self.assertEqual(s["per_offset"], [])
+ 
++    def test_d1_draft_length_three_counts_two_scratch_calls(self):
++        s = summarize(fixture("d1_draft_three_calls"))
++        self.assertEqual((s["rounds"], s["proposed_tokens"], s["accepted_tokens"],
++                          s["bonus_tokens"], s["committed_tokens"]),
++                         (1, 3, 3, 1, 4))
++        self.assertEqual(s["work"]["shallow_calls"], 4)
++        self.assertEqual(s["work"]["shallow_phase_occurrences"], 3)
++        self.assertEqual(s["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 2)
++        self.assertEqual(s["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
++        self.assertEqual(s["work"]["shallow_tokens"], 10)
++        self.assertEqual(s["timing"]["first_round_committed_tokens"], 4)
++        self.assertEqual(s["timing"]["tokens_after_first_commit"], 0)
++        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.013)
++
++    def test_d2_multiple_rounds_keeps_zero_draft_calls(self):
++        s = summarize(fixture("d2_multiple_rounds"))
++        self.assertEqual((s["rounds"], s["proposed_tokens"], s["accepted_tokens"],
++                          s["rejected_tokens"], s["correction_tokens"],
++                          s["committed_tokens"]), (2, 3, 2, 1, 1, 3))
++        self.assertEqual(s["work"]["target_calls"], 4)
++        self.assertEqual(s["work"]["shallow_calls"], 3)
++        self.assertEqual(s["work"]["shallow_phase_occurrences"], 5)
++        self.assertEqual(s["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
++        self.assertEqual(s["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 2)
++        self.assertEqual(s["timing"]["first_round_committed_tokens"], 2)
++        self.assertEqual(s["timing"]["tokens_after_first_commit"], 1)
++        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.020)
++
++    def test_timing_invariants_all_fixtures(self):
++        for name, events in synthetic_fixtures().items():
++            s = summarize(events, synthetic=True)
++            start = events[0]["timestamp_ns"]
++            end = events[-1]["timestamp_ns"]
++            prefill_end = max(e["timestamp_ns"] for e in events
++                              if e["kind"] == "phase_end"
++                              and e["phase"] in ("target_prefill", "shallow_prefill"))
++            self.assertAlmostEqual(s["timing"]["prefill_seconds"],
++                                   (prefill_end - start) / 1e9, msg=name)
++            self.assertAlmostEqual(s["timing"]["decode_seconds"],
++                                   (end - prefill_end) / 1e9, msg=name)
++            self.assertAlmostEqual(s["timing"]["total_seconds"],
++                                   (end - start) / 1e9, msg=name)
++            self.assertAlmostEqual(s["timing"]["prefill_seconds"] + s["timing"]["decode_seconds"],
++                                   s["timing"]["total_seconds"], msg=name)
++            commits = [e for e in events if e["kind"] == "round_commit"]
++            if commits:
++                self.assertAlmostEqual(s["timing"]["ttft_seconds"],
++                                       (commits[0]["timestamp_ns"] - start) / 1e9,
++                                       msg=name)
++                self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"],
++                                       (end - commits[0]["timestamp_ns"]) / 1e9,
++                                       msg=name)
++            else:
++                self.assertIsNone(s["timing"]["ttft_seconds"])
++                self.assertIsNone(s["timing"]["post_first_commit_seconds"])
++            if s["committed_tokens"]:
++                self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"],
++                                       s["committed_tokens"] / s["timing"]["decode_seconds"],
++                                       msg=name)
++            else:
++                self.assertIsNone(s["timing"]["committed_tokens_per_decode_second"])
++            self.assertNotIn("post_first_commit_tokens_per_second", s["timing"])
++
+     def test_collector_bounded(self):
+         collector = TraceCollector()
+         collector.events = [None] * MAX_EVENTS
+@@ -180,6 +266,23 @@ class MalformedTests(unittest.TestCase):
+         resequence(events)
+         self.assert_rejected(events)
+ 
++    def test_model_call_count_mismatch(self):
++        events = fixture("d2_later_rejection")
++        draft = next(e for e in events if e["kind"] == "phase_end"
++                     and e["phase"] == "shallow_draft")
++        draft["model_calls"] = 1
++        self.assert_rejected(events)
++        events = fixture("d1_all_accepted_bonus")
++        verify = next(e for e in events if e["kind"] == "phase_end"
++                      and e["phase"] == "target_verify")
++        verify["model_calls"] = 0
++        self.assert_rejected(events)
++        events = fixture("d1_all_accepted_bonus")
++        draft = next(e for e in events if e["kind"] == "phase_end"
++                     and e["phase"] == "shallow_draft")
++        del draft["model_calls"]
++        self.assert_rejected(events)
++
+     def test_phase_count_mismatch(self):
+         events = fixture("d1_all_accepted_bonus")
+         events[7]["actual_tokens"] = 1
