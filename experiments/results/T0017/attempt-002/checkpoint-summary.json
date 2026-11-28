@@ -1,0 +1,32 @@
+{
+  "availability": "local-only; not published",
+  "bytes": 395220707,
+  "bytes_total_written": 1580809164,
+  "cuda_rng_states": 1,
+  "history_equal": true,
+  "identity_equal": true,
+  "keys": [
+    "history",
+    "identity",
+    "model",
+    "optimizer",
+    "rng"
+  ],
+  "model_elements": 43055076,
+  "model_finite": true,
+  "model_tensors": 198,
+  "name": "real-pilot/checkpoint.pt",
+  "optimizer_finite": true,
+  "optimizer_tensors": 280,
+  "rng_present": true,
+  "sha256": "d011336f23ee82e6a56b594b44343fa4e4232d2cf70c7a0ae41112db400683b9",
+  "weight_cache_state_present": false,
+  "write_seconds_total": 0.890651636000257,
+  "write_steps": [
+    16,
+    32,
+    48,
+    64
+  ],
+  "writes": 4
+}

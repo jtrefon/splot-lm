@@ -8,7 +8,7 @@ Niezależny, otwarty program badań nad architekturami modeli językowych, ukier
 
 SPLOT łączy rekurencyjną głębokość obliczeń, hybrydę Gated DeltaNet / grouped-query attention (GDN/GQA), rzadką aktywację ekspertów (MoE), natywną predykcję wielotokenową (MTP) oraz trening z obniżoną precyzją. Badamy, czy ich połączenie poprawia kompromis między jakością, kosztem obliczeń, opóźnieniem i zużyciem pamięci.
 
-**Stan na 28 listopada 2026: działająca architektura badawcza, zweryfikowany natywny trening CUDA; ograniczony pilotaż na rzeczywistych danych przekazano do recenzji.** Implementacja, testy CPU/GPU i wersjonowane wyniki są dostępne publicznie. Nie wydano produkcyjnego modelu ani publicznych wag po pretreningu. Projekt nie jest afiliowany przy PLLuM, NASK ani innej instytucji.
+**Stan na 28 listopada 2026: działająca architektura badawcza, zweryfikowany natywny trening CUDA; zakończono ograniczony pilotaż wykonalności na rzeczywistych danych.** Implementacja, testy CPU/GPU i wersjonowane wyniki są dostępne publicznie. Nie wydano produkcyjnego modelu ani publicznych wag po pretreningu. Projekt nie jest afiliowany przy PLLuM, NASK ani innej instytucji.
 
 ## Architektura
 
@@ -36,7 +36,7 @@ Pomiary sprzętowe dotyczą referencji na jednej karcie RTX 4090 24 GB, PyTorch 
 | Współdzielenie wag FP8 | T512: 298 → 156 kwantyzacji, identyczny stan modelu/optymalizatora i loss; 1,949 → 1,633 s w jednym pomiarze | [T0017](experiments/results/T0017/attempt-001/t512-pair.json) |
 | Korpus PL/EN | 8 rodzin utworów, 8,57 MiB tekstu, BPE 16 384, 56 201 wybranych tokenów treści | [T0016](experiments/results/T0016/attempt-001/summary.md) |
 
-Wyniki syntetyczne z jednym seedem nie dowodzą generalizacji ani przewagi optymalizatora. Pojedynczy pomiar czasu nie dowodzi trwałego przyspieszenia. Korpus przygotowano na Macu; wyniki treningu na Linuksie przekazano w [PR #92](https://github.com/jtrefon/splot-lm/pull/92); recenzja potwierdziła wykonalność, kwestie proceduralne i pochodzenie artefaktów pozostają otwarte. T0017 ma status blocked w pierwszej próbie z powodu niewykonanego pilotażu, mimo akceptacji niezależnej implementacji. Surowe dane i tensory wag pozostają lokalne.
+Wyniki syntetyczne z jednym seedem nie dowodzą generalizacji ani przewagi optymalizatora. Pojedynczy pomiar czasu nie dowodzi trwałego przyspieszenia. Korpus przygotowano na Macu; [Pilotaż na Linuksie](experiments/results/T0017/attempt-002/summary.md) zakończył 64 aktualizacje; NLL walidacji 7,744022, 45,1% trafień cache kwantyzacji. Zaakceptowano wykonalność z [udokumentowanymi odstępstwami proceduralnymi](experiments/results/T0017/review-supplement-001/summary.md), nie przewagę modelu ani pełną zgodność proceduralną. Checkpoint zachowano w prywatnej trwałej pamięci lokalnej. T0017 ma status blocked w pierwszej próbie z powodu niewykonanego pilotażu, mimo akceptacji niezależnej implementacji. Surowe dane i tensory wag pozostają lokalne.
 
 ## Współpraca i reprodukcja
 

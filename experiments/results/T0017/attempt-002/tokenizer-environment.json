@@ -1,0 +1,17 @@
+{
+  "abi3_sha256": "4b1458a379296762a034d3bc89299c0c35b4eefb0577acca922f481b262c65a1",
+  "dist_info_sha256": {
+    "METADATA": "87032ea29ec14be956ce0f15d164a8f436d6f1adbe19b261d6c179d9184f5cba",
+    "RECORD": "594502c82016a506018a24f94c695aedbb52432e63e705b29c75e80e886500a5",
+    "WHEEL": "3e005108b72ca995d6499010b85d3f9c55b21a1a1b731b9118eb012029bfe0a9"
+  },
+  "encoded_token_count": 19,
+  "installation": "isolated venv outside checkout; uv pip install --offline --no-deps --only-binary=:all: tokenizers==0.23.3 from local uv cache of official PyPI wheel; no network package download",
+  "local_tokenizer_import": true,
+  "module": "tokenizers",
+  "pypi_project_url": "https://pypi.org/project/tokenizers/0.23.3/",
+  "python": "3.12.7",
+  "roundtrip": true,
+  "tokenizers_version": "0.23.3",
+  "wheel_tag": "cp310-abi3-manylinux_2_17_x86_64"
+}

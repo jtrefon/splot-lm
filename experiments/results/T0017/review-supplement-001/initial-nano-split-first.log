@@ -1,0 +1,17 @@
+# Sanitized supplementary copy of original local log: initial-nano-split-first.log
+# Original local raw SHA-256: d9179cb615c9cff89ef01f0c979ea0cf4c28c50cecf35437b12e242c7509d0b8
+# Redactions: local workspace -> <local-work>; user home -> <home>; no other changes.
+CMD gate-split-first: --config <local-work>/gate/synthetic-fp8-muon-reuse.json --out <local-work>/gate/split --steps 2 --device cuda
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 141,
+  "total_ntp_labels": 138,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 3344.917022705078,
+    "mean_nll": 8.896055911449675,
+    "perplexity": 7303.112538852418,
+    "fp8_cache_scope": "cleared-before-and-after-evaluation"
+  }
+}
+EXIT gate-split-first 0 elapsed=5s

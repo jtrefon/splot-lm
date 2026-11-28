@@ -1,6 +1,9 @@
 # SPLOT Research Execution Protocol (REP) v0.2
 2026-11-27 | English canonical | [Task specifications](experiments/tasks/README.md) | [Evidence index](experiments/results/INDEX.md)
 
+## Integration queue discipline (2026-11-28)
+The coordinator owns a single serialized integration queue. Review all submitted PRs, merge green reviewed scope or consolidate safe evidence/docs with exact tested ancestry; reject unsafe implementation and close superseded PRs with immutable links, preserving failed/partial evidence without claiming acceptance. Reconcile shared index rows once; execution agents do not change shared status/README/roadmap unless explicitly scoped. Finish and verify the queue (zero open integration PRs) before releasing new local assignments. Parallel named tasks may deliver independently, but no new launch while their integration PRs remain open. Keep scientific blockers in issues, not perpetually open PRs; partial/negative evidence may merge when safely reviewed and labeled. One combined status/spec PR per cycle; check exact-head CI, never bypass failures. Optional install and corrective rerun after failed required gate require explicit local owner consent; no retrospective authorization. No automatic hardware launch.
+
 ## 1. Scope and authority
 One repository is the communication medium between research and execution agents. GitHub issues track work; versioned task files prescribe work; results PRs carry evidence. No scheduler, worker daemon, Docker, extra repository, background service or cloud account is required. The hardware owner decides when and where to run a local harness. A merge is review of the specification, not permission to run hardware indefinitely.
 

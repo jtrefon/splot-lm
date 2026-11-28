@@ -1,0 +1,59 @@
+{
+  "accounting_source": {
+    "clean": true,
+    "commands": [
+      "nano_a2_context512",
+      "nano_a2_context2048",
+      "nano_ntp_context512",
+      "nano_ntp_context2048"
+    ],
+    "commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+    "path": ".claude/worktrees/t0019-source"
+  },
+  "attempt": 1,
+  "captured_at": "2026-11-28T15:30:00Z",
+  "dependencies": {
+    "t0018_issue": 81,
+    "t0018_issue_state": "closed",
+    "t0018_merge_commit": "f49af5bfb0085cbbc7161d5b3354b8e8fe309696",
+    "t0018_pr": 91
+  },
+  "instruction_commit": "f49af5bfb0085cbbc7161d5b3354b8e8fe309696",
+  "limits": {
+    "command_timeout_seconds": 120,
+    "foreground_minutes": 90,
+    "gpu_or_mps": false,
+    "model_training": false,
+    "network_data": false,
+    "package_install": false,
+    "private_checkpoint_access": false,
+    "system_change": false,
+    "test_data_access": false
+  },
+  "local": {
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "unicode": "17.0.0",
+      "utf8_mode": 1,
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "error": "ModuleNotFoundError/not found; no install attempted",
+      "parameter_instantiation": "not run locally; formula arithmetic and committed historical inventory cross-check only"
+    }
+  },
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "source_pin_note": "The source pin predates the merged T0019 specification; the specification was read from reviewed instruction main as prescribed.",
+  "task_id": "T0019"
+}

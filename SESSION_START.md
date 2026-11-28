@@ -21,3 +21,7 @@ Begin by inspecting the live repository and processing outstanding work.
 ## Local execution prompts
 
 Local agents use the [REP launch instructions](EXECUTION.md#7-local-launch-prompt), not this research-coordinator prompt. The coordinator supplies a named task, reviewed spec and specific owner-approved resource window each cycle.
+
+## Integration queue discipline (2026-11-28)
+The coordinator owns a single serialized integration queue. Review all submitted PRs, merge green reviewed scope or consolidate safe evidence/docs with exact tested ancestry; reject unsafe implementation and close superseded PRs with immutable links, preserving failed/partial evidence without claiming acceptance. Reconcile shared index rows once; execution agents do not change shared status/README/roadmap unless explicitly scoped. Finish and verify the queue (zero open integration PRs) before releasing new local assignments. Parallel named tasks may deliver independently, but no new launch while their integration PRs remain open. Keep scientific blockers in issues, not perpetually open PRs; partial/negative evidence may merge when safely reviewed and labeled. One combined status/spec PR per cycle; check exact-head CI, never bypass failures. Optional install and corrective rerun after failed required gate require explicit local owner consent; no retrospective authorization. No automatic hardware launch.
+

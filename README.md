@@ -8,7 +8,7 @@ An independent, open architecture-first research programme investigating better 
 
 SPLOT (Polish for an interweaving) combines recurrent depth, hybrid Gated DeltaNet / grouped-query attention (GDN/GQA), sparse mixture-of-experts (MoE), native multi-token prediction (MTP), and native low-precision training. The aim is to understand whether these mechanisms together improve the quality–compute–latency–memory frontier, not to assume that any component guarantees acceleration.
 
-**Current status — 28 November 2026: working research architecture, native CUDA training validated; first bounded real-data pilot submitted for review.** The reference is implemented and trainable, with public, revision-pinned CPU/GPU experiment evidence. No production language model or public pretrained weights are released. This is independent research, not affiliated with PLLuM, NASK or another institution.
+**Current status — 28 November 2026: working research architecture, native CUDA training validated; first bounded real-data feasibility pilot completed.** The reference is implemented and trainable, with public, revision-pinned CPU/GPU experiment evidence. No production language model or public pretrained weights are released. This is independent research, not affiliated with PLLuM, NASK or another institution.
 
 ## Architecture
 
@@ -49,7 +49,7 @@ All hardware measurements below are scoped to the reported reference implementat
 | Recurrent weight reuse | T512: 298 → 156 actual weight quantizations, exact model/optimizer state and loss; 1.949 → 1.633 s in a single paired update | [T0017 attempt-001](experiments/results/T0017/attempt-001/t512-pair.json) |
 | Real bilingual corpus | 8 work families, 8.57 MiB extracted text, trained 16,384-token BPE, 56,201 selected content tokens in 128/16/16 blocks | [T0016](experiments/results/T0016/attempt-001/summary.md) |
 
-The synthetic loss results are single-seed feasibility measurements, not evidence of generalization or optimizer superiority. The weight-reuse timing is descriptive; sustained speedup is not established. The real corpus is materialized and verified on Mac; the Linux real-data run has been submitted in [PR #92](https://github.com/jtrefon/splot-lm/pull/92); empirical feasibility evidence reviewed, procedural/provenance review remains open. T0017 attempt-001 is correctly recorded as **blocked** for the real pilot, although its independent implementation is accepted. No data or checkpoint tensors are committed. No trained-checkpoint inference benchmark has been executed.
+The synthetic loss results are single-seed feasibility measurements, not evidence of generalization or optimizer superiority. The weight-reuse timing is descriptive; sustained speedup is not established. The real corpus is materialized and verified on Mac; the [Linux pilot](experiments/results/T0017/attempt-002/summary.md) completed 64 updates, validation NLL 7.744022, 45.1% weight-quantization cache hits. Accepted as bounded feasibility with [documented procedural exceptions](experiments/results/T0017/review-supplement-001/summary.md), not a clean compliance pass or evidence of superiority. The trained checkpoint is retained in private durable local storage. T0017 attempt-001 is correctly recorded as **blocked** for the real pilot, although its independent implementation is accepted. No data or checkpoint tensors are committed. No trained-checkpoint inference benchmark has been executed.
 
 ## Reproduce and contribute
 

@@ -1,0 +1,29 @@
+{
+  "authorization": "owner authorized copying the existing trained checkpoint to durable private local storage; no overwrite/delete/upload",
+  "copy_method": "single byte copy to a new private directory; no overwrite, deletion or upload",
+  "destination": {
+    "bytes": 395220707,
+    "directory_mode": "0700",
+    "filesystem_type": "ext4",
+    "label": "private durable local storage; path withheld",
+    "mode": "0o600",
+    "sha256": "d011336f23ee82e6a56b594b44343fa4e4232d2cf70c7a0ae41112db400683b9"
+  },
+  "matches_published": true,
+  "overwritten": false,
+  "published_expected": {
+    "bytes": 395220707,
+    "sha256": "d011336f23ee82e6a56b594b44343fa4e4232d2cf70c7a0ae41112db400683b9"
+  },
+  "source": {
+    "bytes": 395220707,
+    "mode": "0o664",
+    "relative_name": "real-pilot/checkpoint.pt",
+    "sha256": "d011336f23ee82e6a56b594b44343fa4e4232d2cf70c7a0ae41112db400683b9",
+    "still_present": true
+  },
+  "source_deleted": false,
+  "source_destination_equal": true,
+  "status": "durable_private_copy_created",
+  "uploaded": false
+}

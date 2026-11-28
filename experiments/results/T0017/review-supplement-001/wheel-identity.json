@@ -1,0 +1,84 @@
+{
+  "attempt": 2,
+  "identity_assessment": {
+    "conclusion": "The cached identity is the exact PyPI x86_64 cp310-abi3 wheel: filename, URL, tag, PyPI MD5/ETag and installed RECORD agree. The PyPI SHA-256 is the trusted release identity; the local wheel container was not retained for independent re-hashing.",
+    "installed_record_matches_all_files": true,
+    "pypi_md5_matches_cached_etag": true,
+    "reason": "uv retains an extracted archive and HTTP metadata, not the original .whl container; installed hashes verify file contents but cannot prove the wheel container SHA-256 by themselves.",
+    "trusted_wheel_sha256": "376851d22bcf9d650a5c3090bb83e6cf9e895fbf0595369fa4cd43c1f69b5f87",
+    "wheel_archive_sha256_recomputed_from_local_bytes": false,
+    "wheel_filename_url_tag_match": true
+  },
+  "installed_environment": {
+    "abi3_so_sha256": "4b1458a379296762a034d3bc89299c0c35b4eefb0577acca922f481b262c65a1",
+    "import_and_local_tokenizer_test": "passed; see tokenizer-test.log",
+    "metadata_sha256": "87032ea29ec14be956ce0f15d164a8f436d6f1adbe19b261d6c179d9184f5cba",
+    "python": "3.12.7",
+    "record_entries_total": 32,
+    "record_entries_verified": 32,
+    "record_mismatch": [],
+    "record_missing": [],
+    "record_sha256": "594502c82016a506018a24f94c695aedbb52432e63e705b29c75e80e886500a5",
+    "tokenizers_version": "0.23.3",
+    "wheel_file_sha256": "3e005108b72ca995d6499010b85d3f9c55b21a1a1b731b9118eb012029bfe0a9",
+    "wheel_tag": "cp310-abi3-manylinux_2_17_x86_64"
+  },
+  "local_uv_cache_identity": {
+    "cache_entry_mtime_utc": "2026-10-14T11:17:59Z",
+    "cache_origin": "pre-existing local uv cache; not downloaded during attempt-002",
+    "extracted_archive_label": "archive-v0/OzOLxwZHZ7oAdsMx",
+    "http_etag": "afe505a64e67528eb936d0f58c2db256",
+    "http_etag_equals_pypi_md5": true,
+    "http_filename_matches": true,
+    "http_metadata_bytes": 641,
+    "http_metadata_sha256": "624e40c01b71cf429f504d8feedc3db63e800693ae8bcf7ff0283ca0498601ef",
+    "http_url_matches": true,
+    "msgpack_bytes": 995,
+    "msgpack_sha256": "75b918d0c583b9bb68179225a5027a62c4d0bb78082d077e0a937aa19e8d8d25",
+    "simple_index_cache_bytes": 1652200,
+    "simple_index_cache_sha256": "1a2f415895b49bdea9df1ecef6ee0587e5d414097cb930895a92fb035aec4284",
+    "simple_index_contains_wheel_sha256": true,
+    "simple_index_wheel_sha256": "376851d22bcf9d650a5c3090bb83e6cf9e895fbf0595369fa4cd43c1f69b5f87",
+    "wheels_v6_entry_label": "wheels-v6/pypi/tokenizers/0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64",
+    "wheels_v6_entry_type": "symlink to extracted wheel archive"
+  },
+  "owner_permission": {
+    "continuation_requirement": "explicit local owner consent for wheel download/install",
+    "current_authorization": "bounded non-training evidence clarification only; no package installation or new download/install",
+    "maintainer_decision_required": true,
+    "operator_interpretation": "The owner authorized attempt-002 within the continuation that permits the isolated 0.23.3 wheel path and caps; the operator treated that as the required consent. No separate wheel-specific approval sentence exists.",
+    "prior_authorization_date": "2026-11-28",
+    "prior_authorization_text": "I authorize T0017 attempt-002 on the RTX 4090 within the reviewed continuation specification and resource limits.",
+    "separate_wheel_named_message_present": false
+  },
+  "pr": 92,
+  "status": "identity_recovered; wheel archive bytes not retained locally",
+  "supplement_actions": {
+    "no_training": true,
+    "pypi_metadata_json_fetched": true,
+    "pypi_metadata_only": true,
+    "wheel_downloaded": false,
+    "wheel_installed": false
+  },
+  "task": "T0017",
+  "trusted_pypi_release_metadata": {
+    "fetch_exit_code": 0,
+    "fetched_at_utc": "2026-11-28T14:27:44Z",
+    "info_version": "0.23.3",
+    "requires_python": ">=3.10",
+    "response_bytes": 31436,
+    "response_sha256": "9480313d3d3c6cd7cbbcf5b4fe31eb7d92fb53efe8146c5aadaa2b8e46f38468",
+    "source_url": "https://pypi.org/pypi/tokenizers/0.23.3/json",
+    "wheel": {
+      "blake2b_256": "3a406706b82693715581457c6d5423eaa7faae576bb0526c5738a57085eb4449",
+      "filename": "tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "md5": "afe505a64e67528eb936d0f58c2db256",
+      "packagetype": "bdist_wheel",
+      "python_version": "cp310",
+      "sha256": "376851d22bcf9d650a5c3090bb83e6cf9e895fbf0595369fa4cd43c1f69b5f87",
+      "size": 3396193,
+      "upload_time_iso_8601": "2026-10-09T10:01:05.480462Z",
+      "url": "https://files.pythonhosted.org/packages/3a/40/6706b82693715581457c6d5423eaa7faae576bb0526c5738a57085eb4449/tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "attempt": 2,
+  "classification": "One failed preflight comparator invocation occurred before the official gate. It was corrected by rerunning the exact preregistered smoke config. No gate threshold was changed and no official gate result was relabeled as pass. The original attempt-002 evidence did not record this procedural deviation; this supplement does, without altering original evidence hashes.",
+  "no_automatic_retry": true,
+  "no_new_training": true,
+  "original_logs": {
+    "initial-compare.stderr": {
+      "bytes": 301,
+      "raw_local_sha256": "5f692d9830a482e34f4eae21de589e7afb743840737c00986e1ef35825c81234",
+      "sanitized_sha256": "258d948623cc89b3edd1058b9cd98cff880d39643f4254ee2fff1b4c8d1ffb16"
+    },
+    "initial-nano-continuous.log": {
+      "bytes": 734,
+      "raw_local_sha256": "da09c7486ac217f6df80b5b9475038fb4a4aae1855c54c6bb467e23a19d515cd",
+      "sanitized_sha256": "757ef9c78495992456dcdabfcd459c36c4cb52be5ae27fc7e80f45b8ce27927b"
+    },
+    "initial-nano-split-first.log": {
+      "bytes": 730,
+      "raw_local_sha256": "d9179cb615c9cff89ef01f0c979ea0cf4c28c50cecf35437b12e242c7509d0b8",
+      "sanitized_sha256": "f311d7a28b326c63e14ca1e612b8488cc32b5265b2d37358906fee91890a2ae3"
+    },
+    "initial-nano-split-resume.log": {
+      "bytes": 744,
+      "raw_local_sha256": "e9bde90e5488559a534578f8c5b8a0c705d84d37d9c03ef42c1d07da521d2f07",
+      "sanitized_sha256": "016390a619df7675d7177be267d82a22e05542dee51e7ef00e5b0216def0f6ca"
+    }
+  },
+  "pr": 92,
+  "sanitization": "Local paths replaced with placeholders only; no measurements, commands, exit statuses or inventory values changed.",
+  "sequence": [
+    {
+      "action": "created temporary Nano synthetic config",
+      "base": "configs/experiments/splot-nano-synthetic-fp8-muon.json",
+      "base_sha256": "5171e50ca004a5b47fd76b3cedaad52ccf174d6b0dd50665b8a17adb5b141160",
+      "only_added": "training.fp8_weight_reuse=true",
+      "operator_error": "wrong config selected for the preregistered 179,952-parameter comparator",
+      "order": 1,
+      "temporary_sha256": "2aa099eddd0d8c2a175b440defc40eccfea2286381cffaea176c8301c6ceb7e2"
+    },
+    {
+      "action": "continuous 4-step preflight",
+      "command": "python3 tools/experiment.py --config <local-work>/gate/synthetic-fp8-muon-reuse.json --out <local-work>/gate/continuous --steps 4 --device cuda",
+      "elapsed_seconds": 6,
+      "exit_code": 0,
+      "order": 2,
+      "result": {
+        "checkpoint_bytes": 395174563,
+        "checkpoint_sha256": "e10181cefeb22df58672175e242aaedf4bf9bad0561ea8b10b78b7d9cdd4cf6e",
+        "history_steps": 4,
+        "parameters": 43055076,
+        "run_json_sha256": "a429e33763da89ec049637015854918c3a19b7077a977a75a5933ffb370fd97b"
+      }
+    },
+    {
+      "action": "2-step preflight",
+      "command": "python3 tools/experiment.py --config <local-work>/gate/synthetic-fp8-muon-reuse.json --out <local-work>/gate/split --steps 2 --device cuda",
+      "elapsed_seconds": 5,
+      "exit_code": 0,
+      "order": 3
+    },
+    {
+      "action": "resume to 4-step preflight",
+      "command": "python3 tools/experiment.py --config <local-work>/gate/synthetic-fp8-muon-reuse.json --out <local-work>/gate/split --steps 4 --resume --device cuda",
+      "elapsed_seconds": 5,
+      "exit_code": 0,
+      "order": 4,
+      "result": {
+        "checkpoint_bytes": 395175715,
+        "checkpoint_sha256": "840dfdb5f702e1a4b0ba4727f7b3c608641662cb81712d337e9fc9e839c6f841",
+        "history_steps": 4,
+        "parameters": 43055076,
+        "run_json_sha256": "273e0272439a2c588e5b5e318c654cfb9f90a8ee122e697014fef7539aaa0c66"
+      }
+    },
+    {
+      "action": "comparator preflight",
+      "classification": "failed preflight of the required gate due to operator config selection; not a pass",
+      "command": "python3 tools/rep/compare_resume.py <local-work>/gate/continuous <local-work>/gate/split --steps 4 --parameters 179952",
+      "exit_code": 1,
+      "order": 5,
+      "reason": "preflight runs had 43,055,076 parameters; comparator expected the preregistered 179,952-parameter tiny smoke model",
+      "stderr": "FAILED: unexpected inventory or step count"
+    },
+    {
+      "action": "corrected temporary config",
+      "base": "configs/experiments/splot-smoke-synthetic-fp8-muon.json",
+      "base_sha256": "370fb892a514f7bc129490112eba35a22d30f2b4f5bc2236d9fb4221f89642be",
+      "only_added": "training.fp8_weight_reuse=true",
+      "order": 6,
+      "owner_approval_for_rerun": "not separately requested; rerun remained within the owner-authorized attempt-002 and the reviewed continuation",
+      "temporary_sha256": "7c9e604bd47a0391efaac449ac2d8180b428a81470e8f9813b8c6acbc2a6dfd5"
+    },
+    {
+      "action": "corrected required gate",
+      "command": "continuous 4 steps; 2 steps then resume to 4; compare --steps 4 --parameters 179952",
+      "exit_code": 0,
+      "logs": "corrected runs are already in original attempt-002 evidence; no rerun in this supplement",
+      "order": 7,
+      "result": "passed exactly; see experiments/results/T0017/attempt-002/resume-gate.json and resume-compare.json"
+    }
+  ],
+  "status": "procedural_deviation_recorded",
+  "task": "T0017"
+}

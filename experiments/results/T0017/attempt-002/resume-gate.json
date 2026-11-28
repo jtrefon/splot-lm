@@ -1,0 +1,151 @@
+{
+  "checkpoint_schema": {
+    "cache_state_note": "checkpoint contains history, identity, model, optimizer and RNG only; no quantized-weight cache",
+    "identity_equal": true,
+    "keys": [
+      "history",
+      "identity",
+      "model",
+      "optimizer",
+      "rng"
+    ],
+    "model_optimizer_rng_equal": true,
+    "weight_cache_state_present": false
+  },
+  "comparison": {
+    "ignored_history_fields": [
+      "peak_cuda_allocated_bytes",
+      "peak_cuda_reserved_bytes",
+      "step_seconds"
+    ],
+    "model_optimizer_rng_equal": true,
+    "non_timing_history_equal": true,
+    "parameters": 179952,
+    "status": "passed",
+    "steps": 4,
+    "validation_equal": true
+  },
+  "config": {
+    "base": "configs/experiments/splot-smoke-synthetic-fp8-muon.json",
+    "checkpoint_interval": 1,
+    "data": "synthetic-v1",
+    "only_added": "training.fp8_weight_reuse=true",
+    "original_sha256": "370fb892a514f7bc129490112eba35a22d30f2b4f5bc2236d9fb4221f89642be",
+    "outside_checkout": true,
+    "same_file_both_runs": true,
+    "sequence_length": 96,
+    "temporary_sha256": "7c9e604bd47a0391efaac449ac2d8180b428a81470e8f9813b8c6acbc2a6dfd5"
+  },
+  "continuous": {
+    "checkpoint_bytes_last": 1699171,
+    "checkpoint_sha256": "b96ef2c27fb4e039c3eda69f351a365ab0c72e5f108c07e36d46cae128cd9547",
+    "checkpoint_write_steps": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "checkpoint_writes": 4,
+    "steps": 4
+  },
+  "cross_mode": {
+    "checkpoint_sha256_after": "48a65d6feb47d09489bb238b026b531eb2de3fa6b90a284574e3ef6b48e6f3f6",
+    "checkpoint_sha256_before": "48a65d6feb47d09489bb238b026b531eb2de3fa6b90a284574e3ef6b48e6f3f6",
+    "checkpoint_unchanged": true,
+    "exit_code": 1,
+    "expected_failure": true,
+    "mode": "cache-on checkpoint resumed with reuse-disabled config",
+    "result": "rejected",
+    "run_json_unchanged": true
+  },
+  "focused_tests": {
+    "log": "fp8-focused-cuda.txt",
+    "status": "passed",
+    "tests": 4
+  },
+  "parameters": 179952,
+  "per_step": [
+    {
+      "balance": 1.0136085748672485,
+      "early_ntp": 5.601163387298584,
+      "final_ntp": 5.598878383636475,
+      "forward_calls": 298,
+      "native_forward_calls": 298,
+      "ntp_labels": 50,
+      "objective": 8.402398109436035,
+      "offset2": 5.572371959686279,
+      "offset2_labels": 49,
+      "step": 1,
+      "valid_tokens": 51,
+      "weight_cache_bytes": 167536,
+      "weight_cache_hits": 142,
+      "weight_quantizations": 156,
+      "weight_reuse_ratio": 0.47651006711409394
+    },
+    {
+      "balance": 1.006425380706787,
+      "early_ntp": 5.5335493087768555,
+      "final_ntp": 5.537960529327393,
+      "forward_calls": 360,
+      "native_forward_calls": 360,
+      "ntp_labels": 88,
+      "objective": 8.320687294006348,
+      "offset2": 5.557104110717773,
+      "offset2_labels": 86,
+      "step": 2,
+      "valid_tokens": 90,
+      "weight_cache_bytes": 167536,
+      "weight_cache_hits": 204,
+      "weight_quantizations": 156,
+      "weight_reuse_ratio": 0.5666666666666667
+    },
+    {
+      "balance": 1.0234345197677612,
+      "early_ntp": 5.350654125213623,
+      "final_ntp": 5.327520847320557,
+      "forward_calls": 295,
+      "native_forward_calls": 295,
+      "ntp_labels": 50,
+      "objective": 8.06182861328125,
+      "offset2": 5.545641899108887,
+      "offset2_labels": 49,
+      "step": 3,
+      "valid_tokens": 51,
+      "weight_cache_bytes": 167536,
+      "weight_cache_hits": 139,
+      "weight_quantizations": 156,
+      "weight_reuse_ratio": 0.4711864406779661
+    },
+    {
+      "balance": 1.0203022956848145,
+      "early_ntp": 5.419187545776367,
+      "final_ntp": 5.414314270019531,
+      "forward_calls": 360,
+      "native_forward_calls": 360,
+      "ntp_labels": 72,
+      "objective": 8.171298027038574,
+      "offset2": 5.567934989929199,
+      "offset2_labels": 70,
+      "step": 4,
+      "valid_tokens": 74,
+      "weight_cache_bytes": 167536,
+      "weight_cache_hits": 204,
+      "weight_quantizations": 156,
+      "weight_reuse_ratio": 0.5666666666666667
+    }
+  ],
+  "purpose": "missing cache-on 4-step continuous vs 2+2 resume and explicit RNG comparison",
+  "resumed_2_plus_2": {
+    "checkpoint_bytes_last": 1700259,
+    "checkpoint_sha256": "48a65d6feb47d09489bb238b026b531eb2de3fa6b90a284574e3ef6b48e6f3f6",
+    "checkpoint_write_steps": [
+      3,
+      4
+    ],
+    "checkpoint_writes": 2,
+    "initial_history_steps": 2,
+    "steps": 4
+  },
+  "status": "passed",
+  "steps": 4
+}
