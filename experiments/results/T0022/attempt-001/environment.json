@@ -1,0 +1,116 @@
+{
+  "attempt": 1,
+  "authorization": "owner explicitly named and authorized T0022 on the local RTX 4090 within the merged specification and resource limits",
+  "branch": "research/T0022-backward-attribution-attempt-001",
+  "cases_end_utc": "2026-11-28T16:20:51Z",
+  "cases_start_utc": "2026-11-28T16:18:02Z",
+  "class": "VAL",
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "tf32_enabled": false,
+    "torch_threads": 1
+  },
+  "evidence_build_utc": "2026-11-28T16:23:07Z",
+  "gpu": {
+    "driver_version": "580.178.04",
+    "index": 0,
+    "model": "NVIDIA GeForce RTX 4090",
+    "owner_selected": true,
+    "vram_free_preflight_mib": 24077,
+    "vram_total_mib": 24564
+  },
+  "host": {
+    "ram_available_bytes_preflight": 26937352192,
+    "ram_total_bytes_preflight": 32894615552
+  },
+  "instruction_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "notes": [
+    "torch.profiler warns once that events are cleared at the end of each cycle; this is expected for a single profile cycle.",
+    "Profiled backward wall time includes profiler instrumentation and is not a performance measurement.",
+    "Top profiler keys are generic ATen/profiler labels; no module attribution is inferred."
+  ],
+  "observed": {
+    "cases": 4,
+    "cases_passed": 4,
+    "control_backward_seconds": {
+      "2048": 3.250816259998828,
+      "512": 0.8124238590244204
+    },
+    "max_process_elapsed_seconds": 99,
+    "max_profile_backward_seconds": 79.906601501978,
+    "peak_reserved_bytes_max": 7381975040,
+    "profile_backward_seconds": {
+      "2048": 79.906601501978,
+      "512": 21.042650911025703
+    },
+    "profile_events": {
+      "2048": 2391921,
+      "512": 630589
+    },
+    "raw_output_bytes": 70199,
+    "retries": 0,
+    "source_changes": 0,
+    "timeouts": 0
+  },
+  "os": {
+    "cpu_count": 24,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "release": "7.0.0-43-generic",
+    "system": "Linux"
+  },
+  "profiler": {
+    "activities": [
+      "cpu",
+      "cuda"
+    ],
+    "full_trace_exported": false,
+    "module_attribution": "unassigned",
+    "profile_memory": false,
+    "record_shapes": false,
+    "region": "objective backward only",
+    "top_key_averages_per_axis": 30,
+    "units": "microseconds",
+    "with_stack": false
+  },
+  "python": {
+    "implementation": "CPython",
+    "process": "CPython 3.12.7",
+    "version": "3.12.7"
+  },
+  "resource_limits": {
+    "foreground_seconds": 3600,
+    "maximum_raw_output_bytes": 2147483648,
+    "minimum_free_vram_mib": 20480,
+    "minimum_host_ram_bytes": 12884901888,
+    "minimum_scratch_bytes": 8589934592,
+    "per_invocation_grace_seconds": 15,
+    "per_invocation_timeout_seconds": 300
+  },
+  "scratch": {
+    "free_bytes_preflight": 181953990656,
+    "repo_available_bytes_preflight": 181953990656,
+    "total_bytes": 457490497536
+  },
+  "source": {
+    "clean_before_and_after": true,
+    "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+    "config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+    "fp8_weight_reuse_enabled": false,
+    "head": "6e8911662ac56df665147cb79e412f0383cf71d8",
+    "probe": "tools/context_probe.py",
+    "probe_sha256": "4e8e96382e01532bf016568cc92af22d5eae8f3e138abf8b0b92c20d19febb5d",
+    "source_edits": false,
+    "worktree_label": "<local-source-checkout>"
+  },
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "specification": "experiments/tasks/T0022-backward-attribution.md",
+  "start_utc": "2026-11-28T16:16:54Z",
+  "task_id": "T0022",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "torch": {
+    "cuda_runtime": "12.8",
+    "version": "2.10.0+cu128"
+  }
+}

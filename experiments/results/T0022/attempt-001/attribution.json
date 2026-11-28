@@ -1,0 +1,594 @@
+{
+  "attempt": 1,
+  "exactness": {
+    "2048": {
+      "control_backward_seconds": 3.250816259998828,
+      "control_gradient_digest": "5168bc168a1ae5f0d2de2d28650ed0d6bbb3e68f511f0ae440d670a0f48afdf1",
+      "control_losses": {
+        "balance": 1.0247498750686646,
+        "early_ntp": 10.477264404296875,
+        "final_ntp": 10.476771354675293,
+        "offset2": 10.479270935058594,
+        "total": 15.726152420043945
+      },
+      "control_measured_update_seconds": 4.8995454590185545,
+      "control_model_digest": "1844ec426a90feb50dca2bc5959e8a219bccb317dfca21e06a3c34dca1f77527",
+      "control_optimizer_digest": "a076011c9eef4c839f5cc6d02fbefc5e8537751e13873c5c88039fb3e07e7cad",
+      "control_sha256": "7bc3d349e04c61b26c9a244bd34c83d1e1090f8c9773f0a2b4e64467a694c165",
+      "length": 2048,
+      "profile_gradient_digest": "5168bc168a1ae5f0d2de2d28650ed0d6bbb3e68f511f0ae440d670a0f48afdf1",
+      "profile_losses": {
+        "balance": 1.0247498750686646,
+        "early_ntp": 10.477264404296875,
+        "final_ntp": 10.476771354675293,
+        "offset2": 10.479270935058594,
+        "total": 15.726152420043945
+      },
+      "profile_model_digest": "1844ec426a90feb50dca2bc5959e8a219bccb317dfca21e06a3c34dca1f77527",
+      "profile_optimizer_digest": "a076011c9eef4c839f5cc6d02fbefc5e8537751e13873c5c88039fb3e07e7cad",
+      "profile_sha256": "2f624c96b7ad04f9cb9c8f4fb1471d5a25bfb950ac683fbf415264f38dd1df8a",
+      "reference_label": "experiments/results/T0020/attempt-001/case-2048-1-bf16.json",
+      "reference_sha256": "c4d5ae0710746869edbabfcb7c51d54ebdf49aa4c0c67b1a0b93b8b44fa9db23",
+      "same_mode_exact": {
+        "all_control_checks_passed": true,
+        "all_passed": true,
+        "all_profile_checks_passed": true,
+        "gradient_inventory_equal": true,
+        "identity_equal": true,
+        "losses_equal": true,
+        "model_digest_equal": true,
+        "optimizer_digest_equal": true
+      },
+      "status": "passed",
+      "t0020_reference": {
+        "all_passed": true,
+        "identity_match": true,
+        "losses_match": true,
+        "parameters_match": true,
+        "profile_matches_reference": true
+      }
+    },
+    "512": {
+      "control_backward_seconds": 0.8124238590244204,
+      "control_gradient_digest": "892d9626fe183eaa75a671f37962053e56a01f7b2fa133f46537bd58d73bcfef",
+      "control_losses": {
+        "balance": 1.0717132091522217,
+        "early_ntp": 10.48428726196289,
+        "final_ntp": 10.493874549865723,
+        "offset2": 10.487617492675781,
+        "total": 15.747568130493164
+      },
+      "control_measured_update_seconds": 1.4125287780188955,
+      "control_model_digest": "d613b5589eed7792be48d23d861ff97df42a13e16f7e7a701352072e2f41ce51",
+      "control_optimizer_digest": "2f4d9dab17c1cab9c7544a30aa2cb425932c53e18f664b17852bd7fc8d9dd8b0",
+      "control_sha256": "c895a83a00e88577c7994ebab8ae4ff43ba580b909896f0c3d008574021fc7d8",
+      "length": 512,
+      "profile_gradient_digest": "892d9626fe183eaa75a671f37962053e56a01f7b2fa133f46537bd58d73bcfef",
+      "profile_losses": {
+        "balance": 1.0717132091522217,
+        "early_ntp": 10.48428726196289,
+        "final_ntp": 10.493874549865723,
+        "offset2": 10.487617492675781,
+        "total": 15.747568130493164
+      },
+      "profile_model_digest": "d613b5589eed7792be48d23d861ff97df42a13e16f7e7a701352072e2f41ce51",
+      "profile_optimizer_digest": "2f4d9dab17c1cab9c7544a30aa2cb425932c53e18f664b17852bd7fc8d9dd8b0",
+      "profile_sha256": "ee58d128a1af78cba283aa413b43e71cede831285246fc6d32e64f400889c61b",
+      "reference_label": "experiments/results/T0020/attempt-001/case-512-1-bf16.json",
+      "reference_sha256": "e95ae01e94b3ec04c661433d79507ad7dfd75f77437fde380a01b786fe3f6e2d",
+      "same_mode_exact": {
+        "all_control_checks_passed": true,
+        "all_passed": true,
+        "all_profile_checks_passed": true,
+        "gradient_inventory_equal": true,
+        "identity_equal": true,
+        "losses_equal": true,
+        "model_digest_equal": true,
+        "optimizer_digest_equal": true
+      },
+      "status": "passed",
+      "t0020_reference": {
+        "all_passed": true,
+        "identity_match": true,
+        "losses_match": true,
+        "parameters_match": true,
+        "profile_matches_reference": true
+      }
+    },
+    "all_passed": true,
+    "control_profile_exact": true,
+    "t0020_reference_exact": true
+  },
+  "lengths": [
+    512,
+    2048
+  ],
+  "limitations": [
+    "Four single-update cases; no steady-state, convergence or production-throughput claim.",
+    "torch.profiler adds large perturbation; instrumented latency is not a performance result.",
+    "Only bounded top-30 key averages are published; full traces were not exported.",
+    "Self CPU/device times overlap and are not additive; no module attribution is inferred from generic ATen names.",
+    "No real data, checkpoint, Mini, kernel, package or reference-source change."
+  ],
+  "next_question": "Scoped instrumentation IMP: tag backward operators by module/path (GDN recurrent scan vs attention/logits vs expert dispatch) and rerun this exact four-case equality/profiling harness. Exactness guard: full gradient, model and optimizer digests must equal the current control at both lengths; no equation, tolerance, precision or optimizer change.",
+  "operator_attribution": {
+    "common_top_self_cpu_names": [
+      "aten::bmm",
+      "aten::mul",
+      "aten::permute",
+      "aten::sum",
+      "autograd::engine::evaluate_function: BmmBackward0",
+      "autograd::engine::evaluate_function: MulBackward0",
+      "autograd::engine::evaluate_function: PermuteBackward0",
+      "autograd::engine::evaluate_function: UnsqueezeBackward0",
+      "autograd::engine::evaluate_function: ViewBackward0",
+      "cudaLaunchKernel"
+    ],
+    "common_top_self_device_names": [
+      "aten::bmm",
+      "aten::mul",
+      "aten::sum",
+      "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, false, true, true, false, 5, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+      "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+      "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+      "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+      "void gemmk1_kernel<int, float, 256, 5, false, false, true, false, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, 0>(cublasGemmk1Params<float, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, biasType<cublasGemvTensorStridedBatched<float>::value_type, float>::type>)"
+    ],
+    "confidence": "low for module attribution; bounded operator-level only",
+    "level": "generic ATen/profiler keys only",
+    "module_attribution": "unassigned",
+    "module_attribution_note": "No reliable attribution to GDN scan, attention/logits, expert dispatch, optimizer or quantization was possible from generic keys. No percentages by module are claimed."
+  },
+  "precision": "bf16",
+  "profiler_perturbation": {
+    "note": "Profiled backward wall time includes profiler instrumentation and is much larger than the unprofiled control; it is not a performance measurement.",
+    "ratios": {
+      "2048": 24.580473060020566,
+      "512": 25.901074515825105
+    },
+    "top30_cpu_fraction_of_profiled_backward": {
+      "2048": 0.046105799054771086,
+      "512": 0.04471751168513525
+    },
+    "top30_device_fraction_of_profiled_backward": {
+      "2048": 0.0099737888987882,
+      "512": 0.009722445373685896
+    }
+  },
+  "profiles": {
+    "2048": {
+      "control_backward_seconds": 3.250816259998828,
+      "control_case_sha256": "7bc3d349e04c61b26c9a244bd34c83d1e1090f8c9773f0a2b4e64467a694c165",
+      "control_measured_update_seconds": 4.8995454590185545,
+      "cuda_launch_kernel": {
+        "count": 241258,
+        "cpu_total_us": 451855.4070000951,
+        "self_cpu_us": 448057.4030000955,
+        "self_device_us": 1.5039999999571592
+      },
+      "key_average_count": 269,
+      "length": 2048,
+      "module_attribution": "unassigned",
+      "module_attribution_note": "Profiler keys are generic ATen/profiler labels. No reliable GDN, attention, expert or optimizer module mapping was inferred.",
+      "profile_backward_seconds": 79.906601501978,
+      "profile_case_sha256": "2f624c96b7ad04f9cb9c8f4fb1471d5a25bfb950ac683fbf415264f38dd1df8a",
+      "profile_measured_update_seconds": 81.58245414402336,
+      "profile_to_control_backward_ratio": 24.580473060020566,
+      "sum_top30_self_cpu_seconds": 3.6841577119998674,
+      "sum_top30_self_cpu_us": 3684157.7119998676,
+      "sum_top30_self_device_seconds": 0.7969715750003207,
+      "sum_top30_self_device_us": 796971.5750003207,
+      "top30_self_cpu_seconds_over_profiled_backward": 0.046105799054771086,
+      "top30_self_device_seconds_over_profiled_backward": 0.0099737888987882,
+      "top_self_cpu": [
+        {
+          "count": 49184,
+          "cpu_total_us": 1196738.702999981,
+          "device_total_us": 76892.06100006422,
+          "key": "aten::bmm",
+          "self_cpu_us": 1104772.022999938,
+          "self_device_us": 76892.06100006422
+        },
+        {
+          "count": 241258,
+          "cpu_total_us": 451855.4070000951,
+          "device_total_us": 3.0079999999143183,
+          "key": "cudaLaunchKernel",
+          "self_cpu_us": 448057.4030000955,
+          "self_device_us": 1.5039999999571592
+        },
+        {
+          "count": 147542,
+          "cpu_total_us": 574017.7330000428,
+          "device_total_us": 26080.422000019753,
+          "key": "autograd::engine::evaluate_function: PermuteBackward0",
+          "self_cpu_us": 292171.046000087,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 87145,
+          "cpu_total_us": 413761.2489999995,
+          "device_total_us": 121758.61499999167,
+          "key": "aten::mul",
+          "self_cpu_us": 255889.91599994837,
+          "self_device_us": 121758.61499999167
+        },
+        {
+          "count": 49330,
+          "cpu_total_us": 267871.86299998173,
+          "device_total_us": 121971.8000000848,
+          "key": "aten::sum",
+          "self_cpu_us": 174942.50599998006,
+          "self_device_us": 121971.8000000848
+        },
+        {
+          "count": 98464,
+          "cpu_total_us": 279703.9569999506,
+          "device_total_us": 128.06000000139466,
+          "key": "autograd::engine::evaluate_function: ViewBackward0",
+          "self_cpu_us": 173164.23799986264,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 37217,
+          "cpu_total_us": 843209.3600000012,
+          "device_total_us": 228328.84600004152,
+          "key": "autograd::engine::evaluate_function: MulBackward0",
+          "self_cpu_us": 168981.83500006673,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 86128,
+          "cpu_total_us": 309302.0189999833,
+          "device_total_us": 13216.331999999209,
+          "key": "autograd::engine::evaluate_function: UnsqueezeBackward0",
+          "self_cpu_us": 148447.2900000499,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 24592,
+          "cpu_total_us": 1382167.9009999866,
+          "device_total_us": 76892.06100006422,
+          "key": "autograd::engine::evaluate_function: BmmBackward0",
+          "self_cpu_us": 93989.24899995906,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 147542,
+          "cpu_total_us": 118010.20699995465,
+          "device_total_us": 0.0,
+          "key": "aten::permute",
+          "self_cpu_us": 92533.9370001879,
+          "self_device_us": 0.0
+        }
+      ],
+      "top_self_cpu_names": [
+        "aten::bmm",
+        "cudaLaunchKernel",
+        "autograd::engine::evaluate_function: PermuteBackward0",
+        "aten::mul",
+        "aten::sum",
+        "autograd::engine::evaluate_function: ViewBackward0",
+        "autograd::engine::evaluate_function: MulBackward0",
+        "autograd::engine::evaluate_function: UnsqueezeBackward0",
+        "autograd::engine::evaluate_function: BmmBackward0",
+        "aten::permute"
+      ],
+      "top_self_device": [
+        {
+          "count": 49330,
+          "cpu_total_us": 267871.86299998173,
+          "device_total_us": 121971.8000000848,
+          "key": "aten::sum",
+          "self_cpu_us": 174942.50599998006,
+          "self_device_us": 121971.8000000848
+        },
+        {
+          "count": 87145,
+          "cpu_total_us": 413761.2489999995,
+          "device_total_us": 121758.61499999167,
+          "key": "aten::mul",
+          "self_cpu_us": 255889.91599994837,
+          "self_device_us": 121758.61499999167
+        },
+        {
+          "count": 36992,
+          "cpu_total_us": 0.0,
+          "device_total_us": 85000.98800006806,
+          "key": "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 85000.98800006806
+        },
+        {
+          "count": 49184,
+          "cpu_total_us": 1196738.702999981,
+          "device_total_us": 76892.06100006422,
+          "key": "aten::bmm",
+          "self_cpu_us": 1104772.022999938,
+          "self_device_us": 76892.06100006422
+        },
+        {
+          "count": 49390,
+          "cpu_total_us": 0.0,
+          "device_total_us": 74964.18100000336,
+          "key": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+          "self_cpu_us": 0.0,
+          "self_device_us": 74964.18100000336
+        },
+        {
+          "count": 37148,
+          "cpu_total_us": 0.0,
+          "device_total_us": 45510.136999989365,
+          "key": "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 45510.136999989365
+        },
+        {
+          "count": 37264,
+          "cpu_total_us": 0.0,
+          "device_total_us": 40332.89500001687,
+          "key": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 40332.89500001687
+        },
+        {
+          "count": 12326,
+          "cpu_total_us": 0.0,
+          "device_total_us": 36913.532000016916,
+          "key": "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 36913.532000016916
+        },
+        {
+          "count": 24576,
+          "cpu_total_us": 0.0,
+          "device_total_us": 35552.748000074265,
+          "key": "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, false, true, true, false, 5, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 35552.748000074265
+        },
+        {
+          "count": 24576,
+          "cpu_total_us": 0.0,
+          "device_total_us": 31620.62099998878,
+          "key": "void gemmk1_kernel<int, float, 256, 5, false, false, true, false, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, 0>(cublasGemmk1Params<float, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, biasType<cublasGemvTensorStridedBatched<float>::value_type, float>::type>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 31620.62099998878
+        }
+      ],
+      "top_self_device_names": [
+        "aten::sum",
+        "aten::mul",
+        "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+        "aten::bmm",
+        "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+        "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+        "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+        "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+        "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, false, true, true, false, 5, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+        "void gemmk1_kernel<int, float, 256, 5, false, false, true, false, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, 0>(cublasGemmk1Params<float, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, biasType<cublasGemvTensorStridedBatched<float>::value_type, float>::type>)"
+      ],
+      "total_events": 2391921,
+      "units": "microseconds"
+    },
+    "512": {
+      "control_backward_seconds": 0.8124238590244204,
+      "control_case_sha256": "c895a83a00e88577c7994ebab8ae4ff43ba580b909896f0c3d008574021fc7d8",
+      "control_measured_update_seconds": 1.4125287780188955,
+      "cuda_launch_kernel": {
+        "count": 65555,
+        "cpu_total_us": 122381.10400001655,
+        "self_cpu_us": 119584.61900001662,
+        "self_device_us": 0.0
+      },
+      "key_average_count": 268,
+      "length": 512,
+      "module_attribution": "unassigned",
+      "module_attribution_note": "Profiler keys are generic ATen/profiler labels. No reliable GDN, attention, expert or optimizer module mapping was inferred.",
+      "profile_backward_seconds": 21.042650911025703,
+      "profile_case_sha256": "ee58d128a1af78cba283aa413b43e71cede831285246fc6d32e64f400889c61b",
+      "profile_measured_update_seconds": 21.657792938000057,
+      "profile_to_control_backward_ratio": 25.901074515825105,
+      "sum_top30_self_cpu_seconds": 0.9409749880000138,
+      "sum_top30_self_cpu_us": 940974.9880000137,
+      "sum_top30_self_device_seconds": 0.20458602399998915,
+      "sum_top30_self_device_us": 204586.02399998915,
+      "top30_self_cpu_seconds_over_profiled_backward": 0.04471751168513525,
+      "top30_self_device_seconds_over_profiled_backward": 0.009722445373685896,
+      "top_self_cpu": [
+        {
+          "count": 12320,
+          "cpu_total_us": 300590.2029999967,
+          "device_total_us": 19040.364000000023,
+          "key": "aten::bmm",
+          "self_cpu_us": 277894.64499999135,
+          "self_device_us": 19040.364000000023
+        },
+        {
+          "count": 65555,
+          "cpu_total_us": 122381.10400001655,
+          "device_total_us": 0.0,
+          "key": "cudaLaunchKernel",
+          "self_cpu_us": 119584.61900001662,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 36950,
+          "cpu_total_us": 140198.33100000603,
+          "device_total_us": 6510.746999994262,
+          "key": "autograd::engine::evaluate_function: PermuteBackward0",
+          "self_cpu_us": 69736.4030000073,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 22633,
+          "cpu_total_us": 108087.09900000069,
+          "device_total_us": 30826.93999999299,
+          "key": "aten::mul",
+          "self_cpu_us": 67586.49299999293,
+          "self_device_us": 30826.93999999299
+        },
+        {
+          "count": 12466,
+          "cpu_total_us": 66494.62100000032,
+          "device_total_us": 30746.456000001457,
+          "key": "aten::sum",
+          "self_cpu_us": 43747.72800000095,
+          "self_device_us": 30746.456000001457
+        },
+        {
+          "count": 9569,
+          "cpu_total_us": 211197.3240000026,
+          "device_total_us": 57948.66399999676,
+          "key": "autograd::engine::evaluate_function: MulBackward0",
+          "self_cpu_us": 41451.22099999756,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 24736,
+          "cpu_total_us": 67604.4490000108,
+          "device_total_us": 89.44099999991886,
+          "key": "autograd::engine::evaluate_function: ViewBackward0",
+          "self_cpu_us": 40639.6640000187,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 21616,
+          "cpu_total_us": 77162.85499999743,
+          "device_total_us": 3348.6149999983973,
+          "key": "autograd::engine::evaluate_function: UnsqueezeBackward0",
+          "self_cpu_us": 36851.3719999997,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 36950,
+          "cpu_total_us": 29988.120000005132,
+          "device_total_us": 0.0,
+          "key": "aten::permute",
+          "self_cpu_us": 23826.42700001549,
+          "self_device_us": 0.0
+        },
+        {
+          "count": 6160,
+          "cpu_total_us": 345165.19499999913,
+          "device_total_us": 19040.364000000023,
+          "key": "autograd::engine::evaluate_function: BmmBackward0",
+          "self_cpu_us": 21572.39400000304,
+          "self_device_us": 0.0
+        }
+      ],
+      "top_self_cpu_names": [
+        "aten::bmm",
+        "cudaLaunchKernel",
+        "autograd::engine::evaluate_function: PermuteBackward0",
+        "aten::mul",
+        "aten::sum",
+        "autograd::engine::evaluate_function: MulBackward0",
+        "autograd::engine::evaluate_function: ViewBackward0",
+        "autograd::engine::evaluate_function: UnsqueezeBackward0",
+        "aten::permute",
+        "autograd::engine::evaluate_function: BmmBackward0"
+      ],
+      "top_self_device": [
+        {
+          "count": 22633,
+          "cpu_total_us": 108087.09900000069,
+          "device_total_us": 30826.93999999299,
+          "key": "aten::mul",
+          "self_cpu_us": 67586.49299999293,
+          "self_device_us": 30826.93999999299
+        },
+        {
+          "count": 12466,
+          "cpu_total_us": 66494.62100000032,
+          "device_total_us": 30746.456000001457,
+          "key": "aten::sum",
+          "self_cpu_us": 43747.72800000095,
+          "self_device_us": 30746.456000001457
+        },
+        {
+          "count": 9344,
+          "cpu_total_us": 0.0,
+          "device_total_us": 21425.507000004458,
+          "key": "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 21425.507000004458
+        },
+        {
+          "count": 12320,
+          "cpu_total_us": 300590.2029999967,
+          "device_total_us": 19040.364000000023,
+          "key": "aten::bmm",
+          "self_cpu_us": 277894.64499999135,
+          "self_device_us": 19040.364000000023
+        },
+        {
+          "count": 12526,
+          "cpu_total_us": 0.0,
+          "device_total_us": 18995.494999993953,
+          "key": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+          "self_cpu_us": 0.0,
+          "self_device_us": 18995.494999993953
+        },
+        {
+          "count": 9500,
+          "cpu_total_us": 0.0,
+          "device_total_us": 11013.086000001716,
+          "key": "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 11013.086000001716
+        },
+        {
+          "count": 9616,
+          "cpu_total_us": 0.0,
+          "device_total_us": 10444.003999992165,
+          "key": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 10444.003999992165
+        },
+        {
+          "count": 3110,
+          "cpu_total_us": 0.0,
+          "device_total_us": 9287.924999997038,
+          "key": "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 9287.924999997038
+        },
+        {
+          "count": 6144,
+          "cpu_total_us": 0.0,
+          "device_total_us": 8875.317000000367,
+          "key": "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, false, true, true, false, 5, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 8875.317000000367
+        },
+        {
+          "count": 6144,
+          "cpu_total_us": 0.0,
+          "device_total_us": 7883.736000000026,
+          "key": "void gemmk1_kernel<int, float, 256, 5, false, false, true, false, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, 0>(cublasGemmk1Params<float, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, biasType<cublasGemvTensorStridedBatched<float>::value_type, float>::type>)",
+          "self_cpu_us": 0.0,
+          "self_device_us": 7883.736000000026
+        }
+      ],
+      "top_self_device_names": [
+        "aten::mul",
+        "aten::sum",
+        "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+        "aten::bmm",
+        "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+        "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+        "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+        "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4>)",
+        "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, false, true, true, false, 5, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+        "void gemmk1_kernel<int, float, 256, 5, false, false, true, false, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, 0>(cublasGemmk1Params<float, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float, biasType<cublasGemvTensorStridedBatched<float>::value_type, float>::type>)"
+      ],
+      "total_events": 630589,
+      "units": "microseconds"
+    }
+  },
+  "status": "passed",
+  "task": "T0022"
+}
