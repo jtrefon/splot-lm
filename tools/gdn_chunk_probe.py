@@ -263,7 +263,7 @@ def baseline_check(scan, reference_path):
         'status': 'passed' if actual == expected and scan['losses'] == ref['losses'] else 'failed',
         'identity_match': actual == expected,
         'losses_match': scan['losses'] == ref['losses'],
-        'reference': str(reference_path).replace('/home/jack', '<home>'),
+        'reference': reference_path.name,
     }
 
 
