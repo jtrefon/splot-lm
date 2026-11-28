@@ -167,6 +167,44 @@ def assert_loss_finite(objective, stage='forward'):
             raise FloatingPointError(f'nonfinite {name} at {stage}')
 
 
+def resolve_model_family(config):
+    """Return the explicit model family; absence preserves legacy SPLOT."""
+    family = config.get('model_family', 'splot')
+    if family not in ('splot', 'dense-ntp'):
+        raise ValueError(f'unknown model_family: {family!r}')
+    return family
+
+
+def validate_dense_config(config, training):
+    """Fail closed for the dense NTP-only comparator."""
+    if 'recurrence' in config or 'expert_intermediate' in config:
+        raise ValueError('dense-ntp must not contain recurrence/expert configuration')
+    if training.get('mode') != 'A0' or training.get('loops') != 1:
+        raise ValueError('dense-ntp requires mode A0 and loops 1')
+    if training.get('precision') not in ('fp32', 'bf16'):
+        raise ValueError('dense-ntp supports only fp32 or bf16')
+    if training.get('fp8_weight_reuse', False):
+        raise ValueError('dense-ntp does not support FP8 weight reuse')
+    for key in ('depth_weight', 'offset_weight', 'balance_weight'):
+        if training.get(key, 0) not in (0, 0.0):
+            raise ValueError(f'dense-ntp does not support {key}')
+
+
+def dense_ntp_objective(model, inputs, labels):
+    """A0-compatible objective: final NTP only, auxiliary fields zero."""
+    from splot.mtp import Objective
+    if not isinstance(labels, dict) or 1 not in labels:
+        raise ValueError('dense NTP labels missing offset-1')
+    logits, _ = model(*inputs)
+    final = torch.nn.functional.cross_entropy(
+        logits.float().reshape(-1, logits.shape[-1]),
+        labels[1].reshape(-1), ignore_index=-100, reduction='sum')
+    final = final / labels[1].ne(-100).sum().clamp_min(1)
+    zero = final.new_zeros(())
+    return Objective(final, final, zero, zero,
+                     int(labels[1].ne(-100).sum()), 0, zero)
+
+
 def snapshot_rng(device):
     return {'python': random.getstate(), 'torch': torch.get_rng_state(),
             'cuda': torch.cuda.get_rng_state_all() if torch.device(device).type == 'cuda' else None}
@@ -298,9 +336,9 @@ def logical_macs(blocks, indices, count_document):
 
 
 def main():
-    from splot import DenseConfig, RecurrentConfig, SPLOTLM, training_objective
+    from splot import DenseConfig, DenseLM, RecurrentConfig, SPLOTLM, training_objective
     from data_fixture import synthetic_documents, split_documents, pack, manifest
-    from accounting import Shape, account
+    from accounting import DenseShape, Shape, account, dense_account
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--config',required=True,type=Path); p.add_argument('--out',required=True,type=Path)
     p.add_argument('--steps',type=int,required=True); p.add_argument('--device',choices=('cpu','cuda'),default='cpu')
@@ -313,7 +351,13 @@ def main():
     root=Path(__file__).resolve().parents[1]; commit=git_identity(root)
     if a.out.resolve().is_relative_to(root): p.error('output must be outside checkout')
     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
-    rc=RecurrentConfig(dense=d,**c['recurrence'])
+    family=resolve_model_family(c)
+    if family=='dense-ntp':
+        try: validate_dense_config(c,t)
+        except ValueError as exc: p.error(str(exc))
+        rc=None
+    else:
+        rc=RecurrentConfig(dense=d,**c['recurrence'])
     if t['data'] not in ('synthetic-v1','synthetic-shards-v2','pilot-blocks-v1'):
         p.error('data must be synthetic-v1, synthetic-shards-v2 or pilot-blocks-v1')
     dataset_modes = ('synthetic-shards-v2','pilot-blocks-v1')
@@ -332,7 +376,8 @@ def main():
         p.error('checkpoint interval must be a positive integer')
     if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
-    if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1 or not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
+    if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1: p.error('invalid training settings')
+    if family=='splot' and not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
     if a.device=='cuda':
         torch.backends.cuda.matmul.allow_tf32=False; torch.backends.cudnn.allow_tf32=False
@@ -373,9 +418,14 @@ def main():
         dataset_source_snapshot_sha256 = data['source_snapshot_sha256']
         if not packed['train'] or not packed['validation']:
             p.error('pilot dataset must contain train and validation blocks')
-    model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
+    if family=='dense-ntp':
+        model=DenseLM(d).to(a.device)
+        expected=d.parameter_count()
+    else:
+        model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
+        expected=model.parameter_count()
     actual=sum(v.numel() for v in model.parameters())
-    if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
+    if actual!=expected: raise RuntimeError('parameter count mismatch')
     fp8_policy=None
     if t['precision']=='fp8':
         try:
@@ -408,23 +458,39 @@ def main():
         'checkpoint_interval':interval,
         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
         'deterministic_algorithms':True}
+    if family=='dense-ntp': env['model_family']='dense-ntp'
     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
               'packed_sha256':digest(packed),'environment':env,'settings':t,
               'checkpoint_interval':interval,'fp8_weight_reuse':reuse,
               'dataset_source_snapshot_sha256':dataset_source_snapshot_sha256}
-    objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
+    if family=='dense-ntp':
+        identity['model_family']='dense-ntp'
+        identity['dense_parameter_count']=actual
+    if family=='dense-ntp':
+        objective=dense_ntp_objective
+    else:
+        objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
     post_update_check = t['precision']=='fp8' or optimizer_policy['name']=='muon'
     checkpoint_stats={}
     history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check,checkpoint_interval=interval,checkpoint_stats=checkpoint_stats)
     validation_started=time.perf_counter()
-    val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
+    if family=='dense-ntp':
+        val=evaluate(model,packed['validation'],lambda m,x:m(*x)[0],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
+    else:
+        val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
     validation_seconds=time.perf_counter()-validation_started
     evaluation_fp8_audit=val.pop('fp8_audit',None)
-    shape=Shape(d=d.width,vocab=d.vocab_size,q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
-                gdn_heads=d.q_heads,dense=d.intermediate,expert=c['expert_intermediate'])
-    readouts=1 if t['mode']=='A0' else t['loops']
-    offsets=min(2,t['loops']) if t['mode']=='A2' else 0
-    count_document=lambda n:account(shape,loops=t['loops'],context=n,readouts=readouts,offsets=offsets)['prefill_all_logits_macs']
+    if family=='dense-ntp':
+        dense_shape=DenseShape(vocab=d.vocab_size,width=d.width,layers=d.layers,
+                               q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
+                               dense=d.intermediate)
+        count_document=lambda n:dense_account(dense_shape,context=n)['prefill_all_logits_macs']
+    else:
+        shape=Shape(d=d.width,vocab=d.vocab_size,q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
+                    gdn_heads=d.q_heads,dense=d.intermediate,expert=c['expert_intermediate'])
+        readouts=1 if t['mode']=='A0' else t['loops']
+        offsets=min(2,t['loops']) if t['mode']=='A2' else 0
+        count_document=lambda n:account(shape,loops=t['loops'],context=n,readouts=readouts,offsets=offsets)['prefill_all_logits_macs']
     macs=sum(logical_macs(packed['train'],r['batch_indices'],count_document) for r in history)
     precision_policy={'requested':policy['requested'],'policy':policy['policy'],
                       'autocast_dtype':policy['autocast_dtype_name'],'probe_dtype':policy['probe_dtype'],
@@ -494,6 +560,12 @@ def main():
             'fp8_evaluation_diagnostics':evaluation_fp8_audit,
             'total_valid_tokens':sum(r['valid_tokens'] for r in history),'total_ntp_labels':sum(r['ntp_labels'] for r in history),
             'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':limitations}
+    if family=='dense-ntp':
+        report['model_family']='dense-ntp'
+        report['dense_shape']={'vocab_size':d.vocab_size,'width':d.width,'layers':d.layers,
+                               'q_heads':d.q_heads,'kv_heads':d.kv_heads,'head_dim':d.head_dim,
+                               'intermediate':d.intermediate}
+        limitations.append('Dense NTP-only comparator; no recurrence, MTP, auxiliary objective or FP8 path.')
     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))
 
 

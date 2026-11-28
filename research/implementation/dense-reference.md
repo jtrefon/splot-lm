@@ -35,3 +35,10 @@ Pass: finite losses/gradients, final training loss <50% initial on smoke, cache 
 
 ## Handover
 Review this PR and pending independent #19. Once both are merged, reconcile PROJECT_STATE.md, decisions and backlog in the next work unit, add integration test using actual tools/data_fixture.py. Next fixed-depth all-GQA recurrent reference per #4, then native MTP #2 (A0/A1/A2, exact verifier). GDN #5 and MoE #6 later, no optimization until correctness. Existing shared state files intentionally untouched here to avoid collisions with pending data PR; live GitHub issue/PR comments are authoritative.
+
+## T0021 dense NTP comparator integration (2026-11-28)
+T0021 adds an explicit **`model_family: dense-ntp`** path to the existing experiment CLI without changing the default SPLOT path, config hash, identity or checkpoint semantics. Dense mode uses `DenseConfig`/`DenseLM` only and rejects recurrence/expert fields, non-A0 modes, `loops != 1`, FP8/reuse, and nonzero auxiliary loss weights. It reuses the existing tiny synthetic/verified-v2/pilot data loaders, checkpoint/resume, evaluation and semantic Muon/AdamW partition.
+
+The dense objective is final NTP only: `Objective.total = final_ntp`, with early/offset/balance zero and `offset2_count = 0`. Dense configs have no dormant MTP head. Configs `configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json` (35,527,168 parameters) and `dense-ntp-512x6-q8kv2-ffn2176.json` (32,381,440) are planning candidates from accepted T0019, not trained or optimized results. `splot-nano-v16384-a0.json` pins the V16384 SPLOT A0 R2 comparator (36,763,620 total including dormant MTP, 36,615,780 NTP base) with explicit `balance_weight=0.01`.
+
+`tools/accounting.py` adds `DenseShape`/`dense_account` for per-document causal contraction counts; these are analytical MACs, not training FLOPs. `tools/test_dense_harness.py` covers exact counts, semantic partition, dense objective equality, continuous 4 vs 2+2 resume, cross-family rejection, shared data ingestion and CPU BF16 capability when available. No full training, real data, test access, FP8 dense path or GPU/MPS qualification is claimed.
