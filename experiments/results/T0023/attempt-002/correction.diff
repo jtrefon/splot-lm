@@ -1,0 +1,36 @@
+diff --git a/tools/test_dense_harness.py b/tools/test_dense_harness.py
+index 2fdfc7d..baa1564 100644
+--- a/tools/test_dense_harness.py
++++ b/tools/test_dense_harness.py
+@@ -376,19 +376,25 @@ class ActualVocabPilotTests(unittest.TestCase):
+                 self.assertEqual(report['data_policy']['unused_token_id_count'], 0)
+                 self.assertEqual(report['data_policy']['unused_token_id_ranges'], [])
+                 self.assertTrue(report['data_policy']['test_validated_only'])
+-                self.assertEqual(report['identity']['dataset_manifest_sha256'], sha)
+-                self.assertEqual(report['identity']['dataset_source_snapshot_sha256'], source_snapshot)
++                self.assertFalse(report['data_policy']['test_used_for_training'])
++                self.assertEqual(report['identity']['environment']['dataset_manifest_sha256'], sha)
++                self.assertEqual(report['data_policy']['dataset_manifest_sha256'], sha)
++                self.assertEqual(report['identity']['environment']['dataset_source_snapshot_sha256'], source_snapshot)
++                self.assertEqual(report['data_policy']['source_snapshot_sha256'], source_snapshot)
++                self.assertEqual(len(report['history']), 2)
+                 for row in report['history']:
+                     self.assertTrue(math.isfinite(row['objective']))
+                     self.assertTrue(math.isfinite(row['final_ntp']))
++                    self.assertTrue(math.isfinite(row['balance']))
+             self.assertEqual(d['identity']['data_sha256'], s['identity']['data_sha256'])
+             self.assertEqual(d['identity']['packed_sha256'], s['identity']['packed_sha256'])
+-            for key in ('batch_indices', 'valid_tokens', 'ntp_labels'):
+-                self.assertEqual(d['history'][0][key], s['history'][0][key])
++            for drow, srow in zip(d['history'], s['history']):
++                for key in ('batch_indices', 'valid_tokens', 'ntp_labels'):
++                    self.assertEqual(drow[key], srow[key])
+             self.assertEqual(d['total_valid_tokens'], s['total_valid_tokens'])
+             self.assertEqual(d['total_ntp_labels'], s['total_ntp_labels'])
+-            self.assertGreater(s['history'][0]['balance'], 0)
+-            self.assertNotEqual(s['history'][0]['objective'], s['history'][0]['final_ntp'])
++            self.assertTrue(all(row['balance'] > 0 for row in s['history']))
++            self.assertTrue(all(row['objective'] != row['final_ntp'] for row in s['history']))
+             dinv, sinv = d['parameter_inventory'], s['parameter_inventory']
+             self.assertEqual(dinv['physical_parameter_numel'], d['parameters'])
+             self.assertEqual(dinv['gradient_present_parameter_numel'], dinv['physical_parameter_numel'])

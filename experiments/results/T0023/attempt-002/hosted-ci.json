@@ -1,0 +1,32 @@
+{
+  "attempt": 2,
+  "conclusion": "failure",
+  "first_error": {
+    "actual_path": "data_policy.manifest_sha256",
+    "error": "KeyError: 'dataset_manifest_sha256'",
+    "line": 381,
+    "test": "ActualVocabPilotTests.test_v16384_pilot_cli_both_families",
+    "wrong_path": "data_policy.dataset_manifest_sha256"
+  },
+  "head_sha": "57629a9ea2ab956ec24e1d05fb153f79b5bd2a64",
+  "policy": "Stopped; no corrective source edit or rerun under T0023 continuation.",
+  "run_id": 46168369820,
+  "runner": {
+    "cuda": false,
+    "numpy": "1.26.4",
+    "os": "ubuntu-24.04",
+    "python": "3.12.7",
+    "torch": "2.10.0+cpu"
+  },
+  "task_id": "T0023",
+  "tests": {
+    "dense_errors": 1,
+    "dense_passed": 12,
+    "dense_run": 13,
+    "full_aggregate": null,
+    "full_aggregate_reason": "ci_cpu returned nonzero before final aggregate",
+    "loader": 6,
+    "loader_failed": 0
+  },
+  "url": "https://github.com/jtrefon/splot-lm/actions/runs/46168369820"
+}
