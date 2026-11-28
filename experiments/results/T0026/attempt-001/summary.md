@@ -71,7 +71,9 @@ At 5M tokens, analytical forward MACs are S 169.74T, P 185.48T, C 169.75T; estim
 
 ## 7. First failures
 
-The evidence-capture runner initially launched three local commands from the repository root instead of the evidence directory: `wc -c` (exit 1, files not found), `py_compile protocol_analysis.py` (exit 1, file not found) and `protocol_analysis.py` (exit 2, file not found). These were local command-context errors, not analysis or acceptance-gate failures; the analytical output did not change. They are preserved in `execution-first-failures.log`, and the corrected `execution.log` records exit 0.
+The evidence-capture runner initially launched three local commands from the repository root instead of the evidence directory: `wc -c` (exit 1, files not found), `py_compile protocol_analysis.py` (exit 1, file not found) and `protocol_analysis.py` (exit 2, file not found). These were local command-context errors, not analysis or acceptance-gate failures; the analytical output did not change. They are preserved in `execution-first-failures.txt`, and the corrected `execution.log` records exit 0.
+
+The first required hosted run `46172330479` on `72a289d` then failed while validating this evidence directory: `ValueError: unlisted or missing evidence files`. Cause: `result.json` listed `execution-first-failures.log`, but the repository `*.log` ignore rule excludes it from Git; the file was present locally but absent from the commit. This was an evidence-packaging failure, not a design or analysis failure. The file was renamed to `execution-first-failures.txt`, all hashes were recomputed, and the hosted gate was rerun. The first failure is preserved in `hosted-ci-first-failure.txt`; no design value changed.
 
 ## 8. Limitations and non-claims
 
@@ -84,7 +86,7 @@ The evidence-capture runner initially launched three local commands from the rep
 
 ## 9. Handover
 
-Evidence is flat under `experiments/results/T0026/attempt-001/`: `design.md`, `corpus-design.md`, `proposed-protocol.json`, `analysis.json`, `protocol_analysis.py`, `source-refs.json`, environment, result, metrics, execution log and preserved first-failure log. `proposed-protocol.json` carries the machine-readable arms, regimes, endpoints, margins, corpus, probes, GDN follow-up, unresolved decisions and dependency graph.
+Evidence is flat under `experiments/results/T0026/attempt-001/`: `design.md`, `corpus-design.md`, `proposed-protocol.json`, `analysis.json`, `protocol_analysis.py`, `source-refs.json`, environment, result, metrics, execution log and preserved local/hosted first-failure records. `proposed-protocol.json` carries the machine-readable arms, regimes, endpoints, margins, corpus, probes, GDN follow-up, unresolved decisions and dependency graph.
 
 Validator:
 

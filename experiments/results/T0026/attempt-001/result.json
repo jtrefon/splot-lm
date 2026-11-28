@@ -32,12 +32,13 @@
       "status": "passed"
     },
     "handover": {
-      "detail": "Flat design/analysis package; no raw text, token arrays, tokenizer JSON, shards, checkpoints, virtualenvs or secrets. First local command-context failures are preserved in execution-first-failures.log. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0026/attempt-001 --task T0026 --source 003cf8db6126f0aaefdd599ac159f2503457f709 --checks environment,evaluation_design,corpus_design,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One INDEX row is appended; PR and issue #108 carry the handover. No merge, closure, training or next-task launch.",
+      "detail": "Flat design/analysis package; no raw text, token arrays, tokenizer JSON, shards, checkpoints, virtualenvs or secrets. Local command-context failures are preserved in execution-first-failures.txt; the first hosted run 46172330479 failed on an ignored .log evidence file and is preserved in hosted-ci-first-failure.txt. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0026/attempt-001 --task T0026 --source 003cf8db6126f0aaefdd599ac159f2503457f709 --checks environment,evaluation_design,corpus_design,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One INDEX row is appended; PR and issue #108 carry the handover. No merge, closure, training or next-task launch.",
       "evidence": [
         "summary.md",
         "environment.json",
         "execution.log",
-        "execution-first-failures.log",
+        "execution-first-failures.txt",
+        "hosted-ci-first-failure.txt",
         "metrics.jsonl",
         "source-refs.json"
       ],
@@ -51,13 +52,14 @@
     "corpus-design.md": "3e97ffa5e2583432369ab2b119f145ace69a3450ff9ae41940e8774adb7c9772",
     "design.md": "981a274df3bdc08a3adb24c27e6c555f52b1206330abf2e2331db0d0776f641c",
     "environment.json": "9a7f1dafc0ea3e96d41f3acf212733e91014a3557baec7f8635d83e04748a78d",
-    "execution-first-failures.log": "4673530ceaeb01cc064dd473196edad79ec1b02e5a377ba621ca084225f6ec58",
-    "execution.log": "7752802527a98d44822cae299c35fe8a9f9b435de6171c32d15be09523421c3c",
+    "execution-first-failures.txt": "4673530ceaeb01cc064dd473196edad79ec1b02e5a377ba621ca084225f6ec58",
+    "execution.log": "2284f8e9ed266db93d3527fd0fc84cc2edfc990ebfff3bce43bf55d73865ee66",
+    "hosted-ci-first-failure.txt": "209e1122e7a294589f2bf0bd2bc2e84e49dd0f79fcede44d2f7f5c92db19724c",
     "metrics.jsonl": "31625a238b1eb7b477b6f385a9457357ec7cb319ea592dfdc0e2f224d6ddd92f",
     "proposed-protocol.json": "402dc18a9a66764318982802da9dc72be19c8a153f4862d19e450a048ac7b1fd",
     "protocol_analysis.py": "117d46f871309ca1b711381c8f059d7e1e891eb45991c67f2539e0c211cff1fe",
     "source-refs.json": "6716a0bb397a0436138697b5b40b41e96c5eeeb00c7d7501b6aa49565d8c3737",
-    "summary.md": "6e42d5504d7e46e9237c83a6b998bf8bbfcf866ac700ece6e7c3df34d8956a7c"
+    "summary.md": "8463f49a23fcf0245263f9182c73964214f468024e2762e6a71b40bcdbb23440"
   },
   "limitations": [
     "Design/analysis only; no training, measured quality, dataset acquisition, tokenizer fit, test access or dependency install.",
