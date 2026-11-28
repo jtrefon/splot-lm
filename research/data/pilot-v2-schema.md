@@ -217,22 +217,37 @@ The verifier computes every count from validated blocks and document records and
 
 - `load_v2_dataset(root, expected_manifest_sha256)` → verified train/validation blocks and a summary. Test shards are fully integrity-checked but never returned; the summary contains only test counts, not test blocks or token arrays.
 - `scoring_targets(dataset, split="validation")` → offset-1 target records (`target_token_id`, `byte_length`, `kind`, block/position, family/language). The `test` split is refused.
-- `aggregate_content_bpb(targets)` → content-only NLL/BPB plus separate EOS/control and ordinary NTP totals. It rejects nonfinite NLLs, negative or zero content byte counts, EOS/control claiming bytes, unknown kinds, empty targets and zero content denominators.
+- `verify_targets(dataset, split, targets)` → compares caller-supplied targets to validated block labels/bytes, rejects wrong fields, duplicate `(block_index, position)` identities and test access.
+- `aggregate_content_bpb(targets)` → arithmetic-only content-only NLL/BPB plus separate EOS/control and ordinary NTP totals. It rejects nonfinite, negative or overflow NLLs, zero-byte content denominators, EOS/control claiming bytes, unknown kinds and empty targets. It does **not** verify target identity.
+- `aggregate_verified_bpb(dataset, split, nlls, targets=None)` → dataset-bound aggregation; verifies target identity/order and returns per-family/per-language totals plus EOS/control separately.
+- `TOKENIZER_SCOPE = "synthetic-explicit-table"`; the table is not a production tokenizer. A real byte-level BPE must separately qualify a complete 256-byte alphabet, special IDs, duplicate-free content tokens and train-only fit.
+
+T0030 hardening semantics:
+
+- post-scan `seen_doc_ids` must equal the exact declared document-ID set; orphan or unreferenced declarations are rejected;
+- verified shard selected bytes must equal document selected bytes and per-source manifest selected bytes;
+- full-document groups and selected intervals must be disjoint within each source (touching half-open intervals are allowed);
+- complete groups require indices `0..segment_count-1` in byte order and exact partition; partial groups require explicit `truncated=true`; a single full segment requires index 0 / count 1;
+- full extracted source and full document bytes must be valid UTF-8, not only selected segments; selected bytes and token-byte concatenation are checked independently;
+- strict non-bool integer schema applies to special IDs, padding labels, masks, offsets, counts and segment indices;
+- duplicate content token byte strings are rejected; token reconstruction is bounded incrementally by declared selected bytes and the source cap before allocation;
+- NLLs must be finite, nonnegative and non-overflowing at per-target and aggregate level; the verified API prevents target/label identity mismatch and duplicate target records;
+- the dataset root is a trusted static root for one call; unsafe paths/symlinks are rejected and reads are bounded, but there is no concurrent-mutation or race-proof guarantee.
 
 Verification order:
 
 1. exact file set, regular files, no symlinks;
 2. manifest hash/canonical/schema/caps;
-3. tokenizer hash/canonical/table/special IDs;
-4. source records, source snapshot, source-bytes hash/raw/content hashes/lengths;
-5. document IDs/intervals/full and segment hashes/source slicing/UTF-8/segment groups;
+3. tokenizer hash/canonical/table/special IDs/duplicate content bytes;
+4. source records, source snapshot, source-bytes hash/raw/content hashes/lengths/full UTF-8;
+5. document IDs/intervals/full and segment hashes/source slicing/full and selected UTF-8/segment groups/global interval disjointness;
 6. byte-coverage digest;
 7. shard declarations and aggregate caps before allocation;
-8. streaming canonical blocks; per-block labels/masks/byte reconstruction; test blocks validated but not stored;
+8. streaming canonical blocks; strict label/mask/type checks and incrementally bounded byte reconstruction; test blocks validated but not stored;
 9. shard hash/byte/line/block counts and family/language maps;
-10. logical digest, aggregate counts and source selected bytes.
+10. exact declared-vs-seen document IDs, selected-byte reconciliation, logical digest and aggregate counts.
 
-Any failure raises `PilotV2Error`. The verifier never imports the model, never evaluates a model, and never exposes test blocks.
+Any failure raises `PilotV2Error`. The verifier never imports the model, never evaluates a model, and never exposes test blocks. `TOKENIZER_SCOPE` is synthetic-only; no claim is made that the explicit table is a production BPE.
 
 ## 12. Synthetic fixture coverage
 
@@ -245,22 +260,41 @@ The test suite in `tools/test_pilot_v2.py` uses a deterministic 32-token vocabul
 - expected totals: 3 blocks, 36 valid tokens, 20 content tokens, 28 NTP labels, 20 content labels, 8 EOS labels, 20 offset-2 labels, 21 content-target bytes, 21 selected bytes;
 - by-language content bytes: EN 13, PL 8;
 - hand-computed validation BPB check: content NLL 2.3 over 7 bytes, EOS NLL 1.3, ordinary NTP NLL 3.6;
+- T0030 negative cases with recomputed hashes/counts: orphan declared document, cross-group full-document overlap, invalid full-source/full-document/selected-segment UTF-8, duplicate content token bytes, incremental reconstruction overflow, segment index/order/partial-selection violations, strict padding-label type, negative/overflow NLL, forged/duplicate/misordered verified targets, test access;
 - positive identity/repeat, hand-computed BPB, test-split refusal, caps, block/label/padding tamper, provenance/split/segment tamper, tokenizer/source/full-document hash tamper, invalid UTF-8 concatenation, noncanonical manifest, extra file, symlink and aggregate digest tamper.
 
-The fixture text and token arrays are deliberately tiny and synthetic; no real corpus, tokenizer, checkpoint or test data is present.
+The original valid fixture hashes/counts/BPB are unchanged; T0030 tightens validation only. The fixture text and token arrays are deliberately tiny and synthetic; no real corpus, tokenizer, checkpoint or test data is present.
 
-## 13. Compatibility and migration prerequisites
+The producer test suite in `tools/test_pilot_v2_producer.py` adds six tests: byte-identical reproduction of the T0028 fixture, deterministic repeat, expected-coverage/loader reconciliation, existing-output refusal, input validation, and multi-document/tail packing. Producer totals match: 3 blocks, 36 valid, 20 content, 28 NTP, 8 EOS, 21 selected bytes.
+
+## 13. Deterministic synthetic producer
+
+`tools/pilot_v2_producer.py` is a standalone synthetic producer for the exact v2 schema:
+
+- inputs are explicit `SourceSpec` raw/content bytes, `SegmentSpec` source/document/segment intervals, explicit content `token_ids` and a supplied token-byte table; no acquisition, tokenizer fit, source fetch or implicit tokenization;
+- it validates provenance, UTF-8, hashes, token-byte equality, segment groups/indices/overlaps, caps and block fit before writing;
+- it packs segment-local BOS/content/EOS blocks greedily in split order, preserves no cross-segment labels/bytes, supports multiple documents and a padded tail, and refuses an existing output path;
+- `expected_coverage(spec)` computes per-source/segment/family/language/label counts and hashes before the verifier; `write_dataset(spec, out)` writes the canonical six files only after the in-memory build validates;
+- the same inputs produce byte-identical files; the producer test reproduces the T0028 fixture manifest/tokenizer/source/shard files byte-for-byte;
+- no real text/token arrays are published; producer evidence contains only tiny synthetic fixtures and derived counts/hashes.
+
+The producer is synthetic-only and is not a production acquisition/producer pipeline. It does not enlarge caps or adopt v2 for training.
+
+## 14. Compatibility and migration prerequisites
 
 - **v1 is unchanged.** `splot-pilot-blocks-v1`, `tools/pilot_ingestion.py`, the training CLI and configs still use the accepted v1 path. v2 is a standalone prototype and is **not** accepted training input.
-- A future producer must emit canonical v2 artifacts, keep the tokenizer table local/private, supply source bytes privately or verify source hashes independently, and write real raw/content hashes without publishing restricted text.
+- v2 schema fields/limits are unchanged; T0030 tightens semantic validation. Valid T0028 fixture hashes/counts/BPB remain unchanged; previously accepted malformed cases may now fail closed.
+- The synthetic producer is deterministic but does not provide source acquisition, rights review, tokenizer fitting or a real source store. A future production producer must keep the tokenizer table local/private, use streaming/binary source artifacts, verify independent hashes and publish only approved derived evidence.
 - A future loader/training integration requires a separate reviewed IMP task, explicit owner authorization, v1 regression preservation, a real source registry with rights/revision evidence, and an independent byte-coverage audit.
-- Larger-source registry prerequisites: family-level split and dedup, selected-vs-full byte accounting, rights evidence, frozen tokenizer, test freeze, and no reliance on v1 block caps.
-- The proposed migration is schema-first: producer emits v2 metadata and synthetic fixtures validate it; then a reviewed adapter may translate v2 to the existing training batch interface without changing model semantics.
+- Larger-source registry prerequisites: family-level split and dedup, selected-vs-full byte accounting, rights evidence, frozen tokenizer, test freeze, complete 256-byte tokenizer alphabet qualification, and no reliance on v1 block caps.
+- The bounded migration, hypothetical 1M-token sizing, binary/JSONL shard options and separately reviewed acquisition/producer/CLI tasks are in [`pilot-v2-scale-plan.md`](pilot-v2-scale-plan.md).
 
-## 14. Limitations
+## 15. Limitations
 
 - Synthetic only: no actual dataset, tokenizer fit, source authenticity, legal clearance, training or evaluation.
 - `source-bytes.json` is synthetic; the verifier proves hash/coverage mechanics, not that a real source is correct or licensed.
 - The fixture is deliberately tiny and does not establish production streaming throughput, memory or scale.
+- The root is a trusted static root for one verification call; symlinks/paths are rejected and reads bounded, but no concurrent-mutation/race-proof guarantee is claimed.
+- The explicit tokenizer table is not a production BPE; full 256-byte alphabet and train-only fit require separate qualification.
 - No BPB, quality, architecture, cost or generalization claim is made from this prototype.
-- v2 is not integrated with training, configs or v1; no shared roadmap/state document is changed by T0028.
+- v2 is not integrated with training, configs or v1; no shared roadmap/state document is changed by T0028/T0030.

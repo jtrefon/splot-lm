@@ -203,6 +203,59 @@ def make_fixture():
     }
 
 
+def add_source(fixture, source_id, family_id, split, language, content,
+               selected_bytes):
+    raw = b"RAW:" + content
+    source = {
+        "source_id": source_id,
+        "family_id": family_id,
+        "language": language,
+        "split": split,
+        "source_url": f"https://example.invalid/{source_id}",
+        "revision": "synthetic-rev-2",
+        "rights_evidence_url": "https://example.invalid/rights",
+        "raw_sha256": sha(raw),
+        "content_sha256": sha(content),
+        "raw_bytes": len(raw),
+        "content_bytes": len(content),
+        "selected_bytes": selected_bytes,
+    }
+    fixture["sources"].append(source)
+    fixture["source_bytes"]["sources"][source_id] = {
+        "raw": raw.hex(), "content": content.hex()}
+    return source
+
+
+def add_document(fixture, doc_id, segment_id, source_id, source_start, source_end,
+                 segment_start, segment_end, segment_index, segment_count,
+                 content, token_count=1):
+    source = next(item for item in fixture["sources"]
+                  if item["source_id"] == source_id)
+    full = content[source_start:source_end]
+    segment = content[segment_start:segment_end]
+    document = {
+        "doc_id": doc_id,
+        "segment_id": segment_id,
+        "source_id": source_id,
+        "family_id": source["family_id"],
+        "language": source["language"],
+        "split": source["split"],
+        "source_byte_start": source_start,
+        "source_byte_end": source_end,
+        "segment_byte_start": segment_start,
+        "segment_byte_end": segment_end,
+        "full_document_sha256": sha(full),
+        "segment_sha256": sha(segment),
+        "segment_index": segment_index,
+        "segment_count": segment_count,
+        "truncated": (segment_end - segment_start) < (source_end - source_start),
+        "selected_bytes": segment_end - segment_start,
+        "token_count": token_count,
+    }
+    fixture["documents"].append(document)
+    return document
+
+
 def blank_entity():
     return {key: 0 for key in v2.COUNT_FIELDS}
 
@@ -392,6 +445,10 @@ class PilotV2Tests(unittest.TestCase):
             [],
             [{"nll": float("nan"), "byte_length": 1, "kind": "content"}],
             [{"nll": float("inf"), "byte_length": 1, "kind": "content"}],
+            [{"nll": -0.1, "byte_length": 1, "kind": "content"}],
+            [{"nll": 10 ** 400, "byte_length": 1, "kind": "content"}],
+            [{"nll": 1e308, "byte_length": 1, "kind": "content"},
+             {"nll": 1e308, "byte_length": 1, "kind": "content"}],
             [{"nll": 0.1, "byte_length": 0, "kind": "content"}],
             [{"nll": 0.1, "byte_length": 1, "kind": "eos"}],
             [{"nll": 0.1, "byte_length": 1, "kind": "control"}],
@@ -449,6 +506,7 @@ class PilotV2Tests(unittest.TestCase):
             lambda f: f["blocks"]["train"][0]["valid"].__setitem__(0, 1),
             lambda f: f["blocks"]["train"][0]["control_mask"].__setitem__(1, True),
             lambda f: f["blocks"]["train"][0]["labels"]["1"].__setitem__(T - 1, 0),
+            lambda f: f["blocks"]["train"][0]["labels"]["1"].__setitem__(T - 1, -100.0),
             lambda f: f["blocks"]["train"][0]["position_ids"].__setitem__(1, 5),
             lambda f: f["blocks"]["train"][0]["document_ids"].__setitem__(-1, 0),
             lambda f: f["blocks"]["train"][0]["input_ids"].__setitem__(-1, 1),
@@ -506,6 +564,149 @@ class PilotV2Tests(unittest.TestCase):
             new_sha = write_fixture(root, fixture)
             with self.assertRaisesRegex(v2.PilotV2Error, "valid UTF-8"):
                 v2.load_v2_dataset(root, new_sha)
+
+    def test_orphan_document_rejected(self):
+        with tempfile.TemporaryDirectory(prefix="splot-t0028-orphan-") as tmp:
+            root = Path(tmp) / "dataset"
+            fixture = copy.deepcopy(self.fixture)
+            content = b"x"
+            add_source(fixture, "src-orphan", "fam-orphan", "train", "en",
+                       content, 1)
+            add_document(fixture, 8, "seg-orphan", "src-orphan", 0, 1, 0, 1, 0, 1,
+                         content)
+            new_sha = write_fixture(root, fixture)
+            with self.assertRaisesRegex(v2.PilotV2Error, "orphan or missing"):
+                v2.load_v2_dataset(root, new_sha)
+
+    def test_cross_group_overlap_rejected(self):
+        with tempfile.TemporaryDirectory(prefix="splot-t0028-overlap-") as tmp:
+            root = Path(tmp) / "dataset"
+            fixture = copy.deepcopy(self.fixture)
+            content = b"0123456789"
+            add_source(fixture, "src-overlap", "fam-overlap", "train", "en",
+                       content, 10)
+            add_document(fixture, 8, "seg-overlap-a", "src-overlap", 0, 5, 0, 5,
+                         0, 1, content)
+            add_document(fixture, 9, "seg-overlap-b", "src-overlap", 3, 8, 3, 8,
+                         0, 1, content)
+            new_sha = write_fixture(root, fixture)
+            with self.assertRaisesRegex(v2.PilotV2Error, "full-document groups overlap"):
+                v2.load_v2_dataset(root, new_sha)
+
+    def test_full_source_and_document_utf8_rejected(self):
+        # Invalid full extracted source, before any document check.
+        with tempfile.TemporaryDirectory(prefix="splot-t0028-srcutf8-") as tmp:
+            root = Path(tmp) / "dataset"
+            fixture = copy.deepcopy(self.fixture)
+            source = fixture["sources"][0]
+            content = b"\xffb"
+            raw = b"RAW:" + content
+            source["raw_sha256"] = sha(raw)
+            source["content_sha256"] = sha(content)
+            source["raw_bytes"] = len(raw)
+            source["content_bytes"] = len(content)
+            fixture["source_bytes"]["sources"][source["source_id"]] = {
+                "raw": raw.hex(), "content": content.hex()}
+            new_sha = write_fixture(root, fixture)
+            with self.assertRaisesRegex(v2.PilotV2Error, "source content is not valid UTF-8"):
+                v2.load_v2_dataset(root, new_sha)
+
+        # Valid full source with an invalid full-document slice.
+        with tempfile.TemporaryDirectory(prefix="splot-t0028-fullutf8-") as tmp:
+            root = Path(tmp) / "dataset"
+            fixture = copy.deepcopy(self.fixture)
+            content = b"\xc4\x85"
+            add_source(fixture, "src-bad-full", "fam-bad-full", "train", "en",
+                       content, 1)
+            add_document(fixture, 8, "seg-bad-full", "src-bad-full", 1, 2, 1, 2,
+                         0, 1, content)
+            new_sha = write_fixture(root, fixture)
+            with self.assertRaisesRegex(v2.PilotV2Error, "full document is not valid UTF-8"):
+                v2.load_v2_dataset(root, new_sha)
+
+        # Valid full document with an invalid selected segment.
+        with tempfile.TemporaryDirectory(prefix="splot-t0028-segutf8-") as tmp:
+            root = Path(tmp) / "dataset"
+            fixture = copy.deepcopy(self.fixture)
+            content = b"\xc4\x85"
+            add_source(fixture, "src-bad-seg", "fam-bad-seg", "train", "en",
+                       content, 1)
+            add_document(fixture, 8, "seg-bad-seg", "src-bad-seg", 0, 2, 1, 2,
+                         1, 2, content)
+            new_sha = write_fixture(root, fixture)
+            with self.assertRaisesRegex(v2.PilotV2Error, "source segment is not valid UTF-8"):
+                v2.load_v2_dataset(root, new_sha)
+
+    def test_duplicate_content_token_bytes_rejected(self):
+        with tempfile.TemporaryDirectory(prefix="splot-t0028-tokdup-") as tmp:
+            root = Path(tmp) / "dataset"
+            fixture = copy.deepcopy(self.fixture)
+            fixture["tokenizer"]["token_bytes"][13] = fixture["tokenizer"]["token_bytes"][12]
+            new_sha = write_fixture(root, fixture)
+            with self.assertRaisesRegex(v2.PilotV2Error, "duplicate content token bytes"):
+                v2.load_v2_dataset(root, new_sha)
+
+    def test_reconstruction_bound_rejected(self):
+        with tempfile.TemporaryDirectory(prefix="splot-t0028-bound-") as tmp:
+            root = Path(tmp) / "dataset"
+            fixture = copy.deepcopy(self.fixture)
+            fixture["tokenizer"]["token_bytes"][12] = (b"a" * 100).hex()
+            fixture["blocks"]["train"][0]["token_byte_lengths"][1] = 100
+            new_sha = write_fixture(root, fixture)
+            with self.assertRaisesRegex(v2.PilotV2Error, "reconstruction exceeds"):
+                v2.load_v2_dataset(root, new_sha)
+
+    def test_segment_index_invariants(self):
+        cases = [
+            (lambda f: (f["documents"][2].__setitem__("segment_index", 1),
+                        f["documents"][3].__setitem__("segment_index", 0)),
+             "ordered by byte start"),
+            (lambda f: f["documents"][2].__setitem__("segment_index", 2),
+             "segment_index"),
+            (lambda f: f["documents"][0].__setitem__("segment_count", 2),
+             "partial document selection"),
+            (lambda f: f["documents"][0].__setitem__("segment_index", 1),
+             "segment_index"),
+        ]
+        for mutate, message in cases:
+            with tempfile.TemporaryDirectory(prefix="splot-t0028-index-") as tmp:
+                root = Path(tmp) / "dataset"
+                fixture = copy.deepcopy(self.fixture)
+                mutate(fixture)
+                new_sha = write_fixture(root, fixture)
+                with self.assertRaisesRegex(v2.PilotV2Error, message):
+                    v2.load_v2_dataset(root, new_sha)
+
+    def test_verified_bpb_api(self):
+        dataset = self.load()
+        targets = v2.scoring_targets(dataset, "validation")
+        nlls = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+        result = v2.aggregate_verified_bpb(dataset, "validation", nlls)
+        self.assertAlmostEqual(result["content_bpb"], 2.3 / (math.log(2) * 7))
+        self.assertEqual(result["by_language"]["en"]["content_bytes"], 4)
+        self.assertEqual(result["by_language"]["pl"]["content_bytes"], 3)
+        self.assertEqual(result["by_family"]["fam-val-en"]["content_bytes"], 4)
+        self.assertEqual(result["by_family"]["fam-val-pl"]["content_bytes"], 3)
+
+        forged = copy.deepcopy(targets)
+        forged[0]["byte_length"] = 2
+        with self.assertRaisesRegex(v2.PilotV2Error, "byte_length"):
+            v2.verify_targets(dataset, "validation", forged)
+
+        duplicate = copy.deepcopy(targets)
+        duplicate[1]["block_index"] = duplicate[0]["block_index"]
+        duplicate[1]["position"] = duplicate[0]["position"]
+        with self.assertRaisesRegex(v2.PilotV2Error, "duplicate target identity"):
+            v2.verify_targets(dataset, "validation", duplicate)
+
+        with self.assertRaisesRegex(v2.PilotV2Error, "NLL list length"):
+            v2.aggregate_verified_bpb(dataset, "validation", [0.1])
+        with self.assertRaisesRegex(v2.PilotV2Error, "not exposed"):
+            v2.aggregate_verified_bpb(dataset, "test", [0.1])
+        with self.assertRaises(v2.PilotV2Error):
+            v2.aggregate_verified_bpb(dataset, "validation", [-0.1] + nlls[1:])
+        with self.assertRaises(v2.PilotV2Error):
+            v2.aggregate_verified_bpb(dataset, "validation", [10 ** 400] + nlls[1:])
 
     def test_manifest_digest_tamper(self):
         for key in ("source_snapshot_sha256", "byte_coverage_sha256"):

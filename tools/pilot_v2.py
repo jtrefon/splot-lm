@@ -11,6 +11,12 @@ Core invariants:
 - content-token target bytes at label offset 1, excluding EOS/control;
 - bounded streaming shard reads with explicit v2 caps;
 - test shards are integrity-validated but never returned by the public API.
+
+The dataset root is a trusted static root for one verification call. Paths and
+symlinks are checked and reads are bounded, but this is not a concurrent-mutation
+or race-proof guarantee. The tokenizer table is an explicit synthetic table, not
+a production tokenizer; a real byte-level BPE must separately qualify its full
+256-byte alphabet, special IDs and train-only fit.
 """
 from __future__ import annotations
 
@@ -27,6 +33,7 @@ TOKENIZER_FORMAT = "splot-byte-tokenizer-v2"
 TOKENIZER_VERSION = 1
 SOURCE_FORMAT = "splot-source-bytes-v2"
 SOURCE_VERSION = 1
+TOKENIZER_SCOPE = "synthetic-explicit-table"
 
 SEQUENCE_LENGTH_MIN = 8
 SEQUENCE_LENGTH_MAX = 512
@@ -280,6 +287,7 @@ def _validate_tokenizer(tokenizer: Any, vocab_size: int,
     entries = _require_exact_list(tokenizer["token_bytes"], "token_bytes", vocab_size)
     result = []
     special_ids = {PAD, BOS, EOS, UNK, *RESERVED}
+    content_seen: dict[bytes, int] = {}
     for token_id, entry in enumerate(entries):
         if not isinstance(entry, str):
             raise PilotV2Error(f"token_bytes[{token_id}] must be a string")
@@ -290,7 +298,14 @@ def _validate_tokenizer(tokenizer: Any, vocab_size: int,
             continue
         if not entry or len(entry) % 2 or not _HEX.fullmatch(entry):
             raise PilotV2Error(f"token_bytes[{token_id}] is not lowercase hex")
-        result.append(bytes.fromhex(entry))
+        raw = bytes.fromhex(entry)
+        if len(raw) > MAX_SOURCE_BYTES:
+            raise PilotV2Error(f"token_bytes[{token_id}] exceeds byte bound")
+        if raw in content_seen:
+            raise PilotV2Error(
+                f"duplicate content token bytes for IDs {content_seen[raw]} and {token_id}")
+        content_seen[raw] = token_id
+        result.append(raw)
     return tuple(result), special_ids
 
 
@@ -314,10 +329,16 @@ def _validate_source_bytes(artifact: Any, sources: dict[str, dict]) -> dict[str,
         _require_object(blob, f"source-bytes.{source_id}", SOURCE_BLOB_KEYS)
         raw = _hex_bytes(blob["raw"], f"source-bytes.{source_id}.raw")
         content = _hex_bytes(blob["content"], f"source-bytes.{source_id}.content")
+        if len(raw) > MAX_SOURCE_BYTES or len(content) > MAX_SOURCE_BYTES:
+            raise PilotV2Error(f"source bytes exceed the bound for {source_id}")
         if len(raw) != source["raw_bytes"] or _sha256(raw) != source["raw_sha256"]:
             raise PilotV2Error(f"source raw bytes do not match {source_id}")
         if len(content) != source["content_bytes"] or _sha256(content) != source["content_sha256"]:
             raise PilotV2Error(f"source content bytes do not match {source_id}")
+        try:
+            content.decode("utf-8", errors="strict")
+        except UnicodeDecodeError as exc:
+            raise PilotV2Error(f"source content is not valid UTF-8: {source_id}") from exc
         result[source_id] = (raw, content)
     return result
 
@@ -382,24 +403,48 @@ def _validate_documents(documents: Any, sources: dict[str, dict],
         selected_by_source[source_id] += selected
         by_id[doc_id] = doc
         segment_ids.add(segment_id)
+    full_intervals: dict[str, list[tuple[int, int]]] = {source_id: [] for source_id in sources}
+    selected_intervals: dict[str, list[tuple[int, int]]] = {source_id: [] for source_id in sources}
     for (source_id, source_start, source_end, _), members in groups.items():
         counts = {item["segment_count"] for item in members}
         if len(counts) != 1:
             raise PilotV2Error("segment_count differs within a document group")
         segment_count = counts.pop()
-        indices = sorted(item["segment_index"] for item in members)
-        if len(set(indices)) != len(indices):
-            raise PilotV2Error("duplicate segment_index within a document group")
-        intervals = sorted((item["segment_byte_start"], item["segment_byte_end"])
-                           for item in members)
+        ordered = sorted(members, key=lambda item: (
+            item["segment_byte_start"], item["segment_byte_end"], item["segment_index"]))
+        indices = [item["segment_index"] for item in ordered]
+        if any(left >= right for left, right in zip(indices, indices[1:])):
+            raise PilotV2Error("segment_index values are not ordered by byte start")
+        intervals = [(item["segment_byte_start"], item["segment_byte_end"])
+                     for item in ordered]
         for (start, end), (next_start, next_end) in zip(intervals, intervals[1:]):
             if end > next_start:
                 raise PilotV2Error("document segments overlap")
+        full_intervals[source_id].append((source_start, source_end))
+        selected_intervals[source_id].extend(intervals)
         if len(members) == segment_count:
+            if indices != list(range(segment_count)):
+                raise PilotV2Error("complete document indices are not 0..count-1 in byte order")
             if (intervals[0][0] != source_start or intervals[-1][1] != source_end
                     or any(end != next_start for (_, end), (next_start, _)
                            in zip(intervals, intervals[1:]))):
                 raise PilotV2Error("complete document segments do not partition the source")
+            if segment_count == 1:
+                member = ordered[0]
+                if member["segment_index"] != 0 or member["truncated"]:
+                    raise PilotV2Error("single full segment requires index 0 and truncated=false")
+        else:
+            if any(not item["truncated"] for item in members):
+                raise PilotV2Error("partial document selection must be explicitly truncated")
+    for source_id in sources:
+        docs = sorted(full_intervals[source_id])
+        for (start, end), (next_start, next_end) in zip(docs, docs[1:]):
+            if end > next_start:
+                raise PilotV2Error("full-document groups overlap within a source")
+        segments = sorted(selected_intervals[source_id])
+        for (start, end), (next_start, next_end) in zip(segments, segments[1:]):
+            if end > next_start:
+                raise PilotV2Error("selected intervals overlap within a source")
     for source_id, source in sources.items():
         if selected_by_source[source_id] != source["selected_bytes"]:
             raise PilotV2Error("source selected_bytes does not match its documents")
@@ -499,6 +544,8 @@ def _block_counts(block: dict, docs: dict[int, dict],
             raise PilotV2Error("document positions are not contiguous")
         if byte_lengths[start] != 0 or byte_offsets[start] != 0:
             raise PilotV2Error("BOS byte coverage must be zero at offset zero")
+        if doc["selected_bytes"] > MAX_SOURCE_BYTES:
+            raise PilotV2Error("selected segment exceeds the byte bound")
         cumulative = 0
         content_count = 0
         for index in range(start + 1, end - 1):
@@ -510,6 +557,8 @@ def _block_counts(block: dict, docs: dict[int, dict],
             expected = len(tokenizer_bytes[token])
             if expected <= 0:
                 raise PilotV2Error("content token has no bytes")
+            if expected > doc["selected_bytes"] - cumulative:
+                raise PilotV2Error("token reconstruction exceeds declared selected bytes")
             if byte_lengths[index] != expected:
                 raise PilotV2Error("token byte length does not match tokenizer table")
             if byte_offsets[index] != cumulative:
@@ -557,8 +606,8 @@ def _block_counts(block: dict, docs: dict[int, dict],
         start = end
     for key in ("1", "2"):
         for index in range(valid_count, sequence_length):
-            if labels[key][index] != IGNORE:
-                raise PilotV2Error("padding labels must be IGNORE")
+            if not _is_int(labels[key][index]) or labels[key][index] != IGNORE:
+                raise PilotV2Error("padding labels must be integer IGNORE")
     if sum(1 for value in control[:valid_count] if value is False) != total["content_tokens"]:
         raise PilotV2Error("control mask content count mismatch")
     converted = dict(block)
@@ -698,6 +747,10 @@ def load_v2_dataset(root, expected_manifest_sha256: str) -> dict:
         if _sha256(segment) != doc["segment_sha256"]:
             raise PilotV2Error("segment byte hash mismatch against source bytes")
         try:
+            full.decode("utf-8", errors="strict")
+        except UnicodeDecodeError as exc:
+            raise PilotV2Error("full document is not valid UTF-8") from exc
+        try:
             segment.decode("utf-8", errors="strict")
         except UnicodeDecodeError as exc:
             raise PilotV2Error("source segment is not valid UTF-8") from exc
@@ -805,6 +858,15 @@ def load_v2_dataset(root, expected_manifest_sha256: str) -> dict:
         counts_by_block[split] = counts
     if logical.hexdigest() != manifest["logical_sha256"]:
         raise PilotV2Error("logical SHA-256 mismatch")
+    if seen_doc_ids != set(documents):
+        raise PilotV2Error("orphan or missing document IDs after shard scan")
+    document_selected = sum(doc["selected_bytes"] for doc in documents.values())
+    shard_selected = sum(shard["selected_bytes"] for shard in shards)
+    source_selected = sum(source["selected_bytes"] for source in sources.values())
+    if not (document_selected == shard_selected == source_selected):
+        raise PilotV2Error("selected-byte reconciliation failed")
+    if sum(shard["content_target_bytes"] for shard in shards) != document_selected:
+        raise PilotV2Error("content-target byte reconciliation failed")
     actual_counts = _summarize(counts_by_block)
     _validate_counts(manifest["counts"], actual_counts)
 
@@ -836,11 +898,22 @@ def scoring_targets(dataset: dict, split: str = "validation") -> list[dict]:
     blocks = dataset["blocks"][split]
     docs = dataset["manifest"]["documents"]
     targets = []
+    seen = set()
     for block_index, block in enumerate(blocks):
         for position, label in enumerate(block["labels"][1]):
+            if not _is_int(label):
+                raise PilotV2Error("target label is not an integer")
             if label == IGNORE:
                 continue
+            key = (block_index, position)
+            if key in seen:
+                raise PilotV2Error("duplicate target position")
+            seen.add(key)
             target_index = position + 1
+            if target_index >= len(block["input_ids"]):
+                raise PilotV2Error("target position is outside the block")
+            if block["document_ids"][target_index] != block["document_ids"][position]:
+                raise PilotV2Error("target crosses a document boundary")
             target_id = block["input_ids"][target_index]
             if block["control_mask"][target_index] is False:
                 kind = "content"
@@ -862,8 +935,20 @@ def scoring_targets(dataset: dict, split: str = "validation") -> list[dict]:
     return targets
 
 
-def aggregate_content_bpb(targets: list[dict]) -> dict:
-    """Aggregate synthetic per-target NLLs with content-only byte denominators."""
+def _nll_value(value: Any, name: str) -> float:
+    if type(value) not in (int, float) or _is_bool(value):
+        raise PilotV2Error(f"{name} must be a finite nonnegative number")
+    try:
+        result = float(value)
+    except (OverflowError, ValueError) as exc:
+        raise PilotV2Error(f"{name} must be a finite nonnegative number") from exc
+    if not math.isfinite(result) or result < 0:
+        raise PilotV2Error(f"{name} must be a finite nonnegative number")
+    return result
+
+
+def _bpb_totals(targets: list[dict]) -> dict:
+    """Arithmetic totals only; target identity is not verified here."""
     if not isinstance(targets, list) or not targets:
         raise PilotV2Error("targets must be a nonempty list")
     content_labels = 0
@@ -878,14 +963,11 @@ def aggregate_content_bpb(targets: list[dict]) -> dict:
         if not isinstance(target, dict):
             raise PilotV2Error(f"targets[{index}] must be an object")
         try:
-            nll = target["nll"]
+            nll = _nll_value(target["nll"], f"targets[{index}].nll")
             byte_length = target["byte_length"]
             kind = target["kind"]
         except KeyError as exc:
             raise PilotV2Error(f"targets[{index}] missing {exc.args[0]}") from exc
-        if (type(nll) not in (int, float) or _is_bool(nll)
-                or not math.isfinite(float(nll))):
-            raise PilotV2Error(f"targets[{index}].nll must be finite")
         if not _is_int(byte_length) or byte_length < 0:
             raise PilotV2Error(f"targets[{index}].byte_length must be a nonnegative integer")
         if kind not in ("content", "eos", "control"):
@@ -895,25 +977,26 @@ def aggregate_content_bpb(targets: list[dict]) -> dict:
                 raise PilotV2Error("content target must have positive byte length")
             content_labels += 1
             content_bytes += byte_length
-            content_nll += float(nll)
+            content_nll += nll
         elif kind == "eos":
             if byte_length != 0:
                 raise PilotV2Error("EOS target must not claim bytes")
             eos_labels += 1
-            eos_nll += float(nll)
+            eos_nll += nll
         else:
             if byte_length != 0:
                 raise PilotV2Error("control target must not claim bytes")
             control_labels += 1
-            control_nll += float(nll)
-        ordinary_nll += float(nll)
-    if content_labels == 0 or content_bytes == 0:
-        raise PilotV2Error("zero content labels or zero-byte denominator")
+            control_nll += nll
+        ordinary_nll += nll
+    for name, value in (("content_nll", content_nll), ("eos_nll", eos_nll),
+                        ("control_nll", control_nll), ("ordinary_nll", ordinary_nll)):
+        if not math.isfinite(value):
+            raise PilotV2Error(f"{name} aggregate is not finite")
     return {
         "content_labels": content_labels,
         "content_nll_sum": content_nll,
         "content_bytes": content_bytes,
-        "content_bpb": content_nll / (math.log(2) * content_bytes),
         "eos_labels": eos_labels,
         "eos_nll_sum": eos_nll,
         "control_labels": control_labels,
@@ -921,3 +1004,97 @@ def aggregate_content_bpb(targets: list[dict]) -> dict:
         "ordinary_ntp_labels": content_labels + eos_labels + control_labels,
         "ordinary_ntp_nll_sum": ordinary_nll,
     }
+
+
+def aggregate_content_bpb(targets: list[dict]) -> dict:
+    """Synthetic arithmetic-only BPB helper; it does not verify target identity."""
+    totals = _bpb_totals(targets)
+    if totals["content_labels"] == 0 or totals["content_bytes"] == 0:
+        raise PilotV2Error("zero content labels or zero-byte denominator")
+    totals["content_bpb"] = totals["content_nll_sum"] / (
+        math.log(2) * totals["content_bytes"])
+    if not math.isfinite(totals["content_bpb"]):
+        raise PilotV2Error("content BPB is not finite")
+    return totals
+
+
+def verify_targets(dataset: dict, split: str, targets: list[dict]) -> list[dict]:
+    """Verify forged/misordered/duplicate targets against validated blocks."""
+    if split not in ("train", "validation"):
+        raise PilotV2Error("test targets are not exposed by this API")
+    expected = scoring_targets(dataset, split)
+    if not isinstance(targets, list) or len(targets) != len(expected):
+        raise PilotV2Error("target list length does not match the verified dataset")
+    seen = set()
+    fields = ("target_token_id", "byte_length", "kind", "block_index", "position",
+              "family_id", "language", "split")
+    for index, (got, want) in enumerate(zip(targets, expected)):
+        if not isinstance(got, dict):
+            raise PilotV2Error(f"targets[{index}] must be an object")
+        key = (got.get("block_index"), got.get("position"))
+        if not (_is_int(key[0]) and _is_int(key[1])):
+            raise PilotV2Error(f"targets[{index}] has an invalid identity")
+        if key in seen:
+            raise PilotV2Error(f"duplicate target identity: {key}")
+        seen.add(key)
+        for field in fields:
+            if got.get(field) != want[field]:
+                raise PilotV2Error(f"targets[{index}].{field} does not match the dataset")
+        block = dataset["blocks"][split][want["block_index"]]
+        position = want["position"]
+        if not 0 <= position < len(block["labels"][1]) - 1:
+            raise PilotV2Error("target position is outside the block")
+        if block["labels"][1][position] == IGNORE:
+            raise PilotV2Error("target label is IGNORE")
+        target_index = position + 1
+        target_id = block["input_ids"][target_index]
+        kind = ("content" if block["control_mask"][target_index] is False
+                else "eos" if target_id == EOS else "control")
+        if (got["target_token_id"] != target_id
+                or got["byte_length"] != block["token_byte_lengths"][target_index]
+                or got["kind"] != kind):
+            raise PilotV2Error("target identity does not match the block label")
+    return expected
+
+
+def aggregate_verified_bpb(dataset: dict, split: str, nlls: list,
+                           targets: list[dict] | None = None) -> dict:
+    """Dataset-bound aggregation with optional forged-target verification."""
+    if split not in ("train", "validation"):
+        raise PilotV2Error("test targets are not exposed by this API")
+    expected = scoring_targets(dataset, split)
+    if targets is not None:
+        expected = verify_targets(dataset, split, targets)
+    if not isinstance(nlls, list) or len(nlls) != len(expected):
+        raise PilotV2Error("NLL list length does not match the verified targets")
+    enriched = []
+    for target, nll in zip(expected, nlls):
+        item = dict(target)
+        item["nll"] = nll
+        enriched.append(item)
+    totals = _bpb_totals(enriched)
+    if totals["content_labels"] == 0 or totals["content_bytes"] == 0:
+        raise PilotV2Error("zero content labels or zero-byte denominator")
+    totals["content_bpb"] = totals["content_nll_sum"] / (
+        math.log(2) * totals["content_bytes"])
+    if not math.isfinite(totals["content_bpb"]):
+        raise PilotV2Error("content BPB is not finite")
+    for group_key in ("family_id", "language"):
+        grouped = {}
+        for item in enriched:
+            grouped.setdefault(item[group_key], []).append(item)
+        totals["by_" + group_key.replace("_id", "")] = {
+            name: _group_bpb(items) for name, items in sorted(grouped.items())}
+    return totals
+
+
+def _group_bpb(items: list[dict]) -> dict:
+    totals = _bpb_totals(items)
+    if totals["content_labels"] and totals["content_bytes"]:
+        totals["content_bpb"] = totals["content_nll_sum"] / (
+            math.log(2) * totals["content_bytes"])
+        if not math.isfinite(totals["content_bpb"]):
+            raise PilotV2Error("content BPB is not finite")
+    else:
+        totals["content_bpb"] = None
+    return totals
