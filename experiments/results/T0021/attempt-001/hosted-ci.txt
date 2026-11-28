@@ -1,0 +1,25 @@
+T0021 hosted CPU acceptance
+RUN 46164883574
+HEAD 75fced45d0cff3888e3606a46a529fb3714e93df
+CONCLUSION success
+
+=== tools/test_dense_harness.py ===
+test_candidate_counts_and_splot_v16384_a0 (__main__.DenseAccountingTests.test_candidate_counts_and_splot_v16384_a0) ... ok
+test_candidate_instantiation_and_partition (__main__.DenseAccountingTests.test_candidate_instantiation_and_partition) ... ok
+test_dense_objective_matches_manual_ntp_and_labels (__main__.DenseFamilyTests.test_dense_objective_matches_manual_ntp_and_labels) ... ok
+test_family_defaults_and_fail_closed (__main__.DenseFamilyTests.test_family_defaults_and_fail_closed) ... ok
+test_dense_bf16_capability_if_supported (__main__.DenseIngestionTests.test_dense_bf16_capability_if_supported) ... ok
+test_shared_synthetic_v2_and_pilot_loading (__main__.DenseIngestionTests.test_shared_synthetic_v2_and_pilot_loading) ... ok
+test_continuous_four_equals_two_plus_two (__main__.DenseTrainingTests.test_continuous_four_equals_two_plus_two) ... ok
+test_cross_family_cli_resume_rejected (__main__.DenseTrainingTests.test_cross_family_cli_resume_rejected) ... ok
+test_legacy_splot_cli_identity_unchanged (__main__.DenseTrainingTests.test_legacy_splot_cli_identity_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 8.749s
+
+OK
+
+Evidence experiments/results/T0019/attempt-001: passed (structural)
+Evidence experiments/results/T0019/attempt-002: passed (structural)
+Evidence experiments/results/T0020/attempt-001: passed (structural)
+CPU scripts: 30; REP reports: 27

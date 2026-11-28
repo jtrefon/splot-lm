@@ -1,0 +1,740 @@
+diff --git a/configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json b/configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json
+new file mode 100644
+index 0000000..463c645
+--- /dev/null
++++ b/configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json
+@@ -0,0 +1,49 @@
++{
++  "model_family": "dense-ntp",
++  "dense": {
++    "vocab_size": 16384,
++    "width": 512,
++    "layers": 6,
++    "q_heads": 8,
++    "kv_heads": 2,
++    "head_dim": 64,
++    "intermediate": 2176,
++    "rope_theta": 1000000,
++    "eps": 0.00001,
++    "init_std": 0.02
++  },
++  "training": {
++    "data": "pilot-blocks-v1",
++    "precision": "bf16",
++    "mode": "A0",
++    "loops": 1,
++    "seed": 42,
++    "sequence_length": 512,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0,
++    "offset_weight": 0,
++    "balance_weight": 0,
++    "optimizer": {
++      "name": "muon",
++      "muon": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "momentum": 0.95,
++        "nesterov": true,
++        "ns_coefficients": [3.4445, -4.775, 2.0315],
++        "ns_steps": 5,
++        "eps": 1e-07,
++        "adjust_lr_fn": "match_rms_adamw"
++      },
++      "adamw": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "betas": [0.9, 0.999],
++        "eps": 1e-08
++      }
++    },
++    "checkpoint_interval": 1
++  }
++}
+diff --git a/configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json b/configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json
+new file mode 100644
+index 0000000..73ea6bb
+--- /dev/null
++++ b/configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json
+@@ -0,0 +1,49 @@
++{
++  "model_family": "dense-ntp",
++  "dense": {
++    "vocab_size": 16384,
++    "width": 512,
++    "layers": 6,
++    "q_heads": 8,
++    "kv_heads": 4,
++    "head_dim": 64,
++    "intermediate": 2432,
++    "rope_theta": 1000000,
++    "eps": 0.00001,
++    "init_std": 0.02
++  },
++  "training": {
++    "data": "pilot-blocks-v1",
++    "precision": "bf16",
++    "mode": "A0",
++    "loops": 1,
++    "seed": 42,
++    "sequence_length": 512,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0,
++    "offset_weight": 0,
++    "balance_weight": 0,
++    "optimizer": {
++      "name": "muon",
++      "muon": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "momentum": 0.95,
++        "nesterov": true,
++        "ns_coefficients": [3.4445, -4.775, 2.0315],
++        "ns_steps": 5,
++        "eps": 1e-07,
++        "adjust_lr_fn": "match_rms_adamw"
++      },
++      "adamw": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "betas": [0.9, 0.999],
++        "eps": 1e-08
++      }
++    },
++    "checkpoint_interval": 1
++  }
++}
+diff --git a/configs/experiments/splot-nano-v16384-a0.json b/configs/experiments/splot-nano-v16384-a0.json
+new file mode 100644
+index 0000000..e52c975
+--- /dev/null
++++ b/configs/experiments/splot-nano-v16384-a0.json
+@@ -0,0 +1,61 @@
++{
++  "model_family": "splot",
++  "dense": {
++    "vocab_size": 16384,
++    "width": 384,
++    "layers": 8,
++    "q_heads": 6,
++    "kv_heads": 2,
++    "head_dim": 64,
++    "intermediate": 1024,
++    "rope_theta": 1000000,
++    "eps": 0.00001,
++    "init_std": 0.02
++  },
++  "recurrence": {
++    "prelude": 2,
++    "core": 4,
++    "coda": 2,
++    "max_loops": 4,
++    "default_loops": 2,
++    "injection": "none",
++    "injection_strength": 0.1,
++    "residual_scale": "unscaled",
++    "depth_embedding": false
++  },
++  "expert_intermediate": 512,
++  "training": {
++    "data": "pilot-blocks-v1",
++    "precision": "bf16",
++    "mode": "A0",
++    "loops": 2,
++    "seed": 42,
++    "sequence_length": 512,
++    "batch_size": 1,
++    "lr": 0.003,
++    "weight_decay": 0,
++    "depth_weight": 0,
++    "offset_weight": 0,
++    "balance_weight": 0.01,
++    "optimizer": {
++      "name": "muon",
++      "muon": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "momentum": 0.95,
++        "nesterov": true,
++        "ns_coefficients": [3.4445, -4.775, 2.0315],
++        "ns_steps": 5,
++        "eps": 1e-07,
++        "adjust_lr_fn": "match_rms_adamw"
++      },
++      "adamw": {
++        "lr": 0.003,
++        "weight_decay": 0.0,
++        "betas": [0.9, 0.999],
++        "eps": 1e-08
++      }
++    },
++    "checkpoint_interval": 1
++  }
++}
+diff --git a/research/implementation/dense-reference.md b/research/implementation/dense-reference.md
+index 5373b09..7554fc2 100644
+--- a/research/implementation/dense-reference.md
++++ b/research/implementation/dense-reference.md
+@@ -35,3 +35,10 @@ Pass: finite losses/gradients, final training loss <50% initial on smoke, cache
+ 
+ ## Handover
+ Review this PR and pending independent #19. Once both are merged, reconcile PROJECT_STATE.md, decisions and backlog in the next work unit, add integration test using actual tools/data_fixture.py. Next fixed-depth all-GQA recurrent reference per #4, then native MTP #2 (A0/A1/A2, exact verifier). GDN #5 and MoE #6 later, no optimization until correctness. Existing shared state files intentionally untouched here to avoid collisions with pending data PR; live GitHub issue/PR comments are authoritative.
++
++## T0021 dense NTP comparator integration (2026-11-28)
++T0021 adds an explicit **`model_family: dense-ntp`** path to the existing experiment CLI without changing the default SPLOT path, config hash, identity or checkpoint semantics. Dense mode uses `DenseConfig`/`DenseLM` only and rejects recurrence/expert fields, non-A0 modes, `loops != 1`, FP8/reuse, and nonzero auxiliary loss weights. It reuses the existing tiny synthetic/verified-v2/pilot data loaders, checkpoint/resume, evaluation and semantic Muon/AdamW partition.
++
++The dense objective is final NTP only: `Objective.total = final_ntp`, with early/offset/balance zero and `offset2_count = 0`. Dense configs have no dormant MTP head. Configs `configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json` (35,527,168 parameters) and `dense-ntp-512x6-q8kv2-ffn2176.json` (32,381,440) are planning candidates from accepted T0019, not trained or optimized results. `splot-nano-v16384-a0.json` pins the V16384 SPLOT A0 R2 comparator (36,763,620 total including dormant MTP, 36,615,780 NTP base) with explicit `balance_weight=0.01`.
++
++`tools/accounting.py` adds `DenseShape`/`dense_account` for per-document causal contraction counts; these are analytical MACs, not training FLOPs. `tools/test_dense_harness.py` covers exact counts, semantic partition, dense objective equality, continuous 4 vs 2+2 resume, cross-family rejection, shared data ingestion and CPU BF16 capability when available. No full training, real data, test access, FP8 dense path or GPU/MPS qualification is claimed.
+diff --git a/tools/README.md b/tools/README.md
+index f9850c7..885dc85 100644
+--- a/tools/README.md
++++ b/tools/README.md
+@@ -3,14 +3,15 @@
+ | Tool | Purpose |
+ |---|---|
+ | `ci_cpu.py` | Discover CPU regression suites and validate REP result integrity |
+-| `experiment.py` | Deterministic training/evaluation, strict resume, FP32/BF16/FP8, AdamW or hybrid Muon, explicit checkpoint cadence |
++| `experiment.py` | Deterministic training/evaluation, strict resume, FP32/BF16/FP8, AdamW or hybrid Muon, explicit checkpoint cadence; default SPLOT plus explicit `dense-ntp` A0 family |
+ | `optimizers.py` | Semantic hybrid Muon/AdamW parameter partition |
+-| `accounting.py` | Physical parameters, active capacity and analytical contraction MACs, not measured hardware FLOPs |
++| `accounting.py` | Physical parameters, active capacity, SPLOT and dense causal contraction MACs; analytical only, not measured hardware FLOPs |
+ | `fp8_probe.py`, `context_probe.py` | Native GEMM and contiguous-context qualification |
+ | `data_fixture.py`, `corpus_reference.py`, `bpe_reference.py`, `tokenized_shards.py` | Synthetic reproducible data/tokenizer oracles |
+ | `production_tokenizer.py`, `pilot_dataset.py` | Bounded real corpus materialization, pinned optional tokenizer backend |
+ | `pilot_ingestion.py` | Verify independently pinned real-pilot manifest, tokenizer/shards and masks |
+ | `speculation_trace.py` | Exact D0 baseline, trace v2 reducer, actual model calls and full decode timing; no performance claim |
++| `test_dense_harness.py` | Hosted tiny-fixture dense NTP parity, accounting, partition, resume, ingestion and family rejection |
+ | `rep/validate_result.py`, `rep/compare_resume.py` | Structural result gate and exact trusted local checkpoint comparison |
+ 
+ Use an existing compatible PyTorch runtime; optional tokenizer dependencies have separate version/pin evidence. 
+diff --git a/tools/accounting.py b/tools/accounting.py
+index fde7bd4..d0572dd 100644
+--- a/tools/accounting.py
++++ b/tools/accounting.py
+@@ -2,6 +2,7 @@
+ from dataclasses import dataclass, asdict
+ import argparse
+ import json
++from pathlib import Path
+ 
+ 
+ @dataclass(frozen=True)
+@@ -63,6 +64,42 @@ def account(s=Shape(), loops=2, context=2048, readouts=1, mtp=True, offsets=0):
+                 gdn_snapshot_bytes=3*loops*gdn_state)
+ 
+ 
++@dataclass(frozen=True)
++class DenseShape:
++    """Conventional dense GQA decoder shape; no recurrence, experts or MTP."""
++    vocab: int = 16384
++    width: int = 512
++    layers: int = 6
++    q_heads: int = 8
++    kv_heads: int = 2
++    head: int = 64
++    dense: int = 2176
++
++    def validate(self):
++        if min(asdict(self).values()) <= 0:
++            raise ValueError('dimensions must be positive')
++        if self.q_heads % self.kv_heads or self.head % 2:
++            raise ValueError('invalid GQA grouping or RoPE dimension')
++
++
++def dense_account(s=DenseShape(), context=2048):
++    """Analytical dense causal contraction counts, not training FLOPs."""
++    s.validate()
++    if context < 1:
++        raise ValueError('context must be positive')
++    d, q, kv = s.width, s.q_heads*s.head, s.kv_heads*s.head
++    params = s.vocab*d + s.layers*(d*(2*q+2*kv)+3*d*s.dense+2*d)+d
++    # One new token attending to `context` prior keys/values.
++    decode = s.layers*(d*(2*q+2*kv)+3*d*s.dense)+s.layers*2*q*context+d*s.vocab
++    # All T causal outputs: attention sums 2*q*sum(1..T) = q*T*(T+1).
++    prefill = context*(s.layers*(d*(2*q+2*kv)+3*d*s.dense)+d*s.vocab) + s.layers*q*context*(context+1)
++    return {'format': 'dense-gqa', 'physical': params, 'decode_macs': decode,
++            'prefill_all_logits_macs': prefill, 'context': context,
++            'layers': s.layers, 'width': d, 'q_heads': s.q_heads,
++            'kv_heads': s.kv_heads, 'head': s.head, 'dense': s.dense,
++            'vocab': s.vocab}
++
++
+ if __name__ == '__main__':
+     p = argparse.ArgumentParser(description=__doc__)
+     p.add_argument('--loops', type=int, default=2)
+@@ -71,6 +108,15 @@ if __name__ == '__main__':
+     p.add_argument('--offsets', type=int, default=0)
+     p.add_argument('--no-mtp', action='store_true')
+     p.add_argument('--nano', action='store_true')
++    p.add_argument('--dense-config', type=Path)
+     a = p.parse_args()
++    if a.dense_config is not None:
++        config = json.loads(a.dense_config.read_text(encoding='utf-8'))
++        shape = DenseShape(vocab=config['dense']['vocab_size'], width=config['dense']['width'],
++                           layers=config['dense']['layers'], q_heads=config['dense']['q_heads'],
++                           kv_heads=config['dense']['kv_heads'], head=config['dense']['head_dim'],
++                           dense=config['dense']['intermediate'])
++        print(json.dumps(dense_account(shape, a.context), indent=2))
++        raise SystemExit(0)
+     shape = Shape(d=384, q_heads=6, kv_heads=2, gdn_heads=6, dense=1024, expert=512) if a.nano else Shape()
+     print(json.dumps(account(shape, a.loops, a.context, a.readouts, not a.no_mtp, a.offsets), indent=2))
+diff --git a/tools/experiment.py b/tools/experiment.py
+index 6a47970..002b29c 100644
+--- a/tools/experiment.py
++++ b/tools/experiment.py
+@@ -167,6 +167,44 @@ def assert_loss_finite(objective, stage='forward'):
+             raise FloatingPointError(f'nonfinite {name} at {stage}')
+ 
+ 
++def resolve_model_family(config):
++    """Return the explicit model family; absence preserves legacy SPLOT."""
++    family = config.get('model_family', 'splot')
++    if family not in ('splot', 'dense-ntp'):
++        raise ValueError(f'unknown model_family: {family!r}')
++    return family
++
++
++def validate_dense_config(config, training):
++    """Fail closed for the dense NTP-only comparator."""
++    if 'recurrence' in config or 'expert_intermediate' in config:
++        raise ValueError('dense-ntp must not contain recurrence/expert configuration')
++    if training.get('mode') != 'A0' or training.get('loops') != 1:
++        raise ValueError('dense-ntp requires mode A0 and loops 1')
++    if training.get('precision') not in ('fp32', 'bf16'):
++        raise ValueError('dense-ntp supports only fp32 or bf16')
++    if training.get('fp8_weight_reuse', False):
++        raise ValueError('dense-ntp does not support FP8 weight reuse')
++    for key in ('depth_weight', 'offset_weight', 'balance_weight'):
++        if training.get(key, 0) not in (0, 0.0):
++            raise ValueError(f'dense-ntp does not support {key}')
++
++
++def dense_ntp_objective(model, inputs, labels):
++    """A0-compatible objective: final NTP only, auxiliary fields zero."""
++    from splot.mtp import Objective
++    if not isinstance(labels, dict) or 1 not in labels:
++        raise ValueError('dense NTP labels missing offset-1')
++    logits, _ = model(*inputs)
++    final = torch.nn.functional.cross_entropy(
++        logits.float().reshape(-1, logits.shape[-1]),
++        labels[1].reshape(-1), ignore_index=-100, reduction='sum')
++    final = final / labels[1].ne(-100).sum().clamp_min(1)
++    zero = final.new_zeros(())
++    return Objective(final, final, zero, zero,
++                     int(labels[1].ne(-100).sum()), 0, zero)
++
++
+ def snapshot_rng(device):
+     return {'python': random.getstate(), 'torch': torch.get_rng_state(),
+             'cuda': torch.cuda.get_rng_state_all() if torch.device(device).type == 'cuda' else None}
+@@ -298,9 +336,9 @@ def logical_macs(blocks, indices, count_document):
+ 
+ 
+ def main():
+-    from splot import DenseConfig, RecurrentConfig, SPLOTLM, training_objective
++    from splot import DenseConfig, DenseLM, RecurrentConfig, SPLOTLM, training_objective
+     from data_fixture import synthetic_documents, split_documents, pack, manifest
+-    from accounting import Shape, account
++    from accounting import DenseShape, Shape, account, dense_account
+     p=argparse.ArgumentParser(description=__doc__)
+     p.add_argument('--config',required=True,type=Path); p.add_argument('--out',required=True,type=Path)
+     p.add_argument('--steps',type=int,required=True); p.add_argument('--device',choices=('cpu','cuda'),default='cpu')
+@@ -313,7 +351,13 @@ def main():
+     root=Path(__file__).resolve().parents[1]; commit=git_identity(root)
+     if a.out.resolve().is_relative_to(root): p.error('output must be outside checkout')
+     c=json.loads(a.config.read_text()); t=c['training']; d=DenseConfig(**c['dense'])
+-    rc=RecurrentConfig(dense=d,**c['recurrence'])
++    family=resolve_model_family(c)
++    if family=='dense-ntp':
++        try: validate_dense_config(c,t)
++        except ValueError as exc: p.error(str(exc))
++        rc=None
++    else:
++        rc=RecurrentConfig(dense=d,**c['recurrence'])
+     if t['data'] not in ('synthetic-v1','synthetic-shards-v2','pilot-blocks-v1'):
+         p.error('data must be synthetic-v1, synthetic-shards-v2 or pilot-blocks-v1')
+     dataset_modes = ('synthetic-shards-v2','pilot-blocks-v1')
+@@ -332,7 +376,8 @@ def main():
+         p.error('checkpoint interval must be a positive integer')
+     if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
+     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
+-    if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1 or not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
++    if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1: p.error('invalid training settings')
++    if family=='splot' and not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
+     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
+     if a.device=='cuda':
+         torch.backends.cuda.matmul.allow_tf32=False; torch.backends.cudnn.allow_tf32=False
+@@ -373,9 +418,14 @@ def main():
+         dataset_source_snapshot_sha256 = data['source_snapshot_sha256']
+         if not packed['train'] or not packed['validation']:
+             p.error('pilot dataset must contain train and validation blocks')
+-    model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
++    if family=='dense-ntp':
++        model=DenseLM(d).to(a.device)
++        expected=d.parameter_count()
++    else:
++        model=SPLOTLM(rc,expert_intermediate=c['expert_intermediate']).to(a.device)
++        expected=model.parameter_count()
+     actual=sum(v.numel() for v in model.parameters())
+-    if actual!=model.parameter_count(): raise RuntimeError('parameter count mismatch')
++    if actual!=expected: raise RuntimeError('parameter count mismatch')
+     fp8_policy=None
+     if t['precision']=='fp8':
+         try:
+@@ -408,23 +458,39 @@ def main():
+         'checkpoint_interval':interval,
+         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
+         'deterministic_algorithms':True}
++    if family=='dense-ntp': env['model_family']='dense-ntp'
+     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
+               'packed_sha256':digest(packed),'environment':env,'settings':t,
+               'checkpoint_interval':interval,'fp8_weight_reuse':reuse,
+               'dataset_source_snapshot_sha256':dataset_source_snapshot_sha256}
+-    objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
++    if family=='dense-ntp':
++        identity['model_family']='dense-ntp'
++        identity['dense_parameter_count']=actual
++    if family=='dense-ntp':
++        objective=dense_ntp_objective
++    else:
++        objective=lambda m,x,y:training_objective(m,x,y,mode=t['mode'],loops=t['loops'],depth_weight=t['depth_weight'],offset_weight=t['offset_weight'],balance_weight=t['balance_weight'])
+     post_update_check = t['precision']=='fp8' or optimizer_policy['name']=='muon'
+     checkpoint_stats={}
+     history=train(model,opt,packed['train'],objective,identity,a.out,steps=a.steps,batch_size=t['batch_size'],seed=t['seed'],device=a.device,resume=a.resume,autocast_dtype=policy['autocast_dtype'],post_update_check=post_update_check,checkpoint_interval=interval,checkpoint_stats=checkpoint_stats)
+     validation_started=time.perf_counter()
+-    val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
++    if family=='dense-ntp':
++        val=evaluate(model,packed['validation'],lambda m,x:m(*x)[0],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
++    else:
++        val=evaluate(model,packed['validation'],lambda m,x:m(*x,loops=t['loops']).logits[t['loops']],batch_size=t['batch_size'],device=a.device,autocast_dtype=policy['autocast_dtype'])
+     validation_seconds=time.perf_counter()-validation_started
+     evaluation_fp8_audit=val.pop('fp8_audit',None)
+-    shape=Shape(d=d.width,vocab=d.vocab_size,q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
+-                gdn_heads=d.q_heads,dense=d.intermediate,expert=c['expert_intermediate'])
+-    readouts=1 if t['mode']=='A0' else t['loops']
+-    offsets=min(2,t['loops']) if t['mode']=='A2' else 0
+-    count_document=lambda n:account(shape,loops=t['loops'],context=n,readouts=readouts,offsets=offsets)['prefill_all_logits_macs']
++    if family=='dense-ntp':
++        dense_shape=DenseShape(vocab=d.vocab_size,width=d.width,layers=d.layers,
++                               q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
++                               dense=d.intermediate)
++        count_document=lambda n:dense_account(dense_shape,context=n)['prefill_all_logits_macs']
++    else:
++        shape=Shape(d=d.width,vocab=d.vocab_size,q_heads=d.q_heads,kv_heads=d.kv_heads,head=d.head_dim,
++                    gdn_heads=d.q_heads,dense=d.intermediate,expert=c['expert_intermediate'])
++        readouts=1 if t['mode']=='A0' else t['loops']
++        offsets=min(2,t['loops']) if t['mode']=='A2' else 0
++        count_document=lambda n:account(shape,loops=t['loops'],context=n,readouts=readouts,offsets=offsets)['prefill_all_logits_macs']
+     macs=sum(logical_macs(packed['train'],r['batch_indices'],count_document) for r in history)
+     precision_policy={'requested':policy['requested'],'policy':policy['policy'],
+                       'autocast_dtype':policy['autocast_dtype_name'],'probe_dtype':policy['probe_dtype'],
+@@ -494,6 +560,12 @@ def main():
+             'fp8_evaluation_diagnostics':evaluation_fp8_audit,
+             'total_valid_tokens':sum(r['valid_tokens'] for r in history),'total_ntp_labels':sum(r['ntp_labels'] for r in history),
+             'analytical_forward_macs':macs,'measured_flops':None,'energy_joules':None,'limitations':limitations}
++    if family=='dense-ntp':
++        report['model_family']='dense-ntp'
++        report['dense_shape']={'vocab_size':d.vocab_size,'width':d.width,'layers':d.layers,
++                               'q_heads':d.q_heads,'kv_heads':d.kv_heads,'head_dim':d.head_dim,
++                               'intermediate':d.intermediate}
++        limitations.append('Dense NTP-only comparator; no recurrence, MTP, auxiliary objective or FP8 path.')
+     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))
+ 
+ 
+diff --git a/tools/test_dense_harness.py b/tools/test_dense_harness.py
+new file mode 100644
+index 0000000..d7bc068
+--- /dev/null
++++ b/tools/test_dense_harness.py
+@@ -0,0 +1,286 @@
++"""Dense NTP comparator integration tests; CPU-only, tiny fixtures."""
++import copy
++import gc
++import hashlib
++import json
++import os
++import random
++import subprocess
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++
++import torch
++
++import accounting
++import experiment
++from data_fixture import Document, pack
++from optimizers import build_optimizer, build_semantic_partition
++from splot import DenseConfig, DenseLM
++
++
++ROOT = Path(__file__).resolve().parents[1]
++DENSE_CONFIGS = (
++    'dense-ntp-512x6-q8kv4-ffn2432.json',
++    'dense-ntp-512x6-q8kv2-ffn2176.json',
++)
++
++
++def tiny_config(vocab=264):
++    return DenseConfig(vocab_size=vocab, width=64, layers=2, q_heads=4,
++                       kv_heads=2, head_dim=16, intermediate=128)
++
++
++def tiny_blocks(length=12, count=3, vocab=264):
++    rows = []
++    for doc in range(count):
++        ids = [1] + [8 + ((doc * 11 + i) % (vocab - 8)) for i in range(length - 2)] + [2]
++        labels = {1: [-100] * length, 2: [-100] * length}
++        for i in range(length - 1):
++            labels[1][i] = ids[i + 1]
++        for i in range(length - 2):
++            labels[2][i] = ids[i + 2]
++        rows.append({'input_ids': ids, 'document_ids': [doc] * length,
++                     'position_ids': list(range(length)), 'valid': [True] * length,
++                     'labels': labels})
++    return rows
++
++
++def batch(block, device='cpu'):
++    x = tuple(torch.tensor([block[k]], device=device) for k in
++              ('input_ids', 'document_ids', 'position_ids', 'valid'))
++    y = {k: torch.tensor([block['labels'][k]], device=device) for k in (1, 2)}
++    return x, y
++
++
++def config(name):
++    return json.loads((ROOT / 'configs/experiments' / name).read_text())
++
++
++class DenseAccountingTests(unittest.TestCase):
++    def test_candidate_counts_and_splot_v16384_a0(self):
++        for name, params, prefill512, prefill2048 in (
++            ('dense-ntp-512x6-q8kv4-ffn2432.json', 35527168, 18993381376, 85637201920),
++            ('dense-ntp-512x6-q8kv2-ffn2176.json', 32381440, 17382768640, 79194750976),
++        ):
++            cfg = config(name)
++            shape = accounting.DenseShape(
++                vocab=cfg['dense']['vocab_size'], width=cfg['dense']['width'],
++                layers=cfg['dense']['layers'], q_heads=cfg['dense']['q_heads'],
++                kv_heads=cfg['dense']['kv_heads'], head=cfg['dense']['head_dim'],
++                dense=cfg['dense']['intermediate'])
++            self.assertEqual(accounting.dense_account(shape, 512)['physical'], params)
++            self.assertEqual(accounting.dense_account(shape, 512)['prefill_all_logits_macs'], prefill512)
++            self.assertEqual(accounting.dense_account(shape, 2048)['prefill_all_logits_macs'], prefill2048)
++            self.assertEqual(cfg['training']['mode'], 'A0')
++            self.assertEqual(cfg['training']['loops'], 1)
++            self.assertNotIn('recurrence', cfg)
++            self.assertNotIn('expert_intermediate', cfg)
++        splot = config('splot-nano-v16384-a0.json')
++        shape = accounting.Shape(
++            vocab=splot['dense']['vocab_size'], d=splot['dense']['width'],
++            q_heads=splot['dense']['q_heads'], kv_heads=splot['dense']['kv_heads'],
++            gdn_heads=splot['dense']['q_heads'], head=splot['dense']['head_dim'],
++            dense=splot['dense']['intermediate'], expert=splot['expert_intermediate'])
++        result = accounting.account(shape, loops=2, context=512, readouts=1, offsets=0)
++        self.assertEqual(result['physical'], 36763620)
++        self.assertEqual(result['base'], 36615780)
++        self.assertEqual(result['auxiliary'], 147840)
++        self.assertEqual(result['logical_blocks'], 12)
++        self.assertEqual(result['prefill_all_logits_macs'], 17381326848)
++        self.assertEqual(splot['training']['mode'], 'A0')
++        self.assertEqual(splot['training']['balance_weight'], 0.01)
++
++    def test_candidate_instantiation_and_partition(self):
++        for name, expected in (
++            ('dense-ntp-512x6-q8kv4-ffn2432.json', 35527168),
++            ('dense-ntp-512x6-q8kv2-ffn2176.json', 32381440),
++        ):
++            cfg = config(name)
++            model = DenseLM(DenseConfig(**cfg['dense']))
++            self.assertEqual(sum(p.numel() for p in model.parameters()), expected)
++            partition = build_semantic_partition(model)
++            self.assertEqual(partition.metadata['inventory_numel'], expected)
++            self.assertEqual(partition.metadata['groups']['muon']['numel'] +
++                             partition.metadata['groups']['adamw']['numel'], expected)
++            self.assertEqual(len({id(p) for p in partition.muon + partition.adamw}),
++                             len(partition.muon) + len(partition.adamw))
++            names = {e['name']: g for g in ('muon', 'adamw')
++                     for e in partition.metadata['groups'][g]['entries']}
++            self.assertEqual(names['embedding.weight'], 'adamw')
++            self.assertEqual(names['blocks.0.attn.q.weight'], 'muon')
++            self.assertEqual(names['blocks.0.attn.k.weight'], 'muon')
++            self.assertEqual(names['blocks.0.gate.weight'], 'muon')
++            self.assertEqual(names['blocks.0.n1.weight'], 'adamw')
++            self.assertEqual(names['norm.weight'], 'adamw')
++            self.assertEqual(sum(1 for key in names if key == 'embedding.weight'), 1)
++            del model, partition
++            gc.collect()
++
++
++class DenseFamilyTests(unittest.TestCase):
++    def test_family_defaults_and_fail_closed(self):
++        self.assertEqual(experiment.resolve_model_family({}), 'splot')
++        self.assertEqual(experiment.resolve_model_family({'model_family': 'dense-ntp'}), 'dense-ntp')
++        with self.assertRaises(ValueError):
++            experiment.resolve_model_family({'model_family': 'dense-a2'})
++        cfg = config('dense-ntp-512x6-q8kv2-ffn2176.json')
++        experiment.validate_dense_config(cfg, cfg['training'])
++        mutations = (
++            ('recurrence', {}),
++            ('expert_intermediate', 512),
++        )
++        for key, value in mutations:
++            bad = copy.deepcopy(cfg); bad[key] = value
++            with self.assertRaises(ValueError):
++                experiment.validate_dense_config(bad, bad['training'])
++        for key, value in (('mode', 'A2'), ('loops', 2), ('precision', 'fp8'),
++                           ('fp8_weight_reuse', True), ('balance_weight', 0.01),
++                           ('depth_weight', 0.25), ('offset_weight', 0.25)):
++            bad = copy.deepcopy(cfg); bad['training'][key] = value
++            with self.assertRaises(ValueError):
++                experiment.validate_dense_config(bad, bad['training'])
++
++    def test_dense_objective_matches_manual_ntp_and_labels(self):
++        model = DenseLM(tiny_config())
++        block = tiny_blocks()[0]
++        x, y = batch(block)
++        objective = experiment.dense_ntp_objective(model, x, y)
++        logits, _ = model(*x)
++        manual = torch.nn.functional.cross_entropy(
++            logits.float().reshape(-1, logits.shape[-1]), y[1].reshape(-1),
++            ignore_index=-100, reduction='sum') / y[1].ne(-100).sum()
++        torch.testing.assert_close(objective.final_ntp, manual, rtol=0, atol=0)
++        torch.testing.assert_close(objective.total, objective.final_ntp, rtol=0, atol=0)
++        for value in (objective.early_ntp, objective.offset2, objective.balance):
++            self.assertEqual(float(value), 0.0)
++        self.assertEqual(objective.offset2_count, 0)
++        objective.total.backward()
++        self.assertEqual(sum(p.numel() for p in model.parameters() if p.grad is not None),
++                         sum(p.numel() for p in model.parameters()))
++
++
++class DenseTrainingTests(unittest.TestCase):
++    def test_continuous_four_equals_two_plus_two(self):
++        blocks = tiny_blocks()
++        cfg = {'lr': .01, 'weight_decay': 0}
++        identity = {'schema': 1, 'model_family': 'dense-ntp', 'fixture': 'tiny'}
++
++        def run(path, steps, resume=False):
++            experiment.seed_all(99 if resume else 42)
++            model = DenseLM(tiny_config())
++            opt, _ = build_optimizer(model, cfg)
++            history = experiment.train(
++                model, opt, blocks, experiment.dense_ntp_objective, identity, path,
++                steps=steps, batch_size=1, seed=42, device='cpu', resume=resume,
++                checkpoint_interval=1)
++            val = experiment.evaluate(model, blocks, lambda m, x: m(*x)[0],
++                                      batch_size=1, device='cpu')
++            return model, opt, history, val, torch.get_rng_state(), random.getstate()
++
++        with tempfile.TemporaryDirectory() as tmp:
++            out = Path(tmp)
++            full_model, full_opt, full_history, full_val, full_rng, full_py = run(out / 'full', 4)
++            run(out / 'split', 2)
++            split_model, split_opt, split_history, split_val, split_rng, split_py = run(out / 'split', 4, True)
++            for left, right in zip(full_model.parameters(), split_model.parameters()):
++                torch.testing.assert_close(left, right, rtol=0, atol=0)
++            for left, right in zip(full_opt.state.values(), split_opt.state.values()):
++                for key in left:
++                    torch.testing.assert_close(left[key], right[key], rtol=0, atol=0)
++            self.assertEqual(full_val, split_val)
++            clean = lambda rows: [{k: v for k, v in row.items() if k != 'step_seconds'}
++                                  for row in rows]
++            self.assertEqual(clean(full_history), clean(split_history))
++            self.assertTrue(torch.equal(full_rng, split_rng))
++            self.assertEqual(full_py, split_py)
++
++    def test_cross_family_cli_resume_rejected(self):
++        dense = {
++            'model_family': 'dense-ntp',
++            'dense': {'vocab_size': 264, 'width': 64, 'layers': 2,
++                      'q_heads': 4, 'kv_heads': 2, 'head_dim': 16, 'intermediate': 128},
++            'training': {'data': 'synthetic-v1', 'precision': 'fp32', 'mode': 'A0',
++                         'loops': 1, 'seed': 42, 'sequence_length': 96, 'batch_size': 1,
++                         'lr': .01, 'weight_decay': 0, 'depth_weight': 0,
++                         'offset_weight': 0, 'balance_weight': 0, 'checkpoint_interval': 1},
++        }
++        with tempfile.TemporaryDirectory() as tmp:
++            tmp = Path(tmp)
++            dense_path = tmp / 'dense.json'
++            dense_path.write_text(json.dumps(dense))
++            splot_path = ROOT / 'configs/experiments/splot-smoke-synthetic.json'
++            env = dict(os.environ, PYTHONPATH=os.pathsep.join(
++                str(ROOT / p) for p in ('src', 'tools', 'tools/rep')))
++            first = subprocess.run(
++                [sys.executable, 'tools/experiment.py', '--config', str(dense_path),
++                 '--out', str(tmp / 'run'), '--steps', '1', '--device', 'cpu'],
++                cwd=ROOT, env=env, capture_output=True, text=True, timeout=120)
++            self.assertEqual(first.returncode, 0, first.stderr)
++            second = subprocess.run(
++                [sys.executable, 'tools/experiment.py', '--config', str(splot_path),
++                 '--out', str(tmp / 'run'), '--steps', '2', '--device', 'cpu',
++                 '--resume'],
++                cwd=ROOT, env=env, capture_output=True, text=True, timeout=120)
++            self.assertNotEqual(second.returncode, 0)
++            self.assertIn('run identity mismatch', second.stderr)
++
++
++    def test_legacy_splot_cli_identity_unchanged(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            tmp = Path(tmp)
++            env = dict(os.environ, PYTHONPATH=os.pathsep.join(
++                str(ROOT / p) for p in ('src', 'tools', 'tools/rep')))
++            result = subprocess.run(
++                [sys.executable, 'tools/experiment.py', '--config',
++                 str(ROOT / 'configs/experiments/splot-smoke-synthetic.json'),
++                 '--out', str(tmp / 'splot'), '--steps', '1', '--device', 'cpu'],
++                cwd=ROOT, env=env, capture_output=True, text=True, timeout=120)
++            self.assertEqual(result.returncode, 0, result.stderr)
++            report = json.loads((tmp / 'splot' / 'run.json').read_text())
++            self.assertEqual(report['parameters'], 179952)
++            self.assertNotIn('model_family', report['identity'])
++            self.assertNotIn('model_family', report)
++            self.assertNotIn('dense_shape', report)
++
++
++class DenseIngestionTests(unittest.TestCase):
++    def test_shared_synthetic_v2_and_pilot_loading(self):
++        import pilot_ingestion as pilot
++        import test_pilot_ingestion as pilot_fixture
++        import test_tokenized_shards as shard_fixture
++
++        with tempfile.TemporaryDirectory() as tmp:
++            tmp = Path(tmp)
++            pilot_root = tmp / 'pilot'
++            pilot_sha, _ = pilot_fixture.write_fixture(pilot_root)
++            # The accepted T0016 loader pins model vocabulary 32768 and reports
++            # unused IDs; this is the shared ingestion contract, not a dense run.
++            loaded = pilot.load_pilot_dataset(pilot_root, pilot_sha,
++                                               expected_model_vocab=32768)
++            self.assertEqual(set(loaded['blocks']), {'train', 'validation'})
++            self.assertGreaterEqual(len(loaded['blocks']['train']), 32)
++
++            v2_root = tmp / 'v2'
++            shard_fixture.materialize(v2_root)
++            manifest_sha = hashlib.sha256((v2_root / 'manifest.json').read_bytes()).hexdigest()
++            vocab = shard_fixture.DEMO_BUNDLE['artifact']['actual_vocab_size']
++            blocks, summary = experiment.load_shard_dataset(
++                v2_root, manifest_sha, expected_vocab=vocab, expected_length=96)
++            self.assertEqual(set(blocks), {'train', 'validation'})
++            self.assertEqual(summary['training_splits'], ['train', 'validation'])
++
++    def test_dense_bf16_capability_if_supported(self):
++        try:
++            policy = experiment.resolve_precision('cpu', 'bf16')
++        except RuntimeError as exc:
++            print('dense BF16 unsupported by this CPU runner:', exc)
++            return
++        self.assertEqual(policy['autocast_dtype'], torch.bfloat16)
++
++
++if __name__ == '__main__':
++    torch.set_num_threads(1)
++    torch.use_deterministic_algorithms(True)
++    unittest.main(verbosity=2)

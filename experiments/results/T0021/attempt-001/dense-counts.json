@@ -1,0 +1,87 @@
+{
+  "dense": [
+    {
+      "config": "dense-ntp-512x6-q8kv4-ffn2432.json",
+      "config_sha256": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9",
+      "counts": {
+        "2048": {
+          "decode_macs": 48103424,
+          "physical": 35527168,
+          "prefill_all_logits_macs": 85637201920
+        },
+        "512": {
+          "decode_macs": 38666240,
+          "physical": 35527168,
+          "prefill_all_logits_macs": 18993381376
+        }
+      },
+      "shape": {
+        "head": 64,
+        "intermediate": 2432,
+        "kv_heads": 4,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 16384,
+        "width": 512
+      }
+    },
+    {
+      "config": "dense-ntp-512x6-q8kv2-ffn2176.json",
+      "config_sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a",
+      "counts": {
+        "2048": {
+          "decode_macs": 44957696,
+          "physical": 32381440,
+          "prefill_all_logits_macs": 79194750976
+        },
+        "512": {
+          "decode_macs": 35520512,
+          "physical": 32381440,
+          "prefill_all_logits_macs": 17382768640
+        }
+      },
+      "shape": {
+        "head": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 16384,
+        "width": 512
+      }
+    }
+  ],
+  "formulas": {
+    "dense_decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+    "dense_params": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+    "dense_prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+  },
+  "instruction_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "schema": "splot-t0021-dense-counts-v1",
+  "source_commit": "75fced45d0cff3888e3606a46a529fb3714e93df",
+  "splot_v16384_a0": {
+    "config": "splot-nano-v16384-a0.json",
+    "config_sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0",
+    "counts": {
+      "2048": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 6922752,
+        "decode_macs": 42203136,
+        "logical_blocks": 12,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 76773064704
+      },
+      "512": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 2204160,
+        "decode_macs": 35125248,
+        "logical_blocks": 12,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 17381326848
+      }
+    }
+  },
+  "status": "analytical only; no training or measured hardware result"
+}

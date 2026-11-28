@@ -1,0 +1,40 @@
+{
+  "files": {
+    "configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json": {
+      "bytes": 1022,
+      "sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"
+    },
+    "configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json": {
+      "bytes": 1022,
+      "sha256": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9"
+    },
+    "configs/experiments/splot-nano-v16384-a0.json": {
+      "bytes": 1285,
+      "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+    },
+    "research/implementation/dense-reference.md": {
+      "bytes": 8393,
+      "sha256": "ad7619e3326d438e25636aaa4041e2b84f7ebe4d3fa10ed078536ca3c9192e0d"
+    },
+    "tools/README.md": {
+      "bytes": 1815,
+      "sha256": "56aead6bab5365596a577459b766cfbb75403da499a9cd8bb3ccb46f2b08e887"
+    },
+    "tools/accounting.py": {
+      "bytes": 5570,
+      "sha256": "b8896dcd10d6b08cb57e4ab6af6b89458d83b35d957c4590a6e8e6ba77ad12b8"
+    },
+    "tools/experiment.py": {
+      "bytes": 31698,
+      "sha256": "8048da9c08e941c81f42363508492976a644de1c5c8f296f1baa2d6d5f520311"
+    },
+    "tools/test_dense_harness.py": {
+      "bytes": 14296,
+      "sha256": "03deb9207dc9f0e9ee69c9eb7b885197a74653a387d8bf0456b5f4fcd0d555bb"
+    }
+  },
+  "first_implementation_commit": "340e56a418e50b67ad169267ee863dfb94da587a",
+  "instruction_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "reviewed_source_base": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "tested_commit": "75fced45d0cff3888e3606a46a529fb3714e93df"
+}

@@ -1,0 +1,274 @@
+T0021 attempt-001 local acceptance
+RECORDED_AT 2026-11-28T16:26:23Z
+### git-status
+UTC_START 2026-11-28T16:26:23Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.013940
+OUTPUT_BEGIN
+?? experiments/results/T0021/
+OUTPUT_END
+
+### tested-sha
+UTC_START 2026-11-28T16:26:23Z
+COMMAND git rev-parse HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.007880
+OUTPUT_BEGIN
+75fced45d0cff3888e3606a46a529fb3714e93df
+OUTPUT_END
+
+### base-is-ancestor
+UTC_START 2026-11-28T16:26:23Z
+COMMAND git merge-base --is-ancestor a771c370efe662f17ddf8c06769cbd06a783388a HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.009115
+OUTPUT_BEGIN
+OUTPUT_END
+
+### python
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 --version
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.007134
+OUTPUT_BEGIN
+Python 3.15.2
+OUTPUT_END
+
+### torch-availability
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -c import importlib.util; print("torch", bool(importlib.util.find_spec("torch")))
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.012154
+OUTPUT_BEGIN
+torch False
+OUTPUT_END
+
+### py-compile
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m py_compile tools/experiment.py tools/accounting.py tools/test_dense_harness.py
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.029212
+OUTPUT_BEGIN
+OUTPUT_END
+
+### json-dense-ntp-512x6-q8kv4-ffn2432.json
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.028061
+OUTPUT_BEGIN
+STDOUT_BYTES 1392
+STDOUT_SHA256 cee506bd81f208afe6a213c354fac0aac29eda68a1a33508d57aba464ece5eee
+OUTPUT_END
+
+### json-dense-ntp-512x6-q8kv2-ffn2176.json
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.027762
+OUTPUT_BEGIN
+STDOUT_BYTES 1392
+STDOUT_SHA256 042d84ba98885b558c80380236e15fd18c1952da448f2e430e8cc315b651a9d9
+OUTPUT_END
+
+### json-splot-nano-v16384-a0.json
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool configs/experiments/splot-nano-v16384-a0.json
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.027377
+OUTPUT_BEGIN
+STDOUT_BYTES 1697
+STDOUT_SHA256 dc36b92a13cbaefcf4aa1968c40ababd9e11ee069464615210466e41234f4be1
+OUTPUT_END
+
+### accounting-dense-ntp-512x6-q8kv4-ffn2432.json-512
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/accounting.py --dense-config configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json --context 512
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.024594
+OUTPUT_BEGIN
+{
+  "context": 512,
+  "decode_macs": 38666240,
+  "dense": 2432,
+  "format": "dense-gqa",
+  "head": 64,
+  "kv_heads": 4,
+  "layers": 6,
+  "physical": 35527168,
+  "prefill_all_logits_macs": 18993381376,
+  "q_heads": 8,
+  "vocab": 16384,
+  "width": 512
+}
+OUTPUT_END
+
+### accounting-dense-ntp-512x6-q8kv4-ffn2432.json-2048
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/accounting.py --dense-config configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json --context 2048
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.024446
+OUTPUT_BEGIN
+{
+  "context": 2048,
+  "decode_macs": 48103424,
+  "dense": 2432,
+  "format": "dense-gqa",
+  "head": 64,
+  "kv_heads": 4,
+  "layers": 6,
+  "physical": 35527168,
+  "prefill_all_logits_macs": 85637201920,
+  "q_heads": 8,
+  "vocab": 16384,
+  "width": 512
+}
+OUTPUT_END
+
+### accounting-dense-ntp-512x6-q8kv2-ffn2176.json-512
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/accounting.py --dense-config configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json --context 512
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.024212
+OUTPUT_BEGIN
+{
+  "context": 512,
+  "decode_macs": 35520512,
+  "dense": 2176,
+  "format": "dense-gqa",
+  "head": 64,
+  "kv_heads": 2,
+  "layers": 6,
+  "physical": 32381440,
+  "prefill_all_logits_macs": 17382768640,
+  "q_heads": 8,
+  "vocab": 16384,
+  "width": 512
+}
+OUTPUT_END
+
+### accounting-dense-ntp-512x6-q8kv2-ffn2176.json-2048
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/accounting.py --dense-config configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json --context 2048
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.024288
+OUTPUT_BEGIN
+{
+  "context": 2048,
+  "decode_macs": 44957696,
+  "dense": 2176,
+  "format": "dense-gqa",
+  "head": 64,
+  "kv_heads": 2,
+  "layers": 6,
+  "physical": 32381440,
+  "prefill_all_logits_macs": 79194750976,
+  "q_heads": 8,
+  "vocab": 16384,
+  "width": 512
+}
+OUTPUT_END
+
+### dense-counts
+UTC_START 2026-11-28T16:26:23Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 dense-counts.py
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0021/attempt-001
+EXIT 0
+DURATION_SECONDS 0.023224
+OUTPUT_BEGIN
+STDOUT_BYTES 2465
+STDOUT_SHA256 df580ad04f4a32f61b8d7138a291679f5fda38b0f20c9fd8c9ed71b9b3a66b9d
+OUTPUT_END
+
+### diff-check
+UTC_START 2026-11-28T16:26:23Z
+COMMAND git diff --check
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.009198
+OUTPUT_BEGIN
+OUTPUT_END
+
+### diff-stat
+UTC_START 2026-11-28T16:26:23Z
+COMMAND git diff --stat 2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8 HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.011092
+OUTPUT_BEGIN
+ .../experiments/dense-ntp-512x6-q8kv2-ffn2176.json |  49 ++++
+ .../experiments/dense-ntp-512x6-q8kv4-ffn2432.json |  49 ++++
+ configs/experiments/splot-nano-v16384-a0.json      |  61 +++++
+ research/implementation/dense-reference.md         |   7 +
+ tools/README.md                                    |   5 +-
+ tools/accounting.py                                |  46 ++++
+ tools/experiment.py                                |  98 ++++++-
+ tools/test_dense_harness.py                        | 286 +++++++++++++++++++++
+ 8 files changed, 586 insertions(+), 15 deletions(-)
+OUTPUT_END
+
+### status-after
+UTC_START 2026-11-28T16:26:23Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.010814
+OUTPUT_BEGIN
+?? experiments/results/T0021/
+OUTPUT_END
+
+### first-local-failure
+NOTE See execution-first-failures.log. The first dense-counts run failed with ModuleNotFoundError because PYTHONPATH was relative to the evidence directory; the runner now uses absolute src/tools paths. No analytical value changed.
+
+### hosted-ci-final
+UTC_START 2026-11-28T16:24:39Z
+COMMAND gh run view 46164883574 --json databaseId,headSha,conclusion,status,url,jobs
+EXIT 0
+OUTPUT_BEGIN
+run 46164883574
+head 75fced45d0cff3888e3606a46a529fb3714e93df
+conclusion success
+tools/test_dense_harness.py 9 tests OK
+CPU scripts: 30; REP reports: 27
+first failed run 46164663077 on 340e56a: 2 test errors, corrected in 75fced4
+OUTPUT_END
+
+### evidence-sizes
+UTC_START 2026-11-28T16:27:11Z
+COMMAND wc -c evidence
+EXIT 1
+DURATION_SECONDS 0.004490
+OUTPUT_BEGIN
+    2465 experiments/results/T0021/attempt-001/dense-counts.json
+   36734 experiments/results/T0021/attempt-001/implementation.diff
+    6452 experiments/results/T0021/attempt-001/execution.log
+   45651 total
+wc: experiments/results/T0021/attempt-001/summary.md: open: No such file or directory
+OUTPUT_END
+### evidence-sizes-corrected
+NOTE first evidence-sizes attempt ran before summary.md existed and exited 1; no analytical value changed.
+UTC_START 2026-11-28T16:27:30Z
+COMMAND wc -c evidence
+EXIT 0
+DURATION_SECONDS 0.003796
+OUTPUT_BEGIN
+    4827 experiments/results/T0021/attempt-001/summary.md
+    2465 experiments/results/T0021/attempt-001/dense-counts.json
+   36734 experiments/results/T0021/attempt-001/implementation.diff
+    7531 experiments/results/T0021/attempt-001/execution.log
+   51557 total
+OUTPUT_END

@@ -1,0 +1,36 @@
+{"attempt": 1, "metric": "physical_params", "run": "dense/dense-ntp-512x6-q8kv4-ffn2432.json", "status": "observed", "task_id": "T0021", "unit": "parameters", "value": 35527168}
+{"attempt": 1, "metric": "decode_macs_512", "run": "dense/dense-ntp-512x6-q8kv4-ffn2432.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 38666240}
+{"attempt": 1, "metric": "prefill_all_logits_macs_512", "run": "dense/dense-ntp-512x6-q8kv4-ffn2432.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 18993381376}
+{"attempt": 1, "metric": "decode_macs_2048", "run": "dense/dense-ntp-512x6-q8kv4-ffn2432.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 48103424}
+{"attempt": 1, "metric": "prefill_all_logits_macs_2048", "run": "dense/dense-ntp-512x6-q8kv4-ffn2432.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 85637201920}
+{"attempt": 1, "metric": "config_sha256", "run": "dense/dense-ntp-512x6-q8kv4-ffn2432.json", "status": "observed", "task_id": "T0021", "unit": "sha256", "value": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9"}
+{"attempt": 1, "metric": "physical_params", "run": "dense/dense-ntp-512x6-q8kv2-ffn2176.json", "status": "observed", "task_id": "T0021", "unit": "parameters", "value": 32381440}
+{"attempt": 1, "metric": "decode_macs_512", "run": "dense/dense-ntp-512x6-q8kv2-ffn2176.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 35520512}
+{"attempt": 1, "metric": "prefill_all_logits_macs_512", "run": "dense/dense-ntp-512x6-q8kv2-ffn2176.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 17382768640}
+{"attempt": 1, "metric": "decode_macs_2048", "run": "dense/dense-ntp-512x6-q8kv2-ffn2176.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 44957696}
+{"attempt": 1, "metric": "prefill_all_logits_macs_2048", "run": "dense/dense-ntp-512x6-q8kv2-ffn2176.json", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 79194750976}
+{"attempt": 1, "metric": "config_sha256", "run": "dense/dense-ntp-512x6-q8kv2-ffn2176.json", "status": "observed", "task_id": "T0021", "unit": "sha256", "value": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"}
+{"attempt": 1, "metric": "physical", "run": "splot/v16384-a0/512", "status": "observed", "task_id": "T0021", "unit": "count", "value": 36763620}
+{"attempt": 1, "metric": "base", "run": "splot/v16384-a0/512", "status": "observed", "task_id": "T0021", "unit": "count", "value": 36615780}
+{"attempt": 1, "metric": "auxiliary", "run": "splot/v16384-a0/512", "status": "observed", "task_id": "T0021", "unit": "count", "value": 147840}
+{"attempt": 1, "metric": "logical_blocks", "run": "splot/v16384-a0/512", "status": "observed", "task_id": "T0021", "unit": "count", "value": 12}
+{"attempt": 1, "metric": "decode_macs", "run": "splot/v16384-a0/512", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 35125248}
+{"attempt": 1, "metric": "prefill_all_logits_macs", "run": "splot/v16384-a0/512", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 17381326848}
+{"attempt": 1, "metric": "cache_bytes", "run": "splot/v16384-a0/512", "status": "observed", "task_id": "T0021", "unit": "bytes", "value": 2204160}
+{"attempt": 1, "metric": "physical", "run": "splot/v16384-a0/2048", "status": "observed", "task_id": "T0021", "unit": "count", "value": 36763620}
+{"attempt": 1, "metric": "base", "run": "splot/v16384-a0/2048", "status": "observed", "task_id": "T0021", "unit": "count", "value": 36615780}
+{"attempt": 1, "metric": "auxiliary", "run": "splot/v16384-a0/2048", "status": "observed", "task_id": "T0021", "unit": "count", "value": 147840}
+{"attempt": 1, "metric": "logical_blocks", "run": "splot/v16384-a0/2048", "status": "observed", "task_id": "T0021", "unit": "count", "value": 12}
+{"attempt": 1, "metric": "decode_macs", "run": "splot/v16384-a0/2048", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 42203136}
+{"attempt": 1, "metric": "prefill_all_logits_macs", "run": "splot/v16384-a0/2048", "status": "observed", "task_id": "T0021", "unit": "macs", "value": 76773064704}
+{"attempt": 1, "metric": "cache_bytes", "run": "splot/v16384-a0/2048", "status": "observed", "task_id": "T0021", "unit": "bytes", "value": 6922752}
+{"attempt": 1, "metric": "config_sha256", "run": "splot/v16384-a0", "status": "observed", "task_id": "T0021", "unit": "sha256", "value": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"}
+{"attempt": 1, "duration_seconds": 0.029212, "metric": "exit_code", "run": "local/py-compile", "status": "observed", "task_id": "T0021", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.023224, "metric": "exit_code", "run": "local/dense-counts", "status": "observed", "task_id": "T0021", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.009198, "metric": "exit_code", "run": "local/diff-check", "status": "observed", "task_id": "T0021", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "available", "note": "no local torch; hosted tests required", "run": "local/torch", "status": "observed", "task_id": "T0021", "unit": "bool", "value": 0}
+{"attempt": 1, "duration_seconds": 8.749, "metric": "tests", "run": "hosted/dense", "run_id": 46164883574, "status": "observed", "task_id": "T0021", "unit": "tests", "value": 9}
+{"attempt": 1, "metric": "scripts", "run": "hosted/full", "run_id": 46164883574, "status": "observed", "task_id": "T0021", "unit": "scripts", "value": 30}
+{"attempt": 1, "metric": "rep_reports", "run": "hosted/full", "run_id": 46164883574, "status": "observed", "task_id": "T0021", "unit": "reports", "value": 27}
+{"attempt": 1, "metric": "exit_code", "run": "hosted/full", "run_id": 46164883574, "status": "observed", "task_id": "T0021", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "dense_errors", "run": "hosted/first-failure", "run_id": 46164663077, "status": "failed", "task_id": "T0021", "unit": "errors", "value": 2}

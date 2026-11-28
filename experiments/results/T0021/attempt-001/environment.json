@@ -1,0 +1,69 @@
+{
+  "attempt": 1,
+  "captured_at": "2026-11-28T16:30:00Z",
+  "config_hashes": {
+    "dense-ntp-512x6-q8kv2-ffn2176.json": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a",
+    "dense-ntp-512x6-q8kv4-ffn2432.json": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9",
+    "splot-nano-v16384-a0.json": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+  },
+  "dependencies": {
+    "open_pr_queue": "empty at launch",
+    "t0019_issue": 89,
+    "t0019_state": "accepted",
+    "t0020_issue": 90,
+    "t0020_state": "accepted"
+  },
+  "first_implementation_commit": "340e56a418e50b67ad169267ee863dfb94da587a",
+  "hosted": {
+    "cuda": false,
+    "cuda_visible_devices": "empty",
+    "final_head": "75fced45d0cff3888e3606a46a529fb3714e93df",
+    "final_run": 46164883574,
+    "first_failed_head": "340e56a418e50b67ad169267ee863dfb94da587a",
+    "first_failed_run": 46164663077,
+    "numpy": "1.26.4",
+    "os": "ubuntu-24.04",
+    "python": "3.12.7",
+    "torch": "2.10.0+cpu"
+  },
+  "instruction_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "limits": {
+    "checkpoint_access": false,
+    "ci_workflow_change": false,
+    "command_timeout_seconds": 120,
+    "foreground_minutes": 120,
+    "gpu_or_mps": false,
+    "local_training": false,
+    "network_data": false,
+    "package_install": false,
+    "real_data": false,
+    "test_access": false
+  },
+  "local": {
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "unicode": "17.0.0",
+      "utf8_mode": 1,
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "error": "ModuleNotFoundError/not found",
+      "install_attempted": false,
+      "unit_tests": "hosted CPU only; no local torch training"
+    }
+  },
+  "reviewed_source_base": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "task_id": "T0021",
+  "tested_commit": "75fced45d0cff3888e3606a46a529fb3714e93df"
+}
