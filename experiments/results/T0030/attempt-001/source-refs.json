@@ -1,0 +1,67 @@
+{
+  "instruction_base_commit": "145db440cf60bcd575226b475952f2d7129f09c1",
+  "refs": {
+    "configs/data/pilot-sources-v0.2.json": {
+      "bytes": 114215,
+      "sha256": "adf2d0eb98d336114d3ea215e3ebc0d3c594cce89e767c13aaeb8123141cb4f4"
+    },
+    "experiments/results/T0028/attempt-001/result.json": {
+      "bytes": 5377,
+      "sha256": "13bf069244aedad5459e7f6ffb83140cbfb24c3ddc3e882d3fa61f236253ec3a"
+    },
+    "experiments/results/T0028/attempt-001/summary.md": {
+      "bytes": 8392,
+      "sha256": "0d12c77e154cece975b63a8a6ef38ccae463a09d1d177aa938ebffa5331340b4"
+    },
+    "experiments/tasks/T0030-v2-coverage-producer.md": {
+      "bytes": 5216,
+      "sha256": "47989f2b8e6a2cc9331ab22ef01133e1dd661e81a36e3601b9e742c6e5af3747"
+    },
+    "research/data/pilot-v2-scale-plan.md": {
+      "bytes": 10486,
+      "sha256": "2793fcab747242f4a54dc9f62a97e4b50a9b64ced87bfdf7c369254986c2a4ba"
+    },
+    "research/data/pilot-v2-schema.md": {
+      "bytes": 21391,
+      "sha256": "1006390ea12f4985bc5d26a4a008601cf09dd8005ed4ea2e39bea4ca33f24a6d"
+    },
+    "research/evaluation/T0028-acceptance.md": {
+      "bytes": 2048,
+      "sha256": "b1bef0d41cafb70b601fee810dff79ee30412c7a4c73fa7e88bbd56e66757890"
+    },
+    "research/evaluation/T0029-acceptance.md": {
+      "bytes": 2019,
+      "sha256": "c65747c48244fd734a9a3631aa64ce7199d7c17e6dd8869b3f942594c8542c77"
+    },
+    "tools/pilot_ingestion.py": {
+      "bytes": 16293,
+      "sha256": "2187d93ae109ec8c56d2a9782634f27aded455da576f14ec044cc00a70634e75"
+    },
+    "tools/pilot_v2.py": {
+      "bytes": 54155,
+      "sha256": "4b80718d7a08a1a458fc05af3cf97befd072fadaa35355a6698ad48a66f5d4e7"
+    },
+    "tools/pilot_v2_producer.py": {
+      "bytes": 25716,
+      "sha256": "98299141b473afb0baecbf6593830bde082df3a85b942972b2e837ad94c4642a"
+    },
+    "tools/production_tokenizer.py": {
+      "bytes": 27509,
+      "sha256": "17c4e805ebf1f4f0a6ba2746a684344b791a513a4158f3707be1c2dddcba36e0"
+    },
+    "tools/test_pilot_v2.py": {
+      "bytes": 34686,
+      "sha256": "140f8e60a5474674638eb7120aca1634fb9bcc3951c70190d8569d794e7b0794"
+    },
+    "tools/test_pilot_v2_producer.py": {
+      "bytes": 7335,
+      "sha256": "24841bc2b842e12d4e882c5b0475f6d1036b2f32b28097d1d3b0326dbda25f31"
+    },
+    "tools/tokenized_shards.py": {
+      "bytes": 63439,
+      "sha256": "bb61978484f860ad5a517943f12b241b56262d4aef8228be019d7df5f8e5cb46"
+    }
+  },
+  "schema": "splot-t0030-source-refs-v1",
+  "tested_commit": "976445fdb975365823f2ddb88f604bb68ac492f5"
+}

@@ -1,0 +1,11 @@
+test_deterministic_repeat (__main__.ProducerTests.test_deterministic_repeat) ... ok
+test_expected_coverage_matches_loader (__main__.ProducerTests.test_expected_coverage_matches_loader) ... ok
+test_input_validation (__main__.ProducerTests.test_input_validation) ... ok
+test_matches_t0028_fixture (__main__.ProducerTests.test_matches_t0028_fixture) ... ok
+test_multi_document_blocks_and_tail (__main__.ProducerTests.test_multi_document_blocks_and_tail) ... ok
+test_refuses_existing_output (__main__.ProducerTests.test_refuses_existing_output) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.012s
+
+OK

@@ -1,0 +1,21 @@
+T0030 attempt-001 development failures before the tested commit (preserved)
+
+These were local test-fixture construction errors while adding the new negative
+cases. They were not verifier failures, hosted gate failures or real-data runs.
+
+1. Cross-group overlap and invalid-selected-segment fixtures
+   Error: "complete document segments do not partition the source"
+   Cause: the new documents used segment_count=1 while selecting only a partial
+   byte interval; a complete single segment must cover the full document.
+   Resolution: use a complete interval for the full-group overlap case and
+   segment_count=2/index=1 for the explicit partial segment case.
+
+2. Segment-index test expectation
+   Error: "segment_index is outside segment_count"
+   Cause: the test set segment_index=2 with segment_count=2 and expected the
+   complete-index message.
+   Resolution: expect the earlier bounds error; the verifier behavior was
+   unchanged and remains fail-closed.
+
+The verified fixture and protocol values did not change. The first hosted
+implementation run (46181008581) passed.
