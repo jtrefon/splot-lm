@@ -1,0 +1,76 @@
+T0017 attempt-002 execution log (sanitized)
+Session start UTC: 2026-11-28T13:58:59Z
+Instruction/base/tested commit: d3752eeb77541866e2332ed238def0c4bac50549
+Branch: feat/T0017-pilot-attempt-002
+Owner authorization: T0017 attempt-002 on local RTX 4090 within reviewed continuation limits.
+Start comment: https://github.com/jtrefon/splot-lm/issues/77#issuecomment-7240325795
+
+Preflight
+- Retrieved origin/main d3752eeb77541866e2332ed238def0c4bac50549; working tree clean before execution.
+- GPU 0, NVIDIA GeForce RTX 4090, 24,564 MiB total, 24,077 MiB free; driver 580.178.04.
+- Python 3.12.7; torch 2.10.0+cu128; CUDA 12.8; deterministic algorithms enabled; TF32 off.
+- Local dataset workspace available: ~14 GiB of a 16 GiB tmpfs (>=4 GiB required).
+- No owner-supplied Mac dataset directory was present in the accessible workspace.
+
+Tokenizer environment (outside checkout)
+- Command: uv venv --python 3.12 <local-work>/tokenizer-venv
+- Command: uv pip install --offline --no-deps --only-binary=:all: tokenizers==0.23.3
+- Result: tokenizers 0.23.3, Python 3.12.7, wheel tag cp310-abi3-manylinux_2_17_x86_64.
+- Installation used the local uv cache of the official PyPI wheel; no network package download.
+- abi3 shared object SHA-256: 4b1458a379296762a034d3bc89299c0c35b4eefb0577acca922f481b262c65a1
+- Local tokenizer.json import and encode/decode round-trip passed; encoded token count 19; no text/token arrays logged.
+
+Dataset regeneration and verification
+- Command: <venv>/python tools/pilot_dataset.py acquire --registry configs/data/pilot-sources-v0.2.json --staging <local-work>/data/staging
+- Exit 0, elapsed 67 s. Network bytes 11,204,726 (limit 52,428,800); extracted UTF-8 8,987,423 B (limit 10,485,760).
+- Command: <venv>/python tools/pilot_dataset.py build --registry configs/data/pilot-sources-v0.2.json --staging <local-work>/data/staging --output <local-work>/data/output
+- Exit 0, elapsed 8 s. Manifest SHA-256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55; source snapshot c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087; tokenizer 104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b; logical 70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c; manifest bytes 4,674.
+- Command: <venv>/python tools/pilot_dataset.py verify --dataset <local-verified-dataset> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55
+- Exit 0. All five files match; total dataset bytes 2,727,588; 128 train / 16 validation / 16 test blocks; actual vocab 16,384; model vocab 32,768.
+- Independent loader preflight (tools/pilot_ingestion.py:load_pilot_dataset with expected manifest and source snapshot): exit 0; regenerated manifest bytes equal accepted T0016 evidence bytes; registry source records match language/split/content/raw/revision fields; 160 unique document segments; test integrity-validated only.
+- Data files: manifest.json 4,674; tokenizer.json 708,869; train.jsonl 1,608,729; validation.jsonl 202,943; test.jsonl 202,373.
+
+CPU suite
+- Command: CUDA_VISIBLE_DEVICES= PYTHONPATH=src:tools python3 tools/ci_cpu.py
+- Exit 0, elapsed 33 s. CPU scripts 27; unittest modules 27; tests 231; failures 0; errors 0; skips 0; REP reports 21.
+
+Focused CUDA tests
+- Command: python3 tools/test_fp8_weight_reuse.py --device cuda
+- Exit 0, elapsed 6 s. 4/4 tests passed; no skips.
+
+Missing 4-step resume/RNG gate
+- Temporary config: copy of configs/experiments/splot-smoke-synthetic-fp8-muon.json plus only training.fp8_weight_reuse=true; outside checkout.
+- Original config SHA-256: 370fb892a514f7bc129490112eba35a22d30f2b4f5bc2236d9fb4221f89642be; temporary config SHA-256: 7c9e604bd47a0391efaac449ac2d8180b428a81470e8f9813b8c6acbc2a6dfd5.
+- Command: python3 tools/experiment.py --config <gate-config> --out <local-work>/gate/smoke-continuous --steps 4 --device cuda
+- Exit 0, elapsed 5 s.
+- Command: python3 tools/experiment.py --config <gate-config> --out <local-work>/gate/smoke-split --steps 2 --device cuda
+- Exit 0, elapsed 5 s.
+- Command: python3 tools/experiment.py --config <gate-config> --out <local-work>/gate/smoke-split --steps 4 --resume --device cuda
+- Exit 0, elapsed 4 s.
+- Command: python3 tools/rep/compare_resume.py <continuous> <split> --steps 4 --parameters 179952
+- Exit 0: model, model optimizer state, RNG, identity, non-timing history and validation exact. Cache-on per-step quantizations 156; cache hits 142/204/139/204.
+- Checkpoint schema: history, identity, model, optimizer, rng only; no quantized-weight cache.
+- Cross-mode rejection: cache-on checkpoint resumed with reuse-disabled config exited 1 with ValueError: run identity mismatch; checkpoint and run.json hashes unchanged.
+- Development/operator correction recorded below.
+
+Real 64-step pilot
+- Command: PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout --kill-after=15s 1800s python3 tools/experiment.py --config configs/experiments/splot-nano-pilot-fp8-muon.json --dataset-root <local-verified-dataset> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --out <local-runs>/real-pilot --steps 64 --device cuda
+- Exit 0, wall 89 s, UTC 2026-11-28T14:03:30Z to 2026-11-28T14:04:59Z; no timeout.
+- Parameters 43,055,076. 64 distinct train block indices; no repeat or second epoch. Valid tokens 23,598 / NTP 23,534 / offset2 23,470; padding 9,170; 32,768 positions cap respected.
+- Loss fields all finite. Weighted final/early/offset CE: 7.934573370912 / 7.923808572124 / 8.097908486536.
+- Validation: 5,250 NTP labels; NLL sum 40656.114013671875; mean NLL 7.744021716890; PPL 2307.734801253827. No test evaluation.
+- Native FP8 dispatch: 14,749 native forward and 14,749 native backward calls; 156 selected modules. Weight quantizations 8,097; cache hits 6,652; reuse ratio 0.451013628043; cache bytes max 30,278,256. No saturation; quantization nonfinite false.
+- Checkpoints: writes at steps 16, 32, 48, 64; 4 writes; total bytes written 1,580,809,164; write time 0.890651636000 s; final checkpoint 395,220,707 B, SHA-256 d011336f23ee82e6a56b594b44343fa4e4232d2cf70c7a0ae41112db400683b9, local-only and not published. Checkpoint model and optimizer tensors finite; no weight-cache state; RNG present.
+- Memory: peak allocated 1918267904 B; peak reserved 2109734912 B.
+- Timing: summed step time 81.042418144876 s; validation 5.143885655038 s; wall 89 s.
+
+Independent audit
+- Command: python3 <local-work>/audit_pilot.py <repo> <local-runs>/real-pilot <local-verified-dataset> <local-work>/real-pilot-audit.json
+- Exit 0: row-level selected-block counts recomputed from the verified dataset match all 64 history rows; 43,055,076 parameters; 5,250 validation NTP; model/optimizer finite; native dispatch; cache lifecycle and absence from checkpoint confirmed.
+- Data identity and build/verify summaries regenerated above.
+
+Development/operator corrections before the reported runs
+1. The first gate preflight used configs/experiments/splot-nano-synthetic-fp8-muon.json (43,055,076 parameters) while the preregistered comparator expects 179,952 parameters. compare_resume.py rejected the inventory. No official gate result was recorded; the gate was rerun with configs/experiments/splot-smoke-synthetic-fp8-muon.json plus only fp8_weight_reuse=true. No gate was relaxed.
+2. The first independent data-audit script treated document IDs as unique per token; the contract repeats one document ID across a segment. The audit was corrected to count unique segment IDs per block. Dataset loader and measurements were unchanged.
+3. The first checkpoint audit assumed all four writes had equal byte size; actual writes differ slightly with history length. The audit now records the actual summed bytes and final checkpoint bytes. No measurement changed.
+No official training run failed unexpectedly or was retried; the cross-mode rejection was the expected result. No timeout occurred; no source file was modified in this attempt.

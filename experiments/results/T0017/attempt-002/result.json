@@ -1,0 +1,112 @@
+{
+  "attempt": 2,
+  "base_source_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "checks": {
+    "cpu_tests": {
+      "detail": "tools/ci_cpu.py with CUDA hidden: exit 0; 27 scripts, 231 tests, 0 failures, 0 errors, 0 skips, 21 REP reports.",
+      "evidence": [
+        "cpu-ci.json",
+        "ci-cpu.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "cuda_qualification": {
+      "detail": "Focused CUDA 4/4. Cache-on 4-step continuous vs 2+2 resume at 179,952 parameters exact for model, both optimizer states, RNG, identity, non-timing history and validation; 156 quantizations and 142/204/139/204 hits per step; checkpoints contain no weight cache; cross-mode rejected with unchanged checkpoint.",
+      "evidence": [
+        "resume-gate.json",
+        "resume-compare.json",
+        "cross-mode.json",
+        "fp8-focused-cuda.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean tested d3752ee; Linux x86_64, Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090 24,564 MiB (24,077 MiB free), driver 580.178.04; deterministic algorithms, TF32 off; 14 GiB output space.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat attempt-002 evidence package with 18 hashed siblings plus result.json; exact REP validator reports passed; attempt-001 preserved; PR and issue handover pending publication.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "data-identity.json"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "No source changes; accepted attempt-001 FP8 reuse/pilot implementation remains ancestor. Regenerated T0016 five-file dataset matched manifest/source/tokenizer/logical pins exactly (2,727,588 B); independent loader and producer verification passed; isolated tokenizers 0.23.3 offline from local cache; training environment unchanged.",
+      "evidence": [
+        "data-identity.json",
+        "dataset-build-summary.json",
+        "dataset-verify.json",
+        "tokenizer-environment.json",
+        "real-pilot-run.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "real_pilot": {
+      "detail": "Fixed 64-step Nano R2 A2 T512 B1 FP8+Muon seed42: exit 0 in 89 s; 43,055,076 parameters; 64 distinct train blocks; 23,598 valid / 23,534 NTP / 23,470 offset2; 5,250 validation NTP, NLL 7.744022, PPL 2307.735; native FP8 14,749/14,749 calls; 8,097 quantizations, 6,652 hits, ratio 0.4510; checkpoints at 16/32/48/64; all finite; no test evaluation.",
+      "evidence": [
+        "real-pilot-run.json",
+        "real-pilot-audit.json",
+        "loss-history.json",
+        "checkpoint-summary.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [
+    {
+      "availability": "local-only; trained real-pilot checkpoint; not published",
+      "bytes": 395220707,
+      "name": "real-pilot/checkpoint.pt",
+      "sha256": "d011336f23ee82e6a56b594b44343fa4e4232d2cf70c7a0ae41112db400683b9"
+    }
+  ],
+  "files": {
+    "checkpoint-summary.json": "85f0a4b2512f658f48df0d13fc01ef4fffc44a9daf8f08c6767b02cc522b094f",
+    "ci-cpu.txt": "f827cb1e61204dba21c83ff1148093481d2cf1ddb841913d6a70063ec84b0dda",
+    "cpu-ci.json": "fa25c7a63916e12aa8b11de63d2242e8df2e4cacbcc80ad17d38a2165c0931af",
+    "cross-mode.json": "79ca40cee6b258d6b243744440057c2f9ed255ed7ae193a87830e64e4024e697",
+    "data-identity.json": "2fec5643fa7cd8cbee8c79e2a0d01e3fbba5ca37940660fdb1596e2303536237",
+    "dataset-build-summary.json": "175c0b9b29a7d57106fb6c1cee2afa4f10cba99ff6fc50feeb31841ec97e750c",
+    "dataset-verify.json": "3ea18ff71ddd5429c0aa1e44f9f391e0294beb90d36a82d8272afba5c7c0401d",
+    "environment.json": "c9545e483743cb93981a4ff1eace997148a5fed8e02815196f077836aced8928",
+    "execution.log": "f5a3014e1a0324f6ba79414ebe80d2c7b75036a2ee8cbc0178d523309236fb7e",
+    "fp8-focused-cuda.txt": "f98ca607cacc281a6d79330ed5cd73b9eb5e1f5a811519ecb5b48e347a01f666",
+    "loss-history.json": "3133eac2157be2e53f5f78cd160f7baf9887fbe4681e9222801c20b3b861561b",
+    "metrics.jsonl": "e103baca352ad160249cba29b927909c2a9e133d922d9ab758e17878326b44f2",
+    "real-pilot-audit.json": "7336ff8c1324c235c04d49b27a0bcfe885cde32f89d532840a340ba3d238c135",
+    "real-pilot-run.json": "cdbf418512fd8272c3f382ef7080bf776f5ec8071dddc76d6f1dc3ff9192ae58",
+    "resume-compare.json": "97833208505ab808e307be86125e234dfacb653b7bf55a1d1114fb9fef380eee",
+    "resume-gate.json": "a097b3f674ec3a58fd7634a179395e241142c3ba451b5e595ceb2bff22153f22",
+    "summary.md": "ae85885b8d3fffc392c6f4e8f7bf34052365f5506393d5569b911c9f191aa9ae",
+    "tokenizer-environment.json": "15f8296716aa5a6a31ee4dde433f57ae4578b24c2b7052fdf83ac92457c987b1"
+  },
+  "limitations": [
+    "Single seed, single configuration and 64 optimizer steps on a 56,201-token pilot; no convergence, quality, scaling or production-throughput claim.",
+    "The 16k tokenizer is a candidate; model vocabulary 32,768 retains 16,384 unused logits; no tokenizer-quality or language-fairness claim.",
+    "Validation is aggregate only; test data was integrity-checked but not evaluated.",
+    "Polish upstream sources are mutable; the frozen local identities were verified at regeneration time and must not be silently substituted later.",
+    "FP8 weight reuse is per-update/process-local with no persistence, second-order or multi-writer guarantee; timing and memory are descriptive only.",
+    "The trained checkpoint is local-only; no redistribution or weights-publication approval is implied."
+  ],
+  "minimum_base_commit": "a93141e3160c0e9bb845d5b0a64df69c0e97157b",
+  "schema_version": 1,
+  "source_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "spec_commit": "b91a68843b25624abfdc11c6eb4978d3e4c73e39",
+  "status": "passed",
+  "task_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "task_id": "T0017",
+  "tested_commit": "d3752eeb77541866e2332ed238def0c4bac50549"
+}

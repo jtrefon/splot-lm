@@ -1,0 +1,30 @@
+{
+  "format": "splot-pilot-blocks-v1",
+  "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "sequence_length": 512,
+  "source_snapshot_sha256": "c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087",
+  "splits": {
+    "test": {
+      "blocks": 16,
+      "ntp_labels": 5035,
+      "offset2_labels": 5019,
+      "valid_tokens": 5051
+    },
+    "train": {
+      "blocks": 128,
+      "ntp_labels": 46076,
+      "offset2_labels": 45948,
+      "valid_tokens": 46204
+    },
+    "validation": {
+      "blocks": 16,
+      "ntp_labels": 5250,
+      "offset2_labels": 5234,
+      "valid_tokens": 5266
+    }
+  },
+  "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+  "version": 1,
+  "vocab_size": 16384
+}

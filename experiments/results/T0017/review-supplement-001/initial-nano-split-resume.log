@@ -1,0 +1,17 @@
+# Sanitized supplementary copy of original local log: initial-nano-split-resume.log
+# Original local raw SHA-256: e9bde90e5488559a534578f8c5b8a0c705d84d37d9c03ef42c1d07da521d2f07
+# Redactions: local workspace -> <local-work>; user home -> <home>; no other changes.
+CMD gate-split-resume: --config <local-work>/gate/synthetic-fp8-muon-reuse.json --out <local-work>/gate/split --steps 4 --resume --device cuda
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2388.5130310058594,
+    "mean_nll": 6.3524282739517535,
+    "perplexity": 573.8845673693065,
+    "fp8_cache_scope": "cleared-before-and-after-evaluation"
+  }
+}
+EXIT gate-split-resume 0 elapsed=5s

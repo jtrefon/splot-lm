@@ -1,0 +1,10 @@
+{
+  "checkpoint_sha256_after": "48a65d6feb47d09489bb238b026b531eb2de3fa6b90a284574e3ef6b48e6f3f6",
+  "checkpoint_sha256_before": "48a65d6feb47d09489bb238b026b531eb2de3fa6b90a284574e3ef6b48e6f3f6",
+  "checkpoint_unchanged": true,
+  "exit_code": 1,
+  "expected_failure": true,
+  "mode": "cache-on checkpoint resumed with reuse-disabled config",
+  "result": "rejected",
+  "run_json_unchanged": true
+}

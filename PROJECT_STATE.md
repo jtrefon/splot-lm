@@ -26,6 +26,9 @@ Architecture alignment first, not corpus optimization. Owner authorized acquisit
 
 [Open research issues](research/BACKLOG.md) · [Historical decisions](research/decisions/README.md) · [Public overview](README.md) / [PL](README.pl.md).
 
+## T0017 attempt-002 handover (2026-11-28)
+Attempt-002 completed the reviewed continuation from `d3752ee` (no source changes). The exact T0016 five-file snapshot was regenerated from the frozen registry and official sources and matched all pins: 2,727,588 B; manifest `dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55`, source `c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087`, tokenizer `104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b`, logical `70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c`; 128/16/16 blocks. CPU 27 scripts/231 tests, 21 REP reports. The missing cache-on 4-step continuous vs 2+2 resume/RNG gate passed exactly at 179,952 parameters (156 quantizations per step, 142/204/139/204 hits, no cache in checkpoint, cross-mode rejected). Fixed 64-step Nano R2 A2 T512 B1 FP8+Muon seed42 real pilot passed in 89 s: 43,055,076 parameters, 64 distinct train blocks, 23,598 valid/23,534 NTP/23,470 offset2, 5,250 validation NTP, NLL 7.744022/PPL 2307.735, native FP8 14,749/14,749 calls, 8,097 quantizations/6,652 hits (ratio 0.4510), checkpoints 16/32/48/64, all finite; no test evaluation. T0017 remains open for maintainer review; no merge/closure. Checkpoint is local-only. Queued T0020 remains gated on T0017 acceptance and a separate reviewed merge/owner launch.
+
 ## Session continuity
 [Start prompt](SESSION_START.md) · [Research coordination protocol](RESEARCH_COORDINATION.md). Public documentation reviewed 2026-11-28 (#83); historical records preserved by immutable links. Refresh status at meaningful milestones, not by accumulating stale handover blocks.
 

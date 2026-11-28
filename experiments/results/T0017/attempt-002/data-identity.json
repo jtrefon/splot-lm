@@ -1,0 +1,166 @@
+{
+  "actual_vocab_size": 16384,
+  "dataset_file_count": 5,
+  "dataset_total_bytes": 2727588,
+  "document_ids": {
+    "train": {
+      "max": 127,
+      "min": 0,
+      "segments": 128,
+      "unique": 128
+    },
+    "validation": {
+      "max": 143,
+      "min": 128,
+      "segments": 16,
+      "unique": 16
+    }
+  },
+  "files": {
+    "manifest.json": {
+      "bytes": 4674,
+      "sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55"
+    },
+    "test.jsonl": {
+      "bytes": 202373,
+      "sha256": "00968bee8f71dccf1fa5e52dc6ca8fa948e3ffb89577e45bb6bb00c74172b06d"
+    },
+    "tokenizer.json": {
+      "bytes": 708869,
+      "sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b"
+    },
+    "train.jsonl": {
+      "bytes": 1608729,
+      "sha256": "7f1156eeed4c0de8f802d5db41df0884791429d3f91bff1b2348d0a14ca92a39"
+    },
+    "validation.jsonl": {
+      "bytes": 202943,
+      "sha256": "e5d858a12c975f416c393889d1915110c1854003c922cc26f498af807a7c214f"
+    }
+  },
+  "format": "splot-pilot-blocks-v1",
+  "loader": "tools/pilot_ingestion.py:load_pilot_dataset",
+  "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+  "manifest_bytes": 4674,
+  "manifest_bytes_equal_accepted_t0016_evidence": true,
+  "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+  "model_vocab_size": 32768,
+  "registry": "configs/data/pilot-sources-v0.2.json",
+  "registry_sources_matched": true,
+  "selected_64_train_indices_distinct": true,
+  "selected_64_train_indices_max": 123,
+  "selected_64_train_indices_no_second_epoch": true,
+  "sequence_length": 512,
+  "source_languages": {
+    "en": 4,
+    "pl": 4
+  },
+  "source_records": [
+    {
+      "content_sha256": "f80db72561c49f51c79c9f5c573ee9d41da7d9c62cbb2de420298557fe3a3e52",
+      "family_id": "se-alices-adventures",
+      "language": "en",
+      "raw_sha256": "109365790b5e6d949668ba98af815fe26ea0cbce11697c3ac2adcf4f1880942d",
+      "revision": "git:9e5eb58995d9fd2f609363d14786d8b0166bbbb9",
+      "split": "validation"
+    },
+    {
+      "content_sha256": "775c30fab445d5a2787b78e9c76d7d72352cb374201cf0170af8557ea792d198",
+      "family_id": "se-frankenstein",
+      "language": "en",
+      "raw_sha256": "44c555028fed46e183f4683b4ce8e3620afc0b770202392505a12f4956dea9a7",
+      "revision": "git:abfa474c5e1df00ae8458ed8495b83e7f8b795cc",
+      "split": "train"
+    },
+    {
+      "content_sha256": "2ac18fc1e9483639f4fa1b43118774e212d700af8f8a7fa313bb7a4249be5879",
+      "family_id": "se-moby-dick",
+      "language": "en",
+      "raw_sha256": "36e13e32c3415dc7b9513c0e79f85c61e7fe4e4ad11bed093428df5cf8fc556f",
+      "revision": "git:89725132954ec3f297e0d86f4a5ab636675d7f13",
+      "split": "test"
+    },
+    {
+      "content_sha256": "430f74f8e59c5255e8249e676f6348a85d87fa39a39d88197c34cef2eba27368",
+      "family_id": "se-pride-and-prejudice",
+      "language": "en",
+      "raw_sha256": "7f7d41577829547de311af744e484b6f8e25a62d3a6972af334382e4cb624806",
+      "revision": "git:a77a2dbbc0d11a17d6c68c581f17e26a65bd8168",
+      "split": "train"
+    },
+    {
+      "content_sha256": "0f1e5ff7683f36bf7c3cd3ead75ccb4d4d4e692504cf97c5936f52c320220a1f",
+      "family_id": "wl-chlopi",
+      "language": "pl",
+      "raw_sha256": "d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "revision": "local-sha256:d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "split": "train"
+    },
+    {
+      "content_sha256": "ad97595a59f7d5b8566577fe0eaed5a9e602652701652c63d3753adb84fa2e6f",
+      "family_id": "wl-faraon",
+      "language": "pl",
+      "raw_sha256": "ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "revision": "local-sha256:ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "split": "test"
+    },
+    {
+      "content_sha256": "5cdbc9e7ac46e51eccdbb2db90002b42c0671682f4f59093014c74ec2a13b245",
+      "family_id": "wl-lalka",
+      "language": "pl",
+      "raw_sha256": "f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "revision": "local-sha256:f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "split": "train"
+    },
+    {
+      "content_sha256": "f8ea7a7ac40935bbf01b159f19ae0a18d32486e11d8ac158a92b965aa315626c",
+      "family_id": "wl-quo-vadis",
+      "language": "pl",
+      "raw_sha256": "cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "revision": "local-sha256:cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "split": "validation"
+    }
+  ],
+  "source_snapshot_sha256": "c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087",
+  "source_splits": {
+    "test": 2,
+    "train": 4,
+    "validation": 2
+  },
+  "splits": {
+    "test": {
+      "blocks": 16,
+      "bytes": 202373,
+      "ntp_labels": 5035,
+      "offset2_labels": 5019,
+      "valid_tokens": 5051
+    },
+    "train": {
+      "blocks": 128,
+      "bytes": 1608729,
+      "ntp_labels": 46076,
+      "offset2_labels": 45948,
+      "valid_tokens": 46204
+    },
+    "validation": {
+      "blocks": 16,
+      "bytes": 202943,
+      "ntp_labels": 5250,
+      "offset2_labels": 5234,
+      "valid_tokens": 5266
+    }
+  },
+  "status": "passed",
+  "test_blocks_returned": false,
+  "test_integrity_validated_only": true,
+  "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+  "train_block_count": 128,
+  "unused_token_id_ranges": [
+    [
+      16384,
+      32767
+    ]
+  ],
+  "validation_block_count": 16,
+  "version": 1
+}

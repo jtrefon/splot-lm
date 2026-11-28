@@ -1,0 +1,9 @@
+{
+  "command": "tokenizer import + Tokenizer.from_file(local tokenizer.json) + fixed-string encode/decode round-trip",
+  "encoded_token_count": 19,
+  "exit_code": 0,
+  "python": "3.12.7",
+  "roundtrip": true,
+  "tokenizer_json_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+  "tokenizers_version": "0.23.3"
+}

@@ -1,0 +1,17 @@
+# Sanitized supplementary copy of original local log: initial-nano-continuous.log
+# Original local raw SHA-256: da09c7486ac217f6df80b5b9475038fb4a4aae1855c54c6bb467e23a19d515cd
+# Redactions: local workspace -> <local-work>; user home -> <home>; no other changes.
+CMD gate-continuous: --config <local-work>/gate/synthetic-fp8-muon-reuse.json --out <local-work>/gate/continuous --steps 4 --device cuda
+{
+  "parameters": 43055076,
+  "total_valid_tokens": 266,
+  "total_ntp_labels": 260,
+  "validation": {
+    "ntp_labels": 376,
+    "nll_sum": 2388.5130310058594,
+    "mean_nll": 6.3524282739517535,
+    "perplexity": 573.8845673693065,
+    "fp8_cache_scope": "cleared-before-and-after-evaluation"
+  }
+}
+EXIT gate-continuous 0 elapsed=6s

@@ -1,0 +1,14 @@
+{
+  "all_listed_hashes_match": true,
+  "attempt_dir": "experiments/results/T0017/attempt-002",
+  "evidence_siblings": 18,
+  "original_attempt_head": "833be6ee41753654705b376de67a293b51e3a22d",
+  "original_evidence_commit": "67780eba1eacfa9cea09bff92fb2e4e05704ad0d",
+  "original_evidence_modified": false,
+  "original_result_status": "passed",
+  "result_json_sha256": "78ff180087e797a2caec4b9aa4706e3046729bf7d754082955bec07bf2f86d29",
+  "status": "original_evidence_preserved",
+  "supplement_is_separate": true,
+  "validator_command": "python3 tools/rep/validate_result.py experiments/results/T0017/attempt-002 --task T0017 --source d3752eeb77541866e2332ed238def0c4bac50549 --checks environment,implementation,cpu_tests,cuda_qualification,real_pilot,handover",
+  "validator_output": "STRUCTURALLY VALID: passed (not scientific acceptance)"
+}

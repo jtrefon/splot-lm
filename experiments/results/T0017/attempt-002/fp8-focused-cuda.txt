@@ -1,0 +1,9 @@
+test_reset_stats_clears_cache_and_counters (__main__.CacheLifecycleTests.test_reset_stats_clears_cache_and_counters) ... ok
+test_reuse_hit_invalidation_and_clear (__main__.CacheLifecycleTests.test_reuse_hit_invalidation_and_clear) ... ok
+test_cache_resume_absent_and_cross_mode_rejected (__main__.NanoCacheTests.test_cache_resume_absent_and_cross_mode_rejected) ... ok
+test_nano_first_step_cache_off_on_exact (__main__.NanoCacheTests.test_nano_first_step_cache_off_on_exact) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.805s
+
+OK
