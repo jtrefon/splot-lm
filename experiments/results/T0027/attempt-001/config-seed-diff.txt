@@ -1,0 +1,69 @@
+# S seed42 identical to configs/experiments/splot-nano-v16384-a0.json
+# P seed42 identical to configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json
+# C seed42 identical to configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json
+--- configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json
++++ <private-scratch>/configs/P-seed43.json
+@@ -17,7 +17,7 @@
+     "precision": "bf16",
+     "mode": "A0",
+     "loops": 1,
+-    "seed": 42,
++    "seed": 43,
+     "sequence_length": 512,
+     "batch_size": 1,
+     "lr": 0.003,
+--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json
++++ <private-scratch>/configs/C-seed43.json
+@@ -17,7 +17,7 @@
+     "precision": "bf16",
+     "mode": "A0",
+     "loops": 1,
+-    "seed": 42,
++    "seed": 43,
+     "sequence_length": 512,
+     "batch_size": 1,
+     "lr": 0.003,
+--- configs/experiments/splot-nano-v16384-a0.json
++++ <private-scratch>/configs/S-seed43.json
+@@ -29,7 +29,7 @@
+     "precision": "bf16",
+     "mode": "A0",
+     "loops": 2,
+-    "seed": 42,
++    "seed": 43,
+     "sequence_length": 512,
+     "batch_size": 1,
+     "lr": 0.003,
+--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json
++++ <private-scratch>/configs/C-seed44.json
+@@ -17,7 +17,7 @@
+     "precision": "bf16",
+     "mode": "A0",
+     "loops": 1,
+-    "seed": 42,
++    "seed": 44,
+     "sequence_length": 512,
+     "batch_size": 1,
+     "lr": 0.003,
+--- configs/experiments/splot-nano-v16384-a0.json
++++ <private-scratch>/configs/S-seed44.json
+@@ -29,7 +29,7 @@
+     "precision": "bf16",
+     "mode": "A0",
+     "loops": 2,
+-    "seed": 42,
++    "seed": 44,
+     "sequence_length": 512,
+     "batch_size": 1,
+     "lr": 0.003,
+--- configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json
++++ <private-scratch>/configs/P-seed44.json
+@@ -17,7 +17,7 @@
+     "precision": "bf16",
+     "mode": "A0",
+     "loops": 1,
+-    "seed": 42,
++    "seed": 44,
+     "sequence_length": 512,
+     "batch_size": 1,
+     "lr": 0.003,

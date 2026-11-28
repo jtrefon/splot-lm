@@ -1,0 +1,70 @@
+{
+  "batch_size": 1,
+  "expected_data_order_sha256": {
+    "42": "abf82b64b63fddf8f31369885c590130d96751145df045cf208d75860651b6d1",
+    "43": "5ae55d58656d7e4ef9228a4f4526d3019ea0cf38bbcca05be1f831b346a2e856",
+    "44": "ba7cf2e314cddd7bb9941a0e79c0909a8e8c4c366fd953867a793ba8f8e3d84c"
+  },
+  "order": [
+    {
+      "arm": "S",
+      "index": 0,
+      "run_id": "S-seed42",
+      "seed": 42
+    },
+    {
+      "arm": "P",
+      "index": 1,
+      "run_id": "P-seed42",
+      "seed": 42
+    },
+    {
+      "arm": "C",
+      "index": 2,
+      "run_id": "C-seed42",
+      "seed": 42
+    },
+    {
+      "arm": "P",
+      "index": 3,
+      "run_id": "P-seed43",
+      "seed": 43
+    },
+    {
+      "arm": "C",
+      "index": 4,
+      "run_id": "C-seed43",
+      "seed": 43
+    },
+    {
+      "arm": "S",
+      "index": 5,
+      "run_id": "S-seed43",
+      "seed": 43
+    },
+    {
+      "arm": "C",
+      "index": 6,
+      "run_id": "C-seed44",
+      "seed": 44
+    },
+    {
+      "arm": "S",
+      "index": 7,
+      "run_id": "S-seed44",
+      "seed": 44
+    },
+    {
+      "arm": "P",
+      "index": 8,
+      "run_id": "P-seed44",
+      "seed": 44
+    }
+  ],
+  "reference": "experiments/results/T0023/attempt-003/proposed-matrix.json",
+  "reference_sha256": "85ab63d8715b357f688d033fe8cfc478d52203288c3a973b2b7ff143c53760cf",
+  "sequence_length": 512,
+  "source_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "status": "passed",
+  "updates_per_run": 128
+}
