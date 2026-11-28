@@ -20,9 +20,9 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** [T0026/#108](experiments/tasks/T0026-matched-evaluation-protocol.md) prospective evaluation, corpus and capability design; no training/acquisition.
-2. **Linux:** [T0027/#109](experiments/tasks/T0027-matched-ntp-pilot.md) first bounded matched NTP pilot with existing V16384 data, three arms and three seeds; scan only. T0023 corrected hosted CLI accepted.
-3. T0025 chunk64 full-model gate failed; component result remains valid, candidate source excluded, diagnostic localization deferred. After pilot and design review, plan credible optimized controls and larger matched study; trained-checkpoint MTP separately.
+1. **Mac:** [T0028/#112](experiments/tasks/T0028-byte-auditable-v2.md) v2 schema/verifier prototype with synthetic fixtures; actual registry/acquisition and training loader separately reviewed.
+2. **Linux:** [T0029/#113](experiments/tasks/T0029-gdn-localization.md) localizes T0025 rejected candidate mixed-precision/routing differences; no model change. T0027 lower NLL in all matched contrasts, but scan ~24× slower in summed step times, no efficiency win.
+3. Review T0026 planning corrections and both next results; plan registry/acquisition and optimized matched controls, then larger learning study. Trained-checkpoint MTP separately.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.

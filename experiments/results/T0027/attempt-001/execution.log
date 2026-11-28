@@ -1,0 +1,82 @@
+T0027 attempt-001 execution log (sanitized)
+Task: T0027 VAL, issue #109; source/instruction main 003cf8db6126f0aaefdd599ac159f2503457f709; branch research/T0027-matched-ntp-attempt-001.
+Authorization: owner explicitly named T0027 on the local RTX 4090 within the merged specification and limits.
+Matrix UTC: 2026-11-28T17:41:54Z to 2026-11-28T17:51:01Z (547 s).
+
+Preflight
+- origin/main exact source; zero open integration PRs; T0023 corrected 4a4bb5e4 is an ancestor; #101 closed.
+- Existing five-file splot-pilot-blocks-v1 snapshot copied without regeneration; all five SHA-256 values matched the T0016/T0023 pins; total 2,727,588 bytes; V16384; zero unused token IDs.
+- Source-derived configs differ only in training.seed 42/43/44; original and derived hashes and the exact diff are in config-audit.json/config-seed-diff.txt.
+- GPU 0 NVIDIA GeForce RTX 4090, 24,077 MiB free; host RAM 26.88 GiB available; private scratch ext4 169+ GiB free; Python 3.12.7/torch 2.10.0+cu128/CUDA 12.8; deterministic algorithms; TF32 off.
+- No downloads, installs, test evaluation, FP8/chunk64, Mini, background work or automatic retries.
+
+Runs (counterbalanced; one foreground bounded invocation each)
+1/9 S-seed42 2026-11-28T17:41:54Z..2026-11-28T17:44:09Z wall=135s exit=0
+  preflight gpu_free=24077 MiB host_ram=26880626688 B scratch_free=181472485376 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/S-seed42.json --out <private-scratch>/runs/S-seed42 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=39030.68212890625 mean_nll=7.434415643601191 ppl=1693.267957868561
+  checkpoint sha256=a1d34d3fd243d7eaf619730425b70c7febd31986c4f227c5eca29e945bb713ca bytes=319086611 writes=8
+  audit: passed; errors=[]
+2/9 P-seed42 2026-11-28T17:44:45Z..2026-11-28T17:45:03Z wall=18s exit=0
+  preflight gpu_free=24077 MiB host_ram=26924437504 B scratch_free=181153234944 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/P-seed42.json --out <private-scratch>/runs/P-seed42 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=39373.706298828125 mean_nll=7.499753580729167 ppl=1807.5969328525382
+  checkpoint sha256=2a380f5fe741180d3d52393a5284de2faff83d253a5eb21e61d35f3416f38d66 bytes=317884443 writes=8
+  audit: passed; errors=[]
+3/9 C-seed42 2026-11-28T17:45:08Z..2026-11-28T17:45:20Z wall=12s exit=0
+  preflight gpu_free=24077 MiB host_ram=26903228416 B scratch_free=180835241984 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/C-seed42.json --out <private-scratch>/runs/C-seed42 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=39860.35119628906 mean_nll=7.5924478469122025 ppl=1983.162054193456
+  checkpoint sha256=c0f70ff2b4add75a5723424d159681eddaa8fcc7cdf648a9ce02c4d7d48b01a5 bytes=292718555 writes=8
+  audit: passed; errors=[]
+4/9 P-seed43 2026-11-28T17:45:25Z..2026-11-28T17:45:36Z wall=11s exit=0
+  preflight gpu_free=24077 MiB host_ram=26893762560 B scratch_free=180542398464 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/P-seed43.json --out <private-scratch>/runs/P-seed43 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=38833.27600097656 mean_nll=7.3968144763764885 ppl=1630.7812547652454
+  checkpoint sha256=98098d96bad84512b26cea13385ed4ce5691ac7a7ac8bd9803b1601d44906c40 bytes=317884315 writes=8
+  audit: passed; errors=[]
+5/9 C-seed43 2026-11-28T17:45:40Z..2026-11-28T17:45:52Z wall=12s exit=0
+  preflight gpu_free=24077 MiB host_ram=26901942272 B scratch_free=180224401408 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/C-seed43.json --out <private-scratch>/runs/C-seed43 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=38982.81982421875 mean_nll=7.425299014136905 ppl=1677.9012141980975
+  checkpoint sha256=bae81e0a3b67dd5c94928a903698ecb36c82eebd7d34055e58c98984def6260d bytes=292718491 writes=8
+  audit: passed; errors=[]
+6/9 S-seed43 2026-11-28T17:45:56Z..2026-11-28T17:48:11Z wall=135s exit=0
+  preflight gpu_free=24077 MiB host_ram=26895069184 B scratch_free=179931574272 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/S-seed43.json --out <private-scratch>/runs/S-seed43 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=38478.35595703125 mean_nll=7.329210658482143 ppl=1524.1781999045434
+  checkpoint sha256=4433a704947be485d1641ba21cbb9266721d39c63b8a6208c697a57f62ca5b7c bytes=319086547 writes=8
+  audit: passed; errors=[]
+7/9 C-seed44 2026-11-28T17:48:15Z..2026-11-28T17:48:27Z wall=12s exit=0
+  preflight gpu_free=24077 MiB host_ram=26899886080 B scratch_free=179612327936 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/C-seed44.json --out <private-scratch>/runs/C-seed44 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=39496.67626953125 mean_nll=7.523176432291667 ppl=1850.4357526166525
+  checkpoint sha256=806eacb9c1d42375e6e37fff169533e23746fb6a01ab5e5b30545980900153f7 bytes=292718491 writes=8
+  audit: passed; errors=[]
+8/9 S-seed44 2026-11-28T17:48:32Z..2026-11-28T17:50:47Z wall=135s exit=0
+  preflight gpu_free=24077 MiB host_ram=26907680768 B scratch_free=179319500800 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/S-seed44.json --out <private-scratch>/runs/S-seed44 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=39263.12268066406 mean_nll=7.478690034412202 ppl=1769.9207214299622
+  checkpoint sha256=81b460e2910bf7d8e32ceee91919e539a4907f4090ee9b2d798ced58ca272cc5 bytes=319086547 writes=8
+  audit: passed; errors=[]
+9/9 P-seed44 2026-11-28T17:50:51Z..2026-11-28T17:51:01Z wall=10s exit=0
+  preflight gpu_free=24077 MiB host_ram=26933194752 B scratch_free=179000242176 B
+  command: cd <source-checkout> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 900s python3 tools/experiment.py --config <private-scratch>/configs/P-seed44.json --out <private-scratch>/runs/P-seed44 --steps 128 --device cuda --dataset-root <private-verified-snapshot> --manifest-sha256 dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55 --source-snapshot-sha256 c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087 --checkpoint-interval 16
+  validation labels=5250 nll_sum=39475.853759765625 mean_nll=7.519210239955357 ppl=1843.1111036009947
+  checkpoint sha256=e3ac71f01940d806efb7ce95c0ef25c8bd2bf9a3cdaf0ba981d3caf0aec38722 bytes=317884379 writes=8
+  audit: passed; errors=[]
+
+Required gates
+- All nine exit 0; no timeout; no retry; each 128 updates, 128 unique train indices matching the T0023 order for its seed, 46,204 valid tokens / 46,076 NTP labels / 45,948 available offset-2 labels, 5,250 validation NTP labels.
+- Same source commit, data manifest/source/tokenizer/logical pins and packed SHA-256 across all nine; V16384 with zero unused IDs; test integrity-checked only, never trained or evaluated.
+- BF16 autocast with FP32 master/state; shared Muon/AdamW hyperparameters; finite losses/objectives/state; physical parameter inventory exact; gradient-present inventory recorded (SPLOT sparse routing leaves some expert parameters unused on the last batch).
+- Eight checkpoint writes per run at steps 16..128; checkpoint interval 16; serialized checkpoint sizes/hashes in checkpoint-inventory.json.
+- SPLOT S used the default scan path; chunk64/FP8 were not selected. The CLI generic synthetic-fixture limitation wording is harness wording only; the actual input was the verified T0016/T0017 pilot snapshot; no source change was made.
+
+Process notes (no training rerun or protocol change)
+- The start issue comment UTC label was corrected before the first run; it did not affect execution.
+- The first read-only audit invocation stopped because its private output directory did not exist; the directory was created and the unchanged run was audited.
+- The audit helper then corrected three read-only checks (source commit constant, master-dtype field location, and the sparse-MoE gradient-present expectation); the unchanged run was re-audited. No training invocation was retried, and no source, data, config, tolerance or gate changed.
+
+First required failure: none. No test metrics were produced.
+Source checkout remained clean before and after all nine runs; evidence was created only after the runs.

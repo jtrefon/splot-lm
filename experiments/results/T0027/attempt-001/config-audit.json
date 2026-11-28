@@ -1,0 +1,66 @@
+{
+  "derived": {
+    "C-seed42": {
+      "bytes": 1022,
+      "seed": 42,
+      "sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"
+    },
+    "C-seed43": {
+      "bytes": 1022,
+      "seed": 43,
+      "sha256": "d27b5c5cd178152eeedeae9053ab184c57da52de57844a76813f15e2ba0cb5f8"
+    },
+    "C-seed44": {
+      "bytes": 1022,
+      "seed": 44,
+      "sha256": "75264d62e127ba4e881613fc5eaaef99e335f162267e15dcaa8988cc95d92c2e"
+    },
+    "P-seed42": {
+      "bytes": 1022,
+      "seed": 42,
+      "sha256": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9"
+    },
+    "P-seed43": {
+      "bytes": 1022,
+      "seed": 43,
+      "sha256": "ac38851101ecb523dd54ad356237b87340ef4f68b66384e30952be014ed36e25"
+    },
+    "P-seed44": {
+      "bytes": 1022,
+      "seed": 44,
+      "sha256": "94438af68439da260284c0a3f7d0c15df70cf435cfddb19197d6fae7b909b8e0"
+    },
+    "S-seed42": {
+      "bytes": 1285,
+      "seed": 42,
+      "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+    },
+    "S-seed43": {
+      "bytes": 1285,
+      "seed": 43,
+      "sha256": "2d712a31ecc1b78e20526885f8bd73dd2f10001eab528547ae2240c42ca53c7c"
+    },
+    "S-seed44": {
+      "bytes": 1285,
+      "seed": 44,
+      "sha256": "b517461d478bce1c829c8bd44fa51c7a49f1d8c100a49094c562a2918b168e52"
+    }
+  },
+  "diff": "config-seed-diff.txt",
+  "seed_only": true,
+  "source_configs": {
+    "C": {
+      "path": "configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json",
+      "sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"
+    },
+    "P": {
+      "path": "configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json",
+      "sha256": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9"
+    },
+    "S": {
+      "path": "configs/experiments/splot-nano-v16384-a0.json",
+      "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+    }
+  },
+  "status": "passed"
+}

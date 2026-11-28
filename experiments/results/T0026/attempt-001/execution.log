@@ -1,0 +1,162 @@
+T0026 attempt-001 local analysis evidence
+RECORDED_AT 2026-11-28T17:50:07Z
+### git-status
+UTC_START 2026-11-28T17:50:07Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.015466
+OUTPUT_BEGIN
+ M experiments/results/T0026/attempt-001/summary.md
+?? experiments/results/T0026/attempt-001/execution-first-failures.txt
+?? experiments/results/T0026/attempt-001/hosted-ci-first-failure.txt
+OUTPUT_END
+
+### source-sha
+UTC_START 2026-11-28T17:50:07Z
+COMMAND git rev-parse HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.008300
+OUTPUT_BEGIN
+72a289daede0173c54c95fe37d3422936330b189
+OUTPUT_END
+
+### origin-main
+UTC_START 2026-11-28T17:50:07Z
+COMMAND git rev-parse origin/main
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.008228
+OUTPUT_BEGIN
+003cf8db6126f0aaefdd599ac159f2503457f709
+OUTPUT_END
+
+### open-pr-count
+UTC_START 2026-11-28T17:50:07Z
+COMMAND gh pr list --state open --json number --jq length
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.574030
+OUTPUT_BEGIN
+1
+OUTPUT_END
+
+### python
+UTC_START 2026-11-28T17:50:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 --version
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.024988
+OUTPUT_BEGIN
+Python 3.15.2
+OUTPUT_END
+
+### torch-availability
+UTC_START 2026-11-28T17:50:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -c import importlib.util; print("torch", bool(importlib.util.find_spec("torch")))
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.035255
+OUTPUT_BEGIN
+torch False
+OUTPUT_END
+
+### py-compile
+UTC_START 2026-11-28T17:50:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m py_compile protocol_analysis.py
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0026/attempt-001
+EXIT 0
+DURATION_SECONDS 0.102730
+OUTPUT_BEGIN
+OUTPUT_END
+
+### protocol-analysis
+UTC_START 2026-11-28T17:50:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 protocol_analysis.py
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0026/attempt-001
+EXIT 0
+DURATION_SECONDS 0.081627
+OUTPUT_BEGIN
+wrote analysis.json, proposed-protocol.json, source-refs.json
+arms: {'S': (36763620, 17381326848), 'P': (35527168, 18993381376), 'C': (32381440, 17382768640)}
+ratios: 3.905057 4.868481 48.257957
+budget minutes: [24.31, 72.94, 389.0, 1945.02]
+OUTPUT_END
+
+### json-analysis.json
+UTC_START 2026-11-28T17:50:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool analysis.json
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0026/attempt-001
+EXIT 0
+DURATION_SECONDS 0.084606
+OUTPUT_BEGIN
+STDOUT_BYTES 35494
+STDOUT_SHA256 831073aeadac621f04f63b09a0d994f279e0c2f2d3ca7ae11334eebcb6b554ff
+OUTPUT_END
+
+### json-proposed-protocol.json
+UTC_START 2026-11-28T17:50:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool proposed-protocol.json
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0026/attempt-001
+EXIT 0
+DURATION_SECONDS 0.081964
+OUTPUT_BEGIN
+STDOUT_BYTES 32978
+STDOUT_SHA256 3a87449a0d7a3e91134e62f08864a2b171e12e6b292e7b08dfcaa96fa6fd8fba
+OUTPUT_END
+
+### json-source-refs.json
+UTC_START 2026-11-28T17:50:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool source-refs.json
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0026/attempt-001
+EXIT 0
+DURATION_SECONDS 0.082930
+OUTPUT_BEGIN
+STDOUT_BYTES 4289
+STDOUT_SHA256 9f059d19f13f05ca11a6eb0f1efbbcda62a0919bfec8024d95a939ec9ee86344
+OUTPUT_END
+
+### diff-check
+UTC_START 2026-11-28T17:50:08Z
+COMMAND git diff --check
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.013029
+OUTPUT_BEGIN
+OUTPUT_END
+
+### evidence-sizes
+UTC_START 2026-11-28T17:50:08Z
+COMMAND wc -c analysis.json corpus-design.md design.md environment.json execution-first-failures.txt execution.log hosted-ci-first-failure.txt metrics.jsonl proposed-protocol.json protocol_analysis.py result.json source-refs.json summary.md
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0026/attempt-001
+EXIT 0
+DURATION_SECONDS 0.002621
+OUTPUT_BEGIN
+   29146 analysis.json
+   11408 corpus-design.md
+   18985 design.md
+    2550 environment.json
+    1464 execution-first-failures.txt
+    4205 execution.log
+    1033 hosted-ci-first-failure.txt
+   12788 metrics.jsonl
+   27698 proposed-protocol.json
+   27294 protocol_analysis.py
+    5587 result.json
+    3821 source-refs.json
+    8986 summary.md
+  154965 total
+OUTPUT_END
+
+### status-after
+UTC_START 2026-11-28T17:50:08Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.011520
+OUTPUT_BEGIN
+ M experiments/results/T0026/attempt-001/summary.md
+?? experiments/results/T0026/attempt-001/execution-first-failures.txt
+?? experiments/results/T0026/attempt-001/hosted-ci-first-failure.txt
+OUTPUT_END

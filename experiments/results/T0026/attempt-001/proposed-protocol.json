@@ -1,0 +1,761 @@
+{
+  "arms": {
+    "C": {
+      "active_parameter_range": [
+        32381440,
+        32381440
+      ],
+      "config_file": "dense-ntp-512x6-q8kv2-ffn2176.json",
+      "config_sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a",
+      "dormant_mtp_parameters": 0,
+      "label": "dense GQA forward-MAC-matched",
+      "model_family": "dense-ntp",
+      "ntp_base_parameters": 32381440,
+      "physical_parameters": 32381440,
+      "prefill_512_macs": 17382768640
+    },
+    "P": {
+      "active_parameter_range": [
+        35527168,
+        35527168
+      ],
+      "config_file": "dense-ntp-512x6-q8kv4-ffn2432.json",
+      "config_sha256": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9",
+      "dormant_mtp_parameters": 0,
+      "label": "dense GQA parameter-matched",
+      "model_family": "dense-ntp",
+      "ntp_base_parameters": 35527168,
+      "physical_parameters": 35527168,
+      "prefill_512_macs": 18993381376
+    },
+    "S": {
+      "active_parameter_range": [
+        22460004,
+        27178596
+      ],
+      "config_file": "splot-nano-v16384-a0.json",
+      "config_sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0",
+      "dormant_mtp_parameters": 147840,
+      "label": "SPLOT A0 scan R2",
+      "model_family": "splot",
+      "ntp_base_parameters": 36615780,
+      "physical_parameters": 36763620,
+      "prefill_512_macs": 17381326848
+    }
+  },
+  "bpb": {
+    "current_available": [
+      "token IDs, document IDs, positions, valid mask and shifted labels",
+      "source-level raw/content byte counts and tokenizer roundtrip totals",
+      "shard token/valid/NTP/offset2 counts"
+    ],
+    "current_format": "splot-pilot-blocks-v1",
+    "current_missing": [
+      "per-token UTF-8 byte length and byte offset",
+      "per-document original byte start/end and document hash",
+      "per-token source family and language identifiers",
+      "explicit BOS/EOS/PAD control mask",
+      "tokenizer token-to-byte table in the evidence artifact",
+      "shard-level byte coverage and per-family byte denominators"
+    ],
+    "reconciliation": [
+      "sum of token_byte_lengths per document equals document_byte_end - document_byte_start",
+      "sum of document bytes per shard equals manifest content_bytes",
+      "no gaps or overlaps in byte offsets",
+      "ordinary NTP NLL and content-only BPB are reported separately",
+      "EOS NLL per document is reported as a control metric"
+    ],
+    "required_schema": {
+      "block_fields": [
+        "input_ids",
+        "document_ids",
+        "position_ids",
+        "valid",
+        "labels_1",
+        "labels_2",
+        "token_byte_lengths",
+        "token_byte_offsets",
+        "control_mask",
+        "source_family_ids",
+        "language_ids",
+        "document_byte_start",
+        "document_byte_end"
+      ],
+      "evaluation_rule": "Primary BPB uses content-token labels only: numerator is the summed NLL of predicted content tokens; denominator is the summed UTF-8 byte length of those same target tokens. BOS/EOS/PAD NLL is reported separately and is never divided by zero bytes. Reversibility requires decode(token_bytes) == original UTF-8 bytes for every document.",
+      "format": "splot-pilot-blocks-v2",
+      "manifest_fields": [
+        "tokenizer_sha256",
+        "source_snapshot_sha256",
+        "logical_sha256",
+        "byte_coverage_sha256",
+        "shards[].bytes",
+        "shards[].content_bytes",
+        "shards[].family_token_counts",
+        "shards[].family_byte_counts",
+        "shards[].language_token_counts",
+        "shards[].language_byte_counts"
+      ],
+      "tokenizer": {
+        "actual_vocab_size": 16384,
+        "byte_level": true,
+        "normalizer": null,
+        "special_token_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "token_bytes": "length-vocab byte strings (hex/base64), specials flagged"
+      }
+    }
+  },
+  "budgets": {
+    "budget_stages": [
+      {
+        "name": "S0 feasibility",
+        "note": "128 updates/run; matches the T0027 9-run envelope",
+        "positions_per_run": 65536,
+        "runs": 9,
+        "seconds_per_run_at_t0017_anchor": 162.085,
+        "total_minutes_at_t0017_anchor": 24.31,
+        "total_positions": 589824,
+        "total_seconds_at_t0017_anchor": 1458.764,
+        "total_valid_tokens_est": 415836,
+        "updates_per_run": 128
+      },
+      {
+        "name": "S1 learning curve",
+        "note": "384 updates/run; four validation milestones; ~73 min analytical, leaves overhead",
+        "positions_per_run": 196608,
+        "runs": 9,
+        "seconds_per_run_at_t0017_anchor": 486.255,
+        "total_minutes_at_t0017_anchor": 72.94,
+        "total_positions": 1769472,
+        "total_seconds_at_t0017_anchor": 4376.291,
+        "total_valid_tokens_est": 1247508,
+        "updates_per_run": 384
+      },
+      {
+        "name": "S2 confirmation",
+        "note": "2,048 updates/run; ~21% of a 5M-token corpus per run; multi-window",
+        "positions_per_run": 1048576,
+        "runs": 9,
+        "seconds_per_run_at_t0017_anchor": 2593.357,
+        "total_minutes_at_t0017_anchor": 389.0,
+        "total_positions": 9437184,
+        "total_seconds_at_t0017_anchor": 23340.216,
+        "total_valid_tokens_est": 6653376,
+        "updates_per_run": 2048
+      },
+      {
+        "name": "S3 scaling",
+        "note": "10,240 updates/run; one 5M-token epoch per run; multi-window",
+        "positions_per_run": 5242880,
+        "runs": 9,
+        "seconds_per_run_at_t0017_anchor": 12966.787,
+        "total_minutes_at_t0017_anchor": 1945.02,
+        "total_positions": 47185920,
+        "total_seconds_at_t0017_anchor": 116701.082,
+        "total_valid_tokens_est": 33266880,
+        "updates_per_run": 10240
+      }
+    ],
+    "checkpoint_cadence": "every 16-32 updates with atomic write and identity hash; no early stopping for primary",
+    "compute_scenarios": [
+      {
+        "arm": "S",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 33947904000000,
+        "gpu_seconds_at_10_tflops": 20.369,
+        "gpu_seconds_at_20_tflops": 10.184,
+        "gpu_seconds_at_5_tflops": 40.737,
+        "tokens": 1000000,
+        "training_flops_est_6x_forward_macs": 203687424000000,
+        "training_macs_est_3x_forward": 101843712000000
+      },
+      {
+        "arm": "S",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 101843712000000,
+        "gpu_seconds_at_10_tflops": 61.106,
+        "gpu_seconds_at_20_tflops": 30.553,
+        "gpu_seconds_at_5_tflops": 122.212,
+        "tokens": 3000000,
+        "training_flops_est_6x_forward_macs": 611062272000000,
+        "training_macs_est_3x_forward": 305531136000000
+      },
+      {
+        "arm": "S",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 169739520000000,
+        "gpu_seconds_at_10_tflops": 101.844,
+        "gpu_seconds_at_20_tflops": 50.922,
+        "gpu_seconds_at_5_tflops": 203.687,
+        "tokens": 5000000,
+        "training_flops_est_6x_forward_macs": 1018437120000000,
+        "training_macs_est_3x_forward": 509218560000000
+      },
+      {
+        "arm": "P",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 37096448000000,
+        "gpu_seconds_at_10_tflops": 22.258,
+        "gpu_seconds_at_20_tflops": 11.129,
+        "gpu_seconds_at_5_tflops": 44.516,
+        "tokens": 1000000,
+        "training_flops_est_6x_forward_macs": 222578688000000,
+        "training_macs_est_3x_forward": 111289344000000
+      },
+      {
+        "arm": "P",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 111289344000000,
+        "gpu_seconds_at_10_tflops": 66.774,
+        "gpu_seconds_at_20_tflops": 33.387,
+        "gpu_seconds_at_5_tflops": 133.547,
+        "tokens": 3000000,
+        "training_flops_est_6x_forward_macs": 667736064000000,
+        "training_macs_est_3x_forward": 333868032000000
+      },
+      {
+        "arm": "P",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 185482240000000,
+        "gpu_seconds_at_10_tflops": 111.289,
+        "gpu_seconds_at_20_tflops": 55.645,
+        "gpu_seconds_at_5_tflops": 222.579,
+        "tokens": 5000000,
+        "training_flops_est_6x_forward_macs": 1112893440000000,
+        "training_macs_est_3x_forward": 556446720000000
+      },
+      {
+        "arm": "C",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 33950720000000,
+        "gpu_seconds_at_10_tflops": 20.37,
+        "gpu_seconds_at_20_tflops": 10.185,
+        "gpu_seconds_at_5_tflops": 40.741,
+        "tokens": 1000000,
+        "training_flops_est_6x_forward_macs": 203704320000000,
+        "training_macs_est_3x_forward": 101852160000000
+      },
+      {
+        "arm": "C",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 101852160000000,
+        "gpu_seconds_at_10_tflops": 61.111,
+        "gpu_seconds_at_20_tflops": 30.556,
+        "gpu_seconds_at_5_tflops": 122.223,
+        "tokens": 3000000,
+        "training_flops_est_6x_forward_macs": 611112960000000,
+        "training_macs_est_3x_forward": 305556480000000
+      },
+      {
+        "arm": "C",
+        "assumptions": [
+          "analytical forward contraction MACs only; embeddings/norms/scalar ops excluded",
+          "backward approximated as 2x forward MACs (3x total)",
+          "2 FLOPs per MAC",
+          "5/10/20 TFLOP/s sustained small-model throughput, not a hardware peak or measured result"
+        ],
+        "forward_macs": 169753600000000,
+        "gpu_seconds_at_10_tflops": 101.852,
+        "gpu_seconds_at_20_tflops": 50.926,
+        "gpu_seconds_at_5_tflops": 203.704,
+        "tokens": 5000000,
+        "training_flops_est_6x_forward_macs": 1018521600000000,
+        "training_macs_est_3x_forward": 509260800000000
+      }
+    ],
+    "corpus_scenarios": [
+      {
+        "assumptions": [
+          "train/validation/test tokens are valid content-token proxies",
+          "3.905 UTF-8 bytes per content token and 4.870 raw bytes per content token from T0016",
+          "16 B/token compact binary planning assumption (13-19 B range)",
+          "48.26 JSONL bytes per valid token from the current T0016 artifact"
+        ],
+        "compact_13_to_19b_per_token_est": [
+          14300000,
+          20900000
+        ],
+        "compact_16b_per_token_est": 17600000,
+        "extracted_utf8_bytes_est": 4295563,
+        "jsonl_current_ratio_est": 53083753,
+        "name": "1M",
+        "raw_bytes_est": 5355329,
+        "test_blocks_512_ceil": 98,
+        "test_tokens": 50000,
+        "total_tokens": 1100000,
+        "train_blocks_512_ceil": 1954,
+        "train_unique_valid_tokens": 1000000,
+        "validation_blocks_512_ceil": 98,
+        "validation_tokens": 50000
+      },
+      {
+        "assumptions": [
+          "train/validation/test tokens are valid content-token proxies",
+          "3.905 UTF-8 bytes per content token and 4.870 raw bytes per content token from T0016",
+          "16 B/token compact binary planning assumption (13-19 B range)",
+          "48.26 JSONL bytes per valid token from the current T0016 artifact"
+        ],
+        "compact_13_to_19b_per_token_est": [
+          42900000,
+          62700000
+        ],
+        "compact_16b_per_token_est": 52800000,
+        "extracted_utf8_bytes_est": 12886689,
+        "jsonl_current_ratio_est": 159251259,
+        "name": "3M",
+        "raw_bytes_est": 16065987,
+        "test_blocks_512_ceil": 293,
+        "test_tokens": 150000,
+        "total_tokens": 3300000,
+        "train_blocks_512_ceil": 5860,
+        "train_unique_valid_tokens": 3000000,
+        "validation_blocks_512_ceil": 293,
+        "validation_tokens": 150000
+      },
+      {
+        "assumptions": [
+          "train/validation/test tokens are valid content-token proxies",
+          "3.905 UTF-8 bytes per content token and 4.870 raw bytes per content token from T0016",
+          "16 B/token compact binary planning assumption (13-19 B range)",
+          "48.26 JSONL bytes per valid token from the current T0016 artifact"
+        ],
+        "compact_13_to_19b_per_token_est": [
+          71500000,
+          104500000
+        ],
+        "compact_16b_per_token_est": 88000000,
+        "extracted_utf8_bytes_est": 21477815,
+        "jsonl_current_ratio_est": 265418765,
+        "name": "5M",
+        "raw_bytes_est": 26776645,
+        "test_blocks_512_ceil": 489,
+        "test_tokens": 250000,
+        "total_tokens": 5500000,
+        "train_blocks_512_ceil": 9766,
+        "train_unique_valid_tokens": 5000000,
+        "validation_blocks_512_ceil": 489,
+        "validation_tokens": 250000
+      }
+    ],
+    "validation_cadence": "at fixed token milestones (quarter-budget preferred) and final; primary endpoint final checkpoint",
+    "wall_time_anchor": {
+      "caveat": "FP8 A2 43M model; a conservative overhead anchor, not a BF16 A0 prediction",
+      "seconds": 81.042418144876,
+      "seconds_per_update": 1.266288,
+      "source": "T0017 attempt-002 real pilot, accepted feasibility",
+      "updates": 64
+    }
+  },
+  "contrasts": {
+    "cost": "analytical forward/training MACs and measured wall time; report achieved gaps",
+    "primary": "S - C, paired by seed, final token-weighted validation NTP NLL",
+    "secondary": "S - P, paired by seed; interpret with multiplicity caution"
+  },
+  "corpus": {
+    "dedup": "exact + normalized + near-duplicate MinHash at document level; family-level dedup; 13-gram cross-split audit",
+    "minimum_families": {
+      "test": 4,
+      "train": 8,
+      "validation": 4
+    },
+    "planning_range_unique_train_tokens": [
+      1000000,
+      5000000
+    ],
+    "preferred_families": {
+      "test": 6,
+      "train": 12,
+      "validation": 6
+    },
+    "rights": "public-domain/CC0/CC-BY with per-source registry, revision, license and rights evidence; no acquisition in T0026",
+    "split_rule": "family-level disjoint; no document/family crosses splits; test frozen",
+    "stages": [
+      "1M descriptive/paired-SD",
+      "3M intermediate",
+      "5M confirmation"
+    ],
+    "tokenizer": "one frozen byte-level BPE, actual vocab 16,384, train-only deterministic fit"
+  },
+  "dependency_graph": [
+    {
+      "depends_on": [],
+      "id": "D1",
+      "item": "T0026 design review"
+    },
+    {
+      "depends_on": [
+        "D1"
+      ],
+      "id": "D2",
+      "item": "v2 byte-aligned dataset schema + independent audit"
+    },
+    {
+      "depends_on": [
+        "D1"
+      ],
+      "id": "D3",
+      "item": "optimized dense SDPA comparator implementation + CPU/CUDA correctness gates"
+    },
+    {
+      "depends_on": [
+        "D2"
+      ],
+      "id": "D4",
+      "item": "lawful corpus acquisition, rights registry and family split"
+    },
+    {
+      "depends_on": [
+        "D4"
+      ],
+      "id": "D5",
+      "item": "frozen tokenizer fit on train-only sample"
+    },
+    {
+      "depends_on": [
+        "D2",
+        "D3",
+        "D4",
+        "D5"
+      ],
+      "id": "D6",
+      "item": "1M-token matched feasibility and paired-SD estimate"
+    },
+    {
+      "depends_on": [
+        "D6"
+      ],
+      "id": "D7",
+      "item": "5M-token confirmation with predeclared seeds/margins"
+    },
+    {
+      "depends_on": [
+        "D6"
+      ],
+      "id": "D8",
+      "item": "GDN chunk64 localization diagnostic"
+    },
+    {
+      "depends_on": [
+        "D7"
+      ],
+      "id": "D9",
+      "item": "conditional-memory vs expert-capacity design for #86"
+    }
+  ],
+  "endpoints": {
+    "excluded": [
+      "test metrics before freeze",
+      "token-level bootstrap as family inference",
+      "single-run significance claims"
+    ],
+    "primary": "final token-weighted validation final NTP NLL (nats/label)",
+    "secondary": [
+      "content-only byte-aligned BPB (bits/byte)",
+      "ordinary NTP NLL and EOS/control NLL separately",
+      "per-language and per-family token-weighted NLL",
+      "macro-average family NLL",
+      "paired seed difference mean/median/min/max/SD/95% CI",
+      "fixed-budget capability probes",
+      "analytical training MACs, measured wall time, checkpoint bytes",
+      "learning curves and censored time-to-target"
+    ]
+  },
+  "gdn_localization": {
+    "gates": [
+      "FP32 recurrence state/output within 1e-9 relative L2 and max abs",
+      "no threshold relaxation from T0025",
+      "report first nonzero top2 flip and per-group disagreement counts, not inferred causes",
+      "teacher-forced fixed-route results are diagnostic only and cannot establish exact equivalence"
+    ],
+    "outputs": [
+      "per-module numerical table",
+      "route margin/rank table",
+      "depth/pool flip table",
+      "minimal reproduction script and sanitized log"
+    ],
+    "status": "separate diagnostic proposal only; no production change or equivalence claim",
+    "steps": [
+      "reproduce the exact T0025 initialization, input, partition and scan control",
+      "compare scan vs chunk64 at FP32 recurrence with autocast disabled",
+      "insert BF16 casts one at a time at projection input, residual input and router input",
+      "record per-module max abs/relative L2, route logits, top1/top2 margins and rank flips",
+      "group by depth (prelude/core/coda), pool (0-3), pass (C1/C2) and token position",
+      "run fixed-route teacher forcing to separate routing divergence from contraction order"
+    ],
+    "trigger": "T0025 full-model chunk64 failed hidden/logit/offset2 tensor gates and top2 routing at T512"
+  },
+  "margins": {
+    "capability_guardrail_pp": -2.0,
+    "decision_rule": "Noninferiority only if the two-sided 95% paired CI upper bound is below +0.05 nats; superiority only if it is below -0.03 nats. No significance or equivalence claim is made from a pilot with inadequate seed/family count.",
+    "justification": "0.05 nats is a small but non-trivial language-modeling difference and is the starting point used in T0019 planning; -0.03 nats is a stricter meaningful-advantage threshold. Both must be revised after the observed paired SD and family variance are available.",
+    "noninferiority_bits_per_byte": 0.01,
+    "noninferiority_nll_nats": 0.05,
+    "primary_contrast": "S - C (compute-matched dense), token-weighted final validation NTP NLL",
+    "secondary_contrast": "S - P (parameter-matched dense)",
+    "status": "planning defaults only; not preregistered and not a claim",
+    "superiority_nll_nats": -0.03,
+    "training_cost_guardrail_pct": 10.0
+  },
+  "non_claims": [
+    "no model quality, superiority, equivalence or scaling claim",
+    "no empirical variance, power or family-generalization estimate from T0016",
+    "no training, dataset acquisition, tokenizer fit or test access",
+    "no optimized dense implementation or measured cost result",
+    "no architecture adoption, pre-registration of final margins or task launch"
+  ],
+  "precision_planning": {
+    "caveat": "assumed paired SD; no observed variance exists; not a power guarantee",
+    "normal_approx_n_for_margin": {
+      "0.02": {
+        "0.03": 4,
+        "0.05": 3
+      },
+      "0.05": {
+        "0.03": 22,
+        "0.05": 8
+      },
+      "0.10": {
+        "0.03": 88,
+        "0.05": 32
+      }
+    },
+    "paired_seed_rows": [
+      {
+        "by_sd": {
+          "0.02": {
+            "ci95_half_width_nats": 0.0497,
+            "mde80_approx_nats": 0.0715
+          },
+          "0.05": {
+            "ci95_half_width_nats": 0.1242,
+            "mde80_approx_nats": 0.1787
+          },
+          "0.10": {
+            "ci95_half_width_nats": 0.2484,
+            "mde80_approx_nats": 0.3573
+          }
+        },
+        "df": 2,
+        "paired_seeds": 3,
+        "tcrit_975": 4.303,
+        "tpower_80": 1.886
+      },
+      {
+        "by_sd": {
+          "0.02": {
+            "ci95_half_width_nats": 0.0248,
+            "mde80_approx_nats": 0.0385
+          },
+          "0.05": {
+            "ci95_half_width_nats": 0.0621,
+            "mde80_approx_nats": 0.0964
+          },
+          "0.10": {
+            "ci95_half_width_nats": 0.1241,
+            "mde80_approx_nats": 0.1927
+          }
+        },
+        "df": 4,
+        "paired_seeds": 5,
+        "tcrit_975": 2.776,
+        "tpower_80": 1.533
+      },
+      {
+        "by_sd": {
+          "0.02": {
+            "ci95_half_width_nats": 0.0167,
+            "mde80_approx_nats": 0.0267
+          },
+          "0.05": {
+            "ci95_half_width_nats": 0.0418,
+            "mde80_approx_nats": 0.0668
+          },
+          "0.10": {
+            "ci95_half_width_nats": 0.0836,
+            "mde80_approx_nats": 0.1336
+          }
+        },
+        "df": 7,
+        "paired_seeds": 8,
+        "tcrit_975": 2.365,
+        "tpower_80": 1.415
+      },
+      {
+        "by_sd": {
+          "0.02": {
+            "ci95_half_width_nats": 0.0127,
+            "mde80_approx_nats": 0.0206
+          },
+          "0.05": {
+            "ci95_half_width_nats": 0.0318,
+            "mde80_approx_nats": 0.0514
+          },
+          "0.10": {
+            "ci95_half_width_nats": 0.0635,
+            "mde80_approx_nats": 0.1029
+          }
+        },
+        "df": 11,
+        "paired_seeds": 12,
+        "tcrit_975": 2.201,
+        "tpower_80": 1.363
+      },
+      {
+        "by_sd": {
+          "0.02": {
+            "ci95_half_width_nats": 0.0094,
+            "mde80_approx_nats": 0.0153
+          },
+          "0.05": {
+            "ci95_half_width_nats": 0.0234,
+            "mde80_approx_nats": 0.0382
+          },
+          "0.10": {
+            "ci95_half_width_nats": 0.0468,
+            "mde80_approx_nats": 0.0765
+          }
+        },
+        "df": 19,
+        "paired_seeds": 20,
+        "tcrit_975": 2.093,
+        "tpower_80": 1.328
+      }
+    ]
+  },
+  "primary_question": "At matched valid-token and forward-contraction budgets, does SPLOT A0 scan R2 preserve or improve held-out token-weighted final NTP NLL versus a credible optimized dense GQA comparator without material capability regression, at comparable or lower training cost?",
+  "probes": {
+    "families": [
+      {
+        "ceiling_rule": "uninformative if every arm > 0.90",
+        "chance": 0.0625,
+        "contamination_audit": "13-gram overlap with train/validation < 0.1%",
+        "floor_rule": "chance + 2 binomial SE",
+        "instances": 256,
+        "name": "key_value_retrieval",
+        "scoring": "exact answer match"
+      },
+      {
+        "ceiling_rule": "uninformative if every arm > 0.90",
+        "chance": 0.125,
+        "contamination_audit": "held-out symbol mapping and templates",
+        "floor_rule": "chance + 2 binomial SE",
+        "instances": 256,
+        "name": "compositional_rule_completion",
+        "scoring": "exact answer match on held-out rule"
+      },
+      {
+        "ceiling_rule": "uninformative if every arm > 0.95",
+        "chance": 0.5,
+        "contamination_audit": "synthetic sentence pairs, no corpus text",
+        "floor_rule": "chance + 2 binomial SE",
+        "instances": 128,
+        "name": "document_order_reconstruction",
+        "scoring": "pairwise order accuracy"
+      }
+    ],
+    "principles": [
+      "frozen before any training run and never used for tuning",
+      "generators, templates, entities and instances disjoint from train/validation",
+      "chance and floor/ceiling reported; uninformative if all arms near chance",
+      "held-out test probe set untouched until final evaluation",
+      "no universal capability or intelligence claim"
+    ],
+    "status": "design only; no instances generated, no test access"
+  },
+  "regimes": [
+    {
+      "name": "matched_token",
+      "rule": "identical token stream, order, valid labels and update count"
+    },
+    {
+      "name": "matched_forward_mac",
+      "rule": "C within 0.1% of S prefill MACs/token at 512; primary cost regime"
+    },
+    {
+      "name": "matched_parameter",
+      "rule": "P within 3% of S NTP base parameters; secondary"
+    },
+    {
+      "name": "matched_training_compute",
+      "rule": "if used, adjust updates to equal estimated 3x-forward MACs; disclose achieved gap"
+    }
+  ],
+  "schema": "splot-t0026-proposed-protocol-v1",
+  "seeds": {
+    "confirmation_range": [
+      5,
+      12
+    ],
+    "default_pairing": [
+      42,
+      43,
+      44
+    ],
+    "final_count": "unresolved until observed paired SD and family variance",
+    "planning_minimum": 3,
+    "rule": "same seed controls data order and RNG across arms; paired differences only"
+  },
+  "source_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "status": "proposed; not preregistered; no training authorized",
+  "task_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "task_id": "T0026",
+  "unresolved": [
+    "corpus sources, rights evidence and family assignments",
+    "whether 8 train / 4 validation / 4 test families are sufficient for cluster uncertainty at 1M tokens",
+    "tokenizer fit sample size and whether one 16k tokenizer is frozen across all scales",
+    "optimized dense comparator implementation and its acceptance tests",
+    "final paired-seed count after observed paired SD",
+    "final noninferiority/superiority margins after variance and family review",
+    "available multi-window compute budget and whether 5M-token confirmation is feasible",
+    "v1 -> v2 schema migration and independent byte-alignment audit",
+    "whether conditional-memory vs expert-capacity design belongs in the first #86 follow-up"
+  ]
+}

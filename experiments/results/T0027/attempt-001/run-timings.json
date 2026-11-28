@@ -1,0 +1,236 @@
+{
+  "matrix_elapsed_seconds": 547,
+  "matrix_end_utc": "2026-11-28T17:51:01Z",
+  "matrix_start_utc": "2026-11-28T17:41:54Z",
+  "no_retries": true,
+  "runs": [
+    {
+      "arm": "S",
+      "checkpoint": {
+        "bytes": 319086611,
+        "private_path_withheld": true,
+        "sha256": "a1d34d3fd243d7eaf619730425b70c7febd31986c4f227c5eca29e945bb713ca"
+      },
+      "end_utc": "2026-11-28T17:44:09Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 0,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 181153230848
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26880626688,
+        "scratch_free_bytes": 181472485376
+      },
+      "run_id": "S-seed42",
+      "seed": 42,
+      "start_utc": "2026-11-28T17:41:54Z",
+      "wall_seconds": 135
+    },
+    {
+      "arm": "P",
+      "checkpoint": {
+        "bytes": 317884443,
+        "private_path_withheld": true,
+        "sha256": "2a380f5fe741180d3d52393a5284de2faff83d253a5eb21e61d35f3416f38d66"
+      },
+      "end_utc": "2026-11-28T17:45:03Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 1,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 180835250176
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26924437504,
+        "scratch_free_bytes": 181153234944
+      },
+      "run_id": "P-seed42",
+      "seed": 42,
+      "start_utc": "2026-11-28T17:44:45Z",
+      "wall_seconds": 18
+    },
+    {
+      "arm": "C",
+      "checkpoint": {
+        "bytes": 292718555,
+        "private_path_withheld": true,
+        "sha256": "c0f70ff2b4add75a5723424d159681eddaa8fcc7cdf648a9ce02c4d7d48b01a5"
+      },
+      "end_utc": "2026-11-28T17:45:20Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 2,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 180542394368
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26903228416,
+        "scratch_free_bytes": 180835241984
+      },
+      "run_id": "C-seed42",
+      "seed": 42,
+      "start_utc": "2026-11-28T17:45:08Z",
+      "wall_seconds": 12
+    },
+    {
+      "arm": "P",
+      "checkpoint": {
+        "bytes": 317884315,
+        "private_path_withheld": true,
+        "sha256": "98098d96bad84512b26cea13385ed4ce5691ac7a7ac8bd9803b1601d44906c40"
+      },
+      "end_utc": "2026-11-28T17:45:36Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 3,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 180224409600
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26893762560,
+        "scratch_free_bytes": 180542398464
+      },
+      "run_id": "P-seed43",
+      "seed": 43,
+      "start_utc": "2026-11-28T17:45:25Z",
+      "wall_seconds": 11
+    },
+    {
+      "arm": "C",
+      "checkpoint": {
+        "bytes": 292718491,
+        "private_path_withheld": true,
+        "sha256": "bae81e0a3b67dd5c94928a903698ecb36c82eebd7d34055e58c98984def6260d"
+      },
+      "end_utc": "2026-11-28T17:45:52Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 4,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 179931582464
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26901942272,
+        "scratch_free_bytes": 180224401408
+      },
+      "run_id": "C-seed43",
+      "seed": 43,
+      "start_utc": "2026-11-28T17:45:40Z",
+      "wall_seconds": 12
+    },
+    {
+      "arm": "S",
+      "checkpoint": {
+        "bytes": 319086547,
+        "private_path_withheld": true,
+        "sha256": "4433a704947be485d1641ba21cbb9266721d39c63b8a6208c697a57f62ca5b7c"
+      },
+      "end_utc": "2026-11-28T17:48:11Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 5,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 179612340224
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26895069184,
+        "scratch_free_bytes": 179931574272
+      },
+      "run_id": "S-seed43",
+      "seed": 43,
+      "start_utc": "2026-11-28T17:45:56Z",
+      "wall_seconds": 135
+    },
+    {
+      "arm": "C",
+      "checkpoint": {
+        "bytes": 292718491,
+        "private_path_withheld": true,
+        "sha256": "806eacb9c1d42375e6e37fff169533e23746fb6a01ab5e5b30545980900153f7"
+      },
+      "end_utc": "2026-11-28T17:48:27Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 6,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 179319508992
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26899886080,
+        "scratch_free_bytes": 179612327936
+      },
+      "run_id": "C-seed44",
+      "seed": 44,
+      "start_utc": "2026-11-28T17:48:15Z",
+      "wall_seconds": 12
+    },
+    {
+      "arm": "S",
+      "checkpoint": {
+        "bytes": 319086547,
+        "private_path_withheld": true,
+        "sha256": "81b460e2910bf7d8e32ceee91919e539a4907f4090ee9b2d798ced58ca272cc5"
+      },
+      "end_utc": "2026-11-28T17:50:47Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 7,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 179000254464
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26907680768,
+        "scratch_free_bytes": 179319500800
+      },
+      "run_id": "S-seed44",
+      "seed": 44,
+      "start_utc": "2026-11-28T17:48:32Z",
+      "wall_seconds": 135
+    },
+    {
+      "arm": "P",
+      "checkpoint": {
+        "bytes": 317884379,
+        "private_path_withheld": true,
+        "sha256": "e3ac71f01940d806efb7ce95c0ef25c8bd2bf9a3cdaf0ba981d3caf0aec38722"
+      },
+      "end_utc": "2026-11-28T17:51:01Z",
+      "exit_code": 0,
+      "no_retry": true,
+      "order_index": 8,
+      "post": {
+        "gpu_free_mib": 24077,
+        "scratch_free_bytes": 178682257408
+      },
+      "preflight": {
+        "gpu_free_mib": 24077,
+        "host_ram_available_bytes": 26933194752,
+        "scratch_free_bytes": 179000242176
+      },
+      "run_id": "P-seed44",
+      "seed": 44,
+      "start_utc": "2026-11-28T17:50:51Z",
+      "wall_seconds": 10
+    }
+  ],
+  "status": "passed",
+  "timeouts": 0,
+  "total_invocation_wall_seconds": 480
+}

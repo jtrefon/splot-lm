@@ -1,0 +1,125 @@
+{
+  "attempt": 1,
+  "checks": {
+    "analysis": {
+      "detail": "Descriptive paired S-P and S-C validation NLL differences with raw values and mean/median/min/max/sample SD (n=3); weighted pre-update training NLL; analytical forward MAC totals and gaps; measured step/wall/validation time, valid-token rates, peak allocated/reserved and checkpoint sizes; no test metrics, actual FLOP claim, energy estimate or quality threshold.",
+      "evidence": [
+        "analysis.json",
+        "metrics.jsonl",
+        "run-timings.json",
+        "checkpoint-inventory.json"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Origin/main source and zero open PRs verified; RTX 4090 24,077 MiB free, driver 580.178.04; Python 3.12.7/torch 2.10.0+cu128/CUDA 12.8; deterministic/TF32 off; host RAM and scratch above limits; exact five-file snapshot and all pins verified; seed-only config derivatives; no downloads/installs.",
+      "evidence": [
+        "environment.json",
+        "dataset-identity.json",
+        "source-register.json",
+        "config-audit.json",
+        "config-seed-diff.txt",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat sanitized package with nine run JSONs, nine audits, exact configs/hashes/diff, dataset/source register, matrix, timings, private checkpoint inventory and summary; validator result reported in the PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "analysis.json",
+        "checkpoint-inventory.json"
+      ],
+      "status": "passed"
+    },
+    "matched_runs": {
+      "detail": "Nine counterbalanced BF16 runs (S/P/C x seeds 42/43/44), 128 updates each, exit 0, no timeout/retry; 128 unique indices matching T0023 per seed; 46,204 valid/46,076 NTP/45,948 offset-2 available and 5,250 validation labels; identical source/data/packed pins; zero unused IDs; finite losses/state; BF16/optimizer policy; eight checkpoint writes at steps 16..128.",
+      "evidence": [
+        "run-timings.json",
+        "checkpoint-inventory.json",
+        "matrix.json",
+        "metrics.jsonl",
+        "run-S-seed42.json",
+        "run-P-seed42.json",
+        "run-C-seed42.json",
+        "run-P-seed43.json",
+        "run-C-seed43.json",
+        "run-S-seed43.json",
+        "run-C-seed44.json",
+        "run-S-seed44.json",
+        "run-P-seed44.json",
+        "audit-S-seed42.json",
+        "audit-P-seed42.json",
+        "audit-C-seed42.json",
+        "audit-P-seed43.json",
+        "audit-C-seed43.json",
+        "audit-S-seed43.json",
+        "audit-C-seed44.json",
+        "audit-S-seed44.json",
+        "audit-P-seed44.json"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analysis.json": "a770e638c2c30cadee0f39a4f0d4e7e9c4079924ad2fb3adbaf85819050a4e9f",
+    "audit-C-seed42.json": "1495f4b62026af7ac52684da1c05ec49aba0b78f64ed347a6fae993d7e225dd9",
+    "audit-C-seed43.json": "ff0ddefe625b5eb174733837e7233f8334de2aaaaf10a25188f01d2838597f74",
+    "audit-C-seed44.json": "8a7802a4cf41553cda74d47ab34c1a63258dc60b7fd4e9519d8dbaf1bc4c0149",
+    "audit-P-seed42.json": "30365af223de3743c0cd5d5a0ea3770b7217427b3ccb2c206df71bc9ea2f143d",
+    "audit-P-seed43.json": "bb909b2b7f034ccd1753bda6c876bceac23b814b74b78113f5a09350f093b667",
+    "audit-P-seed44.json": "8433555debc10b7040e961a513971d7cefb12bb21f16b11d1e8e1c77fb87a6fe",
+    "audit-S-seed42.json": "0a44cec4c3973260ed0195c4dca660b803bbf658a7e9f12143737f84988d1428",
+    "audit-S-seed43.json": "afecfc23368fa31a3ac4ce7573c9dab9c9a7b5f016b9b897797b7bbd3c2107ce",
+    "audit-S-seed44.json": "15c35662ee13ca335c75086cfeae460cc95bd6b590266c069fb0d661bcd5b444",
+    "audit-runs.py": "2a9af8d726eb3e65c60dde542fab5e0fabd2e233275b4a090b6b665363b9ecf1",
+    "checkpoint-inventory.json": "a9fba0478479d544160a6048e3f6e5d37c14486850bb2555ab0b4b2e8fb2629a",
+    "config-C-seed42.json": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a",
+    "config-C-seed43.json": "d27b5c5cd178152eeedeae9053ab184c57da52de57844a76813f15e2ba0cb5f8",
+    "config-C-seed44.json": "75264d62e127ba4e881613fc5eaaef99e335f162267e15dcaa8988cc95d92c2e",
+    "config-P-seed42.json": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9",
+    "config-P-seed43.json": "ac38851101ecb523dd54ad356237b87340ef4f68b66384e30952be014ed36e25",
+    "config-P-seed44.json": "94438af68439da260284c0a3f7d0c15df70cf435cfddb19197d6fae7b909b8e0",
+    "config-S-seed42.json": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0",
+    "config-S-seed43.json": "2d712a31ecc1b78e20526885f8bd73dd2f10001eab528547ae2240c42ca53c7c",
+    "config-S-seed44.json": "b517461d478bce1c829c8bd44fa51c7a49f1d8c100a49094c562a2918b168e52",
+    "config-audit.json": "b20b31ab1b989d3748a29d360a995a2ee6043a22fde6bc6e9e5b3597ebd0f4d0",
+    "config-seed-diff.txt": "5e69e96ddb5cb304360eae1a714a885b1fabb09ec71e66aba3783f8511326597",
+    "dataset-identity.json": "7d209cd50196a3e0c6460b6452bf57988ed032c3fd76ef6ae65c22ba8374b241",
+    "environment.json": "772860ba69a90efbc4c59cffb8ca1ecbabeb918b4545e502124b34b00d731b90",
+    "execution.log": "4f2209e8fd01eacf1f285bafcc7a979c1460f5954c6eb6f3a6e36d6359be6686",
+    "matrix.json": "7d3fc9118944776f4d605ed2e9df16e741bdad42386c0e60f63f516fbff72263",
+    "metrics.jsonl": "40d7c60c27b528004320621824f3c0ab41b732bfd4fc8b2bb3104f638a696c4e",
+    "run-C-seed42.json": "eae2e9a78762d5071ecca61783f2ee440d3cb8d2fabf8ceff16b7b01c9ff4f07",
+    "run-C-seed43.json": "6110c7c2394bbd009be2ab9ec976fc224749f1fd57ea0f6822710cd3d3d8bdb9",
+    "run-C-seed44.json": "0f7b9c81e2c3bf4c2e8cb561dd3129dcc2fae21f1b6fc2bb96f13b70a880ecc2",
+    "run-P-seed42.json": "98f010af883aa138e37ded89b4ab88e112c8a028a02e25c5b6f61d4d5b1ab894",
+    "run-P-seed43.json": "a72f0f8ac6914da7e297a3b7c7ea506b8f02dc4171754ce0d7a0597145f8ce41",
+    "run-P-seed44.json": "0cb1474ea0339305a5bb9fc5e9880cff8f0f25bd88bcba3ae60b89d518fddd5e",
+    "run-S-seed42.json": "3ab997d840e02efe88a54f9b24c5310a69e67a3a26dc1b832028937240088c1d",
+    "run-S-seed43.json": "8014068ef8855b53ded9938a7838a98484c029141acccada620c5c5c50bf31e3",
+    "run-S-seed44.json": "59682c57e7f649a75cc0c9da50e563154b4fa2f0ccd037c0e0a0ed51c30141ab",
+    "run-timings.json": "1d2868504182a590d54f18caa63a68bffdd129ad4fe6bfe2c76040c72b2c01b1",
+    "source-register.json": "d07906a83e3be838c16cad5751863133eb070e7173fe7d1154b9a0faf1613c47",
+    "summary.md": "32d9945f67ee8095dcfcc6dcd28a27eb75a0c7a0b225e1e3af115d56d3a0abb6"
+  },
+  "limitations": [
+    "Descriptive three-seed one-pass pilot on one 2.7 MB bilingual snapshot; no power, convergence, held-out test, superiority, equivalence or production claim.",
+    "No test evaluation; test shard integrity-checked only.",
+    "Different arm parameter counts, initial shapes and analytical control bases; seeds pair data order, not initialization.",
+    "Analytical MACs are ideal unpadded forward contractions, not actual training FLOPs; measured timings are implementation-specific.",
+    "SPLOT sparse routing leaves some expert parameters without gradients on a given final batch; physical and gradient-present inventories are reported separately.",
+    "No host RSS or energy measurement, optimized dense comparison, FP8/chunk64, Mini or sustained training."
+  ],
+  "schema_version": 1,
+  "source_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "spec_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "status": "passed",
+  "task_commit": "003cf8db6126f0aaefdd599ac159f2503457f709",
+  "task_id": "T0027",
+  "tested_commit": "003cf8db6126f0aaefdd599ac159f2503457f709"
+}

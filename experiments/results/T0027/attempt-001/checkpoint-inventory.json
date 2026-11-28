@@ -1,0 +1,99 @@
+{
+  "checkpoint_count": 9,
+  "checkpoints": [
+    {
+      "arm": "S",
+      "bytes": 319086611,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "S-seed42",
+      "seed": 42,
+      "sha256": "a1d34d3fd243d7eaf619730425b70c7febd31986c4f227c5eca29e945bb713ca"
+    },
+    {
+      "arm": "P",
+      "bytes": 317884443,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "P-seed42",
+      "seed": 42,
+      "sha256": "2a380f5fe741180d3d52393a5284de2faff83d253a5eb21e61d35f3416f38d66"
+    },
+    {
+      "arm": "C",
+      "bytes": 292718555,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "C-seed42",
+      "seed": 42,
+      "sha256": "c0f70ff2b4add75a5723424d159681eddaa8fcc7cdf648a9ce02c4d7d48b01a5"
+    },
+    {
+      "arm": "P",
+      "bytes": 317884315,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "P-seed43",
+      "seed": 43,
+      "sha256": "98098d96bad84512b26cea13385ed4ce5691ac7a7ac8bd9803b1601d44906c40"
+    },
+    {
+      "arm": "C",
+      "bytes": 292718491,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "C-seed43",
+      "seed": 43,
+      "sha256": "bae81e0a3b67dd5c94928a903698ecb36c82eebd7d34055e58c98984def6260d"
+    },
+    {
+      "arm": "S",
+      "bytes": 319086547,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "S-seed43",
+      "seed": 43,
+      "sha256": "4433a704947be485d1641ba21cbb9266721d39c63b8a6208c697a57f62ca5b7c"
+    },
+    {
+      "arm": "C",
+      "bytes": 292718491,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "C-seed44",
+      "seed": 44,
+      "sha256": "806eacb9c1d42375e6e37fff169533e23746fb6a01ab5e5b30545980900153f7"
+    },
+    {
+      "arm": "S",
+      "bytes": 319086547,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "S-seed44",
+      "seed": 44,
+      "sha256": "81b460e2910bf7d8e32ceee91919e539a4907f4090ee9b2d798ced58ca272cc5"
+    },
+    {
+      "arm": "P",
+      "bytes": 317884379,
+      "checkpoint_interval": 16,
+      "checkpoint_writes": 8,
+      "private_local_only": true,
+      "run_id": "P-seed44",
+      "seed": 44,
+      "sha256": "e3ac71f01940d806efb7ce95c0ef25c8bd2bf9a3cdaf0ba981d3caf0aec38722"
+    }
+  ],
+  "note": "Checkpoints remain in the owner private scratch tree; only SHA-256, bytes, interval and write count are published.",
+  "private_paths_withheld": true,
+  "status": "passed",
+  "total_bytes": 2789068379
+}

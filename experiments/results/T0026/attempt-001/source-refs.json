@@ -1,0 +1,98 @@
+{
+  "refs": {
+    "configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json": {
+      "bytes": 1022,
+      "sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"
+    },
+    "configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json": {
+      "bytes": 1022,
+      "sha256": "18de9683d335bdcebf69070e3251471e8b40d86ed0904c9a0b2be38b4652b0a9"
+    },
+    "configs/experiments/splot-nano-v16384-a0.json": {
+      "bytes": 1285,
+      "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+    },
+    "experiments/results/T0016/attempt-001/dataset-summary.json": {
+      "bytes": 7647,
+      "sha256": "175c0b9b29a7d57106fb6c1cee2afa4f10cba99ff6fc50feeb31841ec97e750c"
+    },
+    "experiments/results/T0016/attempt-001/manifest.json": {
+      "bytes": 4674,
+      "sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55"
+    },
+    "experiments/results/T0016/attempt-001/summary.md": {
+      "bytes": 8975,
+      "sha256": "94102f8360135fd47290df06589480fcb02d6aefda76851b2945010070970737"
+    },
+    "experiments/results/T0016/attempt-001/tokenizer-summary.json": {
+      "bytes": 1414,
+      "sha256": "f97a8e6bd0d5d20914ab2a627115e31075c0768fb31a85eeba623f3bf4739455"
+    },
+    "experiments/results/T0019/attempt-002/summary.md": {
+      "bytes": 6118,
+      "sha256": "fa821ffcb92daeb16e47ed51e4e783e872c656abd839f563a57aa5489853e440"
+    },
+    "experiments/results/T0023/attempt-003/proposed-matrix.json": {
+      "bytes": 13192,
+      "sha256": "85ab63d8715b357f688d033fe8cfc478d52203288c3a973b2b7ff143c53760cf"
+    },
+    "experiments/results/T0023/attempt-003/summary.md": {
+      "bytes": 3433,
+      "sha256": "c5f0966cc56dbb1efb375dcba7350ab7e3acdb67b5d9db7871e76dd4e2560ee0"
+    },
+    "experiments/results/T0025/attempt-001/summary.md": {
+      "bytes": 7259,
+      "sha256": "eadbf323a3f46d561644b858c373d0811c0ff38f5fa2c7e763a4ecb4184835fb"
+    },
+    "experiments/tasks/T0026-matched-evaluation-protocol.md": {
+      "bytes": 3549,
+      "sha256": "70b286a8a2eb1ce7894799247e9d0d4463499be1677fc0f34b8c2c44a70b044c"
+    },
+    "experiments/tasks/T0027-matched-ntp-pilot.md": {
+      "bytes": 5956,
+      "sha256": "a98f3d9070b590a1baf1e7a943c6f173e981db72184256ce1f0a43c699d22b68"
+    },
+    "research/CHARTER.md": {
+      "bytes": 3264,
+      "sha256": "ff0dd4d7505396f18ea5877d6a27a23c9c840ac2d735d61efab9064625b17cb0"
+    },
+    "research/evaluation/README.md": {
+      "bytes": 5186,
+      "sha256": "7f7e801806c9f6eef6db978d2bc039b5741396be0f927c9d23d88c7d18673339"
+    },
+    "research/evaluation/T0023-acceptance.md": {
+      "bytes": 1602,
+      "sha256": "5d677a3e8e21ac02587b62a3679d921d26c4a8216f21d7a49810366822458f53"
+    },
+    "research/evaluation/T0025-disposition.md": {
+      "bytes": 1997,
+      "sha256": "1a8601a7ba752d26c99a3c4dbab4b119cb9aee94b08ed40fd9d97670ab0adca5"
+    },
+    "src/splot/dense.py": {
+      "bytes": 9155,
+      "sha256": "f00d1cbb010cd7672edbf203efc73528cd2d02f4941024672df4d92979b7fcc0"
+    },
+    "src/splot/hybrid.py": {
+      "bytes": 893,
+      "sha256": "0bc920a0a58f699034b31fd532198bc671e46a255132957641d56eb4a809c39b"
+    },
+    "src/splot/mtp.py": {
+      "bytes": 3572,
+      "sha256": "3d955949d311d67dfbce0eda36ae951359464329732049098509548e14961503"
+    },
+    "tools/accounting.py": {
+      "bytes": 5570,
+      "sha256": "b8896dcd10d6b08cb57e4ab6af6b89458d83b35d957c4590a6e8e6ba77ad12b8"
+    },
+    "tools/experiment.py": {
+      "bytes": 32581,
+      "sha256": "23a3e1c957e27bbb2d1d393e53eafc8e495f76199766fdd377243013131d225c"
+    },
+    "tools/pilot_ingestion.py": {
+      "bytes": 16293,
+      "sha256": "2187d93ae109ec8c56d2a9782634f27aded455da576f14ec044cc00a70634e75"
+    }
+  },
+  "schema": "splot-t0026-source-refs-v1",
+  "source_commit": "003cf8db6126f0aaefdd599ac159f2503457f709"
+}
