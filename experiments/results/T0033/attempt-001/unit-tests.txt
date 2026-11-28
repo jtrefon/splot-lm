@@ -8,7 +8,7 @@ test_irregular_chunks_and_prefix (__main__.HybridSemantics.test_irregular_chunks
 test_matrix_rollback (__main__.HybridSemantics.test_matrix_rollback) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 0.010s
+Ran 6 tests in 0.011s
 
 OK
 
@@ -33,7 +33,7 @@ test_invalid_metadata_and_cache_contract (__main__.DenseTests.test_invalid_metad
 test_loss_gradients_and_empty (__main__.DenseTests.test_loss_gradients_and_empty) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 0.049s
+Ran 6 tests in 0.045s
 
 OK
 
@@ -45,7 +45,7 @@ test_packed_rows_reset_and_padding (__main__.DeltaChunk64Tests.test_packed_rows_
 test_prefix_cache_and_logical_passes (__main__.DeltaChunk64Tests.test_prefix_cache_and_logical_passes) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.672s
+Ran 5 tests in 0.682s
 
 OK
 
@@ -63,7 +63,7 @@ test_learned_chunk_scan_and_gradients (__main__.HybridTests.test_learned_chunk_s
 test_replay_and_speculation (__main__.HybridTests.test_replay_and_speculation) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 1.720s
+Ran 6 tests in 1.822s
 
 OK
 
@@ -81,7 +81,7 @@ test_speculative_replay (__main__.MoETests.test_speculative_replay) ... ok
 test_ties_padding_and_balance (__main__.MoETests.test_ties_padding_and_balance) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 1.860s
+Ran 6 tests in 1.786s
 
 OK
 
@@ -95,7 +95,7 @@ test_invalid_objective_inputs (__main__.MTPTests.test_invalid_objective_inputs) 
 test_inventory_and_unchanged_target (__main__.MTPTests.test_inventory_and_unchanged_target) ... ok
 
 ----------------------------------------------------------------------
-Ran 7 tests in 0.426s
+Ran 7 tests in 0.431s
 
 OK
 
@@ -109,7 +109,7 @@ test_physical_count_and_r1_dense_equivalence (__main__.RecurrentTests.test_physi
 test_shared_gradients_equal_untied_sum (__main__.RecurrentTests.test_shared_gradients_equal_untied_sum) ... ok
 
 ----------------------------------------------------------------------
-Ran 7 tests in 1.345s
+Ran 7 tests in 1.380s
 
 OK
 
@@ -128,7 +128,7 @@ test_single_token_probability_identity (__main__.SpeculativeTests.test_single_to
 test_validation (__main__.SpeculativeTests.test_validation) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 1.238s
+Ran 6 tests in 1.295s
 
 OK
 
@@ -151,7 +151,7 @@ test_later_rejection (__main__.ScenarioTests.test_later_rejection) ... ok
 test_short_final_draft (__main__.ScenarioTests.test_short_final_draft) ... ok
 
 ----------------------------------------------------------------------
-Ran 16 tests in 0.207s
+Ran 16 tests in 0.214s
 
 OK
 
@@ -192,7 +192,7 @@ test_rmsnorm_rope_and_ce_are_fp32 (__main__.BF16HarnessTests.test_rmsnorm_rope_a
 test_same_seed_batch_and_precision_resolution (__main__.BF16HarnessTests.test_same_seed_batch_and_precision_resolution) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.819s
+Ran 5 tests in 0.794s
 
 OK
 
@@ -239,7 +239,7 @@ test_invalid_probe_arguments (__main__.ModelAndConfigTests.test_invalid_probe_ar
 test_paired_configs_and_initial_model_identity (__main__.ModelAndConfigTests.test_paired_configs_and_initial_model_identity) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 1.133s
+Ran 5 tests in 1.144s
 
 OK
 
@@ -289,7 +289,7 @@ test_transitive_group_dedup (__main__.DataContract.test_transitive_group_dedup) 
 test_utf8_roundtrip (__main__.DataContract.test_utf8_roundtrip) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 0.001s
+Ran 6 tests in 0.002s
 
 OK
 
@@ -326,7 +326,7 @@ test_seed_data_order_one_pass (__main__.PreflightTests.test_seed_data_order_one_
 test_t0016_positions_valid_and_ntp_labels (__main__.PreflightTests.test_t0016_positions_valid_and_ntp_labels) ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 9.553s
+Ran 13 tests in 9.501s
 
 OK
 
@@ -338,7 +338,7 @@ test_schedule (__main__.HarnessTests.test_schedule) ... ok
 test_token_weighted_eval (__main__.HarnessTests.test_token_weighted_eval) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.424s
+Ran 5 tests in 0.416s
 
 OK
 
@@ -346,7 +346,7 @@ OK
 test_sparse_resume_and_validation (__main__.Integration.test_sparse_resume_and_validation) ... ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.821s
+Ran 1 test in 0.825s
 
 OK
 
@@ -358,7 +358,7 @@ test_report_exit_contract (__main__.FP8CPUTests.test_report_exit_contract) ... o
 test_selection_identity_state_dict_and_partition (__main__.FP8CPUTests.test_selection_identity_state_dict_and_partition) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.030s
+Ran 5 tests in 0.031s
 
 OK
 
@@ -372,7 +372,7 @@ test_policy_partition_and_metadata (__main__.FP8MuonCPUTests.test_policy_partiti
 test_post_update_guard_preserves_prior_checkpoint (__main__.FP8MuonCPUTests.test_post_update_guard_preserves_prior_checkpoint) ... ok
 
 ----------------------------------------------------------------------
-Ran 7 tests in 0.097s
+Ran 7 tests in 0.096s
 
 OK
 
@@ -403,7 +403,7 @@ test_cli_a0_a2_scan_chunk_resume_exact (__main__.FP32HarnessTests.test_cli_a0_a2
 test_cli_cross_mode_and_precision_fail_closed (__main__.FP32HarnessTests.test_cli_cross_mode_and_precision_fail_closed) ... ok
 
 ----------------------------------------------------------------------
-Ran 2 tests in 25.553s
+Ran 2 tests in 25.687s
 
 OK
 
@@ -415,7 +415,7 @@ test_resume_exact_and_mode_mismatch (__main__.HybridOptimizerTests.test_resume_e
 test_semantic_partition_smoke_and_nano (__main__.HybridOptimizerTests.test_semantic_partition_smoke_and_nano) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 1.697s
+Ran 5 tests in 1.716s
 
 OK
 
@@ -439,7 +439,7 @@ test_segmentation_is_lossless_and_bounded (__main__.SegmentationTests.test_segme
 test_segmentation_rejects_nul_and_bad_limit (__main__.SegmentationTests.test_segmentation_rejects_nul_and_bad_limit) ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 0.249s
+Ran 17 tests in 0.253s
 
 OK
 
@@ -452,7 +452,7 @@ test_shard_hash_mismatch (__main__.PilotLoaderTests.test_shard_hash_mismatch) ..
 test_tamper_extra_file_and_duplicate_document (__main__.PilotLoaderTests.test_tamper_extra_file_and_duplicate_document) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 0.185s
+Ran 6 tests in 0.189s
 
 OK
 
@@ -478,7 +478,7 @@ test_tokenizer_and_caps_tamper (__main__.PilotV2Tests.test_tokenizer_and_caps_ta
 test_verified_bpb_api (__main__.PilotV2Tests.test_verified_bpb_api) ... ok
 
 ----------------------------------------------------------------------
-Ran 19 tests in 0.059s
+Ran 19 tests in 0.058s
 
 OK
 
@@ -503,7 +503,7 @@ test_document_validation_bounds (__main__.StdlibBoundaryTests.test_document_vali
 test_malformed_artifact_rejected_without_backend (__main__.StdlibBoundaryTests.test_malformed_artifact_rejected_without_backend) ... ok
 
 ----------------------------------------------------------------------
-Ran 4 tests in 0.001s
+Ran 4 tests in 0.000s
 
 OK
 
@@ -572,7 +572,7 @@ test_overlong_document_is_rejected (__main__.PackingTests.test_overlong_document
 test_candidate_metadata_shape_and_boundary (__main__.SourceCandidateMetadataTests.test_candidate_metadata_shape_and_boundary) ... ok
 
 ----------------------------------------------------------------------
-Ran 27 tests in 0.147s
+Ran 27 tests in 0.150s
 
 OK
 Evidence experiments/results/T0001/attempt-001: blocked (structural)
@@ -615,4 +615,5 @@ Evidence experiments/results/T0028/attempt-001: passed (structural)
 Evidence experiments/results/T0029/attempt-001: passed (structural)
 Evidence experiments/results/T0030/attempt-001: passed (structural)
 Evidence experiments/results/T0031/attempt-001: passed (structural)
-CPU scripts: 34; REP reports: 40
+Evidence experiments/results/T0033/attempt-001: passed (structural)
+CPU scripts: 34; REP reports: 41
