@@ -1,0 +1,42 @@
+T0022 attempt-001 execution log (sanitized)
+Session start UTC: 2026-11-28T16:16:54Z
+Cases UTC: 2026-11-28T16:18:02Z to 2026-11-28T16:20:51Z
+Instruction/main: 2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8
+Source pin: 6e8911662ac56df665147cb79e412f0383cf71d8
+Branch: research/T0022-backward-attribution-attempt-001
+Owner authorization: named T0022 on local RTX 4090 within merged specification and limits.
+Start comment: https://github.com/jtrefon/splot-lm/issues/98#issuecomment-7242117699
+
+Preflight
+- GPU 0 NVIDIA GeForce RTX 4090; 24564 MiB total; 24077 MiB free; driver 580.178.04.
+- Python 3.12.7; torch 2.10.0+cu128; CUDA 12.8; deterministic algorithms; TF32 off.
+- Host RAM available: 26937352192 B; scratch free: 181953990656 B (limits 12 GiB / 8 GiB).
+- Source worktree detached at pin, clean before/after; no source edits.
+- Probe SHA-256: 4e8e96382e01532bf016568cc92af22d5eae8f3e138abf8b0b92c20d19febb5d; BF16 config: 51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9.
+- FP8 weight reuse disabled by the existing reference default; BF16 only.
+
+Case commands (fresh process each, outputs outside checkout, durable scratch)
+cd <source-checkout> && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 \
+  timeout -k 15s 300s python3 <evidence>/profile_driver.py --source-root <source-checkout> --mode <control|profile> --length <512|2048> --seed 42 --out <local-scratch>/<case>.json --instruction-commit 2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8
+
+Actual cases
+- 512-control: free 24,077 MiB before launch; exit 0; elapsed 7 s; UTC 16:18:02–16:18:09; status passed.
+- 512-profile: free 24,077 MiB before launch; exit 0; elapsed 29 s; UTC 16:18:14–16:18:43; status passed; profiler warning about per-cycle event clearing only.
+- 2048-control: free 24,077 MiB before launch; exit 0; elapsed 14 s; UTC 16:18:53–16:19:07; status passed.
+- 2048-profile: free 24,077 MiB before launch; exit 0; elapsed 99 s; UTC 16:19:12–16:20:51; status passed; profiler warning about per-cycle event clearing only.
+
+Exactness gates
+python3 <evidence>/compare_cases.py --length 512 --control <local-scratch>/512-control.json --profile <local-scratch>/512-profile.json --reference experiments/results/T0020/attempt-001/case-512-1-bf16.json --out <local-scratch>/equality-512.json
+Exit 0: losses, full gradient inventory/digest, model digest, optimizer digest and identity exact; T0020 BF16 reference identity/losses exact.
+python3 <evidence>/compare_cases.py --length 2048 --control <local-scratch>/2048-control.json --profile <local-scratch>/2048-profile.json --reference experiments/results/T0020/attempt-001/case-2048-1-bf16.json --out <local-scratch>/equality-2048.json
+Exit 0: same exactness gates at T2048.
+
+Attribution
+python3 <evidence>/analyze_profile.py --cases-dir <evidence-dir> --out experiments/results/T0022/attempt-001/attribution.json
+Exit 0: bounded top-30 CPU/device key averages; module attribution unassigned; no full trace exported.
+
+Validation
+python3 tools/rep/validate_result.py experiments/results/T0022/attempt-001 --task T0022 --source 6e8911662ac56df665147cb79e412f0383cf71d8 --checks environment,exactness,attribution,handover
+Validator result is reported in the PR body after exact-head packaging.
+
+No packages, system changes, real data, checkpoints, Mini, kernel/optimizer changes, background work, timeouts or automatic retries occurred. Profiled latency is not a performance measurement.

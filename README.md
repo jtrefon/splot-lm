@@ -67,3 +67,5 @@ The hosted CPU workflow checks implementation and evidence integrity; it does no
 - [Contributing](CONTRIBUTING.md) · [Licensing](LICENSING.md) · [Citation](CITATION.cff)
 
 English is canonical for specifications and experiments; Polish documentation and discussion are welcome. Code is Apache-2.0; licensing of research prose and any future weights remains subject to the separate recorded decisions. All research claims are linked to evidence; independent replication and constructive criticism are welcome.
+
+**Current evaluation status:** [dense NTP comparator integration](research/evaluation/T0021-acceptance.md) and [exactness-qualified backward profiling](research/evaluation/T0022-acceptance.md) are available. Actual-vocabulary pilot compatibility remains a gate; generic profiler labels do not establish module dominance or speedup.

@@ -20,9 +20,9 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** T0019 corrected design accepted; [T0021/#97](experiments/tasks/T0021-dense-ntp-harness.md) implements credible dense NTP harness with exact parity gates, no full training.
-2. **Linux:** T0020 paired cost evidence accepted; [T0022/#98](experiments/tasks/T0022-backward-attribution.md) profiles BF16 backward, exactness before optimization. FP8 reuse disabled in T0020; no speed advantage established.
-3. After both accepted, design bounded matched NTP study and targeted reference optimization; later trained-checkpoint MTP benchmark separately. No larger training before reviewed gates.
+1. **Mac:** T0021 scoped dense NTP harness integrated; [T0023/#101](experiments/tasks/T0023-actual-vocab-pilot.md) completes actual V16384 loader and matched-run preflight, no actual training.
+2. **Linux:** T0022 exactness-qualified profiling accepted, module attribution unassigned; [T0024/#102](experiments/tasks/T0024-gdn-chunk-feasibility.md) isolates chunked GDN feasibility before any full-model optimization. FP8 reuse-disabled baseline remains negative on speed.
+3. After both accepted, decide bounded matched NTP study and opt-in reference optimization; trained-checkpoint MTP benchmark separately. No larger training before reviewed gates.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.

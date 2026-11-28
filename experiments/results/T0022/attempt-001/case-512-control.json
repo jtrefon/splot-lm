@@ -1,0 +1,224 @@
+{
+  "checks": {
+    "gradients_finite": true,
+    "labels_exact": true,
+    "losses_finite": true,
+    "model_finite": true,
+    "optimizer_finite": true,
+    "parameters_exact": true,
+    "precheck_finite": true,
+    "warmup_init_equal": true,
+    "warmup_input_equal": true,
+    "warmup_partition_equal": true,
+    "warmup_status": true
+  },
+  "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+  "device": "cuda",
+  "gradients": {
+    "gradient_count": 198,
+    "gradient_digest": "892d9626fe183eaa75a671f37962053e56a01f7b2fa133f46537bd58d73bcfef",
+    "gradient_dtypes": [
+      "torch.float32"
+    ],
+    "gradient_elements": 43055076,
+    "none_gradients": []
+  },
+  "identity": {
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "parameters": 43055076,
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+  },
+  "input": {
+    "bos_ok": true,
+    "content_max": 32750,
+    "content_min": 69,
+    "documents_ok": true,
+    "eos_ok": true,
+    "expected": {
+      "ntp_labels": 511,
+      "offset2_labels": 510,
+      "valid_tokens": 512
+    },
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "labels_exact": true,
+    "length": 512,
+    "ntp_labels": 511,
+    "offset2_labels": 510,
+    "positions_ok": true,
+    "seed": 42,
+    "valid_all": true,
+    "valid_tokens": 512
+  },
+  "instruction_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "length": 512,
+  "losses": {
+    "balance": 1.0717132091522217,
+    "early_ntp": 10.48428726196289,
+    "final_ntp": 10.493874549865723,
+    "offset2": 10.487617492675781,
+    "total": 15.747568130493164
+  },
+  "memory": {
+    "after_update": {
+      "allocated_bytes": 635376640,
+      "free_bytes": 22785097728,
+      "peak_allocated_bytes": 1762148864,
+      "peak_reserved_bytes": 1908408320,
+      "reserved_bytes": 1908408320,
+      "total_bytes": 25250627584
+    },
+    "free_after_cleanup": {
+      "allocated_bytes": 635376640,
+      "free_bytes": 23925948416,
+      "peak_allocated_bytes": 1762148864,
+      "peak_reserved_bytes": 1908408320,
+      "reserved_bytes": 767557632,
+      "total_bytes": 25250627584
+    }
+  },
+  "mode": "control",
+  "model": {
+    "digest": "d613b5589eed7792be48d23d861ff97df42a13e16f7e7a701352072e2f41ce51",
+    "elements": 43055076,
+    "finite": true,
+    "parameter_count": 198
+  },
+  "optimizer": {
+    "digest": "2f4d9dab17c1cab9c7544a30aa2cb425932c53e18f664b17852bd7fc8d9dd8b0",
+    "finite": true,
+    "state": {
+      "adamw": {
+        "bytes": 101040068,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 25260017,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "muon": {
+        "bytes": 121700352,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 30425088,
+        "finite": true
+      },
+      "total": {
+        "bytes": 222740420,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 55685105,
+        "finite": true
+      }
+    }
+  },
+  "phases_seconds": {
+    "backward": 0.8124238590244204,
+    "digests": 0.32612070196773857,
+    "forward": 0.3718312800046988,
+    "gradient_digest": 0.12972379400162026,
+    "measured_update": 1.4125287780188955,
+    "move_inputs": 0.00014467397704720497,
+    "optimizer": 0.06828933802898973,
+    "post_update_checks": 0.0155249799718149,
+    "pre_update_checks": 0.01445548702031374,
+    "zero_grad": 0.00012770702596753836
+  },
+  "precheck": {
+    "hidden_finite": true,
+    "logits_finite": true,
+    "offset2_finite": true,
+    "seconds": 0.3009038810268976
+  },
+  "precision": "bf16",
+  "resources": {
+    "free_after_warmup": {
+      "allocated_bytes": 67108864,
+      "free_bytes": 24592842752,
+      "peak_allocated_bytes": 67108864,
+      "peak_reserved_bytes": 100663296,
+      "reserved_bytes": 100663296,
+      "total_bytes": 25250627584
+    },
+    "free_before_case": {
+      "allocated_bytes": 0,
+      "free_bytes": 24836112384,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0,
+      "reserved_bytes": 0,
+      "total_bytes": 25250627584
+    },
+    "free_before_update": {
+      "allocated_bytes": 239332864,
+      "free_bytes": 24410390528,
+      "peak_allocated_bytes": 239332864,
+      "peak_reserved_bytes": 283115520,
+      "reserved_bytes": 283115520,
+      "total_bytes": 25250627584
+    },
+    "gpu_free_bytes": 24836112384,
+    "gpu_total_bytes": 25250627584,
+    "host_ram_available_bytes": 26384756736,
+    "host_ram_total_bytes": 32894615552,
+    "minimum_gpu_bytes": 21474836480,
+    "minimum_host_ram_bytes": 12884901888,
+    "minimum_scratch_bytes": 8589934592,
+    "scratch_free_bytes": 181954416640
+  },
+  "seed": 42,
+  "source": {
+    "config": "configs/experiments/splot-nano-synthetic-bf16-muon.json",
+    "config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+    "probe_sha256": "4e8e96382e01532bf016568cc92af22d5eae8f3e138abf8b0b92c20d19febb5d",
+    "source_clean": true,
+    "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+  },
+  "stage": "complete",
+  "status": "passed",
+  "warmup": {
+    "audit": null,
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "losses": {
+      "balance": 1.0717132091522217,
+      "early_ntp": 10.48428726196289,
+      "final_ntp": 10.493874549865723,
+      "offset2": 10.487617492675781,
+      "total": 15.747568130493164
+    },
+    "parameters": 43055076,
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+    "seconds": 1.9582793649751693,
+    "state": {
+      "adamw": {
+        "bytes": 101040068,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 25260017,
+        "finite": true
+      },
+      "adapter_version": 1,
+      "muon": {
+        "bytes": 121700352,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 30425088,
+        "finite": true
+      },
+      "total": {
+        "bytes": 222740420,
+        "dtypes": [
+          "float32"
+        ],
+        "elements": 55685105,
+        "finite": true
+      }
+    },
+    "status": "passed"
+  }
+}
