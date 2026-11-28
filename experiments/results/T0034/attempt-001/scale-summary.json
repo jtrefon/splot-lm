@@ -1,0 +1,313 @@
+{
+  "audit_bounded_io": {
+    "chunk_bytes": 65536,
+    "full_shard_reads": 0,
+    "full_source_reads": 0,
+    "mode": "incremental"
+  },
+  "audit_hashes": {
+    "document_metadata": "f3cf085ec10fb7798b0055d15954b993c600036f7c9f62a04ad6d4f67e766bbd",
+    "logical": "42e96bffad7c3e15a6ebc1ab5c157d7e686c4f9641a85bb18c2bd5121096de85",
+    "manifest": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+    "source_registry": "8a9b484104770066221dff2f167de703e4fcb14784109f7fc929f4d68145bee2",
+    "tokenizer": "c81e77db83340575c37e2f3e381053da8d9a0ba502dd0e74742eaf8f2355a1c0"
+  },
+  "audit_matches": true,
+  "audit_seconds": 1.494309790985426,
+  "bounded_read_guard": {
+    "other_read_bytes_calls": 0,
+    "shard_read_bytes_calls": 0,
+    "source_read_bytes_calls": 0
+  },
+  "cap_usage_fraction": 0.3400273472070694,
+  "chunk_bytes": 65536,
+  "content_tokens": 986880,
+  "counts": {
+    "blocks": 2056,
+    "by_family": {
+      "fam-test-00": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-test-01": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-test-02": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-test-03": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-train-00": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-01": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-02": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-03": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-04": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-05": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-06": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-07": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-validation-00": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-validation-01": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-validation-02": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-validation-03": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      }
+    },
+    "by_language": {
+      "en": {
+        "content_labels": 493440,
+        "content_target_bytes": 493440,
+        "content_tokens": 493440,
+        "eos_labels": 6160,
+        "ntp_labels": 499600,
+        "offset2_labels": 493440,
+        "selected_bytes": 493440,
+        "valid_tokens": 505760
+      },
+      "pl": {
+        "content_labels": 493440,
+        "content_target_bytes": 493440,
+        "content_tokens": 493440,
+        "eos_labels": 6160,
+        "ntp_labels": 499600,
+        "offset2_labels": 493440,
+        "selected_bytes": 493440,
+        "valid_tokens": 505760
+      }
+    },
+    "by_split": {
+      "test": {
+        "blocks": 94,
+        "content_labels": 45120,
+        "content_target_bytes": 45120,
+        "content_tokens": 45120,
+        "eos_labels": 560,
+        "ntp_labels": 45680,
+        "offset2_labels": 45120,
+        "selected_bytes": 45120,
+        "valid_tokens": 46240
+      },
+      "train": {
+        "blocks": 1868,
+        "content_labels": 896640,
+        "content_target_bytes": 896640,
+        "content_tokens": 896640,
+        "eos_labels": 11200,
+        "ntp_labels": 907840,
+        "offset2_labels": 896640,
+        "selected_bytes": 896640,
+        "valid_tokens": 919040
+      },
+      "validation": {
+        "blocks": 94,
+        "content_labels": 45120,
+        "content_target_bytes": 45120,
+        "content_tokens": 45120,
+        "eos_labels": 560,
+        "ntp_labels": 45680,
+        "offset2_labels": 45120,
+        "selected_bytes": 45120,
+        "valid_tokens": 46240
+      }
+    },
+    "content_labels": 986880,
+    "content_target_bytes": 986880,
+    "content_tokens": 986880,
+    "eos_labels": 12320,
+    "ntp_labels": 999200,
+    "offset2_labels": 986880,
+    "selected_bytes": 986880,
+    "valid_tokens": 1011520
+  },
+  "expected_manifest_sha256": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+  "file_bytes": 45637698,
+  "file_cap_bytes": 134217728,
+  "load_seconds": 1.5233022499887738,
+  "manifest_match": true,
+  "manifest_sha256": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+  "max_shard_file_bytes": 8590522,
+  "max_source_file_bytes": 112084,
+  "no_full_source_or_shard_copy": true,
+  "notes": [
+    "Synthetic content is not a learning corpus; no quality/BPB claim.",
+    "Target BPB uses a constant synthetic NLL of 0.5 per target; it is arithmetic evidence only.",
+    "The guard fails on any full source/shard Path.read_bytes call; all three phases passed."
+  ],
+  "peak_rss_bytes_macos": 143998976,
+  "schema": "splot-t0034-scale-v1",
+  "segments": 12320,
+  "sequence_length": 512,
+  "shards": {
+    "test": 1,
+    "train": 4,
+    "validation": 1
+  },
+  "sources": 16,
+  "spec_seconds": 0.05546999999205582,
+  "synthetic_bpb_nll_per_target": 0.5,
+  "synthetic_bpb_result": {
+    "content": 45120,
+    "content_bpb": 0.7213475204444817,
+    "content_bytes": 45120,
+    "content_labels": 45120,
+    "content_nll_sum": 22560.0,
+    "control": 0,
+    "control_labels": 0,
+    "control_nll_sum": 0.0,
+    "eos": 560,
+    "eos_labels": 560,
+    "eos_nll_sum": 280.0,
+    "manifest_sha256": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+    "ordinary_ntp_labels": 45680,
+    "ordinary_ntp_nll_sum": 22840.0,
+    "verified_targets": 45680
+  },
+  "target_verify_seconds": 3.105471209011739,
+  "task_id": "T0034",
+  "test_blocks_audited": 94,
+  "test_blocks_exposed": false,
+  "total_seconds": 11.40532770799473,
+  "valid_tokens": 1011520,
+  "validation_target_kinds": {
+    "content": 45120,
+    "control": 0,
+    "eos": 560
+  },
+  "verified_targets": 45680,
+  "verify_and_bpb_seconds": 3.1030822500179056,
+  "vocab_size": 264,
+  "write_seconds": 2.123692207998829
+}

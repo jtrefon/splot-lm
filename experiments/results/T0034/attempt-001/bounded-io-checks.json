@@ -1,0 +1,111 @@
+{
+  "checks": [
+    {
+      "evidence": [
+        "test_file_hash_and_path_rejections",
+        "test_bounded_full_read_guard"
+      ],
+      "implementation": "_verify_dataset reads manifest/tokenizer/sources metadata, then _check_file_set, then _verify_sources",
+      "requirement": "canonical metadata, exact file set and parent paths before source reads"
+    },
+    {
+      "evidence": [
+        "test_semantic_nonbool_and_cap_rejections",
+        "negative-cases.json"
+      ],
+      "implementation": "type(value) is int / type(value) is bool checks for all declared lengths, masks and target fields",
+      "requirement": "strict nonbool lengths and schema"
+    },
+    {
+      "evidence": [
+        "test_semantic_nonbool_and_cap_rejections",
+        "scale-summary.json"
+      ],
+      "implementation": "_source_metadata caps declared source sizes; _check_file_set caps actual files; producer _charge enforces aggregate/per-line/per-shard caps during write",
+      "requirement": "per-file and aggregate caps before allocation and during writes"
+    },
+    {
+      "evidence": [
+        "scale-summary.json bounded_read_guard",
+        "test_bounded_full_read_guard"
+      ],
+      "implementation": "_stream_hash reads 64 KiB chunks with an incremental UTF-8 decoder; no content_map",
+      "requirement": "incremental source raw/content SHA and UTF-8"
+    },
+    {
+      "evidence": [
+        "test_bounded_full_read_guard",
+        "scale-summary.json"
+      ],
+      "implementation": "_hash_interval seeks and reads only the declared interval; _verify_document_slice caches full-document verification",
+      "requirement": "bounded document slices with incremental hashes and full/segment UTF-8"
+    },
+    {
+      "evidence": [
+        "test_positive_loader_counts_and_streaming",
+        "scale-summary.json"
+      ],
+      "implementation": "producer sums token lengths before join; v2 block check bounds cumulative bytes by selected_bytes; auditor hashes token bytes incrementally without a payload join",
+      "requirement": "bounded token reconstruction before join"
+    },
+    {
+      "evidence": [
+        "test_deterministic_and_existing_output",
+        "scale-summary.json"
+      ],
+      "implementation": "logical SHA updated per shard line; documents written line by line; shard bytes tracked during write",
+      "requirement": "producer streams logical hash while writing; no shard read_bytes/payload array or all-document join"
+    },
+    {
+      "evidence": [
+        "test_deterministic_and_existing_output",
+        "source-diff.patch"
+      ],
+      "implementation": "write_dataset has no verify parameter and always calls load_stream_dataset before os.replace",
+      "requirement": "mandatory verification before atomic publish; no verify bypass"
+    },
+    {
+      "evidence": [
+        "test_partial_staging_cleanup",
+        "test_deterministic_and_existing_output"
+      ],
+      "implementation": "tempfile.mkdtemp exclusive staging; cleanup only the created staging; existing output refused",
+      "requirement": "exclusive private staging; never remove pre-existing directory or overwrite"
+    },
+    {
+      "evidence": [
+        "test_auditor_matches_and_is_independent",
+        "scale-audit.json"
+      ],
+      "implementation": "pilot_stream_audit.py duplicates metadata parsing, incremental hashes and block checks; no import pilot_stream/producer",
+      "requirement": "independent auditor incremental and no primary/producer imports"
+    },
+    {
+      "evidence": [
+        "test_forged_target_identity",
+        "test_hand_computed_bpb_and_targets"
+      ],
+      "implementation": "verify_targets/verify_and_aggregate_bpb stream expected/provided records with sentinel checks; aggregate_bpb iterates once",
+      "requirement": "strict streamed lockstep target verification and BPB aggregation"
+    },
+    {
+      "evidence": [
+        "test_positive_loader_counts_and_streaming",
+        "test_test_non_exposure"
+      ],
+      "implementation": "iter_blocks/iter_targets refuse test; StreamIdentity is a frozen dataclass; targets carry manifest_sha256",
+      "requirement": "train/validation iterators only; immutable verified identity"
+    }
+  ],
+  "chunk_bytes": 65536,
+  "max_shard_file_bytes": 8590522,
+  "max_source_file_bytes": 112084,
+  "no_full_source_or_shard_copy": true,
+  "scale_guard": {
+    "other_read_bytes_calls": 0,
+    "shard_read_bytes_calls": 0,
+    "source_read_bytes_calls": 0
+  },
+  "schema": "splot-t0034-bounded-io-checks-v1",
+  "status": "passed locally; hosted CPU evidence referenced in environment.json"
+}

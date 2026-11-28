@@ -1,0 +1,210 @@
+{
+  "cases": [
+    {
+      "case": "extra_file",
+      "expected": "dataset file set is unexpected",
+      "tested": true
+    },
+    {
+      "case": "shard_tamper",
+      "expected": "shard hash/byte count mismatch",
+      "tested": true
+    },
+    {
+      "case": "source_content_tamper",
+      "expected": "source content bytes do not match",
+      "tested": true
+    },
+    {
+      "case": "symlink_shard",
+      "expected": "nonregular file / file set rejection",
+      "tested": true
+    },
+    {
+      "case": "root_symlink",
+      "expected": "dataset root must be a regular directory",
+      "tested": true
+    },
+    {
+      "case": "path_traversal_shard",
+      "expected": "shard path is unsafe",
+      "tested": true
+    },
+    {
+      "case": "incomplete_alphabet",
+      "expected": "incomplete alphabet",
+      "tested": true
+    },
+    {
+      "case": "manifest_counts_mismatch",
+      "expected": "manifest counts mismatch",
+      "tested": true
+    },
+    {
+      "case": "nonbool_source_raw_bytes",
+      "expected": "strict integer rejection",
+      "tested": true
+    },
+    {
+      "case": "nonbool_shard_bytes",
+      "expected": "strict integer rejection",
+      "tested": true
+    },
+    {
+      "case": "nonbool_document_selected_bytes",
+      "expected": "strict integer rejection",
+      "tested": true
+    },
+    {
+      "case": "shard_cap_preflight",
+      "expected": "shard exceeds byte bound before read",
+      "tested": true
+    },
+    {
+      "case": "doc_metadata_line_cap",
+      "expected": "document metadata line is invalid",
+      "tested": true
+    },
+    {
+      "case": "shard_line_cap",
+      "expected": "shard line exceeds cap",
+      "tested": true
+    },
+    {
+      "case": "test_block_access",
+      "expected": "test blocks are not exposed",
+      "tested": true
+    },
+    {
+      "case": "test_target_access",
+      "expected": "test targets are not exposed",
+      "tested": true
+    },
+    {
+      "case": "forged_target_byte_length",
+      "expected": "target byte_length mismatch",
+      "tested": true
+    },
+    {
+      "case": "forged_target_manifest",
+      "expected": "target manifest identity mismatch",
+      "tested": true
+    },
+    {
+      "case": "forged_target_bool_token",
+      "expected": "target token ID is invalid",
+      "tested": true
+    },
+    {
+      "case": "forged_target_split",
+      "expected": "target split mismatch",
+      "tested": true
+    },
+    {
+      "case": "forged_target_family",
+      "expected": "target family_id mismatch",
+      "tested": true
+    },
+    {
+      "case": "forged_target_negative_position",
+      "expected": "target position is invalid",
+      "tested": true
+    },
+    {
+      "case": "forged_target_huge_bytes",
+      "expected": "target byte length is invalid",
+      "tested": true
+    },
+    {
+      "case": "target_missing_key",
+      "expected": "target schema is invalid",
+      "tested": true
+    },
+    {
+      "case": "target_extra_key",
+      "expected": "target schema is invalid",
+      "tested": true
+    },
+    {
+      "case": "duplicate_target_identity",
+      "expected": "target position mismatch/rejection",
+      "tested": true
+    },
+    {
+      "case": "short_target_list",
+      "expected": "target list ended early",
+      "tested": true
+    },
+    {
+      "case": "long_target_list",
+      "expected": "target list has extra records",
+      "tested": true
+    },
+    {
+      "case": "negative_nll",
+      "expected": "NLL/bytes are invalid",
+      "tested": true
+    },
+    {
+      "case": "nan_nll",
+      "expected": "NLL/bytes are invalid",
+      "tested": true
+    },
+    {
+      "case": "overflow_nll",
+      "expected": "NLL must be finite",
+      "tested": true
+    },
+    {
+      "case": "bool_nll",
+      "expected": "NLL must be numeric",
+      "tested": true
+    },
+    {
+      "case": "bool_byte_length",
+      "expected": "NLL/bytes are invalid",
+      "tested": true
+    },
+    {
+      "case": "zero_content_bytes",
+      "expected": "content target has zero bytes",
+      "tested": true
+    },
+    {
+      "case": "eos_with_bytes",
+      "expected": "EOS target claims bytes",
+      "tested": true
+    },
+    {
+      "case": "verify_bypass_removed",
+      "expected": "TypeError on verify=False",
+      "tested": true
+    },
+    {
+      "case": "partial_staging_failure",
+      "expected": "no output, staging cleaned, pre-existing dir preserved",
+      "tested": true
+    },
+    {
+      "case": "existing_output",
+      "expected": "output path already exists",
+      "tested": true
+    },
+    {
+      "case": "full_source_or_shard_read",
+      "expected": "guard raises on full read",
+      "tested": true
+    },
+    {
+      "case": "auditor_imports_primary",
+      "expected": "static check rejects primary import",
+      "tested": true
+    }
+  ],
+  "non_claims": [
+    "tiny synthetic fixtures",
+    "no real corpus/authenticity claim"
+  ],
+  "schema": "splot-t0034-negative-cases-v1",
+  "status": "tested locally in the tiny stream suite"
+}

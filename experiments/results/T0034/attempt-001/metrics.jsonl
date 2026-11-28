@@ -1,0 +1,59 @@
+{"attempt": 1, "metric": "open_prs_at_start", "run": "preflight", "status": "observed", "task_id": "T0034", "unit": "PRs", "value": 0}
+{"attempt": 1, "metric": "open_prs_at_capture", "run": "preflight", "status": "observed", "task_id": "T0034", "unit": "PRs", "value": 2}
+{"attempt": 1, "metric": "concurrent_pr", "run": "preflight", "status": "observed", "task_id": "T0034", "unit": "PR", "value": 127}
+{"attempt": 1, "metric": "torch_available", "run": "local", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 0}
+{"attempt": 1, "duration_seconds": 0.046324, "metric": "exit_code", "run": "local/py-compile", "status": "observed", "task_id": "T0034", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.235208, "metric": "exit_code", "run": "local/test-pilot-stream", "status": "observed", "task_id": "T0034", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.155253, "metric": "exit_code", "run": "local/test-v2-regression", "status": "observed", "task_id": "T0034", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 11.454497, "metric": "exit_code", "run": "local/scale", "status": "observed", "task_id": "T0034", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.010011, "metric": "exit_code", "run": "local/diff-check", "status": "observed", "task_id": "T0034", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "tests", "run": "local/test-pilot-stream", "status": "observed", "task_id": "T0034", "unit": "tests", "value": 11}
+{"attempt": 1, "metric": "failures", "run": "local/test-pilot-stream", "status": "observed", "task_id": "T0034", "unit": "tests", "value": 0}
+{"attempt": 1, "metric": "tests", "run": "local/test-v2-regression", "status": "observed", "task_id": "T0034", "unit": "tests", "value": 25}
+{"attempt": 1, "metric": "failures", "run": "local/test-v2-regression", "status": "observed", "task_id": "T0034", "unit": "tests", "value": 0}
+{"attempt": 1, "metric": "manifest_match", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 1}
+{"attempt": 1, "metric": "content_tokens", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "count", "value": 986880}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "count", "value": 1011520}
+{"attempt": 1, "metric": "file_bytes", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bytes", "value": 45637698}
+{"attempt": 1, "metric": "cap_usage_fraction", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "fraction", "value": 0.3400273472070694}
+{"attempt": 1, "metric": "spec_seconds", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "seconds", "value": 0.05546999999205582}
+{"attempt": 1, "metric": "write_seconds", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "seconds", "value": 2.123692207998829}
+{"attempt": 1, "metric": "load_seconds", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "seconds", "value": 1.5233022499887738}
+{"attempt": 1, "metric": "target_verify_seconds", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "seconds", "value": 3.105471209011739}
+{"attempt": 1, "metric": "verify_and_bpb_seconds", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "seconds", "value": 3.1030822500179056}
+{"attempt": 1, "metric": "audit_seconds", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "seconds", "value": 1.494309790985426}
+{"attempt": 1, "metric": "total_seconds", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "seconds", "value": 11.40532770799473}
+{"attempt": 1, "metric": "peak_rss_bytes_macos", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bytes", "value": 143998976}
+{"attempt": 1, "metric": "max_source_file_bytes", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bytes", "value": 112084}
+{"attempt": 1, "metric": "max_shard_file_bytes", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bytes", "value": 8590522}
+{"attempt": 1, "metric": "chunk_bytes", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bytes", "value": 65536}
+{"attempt": 1, "metric": "audit_matches", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 1}
+{"attempt": 1, "metric": "test_blocks_audited", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "blocks", "value": 94}
+{"attempt": 1, "metric": "test_blocks_exposed", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 0}
+{"attempt": 1, "metric": "source_read_bytes_calls", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "calls", "value": 0}
+{"attempt": 1, "metric": "shard_read_bytes_calls", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "calls", "value": 0}
+{"attempt": 1, "metric": "verified_targets", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "targets", "value": 45680}
+{"attempt": 1, "metric": "synthetic_bpb", "note": "constant synthetic NLL 0.5; arithmetic only, no model claim", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bits_per_byte", "value": 0.7213475204444817}
+{"attempt": 1, "metric": "blocks", "run": "scale/train", "status": "observed", "task_id": "T0034", "unit": "blocks", "value": 1868}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale/train", "status": "observed", "task_id": "T0034", "unit": "tokens", "value": 919040}
+{"attempt": 1, "metric": "content_tokens", "run": "scale/train", "status": "observed", "task_id": "T0034", "unit": "tokens", "value": 896640}
+{"attempt": 1, "metric": "eos_labels", "run": "scale/train", "status": "observed", "task_id": "T0034", "unit": "labels", "value": 11200}
+{"attempt": 1, "metric": "blocks", "run": "scale/validation", "status": "observed", "task_id": "T0034", "unit": "blocks", "value": 94}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale/validation", "status": "observed", "task_id": "T0034", "unit": "tokens", "value": 46240}
+{"attempt": 1, "metric": "content_tokens", "run": "scale/validation", "status": "observed", "task_id": "T0034", "unit": "tokens", "value": 45120}
+{"attempt": 1, "metric": "eos_labels", "run": "scale/validation", "status": "observed", "task_id": "T0034", "unit": "labels", "value": 560}
+{"attempt": 1, "metric": "blocks", "run": "scale/test", "status": "observed", "task_id": "T0034", "unit": "blocks", "value": 94}
+{"attempt": 1, "metric": "valid_tokens", "run": "scale/test", "status": "observed", "task_id": "T0034", "unit": "tokens", "value": 46240}
+{"attempt": 1, "metric": "content_tokens", "run": "scale/test", "status": "observed", "task_id": "T0034", "unit": "tokens", "value": 45120}
+{"attempt": 1, "metric": "eos_labels", "run": "scale/test", "status": "observed", "task_id": "T0034", "unit": "labels", "value": 560}
+{"attempt": 1, "metric": "blocks", "run": "scale/total", "status": "observed", "task_id": "T0034", "unit": "blocks", "value": 2056}
+{"attempt": 1, "metric": "positions", "run": "scale/total", "status": "observed", "task_id": "T0034", "unit": "positions", "value": 1052672}
+{"attempt": 1, "metric": "candidates", "run": "registry", "status": "observed", "task_id": "T0034", "unit": "families", "value": 24}
+{"attempt": 1, "metric": "minimum_subset", "run": "registry", "status": "observed", "task_id": "T0034", "unit": "families", "value": 16}
+{"attempt": 1, "metric": "train_families", "run": "registry", "status": "observed", "task_id": "T0034", "unit": "families", "value": 12}
+{"attempt": 1, "metric": "validation_families", "run": "registry", "status": "observed", "task_id": "T0034", "unit": "families", "value": 6}
+{"attempt": 1, "metric": "test_families", "run": "registry", "status": "observed", "task_id": "T0034", "unit": "families", "value": 6}
+{"attempt": 1, "metric": "acquisition_performed", "run": "registry", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 0}
+{"attempt": 1, "metric": "v1_v2_unchanged", "run": "compatibility", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 1}
+{"attempt": 1, "metric": "stream_training_input", "run": "compatibility", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 0}
+{"attempt": 1, "metric": "dependency_install", "run": "compatibility", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 0}

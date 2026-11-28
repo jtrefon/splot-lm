@@ -1,0 +1,355 @@
+{
+  "bounded_io": {
+    "chunk_bytes": 65536,
+    "full_shard_reads": 0,
+    "full_source_reads": 0,
+    "mode": "incremental"
+  },
+  "counts": {
+    "blocks": 2056,
+    "by_family": {
+      "fam-test-00": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-test-01": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-test-02": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-test-03": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-train-00": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-01": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-02": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-03": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-04": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-05": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-06": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-train-07": {
+        "content_labels": 112080,
+        "content_target_bytes": 112080,
+        "content_tokens": 112080,
+        "eos_labels": 1400,
+        "ntp_labels": 113480,
+        "offset2_labels": 112080,
+        "selected_bytes": 112080,
+        "valid_tokens": 114880
+      },
+      "fam-validation-00": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-validation-01": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-validation-02": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      },
+      "fam-validation-03": {
+        "content_labels": 11280,
+        "content_target_bytes": 11280,
+        "content_tokens": 11280,
+        "eos_labels": 140,
+        "ntp_labels": 11420,
+        "offset2_labels": 11280,
+        "selected_bytes": 11280,
+        "valid_tokens": 11560
+      }
+    },
+    "by_language": {
+      "en": {
+        "content_labels": 493440,
+        "content_target_bytes": 493440,
+        "content_tokens": 493440,
+        "eos_labels": 6160,
+        "ntp_labels": 499600,
+        "offset2_labels": 493440,
+        "selected_bytes": 493440,
+        "valid_tokens": 505760
+      },
+      "pl": {
+        "content_labels": 493440,
+        "content_target_bytes": 493440,
+        "content_tokens": 493440,
+        "eos_labels": 6160,
+        "ntp_labels": 499600,
+        "offset2_labels": 493440,
+        "selected_bytes": 493440,
+        "valid_tokens": 505760
+      }
+    },
+    "by_split": {
+      "test": {
+        "blocks": 94,
+        "content_labels": 45120,
+        "content_target_bytes": 45120,
+        "content_tokens": 45120,
+        "eos_labels": 560,
+        "ntp_labels": 45680,
+        "offset2_labels": 45120,
+        "selected_bytes": 45120,
+        "valid_tokens": 46240
+      },
+      "train": {
+        "blocks": 1868,
+        "content_labels": 896640,
+        "content_target_bytes": 896640,
+        "content_tokens": 896640,
+        "eos_labels": 11200,
+        "ntp_labels": 907840,
+        "offset2_labels": 896640,
+        "selected_bytes": 896640,
+        "valid_tokens": 919040
+      },
+      "validation": {
+        "blocks": 94,
+        "content_labels": 45120,
+        "content_target_bytes": 45120,
+        "content_tokens": 45120,
+        "eos_labels": 560,
+        "ntp_labels": 45680,
+        "offset2_labels": 45120,
+        "selected_bytes": 45120,
+        "valid_tokens": 46240
+      }
+    },
+    "content_labels": 986880,
+    "content_target_bytes": 986880,
+    "content_tokens": 986880,
+    "eos_labels": 12320,
+    "ntp_labels": 999200,
+    "offset2_labels": 986880,
+    "selected_bytes": 986880,
+    "valid_tokens": 1011520
+  },
+  "documents": 12320,
+  "file_bytes": 45637698,
+  "hashes": {
+    "document_metadata": "f3cf085ec10fb7798b0055d15954b993c600036f7c9f62a04ad6d4f67e766bbd",
+    "logical": "42e96bffad7c3e15a6ebc1ab5c157d7e686c4f9641a85bb18c2bd5121096de85",
+    "manifest": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+    "source_registry": "8a9b484104770066221dff2f167de703e4fcb14784109f7fc929f4d68145bee2",
+    "tokenizer": "c81e77db83340575c37e2f3e381053da8d9a0ba502dd0e74742eaf8f2355a1c0"
+  },
+  "manifest_sha256": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+  "schema": "splot-stream-audit-v1",
+  "sources": 16,
+  "splits": {
+    "test": {
+      "blocks": 94,
+      "content_labels": 45120,
+      "content_target_bytes": 45120,
+      "content_tokens": 45120,
+      "eos_labels": 560,
+      "family_content_bytes": {
+        "fam-test-00": 11280,
+        "fam-test-01": 11280,
+        "fam-test-02": 11280,
+        "fam-test-03": 11280
+      },
+      "family_content_tokens": {
+        "fam-test-00": 11280,
+        "fam-test-01": 11280,
+        "fam-test-02": 11280,
+        "fam-test-03": 11280
+      },
+      "language_content_bytes": {
+        "en": 22560,
+        "pl": 22560
+      },
+      "language_content_tokens": {
+        "en": 22560,
+        "pl": 22560
+      },
+      "ntp_labels": 45680,
+      "offset2_labels": 45120,
+      "selected_bytes": 45120,
+      "valid_tokens": 46240
+    },
+    "train": {
+      "blocks": 1868,
+      "content_labels": 896640,
+      "content_target_bytes": 896640,
+      "content_tokens": 896640,
+      "eos_labels": 11200,
+      "family_content_bytes": {
+        "fam-train-00": 112080,
+        "fam-train-01": 112080,
+        "fam-train-02": 112080,
+        "fam-train-03": 112080,
+        "fam-train-04": 112080,
+        "fam-train-05": 112080,
+        "fam-train-06": 112080,
+        "fam-train-07": 112080
+      },
+      "family_content_tokens": {
+        "fam-train-00": 112080,
+        "fam-train-01": 112080,
+        "fam-train-02": 112080,
+        "fam-train-03": 112080,
+        "fam-train-04": 112080,
+        "fam-train-05": 112080,
+        "fam-train-06": 112080,
+        "fam-train-07": 112080
+      },
+      "language_content_bytes": {
+        "en": 448320,
+        "pl": 448320
+      },
+      "language_content_tokens": {
+        "en": 448320,
+        "pl": 448320
+      },
+      "ntp_labels": 907840,
+      "offset2_labels": 896640,
+      "selected_bytes": 896640,
+      "valid_tokens": 919040
+    },
+    "validation": {
+      "blocks": 94,
+      "content_labels": 45120,
+      "content_target_bytes": 45120,
+      "content_tokens": 45120,
+      "eos_labels": 560,
+      "family_content_bytes": {
+        "fam-validation-00": 11280,
+        "fam-validation-01": 11280,
+        "fam-validation-02": 11280,
+        "fam-validation-03": 11280
+      },
+      "family_content_tokens": {
+        "fam-validation-00": 11280,
+        "fam-validation-01": 11280,
+        "fam-validation-02": 11280,
+        "fam-validation-03": 11280
+      },
+      "language_content_bytes": {
+        "en": 22560,
+        "pl": 22560
+      },
+      "language_content_tokens": {
+        "en": 22560,
+        "pl": 22560
+      },
+      "ntp_labels": 45680,
+      "offset2_labels": 45120,
+      "selected_bytes": 45120,
+      "valid_tokens": 46240
+    }
+  },
+  "test_blocks_audited": 94,
+  "test_blocks_exposed": false
+}
