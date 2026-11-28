@@ -106,7 +106,7 @@ class DenseAccountingTests(unittest.TestCase):
                              partition.metadata['groups']['adamw']['numel'], expected)
             self.assertEqual(len({id(p) for p in partition.muon + partition.adamw}),
                              len(partition.muon) + len(partition.adamw))
-            names = {e['name']: e['group'] for g in ('muon', 'adamw')
+            names = {e['name']: g for g in ('muon', 'adamw')
                      for e in partition.metadata['groups'][g]['entries']}
             self.assertEqual(names['embedding.weight'], 'adamw')
             self.assertEqual(names['blocks.0.attn.q.weight'], 'muon')
@@ -255,8 +255,10 @@ class DenseIngestionTests(unittest.TestCase):
             tmp = Path(tmp)
             pilot_root = tmp / 'pilot'
             pilot_sha, _ = pilot_fixture.write_fixture(pilot_root)
+            # The accepted T0016 loader pins model vocabulary 32768 and reports
+            # unused IDs; this is the shared ingestion contract, not a dense run.
             loaded = pilot.load_pilot_dataset(pilot_root, pilot_sha,
-                                               expected_model_vocab=264)
+                                               expected_model_vocab=32768)
             self.assertEqual(set(loaded['blocks']), {'train', 'validation'})
             self.assertGreaterEqual(len(loaded['blocks']['train']), 32)
 
