@@ -20,7 +20,7 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** T0023 attempt-001 failed required CI on report schema assertion; [continuation #101](experiments/tasks/T0023-continuation.md) restores reviewed changes and corrects test only. No matched run yet.
+1. **Mac:** T0023 attempt-003 actual-vocabulary preflight passed required hosted CPU (dense 13/13, loader 6/6); PR #106 draft pending review/merge. Attempts 001/002 remain preserved. No matched run yet.
 2. **Linux:** T0024 component evidence accepted: chunk64 14.90×/15.80× isolated speed at T512/T2048; [T0025/#105](experiments/tasks/T0025-gdn-opt-in.md) completes missing reset/tail qualification, then opt-in full-model evaluation. Scan default unchanged.
 3. After actual-vocab and full-model gates, decide bounded matched NTP study and experimental optimization adoption; trained-checkpoint MTP separately. No larger training before reviewed gates.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
