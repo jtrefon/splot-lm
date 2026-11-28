@@ -1,0 +1,34 @@
+{
+  "attempt": 1,
+  "files": {
+    "research/data/pilot-v2-schema.md": {
+      "bytes": 16296,
+      "sha256": "d458b5c3bd445a50ace55dc88185ed79fb67dfca91eb7e5d8e4d4aefac84e8ba"
+    },
+    "tools/README.md": {
+      "bytes": 2057,
+      "sha256": "92a7725e332c132c35834d329c21eebf21f3651786bc233a32336ebe22d58520"
+    },
+    "tools/pilot_v2.py": {
+      "bytes": 44803,
+      "sha256": "2e2e06754422212867806bfdf5863cf8bd61d5e9a5863b96ea812f796111af53"
+    },
+    "tools/test_pilot_v2.py": {
+      "bytes": 24770,
+      "sha256": "70728661df9807746f1c608f04e2c46cba79955f41bf781cfb53b2646130e494"
+    }
+  },
+  "instruction_base_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "schema": "splot-t0028-implementation-files-v1",
+  "task_id": "T0028",
+  "tested_commit": "4681d75668d7d253e9d82fb9f85041774e9a1f04",
+  "unchanged": [
+    "tools/pilot_ingestion.py",
+    "tools/experiment.py",
+    "configs",
+    ".github/workflows",
+    "PROJECT_STATE.md",
+    "ROADMAP.md",
+    "experiments/tasks"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "artifacts": [
+    "manifest.json",
+    "tokenizer-bytes.json",
+    "source-bytes.json",
+    "train.jsonl",
+    "validation.jsonl",
+    "test.jsonl"
+  ],
+  "bytes": 16296,
+  "caps": {
+    "documents": 512,
+    "line_bytes": 131072,
+    "manifest_bytes": 1048576,
+    "sequence": 512,
+    "source_bytes": 4194304,
+    "sources": 32,
+    "test_blocks": 16,
+    "tokenizer_bytes": 2097152,
+    "total_blocks": 128,
+    "total_bytes": 4194304,
+    "train_blocks": 96,
+    "validation_blocks": 16,
+    "vocab": 16384
+  },
+  "format": "splot-pilot-blocks-v2",
+  "non_claims": [
+    "synthetic prototype only",
+    "not accepted training input",
+    "no real source authenticity or acquisition"
+  ],
+  "path": "research/data/pilot-v2-schema.md",
+  "schema": "splot-t0028-schema-ref-v1",
+  "sha256": "d458b5c3bd445a50ace55dc88185ed79fb67dfca91eb7e5d8e4d4aefac84e8ba",
+  "tested_commit": "4681d75668d7d253e9d82fb9f85041774e9a1f04",
+  "version": 2
+}

@@ -1,0 +1,23 @@
+T0028 attempt-001 development failures before the tested commit (preserved)
+
+These were local implementation/test-harness failures before commit 4681d75.
+They did not involve real data, training or a scientific acceptance gate.
+
+1. First local test run
+   Errors included:
+   - AttributeError: module 'pilot_v2' has no attribute 'MAX_VOCAB' in the caps test.
+   - KeyError: 'validation' in the shard-count summarizer when validating one
+     split at a time.
+   Cause: the explicit cap aliases were not exported, and the summarizer iterated
+   all three splits even when called for one shard.
+   Resolution: added MAX_SEQUENCE/MAX_VOCAB aliases and skipped absent splits in
+   the summarizer. No schema value or acceptance gate changed.
+
+2. Second local test run
+   Error: KeyError: 1 while constructing the duplicate-doc-ID tamper fixture.
+   Cause: the test renumbered a document that was still referenced by a segment,
+   so the fixture writer failed before the verifier ran.
+   Resolution: the tamper case now appends a duplicate unreferenced document
+   record; the verifier's duplicate-ID rejection is unchanged.
+
+No hosted run failed. The first hosted implementation run (46176140359) passed.

@@ -1,0 +1,83 @@
+{"attempt": 1, "metric": "count", "run": "local/open-pr-at-start", "status": "observed", "task_id": "T0028", "unit": "PRs", "value": 0}
+{"attempt": 1, "metric": "count", "note": "this task's draft PR plus separately launched T0029", "run": "local/open-pr-at-capture", "status": "observed", "task_id": "T0028", "unit": "PRs", "value": 2}
+{"attempt": 1, "metric": "available", "run": "local/torch", "status": "observed", "task_id": "T0028", "unit": "bool", "value": 0}
+{"attempt": 1, "duration_seconds": 0.109911, "metric": "exit_code", "run": "local/py-compile", "status": "observed", "task_id": "T0028", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.227229, "metric": "exit_code", "run": "local/test-pilot-v2", "status": "observed", "task_id": "T0028", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.150687, "metric": "exit_code", "run": "local/fixture-summary", "status": "observed", "task_id": "T0028", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.009398, "metric": "exit_code", "run": "local/diff-check", "status": "observed", "task_id": "T0028", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "tests", "run": "local/test-pilot-v2", "status": "observed", "task_id": "T0028", "unit": "tests", "value": 12}
+{"attempt": 1, "metric": "failures", "run": "local/test-pilot-v2", "status": "observed", "task_id": "T0028", "unit": "tests", "value": 0}
+{"attempt": 1, "metric": "sources", "run": "fixture", "status": "observed", "task_id": "T0028", "unit": "sources", "value": 7}
+{"attempt": 1, "metric": "documents", "run": "fixture", "status": "observed", "task_id": "T0028", "unit": "segments", "value": 6}
+{"attempt": 1, "metric": "blocks", "run": "fixture", "status": "observed", "task_id": "T0028", "unit": "blocks", "value": 3}
+{"attempt": 1, "metric": "splits", "run": "fixture", "status": "observed", "task_id": "T0028", "unit": "splits", "value": 3}
+{"attempt": 1, "metric": "blocks", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "blocks", "value": 1}
+{"attempt": 1, "metric": "valid_tokens", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "valid_tokens", "value": 9}
+{"attempt": 1, "metric": "content_tokens", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "content_tokens", "value": 5}
+{"attempt": 1, "metric": "ntp_labels", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "ntp_labels", "value": 7}
+{"attempt": 1, "metric": "content_labels", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "content_labels", "value": 5}
+{"attempt": 1, "metric": "eos_labels", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "eos_labels", "value": 2}
+{"attempt": 1, "metric": "offset2_labels", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "offset2_labels", "value": 5}
+{"attempt": 1, "metric": "content_target_bytes", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "content_target_bytes", "value": 5}
+{"attempt": 1, "metric": "selected_bytes", "run": "fixture/test", "status": "observed", "task_id": "T0028", "unit": "selected_bytes", "value": 5}
+{"attempt": 1, "metric": "blocks", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "blocks", "value": 1}
+{"attempt": 1, "metric": "valid_tokens", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "valid_tokens", "value": 17}
+{"attempt": 1, "metric": "content_tokens", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "content_tokens", "value": 9}
+{"attempt": 1, "metric": "ntp_labels", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "ntp_labels", "value": 13}
+{"attempt": 1, "metric": "content_labels", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "content_labels", "value": 9}
+{"attempt": 1, "metric": "eos_labels", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "eos_labels", "value": 4}
+{"attempt": 1, "metric": "offset2_labels", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "offset2_labels", "value": 9}
+{"attempt": 1, "metric": "content_target_bytes", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "content_target_bytes", "value": 9}
+{"attempt": 1, "metric": "selected_bytes", "run": "fixture/train", "status": "observed", "task_id": "T0028", "unit": "selected_bytes", "value": 9}
+{"attempt": 1, "metric": "blocks", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "blocks", "value": 1}
+{"attempt": 1, "metric": "valid_tokens", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "valid_tokens", "value": 10}
+{"attempt": 1, "metric": "content_tokens", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "content_tokens", "value": 6}
+{"attempt": 1, "metric": "ntp_labels", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "ntp_labels", "value": 8}
+{"attempt": 1, "metric": "content_labels", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "content_labels", "value": 6}
+{"attempt": 1, "metric": "eos_labels", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "eos_labels", "value": 2}
+{"attempt": 1, "metric": "offset2_labels", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "offset2_labels", "value": 6}
+{"attempt": 1, "metric": "content_target_bytes", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "content_target_bytes", "value": 7}
+{"attempt": 1, "metric": "selected_bytes", "run": "fixture/validation", "status": "observed", "task_id": "T0028", "unit": "selected_bytes", "value": 7}
+{"attempt": 1, "metric": "blocks", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "blocks", "value": 3}
+{"attempt": 1, "metric": "valid_tokens", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "valid_tokens", "value": 36}
+{"attempt": 1, "metric": "content_tokens", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "content_tokens", "value": 20}
+{"attempt": 1, "metric": "ntp_labels", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "ntp_labels", "value": 28}
+{"attempt": 1, "metric": "content_labels", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "content_labels", "value": 20}
+{"attempt": 1, "metric": "eos_labels", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "eos_labels", "value": 8}
+{"attempt": 1, "metric": "offset2_labels", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "offset2_labels", "value": 20}
+{"attempt": 1, "metric": "content_target_bytes", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "content_target_bytes", "value": 21}
+{"attempt": 1, "metric": "selected_bytes", "run": "fixture/total", "status": "observed", "task_id": "T0028", "unit": "selected_bytes", "value": 21}
+{"attempt": 1, "metric": "content_target_bytes", "run": "fixture/language/en", "status": "observed", "task_id": "T0028", "unit": "bytes", "value": 13}
+{"attempt": 1, "metric": "content_labels", "run": "fixture/language/en", "status": "observed", "task_id": "T0028", "unit": "labels", "value": 13}
+{"attempt": 1, "metric": "content_target_bytes", "run": "fixture/language/pl", "status": "observed", "task_id": "T0028", "unit": "bytes", "value": 8}
+{"attempt": 1, "metric": "content_labels", "run": "fixture/language/pl", "status": "observed", "task_id": "T0028", "unit": "labels", "value": 7}
+{"attempt": 1, "metric": "content_labels", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "count", "value": 6}
+{"attempt": 1, "metric": "content_bytes", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "count", "value": 7}
+{"attempt": 1, "metric": "content_nll_sum", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "nats", "value": 2.3}
+{"attempt": 1, "metric": "content_bpb", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "bits/byte", "value": 0.4740283705778022}
+{"attempt": 1, "metric": "eos_labels", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "count", "value": 2}
+{"attempt": 1, "metric": "eos_nll_sum", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "nats", "value": 1.3}
+{"attempt": 1, "metric": "ordinary_ntp_labels", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "count", "value": 8}
+{"attempt": 1, "metric": "ordinary_ntp_nll_sum", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "nats", "value": 3.5999999999999996}
+{"attempt": 1, "metric": "control_labels", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "count", "value": 0}
+{"attempt": 1, "metric": "control_nll_sum", "run": "fixture/validation-bpb", "status": "observed", "task_id": "T0028", "unit": "nats", "value": 0.0}
+{"attempt": 1, "metric": "documents", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 512}
+{"attempt": 1, "metric": "line_bytes", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "bytes", "value": 131072}
+{"attempt": 1, "metric": "manifest_bytes", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "bytes", "value": 1048576}
+{"attempt": 1, "metric": "sequence", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 512}
+{"attempt": 1, "metric": "source_bytes", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "bytes", "value": 4194304}
+{"attempt": 1, "metric": "sources", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 32}
+{"attempt": 1, "metric": "test_blocks", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 16}
+{"attempt": 1, "metric": "tokenizer_bytes", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "bytes", "value": 2097152}
+{"attempt": 1, "metric": "total_blocks", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 128}
+{"attempt": 1, "metric": "total_bytes", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "bytes", "value": 4194304}
+{"attempt": 1, "metric": "train_blocks", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 96}
+{"attempt": 1, "metric": "validation_blocks", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 16}
+{"attempt": 1, "metric": "vocab", "run": "caps", "status": "observed", "task_id": "T0028", "unit": "count", "value": 16384}
+{"attempt": 1, "metric": "tests", "run": "hosted/implementation", "run_id": 46176140359, "status": "observed", "task_id": "T0028", "unit": "tests", "value": 12}
+{"attempt": 1, "metric": "failures", "run": "hosted/implementation", "run_id": 46176140359, "status": "observed", "task_id": "T0028", "unit": "tests", "value": 0}
+{"attempt": 1, "metric": "cpu_scripts", "run": "hosted/implementation", "run_id": 46176140359, "status": "observed", "task_id": "T0028", "unit": "scripts", "value": 31}
+{"attempt": 1, "metric": "rep_reports", "run": "hosted/implementation", "run_id": 46176140359, "status": "observed", "task_id": "T0028", "unit": "reports", "value": 36}
+{"attempt": 1, "metric": "exit_code", "run": "hosted/implementation", "run_id": 46176140359, "status": "observed", "task_id": "T0028", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "test_split_exposed", "run": "safety", "status": "observed", "task_id": "T0028", "unit": "bool", "value": 0}
+{"attempt": 1, "metric": "content_target_equals_selected", "run": "semantics", "status": "observed", "task_id": "T0028", "unit": "bool", "value": 1}
