@@ -1,0 +1,67 @@
+{
+  "attempt": 1,
+  "captured_at": "2026-11-28T16:45:00Z",
+  "dependencies": {
+    "open_pr_queue": "empty at launch",
+    "t0020_issue": 90,
+    "t0020_state": "accepted",
+    "t0021_issue": 97,
+    "t0021_state": "accepted"
+  },
+  "hosted": {
+    "conclusion": "failure",
+    "cuda": false,
+    "cuda_visible_devices": "empty",
+    "dense_errors": 1,
+    "dense_tests_run": 13,
+    "head_sha": "152da24f4bee0f557334530b21a1fe3a03aee31d",
+    "loader_failures": 0,
+    "loader_tests": 6,
+    "numpy": "1.26.4",
+    "os": "ubuntu-24.04",
+    "python": "3.12.7",
+    "run_id": 46166417407,
+    "torch": "2.10.0+cpu"
+  },
+  "instruction_commit": "d5cc33c0ba3df21e4763284cc3a1f4cde08a38b9",
+  "limits": {
+    "checkpoint_access": false,
+    "ci_workflow_change": false,
+    "command_timeout_seconds": 120,
+    "foreground_minutes": 90,
+    "gpu_or_mps": false,
+    "local_training": false,
+    "network_data": false,
+    "package_install": false,
+    "real_data": false,
+    "test_access": false
+  },
+  "local": {
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "unicode": "17.0.0",
+      "utf8_mode": 1,
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "error": "ModuleNotFoundError/not found",
+      "install_attempted": false,
+      "unit_tests": "not run locally; hosted CPU required"
+    }
+  },
+  "stop_policy": "Required hosted CI failed; no corrective source edit or rerun under T0023.",
+  "t0021_tested_base": "75fced45d0cff3888e3606a46a529fb3714e93df",
+  "task_id": "T0023",
+  "tested_commit": "152da24f4bee0f557334530b21a1fe3a03aee31d"
+}
