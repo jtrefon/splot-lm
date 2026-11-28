@@ -1,0 +1,443 @@
+{
+  "attempt": 1,
+  "device": "cuda",
+  "gate": {
+    "candidate_digest": "ae43ad064d9109537796821ee71c26cae773fb44f3b85420aeabcb1c74188632",
+    "components": {
+      "grad_beta": {
+        "finite": true,
+        "max_abs": 1.0913936421275139e-11,
+        "max_abs_ok": true,
+        "reference_max_abs": 4.3754465878009796e-05,
+        "rel_l2": 1.8004076361400971e-07,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "grad_g": {
+        "finite": true,
+        "max_abs": 5.820766091346741e-11,
+        "max_abs_ok": true,
+        "reference_max_abs": 0.00019068570691160858,
+        "rel_l2": 2.983644909236594e-07,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "grad_k": {
+        "finite": true,
+        "max_abs": 3.637978807091713e-12,
+        "max_abs_ok": true,
+        "reference_max_abs": 1.0995793672918808e-05,
+        "rel_l2": 2.5749787293175274e-07,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "grad_q": {
+        "finite": true,
+        "max_abs": 8.881784197001252e-15,
+        "max_abs_ok": true,
+        "reference_max_abs": 2.6568789834868767e-08,
+        "rel_l2": 2.217222989708268e-07,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "grad_state": {
+        "finite": true,
+        "max_abs": 6.661338147750939e-16,
+        "max_abs_ok": true,
+        "reference_max_abs": 1.370377145093471e-09,
+        "rel_l2": 3.023387380738628e-07,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "grad_v": {
+        "finite": true,
+        "max_abs": 3.637978807091713e-12,
+        "max_abs_ok": true,
+        "reference_max_abs": 1.3623662198369857e-05,
+        "rel_l2": 2.2323085514123327e-07,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "loss": {
+        "finite": true,
+        "max_abs": 0.0,
+        "max_abs_ok": true,
+        "reference_max_abs": 0.00044670290662907064,
+        "rel_l2": 0.0,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "output": {
+        "finite": true,
+        "max_abs": 4.6566128730773926e-09,
+        "max_abs_ok": true,
+        "reference_max_abs": 0.017102284356951714,
+        "rel_l2": 2.2108317565061752e-07,
+        "relative_ok": true,
+        "status": "passed"
+      },
+      "state": {
+        "finite": true,
+        "max_abs": 2.9802322387695312e-08,
+        "max_abs_ok": true,
+        "reference_max_abs": 0.12005148082971573,
+        "rel_l2": 1.9450432918346899e-07,
+        "relative_ok": true,
+        "status": "passed"
+      }
+    },
+    "reference_digest": "7788a5ae462c7fee1cd8043963935d9042adeada2a386abb8f026230193e67b5",
+    "status": "passed"
+  },
+  "gdn_sha256": "46eaade0fc574353a68654b6dfa52f1c93af271a97b1632aa43551ac20e85f7b",
+  "input": {
+    "chunk": 16,
+    "dim": 64,
+    "dtype": "float32",
+    "heads": 6,
+    "length": 2048,
+    "sha256": "449912a134d852f6f2571757e65a06eec833227c31a382210039f59d7b9d9287"
+  },
+  "length": 2048,
+  "method": "chunk16",
+  "precision": "float32",
+  "repeats": [
+    {
+      "backward_seconds": 0.10505149501841515,
+      "baseline_allocated_bytes": 86376448,
+      "baseline_reserved_bytes": 524288000,
+      "candidate_digest": "ae43ad064d9109537796821ee71c26cae773fb44f3b85420aeabcb1c74188632",
+      "comparison": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.0913936421275139e-11,
+            "max_abs_ok": true,
+            "reference_max_abs": 4.3754465878009796e-05,
+            "rel_l2": 1.8004076361400971e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 5.820766091346741e-11,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.00019068570691160858,
+            "rel_l2": 2.983644909236594e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 3.637978807091713e-12,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.0995793672918808e-05,
+            "rel_l2": 2.5749787293175274e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 8.881784197001252e-15,
+            "max_abs_ok": true,
+            "reference_max_abs": 2.6568789834868767e-08,
+            "rel_l2": 2.217222989708268e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 6.661338147750939e-16,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.370377145093471e-09,
+            "rel_l2": 3.023387380738628e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 3.637978807091713e-12,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.3623662198369857e-05,
+            "rel_l2": 2.2323085514123327e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.00044670290662907064,
+            "rel_l2": 0.0,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 4.6566128730773926e-09,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.017102284356951714,
+            "rel_l2": 2.2108317565061752e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 2.9802322387695312e-08,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.12005148082971573,
+            "rel_l2": 1.9450432918346899e-07,
+            "relative_ok": true,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "digest_matches_gate": true,
+      "finite": true,
+      "forward_seconds": 0.04599607898853719,
+      "increment_allocated_bytes": 52627456,
+      "increment_reserved_bytes": 0,
+      "peak_allocated_bytes": 139003904,
+      "peak_reserved_bytes": 524288000,
+      "repeat": 1,
+      "total_seconds": 0.15104757400695235
+    },
+    {
+      "backward_seconds": 0.10732328600715846,
+      "baseline_allocated_bytes": 86376448,
+      "baseline_reserved_bytes": 90177536,
+      "candidate_digest": "ae43ad064d9109537796821ee71c26cae773fb44f3b85420aeabcb1c74188632",
+      "comparison": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.0913936421275139e-11,
+            "max_abs_ok": true,
+            "reference_max_abs": 4.3754465878009796e-05,
+            "rel_l2": 1.8004076361400971e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 5.820766091346741e-11,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.00019068570691160858,
+            "rel_l2": 2.983644909236594e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 3.637978807091713e-12,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.0995793672918808e-05,
+            "rel_l2": 2.5749787293175274e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 8.881784197001252e-15,
+            "max_abs_ok": true,
+            "reference_max_abs": 2.6568789834868767e-08,
+            "rel_l2": 2.217222989708268e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 6.661338147750939e-16,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.370377145093471e-09,
+            "rel_l2": 3.023387380738628e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 3.637978807091713e-12,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.3623662198369857e-05,
+            "rel_l2": 2.2323085514123327e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.00044670290662907064,
+            "rel_l2": 0.0,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 4.6566128730773926e-09,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.017102284356951714,
+            "rel_l2": 2.2108317565061752e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 2.9802322387695312e-08,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.12005148082971573,
+            "rel_l2": 1.9450432918346899e-07,
+            "relative_ok": true,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "digest_matches_gate": true,
+      "finite": true,
+      "forward_seconds": 0.04738380300113931,
+      "increment_allocated_bytes": 52627456,
+      "increment_reserved_bytes": 58720256,
+      "peak_allocated_bytes": 139003904,
+      "peak_reserved_bytes": 148897792,
+      "repeat": 2,
+      "total_seconds": 0.15470708900829777
+    },
+    {
+      "backward_seconds": 0.10585811402415857,
+      "baseline_allocated_bytes": 86376448,
+      "baseline_reserved_bytes": 90177536,
+      "candidate_digest": "ae43ad064d9109537796821ee71c26cae773fb44f3b85420aeabcb1c74188632",
+      "comparison": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.0913936421275139e-11,
+            "max_abs_ok": true,
+            "reference_max_abs": 4.3754465878009796e-05,
+            "rel_l2": 1.8004076361400971e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 5.820766091346741e-11,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.00019068570691160858,
+            "rel_l2": 2.983644909236594e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 3.637978807091713e-12,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.0995793672918808e-05,
+            "rel_l2": 2.5749787293175274e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 8.881784197001252e-15,
+            "max_abs_ok": true,
+            "reference_max_abs": 2.6568789834868767e-08,
+            "rel_l2": 2.217222989708268e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 6.661338147750939e-16,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.370377145093471e-09,
+            "rel_l2": 3.023387380738628e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 3.637978807091713e-12,
+            "max_abs_ok": true,
+            "reference_max_abs": 1.3623662198369857e-05,
+            "rel_l2": 2.2323085514123327e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.00044670290662907064,
+            "rel_l2": 0.0,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 4.6566128730773926e-09,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.017102284356951714,
+            "rel_l2": 2.2108317565061752e-07,
+            "relative_ok": true,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 2.9802322387695312e-08,
+            "max_abs_ok": true,
+            "reference_max_abs": 0.12005148082971573,
+            "rel_l2": 1.9450432918346899e-07,
+            "relative_ok": true,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "digest_matches_gate": true,
+      "finite": true,
+      "forward_seconds": 0.04835778201231733,
+      "increment_allocated_bytes": 52627456,
+      "increment_reserved_bytes": 58720256,
+      "peak_allocated_bytes": 139003904,
+      "peak_reserved_bytes": 148897792,
+      "repeat": 3,
+      "total_seconds": 0.1542158960364759
+    }
+  ],
+  "resources": {
+    "free_after_cleanup": {
+      "allocated_bytes": 76742656,
+      "free_bytes": 24611717120,
+      "peak_allocated_bytes": 139003904,
+      "peak_reserved_bytes": 148897792,
+      "reserved_bytes": 90177536,
+      "total_bytes": 25250627584
+    },
+    "gpu_free_bytes": 24836112384,
+    "gpu_total_bytes": 25250627584,
+    "host_ram_available_bytes": 26340646912,
+    "input_baseline": {
+      "allocated_bytes": 9633792,
+      "free_bytes": 24748032000,
+      "peak_allocated_bytes": 9633792,
+      "peak_reserved_bytes": 23068672,
+      "reserved_bytes": 23068672,
+      "total_bytes": 25250627584
+    },
+    "minimum_gpu_bytes": 21474836480,
+    "minimum_host_ram_bytes": 8589934592,
+    "minimum_scratch_bytes": 4294967296,
+    "scratch_free_bytes": 181951848448
+  },
+  "seed": 42,
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "stage": "complete",
+  "status": "passed",
+  "task": "T0024",
+  "warmup": {
+    "finite": true,
+    "loss": 0.00044670290662907064
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "delta_chunk": "independent dense triangular solve, lines 20-33; full-slice oracle only",
+  "delta_scan": "recurrent reference, lines 9-18",
+  "gdn_path": "src/splot/gdn.py",
+  "gdn_sha256": "46eaade0fc574353a68654b6dfa52f1c93af271a97b1632aa43551ac20e85f7b",
+  "oracle_limitations": [
+    "delta_chunk is an independent dense triangular solve intended as a small finite-log-decay oracle, not a production kernel.",
+    "It has no built-in chunking; T0024 composes it over caller-selected consecutive slices with carried FP32 state.",
+    "Existing GDN numerical tests are small float64/NumPy cases; they do not cover FP32 projected-tensor gradients at T512/T2048 or CUDA resource behavior.",
+    "The full-slice chunk solve is O(T^2) in the slice length; composition changes the cost profile but is not a custom kernel.",
+    "This is a component feasibility test only; it does not show that GDN dominates the full model or that a production kernel is faster."
+  ],
+  "relevant_tests": {
+    "tests/numerical/test_hybrid_mixer.py": {
+      "coverage": "small float64 NumPy recurrent/chunk equivalence, irregular slices, prefix state; separate NumPy chunk implementation",
+      "sha256": "f73ca407bd81ce85c0a113e611c30adbe00486fab1929ae4368baab09695b8ed"
+    },
+    "tests/test_hybrid.py": {
+      "coverage": "small float64 learned GDN chunk vs scan outputs/state/gradients and prefix continuation",
+      "sha256": "08171631651b91a2eacafc796b809af8940e466b7f5a12c0d598d761b8713b8e"
+    }
+  },
+  "source_clean_before_and_after": true,
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "source_edits": false,
+  "status": "passed"
+}

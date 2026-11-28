@@ -20,9 +20,9 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** T0021 scoped dense NTP harness integrated; [T0023/#101](experiments/tasks/T0023-actual-vocab-pilot.md) completes actual V16384 loader and matched-run preflight, no actual training.
-2. **Linux:** T0022 exactness-qualified profiling accepted, module attribution unassigned; [T0024/#102](experiments/tasks/T0024-gdn-chunk-feasibility.md) isolates chunked GDN feasibility before any full-model optimization. FP8 reuse-disabled baseline remains negative on speed.
-3. After both accepted, decide bounded matched NTP study and opt-in reference optimization; trained-checkpoint MTP benchmark separately. No larger training before reviewed gates.
+1. **Mac:** T0023 attempt-001 failed required CI on report schema assertion; [continuation #101](experiments/tasks/T0023-continuation.md) restores reviewed changes and corrects test only. No matched run yet.
+2. **Linux:** T0024 component evidence accepted: chunk64 14.90×/15.80× isolated speed at T512/T2048; [T0025/#105](experiments/tasks/T0025-gdn-opt-in.md) completes missing reset/tail qualification, then opt-in full-model evaluation. Scan default unchanged.
+3. After actual-vocab and full-model gates, decide bounded matched NTP study and experimental optimization adoption; trained-checkpoint MTP separately. No larger training before reviewed gates.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.

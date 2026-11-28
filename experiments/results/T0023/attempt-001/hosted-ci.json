@@ -1,0 +1,31 @@
+{
+  "attempt": 1,
+  "conclusion": "failure",
+  "first_error": {
+    "actual": "identity.environment.dataset_manifest_sha256",
+    "error": "KeyError: 'dataset_manifest_sha256'",
+    "expected_path_used": "identity.dataset_manifest_sha256",
+    "stage": "identity manifest pin assertion",
+    "test": "ActualVocabPilotTests.test_v16384_pilot_cli_both_families"
+  },
+  "head_sha": "152da24f4bee0f557334530b21a1fe3a03aee31d",
+  "policy": "Stopped; no corrective source edit or rerun under T0023 failed-CI rule.",
+  "run_id": 46166417407,
+  "runner": {
+    "cuda": false,
+    "numpy": "1.26.4",
+    "os": "ubuntu-24.04",
+    "python": "3.12.7",
+    "torch": "2.10.0+cpu"
+  },
+  "task_id": "T0023",
+  "tests": {
+    "dense_errors": 1,
+    "dense_run": 13,
+    "full_aggregate": null,
+    "full_aggregate_reason": "ci_cpu returned nonzero before final aggregate",
+    "loader": 6,
+    "loader_failed": 0
+  },
+  "url": "https://github.com/jtrefon/splot-lm/actions/runs/46166417407"
+}

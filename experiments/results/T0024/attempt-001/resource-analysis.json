@@ -1,0 +1,3421 @@
+{
+  "allocator_state_note": "A pre-timing reference scan can leave allocator cache reserved. Absolute peak allocated is stable across repeats; the first repeat peak reserved may include that retained cache, while repeats 2-3 show the method-specific reserved peak. Both absolute peaks and increments over the recorded input baseline are reported; no retry was performed.",
+  "attempt": 1,
+  "cases": {
+    "2048": {
+      "chunk16": {
+        "backward_seconds": {
+          "max": 0.10732328600715846,
+          "median": 0.10585811402415857,
+          "min": 0.10505149501841515
+        },
+        "baseline_allocated_bytes": {
+          "max": 86376448,
+          "median": 86376448,
+          "min": 86376448
+        },
+        "baseline_reserved_bytes": {
+          "max": 524288000,
+          "median": 90177536,
+          "min": 90177536
+        },
+        "forward_seconds": {
+          "max": 0.04835778201231733,
+          "median": 0.04738380300113931,
+          "min": 0.04599607898853719
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 1.0913936421275139e-11,
+            "rel_l2": 1.8004076361400971e-07,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 5.820766091346741e-11,
+            "rel_l2": 2.983644909236594e-07,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 3.637978807091713e-12,
+            "rel_l2": 2.5749787293175274e-07,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 8.881784197001252e-15,
+            "rel_l2": 2.217222989708268e-07,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 6.661338147750939e-16,
+            "rel_l2": 3.023387380738628e-07,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 3.637978807091713e-12,
+            "rel_l2": 2.2323085514123327e-07,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 4.6566128730773926e-09,
+            "rel_l2": 2.2108317565061752e-07,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 2.9802322387695312e-08,
+            "rel_l2": 1.9450432918346899e-07,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 129370112,
+          "median": 129370112,
+          "min": 129370112
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 501219328,
+          "median": 125829120,
+          "min": 125829120
+        },
+        "input_baseline_allocated_bytes": 9633792,
+        "input_baseline_reserved_bytes": 23068672,
+        "input_sha256": "449912a134d852f6f2571757e65a06eec833227c31a382210039f59d7b9d9287",
+        "method": "chunk16",
+        "peak_allocated_bytes": {
+          "max": 139003904,
+          "median": 139003904,
+          "min": 139003904
+        },
+        "peak_reserved_bytes": {
+          "max": 524288000,
+          "median": 148897792,
+          "min": 148897792
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.10505149501841515,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 524288000,
+            "candidate_digest": "ae43ad064d9109537796821ee71c26cae773fb44f3b85420aeabcb1c74188632",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.0913936421275139e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 1.8004076361400971e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.820766091346741e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 2.983644909236594e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 3.637978807091713e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 2.5749787293175274e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 8.881784197001252e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 2.217222989708268e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 6.661338147750939e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.023387380738628e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 3.637978807091713e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 2.2323085514123327e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 4.6566128730773926e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.2108317565061752e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 1.9450432918346899e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.04599607898853719,
+            "increment_allocated_bytes": 52627456,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 139003904,
+            "peak_reserved_bytes": 524288000,
+            "repeat": 1,
+            "total_seconds": 0.15104757400695235
+          },
+          {
+            "backward_seconds": 0.10732328600715846,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "ae43ad064d9109537796821ee71c26cae773fb44f3b85420aeabcb1c74188632",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.0913936421275139e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 1.8004076361400971e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.820766091346741e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 2.983644909236594e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 3.637978807091713e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 2.5749787293175274e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 8.881784197001252e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 2.217222989708268e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 6.661338147750939e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.023387380738628e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 3.637978807091713e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 2.2323085514123327e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 4.6566128730773926e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.2108317565061752e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 1.9450432918346899e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.04738380300113931,
+            "increment_allocated_bytes": 52627456,
+            "increment_reserved_bytes": 58720256,
+            "peak_allocated_bytes": 139003904,
+            "peak_reserved_bytes": 148897792,
+            "repeat": 2,
+            "total_seconds": 0.15470708900829777
+          },
+          {
+            "backward_seconds": 0.10585811402415857,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "ae43ad064d9109537796821ee71c26cae773fb44f3b85420aeabcb1c74188632",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.0913936421275139e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 1.8004076361400971e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.820766091346741e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 2.983644909236594e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 3.637978807091713e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 2.5749787293175274e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 8.881784197001252e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 2.217222989708268e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 6.661338147750939e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.023387380738628e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 3.637978807091713e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 2.2323085514123327e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 4.6566128730773926e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.2108317565061752e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 1.9450432918346899e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.04835778201231733,
+            "increment_allocated_bytes": 52627456,
+            "increment_reserved_bytes": 58720256,
+            "peak_allocated_bytes": 139003904,
+            "peak_reserved_bytes": 148897792,
+            "repeat": 3,
+            "total_seconds": 0.1542158960364759
+          }
+        ],
+        "reserved_first_repeat_bytes": 524288000,
+        "reserved_repeats_2_3_bytes": [
+          148897792,
+          148897792
+        ],
+        "total_seconds": {
+          "max": 0.15470708900829777,
+          "median": 0.1542158960364759,
+          "min": 0.15104757400695235
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.00044670290662907064
+        }
+      },
+      "chunk32": {
+        "backward_seconds": {
+          "max": 0.053452497988473624,
+          "median": 0.053223079012241215,
+          "min": 0.053103993996046484
+        },
+        "baseline_allocated_bytes": {
+          "max": 86376448,
+          "median": 86376448,
+          "min": 86376448
+        },
+        "baseline_reserved_bytes": {
+          "max": 524288000,
+          "median": 90177536,
+          "min": 90177536
+        },
+        "forward_seconds": {
+          "max": 0.024955959001090378,
+          "median": 0.024847257998771966,
+          "min": 0.023474191955756396
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 1.2732925824820995e-11,
+            "rel_l2": 2.1226312960748704e-07,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 5.820766091346741e-11,
+            "rel_l2": 3.3877373404261354e-07,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 5.4569682106375694e-12,
+            "rel_l2": 2.9248613087743035e-07,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 1.1546319456101628e-14,
+            "rel_l2": 2.84326353752347e-07,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 6.661338147750939e-16,
+            "rel_l2": 3.3961818445378117e-07,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 4.547473508864641e-12,
+            "rel_l2": 2.8529588955656154e-07,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 6.51925802230835e-09,
+            "rel_l2": 2.5950739075149587e-07,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 2.9802322387695312e-08,
+            "rel_l2": 2.1040801810764018e-07,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 128118784,
+          "median": 128118784,
+          "min": 128118784
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 501219328,
+          "median": 123731968,
+          "min": 123731968
+        },
+        "input_baseline_allocated_bytes": 9633792,
+        "input_baseline_reserved_bytes": 23068672,
+        "input_sha256": "449912a134d852f6f2571757e65a06eec833227c31a382210039f59d7b9d9287",
+        "method": "chunk32",
+        "peak_allocated_bytes": {
+          "max": 137752576,
+          "median": 137752576,
+          "min": 137752576
+        },
+        "peak_reserved_bytes": {
+          "max": 524288000,
+          "median": 146800640,
+          "min": 146800640
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.053103993996046484,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 524288000,
+            "candidate_digest": "3a619c510781c81542941cb5034946b2fce4a3318d839bb4aea5bd9691718739",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.2732925824820995e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 2.1226312960748704e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.820766091346741e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 3.3877373404261354e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 2.9248613087743035e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 1.1546319456101628e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 2.84326353752347e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 6.661338147750939e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.3961818445378117e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 4.547473508864641e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 2.8529588955656154e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.5950739075149587e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 2.1040801810764018e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.023474191955756396,
+            "increment_allocated_bytes": 51376128,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 137752576,
+            "peak_reserved_bytes": 524288000,
+            "repeat": 1,
+            "total_seconds": 0.07657818595180288
+          },
+          {
+            "backward_seconds": 0.053223079012241215,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "3a619c510781c81542941cb5034946b2fce4a3318d839bb4aea5bd9691718739",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.2732925824820995e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 2.1226312960748704e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.820766091346741e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 3.3877373404261354e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 2.9248613087743035e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 1.1546319456101628e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 2.84326353752347e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 6.661338147750939e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.3961818445378117e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 4.547473508864641e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 2.8529588955656154e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.5950739075149587e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 2.1040801810764018e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.024847257998771966,
+            "increment_allocated_bytes": 51376128,
+            "increment_reserved_bytes": 56623104,
+            "peak_allocated_bytes": 137752576,
+            "peak_reserved_bytes": 146800640,
+            "repeat": 2,
+            "total_seconds": 0.07807033701101318
+          },
+          {
+            "backward_seconds": 0.053452497988473624,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "3a619c510781c81542941cb5034946b2fce4a3318d839bb4aea5bd9691718739",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.2732925824820995e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 2.1226312960748704e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.820766091346741e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 3.3877373404261354e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 2.9248613087743035e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 1.1546319456101628e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 2.84326353752347e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 6.661338147750939e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.3961818445378117e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 4.547473508864641e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 2.8529588955656154e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.5950739075149587e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 2.1040801810764018e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.024955959001090378,
+            "increment_allocated_bytes": 51376128,
+            "increment_reserved_bytes": 56623104,
+            "peak_allocated_bytes": 137752576,
+            "peak_reserved_bytes": 146800640,
+            "repeat": 3,
+            "total_seconds": 0.078408456989564
+          }
+        ],
+        "reserved_first_repeat_bytes": 524288000,
+        "reserved_repeats_2_3_bytes": [
+          146800640,
+          146800640
+        ],
+        "total_seconds": {
+          "max": 0.078408456989564,
+          "median": 0.07807033701101318,
+          "min": 0.07657818595180288
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.00044670290662907064
+        }
+      },
+      "chunk64": {
+        "backward_seconds": {
+          "max": 0.029988390975631773,
+          "median": 0.02997504494851455,
+          "min": 0.02992160798748955
+        },
+        "baseline_allocated_bytes": {
+          "max": 86376448,
+          "median": 86376448,
+          "min": 86376448
+        },
+        "baseline_reserved_bytes": {
+          "max": 524288000,
+          "median": 90177536,
+          "min": 90177536
+        },
+        "forward_seconds": {
+          "max": 0.01663093495881185,
+          "median": 0.01657592097762972,
+          "min": 0.0149613440153189
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 1.6370904631912708e-11,
+            "rel_l2": 2.6927896859797016e-07,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 7.275957614183426e-11,
+            "rel_l2": 4.2041428080242576e-07,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 5.4569682106375694e-12,
+            "rel_l2": 3.394313895972768e-07,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 1.4210854715202004e-14,
+            "rel_l2": 3.118509438663935e-07,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 7.771561172376096e-16,
+            "rel_l2": 3.861111073173312e-07,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 5.4569682106375694e-12,
+            "rel_l2": 3.2470447790790145e-07,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 6.51925802230835e-09,
+            "rel_l2": 2.6595169439759184e-07,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 3.3527612686157227e-08,
+            "rel_l2": 2.209459819366362e-07,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 134555648,
+          "median": 134555648,
+          "min": 134555648
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 501219328,
+          "median": 132120576,
+          "min": 132120576
+        },
+        "input_baseline_allocated_bytes": 9633792,
+        "input_baseline_reserved_bytes": 23068672,
+        "input_sha256": "449912a134d852f6f2571757e65a06eec833227c31a382210039f59d7b9d9287",
+        "method": "chunk64",
+        "peak_allocated_bytes": {
+          "max": 144189440,
+          "median": 144189440,
+          "min": 144189440
+        },
+        "peak_reserved_bytes": {
+          "max": 524288000,
+          "median": 155189248,
+          "min": 155189248
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.029988390975631773,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 524288000,
+            "candidate_digest": "8add15849f32a654d55b92aa70465a80dbc46806c93ad48f93a05eafe10ce329",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.6370904631912708e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 2.6927896859797016e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 4.2041428080242576e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 3.394313895972768e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 1.4210854715202004e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 3.118509438663935e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 7.771561172376096e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.861111073173312e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 3.2470447790790145e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.6595169439759184e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 3.3527612686157227e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 2.209459819366362e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.0149613440153189,
+            "increment_allocated_bytes": 57812992,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 144189440,
+            "peak_reserved_bytes": 524288000,
+            "repeat": 1,
+            "total_seconds": 0.044949734990950674
+          },
+          {
+            "backward_seconds": 0.02997504494851455,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "8add15849f32a654d55b92aa70465a80dbc46806c93ad48f93a05eafe10ce329",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.6370904631912708e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 2.6927896859797016e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 4.2041428080242576e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 3.394313895972768e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 1.4210854715202004e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 3.118509438663935e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 7.771561172376096e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.861111073173312e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 3.2470447790790145e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.6595169439759184e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 3.3527612686157227e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 2.209459819366362e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.01663093495881185,
+            "increment_allocated_bytes": 57812992,
+            "increment_reserved_bytes": 65011712,
+            "peak_allocated_bytes": 144189440,
+            "peak_reserved_bytes": 155189248,
+            "repeat": 2,
+            "total_seconds": 0.0466059799073264
+          },
+          {
+            "backward_seconds": 0.02992160798748955,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "8add15849f32a654d55b92aa70465a80dbc46806c93ad48f93a05eafe10ce329",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.6370904631912708e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 2.6927896859797016e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 4.2041428080242576e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 3.394313895972768e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 1.4210854715202004e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 3.118509438663935e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 7.771561172376096e-16,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 3.861111073173312e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 3.2470447790790145e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 2.6595169439759184e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 3.3527612686157227e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 2.209459819366362e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.01657592097762972,
+            "increment_allocated_bytes": 57812992,
+            "increment_reserved_bytes": 65011712,
+            "peak_allocated_bytes": 144189440,
+            "peak_reserved_bytes": 155189248,
+            "repeat": 3,
+            "total_seconds": 0.04649752896511927
+          }
+        ],
+        "reserved_first_repeat_bytes": 524288000,
+        "reserved_repeats_2_3_bytes": [
+          155189248,
+          155189248
+        ],
+        "total_seconds": {
+          "max": 0.0466059799073264,
+          "median": 0.04649752896511927,
+          "min": 0.044949734990950674
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.00044670290662907064
+        }
+      },
+      "scan": {
+        "backward_seconds": {
+          "max": 0.5203504699748009,
+          "median": 0.5199562790221535,
+          "min": 0.5159453179803677
+        },
+        "baseline_allocated_bytes": {
+          "max": 86376448,
+          "median": 86376448,
+          "min": 86376448
+        },
+        "baseline_reserved_bytes": {
+          "max": 524288000,
+          "median": 90177536,
+          "min": 90177536
+        },
+        "forward_seconds": {
+          "max": 0.21513365401187912,
+          "median": 0.2146340819890611,
+          "min": 0.20447750599123538
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 502563840,
+          "median": 502563840,
+          "min": 502563840
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 501219328,
+          "median": 501219328,
+          "min": 501219328
+        },
+        "input_baseline_allocated_bytes": 9633792,
+        "input_baseline_reserved_bytes": 23068672,
+        "input_sha256": "449912a134d852f6f2571757e65a06eec833227c31a382210039f59d7b9d9287",
+        "method": "scan",
+        "peak_allocated_bytes": {
+          "max": 512197632,
+          "median": 512197632,
+          "min": 512197632
+        },
+        "peak_reserved_bytes": {
+          "max": 524288000,
+          "median": 524288000,
+          "min": 524288000
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.5159453179803677,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 524288000,
+            "candidate_digest": "7788a5ae462c7fee1cd8043963935d9042adeada2a386abb8f026230193e67b5",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.20447750599123538,
+            "increment_allocated_bytes": 425821184,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 512197632,
+            "peak_reserved_bytes": 524288000,
+            "repeat": 1,
+            "total_seconds": 0.7204228239716031
+          },
+          {
+            "backward_seconds": 0.5199562790221535,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "7788a5ae462c7fee1cd8043963935d9042adeada2a386abb8f026230193e67b5",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.2146340819890611,
+            "increment_allocated_bytes": 425821184,
+            "increment_reserved_bytes": 434110464,
+            "peak_allocated_bytes": 512197632,
+            "peak_reserved_bytes": 524288000,
+            "repeat": 2,
+            "total_seconds": 0.7345903610112146
+          },
+          {
+            "backward_seconds": 0.5203504699748009,
+            "baseline_allocated_bytes": 86376448,
+            "baseline_reserved_bytes": 90177536,
+            "candidate_digest": "7788a5ae462c7fee1cd8043963935d9042adeada2a386abb8f026230193e67b5",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.3754465878009796e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00019068570691160858,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.0995793672918808e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.6568789834868767e-08,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.370377145093471e-09,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.3623662198369857e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00044670290662907064,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.017102284356951714,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.12005148082971573,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.21513365401187912,
+            "increment_allocated_bytes": 425821184,
+            "increment_reserved_bytes": 434110464,
+            "peak_allocated_bytes": 512197632,
+            "peak_reserved_bytes": 524288000,
+            "repeat": 3,
+            "total_seconds": 0.7354841239866801
+          }
+        ],
+        "reserved_first_repeat_bytes": 524288000,
+        "reserved_repeats_2_3_bytes": [
+          524288000,
+          524288000
+        ],
+        "total_seconds": {
+          "max": 0.7354841239866801,
+          "median": 0.7345903610112146,
+          "min": 0.7204228239716031
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.00044670290662907064
+        }
+      }
+    },
+    "512": {
+      "chunk16": {
+        "backward_seconds": {
+          "max": 0.026763977017253637,
+          "median": 0.026160640991292894,
+          "min": 0.026096821995452046
+        },
+        "baseline_allocated_bytes": {
+          "max": 72073216,
+          "median": 72073216,
+          "min": 72073216
+        },
+        "baseline_reserved_bytes": {
+          "max": 182452224,
+          "median": 73400320,
+          "min": 73400320
+        },
+        "forward_seconds": {
+          "max": 0.012243942997884005,
+          "median": 0.012241627962794155,
+          "min": 0.011865584005136043
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 1.0913936421275139e-11,
+            "rel_l2": 1.6455859615403943e-07,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 2.1827872842550278e-11,
+            "rel_l2": 1.1289241602444874e-07,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 5.4569682106375694e-12,
+            "rel_l2": 2.3724507692536943e-07,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 3.197442310920451e-14,
+            "rel_l2": 2.1878187515908555e-07,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 1.9984014443252818e-15,
+            "rel_l2": 3.05564582808908e-07,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 7.275957614183426e-12,
+            "rel_l2": 2.104339977039653e-07,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 2.9103830456733704e-11,
+            "rel_l2": 6.149215132628117e-08,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 4.6566128730773926e-09,
+            "rel_l2": 2.177103464661461e-07,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 2.9802322387695312e-08,
+            "rel_l2": 1.7739687723055717e-07,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 82479104,
+          "median": 82479104,
+          "min": 82479104
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 178257920,
+          "median": 83886080,
+          "min": 83886080
+        },
+        "input_baseline_allocated_bytes": 2482176,
+        "input_baseline_reserved_bytes": 4194304,
+        "input_sha256": "d01dcf8fd772afa0f176ba7b452edca56a32ebcca37f7aa9c6dab2b6f65fb653",
+        "method": "chunk16",
+        "peak_allocated_bytes": {
+          "max": 84961280,
+          "median": 84961280,
+          "min": 84961280
+        },
+        "peak_reserved_bytes": {
+          "max": 182452224,
+          "median": 88080384,
+          "min": 88080384
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.026763977017253637,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 182452224,
+            "candidate_digest": "522ea23b3fd1ffe8b0e7881a548b2bda4cd3fe0ee3367230edd3079bce0a9151",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.0913936421275139e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 1.6455859615403943e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 2.1827872842550278e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 1.1289241602444874e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 2.3724507692536943e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 3.197442310920451e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 2.1878187515908555e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 1.9984014443252818e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 3.05564582808908e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 2.104339977039653e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 4.6566128730773926e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.177103464661461e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 1.7739687723055717e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.011865584005136043,
+            "increment_allocated_bytes": 12888064,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 84961280,
+            "peak_reserved_bytes": 182452224,
+            "repeat": 1,
+            "total_seconds": 0.03862956102238968
+          },
+          {
+            "backward_seconds": 0.026096821995452046,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "522ea23b3fd1ffe8b0e7881a548b2bda4cd3fe0ee3367230edd3079bce0a9151",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.0913936421275139e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 1.6455859615403943e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 2.1827872842550278e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 1.1289241602444874e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 2.3724507692536943e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 3.197442310920451e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 2.1878187515908555e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 1.9984014443252818e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 3.05564582808908e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 2.104339977039653e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 4.6566128730773926e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.177103464661461e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 1.7739687723055717e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.012241627962794155,
+            "increment_allocated_bytes": 12888064,
+            "increment_reserved_bytes": 14680064,
+            "peak_allocated_bytes": 84961280,
+            "peak_reserved_bytes": 88080384,
+            "repeat": 2,
+            "total_seconds": 0.0383384499582462
+          },
+          {
+            "backward_seconds": 0.026160640991292894,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "522ea23b3fd1ffe8b0e7881a548b2bda4cd3fe0ee3367230edd3079bce0a9151",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.0913936421275139e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 1.6455859615403943e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 2.1827872842550278e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 1.1289241602444874e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.4569682106375694e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 2.3724507692536943e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 3.197442310920451e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 2.1878187515908555e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 1.9984014443252818e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 3.05564582808908e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 2.104339977039653e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 4.6566128730773926e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.177103464661461e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 1.7739687723055717e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.012243942997884005,
+            "increment_allocated_bytes": 12888064,
+            "increment_reserved_bytes": 14680064,
+            "peak_allocated_bytes": 84961280,
+            "peak_reserved_bytes": 88080384,
+            "repeat": 3,
+            "total_seconds": 0.0384045839891769
+          }
+        ],
+        "reserved_first_repeat_bytes": 182452224,
+        "reserved_repeats_2_3_bytes": [
+          88080384,
+          88080384
+        ],
+        "total_seconds": {
+          "max": 0.03862956102238968,
+          "median": 0.0384045839891769,
+          "min": 0.0383384499582462
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.00047329344670288265
+        }
+      },
+      "chunk32": {
+        "backward_seconds": {
+          "max": 0.013618939963635057,
+          "median": 0.013543887995183468,
+          "min": 0.013289449037984014
+        },
+        "baseline_allocated_bytes": {
+          "max": 72073216,
+          "median": 72073216,
+          "min": 72073216
+        },
+        "baseline_reserved_bytes": {
+          "max": 182452224,
+          "median": 73400320,
+          "min": 73400320
+        },
+        "forward_seconds": {
+          "max": 0.006622993969358504,
+          "median": 0.00659470196114853,
+          "min": 0.006080811028368771
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 1.8189894035458565e-11,
+            "rel_l2": 1.956378398130643e-07,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 2.9103830456733704e-11,
+            "rel_l2": 1.9714892490182963e-07,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 5.002220859751105e-12,
+            "rel_l2": 2.4696317106851205e-07,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 3.552713678800501e-14,
+            "rel_l2": 2.793544404397152e-07,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 2.6645352591003757e-15,
+            "rel_l2": 3.5709604000128693e-07,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 7.275957614183426e-12,
+            "rel_l2": 2.4897657508535325e-07,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 2.9103830456733704e-11,
+            "rel_l2": 6.149215132628117e-08,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 6.51925802230835e-09,
+            "rel_l2": 2.564660470973073e-07,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 2.9802322387695312e-08,
+            "rel_l2": 1.859967312447477e-07,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 81921024,
+          "median": 81921024,
+          "min": 81921024
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 178257920,
+          "median": 83886080,
+          "min": 83886080
+        },
+        "input_baseline_allocated_bytes": 2482176,
+        "input_baseline_reserved_bytes": 4194304,
+        "input_sha256": "d01dcf8fd772afa0f176ba7b452edca56a32ebcca37f7aa9c6dab2b6f65fb653",
+        "method": "chunk32",
+        "peak_allocated_bytes": {
+          "max": 84403200,
+          "median": 84403200,
+          "min": 84403200
+        },
+        "peak_reserved_bytes": {
+          "max": 182452224,
+          "median": 88080384,
+          "min": 88080384
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.013289449037984014,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 182452224,
+            "candidate_digest": "eb85764964c60a8bd9b5f2857e5db954647798df70c2b10aded694da3c8e03ef",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.8189894035458565e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 1.956378398130643e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 1.9714892490182963e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.002220859751105e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 2.4696317106851205e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 3.552713678800501e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 2.793544404397152e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 2.6645352591003757e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 3.5709604000128693e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 2.4897657508535325e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.564660470973073e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 1.859967312447477e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.006080811028368771,
+            "increment_allocated_bytes": 12329984,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 84403200,
+            "peak_reserved_bytes": 182452224,
+            "repeat": 1,
+            "total_seconds": 0.019370260066352785
+          },
+          {
+            "backward_seconds": 0.013543887995183468,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "eb85764964c60a8bd9b5f2857e5db954647798df70c2b10aded694da3c8e03ef",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.8189894035458565e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 1.956378398130643e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 1.9714892490182963e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.002220859751105e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 2.4696317106851205e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 3.552713678800501e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 2.793544404397152e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 2.6645352591003757e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 3.5709604000128693e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 2.4897657508535325e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.564660470973073e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 1.859967312447477e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.00659470196114853,
+            "increment_allocated_bytes": 12329984,
+            "increment_reserved_bytes": 14680064,
+            "peak_allocated_bytes": 84403200,
+            "peak_reserved_bytes": 88080384,
+            "repeat": 2,
+            "total_seconds": 0.020138589956331998
+          },
+          {
+            "backward_seconds": 0.013618939963635057,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "eb85764964c60a8bd9b5f2857e5db954647798df70c2b10aded694da3c8e03ef",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.8189894035458565e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 1.956378398130643e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 1.9714892490182963e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 5.002220859751105e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 2.4696317106851205e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 3.552713678800501e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 2.793544404397152e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 2.6645352591003757e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 3.5709604000128693e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 7.275957614183426e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 2.4897657508535325e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.564660470973073e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 1.859967312447477e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.006622993969358504,
+            "increment_allocated_bytes": 12329984,
+            "increment_reserved_bytes": 14680064,
+            "peak_allocated_bytes": 84403200,
+            "peak_reserved_bytes": 88080384,
+            "repeat": 3,
+            "total_seconds": 0.02024193393299356
+          }
+        ],
+        "reserved_first_repeat_bytes": 182452224,
+        "reserved_repeats_2_3_bytes": [
+          88080384,
+          88080384
+        ],
+        "total_seconds": {
+          "max": 0.02024193393299356,
+          "median": 0.020138589956331998,
+          "min": 0.019370260066352785
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.00047329344670288265
+        }
+      },
+      "chunk64": {
+        "backward_seconds": {
+          "max": 0.007490475953090936,
+          "median": 0.007411509053781629,
+          "min": 0.0073429670301266015
+        },
+        "baseline_allocated_bytes": {
+          "max": 72073216,
+          "median": 72073216,
+          "min": 72073216
+        },
+        "baseline_reserved_bytes": {
+          "max": 182452224,
+          "median": 73400320,
+          "min": 73400320
+        },
+        "forward_seconds": {
+          "max": 0.004414941999129951,
+          "median": 0.004316002014093101,
+          "min": 0.0038388510001823306
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 1.8189894035458565e-11,
+            "rel_l2": 2.6631236150537257e-07,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 5.093170329928398e-11,
+            "rel_l2": 2.4029028067763726e-07,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 4.547473508864641e-12,
+            "rel_l2": 3.185867343750354e-07,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 5.3290705182007514e-14,
+            "rel_l2": 3.0789645397401324e-07,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 3.9968028886505635e-15,
+            "rel_l2": 4.0280503090214807e-07,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 8.185452315956354e-12,
+            "rel_l2": 3.0700779051763753e-07,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 2.9103830456733704e-11,
+            "rel_l2": 6.149215132628117e-08,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 6.51925802230835e-09,
+            "rel_l2": 2.628340085001249e-07,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 2.9802322387695312e-08,
+            "rel_l2": 2.0644679482556708e-07,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 83874816,
+          "median": 83874816,
+          "min": 83874816
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 178257920,
+          "median": 85983232,
+          "min": 85983232
+        },
+        "input_baseline_allocated_bytes": 2482176,
+        "input_baseline_reserved_bytes": 4194304,
+        "input_sha256": "d01dcf8fd772afa0f176ba7b452edca56a32ebcca37f7aa9c6dab2b6f65fb653",
+        "method": "chunk64",
+        "peak_allocated_bytes": {
+          "max": 86356992,
+          "median": 86356992,
+          "min": 86356992
+        },
+        "peak_reserved_bytes": {
+          "max": 182452224,
+          "median": 90177536,
+          "min": 90177536
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.0073429670301266015,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 182452224,
+            "candidate_digest": "d8b21a2ec0f37fcfd36d293f3ea57823342429acca90027934147f21984e1b33",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.8189894035458565e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 2.6631236150537257e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.093170329928398e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 2.4029028067763726e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 4.547473508864641e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 3.185867343750354e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 5.3290705182007514e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 3.0789645397401324e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 3.9968028886505635e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 4.0280503090214807e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 8.185452315956354e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 3.0700779051763753e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.628340085001249e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 2.0644679482556708e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.0038388510001823306,
+            "increment_allocated_bytes": 14283776,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 86356992,
+            "peak_reserved_bytes": 182452224,
+            "repeat": 1,
+            "total_seconds": 0.011181818030308932
+          },
+          {
+            "backward_seconds": 0.007411509053781629,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "d8b21a2ec0f37fcfd36d293f3ea57823342429acca90027934147f21984e1b33",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.8189894035458565e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 2.6631236150537257e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.093170329928398e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 2.4029028067763726e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 4.547473508864641e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 3.185867343750354e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 5.3290705182007514e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 3.0789645397401324e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 3.9968028886505635e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 4.0280503090214807e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 8.185452315956354e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 3.0700779051763753e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.628340085001249e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 2.0644679482556708e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.004316002014093101,
+            "increment_allocated_bytes": 14283776,
+            "increment_reserved_bytes": 16777216,
+            "peak_allocated_bytes": 86356992,
+            "peak_reserved_bytes": 90177536,
+            "repeat": 2,
+            "total_seconds": 0.01172751106787473
+          },
+          {
+            "backward_seconds": 0.007490475953090936,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "d8b21a2ec0f37fcfd36d293f3ea57823342429acca90027934147f21984e1b33",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 1.8189894035458565e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 2.6631236150537257e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 5.093170329928398e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 2.4029028067763726e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 4.547473508864641e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 3.185867343750354e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 5.3290705182007514e-14,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 3.0789645397401324e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 3.9968028886505635e-15,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 4.0280503090214807e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 8.185452315956354e-12,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 3.0700779051763753e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 2.9103830456733704e-11,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 6.149215132628117e-08,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 6.51925802230835e-09,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 2.628340085001249e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 2.9802322387695312e-08,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 2.0644679482556708e-07,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.004414941999129951,
+            "increment_allocated_bytes": 14283776,
+            "increment_reserved_bytes": 16777216,
+            "peak_allocated_bytes": 86356992,
+            "peak_reserved_bytes": 90177536,
+            "repeat": 3,
+            "total_seconds": 0.011905417952220887
+          }
+        ],
+        "reserved_first_repeat_bytes": 182452224,
+        "reserved_repeats_2_3_bytes": [
+          90177536,
+          90177536
+        ],
+        "total_seconds": {
+          "max": 0.011905417952220887,
+          "median": 0.01172751106787473,
+          "min": 0.011181818030308932
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.00047329344670288265
+        }
+      },
+      "scan": {
+        "backward_seconds": {
+          "max": 0.12192681297892705,
+          "median": 0.12131597398547456,
+          "min": 0.119022062048316
+        },
+        "baseline_allocated_bytes": {
+          "max": 72073216,
+          "median": 72073216,
+          "min": 72073216
+        },
+        "baseline_reserved_bytes": {
+          "max": 182452224,
+          "median": 73400320,
+          "min": 73400320
+        },
+        "forward_seconds": {
+          "max": 0.05337226402480155,
+          "median": 0.05291560903424397,
+          "min": 0.048805270984303206
+        },
+        "gate_status": "passed",
+        "gate_worst": {
+          "grad_beta": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_g": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_k": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_q": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_state": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_v": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "loss": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "state": {
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          }
+        },
+        "increment_over_input_allocated_bytes": {
+          "max": 176120832,
+          "median": 176120832,
+          "min": 176120832
+        },
+        "increment_over_input_reserved_bytes": {
+          "max": 178257920,
+          "median": 178257920,
+          "min": 178257920
+        },
+        "input_baseline_allocated_bytes": 2482176,
+        "input_baseline_reserved_bytes": 4194304,
+        "input_sha256": "d01dcf8fd772afa0f176ba7b452edca56a32ebcca37f7aa9c6dab2b6f65fb653",
+        "method": "scan",
+        "peak_allocated_bytes": {
+          "max": 178603008,
+          "median": 178603008,
+          "min": 178603008
+        },
+        "peak_reserved_bytes": {
+          "max": 182452224,
+          "median": 182452224,
+          "min": 182452224
+        },
+        "repeats": [
+          {
+            "backward_seconds": 0.119022062048316,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 182452224,
+            "candidate_digest": "f8336fc5002dff4c1e674a95eeceef8aed6a80d4b1cde7c77f9515931b83b119",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.048805270984303206,
+            "increment_allocated_bytes": 106529792,
+            "increment_reserved_bytes": 0,
+            "peak_allocated_bytes": 178603008,
+            "peak_reserved_bytes": 182452224,
+            "repeat": 1,
+            "total_seconds": 0.1678273330326192
+          },
+          {
+            "backward_seconds": 0.12131597398547456,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "f8336fc5002dff4c1e674a95eeceef8aed6a80d4b1cde7c77f9515931b83b119",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.05337226402480155,
+            "increment_allocated_bytes": 106529792,
+            "increment_reserved_bytes": 109051904,
+            "peak_allocated_bytes": 178603008,
+            "peak_reserved_bytes": 182452224,
+            "repeat": 2,
+            "total_seconds": 0.1746882380102761
+          },
+          {
+            "backward_seconds": 0.12192681297892705,
+            "baseline_allocated_bytes": 72073216,
+            "baseline_reserved_bytes": 73400320,
+            "candidate_digest": "f8336fc5002dff4c1e674a95eeceef8aed6a80d4b1cde7c77f9515931b83b119",
+            "comparison": {
+              "components": {
+                "grad_beta": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 4.6710083552170545e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_g": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.00016418154700659215,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_k": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2413779586495366e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_q": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 1.2234693258506013e-07,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 6.88418433369975e-09,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "grad_v": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 2.0513298295554705e-05,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "loss": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.0004732934175990522,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "output": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.01632647030055523,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                },
+                "state": {
+                  "finite": true,
+                  "max_abs": 0.0,
+                  "max_abs_ok": true,
+                  "reference_max_abs": 0.10181854665279388,
+                  "rel_l2": 0.0,
+                  "relative_ok": true,
+                  "status": "passed"
+                }
+              },
+              "status": "passed"
+            },
+            "digest_matches_gate": true,
+            "finite": true,
+            "forward_seconds": 0.05291560903424397,
+            "increment_allocated_bytes": 106529792,
+            "increment_reserved_bytes": 109051904,
+            "peak_allocated_bytes": 178603008,
+            "peak_reserved_bytes": 182452224,
+            "repeat": 3,
+            "total_seconds": 0.17484242201317102
+          }
+        ],
+        "reserved_first_repeat_bytes": 182452224,
+        "reserved_repeats_2_3_bytes": [
+          182452224,
+          182452224
+        ],
+        "total_seconds": {
+          "max": 0.17484242201317102,
+          "median": 0.1746882380102761,
+          "min": 0.1678273330326192
+        },
+        "warmup": {
+          "finite": true,
+          "loss": 0.0004732934175990522
+        }
+      }
+    }
+  },
+  "conclusion": "All three chunk sizes preserved outputs, carried state and all six input gradients within the preregistered FP32 thresholds at both lengths. In this isolated component measurement, chunk64 had the lowest median synchronized forward+backward time at both lengths; the ordering was chunk64 < chunk32 < chunk16 < scan. This is component-only evidence, not a full-model or production-kernel speed claim.",
+  "fastest_component_method": {
+    "2048": "chunk64",
+    "512": "chunk64"
+  },
+  "lengths": [
+    512,
+    2048
+  ],
+  "limitations": [
+    "Two lengths, one seed and three synchronized repeats; descriptive component timing only.",
+    "The scan reference is a Python recurrence; the chunk path is multiple triangular solves. Differences include launch/Python overhead and are not kernel-level attribution.",
+    "Peak memory is allocator data; first-repeat reserved memory can include retained cache from the pre-timing reference scan.",
+    "The existing delta_chunk is a small finite-log-decay oracle, not a production kernel.",
+    "No full-model, sustained-throughput, quality, training or architecture-superiority claim."
+  ],
+  "methods": [
+    "scan",
+    "chunk16",
+    "chunk32",
+    "chunk64"
+  ],
+  "next_question": "Integrate the numerically qualified chunk composition behind an opt-in GDN algorithm flag in a separate reviewed IMP and compare full Nano forward/backward at T512/T2048 against scan with exact full-model loss/gradient gates and full-model memory/timing; no production kernel claim from this component result.",
+  "numerical": {
+    "cases": 10,
+    "chunk_outcomes": 30,
+    "eligibility": {
+      "2048": {
+        "16": true,
+        "32": true,
+        "64": true,
+        "scan": true
+      },
+      "512": {
+        "16": true,
+        "32": true,
+        "64": true,
+        "scan": true
+      }
+    },
+    "failed": 0,
+    "oracle_limitations": [
+      "delta_chunk is an independent dense triangular solve intended as a small finite-log-decay oracle, not a production kernel.",
+      "It has no built-in chunking; T0024 composes it over caller-selected consecutive slices with carried FP32 state.",
+      "Existing GDN numerical tests are small float64/NumPy cases; they do not cover FP32 projected-tensor gradients at T512/T2048 or CUDA resource behavior.",
+      "The full-slice chunk solve is O(T^2) in the slice length; composition changes the cost profile but is not a custom kernel.",
+      "This is a component feasibility test only; it does not show that GDN dominates the full model or that a production kernel is faster."
+    ],
+    "passed": 30,
+    "skipped": 0,
+    "worst": {
+      "fp32_max_abs": 1.2665987014770508e-07,
+      "fp32_rel_l2": 9.405740064620307e-07,
+      "fp64_max_abs": 8.326672684688674e-17,
+      "fp64_rel_l2": 1.175608161200299e-15
+    }
+  },
+  "paired": {
+    "2048": {
+      "chunk16": {
+        "chunk_over_scan_total": 0.20993454886092847,
+        "scan_over_chunk_backward": 4.911822620451096,
+        "scan_over_chunk_forward": 4.529693025777191,
+        "scan_over_chunk_total": 4.763389377431401,
+        "scan_peak_allocated_over_chunk": 3.6847715586462955
+      },
+      "chunk32": {
+        "chunk_over_scan_total": 0.10627737737198723,
+        "scan_over_chunk_backward": 9.769376155456253,
+        "scan_over_chunk_forward": 8.63813954842297,
+        "scan_over_chunk_total": 9.40934020699293,
+        "scan_peak_allocated_over_chunk": 3.7182435847878446
+      },
+      "chunk64": {
+        "chunk_over_scan_total": 0.063297221734726,
+        "scan_over_chunk_backward": 17.34630523207674,
+        "scan_over_chunk_forward": 12.948546405278094,
+        "scan_over_chunk_total": 15.798481712055647,
+        "scan_peak_allocated_over_chunk": 3.5522548114480506
+      }
+    },
+    "512": {
+      "chunk16": {
+        "chunk_over_scan_total": 0.21984642141114122,
+        "scan_over_chunk_backward": 4.637347151618052,
+        "scan_over_chunk_forward": 4.322595752384388,
+        "scan_over_chunk_total": 4.548629873441837,
+        "scan_peak_allocated_over_chunk": 2.1021694588405446
+      },
+      "chunk32": {
+        "chunk_over_scan_total": 0.11528303328096616,
+        "scan_over_chunk_backward": 8.957248762587039,
+        "scan_over_chunk_forward": 8.02395761718824,
+        "scan_over_chunk_total": 8.674303334496884,
+        "scan_peak_allocated_over_chunk": 2.1160691537761602
+      },
+      "chunk64": {
+        "chunk_over_scan_total": 0.06713394789169981,
+        "scan_over_chunk_backward": 16.368592833813597,
+        "scan_over_chunk_forward": 12.260330014086625,
+        "scan_over_chunk_total": 14.895593532100863,
+        "scan_peak_allocated_over_chunk": 2.068193945430614
+      }
+    }
+  },
+  "status": "passed",
+  "task": "T0024"
+}

@@ -1,0 +1,16 @@
+{"attempt": 1, "duration_seconds": 0.037468, "metric": "exit_code", "run": "local/py-compile", "status": "observed", "task_id": "T0023", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.023229, "metric": "exit_code", "run": "local/proposed-matrix", "status": "observed", "task_id": "T0023", "unit": "code", "value": 0}
+{"attempt": 1, "duration_seconds": 0.008608, "metric": "exit_code", "run": "local/diff-check", "status": "observed", "task_id": "T0023", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "available", "note": "no local torch; hosted required", "run": "local/torch", "status": "observed", "task_id": "T0023", "unit": "bool", "value": 0}
+{"attempt": 1, "metric": "tests", "run": "hosted/loader", "run_id": 46166417407, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 6}
+{"attempt": 1, "metric": "failures", "run": "hosted/loader", "run_id": 46166417407, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 0}
+{"attempt": 1, "metric": "tests_run", "run": "hosted/dense", "run_id": 46166417407, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 13}
+{"attempt": 1, "metric": "errors", "run": "hosted/dense", "run_id": 46166417407, "status": "failed", "task_id": "T0023", "unit": "tests", "value": 1}
+{"attempt": 1, "metric": "passed", "run": "hosted/dense", "run_id": 46166417407, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 12}
+{"attempt": 1, "metric": "exit_code", "run": "hosted/full", "run_id": 46166417407, "status": "failed", "task_id": "T0023", "unit": "code", "value": 1}
+{"attempt": 1, "metric": "runs", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "runs", "value": 9}
+{"attempt": 1, "metric": "arms", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "arms", "value": 3}
+{"attempt": 1, "metric": "seeds", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "seeds", "value": 3}
+{"attempt": 1, "metric": "positions_per_pass", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "positions", "value": 65536}
+{"attempt": 1, "metric": "valid_tokens_per_pass", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "tokens", "value": 46204}
+{"attempt": 1, "metric": "ntp_labels_per_pass", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "labels", "value": 46076}
