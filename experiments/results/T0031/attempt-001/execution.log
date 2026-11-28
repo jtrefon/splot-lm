@@ -1,0 +1,36 @@
+T0031 attempt-001 execution log (sanitized)
+Task: T0031 VAL, issue #117; instruction 145db440cf60bcd575226b475952f2d7129f09c1; source 7dac49e083eae0068ff361e7a81b3a4f41055b3f; branch research/T0031-gdn-precision-attempt-001.
+Authorization: owner explicitly named T0031 on the local RTX 4090 within the merged limits.
+Source: clean detached private worktree at exact rejected T0025 pin; no source edits.
+Scope: forward-only policy screen; selected-policy forward/backward; resources only after all qualification cases passed. No optimizer step, training, checkpoint, actual data or install.
+
+CPU preflight
+Command: cd <source-worktree> && PYTHONPATH=src:tools python3 <scratch>/t0031_probe.py --mode check ...
+Exit 0: source 7dac49e083eae0068ff361e7a81b3a4f41055b3f, clean=True; config 51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9; reference 7af225f12c1353ff6621c13a13f22c983d1c0bca3ba379b23874181fb58bcd4d; input c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270; init ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b; partition 1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed; parameters 43055076.
+
+Policy screen (one process, UTC 19:19:46..19:19:55, exit 0)
+Command: cd <source-worktree> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 300s python3 <scratch>/t0031_probe.py --mode screen ...
+Reproduction exact=True; selected=P3.
+- P1: failed; failed=['tensors', 'routing']; routing=43/4096; max_loss=0.0013217926025390625; max_tensor_rel=0.0386014594227999; local=passed.
+- P2: failed; failed=['tensors', 'routing']; routing=23/4096; max_loss=0.0006456375122070312; max_tensor_rel=0.0268880991377704; local=passed.
+- P3: passed; failed=[]; routing=0/4096; max_loss=9.5367431640625e-07; max_tensor_rel=1.0417975034087312e-06; local=passed.
+
+Forward/backward qualification (one process, UTC 19:20:14..19:20:30, exit 0)
+Command: cd <source-worktree> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 300s python3 <scratch>/t0031_probe.py --mode fb --policy P3 ...
+- length 512 seed 42: passed; routing=0/4096; max_loss=9.5367431640625e-07; grad_global=1.8384283847922658e-06; inventory_same=True.
+- length 512 seed 43: passed; routing=0/4096; max_loss=1.9073486328125e-06; grad_global=1.4912149975681157e-06; inventory_same=True.
+- length 2048 seed 42: passed; routing=0/16384; max_loss=0.0; grad_global=2.984552263289754e-06; inventory_same=True.
+
+Resource measurements (six fresh processes; each exit 0; no optimizer update)
+Command template: cd <source-worktree> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 300s python3 <scratch>/t0031_probe.py --mode resource --policy P3 --method <method> --length <length> ...
+- 512/chunk64/P3: forward median 0.054630s, backward median 0.082546s, peak allocated 1401839104, peak reserved 1444937728, baseline 205799424.
+- 512/original_bf16_scan/original_bf16: forward median 0.340041s, backward median 0.798228s, peak allocated 1831237632, peak reserved 1910505472, baseline 205799424.
+- 512/scan/P3: forward median 0.337645s, backward median 0.793368s, peak allocated 1956497920, peak reserved 1996488704, baseline 205799424.
+- 2048/chunk64/P3: forward median 0.141374s, backward median 0.238453s, peak allocated 5543209472, peak reserved 6012534784, baseline 205862400.
+- 2048/original_bf16_scan/original_bf16: forward median 1.367020s, backward median 3.262771s, peak allocated 6991203840, peak reserved 7390363648, baseline 205862400.
+- 2048/scan/P3: forward median 1.371709s, backward median 3.259341s, peak allocated 7758296576, peak reserved 8220835840, baseline 205862400.
+
+Process notes
+- Two resource shell invocations exited 2 before model construction/measurement: missing required arguments, then zsh non-splitting of an option string. No measurement ran; the six successful explicit invocations are recorded.
+- No automatic retry, numerical gate rerun, source/data/config/seed change or precision-policy change after a failed gate.
+- Source worktree remained clean before and after all measurements; no raw tensors, routes or private paths are published.

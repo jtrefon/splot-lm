@@ -1,0 +1,305 @@
+{
+  "cross_policy_ambiguity": {
+    "note": "Precision is a confound; no quality equivalence or cost-quality frontier claim.",
+    "p3_vs_original_bf16_scan_max_tensor_rel_l2": 0.09939512262636185,
+    "p3_vs_original_bf16_scan_routing_mismatch_tokens": 199,
+    "p3_vs_original_bf16_scan_tokens": 4096,
+    "p3_vs_original_bf16_scan_total_loss_delta": 0.000759124755859375
+  },
+  "limitations": [
+    "Synthetic T512/T2048 fixed-seed cases only; no actual data, training, optimizer update, checkpoint or convergence claim.",
+    "P3 is a full FP32 control, not a BF16 replacement; no default adoption even where faster.",
+    "P1/P2 failed natural-route tensor/routing gates; no fixed-route rescue was attempted.",
+    "Resource timings are descriptive, fresh-process, forward/loss/backward only; no throughput or sustained-training claim.",
+    "Cross-policy quality/cost comparison is ambiguous because precision policy changed."
+  ],
+  "p3_forward_backward": {
+    "cases": [
+      {
+        "gradient_all_per_tensor_ok": true,
+        "gradient_chunk64_digest": "7dde6dd62dbad5672201972bc51e7c82966ba4c02ddf07a0429c6db3fdc599b5",
+        "gradient_global_rel_l2": 1.8384283847922658e-06,
+        "gradient_inventory_same": true,
+        "gradient_scan_digest": "9256374107e136bb6227922b2fba9aa7f30d6c59af5d784378fff15a06668b68",
+        "gradient_status": "passed",
+        "length": 512,
+        "max_loss_abs": 9.5367431640625e-07,
+        "max_tensor_rel_l2": 1.0417975034087312e-06,
+        "routing_mismatch_tokens": 0,
+        "routing_tokens": 4096,
+        "same_input_fp32": "passed",
+        "seed": 42,
+        "status": "passed"
+      },
+      {
+        "gradient_all_per_tensor_ok": true,
+        "gradient_chunk64_digest": "ae0896e770b38275be9c5e2f6d3b7471b6435689921e2a50625fe063ebb34b5a",
+        "gradient_global_rel_l2": 1.4912149975681157e-06,
+        "gradient_inventory_same": true,
+        "gradient_scan_digest": "a5dc4fb1a409b4ac2e39fdaeef6d4ea0cecd84f304f2828dcada9e32b7243207",
+        "gradient_status": "passed",
+        "length": 512,
+        "max_loss_abs": 1.9073486328125e-06,
+        "max_tensor_rel_l2": 9.785516915149575e-07,
+        "routing_mismatch_tokens": 0,
+        "routing_tokens": 4096,
+        "same_input_fp32": "passed",
+        "seed": 43,
+        "status": "passed"
+      },
+      {
+        "gradient_all_per_tensor_ok": true,
+        "gradient_chunk64_digest": "84735976d16b42c03117ae5b38f892d945412c1355c60d3e52bbdca074ed44ec",
+        "gradient_global_rel_l2": 2.984552263289754e-06,
+        "gradient_inventory_same": true,
+        "gradient_scan_digest": "51047df7a11e8bbb31ac37ec28f4b63f98b7a057b3936f63ea55ee4b4b74a0f0",
+        "gradient_status": "passed",
+        "length": 2048,
+        "max_loss_abs": 0.0,
+        "max_tensor_rel_l2": 1.7101678444947784e-06,
+        "routing_mismatch_tokens": 0,
+        "routing_tokens": 16384,
+        "same_input_fp32": "passed",
+        "seed": 42,
+        "status": "passed"
+      }
+    ],
+    "status": "passed"
+  },
+  "policy_boundary_dtypes": {
+    "P1": [
+      {
+        "assignment": "cast back to the existing GDN input dtype before residual",
+        "calls": 6,
+        "compute_dtype": "float32",
+        "input_dtype": "torch.float32",
+        "operation": "GDN.o",
+        "output_dtype": "torch.float32",
+        "weight_dtype": "torch.float32"
+      }
+    ],
+    "P2": [
+      {
+        "assignment": "cast y back to surrounding hidden dtype; state/history remain FP32 internal",
+        "calls": 6,
+        "computed_output_dtype": "torch.float32",
+        "effective_input_dtype": "float32",
+        "history_dtype": "torch.float32",
+        "input_dtype": "torch.float32",
+        "operation": "GatedDeltaNet.run",
+        "returned_output_dtype": "torch.float32",
+        "state_dtype": "torch.float32",
+        "weight_dtype": "float32"
+      }
+    ],
+    "P3": [
+      {
+        "autocast": "disabled",
+        "calls": 1,
+        "model_dtype": "float32",
+        "operation": "full_model_forward",
+        "surrounding_assignment": "native FP32 full forward"
+      }
+    ],
+    "note": "The actual GDN input/output boundary was FP32 in these runs because the surrounding residual path kept hidden tensors FP32; P1/P2 wrappers are still the declared FP32 compute islands and report actual dtypes. No original cast was silently bypassed."
+  },
+  "reproduction": {
+    "chunk64_loss_max_abs_delta": 0.0,
+    "identity_exact": true,
+    "overall_routing_mismatch": 0.00830078125,
+    "per_key_routing_counts_exact": true,
+    "scan_losses_exact": true,
+    "status": "passed",
+    "tensor_metrics_within_1e-6": true
+  },
+  "resource_summary": {
+    "cases": [
+      {
+        "backward_seconds": {
+          "max": 3.294827909034211,
+          "median": 3.262770904984791,
+          "min": 3.256357370002661
+        },
+        "baseline_allocated_bytes": 205862400,
+        "end_to_end_seconds": {
+          "max": 4.691996225970797,
+          "median": 4.651254295022227,
+          "min": 4.62979075597832
+        },
+        "forward_seconds": {
+          "max": 1.4356388559681363,
+          "median": 1.367019850993529,
+          "min": 1.3564263859880157
+        },
+        "length": 2048,
+        "method": "original_bf16_scan",
+        "peak_allocated_bytes": 6991203840,
+        "peak_reserved_bytes": 7390363648,
+        "policy": "original_bf16"
+      },
+      {
+        "backward_seconds": {
+          "max": 0.8011067810002714,
+          "median": 0.7982277689734474,
+          "min": 0.7971915350062773
+        },
+        "baseline_allocated_bytes": 205799424,
+        "end_to_end_seconds": {
+          "max": 1.1636067350045778,
+          "median": 1.1411476460052654,
+          "min": 1.1370132869924419
+        },
+        "forward_seconds": {
+          "max": 0.3653789660311304,
+          "median": 0.340040865004994,
+          "min": 0.3398217519861646
+        },
+        "length": 512,
+        "method": "original_bf16_scan",
+        "peak_allocated_bytes": 1831237632,
+        "peak_reserved_bytes": 1910505472,
+        "policy": "original_bf16"
+      },
+      {
+        "backward_seconds": {
+          "max": 0.2393508189707063,
+          "median": 0.23845253203762695,
+          "min": 0.23584328999277204
+        },
+        "baseline_allocated_bytes": 205862400,
+        "end_to_end_seconds": {
+          "max": 0.398669711954426,
+          "median": 0.3798266760422848,
+          "min": 0.3768706049886532
+        },
+        "forward_seconds": {
+          "max": 0.1593188929837197,
+          "median": 0.14137414400465786,
+          "min": 0.14102731499588117
+        },
+        "length": 2048,
+        "method": "chunk64",
+        "peak_allocated_bytes": 5543209472,
+        "peak_reserved_bytes": 6012534784,
+        "policy": "P3"
+      },
+      {
+        "backward_seconds": {
+          "max": 3.261997720983345,
+          "median": 3.2593408779939637,
+          "min": 3.2441267530084588
+        },
+        "baseline_allocated_bytes": 205862400,
+        "end_to_end_seconds": {
+          "max": 4.696628355013672,
+          "median": 4.631050191994291,
+          "min": 4.612743659992702
+        },
+        "forward_seconds": {
+          "max": 1.4346306340303272,
+          "median": 1.3717093140003271,
+          "min": 1.3686169069842435
+        },
+        "length": 2048,
+        "method": "scan",
+        "peak_allocated_bytes": 7758296576,
+        "peak_reserved_bytes": 8220835840,
+        "policy": "P3"
+      },
+      {
+        "backward_seconds": {
+          "max": 0.08285741502186283,
+          "median": 0.08254566602408886,
+          "min": 0.08242115302709863
+        },
+        "baseline_allocated_bytes": 205799424,
+        "end_to_end_seconds": {
+          "max": 0.1472031120210886,
+          "median": 0.1374125980073586,
+          "min": 0.13705078401835635
+        },
+        "forward_seconds": {
+          "max": 0.06465744599699974,
+          "median": 0.05462963099125773,
+          "min": 0.054555182985495776
+        },
+        "length": 512,
+        "method": "chunk64",
+        "peak_allocated_bytes": 1401839104,
+        "peak_reserved_bytes": 1444937728,
+        "policy": "P3"
+      },
+      {
+        "backward_seconds": {
+          "max": 0.7951139130163938,
+          "median": 0.7933676959946752,
+          "min": 0.7922380400123075
+        },
+        "baseline_allocated_bytes": 205799424,
+        "end_to_end_seconds": {
+          "max": 1.160813294001855,
+          "median": 1.1304917890229262,
+          "min": 1.129883087996859
+        },
+        "forward_seconds": {
+          "max": 0.3656993809854612,
+          "median": 0.33764504798455164,
+          "min": 0.3371240930282511
+        },
+        "length": 512,
+        "method": "scan",
+        "peak_allocated_bytes": 1956497920,
+        "peak_reserved_bytes": 1996488704,
+        "policy": "P3"
+      }
+    ],
+    "note": "Descriptive synchronized forward/loss/backward timings only; no optimizer step, throughput, sustained-training or cross-policy quality claim. P3 is a full FP32 control, not a BF16 replacement.",
+    "status": "passed"
+  },
+  "screen_summary": {
+    "P1": {
+      "failed_gates": [
+        "tensors",
+        "routing"
+      ],
+      "max_loss_abs": 0.0013217926025390625,
+      "max_tensor_abs_ratio": 0.19642857142857142,
+      "max_tensor_rel_l2": 0.0386014594227999,
+      "routing_mismatch_tokens": 43,
+      "routing_tokens": 4096,
+      "same_input_fp32": "passed",
+      "status": "failed"
+    },
+    "P2": {
+      "failed_gates": [
+        "tensors",
+        "routing"
+      ],
+      "max_loss_abs": 0.0006456375122070312,
+      "max_tensor_abs_ratio": 0.13944738051470587,
+      "max_tensor_rel_l2": 0.0268880991377704,
+      "routing_mismatch_tokens": 23,
+      "routing_tokens": 4096,
+      "same_input_fp32": "passed",
+      "status": "failed"
+    },
+    "P3": {
+      "failed_gates": [],
+      "max_loss_abs": 9.5367431640625e-07,
+      "max_tensor_abs_ratio": 1.485353217566427e-06,
+      "max_tensor_rel_l2": 1.0417975034087312e-06,
+      "routing_mismatch_tokens": 0,
+      "routing_tokens": 4096,
+      "same_input_fp32": "passed",
+      "status": "passed"
+    }
+  },
+  "selected_policy": "P3",
+  "selection_order": [
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "selection_reason": "P1 and P2 failed within-policy tensor/routing gates; P3 full FP32 passed; policy selected before any resource measurement.",
+  "status": "passed"
+}

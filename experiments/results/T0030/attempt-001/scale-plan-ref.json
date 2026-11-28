@@ -1,0 +1,35 @@
+{
+  "bytes": 10486,
+  "first_target": {
+    "test_tokens": 50000,
+    "unique_valid_train_tokens": 1000000,
+    "validation_tokens": 50000
+  },
+  "hypothetical_bytes_per_token": {
+    "canonical_jsonl": [
+      35,
+      60
+    ],
+    "compact_binary": [
+      12,
+      20
+    ],
+    "raw_utf8": [
+      3.5,
+      6.0
+    ],
+    "selected_utf8": [
+      2.5,
+      4.5
+    ]
+  },
+  "non_claims": [
+    "hypothetical ranges",
+    "not T0016 extrapolation",
+    "no real source/rights/tokenizer/training claim"
+  ],
+  "path": "research/data/pilot-v2-scale-plan.md",
+  "schema": "splot-t0030-scale-plan-ref-v1",
+  "sha256": "2793fcab747242f4a54dc9f62a97e4b50a9b64ced87bfdf7c369254986c2a4ba",
+  "status": "planning only; no acquisition, cap enlargement or producer/CLI integration"
+}

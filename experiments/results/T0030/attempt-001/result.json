@@ -1,0 +1,85 @@
+{
+  "attempt": 1,
+  "checks": {
+    "coverage_hardening": {
+      "detail": "Hardened verifier now enforces exact declared-vs-seen document IDs after scan, selected-byte reconciliation across documents/shards/source records, disjoint full-document groups and selected intervals per source (touching allowed), complete/partial segment index ordering and partition rules, full-source and full-document UTF-8, selected/token-byte UTF-8, strict nonbool integer schema including special IDs and padding labels, duplicate content-token byte rejection, incremental reconstruction bounds before allocation, and finite nonnegative non-overflow NLLs. 15/15 synthetic negative cases rejected with recomputed hashes/counts and the actual reasons recorded in coverage-hardening.json. verify_targets/aggregate_verified_bpb reject wrong, duplicate or misordered targets and return family/language totals; test access is refused. The valid T0028 fixture hashes/counts/BPB are unchanged. Local 19/19 tests; hosted 46181008581 passed 19/19.",
+      "evidence": [
+        "coverage-hardening.json",
+        "test-output.txt",
+        "summary.md",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Reviewed instruction/base 145db44; local main matched origin/main and zero open PRs were verified before branch creation at 19:24:03Z. By evidence capture draft PR #118 and separately launched T0031 PR #119 were open; no new task was launched. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2 stdlib; torch absent. Hosted run 46181008581 on tested 976445f succeeded with CPython 3.12.7 / torch 2.10.0+cpu. No actual acquisition, tokenizer fit, real data/test/checkpoint access, training, install, GPU/MPS, v1/CLI/config/workflow change or shared state-document edit.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat implementation evidence with actual hardening rejection reasons, producer summary/hashes, scale-plan reference, implementation file hashes, source references, environment, metrics, test transcripts, execution log and preserved development failures. No real raw text/token arrays, real tokenizer, shards, checkpoints, binaries or secrets. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0030/attempt-001 --task T0030 --source 976445fdb975365823f2ddb88f604bb68ac492f5 --checks environment,coverage_hardening,producer,scale_plan,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One INDEX row is appended; PR #118 and issue #116 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "implementation.files.json",
+        "environment.json",
+        "execution.log",
+        "source-refs.json",
+        "execution-first-failures.txt"
+      ],
+      "status": "passed"
+    },
+    "producer": {
+      "detail": "tools/pilot_v2_producer.py consumes explicit SourceSpec/SegmentSpec records and token IDs; validates caps/provenance/UTF-8/hashes/token-byte equality/segment groups; packs segment-local BOS/content/EOS multi-document blocks with padding tails; computes expected coverage before the verifier; refuses existing output; and writes canonical six-file output only after the in-memory build validates. Same inputs are byte-identical, expected coverage equals loader counts, and the producer reproduces the T0028 fixture files byte-for-byte with manifest 90931377e0e6ee0b20d82e022ce6062bc38658fbbce01e2518fac2a164d19630 (3 blocks, 36 valid, 20 content, 28 NTP, 8 EOS, 21 selected bytes). Local producer 6/6; hosted 46181008581 passed 6/6.",
+      "evidence": [
+        "producer-summary.json",
+        "producer-test-output.txt",
+        "summary.md",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "scale_plan": {
+      "detail": "research/data/pilot-v2-scale-plan.md proposes a bounded 1,000,000 unique-token first target plus 50,000 validation/test tokens, with explicitly hypothetical bytes/token ranges (not T0016 extrapolations), streaming source artifacts instead of hex blobs, compact binary and JSONL shard strategies, rights/source registry review, complete 256-byte tokenizer qualification and train-only fit, dedup/leakage policy, independent hashes/coverage audit, per-split/family budgets, test non-exposure, private storage/pins and separately reviewed acquisition/producer/CLI tasks. No acquisition, cap enlargement or production loader is implemented.",
+      "evidence": [
+        "scale-plan-ref.json",
+        "summary.md",
+        "source-refs.json"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "coverage-hardening.json": "d99fa80a2d8984467796464f902137628812bc039723577fed044f3c0c4df71a",
+    "environment.json": "2d1b7a7d06843503367984154b83f2491c5ffabd5d460b5e62a7101e29374e7a",
+    "execution-first-failures.txt": "b87515705cc3cb045c40cf2bac007c44dad4d553dcc3e25e9b2b3218b4b5b0ff",
+    "execution.log": "a71bc32297398e9566fb5b6ef1e5417385a5537ca8881fb49107837037e60031",
+    "implementation.files.json": "29222e5046eccb0b7cbb3bea04fa9c82f9ab87c313dd50b90834887a484e5b3f",
+    "metrics.jsonl": "beabfb8ed1db65a2af5265f2e6db39c34e830046425d40cc813a88f6e2726abc",
+    "producer-summary.json": "bcf0615abb36225f559a87d529fa1cdc0bf8b5783d36072dab278275168859f0",
+    "producer-test-output.txt": "f8670e667480af991fddd363ce45e9f2c5c8c55e154ba3690763a747d3f99f45",
+    "scale-plan-ref.json": "9a53435b507350c2c1a2f5dae098f087c1b778ef629a33808c7180aaa80e3066",
+    "source-refs.json": "27f9cba6e0bbcbe16da58c08d113ebbdf38a9855df05455eb0f8e6659acee90c",
+    "summary.md": "de07165f0d2efb4f1ab03cc79a79a9fd6c7432ab6c990c333859bba055bc8482",
+    "test-output.txt": "f6e803dac940de5fbba359cfa1cb0b2041eee0075c356b026b4c231da3a015ea"
+  },
+  "limitations": [
+    "Synthetic prototype only; no actual corpus, tokenizer fit, source authenticity, legal clearance, training or evaluation.",
+    "The scale-plan byte/token ranges are hypothetical planning assumptions, not T0016 extrapolations or measured corpus statistics.",
+    "The explicit tokenizer table is not a production BPE; full 256-byte alphabet and train-only fit require separate qualification.",
+    "The dataset root is a trusted static root; reads are bounded and symlinks rejected, but no concurrent-mutation/race-proof guarantee is claimed.",
+    "v2 remains standalone and is not accepted training input; v1, CLI and configs are unchanged.",
+    "No merge, closure, training or next-task launch; no shared roadmap/state edit."
+  ],
+  "schema_version": 1,
+  "source_commit": "976445fdb975365823f2ddb88f604bb68ac492f5",
+  "status": "passed",
+  "task_commit": "145db440cf60bcd575226b475952f2d7129f09c1",
+  "task_id": "T0030",
+  "tested_commit": "976445fdb975365823f2ddb88f604bb68ac492f5"
+}

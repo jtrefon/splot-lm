@@ -1,0 +1,24 @@
+test_block_and_label_tamper (__main__.PilotV2Tests.test_block_and_label_tamper) ... ok
+test_bpb_rejections (__main__.PilotV2Tests.test_bpb_rejections) ... ok
+test_cross_group_overlap_rejected (__main__.PilotV2Tests.test_cross_group_overlap_rejected) ... ok
+test_deterministic_identity (__main__.PilotV2Tests.test_deterministic_identity) ... ok
+test_document_and_source_tamper (__main__.PilotV2Tests.test_document_and_source_tamper) ... ok
+test_duplicate_content_token_bytes_rejected (__main__.PilotV2Tests.test_duplicate_content_token_bytes_rejected) ... ok
+test_explicit_caps (__main__.PilotV2Tests.test_explicit_caps) ... ok
+test_full_source_and_document_utf8_rejected (__main__.PilotV2Tests.test_full_source_and_document_utf8_rejected) ... ok
+test_hand_computed_bpb (__main__.PilotV2Tests.test_hand_computed_bpb) ... ok
+test_invalid_utf8_rejected (__main__.PilotV2Tests.test_invalid_utf8_rejected) ... ok
+test_manifest_and_file_tamper (__main__.PilotV2Tests.test_manifest_and_file_tamper) ... ok
+test_manifest_digest_tamper (__main__.PilotV2Tests.test_manifest_digest_tamper) ... ok
+test_orphan_document_rejected (__main__.PilotV2Tests.test_orphan_document_rejected) ... ok
+test_positive_dataset_and_summary (__main__.PilotV2Tests.test_positive_dataset_and_summary) ... ok
+test_reconstruction_bound_rejected (__main__.PilotV2Tests.test_reconstruction_bound_rejected) ... ok
+test_segment_index_invariants (__main__.PilotV2Tests.test_segment_index_invariants) ... ok
+test_test_split_not_exposed (__main__.PilotV2Tests.test_test_split_not_exposed) ... ok
+test_tokenizer_and_caps_tamper (__main__.PilotV2Tests.test_tokenizer_and_caps_tamper) ... ok
+test_verified_bpb_api (__main__.PilotV2Tests.test_verified_bpb_api) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.087s
+
+OK

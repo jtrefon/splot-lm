@@ -1,6 +1,6 @@
 # Project state / Stan projektu
 
-Snapshot 2026-11-28; reconciled against previous main `edd2036e284a4f7d1d5904b5284971d33c5c0d39` and integrated #114/#115. **Live issues/PRs and merged evidence win.** Read [AGENTS](AGENTS.md), [REP](EXECUTION.md), [RCP](RESEARCH_COORDINATION.md), [roadmap](ROADMAP.md), [task index](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). Previous snapshots preserved in Git.
+Snapshot 2026-11-28; reconciled against previous main `145db440cf60bcd575226b475952f2d7129f09c1` and integrated #118/#119. **Live issues/PRs and merged evidence win.** Read [AGENTS](AGENTS.md), [REP](EXECUTION.md), [RCP](RESEARCH_COORDINATION.md), [roadmap](ROADMAP.md), [task index](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). Previous snapshots preserved in Git.
 
 ## Scientific direction
 [Charter](research/CHARTER.md) / [PL](research/CHARTER.pl.md): achieve more through better architecture, not greater scale. [Evaluation](research/evaluation/README.md): matched quality–cost evidence and capability guardrails. Commodity hardware is a validation constraint, not the mission. v0.2 reference; v0.3 candidates proposed, no large pretraining freeze.
@@ -26,13 +26,16 @@ Snapshot 2026-11-28; reconciled against previous main `edd2036e284a4f7d1d5904b52
 - T0028 standalone v2 synthetic verifier accepted: 12/12 tests, content-target byte and EOS accounting; [review](research/evaluation/T0028-acceptance.md). Orphan documents/cross-group source intervals and other coverage hardening required before production; v1 training unchanged.
 - T0029 exact T0025 forward reproduction: same-input FP32 GDN worst rel L2 3.696e-7, full FP32 forward 1.042e-6 and zero routing mismatches; BF16 34/4096 top2-set flips, fixed-route diagnostic max logit rel .0322755 -> .00859061. [Review](research/evaluation/T0029-acceptance.md). One synthetic case, not training or performance qualification.
 
+- T0030 synthetic v2 hardening accepted: 19/19 verifier, 6/6 producer tests, 15 semantic negatives, original fixture byte-identical. [Review](research/evaluation/T0030-acceptance.md). In-memory prototype only; streaming production-oriented format and real source acquisition separately gated.
+- T0031 selective FP32 islands rejected; full FP32 scan/chunk64 3/3 forward/backward cases, zero natural route flips. Median forward+loss+backward T512 1.130492/0.137413s (8.23x), T2048 4.631050/0.379827s (12.19x), allocated peaks ~28.4%/~28.6% lower. [Review](research/evaluation/T0031-acceptance.md). No optimizer update or learning equivalence; scan default unchanged.
+
 ## Active assignments
 | Machine | Task | Next |
 |---|---|---|
-| Mac M4 | [T0030 #116](https://github.com/jtrefon/splot-lm/issues/116) | V2 coverage hardening and synthetic deterministic producer, scale plan. |
-| Linux RTX4090 | [T0031 #117](https://github.com/jtrefon/splot-lm/issues/117) | Matched precision scan/chunk feasibility, natural routing, detached rejected source. |
+| Mac M4 | [T0032 #120](https://github.com/jtrefon/splot-lm/issues/120) | Bounded streaming corpus format, independent audit and synthetic million-token scale fixture. |
+| Linux RTX4090 | [T0033 #121](https://github.com/jtrefon/splot-lm/issues/121) | Opt-in FP32 chunk64 implementation and full optimizer qualification; preserve scan default. |
 
-T0001–T0029 closed after integration; T0025 negative experiment not passed optimization. #116/#117 next. Explicit named owner authorization after merged specs and zero open integration PRs. No architecture adoption, corpus acquisition, confirmatory superiority claim or sustained pretraining.
+T0001–T0031 closed after integration; T0025 remains negative BF16 experiment. #120/#121 next. Explicit named owner authorization after merged specs and zero open integration PRs. No architecture adoption, actual corpus acquisition, confirmatory superiority claim or sustained pretraining.
 
 ## Priorities and continuity
 [Architecture review EN](research/architecture-review/2026-11-28-en.md) / [PL](research/architecture-review/2026-11-28-pl.md), #85, #86 conditional memory, #87 recurrence/topology, #6 exact residency, #2 MTP, #7/#42 precision/optimizer, #8 data, #10 benchmarks, #11 publication, #43 isolated CUDA13. No new architecture adoption. Owner authorized lawful data acquisition within reviewed caps, no redistribution or rights bypass; no public weights, institutional affiliation or novelty/superiority claim. [Start prompt](SESSION_START.md) · [Backlog](research/BACKLOG.md) · [Historical decisions](research/decisions/README.md).

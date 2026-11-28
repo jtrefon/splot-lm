@@ -1,0 +1,104 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "Exact instruction/source pins, clean detached worktree, zero open PRs at start, input/init/partition/parameter match, deterministic/TF32 off, resource floors; no source edits or installs.",
+      "evidence": [
+        "environment.json",
+        "source-identity.json",
+        "preflight.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "forward_backward": {
+      "detail": "P3 selected policy passed T512 seed42, T512 seed43 and T2048 seed42: forward gates, same-input FP32 gates, equal named gradient inventory, finite global rel <=0.05 and all per-tensor gradient gates.",
+      "evidence": [
+        "forward-backward.json",
+        "analysis.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat sanitized package with exact reproduction, full screen, P3 qualification, six resource reports, analysis, source identity, invocation notes and execution log; validator result in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "analysis.json",
+        "invocation-notes.json"
+      ],
+      "status": "passed"
+    },
+    "precision_screen": {
+      "detail": "P1 and P2 rejected on tensor/routing gates; P3 full FP32 passed natural-route gates and was selected in P1,P2,P3 order before any resource measurement; policy versus original BF16 deltas reported as precision-confounded context.",
+      "evidence": [
+        "precision-screen.json",
+        "analysis.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "reproduction": {
+      "detail": "Original BF16 T512 seed42 scan identity/losses exact, chunk64 published loss delta 0.0, per-key routing counts exact, tensor metrics within 1e-6; natural routes retained.",
+      "evidence": [
+        "reproduction.json",
+        "precision-screen.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "resources": {
+      "detail": "Six fresh-process P3/original-context cases passed: T512/T2048, scan/chunk64 selected policy plus original BF16 scan context; medians/min/max, peaks, baseline and finite forward/backward recorded; no optimizer step.",
+      "evidence": [
+        "resources-summary.json",
+        "resource-P3-512-scan.json",
+        "resource-P3-512-chunk64.json",
+        "resource-BF16-512-scan.json",
+        "resource-P3-2048-scan.json",
+        "resource-P3-2048-chunk64.json",
+        "resource-BF16-2048-scan.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analysis.json": "9879bd3328c51c37d16e4a3fe2fed715fafedfe622933770a668ecac25368e8e",
+    "environment.json": "eb94137ab7db5bce6f7026d3522ac3ef812bc701d17e808778109c246e03db15",
+    "execution.log": "fc886835577a952eef196c73984062be4823c0d2795efcdabf858340ad6e5a1b",
+    "forward-backward.json": "70d4cb4ccab4adc5429a718075fde46bab1476a784ea6e7561c3e1e1226e2366",
+    "invocation-notes.json": "ed14c8e113c5f230de8151de0102dfcf7e5b4c6a3f13bdbffbe36c0aa9d29211",
+    "metrics.jsonl": "eefd51d75a46ceca11df400186bbbde726d7986fe2663121899d3b57ec74b601",
+    "precision-screen.json": "d361b14c705e777c995fbc2c5e105412a8ba137761366a15769dea842732ec2e",
+    "preflight.json": "100383e4318db77546e4f699000473125bca9824a7cb99b659623efddd4d5d37",
+    "reproduction.json": "b7af03fdc7a14fd0295f079718d20620ed28e9d9ac511a120cf151e9d2111e10",
+    "resource-BF16-2048-scan.json": "3da8d6427dbbfb31fbc5fd8954332d2bd4121e473168dd22966c29584fb1af41",
+    "resource-BF16-512-scan.json": "fa365714a095e4a9a0c6989f5c6221df6908cd65b10dad862c7a4e92492f95e6",
+    "resource-P3-2048-chunk64.json": "0fe5794d129c479d7532ed39898b4d82ce214d2abee4afbc49811340834afd8f",
+    "resource-P3-2048-scan.json": "2bfa457014005e8a597b1dd43b2949b89dbf1801d564592cac782a2cebb5571a",
+    "resource-P3-512-chunk64.json": "9bc15c6af9a53dced28ee988bb1924761737b2a85f58fb126513532ee8b2cfc4",
+    "resource-P3-512-scan.json": "f243ab019e644c269c423ce6c0ee8a32ae89038030ffd6773d5a8979c1eee808",
+    "resources-summary.json": "a41605b26d2b5a89d73bd9bc6f99b78d57031707b606e4863a8c4f38aec567e4",
+    "source-identity.json": "a4f0c66e78fd70414614ec4ef736b02c6a8e58993e7eeddf71ebd1c20d0ae097",
+    "summary.md": "5c02995909f8ff0e8d75069ce309e11090777f1642c17a23108e1f0346027b0f",
+    "t0031-probe.py": "f18181e29380a35ccb391b97bbdfbe3b846b3e82bf419fe7a99d1f8ad313abce"
+  },
+  "limitations": [
+    "Synthetic T512/T2048 fixed-seed cases only; no actual data, training, optimizer update, checkpoint or convergence claim.",
+    "P3 is a full FP32 control, not a BF16 replacement; no default adoption even where faster.",
+    "P1/P2 failed natural-route tensor/routing gates; no fixed-route rescue was attempted.",
+    "Resource timings are descriptive, fresh-process, forward/loss/backward only; no throughput or sustained-training claim.",
+    "Cross-policy quality/cost comparison is ambiguous because precision policy changed."
+  ],
+  "schema_version": 1,
+  "source_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "spec_commit": "145db440cf60bcd575226b475952f2d7129f09c1",
+  "status": "passed",
+  "task_commit": "145db440cf60bcd575226b475952f2d7129f09c1",
+  "task_id": "T0031",
+  "tested_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f"
+}

@@ -32,5 +32,7 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0027 | [Matched NTP pilot](T0027-matched-ntp-pilot.md) | [#109](https://github.com/jtrefon/splot-lm/issues/109) | Closed; 9/9 descriptive reference runs accepted |
 | T0028 | [Byte-auditable v2](T0028-byte-auditable-v2.md) | [#112](https://github.com/jtrefon/splot-lm/issues/112) | Closed; standalone synthetic prototype accepted, hardening before production |
 | T0029 | [GDN localization](T0029-gdn-localization.md) | [#113](https://github.com/jtrefon/splot-lm/issues/113) | Closed; exact reproduction and bounded forward diagnostic, no adoption |
-| T0030 | [V2 coverage and producer](T0030-v2-coverage-producer.md) | [#116](https://github.com/jtrefon/splot-lm/issues/116) | Mac, hardening + synthetic producer; owner launch after integration |
-| T0031 | [GDN matched precision](T0031-gdn-matched-precision.md) | [#117](https://github.com/jtrefon/splot-lm/issues/117) | Linux, detached diagnostic and conditional resource tests; owner launch after integration |
+| T0030 | [V2 coverage and producer](T0030-v2-coverage-producer.md) | [#116](https://github.com/jtrefon/splot-lm/issues/116) | Closed; synthetic hardening and deterministic producer accepted, streaming required |
+| T0031 | [GDN matched precision](T0031-gdn-matched-precision.md) | [#117](https://github.com/jtrefon/splot-lm/issues/117) | Closed; FP32 feasibility accepted, P1/P2 rejected |
+| T0032 | [Streaming corpus](T0032-streaming-corpus.md) | [#120](https://github.com/jtrefon/splot-lm/issues/120) | Mac; bounded synthetic scale qualification; owner launch after integration |
+| T0033 | [FP32 chunk64 opt-in](T0033-fp32-chunk64-opt-in.md) | [#121](https://github.com/jtrefon/splot-lm/issues/121) | Linux; opt-in implementation/optimizer qualification; owner launch after integration |

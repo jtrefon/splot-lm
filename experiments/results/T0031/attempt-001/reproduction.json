@@ -1,0 +1,203 @@
+{
+  "chunk64": {
+    "finite": true,
+    "identity": {
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+    },
+    "losses": {
+      "balance": 1.0716493129730225,
+      "early_ntp": 10.484346389770508,
+      "final_ntp": 10.493999481201172,
+      "offset2": 10.487751960754395,
+      "total": 15.747739791870117
+    }
+  },
+  "chunk64_loss_deltas": {
+    "balance": 0.0,
+    "early_ntp": 0.0,
+    "final_ntp": 0.0,
+    "offset2": 0.0,
+    "total": 0.0
+  },
+  "chunk64_loss_max_abs_delta": 0.0,
+  "expected_chunk64_losses": {
+    "balance": 1.0716493129730225,
+    "early_ntp": 10.484346389770508,
+    "final_ntp": 10.493999481201172,
+    "offset2": 10.487751960754395,
+    "total": 15.747739791870117
+  },
+  "expected_identity": {
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+  },
+  "expected_scan_losses": {
+    "balance": 1.0717132091522217,
+    "early_ntp": 10.48428726196289,
+    "final_ntp": 10.493874549865723,
+    "offset2": 10.487617492675781,
+    "total": 15.747568130493164
+  },
+  "identity_exact": true,
+  "per_key_routing_counts": {
+    "('C', 1, 0)": {
+      "actual": 0,
+      "exact": true,
+      "expected": 0
+    },
+    "('C', 1, 1)": {
+      "actual": 0,
+      "exact": true,
+      "expected": 0
+    },
+    "('C', 1, 2)": {
+      "actual": 3,
+      "exact": true,
+      "expected": 3
+    },
+    "('C', 1, 3)": {
+      "actual": 2,
+      "exact": true,
+      "expected": 2
+    },
+    "('C', 2, 0)": {
+      "actual": 4,
+      "exact": true,
+      "expected": 4
+    },
+    "('C', 2, 1)": {
+      "actual": 9,
+      "exact": true,
+      "expected": 9
+    },
+    "('C', 2, 2)": {
+      "actual": 10,
+      "exact": true,
+      "expected": 10
+    },
+    "('C', 2, 3)": {
+      "actual": 6,
+      "exact": true,
+      "expected": 6
+    }
+  },
+  "per_key_routing_counts_exact": true,
+  "routing": {
+    "by_key": {
+      "('C', 1, 0)": {
+        "disagreement_fraction": 0.0,
+        "mismatch_tokens": 0,
+        "tokens": 512
+      },
+      "('C', 1, 1)": {
+        "disagreement_fraction": 0.0,
+        "mismatch_tokens": 0,
+        "tokens": 512
+      },
+      "('C', 1, 2)": {
+        "disagreement_fraction": 0.005859375,
+        "mismatch_tokens": 3,
+        "tokens": 512
+      },
+      "('C', 1, 3)": {
+        "disagreement_fraction": 0.00390625,
+        "mismatch_tokens": 2,
+        "tokens": 512
+      },
+      "('C', 2, 0)": {
+        "disagreement_fraction": 0.0078125,
+        "mismatch_tokens": 4,
+        "tokens": 512
+      },
+      "('C', 2, 1)": {
+        "disagreement_fraction": 0.017578125,
+        "mismatch_tokens": 9,
+        "tokens": 512
+      },
+      "('C', 2, 2)": {
+        "disagreement_fraction": 0.01953125,
+        "mismatch_tokens": 10,
+        "tokens": 512
+      },
+      "('C', 2, 3)": {
+        "disagreement_fraction": 0.01171875,
+        "mismatch_tokens": 6,
+        "tokens": 512
+      }
+    },
+    "disagreement_fraction": 0.00830078125,
+    "mismatch_tokens": 34,
+    "tokens": 4096
+  },
+  "scan": {
+    "finite": true,
+    "identity": {
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+    },
+    "losses": {
+      "balance": 1.0717132091522217,
+      "early_ntp": 10.48428726196289,
+      "final_ntp": 10.493874549865723,
+      "offset2": 10.487617492675781,
+      "total": 15.747568130493164
+    }
+  },
+  "scan_losses_exact": true,
+  "status": "passed",
+  "tensor_metric_deltas": {
+    "hidden_1": {
+      "actual_max_abs": 0.09012463688850403,
+      "actual_rel_l2": 0.015143682165508817,
+      "max_abs_delta": 0.0,
+      "published_max_abs": 0.09012463688850403,
+      "published_rel_l2": 0.015143682165508817,
+      "rel_l2_abs_delta": 0.0
+    },
+    "hidden_2": {
+      "actual_max_abs": 0.1758652776479721,
+      "actual_rel_l2": 0.032721815649652666,
+      "max_abs_delta": 0.0,
+      "published_max_abs": 0.1758652776479721,
+      "published_rel_l2": 0.032721815649652666,
+      "rel_l2_abs_delta": 0.0
+    },
+    "logits_1": {
+      "actual_max_abs": 0.2392578125,
+      "actual_rel_l2": 0.013530820728977407,
+      "max_abs_delta": 0.0,
+      "published_max_abs": 0.2392578125,
+      "published_rel_l2": 0.013530820728977407,
+      "rel_l2_abs_delta": 0.0
+    },
+    "logits_2": {
+      "actual_max_abs": 0.392578125,
+      "actual_rel_l2": 0.03227545065544488,
+      "max_abs_delta": 0.0,
+      "published_max_abs": 0.392578125,
+      "published_rel_l2": 0.03227545065544488,
+      "rel_l2_abs_delta": 0.0
+    },
+    "offset2_1": {
+      "actual_max_abs": 0.312255859375,
+      "actual_rel_l2": 0.01581708433558624,
+      "max_abs_delta": 0.0,
+      "published_max_abs": 0.312255859375,
+      "published_rel_l2": 0.01581708433558624,
+      "rel_l2_abs_delta": 0.0
+    },
+    "offset2_2": {
+      "actual_max_abs": 0.396484375,
+      "actual_rel_l2": 0.033235788357566146,
+      "max_abs_delta": 0.0,
+      "published_max_abs": 0.396484375,
+      "published_rel_l2": 0.033235788357566146,
+      "rel_l2_abs_delta": 0.0
+    }
+  },
+  "tensor_metrics_within_1e-6": true
+}
