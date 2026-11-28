@@ -1,0 +1,114 @@
+{
+  "attempt": 1,
+  "checks": {
+    "cuda_qualification": {
+      "detail": "T512 seed42/43 and T2048 seed42 FP32 scan/chunk with complete Muon/AdamW update: identity/T0031 deltas 0.0, zero routing mismatch, all T0025 forward/gradient gates, finite post-update model/optimizer; packed CUDA resume exact and cross-mode rejected.",
+      "evidence": [
+        "qualification.json",
+        "packed-resume-cuda.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Exact base/tested commits, clean branch, config/input/init/partition pins, deterministic/TF32 off, RTX 4090/resource floors; no installs or real data.",
+      "evidence": [
+        "environment.json",
+        "source-files.json",
+        "preflight.json",
+        "config-identity.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat sanitized package with implementation diff/files, CPU tests, qualification, packed resume, resource gates, resources, analysis and preserved probe tooling failure; validator result in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "analysis.json",
+        "probe-failure.json"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Opt-in FP32 chunk64 composition; scan default; fail-closed BF16/FP8/autocast/non-FP32 guards; explicit config/cache/checkpoint identity; no new parameters/state_dict entries; legacy config digest preserved.",
+      "evidence": [
+        "source-diff.patch",
+        "source-files.json",
+        "implementation.json",
+        "config-identity.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "resources": {
+      "detail": "T512/T2048 resource numerical gates 3/3 each; six fresh-process complete-update measurements (FP32 scan/chunk plus BF16 scan context) with medians/min/max, peaks, baseline and labels/sec; no optimizer-state or real-data publication.",
+      "evidence": [
+        "resource-gate-512.json",
+        "resource-gate-2048.json",
+        "resource-512-scan.json",
+        "resource-512-chunk64.json",
+        "resource-512-bf16-scan.json",
+        "resource-2048-scan.json",
+        "resource-2048-chunk64.json",
+        "resource-2048-bf16-scan.json",
+        "resources-summary.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "34 CPU scripts / 40 REP reports; new component/model suite 5/5; new CLI A0/A2 scan/chunk 4-vs-2+2 exact resume suite 2/2; cross-mode and BF16/FP8 chunk fail closed.",
+      "evidence": [
+        "unit-tests.txt",
+        "summary.md",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "IMP+VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analysis.json": "d05d3b77bd4bcf39fd3b473c119c79a8cb6497d7f7c38d151eb65793f2cb2839",
+    "config-identity.json": "481a212a6fc6c5bf9a9a543ad8877b6c8b964ac1d10bb11ffabe56465fd60345",
+    "environment.json": "68b8048677db6737546d9460f879200380f9f314458de3c936bce24ce4bb2cb6",
+    "execution.log": "b2c3d3005194c7a25dcc3f0c2e3a0c23fa4b592c2245f112202d2890049df667",
+    "gdn-fp32-probe.py": "8b3812415547325ed0b0fc3793fc623c6d79a5c08fa51ea034864b3440e7f3d4",
+    "implementation.json": "d7df4249da787a29f12edc84e248025b1aed83d0204f5b2b15d2119a82477631",
+    "metrics.jsonl": "efa2077500abbbf41864bc14f20b1d7aae869e3d8c77d655cc74a55f9a457462",
+    "packed-resume-cuda.json": "90c2cf7477ce0ec5ec3ed3bf771936019af50ed90ef22bd9e2da39fb0bbce629",
+    "preflight.json": "db374494da7d00cc8e92ee796a51c44020ea5bad61004a4bcf599548c64df87f",
+    "probe-failure.json": "425999ef3124ca67c2e2e8ae883a8c84407e09084ad95a59c0edb2d997e93194",
+    "qualification.json": "31bb79028b2dbd10ceecade844963c679e59763db87728e358f1f15f8db3495c",
+    "resource-2048-bf16-scan.json": "8584df2fb6d9853aded29e89b1e2f84b6e079e37e32431aff413adbb5f837d7d",
+    "resource-2048-chunk64.json": "e039bf44f4604dbd978395a27220c771f753311f08b2b925a435eda0de1e1bfa",
+    "resource-2048-scan.json": "273fc86a122242068c729c00a874cc351cf6be9161f53916370312d8e460f707",
+    "resource-512-bf16-scan.json": "a6664e9bb8f50472bf0323bd64eb30ec936362bc20990f5155dbd89750f27675",
+    "resource-512-chunk64.json": "3391368ddc9a469adf5075e60f76501601d0c2fb98ffbffa12819cef0f2e8cb8",
+    "resource-512-scan.json": "0cde44b89c532dd2fc10bdb089ac56bbb1a2d025a4e5bbce511c1e6e0c1b0628",
+    "resource-gate-2048.json": "c9d88d7c84a2669a0f3f1b3a1539ca8d110e9e7a60d93fdc61328d83e8741d6d",
+    "resource-gate-512.json": "efada9154616f138607540c2085bb8be53c3fca1cf0d5757852c172fec70a685",
+    "resources-summary.json": "a0a99410154270fa52473a44d5daf38e03c412d83247665ae74ba335e15f8644",
+    "source-diff.patch": "532f137b490e9904c37c03ec43d2515b365d33411b147ac12e43e12b8833d15e",
+    "source-files.json": "6f05236aa21698ac03202c751cc354fee3a27db0cde33173c37b4d1a74cddec0",
+    "summary.md": "8db16a9331d72c8082bcf62f5c934b5d243838dced4465894e7cb9de0435d8de",
+    "unit-tests.txt": "6910e8bbe752d81ffd0a04433ec8c680bac06fbe955f6094d30cba399ddc15d6"
+  },
+  "limitations": [
+    "Synthetic T512/T2048 fixed-seed cases only; no real data, learning, convergence or generalization claim.",
+    "FP32-only experimental path; no BF16/FP8 chunk64 runtime, production kernel or default adoption.",
+    "Complete updates are finite and bounded but not a sustained-training or throughput claim.",
+    "Resource timings include forward/loss/backward/optimizer only; no real-data checkpoint or optimizer-state publication.",
+    "The first probe invocation failed on tooling before any gate result; the corrected probe was rerun from the exact tested SHA."
+  ],
+  "schema_version": 1,
+  "source_commit": "a8df3f0488a3b4987acfbe50e4f1791a8fabf133",
+  "spec_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "status": "passed",
+  "task_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "task_id": "T0033",
+  "tested_commit": "a8df3f0488a3b4987acfbe50e4f1791a8fabf133"
+}

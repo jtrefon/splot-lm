@@ -1,0 +1,95 @@
+{
+  "attempt": 1,
+  "authorization": "owner explicitly named T0033 on the local RTX 4090 within the merged specification and limits",
+  "base_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "branch": "feat/T0033-gdn-fp32-attempt-001",
+  "class": "IMP+VAL",
+  "constraints": {
+    "bf16_chunk64": "not_run/rejected",
+    "default_adoption": "none",
+    "fp8_chunk64": "not_run/rejected",
+    "installs": 0,
+    "real_data": "none",
+    "real_data_checkpoints": 0,
+    "sustained_training": "none"
+  },
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "tf32_enabled": false,
+    "torch_threads": 1
+  },
+  "end_utc": "2026-11-28T20:00:21Z",
+  "gpu": {
+    "driver_version": "580.178.04",
+    "model": "NVIDIA GeForce RTX 4090",
+    "vram_free_preflight_mib": 24077,
+    "vram_total_mib": 24564
+  },
+  "host": {
+    "ram_available_bytes_min": 26742054912,
+    "ram_total_bytes": 32894615552
+  },
+  "instruction_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "issue": 121,
+  "observed": {
+    "automatic_retries": 0,
+    "cpu_scripts": 34,
+    "cuda_qualification_cases": 3,
+    "gpu_peak_allocated_bytes": 7977949696,
+    "gpu_peak_reserved_bytes": 8218738688,
+    "new_cli_resume_tests": 2,
+    "new_component_tests": 5,
+    "packed_resume_cases": 2,
+    "probe_tooling_failures": 1,
+    "rep_reports": 40,
+    "resource_gate_repeats": 6,
+    "resource_processes": 6,
+    "timeouts": 0
+  },
+  "os": {
+    "cpu_count": 24,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "release": "7.0.0-43-generic",
+    "system": "Linux"
+  },
+  "python": {
+    "implementation": "CPython",
+    "version": "3.12.7"
+  },
+  "reference_source": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "resource_limits": {
+    "foreground_seconds": 7200,
+    "minimum_gpu_free_mib": 20480,
+    "minimum_host_ram_available_bytes": 12884901888,
+    "minimum_scratch_free_bytes": 8589934592,
+    "process_grace_seconds": 15,
+    "process_seconds": 300
+  },
+  "scratch": {
+    "filesystem": "ext4",
+    "free_bytes_min": 178641383424
+  },
+  "source": {
+    "config_sha256_chunk64": "634f289c1520a711482c2aed2a267ba2d3c038ab4a57c713dc83062811482551",
+    "config_sha256_scan": "669924e3ef0e8e16366d6895354652e984253c6bc889a4c3f9127c47c9b6cc29",
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "legacy_config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+    "parameters": 43055076,
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+    "source_diff": "source-diff.patch",
+    "source_files": "source-files.json",
+    "worktree": "clean merged-main feature branch; exact tested commit recorded"
+  },
+  "source_commit": "a8df3f0488a3b4987acfbe50e4f1791a8fabf133",
+  "specification": "experiments/tasks/T0033-fp32-chunk64-opt-in.md",
+  "start_utc": "2026-11-28T19:56:29Z",
+  "task_id": "T0033",
+  "tested_commit": "a8df3f0488a3b4987acfbe50e4f1791a8fabf133",
+  "torch": {
+    "cuda_runtime": "12.8",
+    "version": "2.10.0+cu128"
+  }
+}

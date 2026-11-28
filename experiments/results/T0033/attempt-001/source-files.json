@@ -1,0 +1,58 @@
+{
+  "base_commit": "04b5a8b",
+  "files": {
+    "configs/experiments/splot-nano-synthetic-fp32-chunk64.json": {
+      "bytes": 1330,
+      "sha256": "f00cee648536f8eca362bfd96747f833917dd4a22ff4f5c486daadc7780bc84b"
+    },
+    "configs/experiments/splot-nano-synthetic-fp32-scan.json": {
+      "bytes": 1327,
+      "sha256": "3f1519d7cf3d155ff862a2c197087e9ecc8a750ba787a9ff44d52c654175081c"
+    },
+    "configs/experiments/splot-smoke-synthetic-fp32-chunk64.json": {
+      "bytes": 1323,
+      "sha256": "973b5f64bf941fec4cf237dfa47a2d8284c879da298f7842f453a343485fc53d"
+    },
+    "configs/experiments/splot-smoke-synthetic-fp32-scan.json": {
+      "bytes": 1320,
+      "sha256": "61b957d7e99d4c2e31994e2bac70f84424846a5ff4e8db499e70904eef1b984b"
+    },
+    "research/implementation/gdn-chunk64-fp32-opt-in.md": {
+      "bytes": 1934,
+      "sha256": "2364654de348e2268d4253ea5c5507f328340682b3c59b465e9825b5ee407e2f"
+    },
+    "src/splot/gdn.py": {
+      "bytes": 7150,
+      "sha256": "c0488693a5a2c588f088cd1f68204daf8f2048483ea3a0be761e4799cbf663ea"
+    },
+    "src/splot/hybrid.py": {
+      "bytes": 936,
+      "sha256": "91b4e2324a09bbf344611aa928d7af9ae532e468c9ba28d67a7dc7c53d8bbd96"
+    },
+    "src/splot/recurrent.py": {
+      "bytes": 7058,
+      "sha256": "8deaf4cf53e4bcde97c4e52c3a3bbb58804f78a4a775683da1b7ccf6835d2dae"
+    },
+    "tests/test_gdn_chunk64_fp32.py": {
+      "bytes": 8766,
+      "sha256": "d068801e4024ecc9d5e52f304f6533c2d54e1b2b468083f9466a958c51fff247"
+    },
+    "tools/README.md": {
+      "bytes": 2479,
+      "sha256": "d3c3f86ec7a33a9faf98bfe17c7cd98d571fc846199c10e3467783c6efcc139c"
+    },
+    "tools/experiment.py": {
+      "bytes": 33341,
+      "sha256": "4d074c105950ace9ccc6944c6b9ef9d06d7ca1cdeba33ef74928a6439c49e97c"
+    },
+    "tools/gdn_fp32_probe.py": {
+      "bytes": 28338,
+      "sha256": "8b3812415547325ed0b0fc3793fc623c6d79a5c08fa51ea034864b3440e7f3d4"
+    },
+    "tools/test_gdn_fp32_harness.py": {
+      "bytes": 5882,
+      "sha256": "20a5caed9beb2ea31f2f3e86afd3c76f674fddfc9b84c864d5a5ea732ff80c44"
+    }
+  },
+  "tested_commit": "a8df3f0488a3b4987acfbe50e4f1791a8fabf133"
+}

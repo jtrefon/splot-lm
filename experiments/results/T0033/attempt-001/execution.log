@@ -1,0 +1,35 @@
+T0033 attempt-001 execution log (sanitized)
+Task: T0033 IMP+VAL, issue #121; base 04b5a8b8962b40cc19f4afdd8216d6270f7f7f29; tested a8df3f0488a3b4987acfbe50e4f1791a8fabf133; branch feat/T0033-gdn-fp32-attempt-001.
+Authorization: owner explicitly named T0033 on local RTX 4090 within merged limits.
+Implementation: opt-in FP32 chunk64, scan default, fail-closed precision/autocast/dtype guards, explicit config/cache/checkpoint identity; no parameter/state_dict changes.
+
+CPU tests
+Command: cd <repo> && PYTHONPATH=src:tools:tools/rep python3 tools/ci_cpu.py
+Exit 0: 34 scripts, 40 REP reports. New component/model suite 5/5; new CLI A0/A2 scan/chunk 4-vs-2+2 exact resume suite 2/2.
+
+CUDA qualification
+Command: cd <repo> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 300s python3 tools/gdn_fp32_probe.py --mode qualify ...
+Initial probe tooling failure 19:56:38..19:56:42: KeyError state in post-update optimizer inventory; no numerical report. Corrected probe commit a8df3f0488a3b4987acfbe50e4f1791a8fabf133; qualification rerun 19:57:15..19:57:30 exit 0.
+- length 512 seed 42: passed; routing=0/4096; max_loss=9.5367431640625e-07; grad_global=1.8384283847922658e-06; post_model_rel=0.00020296989219584238; T0031 loss/tensor deltas={'loss_max_abs_delta': 0.0, 'routing_mismatch_tokens': 0, 'tensor_max_abs_delta': 0.0}.
+- length 512 seed 43: passed; routing=0/4096; max_loss=1.9073486328125e-06; grad_global=1.4912149975681157e-06; post_model_rel=0.00020457626897005436; T0031 loss/tensor deltas={'loss_max_abs_delta': 0.0, 'routing_mismatch_tokens': 0, 'tensor_max_abs_delta': 0.0}.
+- length 2048 seed 42: passed; routing=0/16384; max_loss=0.0; grad_global=2.984552263289754e-06; post_model_rel=0.00019433631657184874; T0031 loss/tensor deltas={'loss_max_abs_delta': 0.0, 'routing_mismatch_tokens': 0, 'tensor_max_abs_delta': 0.0}.
+
+Packed tiny CUDA resume
+Command: ... --mode packed ...; 19:57:33..19:57:52 exit 0.
+Scan exact=passed; chunk64 exact=passed; cross-mode=passed; checkpoint unchanged=True.
+
+Resource numerical gates
+Commands: ... --mode resource-gate --length 512/2048 ...; 19:57:56..19:58:29, both exit 0, 3/3 repeats each.
+
+Resources (fresh process/method, fresh initialization per repeat, warmup discarded, three measured complete updates, diagnostics outside timing)
+- 512/scan/fp32_scan: e2e median 1.253690s; forward 0.377519s; backward 0.807918s; optimizer 0.068141s; peak alloc 2182651904; peak res 2233466880.
+- 512/chunk64/fp32_chunk64: e2e median 0.218430s; forward 0.065091s; backward 0.085143s; optimizer 0.068160s; peak alloc 1627993088; peak res 1681915904.
+- 512/original_bf16_scan/original_bf16_scan: e2e median 1.238666s; forward 0.373063s; backward 0.802280s; optimizer 0.064094s; peak alloc 2053050880; peak res 2145386496.
+- 2048/scan/fp32_scan: e2e median 4.794990s; forward 1.452878s; backward 3.273496s; optimizer 0.068475s; peak alloc 7977949696; peak res 8218738688.
+- 2048/chunk64/fp32_chunk64: e2e median 0.452887s; forward 0.150719s; backward 0.234839s; optimizer 0.067285s; peak alloc 5762677760; peak res 6008340480.
+- 2048/original_bf16_scan/original_bf16_scan: e2e median 4.733520s; forward 1.436053s; backward 3.208592s; optimizer 0.065400s; peak alloc 7214868480; peak res 7614758912.
+
+Constraints and notes
+- No real-data training, BF16/FP8 chunk64 runtime, installs, compilation, sustained training or default adoption.
+- The only failed invocation was a read-only probe tooling error before any gate result; no numerical gate, source model, data, config or precision policy changed. No automatic retry.
+- Source feature branch clean after tested commit; evidence files only added after measurements.
