@@ -1,63 +1,24 @@
-# SPLOT reference implementations
-Current: dense GQA decoder-only control (`dense.py`). This is the slow correctness reference, not the recurrent hybrid MoE candidate. No checkpoint or production tokenizer.
+# SPLOT reference implementation
 
+Trainable PyTorch research architecture. The dense baseline is retained for correctness and future matched comparisons; the full SPLOT implementation is not an optimized production backend.
+
+| Module | Responsibility | Contract |
+|---|---|---|
+| `dense.py` | Dense GQA control, norms, tied embeddings, causal masks/cache | [Dense](../../research/implementation/dense-reference.md) |
+| `recurrent.py` | Shared 2/4/2 stack, logical per-pass states, fixed depths | [Recurrence](../../research/implementation/recurrent-reference.md) |
+| `mtp.py` | Native offset-2 head, A0/A1/A2 objectives | [MTP](../../research/implementation/native-mtp.md) |
+| `gdn.py`, `hybrid.py` | Learned GDN recurrence, hybrid GDN/GQA, dense FFN control | [Hybrid](../../research/implementation/hybrid-gdn.md) |
+| `moe.py`, `sparse.py` | Eight routed experts, top-2 + shared, FP32 routing and balance | [Sparse SPLOT](../../research/implementation/sparse-moe.md) |
+| `speculative.py` | Exact D1/D2 sampling and retained-prefix replay, single row | [Speculation](../../research/implementation/exact-speculation.md) |
+| `fp8.py` | Native selected linear autograd, device scales, audits, opt-in weight reuse | [FP8](../../research/implementation/fp8-autograd.md), [reuse](../../research/implementation/fp8-weight-reuse-pilot.md) |
+
+Nano (43,055,076 physical parameters at V32768) has passed RTX 4090 synthetic CUDA training including native FP8 + Muon and contiguous T4096 qualification. Mini (146,987,784) inventory is implemented; sustained GPU training is not qualified. FP32/BF16 controls retained. The real-data loader and 16K corpus are available; first actual run still pending. See [current state](../../PROJECT_STATE.md) and [experimental evidence](../../experiments/results/INDEX.md).
+
+From a clean checkout with a compatible existing PyTorch runtime:
 ```bash
-PYTHONPATH=src python tests/test_dense.py
-PYTHONPATH=src python tools/smoke_dense.py --config configs/baselines/dense-smoke.json
-```
-
-PyTorch 2.10.0 CPU tested; Python 3.13.5. See [implementation contract](../../research/implementation/dense-reference.md) and [evidence](../../experiments/results/dense-reference-v0.1.md). No external downloads required after PyTorch installation. Use explicit device-specific PyTorch installation instructions; CUDA smoke remains unrun. Do not benchmark this Python-loop oracle as an optimized baseline.
-
-## Fixed-depth recurrent all-GQA control
-
-`recurrent.py` implements the shared 2/4/2 sandwich with per-pass caches, all-depth NTP readouts and configurable injection/scaling. [Contract](../../research/implementation/recurrent-reference.md) and [evidence](../../experiments/results/recurrent-reference-v0.1.md).
-
-```bash
-PYTHONPATH=src:tools python tests/test_recurrent.py
-PYTHONPATH=src:tools python tools/smoke_recurrent.py --loops 2 --steps 40
-```
-
-Requires merged synthetic fixture (tools/data_fixture.py). No GDN or MoE yet. GPU smoke unrun; real training blocked on #8.
-
-## Native MTP
-
-`mtp.py`: shared offset-2 head, A0/A1/A2 objectives. [Contract](../../research/implementation/native-mtp.md) and [evidence](../../experiments/results/native-mtp-v0.1.md).
-
-```bash
-PYTHONPATH=src:tools python tests/test_mtp.py
-PYTHONPATH=src:tools python tools/smoke_mtp.py --mode A2 --loops 2 --steps 40
-```
-
-GPU and real corpus training unrun.
-
-## Exact speculative reference
-
-`speculative.py` implements D1 serial shallow drafting and D2 independent MTP drafting, full-depth verification and transactional replay. [Contract](../../research/implementation/exact-speculation.md) · [Evidence](../../experiments/results/exact-speculation-v0.1.md).
-
-```bash
+PYTHONPATH=src:tools python tools/ci_cpu.py
+PYTHONPATH=src:tools python tests/test_moe.py
 PYTHONPATH=src:tools python tests/test_speculative.py
 ```
 
-Single sequence, CPU probability arithmetic, no optimization or speed claim. Hybrid GDN rollback remains pending.
-
-## Learned hybrid GDN/GQA control
-
-`gdn.py` and `hybrid.py`: three learned GDN core mixers plus gated GQA, native MTP and existing D1/D2 verifier; dense FFNs. [Contract](../../research/implementation/hybrid-gdn.md) and [evidence](../../experiments/results/hybrid-gdn-v0.1.md).
-
-```bash
-PYTHONPATH=src:tools python tests/test_hybrid.py
-PYTHONPATH=src:tools python tools/smoke_mtp.py --hybrid --mode A2 --loops 2 --steps 40
-```
-
-No sparse MoE or production corpus yet. Slow scan oracle, not a throughput baseline.
-
-## Complete sparse SPLOT reference
-
-`moe.py` and `sparse.py` integrate eight routed experts, one shared expert, top-2 routing and balance into the hybrid recurrent MTP architecture. [Contract](../../research/implementation/sparse-moe.md) and [evidence](../../experiments/results/sparse-moe-v0.1.md).
-
-```bash
-PYTHONPATH=src:tools python tests/test_moe.py
-PYTHONPATH=src:tools python tools/smoke_mtp.py --sparse --mode A2 --loops 2 --steps 40
-```
-
-All-resident CPU correctness reference. No production training or performance claim; #8 remains gated.
+The GDN scan, attention and routing are slow correctness references, not optimized kernels; D1/D2 sampling is CPU float64 and retains separate shallow/target state. Do not interpret synthetic losses or single-step timings as production performance. GPU runs require reviewed task and explicit local authorization.

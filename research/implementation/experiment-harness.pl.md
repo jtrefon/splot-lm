@@ -1,6 +1,8 @@
 # Powtarzalny harness eksperymentów v0.1
 27.11.2026 | #10 | [EN — pełny kontrakt](experiment-harness.md)
 
+**Dokument historyczny:** opisuje stan i założenia z chwili powstania, nie bieżące możliwości. Aktualny [stan projektu](../../PROJECT_STATE.md) i [wyniki](../../experiments/results/INDEX.md) obejmują działającą implementację, natywne FP8/Muon, testy CUDA i przygotowany rzeczywisty korpus.
+
 Po scaleniu #25 pełny SPLOTLM jest dostępny w repozytorium. Dodajemy wykonawcze konfiguracje smoke/Nano/Mini, deterministyczny harmonogram batchy, trening FP32 A0/A1/A2 na syntetycznym fixture, manifest z SHA kodu/konfiguracji/danych, metryki kroków i ważoną tokenami walidację NTP. Brak treningu na prawdziwym korpusie. Zapisujemy model, optimizer, RNG i historię atomowo po kroku; wznowienie wymaga identycznej tożsamości eksperymentu, --steps oznacza docelową liczbę kroków. Checkpoint jest źródłem prawdy, run.json raportem po zakończeniu. Jeden proces na katalog. Pomiar kroku wyklucza zapis checkpointu i walidację; analityczne MAC nie są zmierzonymi FLOP. GPU peak memory tylko na CUDA, brak pomiaru energii.
 
 Pięć lokalnych testów mechanizmu harness na małym modelu PyTorch (embedding/dropout/linear) przeszło, w tym bitowa zgodność wznowienia z treningiem ciągłym. Nie uruchomiono nowego harness z pełnym SPLOTLM: sandbox nie może pobrać repozytorium przez DNS. Dołączono test integracyjny i polecenia CPU/CUDA; GPU i pełna integracja pozostają do sprawdzenia. Kolejny etap: test na czystym checkout, pomiar prefill/decode/speculation/replay, matched-token/parameter/compute, precyzja #7 oraz zatwierdzone dane #8. Szczegóły i ograniczenia w wersji EN. Nie deklarujemy wyników jakości ani przyspieszenia.

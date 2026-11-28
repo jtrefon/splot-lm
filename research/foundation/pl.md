@@ -1,6 +1,8 @@
 # Założenia projektu — 26.11.2026
 Status: notatka robocza, nie publikacja. Wersja referencyjna: [EN](en.md), v0.1.
 
+**Dokument historyczny:** opisuje stan i założenia z chwili powstania, nie bieżące możliwości. Aktualny [stan projektu](../../PROJECT_STATE.md) i [wyniki](../../experiments/results/INDEX.md) obejmują działającą implementację, natywne FP8/Muon, testy CUDA i przygotowany rzeczywisty korpus.
+
 Punktem wyjścia jest edukacyjny [llm-mini](https://github.com/jtrefon/llm-mini): Transformer dekoderowy, RoPE, RMSNorm, SwiGLU, GQA, pamięć KV, strumieniowanie Wikipedii, trening wstępny i SFT. Konfiguracja: 22 warstwy, szerokość 768, 12 głowic Q i 4 KV, FFN 2048, BF16, sekwencja 1024, efektywny batch 64. Przed wykorzystaniem jako model odniesienia trzeba sprawdzić rozłączność danych walidacyjnych.
 
 Proponujemy układ prelude–współdzielony rdzeń–coda. Rdzeń: trzy bloki Gated DeltaNet i jeden GQA, początkowo stała liczba iteracji na sekwencję. MoE: ośmiu ekspertów kierowanych, top-2, jeden współdzielony; SwiGLU, router FP32, regularyzacja obciążenia. MTP od pierwszej generacji; obraz i dźwięk odłożone. LoopMTP i Floodgates stanowią odrębne inspiracje dla nadzoru latentnego i generowania propozycji tokenów. Medusa to model odniesienia, a nie przesądzony wybór.

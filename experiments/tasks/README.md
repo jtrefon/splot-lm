@@ -1,28 +1,23 @@
 # REP task specifications
-Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Issues and live PRs are authoritative. A reviewed spec on main plus explicit owner launch is required. No automatic next tasks. [Evidence index](../results/INDEX.md); [template](TEMPLATE.md).
+Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapshot 2026-11-28; live issues and PRs are authoritative. Reviewed merged spec plus explicit local owner launch required. No automatic next tasks. [Evidence](../results/INDEX.md) · [Template](TEMPLATE.md).
 
-| Task | Specification | Issue | Status at this handover |
+| Task | Specification | Issue | Status |
 |---|---|---|---|
-| T0001 | [GPU validation](T0001-gpu-validation.md) | #27 | Closed |
-| T0002 | [Nano CUDA](T0002-nano-cuda.md) | #28 | Closed |
-| T0003 | [Nano epoch](T0003-nano-epoch.md) | #35 | Closed |
-| T0004 | [Mac corpus](T0004-mac-corpus-reference.md) | #38 | Closed |
-| T0005 | [BF16 harness](T0005-bf16-harness.md) | #40 | Closed |
-| T0006 | [Muon hybrid](T0006-muon-hybrid.md) | #48 | Closed |
-| T0007 | [Native FP8 probe](T0007-native-fp8-probe.md) | #51 | Closed |
-| T0008 | [Byte BPE](T0008-byte-bpe-oracle.md) | #52 | Closed |
-| T0009 | [Native FP8 autograd](T0009-fp8-autograd.md) | #56 | Closed |
-| T0010 | [Tokenized shards](T0010-tokenized-shards.md) | #60 | Closed |
-| T0011 | [FP8 + Muon](T0011-fp8-muon.md) | #62 | Accepted, merge pending renewed CI; see #65 |
-
-| T0012 | [Contiguous context](T0012-contiguous-context.md) | #66 | Linux, after #65 merge and spec merge |
-| T0013 | [Source qualification](T0013-corpus-qualification.md) | #67 | Mac, spec review then owner launch |
-
-| T0014 | [Verified ingestion](T0014-dataset-ingestion.md) | #71 | Linux, requires #70 and reviewed spec merge |
-| T0015 | [Production tokenizer](T0015-production-tokenizer.md) | #72 | Mac, reviewed spec and owner launch; optional package authorization separate |
-
-| T0016 | [Real bilingual corpus](T0016-real-corpus.md) | #76 | Mac, actual acquisition authorized within spec |
-| T0017 | [FP8 weight reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | #77 | Linux, implementation first, real run after T0016 |
-
-| T0017 continuation | [First real pilot](T0017-continuation.md) | #77 | Attempt-002, after accepted implementation and spec merge |
-| T0018 | [MTP observability](T0018-mtp-observability.md) | #81 | Mac, spec merge then owner launch |
+| T0001 | [GPU validation](T0001-gpu-validation.md) | [#27](https://github.com/jtrefon/splot-lm/issues/27) | Closed |
+| T0002 | [Nano CUDA](T0002-nano-cuda.md) | [#28](https://github.com/jtrefon/splot-lm/issues/28) | Closed |
+| T0003 | [Nano epoch](T0003-nano-epoch.md) | [#35](https://github.com/jtrefon/splot-lm/issues/35) | Closed |
+| T0004 | [Mac corpus](T0004-mac-corpus-reference.md) | [#38](https://github.com/jtrefon/splot-lm/issues/38) | Closed |
+| T0005 | [BF16 harness](T0005-bf16-harness.md) | [#40](https://github.com/jtrefon/splot-lm/issues/40) | Closed |
+| T0006 | [Muon hybrid](T0006-muon-hybrid.md) | [#48](https://github.com/jtrefon/splot-lm/issues/48) | Closed |
+| T0007 | [Native FP8 probe](T0007-native-fp8-probe.md) | [#51](https://github.com/jtrefon/splot-lm/issues/51) | Closed |
+| T0008 | [Byte BPE](T0008-byte-bpe-oracle.md) | [#52](https://github.com/jtrefon/splot-lm/issues/52) | Closed |
+| T0009 | [Native FP8 autograd](T0009-fp8-autograd.md) | [#56](https://github.com/jtrefon/splot-lm/issues/56) | Closed |
+| T0010 | [Tokenized shards](T0010-tokenized-shards.md) | [#60](https://github.com/jtrefon/splot-lm/issues/60) | Closed |
+| T0011 | [FP8 + Muon](T0011-fp8-muon.md) | [#62](https://github.com/jtrefon/splot-lm/issues/62) | Closed |
+| T0012 | [Contiguous context](T0012-contiguous-context.md) | [#66](https://github.com/jtrefon/splot-lm/issues/66) | Closed |
+| T0013 | [Source qualification](T0013-corpus-qualification.md) | [#67](https://github.com/jtrefon/splot-lm/issues/67) | Closed |
+| T0014 | [Verified ingestion](T0014-dataset-ingestion.md) | [#71](https://github.com/jtrefon/splot-lm/issues/71) | Closed |
+| T0015 | [Production tokenizer](T0015-production-tokenizer.md) | [#72](https://github.com/jtrefon/splot-lm/issues/72) | Closed |
+| T0016 | [Real bilingual corpus](T0016-real-corpus.md) | [#76](https://github.com/jtrefon/splot-lm/issues/76) | Closed |
+| T0017 | [FP8 reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | [#77](https://github.com/jtrefon/splot-lm/issues/77) | Implementation accepted; [attempt-002 continuation](T0017-continuation.md) ready for owner launch |
+| T0018 | [MTP observability](T0018-mtp-observability.md) | [#81](https://github.com/jtrefon/splot-lm/issues/81) | Mac, reviewed spec merged; owner launch required |

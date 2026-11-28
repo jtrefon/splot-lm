@@ -1,6 +1,8 @@
 # Reproducible synthetic experiment harness v0.1
 2026-11-27 | #10 | [Polski](experiment-harness.pl.md)
 
+**Historical document:** describes its original design/implementation stage, not current capability. See [current state](../../PROJECT_STATE.md) and [experimental evidence](../../experiments/results/INDEX.md) for the implemented architecture, native FP8/Muon, CUDA qualification and materialized real corpus.
+
 ## Scope
 PR #25 merged: complete all-resident SPLOTLM reference, exact Nano/Mini inventories and earlier CPU correctness/smoke evidence. This work unit adds experiment orchestration, not optimized training, real data or new model-quality results. The current CLI supports SPLOTLM only, synthetic-v1 byte fixture only, FP32, fixed depth and A0/A1/A2. The three JSON configs are executable constructor inputs rather than the illustrative YAML architectural proposals. Smoke is 179,952 parameters (264 vocabulary); Nano 43,055,076 and Mini 146,987,784 (32,768 capacity). Counts from previously merged evidence; new harness asserts actual count on construction. Larger configurations are not promises of feasible memory/runtime; full-vocabulary logits and explicit scans make them expensive. LR .003, zero weight decay, seed 42 and batch 1 are smoke choices, not preregistered production hyperparameters.
 

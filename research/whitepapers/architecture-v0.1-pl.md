@@ -1,6 +1,8 @@
 # SPLOT — sprzętowo świadomy rekurencyjny, rzadki i predykcyjny model językowy
 Roboczy whitepaper v0.1, 26.11.2026 | [EN](architecture-v0.1-en.md)
 
+**Dokument historyczny:** opisuje stan i założenia z chwili powstania, nie bieżące możliwości. Aktualny [stan projektu](../../PROJECT_STATE.md) i [wyniki](../../experiments/results/INDEX.md) obejmują działającą implementację, natywne FP8/Muon, testy CUDA i przygotowany rzeczywisty korpus.
+
 ## Streszczenie
 Proponujemy architekturę dekoderową łączącą współdzieloną głębokość rekurencyjną, hybrydę Gated DeltaNet/GQA, MoE i natywne MTP. Badamy kompromis jakości, obliczeń i pamięci na sprzęcie konsumenckim. Warianty Nano 43,06M i Mini 146,99M parametrów wynikają z analitycznego inwentarza potwierdzonego tensorami meta, nie z wytrenowanych modeli. Dokument jest propozycją badawczą, nie publikacją wyników.
 

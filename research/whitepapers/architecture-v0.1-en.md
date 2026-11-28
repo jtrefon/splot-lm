@@ -1,6 +1,8 @@
 # SPLOT: A hardware-aware recurrent sparse predictive language model
 Architecture whitepaper — working draft v0.1, 2026-11-26. Independent open research; no institutional affiliation, no empirical claims. [Polski](architecture-v0.1-pl.md).
 
+**Historical document:** describes its original design/implementation stage, not current capability. See [current state](../../PROJECT_STATE.md) and [experimental evidence](../../experiments/results/INDEX.md) for the implemented architecture, native FP8/Muon, CUDA qualification and materialized real corpus.
+
 ## Abstract
 We propose a modular decoder-only architecture that combines shared recurrent depth, hybrid gated delta and grouped-query attention, sparse mixture-of-experts and native multi-token prediction. SPLOT tests whether these mechanisms jointly improve the quality–computation–memory trade-off on commodity hardware. Rather than assume that sparse routing, recurrence or speculative decoding necessarily deliver acceleration, we specify controlled comparisons and exact causal verification. The design targets 43.06M and 146.99M physical parameter research variants; these counts are analytical and independently validated against a meta-tensor inventory, not trained-model results. The present draft describes hypotheses and a validation plan, not a completed experimental paper.
 

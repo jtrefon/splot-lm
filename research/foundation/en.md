@@ -1,6 +1,8 @@
 # Founding research notes — 2026-11-26
 Status: working record, not a paper. Captures the substantive design discussion; private conversational material is omitted.
 
+**Historical document:** describes its original design/implementation stage, not current capability. See [current state](../../PROJECT_STATE.md) and [experimental evidence](../../experiments/results/INDEX.md) for the implemented architecture, native FP8/Muon, CUDA qualification and materialized real corpus.
+
 ## Motivation and baseline
 The [llm-mini](https://github.com/jtrefon/llm-mini) educational implementation is the predecessor and possible baseline: decoder-only Transformer, RoPE, RMSNorm, SwiGLU, GQA, KV caching, streaming Wikipedia, document packing, pretraining and masked-response SFT. Its default config has 22 layers, width 768, 12 query and 4 KV heads, FFN width 2048, BF16 mixed precision, sequence length 1024, effective batch 64 sequences. Its validation split is configured as train, so document-level separation must be independently checked before use as a scientific baseline. Preserve the educational project separately.
 

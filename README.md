@@ -1,23 +1,66 @@
 # SPLOT — Sparse Predictive Looped Optimized Transformer
 
-[Polski](README.pl.md) | [Architecture RFC](research/rfcs/0001-architecture/en.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md)
+[Polski](README.pl.md) · [Architecture contract](research/rfcs/0001-architecture/contract-v0.2.md) · [Research status](PROJECT_STATE.md) · [Evidence](experiments/results/INDEX.md) · [Roadmap](ROADMAP.md)
 
-Independent, Polish-origin, internationally accessible research into efficient language model architectures. SPLOT explores recurrent depth, hybrid attention, sparse mixture-of-experts (MoE), native multi-token prediction (MTP), low-precision training and hardware-aware inference on commodity hardware.
+**An independent, open research project developing efficient language-model architectures for commodity hardware.**
 
-**Status: research proposal / pre-implementation.** No trained SPLOT model, benchmark result, or claim of architectural novelty exists yet. The project is not affiliated with PLLuM, NASK or another institution.
+SPLOT (Polish for an interweaving) combines recurrent depth, hybrid Gated DeltaNet / grouped-query attention (GDN/GQA), sparse mixture-of-experts (MoE), native multi-token prediction (MTP), and native low-precision training. The aim is to understand whether these mechanisms together improve the quality–compute–latency–memory frontier, not to assume that any component guarantees acceleration.
 
-## Research question
-Can a language model learn to allocate parameter activation, computational depth and context representation while controlling memory traffic and numerical error, improving the quality–latency–memory Pareto frontier?
+**Current status — 28 November 2026: working research architecture, native CUDA training validated; first bounded real-data pilot next.** The reference is implemented and trainable, with public, revision-pinned CPU/GPU experiment evidence. No production language model or public pretrained weights are released. This is independent research, not affiliated with PLLuM, NASK or another institution.
 
-## Start here
-- [Research foundation and decisions](research/foundation/en.md) ([PL](research/foundation/pl.md))
-- [RFC 0001: architecture](research/rfcs/0001-architecture/en.md) ([PL](research/rfcs/0001-architecture/pl.md))
-- [RFC 0005: native MTP](research/rfcs/0005-native-mtp/en.md) ([PL](research/rfcs/0005-native-mtp/pl.md))
-- [Literature register](research/literature/README.md) and [BibTeX](research/literature/references.bib)
-- [Hypotheses](research/hypotheses/README.md), [experimental protocol](experiments/protocols/initial-ablation.md), [research backlog](research/BACKLOG.md)
-- [Reproducibility](experiments/README.md), [illustrative model configuration](configs/models/splot-mini-proposal.yaml)
+## Architecture
 
-English is canonical for scientific specifications, source and experiments. Polish translations and discussion are welcome. Code is Apache-2.0; original research text is proposed for CC BY 4.0 (see [licensing](LICENSING.md)). No third-party data or weights are distributed here.
+```mermaid
+flowchart TD
+    I[Tokens / tied embedding] --> P[2 dense GQA prelude blocks]
+    P --> C[Shared core: 3 GDN + 1 gated GQA / sparse MoE]
+    C --> R{Fixed recurrent depth R}
+    R -->|Next pass, same physical weights| C
+    R -->|Final pass| O[2 dense GQA coda blocks]
+    C -. intermediate readouts .-> M[Native offset-2 MTP]
+    O --> N[Tied next-token head]
+```
 
-## Repository-first continuity
-Read [AGENTS.md](AGENTS.md) and [PROJECT_STATE.md](PROJECT_STATE.md) before starting or resuming research. Track work in [GitHub issues](https://github.com/jtrefon/splot-lm/issues); all research artifacts and handovers are version-controlled. [Polskie zasady współpracy](docs/pl/repository-first.md).
+- Eight physical blocks; fixed 1–4 recurrent passes, separate causal state per logical execution.
+- Eight routed experts per core FFN, top-2 routing plus a shared expert; FP32 router and load balancing.
+- Native offset-2 MTP and exact D1/D2 speculative reference; trained-checkpoint acceptance and latency evaluation remain open.
+- Native FP8 E4M3 weights/activations and E5M2 backward operands for selected projections; BF16 residual stream and FP32 masters, sensitive state and optimizer buffers. FP32/BF16 controls retained; not an all-FP8 model.
+- Hybrid Muon/AdamW and opt-in per-update FP8 weight quantization reuse across recurrent passes.
+
+| Variant | Physical parameters (32,768 model vocab) | Status |
+|---|---:|---|
+| Nano | 43,055,076 | Implemented; synthetic training and contiguous CUDA context qualification |
+| Mini | 146,987,784 | Configuration and parameter inventory; sustained GPU training not qualified |
+
+See [architecture contract](research/rfcs/0001-architecture/contract-v0.2.md), [implementation map](src/splot/README.md) and [precision work](research/rfcs/0006-numerical-precision/README.md).
+
+## Selected experimental evidence
+
+All hardware measurements below are scoped to the reported reference implementation on a single RTX 4090 (24 GB), PyTorch 2.10.0/CUDA 12.8. They are not production throughput or model-quality benchmarks.
+
+| Result | Observation | Evidence |
+|---|---|---|
+| Native FP8 GEMMs | 33/33 forward, input-gradient and weight-gradient cases passed | [T0007](experiments/results/T0007/attempt-001/summary.md) |
+| Native FP8 autograd | 156 selected Nano projections; depth R1/R2/R4 numerical gates and exact same-mode resume | [T0009](experiments/results/T0009/attempt-002/summary.md) |
+| FP8 + Muon | Three matched 35-step synthetic runs; FP8/Muon validation NLL 1.4900 vs FP8/AdamW 3.4992 and BF16/Muon 1.6966 | [T0011](experiments/results/T0011/attempt-001/summary.md) |
+| Contiguous training | R2, B1, T4096: FP8/Muon 14.62 GiB peak reserved, 10.136 s complete update; BF16/Muon 14.91 GiB, 9.804 s | [T0012](experiments/results/T0012/attempt-001/summary.md) |
+| Recurrent weight reuse | T512: 298 → 156 actual weight quantizations, exact model/optimizer state and loss; 1.949 → 1.633 s in a single paired update | [T0017 attempt-001](experiments/results/T0017/attempt-001/t512-pair.json) |
+| Real bilingual corpus | 8 work families, 8.57 MiB extracted text, trained 16,384-token BPE, 56,201 selected content tokens in 128/16/16 blocks | [T0016](experiments/results/T0016/attempt-001/summary.md) |
+
+The synthetic loss results are single-seed feasibility measurements, not evidence of generalization or optimizer superiority. The weight-reuse timing is descriptive; sustained speedup is not established. The real corpus is materialized and verified on Mac; the Linux real-data run and exact local snapshot verification remain pending. T0017 attempt-001 is correctly recorded as **blocked** for the real pilot, although its independent implementation is accepted. No data or checkpoint tensors are committed.
+
+## Reproduce and contribute
+
+With a compatible existing PyTorch environment, from a clean checkout:
+
+```bash
+PYTHONPATH=src:tools python tools/ci_cpu.py
+```
+
+The hosted CPU workflow checks implementation and evidence integrity; it does not independently rerun GPU experiments. GPU work requires a reviewed specification and explicit local owner authorization. See [tools](tools/README.md), [experiments](experiments/README.md) and [REP](EXECUTION.md). 
+
+- [Current work and open questions](research/BACKLOG.md) · [Live issues](https://github.com/jtrefon/splot-lm/issues)
+- [Literature and prior art](research/literature/README.md) · [Hypotheses](research/hypotheses/README.md) · [Founding notes](research/foundation/en.md)
+- [Contributing](CONTRIBUTING.md) · [Licensing](LICENSING.md) · [Citation](CITATION.cff)
+
+English is canonical for specifications and experiments; Polish documentation and discussion are welcome. Code is Apache-2.0; licensing of research prose and any future weights remains subject to the separate recorded decisions. All research claims are linked to evidence; independent replication and constructive criticism are welcome.

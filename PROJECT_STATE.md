@@ -1,65 +1,30 @@
 # Project state / Stan projektu
-Snapshot: 2026-11-27. **Live GitHub issues and PRs are authoritative.** This file is an orientation map, not a duplicate issue tracker.
 
-## Read first
-[AGENTS.md](AGENTS.md) · [Roadmap](ROADMAP.md) · [Issue index](research/BACKLOG.md) · [Decision log](research/decisions/README.md) · [Evidence rules](research/literature/EVIDENCE.md)
+Snapshot 2026-11-28, reconciled against main `b91a68843b25624abfdc11c6eb4978d3e4c73e39`. **Live GitHub issues/PRs and merged evidence win over this snapshot.** Read [AGENTS](AGENTS.md), [REP](EXECUTION.md), [roadmap](ROADMAP.md), [task index](experiments/tasks/README.md) and [evidence index](experiments/results/INDEX.md). Historical handovers through 27 November are preserved in [this immutable revision](https://github.com/jtrefon/splot-lm/blob/b91a68843b25624abfdc11c6eb4978d3e4c73e39/PROJECT_STATE.md); do not load all of them at every restart.
 
-## Established
-- PRs #1/#12/#14/#15/#16/#17/#18 merged: foundational RFCs, native MTP and locality reviews, continuity, recurrence and hybrid equation tests, architecture contract and working whitepaper. Research issues remain open where acceptance is incomplete.
-- PR #19 merged: bilingual data contract, candidate source registry and synthetic data fixture. Actual source rights/pins, near-dedup, corpus and BPE remain gated (#8).
-- PR #20 merged: trainable dense GQA reference, six CPU tests and FP32 overfit smoke, GPU protocol outstanding.
-- PR #21 merged: fixed-depth all-GQA shared recurrent reference, seven CPU tests, six dense regression tests, 40-step synthetic A1 smoke. See [implementation](research/implementation/recurrent-reference.md) and [evidence](experiments/results/recurrent-reference-v0.1.md). No full hybrid/MoE model, real corpus training, trained release or measured hardware improvement.
+## Current accepted capability
 
-- PR #22 merged: native MTP offset-2 head and A0/A1/A2 training; seven CPU tests and three synthetic smoke runs. [Contract](research/implementation/native-mtp.md), [evidence](experiments/results/native-mtp-v0.1.md).
+- Complete sparse recurrent hybrid text reference, native MTP, exact D1/D2 reference, fixed R1–4; Nano 43,055,076 and Mini 146,987,784 physical parameters (Mini inventory only).
+- RTX 4090 cu128 FP32/BF16 controls, native FP8 156 selected projections, hybrid Muon/AdamW, same-mode resume, R1/R2/R4 numerical drift evidence and contiguous T4096 resource qualification. T0001–T0012. No production throughput/quality claim.
+- Portable synthetic corpus/shards, train-only BPE, exact cross-platform v1/v2 hashes, verified ingestion and configurable checkpoint cadence. T0014.
+- Actual EN/PL pilot acquired on Mac: T0016 #76 closed, PR #80 merged. 8 families, 8,987,423 extracted UTF8 bytes, 16,384 tokenizer vocab, 128/16/16 blocks, 56,201 content tokens. Manifest `dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55`; full pins in [T0017 continuation](experiments/tasks/T0017-continuation.md).
+- T0017 attempt-001 #79 merged, independent cache and loader accepted, **blocked** for real pilot. T512 quantizations 298→156, exact matched state/loss; one paired timing 1.949→1.633 s is descriptive. Do not close #77 until missing full 4-step resume/RNG gate and real pilot accepted.
+- PR #82 merged; both named tasks below are ready for explicit owner launch. No open PR at snapshot.
 
-- PR #23 merged: exact D1/D2 speculative reference: six CPU tests and seven MTP regressions passed; [contract](research/implementation/exact-speculation.md), [evidence](experiments/results/exact-speculation-v0.1.md). No speed claims.
+## Active assignments
 
-- PR #24 merged: learned GDN/GQA hybrid dense reference: six CPU tests, 13 regressions, 40-step A2 smoke, short Nano forward/backward. [Contract](research/implementation/hybrid-gdn.md), [evidence](experiments/results/hybrid-gdn-v0.1.md). Dense FFN control.
+| Machine | Task | Next |
+|---|---|---|
+| Linux RTX4090 | [#77 T0017 attempt-002](https://github.com/jtrefon/splot-lm/issues/77) | [Continuation](experiments/tasks/T0017-continuation.md): verify exact five-file dataset from owner-provided copy or qualified regeneration; complete 4-step 2+2 exact RNG/state/validation; fixed64-step FP8/Muon Nano run. Keep checkpoint local. |
+| Mac M4 | [#81 T0018](https://github.com/jtrefon/splot-lm/issues/81) | [Speculation observer](experiments/tasks/T0018-mtp-observability.md): D0/D1/D2 traces, per-offset denominators, exact token/cache/RNG, benchmark contract. |
 
-- PR #25 merged: complete sparse hybrid SPLOTLM: exact Nano/Mini model inventories, six CPU MoE tests and 19 regressions, synthetic A2+balance training and short full Nano forward/backward. [Contract](research/implementation/sparse-moe.md), [evidence](experiments/results/sparse-moe-v0.1.md). Mini meta only.
+T0001–T0016 closed. T0017 and T0018 open. Owner authorizes named local execution separately; no automatic next task. Next candidates after review: actual trained-checkpoint MTP evaluation and GDN/attention/quantization profiling; then matched experiments and scale.
 
-- PR #26 merged: reproducible synthetic FP32 experiment harness; full actual SPLOT integration and CUDA smoke validated in T0001.
-- PRs #29/#30 merged: REP v0.2, issue dialogue and structured evidence handoff. PRs #31/#32 merged: T0001 #27 accepted/closed, blocked setup attempt preserved and successful deterministic CUDA smoke (67 CPU tests including integration, 7/7 gates, 16 evidence hashes verified). See [index](experiments/results/INDEX.md). #3/#4/#5/#9 closed for original reference specification/implementation acceptance. GPU benchmarks and precision remain separate.
+## Research priorities and authority
 
-## Next work
-- #10: T0002 (#28) Nano one-step FP32 CUDA resource validation specification in review; ready only after merge and explicit owner launch. Then review evidence, precision #7, benchmark/matched controls #10. #8 approved corpus/tokenizer gate before real training.
-- #6: full sparse reference merged; full-text literature, locality objectives, chronological trace/cache simulation and measured PCIe/offload experiments remain open.
-- #2: exact all-GQA reference merged; full literature, broader sampling/precision tests, shallow-cache reuse and empirical work remain open.
-- #8: actual corpus source approvals and tokenizer remain required before real training.
-- #11 publication/license approval pending. Dense standalone GPU smoke and matched controls under #10; GPU inference/cache, long-context, activation checkpointing under #7/#10.
+Architecture alignment first, not corpus optimization. Owner authorized acquisition of accessible lawfully usable datasets within reviewed caps (2026-11-27); no repeated item consent, no rights/terms bypass or redistribution approval. Maintain immutable provenance and holdouts. FP8-first mixed precision, BF16/FP32 controls, native FP4 not assumed on Ada. Keep #2/#6/#7/#8/#10/#11/#42/#43 open for broader empirical research, licensing and CUDA13 qualification. No affiliation, novelty, benchmark superiority or public-weight claim.
 
-## Current unresolved decisions
-Experimental injection/stability choice, MTP strategy beyond initial offset-2, hybrid verifier rollback and shallow cache extraction, optimized GDN/MoE kernels, router objective and cache policy, data/tokenizer rights and actual pipeline, numerical formats, training budget, CC BY 4.0 scope. No assumed NASK/PLLuM relationship.
+[Open research issues](research/BACKLOG.md) · [Historical decisions](research/decisions/README.md) · [Public overview](README.md) / [PL](README.pl.md).
 
-## Restart
-Read AGENTS.md and query GitHub. Do not rely on this snapshot for current PR/issue state. Continue the highest-priority unblocked task unless maintainer chooses otherwise.
-
-## Latest execution handover (2026-11-27)
-T0002 #28 attempt-001 #34 reviewed: all three gates and seven evidence hashes pass; Nano 43,055,076 parameters, 840.7 MiB allocated / 986 MiB reserved, one FP32 step, 183 optimizer-state entries. Evidence PR pending merge; no closure yet. T0003 #35 specification in review: one full synthetic epoch (35 steps), state growth and repeated checkpoint integrity, no new architecture. Next parallel research: #7 BF16 autocast with FP32 master weights/Adam/GDN matrix/router and loss; require implementation PR, then matched FP32/BF16 tests; #8 data/tokenizer provenance; #10 realistic long-document fixture, inference and matched controls. No production training before corpus/tokenizer gate.
-
-## Parallel execution handover (2026-11-27)
-T0002 #28 and T0003 #35 closed after #34/#37 merged. T0003 35/35 batches, 2534 NTP labels, 198 Adam states, 1082 MiB peak reserved, exact T0002 step-1 reproduction; checkpoint local-only. T0004 #38 spec #39 merged, Mac CPU synthetic corpus reference only; production materialization Linux, see research/data/portability.md. T0005 #40 BF16 implementation spec in review; Linux independent of Mac. #7/#8/#10 remain open. Next precision validation, checkpoint cadence and actual contiguous-context tests; corpus rights/pins before real training.
-
-## Latest parallel handover
-T0004 #38/#45 and T0006 #48/#50 accepted/merged/closed; T0005 #40 and CI #46 previously closed. CI #47 active. Muon 210943940 vs AdamW 320848380 bytes state after one Nano step; exact pre-update/restore evidence, no superiority. Mac corrected synthetic oracle, swapped-key edge case carried into T0008. FP8-first priority: T0007 #51 Linux native GEMM feasibility; T0008 #52 Mac byte BPE reference; no actual corpus acquisition. #7/#8/#10/#42/#43 remain open. Source rights/pins and production tokenizer gate before substantive pretraining.
-
-## Native FP8 handover
-T0007 #51/#54 accepted and merged; 33/33 GEMMs native on Ada, max relative error 0.062166 vs FP32 /0.001681 vs dequant reference. Current probe includes host scalar scale copies, diagnostics and synchronization; not optimized performance. T0009 #56 integrates native autograd in selected projections, BF16/FP32 controls. T0008 #52/#55 correction requested: cap artifact expansion and codec inputs, canonical reload; original evidence retained. Mac next after acceptance: real-source provenance gate and portable tokenizer-to-shard packing pipeline, no real data until explicit rights and acquisition approval. #7/#8/#10/#42/#43 remain open.
-
-## T0008/T0009 review handover
-T0008 #52 accepted after #58 correction merged; original #55 already merged, attempt-001 retained. T0009 #56/#59 native 156-projection FP8 training demonstrated, paired one-step and exact smoke resume reported; correction required for finite flags, per-depth clipping/underflow/padding, report exit status and full-vector gradient/routing audit. No merge until reviewed correction. T0010 #60 Mac portable tokenized shards/packing bridge specification in review, independent of Linux. Actual corpus acquisition/production tokenizer still gated under #8. FP8+Muon next only after T0009 accepted.
-
-## Current handover
-T0009 #56 accepted/closed after #59 merge; corrected per-depth audits and exact same-mode resume, no saturation/nonfinite, Nano R4 full gradient relative L2 .342295. #61 T0010 #60 Mac spec merged, no implementation submission yet. T0011 #62 Linux native FP8+Muon correctness and three one-epoch synthetic comparisons in review. Broader #7/#8/#10/#42/#43 remain open. Data rights/pins and production tokenizer are the next research gate; no acquisition approved. Historical status sections above are records, live issues and latest handover authoritative.
-
-## T0010/T0011 review handover
-T0010 #60 accepted/closed, #64 merged. T0011 #62/#65 scientifically accepted; shared evidence INDEX conflict resolved without tested source change; merge only after renewed CI. FP8+Muon one synthetic epoch validation NLL 1.490035 (FP8 AdamW 3.499237, BF16 Muon 1.696633), single seed, no superiority. T0012 #66 actual contiguous-context paired resource qualification and cross-platform T0010 demo; depends on #65 merge/closure and reviewed spec. T0013 #67 Mac metadata-only source qualification and trusted shard boundary, no real corpus acquisition. Parent #7/#8/#10/#42/#43 remain open. Prioritize source approval and real pilot over further toy benchmarks.
-
-## T0012/T0013 handover
-T0013 #67/#69 accepted/closed; v2 shard hardened, four literary candidates pending, no real data approved. T0012 #66/#70 accepted; combined branch INDEX reconciliation CI pending at authoring. T4096 FP8+Muon 15.699 GB reserved, 10.136 s update; BF16+Muon 16.008 GB, 9.804 s, single measurement. Original v1 dataset digest equal Mac/Linux. T0014 #71 verified v2 ingestion/cadence, T0015 #72 production tokenizer qualification and source approval packet. No real corpus acquisition or dependency change without specific owner authorization. Broader #7/#8/#10/#42/#43/#11 remain open.
-
-## T0014/T0015 handover and owner data authorization
-T0015 #72 accepted/closed #75 merged; local HF Tokenizers 0.23.3 bounded qualification, not full resolved dependency environment. T0014 #71/#74 accepted; concurrent INDEX reconciliation CI pending at authoring. V2 cross-platform exact, interval checkpoint resume exact. Maintainer explicitly approves accessible datasets for early architecture alignment, bounded lawful acquisition under reviewed task spec, no redistribution approval. T0016 #76 actual EN/PL corpus materialization, T0017 #77 recurrent FP8 weight reuse + first real pilot dependent on T0016. Dataset optimization deferred; retain minimal reproducibility/rights/holdout. No further metadata-only task.
-
-## T0016/T0017 handover
-T0016 #76 closed/#80 merged, real bilingual pilot ready (8 families, 8,987,423 extracted bytes, vocab16384, 128/16/16 blocks, manifest dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55). T0017 #77/#79 independent FP8 weight reuse and loader accepted, real_pilot not_run; attempt-001 blocked preserved, combined CI pending at authoring. T512 298->156 actual quantizations, exact state/loss, single measured 1.949->1.633s descriptive. Continuation T0017 attempt-002 completes missing 4-step RNG resume gate and fixed64-step actual pilot after verified local data; #77 stays open until completion. T0018 #81 Mac independent native MTP observability/benchmark contract. No further corpus optimization before architecture pilot. See live issues for merged state.
+## Session continuity
+[Start prompt](SESSION_START.md) · [Research coordination protocol](RESEARCH_COORDINATION.md). Public documentation reviewed 2026-11-28 (#83); historical records preserved by immutable links. Refresh status at meaningful milestones, not by accumulating stale handover blocks.
