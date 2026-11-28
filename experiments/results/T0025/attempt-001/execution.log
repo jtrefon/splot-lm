@@ -1,0 +1,42 @@
+T0025 attempt-001 execution log (sanitized)
+Session start UTC: 2026-11-28T17:03:53Z
+Instruction/base: a87adbd1e7186926fa1766adc4aa8470b71d8579
+Tested implementation: 7dac49e083eae0068ff361e7a81b3a4f41055b3f
+Branch: feat/T0025-gdn-chunk64-attempt-001
+Owner authorization: named T0025 on local RTX 4090 within merged specification and limits.
+Start comment: https://github.com/jtrefon/splot-lm/issues/105#issuecomment-7242725565
+
+Preflight
+- GPU 0 NVIDIA GeForce RTX 4090; 24564 MiB total; 24077 MiB free; driver 580.178.04.
+- Python 3.12.7; torch 2.10.0+cu128; CUDA 12.8; deterministic algorithms; TF32 off.
+- Host RAM available: 26795646976 B; scratch free: 181477859328 B.
+- Base source clean; T0024 delta_scan/delta_chunk reviewed; no source edit before prerequisite.
+
+Prerequisite reset/tail
+cd <source-base> && PYTHONPATH=src python3 <scratch>/gdn_prereq.py --out <scratch>/prerequisite-reset.json --t0024-numerical experiments/results/T0024/attempt-001/numerical.json
+Exit 0, 2026-11-28T17:04:16Z to 2026-11-28T17:04:17Z: 3/3 independent-document chunk checks and 3/3 37+92 carried split/tail checks passed; FP64 max rel/abs below 1e-9; input matched T0024 FP64 T129 seed42.
+
+Implementation
+- Added delta_chunk64, validated RecurrentConfig.gdn_algorithm (scan default, chunk64 opt-in), HybridLM wiring, fail-closed FP8 rejection in tools/experiment.py, full-model probe and tests; tested commit 7dac49e083eae0068ff361e7a81b3a4f41055b3f.
+- No new parameters/state_dict entries; existing oracle algorithm chunk unchanged; legacy configs omit the option and keep their old identity.
+
+Unit tests
+CUDA_VISIBLE_DEVICES= PYTHONPATH=src:tools python3 tools/ci_cpu.py
+Exit 0: 31 scripts, 288 tests, 31 REP reports; new tests/test_gdn_chunk64.py 4/4.
+Tiny CPU same-mode 4 vs 2+2: scan exact (model/optimizer/RNG/history/validation); chunk64 exact.
+Cross-mode chunk64 checkpoint resumed with scan config exited 1 with ValueError: run identity mismatch; checkpoint SHA unchanged.
+
+Full model T512
+cd <repo> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 300s python3 tools/gdn_chunk_probe.py --mode numerical --length 512 --t0022-reference experiments/results/T0022/attempt-001/case-512-control.json --out <scratch>/full-model-512-final.json
+Exit 1, 2026-11-28T17:16:29Z to 2026-11-28T17:16:34Z: scan baseline exact; identity match; losses pass; gradients pass (global rel 0.005046); hidden/logit/offset2 tensor gates failed; routing top2 disagreement 1.953125%. Finite state true.
+T2048 and all resource measurements not_run: first candidate gate failed; no retry, no threshold relaxation.
+
+Development corrections before the tested commit
+- Probe initially passed CPU labels to a CUDA loss; fixed before the official run.
+- Probe initially loaded the unmodified config through context_probe._setup; replaced with a local validated setup before the official run.
+- Resume launcher had two bookkeeping errors (relative config path and separate split/resume directories); corrected before the published resume gate.
+No official numerical gate was retried after a failure.
+
+Validation
+python3 tools/rep/validate_result.py experiments/results/T0025/attempt-001 --task T0025 --source 7dac49e083eae0068ff361e7a81b3a4f41055b3f --checks environment,prerequisite_reset,implementation,unit_tests,full_model,resources,handover
+Validator result is reported in the PR body after exact-head packaging.

@@ -1,0 +1,21 @@
+{"attempt": 3, "duration_seconds": 0.039905, "metric": "exit_code", "run": "local/py-compile", "status": "observed", "task_id": "T0023", "unit": "code", "value": 0}
+{"attempt": 3, "duration_seconds": 0.026575, "metric": "exit_code", "run": "local/proposed-matrix", "status": "observed", "task_id": "T0023", "unit": "code", "value": 0}
+{"attempt": 3, "duration_seconds": 0.010722, "metric": "exit_code", "run": "local/diff-check", "status": "observed", "task_id": "T0023", "unit": "code", "value": 0}
+{"attempt": 3, "metric": "available", "run": "local/torch", "status": "observed", "task_id": "T0023", "unit": "bool", "value": 0}
+{"attempt": 3, "metric": "files_total", "run": "restoration", "status": "observed", "task_id": "T0023", "unit": "files", "value": 6}
+{"attempt": 3, "metric": "files_identical_to_original", "run": "restoration", "status": "observed", "task_id": "T0023", "unit": "files", "value": 5}
+{"attempt": 3, "metric": "test_file_changed", "run": "restoration", "status": "observed", "task_id": "T0023", "unit": "files", "value": 1}
+{"attempt": 3, "metric": "tests", "run": "hosted/loader", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 6}
+{"attempt": 3, "metric": "failures", "run": "hosted/loader", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 0}
+{"attempt": 3, "metric": "tests_run", "run": "hosted/dense", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 13}
+{"attempt": 3, "metric": "passed", "run": "hosted/dense", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 13}
+{"attempt": 3, "metric": "errors", "run": "hosted/dense", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "tests", "value": 0}
+{"attempt": 3, "metric": "exit_code", "run": "hosted/full", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "code", "value": 0}
+{"attempt": 3, "metric": "scripts", "run": "hosted/full", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "scripts", "value": 30}
+{"attempt": 3, "metric": "rep_reports", "run": "hosted/full", "run_id": 46170273255, "status": "observed", "task_id": "T0023", "unit": "reports", "value": 32}
+{"attempt": 3, "metric": "runs", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "runs", "value": 9}
+{"attempt": 3, "metric": "arms", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "arms", "value": 3}
+{"attempt": 3, "metric": "seeds", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "seeds", "value": 3}
+{"attempt": 3, "metric": "positions_per_pass", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "positions", "value": 65536}
+{"attempt": 3, "metric": "valid_tokens_per_pass", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "tokens", "value": 46204}
+{"attempt": 3, "metric": "ntp_labels_per_pass", "run": "proposed-matrix", "status": "proposed", "task_id": "T0023", "unit": "labels", "value": 46076}

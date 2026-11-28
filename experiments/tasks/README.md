@@ -25,6 +25,8 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0020 | [CUDA cost baseline](T0020-cuda-cost-baseline.md) | [#90](https://github.com/jtrefon/splot-lm/issues/90) | Closed; 12/12 paired cases accepted (descriptive) |
 | T0021 | [Dense NTP harness](T0021-dense-ntp-harness.md) | [#97](https://github.com/jtrefon/splot-lm/issues/97) | Closed; scoped implementation accepted, actual-vocab compatibility transferred to T0023 |
 | T0022 | [Backward attribution](T0022-backward-attribution.md) | [#98](https://github.com/jtrefon/splot-lm/issues/98) | Closed; four exactness-qualified cases, module attribution unassigned |
-| T0023 | [Actual-vocabulary pilot](T0023-actual-vocab-pilot.md) / [continuation](T0023-continuation.md) | [#101](https://github.com/jtrefon/splot-lm/issues/101) | Open; attempt-001 failed CI, attempt-002 test correction after owner launch |
-| T0024 | [Chunked GDN feasibility](T0024-gdn-chunk-feasibility.md) | [#102](https://github.com/jtrefon/splot-lm/issues/102) | Open; component evidence accepted, reset/tail gate pending T0025 prerequisite |
-| T0025 | [Opt-in chunk64 GDN](T0025-gdn-opt-in.md) | [#105](https://github.com/jtrefon/splot-lm/issues/105) | Linux; prerequisite reset/tail, then full-model qualification after owner launch |
+| T0023 | [Actual-vocabulary pilot](T0023-actual-vocab-pilot.md) / [continuation](T0023-continuation.md) | [#101](https://github.com/jtrefon/splot-lm/issues/101) | Closed; attempt-003 accepted, two failed REP records preserved |
+| T0024 | [Chunked GDN feasibility](T0024-gdn-chunk-feasibility.md) | [#102](https://github.com/jtrefon/splot-lm/issues/102) | Closed; component evidence and T0025 reset/tail prerequisite accepted |
+| T0025 | [Opt-in chunk64 GDN](T0025-gdn-opt-in.md) | [#105](https://github.com/jtrefon/splot-lm/issues/105) | Closed; negative full-model qualification, candidate source excluded |
+| T0026 | [Matched evaluation protocol](T0026-matched-evaluation-protocol.md) | [#108](https://github.com/jtrefon/splot-lm/issues/108) | Mac, prospective design; owner launch after integration |
+| T0027 | [Matched NTP pilot](T0027-matched-ntp-pilot.md) | [#109](https://github.com/jtrefon/splot-lm/issues/109) | Linux, bounded 9-run feasibility; exact local snapshot + owner launch |

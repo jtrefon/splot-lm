@@ -1,0 +1,77 @@
+{
+  "attempt": 2,
+  "checks": {
+    "environment": {
+      "detail": "Reviewed main a87adbd; tested base descends from T0021 75fced4. T0021 #97/T0020 #90 accepted; open-PR queue empty at start. Local macOS 27.2.1 arm64 Apple M4, 10 cores/17,179,869,184 B RAM, CPU only, CPython 3.15.2; torch absent and not installed. No local training, GPU/MPS, real data, test/checkpoint access or package install. Hosted run 46168369820 used Ubuntu 24.04 CPython 3.12.7 torch 2.10.0+cpu with CUDA hidden.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat failed-verification evidence; no raw data, token arrays, weights, checkpoints, virtualenvs or secrets. Attempt-001 and its failed evidence remain untouched. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0023/attempt-002 --task T0023 --source 57629a9ea2ab956ec24e1d05fb153f79b5bd2a64 --checks environment,loader,harness,handover. Output: STRUCTURALLY VALID: failed (not scientific acceptance). One attempt-002 INDEX row is appended; PR #106 and issue #101 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "hosted-ci.json",
+        "first-failure.txt"
+      ],
+      "status": "passed"
+    },
+    "harness": {
+      "detail": "Required hosted run 46168369820 failed on tested 57629a9. tools/test_dense_harness.py ran 13 tests: 12 passed, 1 error. ActualVocabPilotTests.test_v16384_pilot_cli_both_families raised KeyError: dataset_manifest_sha256 at line 381 from report['data_policy']['dataset_manifest_sha256']; the data policy field is report['data_policy']['manifest_sha256']. The identity-environment and source-snapshot paths were corrected, but this second key remained wrong. No loader/model/optimizer/numerical failure was reported. Per continuation, no further correction or rerun was performed. Full aggregate count unavailable because the runner exited nonzero; V16384 end-to-end CLI parity remains unverified.",
+      "evidence": [
+        "first-failure.txt",
+        "hosted-ci.json",
+        "hosted-ci.txt",
+        "correction.diff",
+        "summary.md"
+      ],
+      "status": "failed"
+    },
+    "loader": {
+      "detail": "Six original scoped files restored from failed implementation 152da24 onto current main; restoration.files.json shows five identical and only tools/test_dense_harness.py changed. Loader preserves legacy 32768/default behavior and accepts only exact validated manifest vocabulary in [264,16384] (or legacy 32768); arbitrary padded, noninteger/bool, too-small and mismatched values fail closed. Equal vocabulary reports zero unused IDs/empty ranges; test remains integrity-only. Hosted tools/test_pilot_ingestion.py passed 6/6, including V16384 boundary/labels, legacy equality, invalid vocabularies, tamper/hash/source and duplicate documents. Local torch absent; no local unit pass claimed.",
+      "evidence": [
+        "loader-pass.txt",
+        "restoration.files.json",
+        "summary.md",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "correction.diff": "4fdfac4c6dd0fd5f0d636b973d2fc46b16539e0824b855b45240015d762d91c6",
+    "environment.json": "9672455dff057c85a230c4b1917e7718e46f9596f96d027030fdfcbefc6c1f78",
+    "execution.log": "7e89f5a72feb0fbfeaa28eaa3f47e547c0d7ca517f73cbd1e782741563ffa3bc",
+    "first-failure.txt": "4f3298037c9ea29f90296db5b5c8e202ef24a241ac0c5323b0c555d640122a0e",
+    "hosted-ci.json": "a0272f558add00a9e247625785eeabd745e8ba68e41920cd8d8f3b8e0e3a53d6",
+    "hosted-ci.txt": "e2fcc7c52731508a351a6ebab25fce6cd431b62bea7a6a8ad482b36a6b589fb6",
+    "implementation.diff": "29d3b19254be1166d9237fb0b97c67297e90dfb293202a10091a39a0846f231b",
+    "implementation.files.json": "f73f2aceba23e0f39707373e448ad4a0f2beb578bc15c18ae7d685c4fbae2b0a",
+    "loader-pass.txt": "e5100ad059d0419744ee24537f6c1173382a6fd5f2e6c8cd9d9e99bd3ed3fd77",
+    "metrics.jsonl": "b03e4bd6676d9f4eca8a0cc167c4c2872814eefe85b9062e781f25283c042ffb",
+    "proposed-matrix.json": "6635e36a20c8ebccc3cefa3a49049530b472fc545506f2227424b8aed9db0266",
+    "proposed-matrix.py": "f6907a2fe42f97f2f01780616cb7923dd90bff7720b544e8df5916c562632658",
+    "restoration.files.json": "00a399698fd312ba9df1f171bb29b717f249cd36708005e4d452973c07e15896",
+    "summary.md": "c4fe7d7311508605fcab89ccb2b0fe025c98d3510a381dea7fee5aa29e6837a7"
+  },
+  "limitations": [
+    "Required hosted CI failed again; no further corrective edit or rerun was performed under T0023 continuation.",
+    "Loader tests passed, but the V16384 end-to-end CLI parity remains unverified because the new test failed on a report key.",
+    "No local torch, training, package install, GPU/MPS, real data, test or checkpoint access.",
+    "The proposed 9-run matrix is static and not an executed or preregistered quality protocol; no GPU allocation or quality margins are included.",
+    "No merge, closure or next-task launch is performed."
+  ],
+  "schema_version": 1,
+  "source_commit": "57629a9ea2ab956ec24e1d05fb153f79b5bd2a64",
+  "status": "failed",
+  "task_commit": "a87adbd1e7186926fa1766adc4aa8470b71d8579",
+  "task_id": "T0023",
+  "tested_commit": "57629a9ea2ab956ec24e1d05fb153f79b5bd2a64"
+}

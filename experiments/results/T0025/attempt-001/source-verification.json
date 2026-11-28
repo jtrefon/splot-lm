@@ -1,0 +1,17 @@
+{
+  "authorized_source_edits": true,
+  "base_commit": "a87adbd",
+  "changed_files": 7,
+  "default_gdn_algorithm": "scan",
+  "fp8_chunk64_rejected": true,
+  "legacy_absent_option_identity_unchanged": true,
+  "optional_config": "recurrence.gdn_algorithm = scan | chunk64",
+  "oracle_chunk_runtime_unchanged": true,
+  "parameter_inventory_unchanged": true,
+  "source_clean_before_and_after": true,
+  "source_diff": "implementation.diff",
+  "source_files": "implementation.files.json",
+  "state_dict_inventory_unchanged": true,
+  "status": "passed",
+  "tested_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f"
+}

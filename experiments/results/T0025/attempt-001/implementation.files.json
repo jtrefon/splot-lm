@@ -1,0 +1,34 @@
+{
+  "base_commit": "a87adbd",
+  "files": {
+    "research/implementation/gdn-chunk64-opt-in.md": {
+      "bytes": 1531,
+      "sha256": "d1f4489ff2939f442a8c0e954cedd12a37547af56f647d19158d9c414001f09a"
+    },
+    "src/splot/gdn.py": {
+      "bytes": 6008,
+      "sha256": "3f9860a08a3e22e649c882195e34e30b582e178f9abcdc26df17d77eb3b1a74e"
+    },
+    "src/splot/hybrid.py": {
+      "bytes": 936,
+      "sha256": "91b4e2324a09bbf344611aa928d7af9ae532e468c9ba28d67a7dc7c53d8bbd96"
+    },
+    "src/splot/recurrent.py": {
+      "bytes": 6894,
+      "sha256": "370b7c584d414854fbd99a7852423fb494f5e57af7232720d3319f7fb6482ca3"
+    },
+    "tests/test_gdn_chunk64.py": {
+      "bytes": 7157,
+      "sha256": "306ce82e7b6e24646fe56417d283e8578b8a8c8b9c0934da9b9db6de547d13e8"
+    },
+    "tools/experiment.py": {
+      "bytes": 31845,
+      "sha256": "40cba55c00ed13b6585c00983f2d30a3f9355aa65c7efcd7beaab2934e6c126a"
+    },
+    "tools/gdn_chunk_probe.py": {
+      "bytes": 23084,
+      "sha256": "b1867358f24cb1eb183e8b85d22d76090ff7dbdb24c88b35f6bc38f1c8d52f5c"
+    }
+  },
+  "tested_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f"
+}

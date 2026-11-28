@@ -1,0 +1,932 @@
+{
+  "attempt": 1,
+  "carried_split": {
+    "16": {
+      "components": {
+        "grad_beta": {
+          "finite": true,
+          "max_abs": 1.3552527156068805e-20,
+          "rel_l2": 2.637411300888247e-16,
+          "status": "passed"
+        },
+        "grad_g": {
+          "finite": true,
+          "max_abs": 6.776263578034403e-20,
+          "rel_l2": 3.3992497676138056e-16,
+          "status": "passed"
+        },
+        "grad_k": {
+          "finite": true,
+          "max_abs": 6.776263578034403e-21,
+          "rel_l2": 3.853497003488452e-16,
+          "status": "passed"
+        },
+        "grad_q": {
+          "finite": true,
+          "max_abs": 2.6469779601696886e-22,
+          "rel_l2": 4.588286246881151e-16,
+          "status": "passed"
+        },
+        "grad_state": {
+          "finite": true,
+          "max_abs": 1.4889251025954498e-23,
+          "rel_l2": 6.431993073863739e-16,
+          "status": "passed"
+        },
+        "grad_v": {
+          "finite": true,
+          "max_abs": 8.470329472543003e-21,
+          "rel_l2": 4.3618119085366075e-16,
+          "status": "passed"
+        },
+        "loss": {
+          "finite": true,
+          "max_abs": 0.0,
+          "rel_l2": 0.0,
+          "status": "passed"
+        },
+        "output": {
+          "finite": true,
+          "max_abs": 1.3877787807814457e-17,
+          "rel_l2": 5.03980015534979e-16,
+          "status": "passed"
+        },
+        "state": {
+          "finite": true,
+          "max_abs": 4.85722573273506e-17,
+          "rel_l2": 3.406043255153427e-16,
+          "status": "passed"
+        }
+      },
+      "split": 37,
+      "status": "passed",
+      "tail": 92
+    },
+    "32": {
+      "components": {
+        "grad_beta": {
+          "finite": true,
+          "max_abs": 1.3552527156068805e-20,
+          "rel_l2": 3.031549176825345e-16,
+          "status": "passed"
+        },
+        "grad_g": {
+          "finite": true,
+          "max_abs": 8.131516293641283e-20,
+          "rel_l2": 5.127212459529728e-16,
+          "status": "passed"
+        },
+        "grad_k": {
+          "finite": true,
+          "max_abs": 5.082197683525802e-21,
+          "rel_l2": 4.538961401380156e-16,
+          "status": "passed"
+        },
+        "grad_q": {
+          "finite": true,
+          "max_abs": 2.3822801641527197e-22,
+          "rel_l2": 4.947828247108736e-16,
+          "status": "passed"
+        },
+        "grad_state": {
+          "finite": true,
+          "max_abs": 1.9852334701272664e-23,
+          "rel_l2": 6.916481225207553e-16,
+          "status": "passed"
+        },
+        "grad_v": {
+          "finite": true,
+          "max_abs": 1.1858461261560205e-20,
+          "rel_l2": 5.129668171981173e-16,
+          "status": "passed"
+        },
+        "loss": {
+          "finite": true,
+          "max_abs": 0.0,
+          "rel_l2": 0.0,
+          "status": "passed"
+        },
+        "output": {
+          "finite": true,
+          "max_abs": 1.0408340855860843e-17,
+          "rel_l2": 5.305509530408249e-16,
+          "status": "passed"
+        },
+        "state": {
+          "finite": true,
+          "max_abs": 5.551115123125783e-17,
+          "rel_l2": 4.104114113696247e-16,
+          "status": "passed"
+        }
+      },
+      "split": 37,
+      "status": "passed",
+      "tail": 92
+    },
+    "64": {
+      "components": {
+        "grad_beta": {
+          "finite": true,
+          "max_abs": 1.3552527156068805e-20,
+          "rel_l2": 3.2643200578091737e-16,
+          "status": "passed"
+        },
+        "grad_g": {
+          "finite": true,
+          "max_abs": 8.131516293641283e-20,
+          "rel_l2": 4.682572729404872e-16,
+          "status": "passed"
+        },
+        "grad_k": {
+          "finite": true,
+          "max_abs": 5.082197683525802e-21,
+          "rel_l2": 4.621604296682523e-16,
+          "status": "passed"
+        },
+        "grad_q": {
+          "finite": true,
+          "max_abs": 2.6469779601696886e-22,
+          "rel_l2": 5.534259399932792e-16,
+          "status": "passed"
+        },
+        "grad_state": {
+          "finite": true,
+          "max_abs": 1.6543612251060553e-23,
+          "rel_l2": 7.033287484098335e-16,
+          "status": "passed"
+        },
+        "grad_v": {
+          "finite": true,
+          "max_abs": 8.470329472543003e-21,
+          "rel_l2": 5.211493571346967e-16,
+          "status": "passed"
+        },
+        "loss": {
+          "finite": true,
+          "max_abs": 1.0842021724855044e-19,
+          "rel_l2": 2.5721926862502944e-16,
+          "status": "passed"
+        },
+        "output": {
+          "finite": true,
+          "max_abs": 1.3877787807814457e-17,
+          "rel_l2": 5.69811935462037e-16,
+          "status": "passed"
+        },
+        "state": {
+          "finite": true,
+          "max_abs": 5.551115123125783e-17,
+          "rel_l2": 4.3251102341679547e-16,
+          "status": "passed"
+        }
+      },
+      "split": 37,
+      "status": "passed",
+      "tail": 92
+    }
+  },
+  "chunks": [
+    16,
+    32,
+    64
+  ],
+  "dtype": "float64",
+  "gate": "prerequisite_reset",
+  "independent_documents": {
+    "16": {
+      "cross_document_a_b_outputs_identical": false,
+      "doc_a_rerun_after_b_vs_a_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.0164395367051604e-20,
+            "rel_l2": 2.2186827459370174e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 8.131516293641283e-20,
+            "rel_l2": 3.8458998651264434e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 5.082197683525802e-21,
+            "rel_l2": 3.942700452817141e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 3.1763735522036263e-22,
+            "rel_l2": 4.652754622153289e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 1.4889251025954498e-23,
+            "rel_l2": 6.429352891144014e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 6.776263578034403e-21,
+            "rel_l2": 4.213565813174218e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.3877787807814457e-17,
+            "rel_l2": 5.08910946421027e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 5.551115123125783e-17,
+            "rel_l2": 3.433992832482417e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_a_rerun_matches_first_a": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_a_vs_a_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.0164395367051604e-20,
+            "rel_l2": 2.2186827459370174e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 8.131516293641283e-20,
+            "rel_l2": 3.8458998651264434e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 5.082197683525802e-21,
+            "rel_l2": 3.942700452817141e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 3.1763735522036263e-22,
+            "rel_l2": 4.652754622153289e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 1.4889251025954498e-23,
+            "rel_l2": 6.429352891144014e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 6.776263578034403e-21,
+            "rel_l2": 4.213565813174218e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.3877787807814457e-17,
+            "rel_l2": 5.08910946421027e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 5.551115123125783e-17,
+            "rel_l2": 3.433992832482417e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_b_vs_b_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.3552527156068805e-20,
+            "rel_l2": 2.2936158841579967e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 5.421010862427522e-20,
+            "rel_l2": 3.412560654322025e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 6.776263578034403e-21,
+            "rel_l2": 3.8863102733177273e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 2.117582368135751e-22,
+            "rel_l2": 4.514486312600579e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 1.6543612251060553e-23,
+            "rel_l2": 6.67155199462588e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 1.0164395367051604e-20,
+            "rel_l2": 4.1612372683899404e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.214306433183765e-17,
+            "rel_l2": 5.086332018003717e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 5.551115123125783e-17,
+            "rel_l2": 3.2768308765736983e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "status": "passed"
+    },
+    "32": {
+      "cross_document_a_b_outputs_identical": false,
+      "doc_a_rerun_after_b_vs_a_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.5246593050577406e-20,
+            "rel_l2": 3.487858303244755e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 1.0842021724855044e-19,
+            "rel_l2": 7.018101065062103e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 5.929230630780102e-21,
+            "rel_l2": 5.197558785759018e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 3.1763735522036263e-22,
+            "rel_l2": 5.1196747455011625e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 1.9852334701272664e-23,
+            "rel_l2": 6.955440685582029e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 7.623296525288703e-21,
+            "rel_l2": 5.319993609090601e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 1.6263032587282567e-19,
+            "rel_l2": 3.8582890293754417e-16,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.3877787807814457e-17,
+            "rel_l2": 5.405455993077287e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 8.326672684688674e-17,
+            "rel_l2": 4.372397779375485e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_a_rerun_matches_first_a": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_a_vs_a_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 1.5246593050577406e-20,
+            "rel_l2": 3.487858303244755e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 1.0842021724855044e-19,
+            "rel_l2": 7.018101065062103e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 5.929230630780102e-21,
+            "rel_l2": 5.197558785759018e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 3.1763735522036263e-22,
+            "rel_l2": 5.1196747455011625e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 1.9852334701272664e-23,
+            "rel_l2": 6.955440685582029e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 7.623296525288703e-21,
+            "rel_l2": 5.319993609090601e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 1.6263032587282567e-19,
+            "rel_l2": 3.8582890293754417e-16,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.3877787807814457e-17,
+            "rel_l2": 5.405455993077287e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 8.326672684688674e-17,
+            "rel_l2": 4.372397779375485e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_b_vs_b_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 2.710505431213761e-20,
+            "rel_l2": 3.4308703471471655e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 1.0842021724855044e-19,
+            "rel_l2": 5.908142031498845e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 8.470329472543003e-21,
+            "rel_l2": 4.363069085970021e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 2.117582368135751e-22,
+            "rel_l2": 4.870487024703221e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 1.819797347616661e-23,
+            "rel_l2": 7.263780905643436e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 1.5246593050577406e-20,
+            "rel_l2": 4.864013080529379e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 1.0842021724855044e-19,
+            "rel_l2": 2.197652641273155e-16,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.0408340855860843e-17,
+            "rel_l2": 5.381899478558305e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 6.938893903907228e-17,
+            "rel_l2": 4.039041925956481e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "status": "passed"
+    },
+    "64": {
+      "cross_document_a_b_outputs_identical": false,
+      "doc_a_rerun_after_b_vs_a_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 2.0328790734103208e-20,
+            "rel_l2": 4.53158201550968e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 1.2197274440461925e-19,
+            "rel_l2": 9.003559140951105e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 8.470329472543003e-21,
+            "rel_l2": 5.645084625251444e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 5.293955920339377e-22,
+            "rel_l2": 6.191786344720658e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 2.9778502051908996e-23,
+            "rel_l2": 8.050482715929436e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 1.1858461261560205e-20,
+            "rel_l2": 6.49448481553775e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 1.0842021724855044e-19,
+            "rel_l2": 2.5721926862502944e-16,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.5612511283791264e-17,
+            "rel_l2": 6.101134513798829e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 6.591949208711867e-17,
+            "rel_l2": 5.549271913618487e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_a_rerun_matches_first_a": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_a_vs_a_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 2.0328790734103208e-20,
+            "rel_l2": 4.53158201550968e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 1.2197274440461925e-19,
+            "rel_l2": 9.003559140951105e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 8.470329472543003e-21,
+            "rel_l2": 5.645084625251444e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 5.293955920339377e-22,
+            "rel_l2": 6.191786344720658e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 2.9778502051908996e-23,
+            "rel_l2": 8.050482715929436e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 1.1858461261560205e-20,
+            "rel_l2": 6.49448481553775e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 1.0842021724855044e-19,
+            "rel_l2": 2.5721926862502944e-16,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.5612511283791264e-17,
+            "rel_l2": 6.101134513798829e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 6.591949208711867e-17,
+            "rel_l2": 5.549271913618487e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "doc_b_vs_b_reference": {
+        "components": {
+          "grad_beta": {
+            "finite": true,
+            "max_abs": 3.7269449679189215e-20,
+            "rel_l2": 4.398624422734666e-16,
+            "status": "passed"
+          },
+          "grad_g": {
+            "finite": true,
+            "max_abs": 8.131516293641283e-20,
+            "rel_l2": 5.81793873587489e-16,
+            "status": "passed"
+          },
+          "grad_k": {
+            "finite": true,
+            "max_abs": 1.0164395367051604e-20,
+            "rel_l2": 5.64899730188498e-16,
+            "status": "passed"
+          },
+          "grad_q": {
+            "finite": true,
+            "max_abs": 2.6469779601696886e-22,
+            "rel_l2": 5.855204944220636e-16,
+            "status": "passed"
+          },
+          "grad_state": {
+            "finite": true,
+            "max_abs": 2.3161057151484775e-23,
+            "rel_l2": 8.365462485353899e-16,
+            "status": "passed"
+          },
+          "grad_v": {
+            "finite": true,
+            "max_abs": 1.6940658945086007e-20,
+            "rel_l2": 6.141038358729431e-16,
+            "status": "passed"
+          },
+          "loss": {
+            "finite": true,
+            "max_abs": 0.0,
+            "rel_l2": 0.0,
+            "status": "passed"
+          },
+          "output": {
+            "finite": true,
+            "max_abs": 1.214306433183765e-17,
+            "rel_l2": 5.992103860530658e-16,
+            "status": "passed"
+          },
+          "state": {
+            "finite": true,
+            "max_abs": 8.326672684688674e-17,
+            "rel_l2": 5.106205589602119e-16,
+            "status": "passed"
+          }
+        },
+        "status": "passed"
+      },
+      "status": "passed"
+    }
+  },
+  "input_digest_a": "633a65fa2ab263df6c38b4f238b789bf7656cb8591c60c3586e2f1c2924b5554",
+  "input_digest_b": "11d6f10d686d954604f8426e1f13d501c9695894bd638e6f7a2fedc76af8fbe4",
+  "length": 129,
+  "seed_a": 42,
+  "seed_b": 43,
+  "split": 37,
+  "status": "passed",
+  "t0024_input_match": true,
+  "tail": 92,
+  "task": "T0025",
+  "thresholds": {
+    "denominator_floor": 1e-12,
+    "max_abs": 1e-09,
+    "relative_l2": 1e-09
+  }
+}

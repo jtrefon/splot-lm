@@ -1,0 +1,45 @@
+{
+  "chunk64_same_mode_comparison": {
+    "ignored_history_fields": [
+      "peak_cuda_allocated_bytes",
+      "peak_cuda_reserved_bytes",
+      "step_seconds"
+    ],
+    "model_optimizer_rng_equal": true,
+    "non_timing_history_equal": true,
+    "parameters": 179952,
+    "status": "passed",
+    "steps": 4,
+    "validation_equal": true
+  },
+  "configs": "temporary outside-checkout configs based on configs/experiments/splot-smoke-synthetic-muon.json with recurrence.gdn_algorithm scan/chunk64",
+  "cross_mode": {
+    "checkpoint_sha256_after": "87e288bed6771ec1f5667560f0c795ad00d6a5a12a1dfdcb59f9e5bfd5680efd",
+    "checkpoint_sha256_before": "87e288bed6771ec1f5667560f0c795ad00d6a5a12a1dfdcb59f9e5bfd5680efd",
+    "checkpoint_unchanged": true,
+    "exit_code": 1,
+    "mode": "chunk64 checkpoint resumed with scan config",
+    "result": "rejected"
+  },
+  "modes": [
+    "scan",
+    "chunk64"
+  ],
+  "no_retry": true,
+  "parameters": 179952,
+  "scan_same_mode_comparison": {
+    "ignored_history_fields": [
+      "peak_cuda_allocated_bytes",
+      "peak_cuda_reserved_bytes",
+      "step_seconds"
+    ],
+    "model_optimizer_rng_equal": true,
+    "non_timing_history_equal": true,
+    "parameters": 179952,
+    "status": "passed",
+    "steps": 4,
+    "validation_equal": true
+  },
+  "status": "passed",
+  "steps": 4
+}

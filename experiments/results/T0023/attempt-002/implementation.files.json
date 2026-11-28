@@ -1,0 +1,32 @@
+{
+  "files": {
+    "research/implementation/dense-reference.md": {
+      "bytes": 9442,
+      "sha256": "dfb9c03b40114b492f52ed6130cb36d9e100aaa8e8a6838e5425c975ad7b36c2"
+    },
+    "tools/README.md": {
+      "bytes": 1861,
+      "sha256": "0b82831779cf82ed2a91b1006e2ae211088706805a4250c96fdf1f400bf2c3ae"
+    },
+    "tools/experiment.py": {
+      "bytes": 32581,
+      "sha256": "23a3e1c957e27bbb2d1d393e53eafc8e495f76199766fdd377243013131d225c"
+    },
+    "tools/pilot_ingestion.py": {
+      "bytes": 16293,
+      "sha256": "2187d93ae109ec8c56d2a9782634f27aded455da576f14ec044cc00a70634e75"
+    },
+    "tools/test_dense_harness.py": {
+      "bytes": 22128,
+      "sha256": "a660d9b495130a1299e3516d9c46173d3190a9ba2cc3fe17384cda52653c1bd7"
+    },
+    "tools/test_pilot_ingestion.py": {
+      "bytes": 11762,
+      "sha256": "afa8e9a02c6fdd8a6e8fd3b7348096b45fc14baee8654cc3f955fb927f2aa93d"
+    }
+  },
+  "instruction_commit": "a87adbd1e7186926fa1766adc4aa8470b71d8579",
+  "original_failed_commit": "152da24f4bee0f557334530b21a1fe3a03aee31d",
+  "restored_from": "152da24f4bee0f557334530b21a1fe3a03aee31d",
+  "tested_commit": "57629a9ea2ab956ec24e1d05fb153f79b5bd2a64"
+}
