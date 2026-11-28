@@ -1,0 +1,73 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "Reviewed main d5cc33c; tested base descends from T0021 75fced4. T0021 #97 and T0020 #90 accepted; open-PR queue empty at launch. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2; torch absent and not installed. No local training, GPU/MPS, real data, test/checkpoint access or package install. Hosted run 46166417407 used Ubuntu 24.04 CPython 3.12.7 torch 2.10.0+cpu with CUDA hidden.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat failed-verification evidence; no raw data, token arrays, weights, checkpoints, virtualenvs or secrets. First failure is preserved. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0023/attempt-001 --task T0023 --source 152da24f4bee0f557334530b21a1fe3a03aee31d --checks environment,loader,harness,handover. Output: STRUCTURALLY VALID: failed (not scientific acceptance). One T0023 INDEX row is appended. PR #103 and issue #101 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "hosted-ci.json",
+        "first-failure.txt"
+      ],
+      "status": "passed"
+    },
+    "harness": {
+      "detail": "Required hosted run 46166417407 failed on tested 152da24. tools/test_dense_harness.py ran 13 tests: 12 passed, 1 error. ActualVocabPilotTests.test_v16384_pilot_cli_both_families raised KeyError: dataset_manifest_sha256 at line 379 because the new test read report['identity']['dataset_manifest_sha256']; the CLI stores the pin at report['identity']['environment']['dataset_manifest_sha256'] and in data_policy. No loader/model/optimizer/numerical failure was reported. Per T0023, no corrective source edit or rerun was performed. Full aggregate count unavailable because the runner exited nonzero. Dense/SPLOT V16384 end-to-end parity is therefore not verified, and the harness check is failed.",
+      "evidence": [
+        "first-failure.txt",
+        "hosted-ci.json",
+        "hosted-ci.txt",
+        "summary.md"
+      ],
+      "status": "failed"
+    },
+    "loader": {
+      "detail": "Loader implementation preserves legacy 32768/default behavior and now accepts only the exact validated manifest vocabulary in [264,16384], with legacy 32768 also allowed; arbitrary padded, noninteger/bool, too-small and mismatched values fail closed. Equal vocabulary reports unused count 0 and empty ranges; legacy unused ranges unchanged. Test remains integrity-only and returns train/validation only. Hosted tools/test_pilot_ingestion.py passed 6/6, including V16384 upper-bound fixture, legacy/default equality, exact actual vocab, invalid vocabularies, tamper/hash/source and duplicate-document cases. Local Mac has no torch, so no local unit pass is claimed.",
+      "evidence": [
+        "loader-pass.txt",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "environment.json": "3d356cdb8ea4400246eb014d8f8fe1f6c143082b538c9df4f226ba9482755afb",
+    "execution.log": "5d9916e5570a4c8f14f5f97a168ad587a00e0a2d095b52227a4c519153416c48",
+    "first-failure.txt": "deb889f394f9de0806f317bee50c5d03ec38f7576b784d89fe5a10f3eb67cc5e",
+    "hosted-ci.json": "6dedb3a6001242a1c3026e69c474bd610b12d6a9df6908a9f991ed0829287c47",
+    "hosted-ci.txt": "f657ef1c44174d8f8fbd146948ffdba0dec193309710f82767ea2c485f9ab2c0",
+    "implementation.diff": "73f94362a15080d54f9505320871a9f5fdf3bd978c9d8154d8fdc1491a3f2fcc",
+    "implementation.files.json": "39fc4e9f5abb335a4d1faf43564db22ed57a7ddd7af0da472f636fec9fbc3a4e",
+    "loader-pass.txt": "9bf66ef212dc27d5b535ef7f8c1350593d63385ea6fb2523d724b2a32567debe",
+    "metrics.jsonl": "18c54724b2af446ef29752d48b259239cd58151f04dac234c8a07cf02afd3ced",
+    "proposed-matrix.json": "e117695c5226cc838cf2b28eed77203c351283fdd0428a5e95740fc3ba131575",
+    "proposed-matrix.py": "29b503824acbcff980fd439ed745099606e867171da33578901c659f1b80237c",
+    "summary.md": "d2a2f8682faf6a9f476b126494f8c74e74e0e42a2855ac474112e562f413d0e4"
+  },
+  "limitations": [
+    "Required hosted CI failed; no corrective source edit or rerun was performed under T0023.",
+    "Loader tests passed, but the V16384 end-to-end CLI path is not verified because its new test failed before completing assertions.",
+    "No local torch, training, package install, GPU/MPS, real data, test or checkpoint access.",
+    "The proposed 9-run matrix is static and not an executed or preregistered quality protocol; no GPU allocation or quality margins are included.",
+    "No merge, closure or next-task launch is performed."
+  ],
+  "schema_version": 1,
+  "source_commit": "152da24f4bee0f557334530b21a1fe3a03aee31d",
+  "status": "failed",
+  "task_commit": "d5cc33c0ba3df21e4763284cc3a1f4cde08a38b9",
+  "task_id": "T0023",
+  "tested_commit": "152da24f4bee0f557334530b21a1fe3a03aee31d"
+}

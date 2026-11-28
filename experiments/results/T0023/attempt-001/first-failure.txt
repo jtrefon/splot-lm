@@ -1,0 +1,55 @@
+T0023 first hosted CPU failure
+RUN 46166417407
+HEAD 152da24f4bee0f557334530b21a1fe3a03aee31d
+CONCLUSION failure
+
+=== tools/test_dense_harness.py ===
+test_v16384_pilot_cli_both_families (__main__.ActualVocabPilotTests.test_v16384_pilot_cli_both_families) ... ERROR
+test_candidate_counts_and_splot_v16384_a0 (__main__.DenseAccountingTests.test_candidate_counts_and_splot_v16384_a0) ... ok
+test_candidate_instantiation_and_partition (__main__.DenseAccountingTests.test_candidate_instantiation_and_partition) ... ok
+test_dense_objective_matches_manual_ntp_and_labels (__main__.DenseFamilyTests.test_dense_objective_matches_manual_ntp_and_labels) ... ok
+test_family_defaults_and_fail_closed (__main__.DenseFamilyTests.test_family_defaults_and_fail_closed) ... ok
+test_parameter_inventory_dense (__main__.DenseFamilyTests.test_parameter_inventory_dense) ... ok
+test_dense_bf16_capability_if_supported (__main__.DenseIngestionTests.test_dense_bf16_capability_if_supported) ... ok
+test_shared_synthetic_v2_and_pilot_loading (__main__.DenseIngestionTests.test_shared_synthetic_v2_and_pilot_loading) ... ok
+test_continuous_four_equals_two_plus_two (__main__.DenseTrainingTests.test_continuous_four_equals_two_plus_two) ... ok
+test_cross_family_cli_resume_rejected (__main__.DenseTrainingTests.test_cross_family_cli_resume_rejected) ... ok
+test_legacy_splot_cli_identity_unchanged (__main__.DenseTrainingTests.test_legacy_splot_cli_identity_unchanged) ... ok
+test_seed_data_order_one_pass (__main__.PreflightTests.test_seed_data_order_one_pass) ... ok
+test_t0016_positions_valid_and_ntp_labels (__main__.PreflightTests.test_t0016_positions_valid_and_ntp_labels) ... ok
+
+======================================================================
+ERROR: test_v16384_pilot_cli_both_families (__main__.ActualVocabPilotTests.test_v16384_pilot_cli_both_families)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/splot-lm/splot-lm/tools/test_dense_harness.py", line 379, in test_v16384_pilot_cli_both_families
+    self.assertEqual(report['identity']['dataset_manifest_sha256'], sha)
+                     ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'dataset_manifest_sha256'
+
+----------------------------------------------------------------------
+Ran 13 tests in 12.556s
+
+FAILED (errors=1)
+
+=== tools/test_experiment.py ===
+test_hash (__main__.HarnessTests.test_hash) ... ok
+test_logical_macs (__main__.HarnessTests.test_logical_macs) ... ok
+test_resume_exact_and_reject_mismatch (__main__.HarnessTests.test_resume_exact_and_reject_mismatch) ... ok
+test_schedule (__main__.HarnessTests.test_schedule) ... ok
+test_token_weighted_eval (__main__.HarnessTests.test_token_weighted_eval) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.574s
+
+OK
+
+=== tools/test_experiment_integration.py ===
+test_sparse_resume_and_validation (__main__.Integration.test_sparse_resume_and_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.109s
+
+OK
+
+Failed: tools/test_dense_harness.py

@@ -1,0 +1,20 @@
+T0023 hosted CPU evidence
+RUN 46166417407
+HEAD 152da24f4bee0f557334530b21a1fe3a03aee31d
+CONCLUSION failure
+
+DENSE SUITE: 13 run, 1 error (KeyError dataset_manifest_sha256 in new CLI test)
+LOADER SUITE: 6/6 passed
+
+=== tools/test_pilot_ingestion.py ===
+test_actual_vocab_equality_and_legacy_summary (__main__.PilotLoaderTests.test_actual_vocab_equality_and_legacy_summary) ... ok
+test_expected_vocab_rejections (__main__.PilotLoaderTests.test_expected_vocab_rejections) ... ok
+test_load_train_validation_and_counts (__main__.PilotLoaderTests.test_load_train_validation_and_counts) ... ok
+test_manifest_hash_source_and_model_rejection (__main__.PilotLoaderTests.test_manifest_hash_source_and_model_rejection) ... ok
+test_shard_hash_mismatch (__main__.PilotLoaderTests.test_shard_hash_mismatch) ... ok
+test_tamper_extra_file_and_duplicate_document (__main__.PilotLoaderTests.test_tamper_extra_file_and_duplicate_document) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.299s
+
+OK
