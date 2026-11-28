@@ -14,6 +14,7 @@
 | `pilot_v2_producer.py`, `test_pilot_v2_producer.py` | Deterministic synthetic v2 producer from explicit source/segment/token records; canonical six-file output, coverage precheck and existing-output refusal; **not** an acquisition or training pipeline |
 | `speculation_trace.py` | Exact D0 baseline, trace v2 reducer, actual model calls and full decode timing; no performance claim |
 | `test_dense_harness.py` | Hosted tiny-fixture dense NTP parity, accounting, partition, resume, ingestion and family rejection |
+| `gdn_fp32_probe.py`, `test_gdn_fp32_harness.py` | Opt-in FP32-only chunk64 packed/cache/resume and complete-update qualification; no BF16/FP8 chunk path |
 | `rep/validate_result.py`, `rep/compare_resume.py` | Structural result gate and exact trusted local checkpoint comparison |
 
 Use an existing compatible PyTorch runtime; optional tokenizer dependencies have separate version/pin evidence. 

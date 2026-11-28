@@ -393,6 +393,8 @@ def main():
     if type(interval) is not int or interval < 1:
         p.error('checkpoint interval must be a positive integer')
     if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
+    if family=='splot' and rc.gdn_algorithm == 'chunk64' and t['precision'] != 'fp32':
+        p.error('gdn_algorithm chunk64 requires precision fp32; BF16 and FP8 chunk64 are not qualified')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1: p.error('invalid training settings')
     if family=='splot' and not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
@@ -403,6 +405,8 @@ def main():
         policy=resolve_precision(a.device,t['precision'])
     except (ValueError,RuntimeError) as exc:
         p.error(str(exc))
+    if family=='splot' and rc.gdn_algorithm == 'chunk64' and policy['autocast_dtype'] is not None:
+        p.error('gdn_algorithm chunk64 requires autocast disabled')
     seed_all(t['seed'])
     dataset_manifest_sha256 = None
     dataset_source_snapshot_sha256 = None
@@ -477,6 +481,8 @@ def main():
         'tf32_enabled':bool(torch.backends.cuda.matmul.allow_tf32) if a.device=='cuda' else False,
         'deterministic_algorithms':True}
     if family=='dense-ntp': env['model_family']='dense-ntp'
+    explicit_gdn = family=='splot' and 'gdn_algorithm' in c.get('recurrence', {})
+    if explicit_gdn: env['gdn_algorithm']=rc.gdn_algorithm
     identity={'schema':1,'commit':commit,'config_sha256':digest(c),'data_sha256':digest(data),
               'packed_sha256':digest(packed),'environment':env,'settings':t,
               'checkpoint_interval':interval,'fp8_weight_reuse':reuse,
@@ -484,6 +490,8 @@ def main():
     if family=='dense-ntp':
         identity['model_family']='dense-ntp'
         identity['dense_parameter_count']=actual
+    if explicit_gdn:
+        identity['gdn_algorithm']=rc.gdn_algorithm
     if family=='dense-ntp':
         objective=dense_ntp_objective
     else:
@@ -568,6 +576,8 @@ def main():
         limitations.append('Bounded pilot-blocks-v1 ingestion only; the source snapshot must be separately verified against reviewed T0016 pins; test data is integrity-checked only.')
     if reuse:
         limitations.append('FP8 weight reuse is per-update only; no persistent cache or second-order claim.')
+    if family=='splot' and rc.gdn_algorithm=='chunk64':
+        limitations.append('Opt-in FP32 chunk64 experimental reference only; no BF16/FP8, production, speed or equivalence claim.')
     if interval > 1:
         limitations.append('Checkpoint interval reduces durable write frequency; interruption can lose up to interval-1 updates since the prior checkpoint under the trusted single-writer assumption.')
     report={'identity':identity,'config':c,'data_manifest':data,'data_policy':data_policy,
