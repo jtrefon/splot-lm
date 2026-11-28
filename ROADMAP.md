@@ -23,3 +23,6 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.
+
+## Proposed v0.3 decision gate — review requested
+[Architecture review EN](research/architecture-review/2026-11-28-en.md) / [PL](research/architecture-review/2026-11-28-pl.md), [#85](https://github.com/jtrefon/splot-lm/issues/85). Preserve active v0.2 T0017/T0018 unchanged. Before larger training, review conditional n-gram memory #86, heterogeneous exact residency #6, recurrent topology/granularity #87, MTP and profiling. These are proposals to elevate previously deferred memory/offload research, not implemented or adopted features. No new hardware run or model release authorized.

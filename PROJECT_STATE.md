@@ -28,3 +28,6 @@ Architecture alignment first, not corpus optimization. Owner authorized acquisit
 
 ## Session continuity
 [Start prompt](SESSION_START.md) · [Research coordination protocol](RESEARCH_COORDINATION.md). Public documentation reviewed 2026-11-28 (#83); historical records preserved by immutable links. Refresh status at meaningful milestones, not by accumulating stale handover blocks.
+
+## Architecture decision review (proposed)
+[2026-11-28 EN](research/architecture-review/2026-11-28-en.md) / [PL](research/architecture-review/2026-11-28-pl.md), #85, #86 conditional memory and #87 recurrence/topology; #6 tier-aware exact residency. Current assignments #77/#81 unchanged. Conditional GO for v0.2 reference; no freeze for larger pretraining before the reviewed v0.3 gates. No claim that candidate extensions are implemented; owner review pending.
