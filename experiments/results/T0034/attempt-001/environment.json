@@ -1,0 +1,118 @@
+{
+  "attempt": 1,
+  "branch": "feat/T0034-stream-completion-attempt-001",
+  "captured_at_utc": "2026-11-28T20:42:20Z",
+  "class": "IMP",
+  "compatibility": "v1/v2 immutable; stream-v1 standalone and not accepted training input",
+  "hosted": {
+    "conclusion": "success",
+    "cpu_scripts": 35,
+    "evidence_conclusion": "success",
+    "evidence_head_sha": "46d5196c8f70dffef817998d960370f9b4d5ad42",
+    "evidence_run_id": 46188119711,
+    "evidence_url": "https://github.com/jtrefon/splot-lm/actions/runs/46188119711",
+    "head_sha": "44df94e2e97f06d4a752097b1129ef70598c2e7c",
+    "numpy": "1.26.4",
+    "python": "3.12.7",
+    "rep_reports": 43,
+    "run_id": 46187833076,
+    "stream_tests": 11,
+    "torch": "2.10.0+cpu",
+    "url": "https://github.com/jtrefon/splot-lm/actions/runs/46187833076",
+    "workflow": "CPU regression"
+  },
+  "instruction_base_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "local": {
+    "architecture": "arm64",
+    "build": "26B131",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "memorystatus_level_at_capture": 43,
+    "model": "Mac16,1",
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "packages": "stdlib only",
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "installed": false
+    }
+  },
+  "pr": 128,
+  "preflight": {
+    "note": "Zero open PRs were verified before branch creation. Concurrent PR #127 (T0035) appeared at 2026-11-28T20:40:02Z during execution; it is not part of T0034 and was not modified.",
+    "open_prs_at_capture": [
+      {
+        "action": "none",
+        "created_at_utc": "2026-11-28T20:40:02Z",
+        "draft": false,
+        "number": 127,
+        "scope": "concurrent T0035",
+        "title": "T0035: matched FP32 scan/chunk64 learning pilot evidence"
+      },
+      {
+        "action": "opened and updated by this attempt",
+        "created_at_utc": "2026-11-28T20:42:49Z",
+        "draft": true,
+        "number": 128,
+        "scope": "this attempt",
+        "title": "T0034: bounded streaming completion and candidate registry"
+      }
+    ],
+    "queue_change_during_execution": true,
+    "zero_open_prs_before_start": true
+  },
+  "scale": {
+    "audit_matches": true,
+    "audit_seconds": 1.494309790985426,
+    "bounded_read_guard": {
+      "other_read_bytes_calls": 0,
+      "shard_read_bytes_calls": 0,
+      "source_read_bytes_calls": 0
+    },
+    "cap_usage_fraction": 0.3400273472070694,
+    "chunk_bytes": 65536,
+    "content_tokens": 986880,
+    "file_bytes": 45637698,
+    "load_seconds": 1.5233022499887738,
+    "manifest_match": true,
+    "manifest_sha256": "24c677ce21e3cebfe7869b42233d8ca17f806f84ec872910678861e94e5a3dba",
+    "max_shard_file_bytes": 8590522,
+    "max_source_file_bytes": 112084,
+    "peak_rss_bytes_macos": 143998976,
+    "target_verify_seconds": 3.105471209011739,
+    "test_blocks_audited": 94,
+    "test_blocks_exposed": false,
+    "total_seconds": 11.40532770799473,
+    "valid_tokens": 1011520,
+    "verify_and_bpb_seconds": 3.1030822500179056,
+    "write_seconds": 2.123692207998829
+  },
+  "scope": {
+    "command_timeout_seconds": 300,
+    "foreground_minutes": 120,
+    "not_performed": [
+      "actual raw corpus acquisition",
+      "tokenizer fit",
+      "training",
+      "real corpus/test/checkpoint access",
+      "dependency installation",
+      "GPU/MPS",
+      "CLI/v1/v2 source change",
+      "shared project-state edit",
+      "merge or closure",
+      "next-task launch"
+    ]
+  },
+  "spec_ancestor_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "task_id": "T0034",
+  "tested_commit": "44df94e2e97f06d4a752097b1129ef70598c2e7c"
+}

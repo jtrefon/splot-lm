@@ -1,14 +1,18 @@
 """Stdlib tests for the bounded streaming corpus prototype."""
 import copy
+import dataclasses
 import hashlib
+import inspect
 import json
 import math
 import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import pilot_stream as stream
+import pilot_stream_audit as audit
 import pilot_stream_producer as producer
 
 T = 12
@@ -63,9 +67,56 @@ def make_spec():
     )
 
 
+def rewrite_manifest(root, mutate):
+    path = Path(root) / "manifest.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    mutate(manifest)
+    raw = stream._canonical(manifest)
+    path.write_bytes(raw)
+    return sha(raw)
+
+
+def rewrite_sources(root, mutate):
+    path = Path(root) / "sources.json"
+    value = json.loads(path.read_text(encoding="utf-8"))
+    mutate(value)
+    raw = stream._canonical(value)
+    path.write_bytes(raw)
+    return rewrite_manifest(
+        root, lambda manifest: manifest.__setitem__("source_registry_sha256", sha(raw)))
+
+
+def rewrite_documents(root, mutate):
+    path = Path(root) / "documents.jsonl"
+    lines = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        doc = json.loads(line)
+        mutate(doc)
+        lines.append(stream._canonical(doc) + b"\n")
+    data = b"".join(lines)
+    path.write_bytes(data)
+    return rewrite_manifest(
+        root, lambda manifest: manifest.__setitem__("document_metadata_sha256", sha(data)))
+
+
+def refresh_shards(root):
+    manifest_path = Path(root) / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    logical = hashlib.sha256()
+    for shard in manifest["shards"]:
+        data = (Path(root) / shard["path"]).read_bytes()
+        shard["bytes"] = len(data)
+        shard["sha256"] = sha(data)
+        logical.update(data)
+    manifest["logical_sha256"] = logical.hexdigest()
+    raw = stream._canonical(manifest)
+    manifest_path.write_bytes(raw)
+    return sha(raw)
+
+
 class StreamTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix="splot-t0032-")
+        self.tmp = tempfile.TemporaryDirectory(prefix="splot-t0034-")
         self.root = Path(self.tmp.name)
         self.dataset = self.root / "dataset"
         self.summary = producer.write_dataset(make_spec(), self.dataset)
@@ -89,11 +140,24 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(loaded["splits"]["train"]["blocks"], 2)
         self.assertEqual(loaded["splits"]["train"]["content_tokens"], 7)
         self.assertFalse(loaded["test_blocks_exposed"])
-        self.assertEqual(sum(1 for _ in stream.iter_blocks(self.dataset, self.manifest_sha, "train")), 2)
-        self.assertEqual(sum(1 for _ in stream.iter_blocks(self.dataset, self.manifest_sha, "validation")), 1)
+        self.assertEqual(loaded["target_identity_fields"],
+                         list(stream.TARGET_IDENTITY_FIELDS))
+        self.assertLessEqual(loaded["total_file_bytes"], stream.MAX_TOTAL_BYTES)
+        identity = loaded["identity"]
+        self.assertIsInstance(identity, stream.StreamIdentity)
+        self.assertEqual(identity.manifest_sha256, self.manifest_sha)
+        self.assertEqual(identity.counts, loaded["counts"])
+        with self.assertRaises(dataclasses.FrozenInstanceError):
+            identity.manifest_sha256 = "0" * 64
+        self.assertEqual(sum(1 for _ in stream.iter_blocks(
+            self.dataset, self.manifest_sha, "train")), 2)
+        self.assertEqual(sum(1 for _ in stream.iter_blocks(
+            self.dataset, self.manifest_sha, "validation")), 1)
         for block in stream.iter_blocks(self.dataset, self.manifest_sha, "train"):
             self.assertEqual(set(block["labels"]), {1, 2})
             self.assertEqual(len(block["input_ids"]), T)
+        first = next(stream.iter_targets(self.dataset, self.manifest_sha, "validation"))
+        self.assertEqual(first["manifest_sha256"], self.manifest_sha)
 
     def test_hand_computed_bpb_and_targets(self):
         targets = list(stream.iter_targets(self.dataset, self.manifest_sha, "validation"))
@@ -102,7 +166,7 @@ class StreamTests(unittest.TestCase):
                          ["content", "content", "content", "eos"])
         for target, nll in zip(targets, [0.1, 0.2, 0.3, 0.4]):
             target["nll"] = nll
-        result = stream.aggregate_bpb(targets)
+        result = stream.aggregate_bpb(iter(targets))
         self.assertEqual(result["content_labels"], 3)
         self.assertEqual(result["content_bytes"], 3)
         self.assertEqual(result["eos_labels"], 1)
@@ -110,6 +174,11 @@ class StreamTests(unittest.TestCase):
         self.assertAlmostEqual(result["eos_nll_sum"], 0.4)
         self.assertAlmostEqual(result["ordinary_ntp_nll_sum"], 1.0)
         self.assertAlmostEqual(result["content_bpb"], 0.6 / (math.log(2) * 3))
+        combined = stream.verify_and_aggregate_bpb(
+            self.dataset, self.manifest_sha, "validation", iter(targets))
+        self.assertEqual(combined["verified_targets"], 4)
+        self.assertEqual(combined["content_labels"], 3)
+        self.assertAlmostEqual(combined["content_bpb"], 0.6 / (math.log(2) * 3))
         for bad in (
             [],
             [{"nll": -0.1, "byte_length": 1, "kind": "content"}],
@@ -117,29 +186,61 @@ class StreamTests(unittest.TestCase):
             [{"nll": 10 ** 400, "byte_length": 1, "kind": "content"}],
             [{"nll": 0.1, "byte_length": 0, "kind": "content"}],
             [{"nll": 0.1, "byte_length": 1, "kind": "eos"}],
+            [{"nll": True, "byte_length": 1, "kind": "content"}],
+            [{"nll": 0.1, "byte_length": True, "kind": "content"}],
+            [{"nll": 0.1, "byte_length": 1, "kind": "bogus"}],
+            [{"nll": 0.1, "kind": "content"}],
         ):
             with self.assertRaises(stream.StreamError):
                 stream.aggregate_bpb(bad)
 
     def test_forged_target_identity(self):
         targets = list(stream.iter_targets(self.dataset, self.manifest_sha, "validation"))
-        self.assertEqual(len(stream.verify_targets(
-            self.dataset, self.manifest_sha, "validation", targets)), 4)
-        forged = copy.deepcopy(targets)
-        forged[0]["byte_length"] = 9
-        with self.assertRaises(stream.StreamError):
-            stream.verify_targets(self.dataset, self.manifest_sha, "validation", forged)
+        summary = stream.verify_targets(
+            self.dataset, self.manifest_sha, "validation", iter(targets))
+        self.assertEqual(summary["verified_targets"], 4)
+        self.assertEqual(summary["content"], 3)
+        self.assertEqual(summary["eos"], 1)
+        self.assertEqual(summary["manifest_sha256"], self.manifest_sha)
+        for mutate in (
+            lambda item: item.__setitem__("byte_length", 9),
+            lambda item: item.__setitem__("manifest_sha256", "0" * 64),
+            lambda item: item.__setitem__("target_token_id", True),
+            lambda item: item.__setitem__("split", "train"),
+            lambda item: item.__setitem__("family_id", "other"),
+            lambda item: item.__setitem__("position", -1),
+            lambda item: item.__setitem__("byte_length", 1 << 30),
+            lambda item: item.pop("kind"),
+            lambda item: item.__setitem__("extra", 1),
+        ):
+            forged = copy.deepcopy(targets)
+            mutate(forged[0])
+            with self.assertRaises(stream.StreamError):
+                stream.verify_targets(self.dataset, self.manifest_sha,
+                                      "validation", forged)
         duplicate = copy.deepcopy(targets)
         duplicate[1]["block_index"] = duplicate[0]["block_index"]
         duplicate[1]["position"] = duplicate[0]["position"]
         with self.assertRaises(stream.StreamError):
-            stream.verify_targets(self.dataset, self.manifest_sha, "validation", duplicate)
+            stream.verify_targets(self.dataset, self.manifest_sha,
+                                  "validation", duplicate)
+        with self.assertRaises(stream.StreamError):
+            stream.verify_targets(self.dataset, self.manifest_sha,
+                                  "validation", targets[:-1])
+        with self.assertRaises(stream.StreamError):
+            stream.verify_targets(self.dataset, self.manifest_sha,
+                                  "validation", targets + [targets[-1]])
 
     def test_test_non_exposure(self):
         with self.assertRaises(stream.StreamError):
             list(stream.iter_blocks(self.dataset, self.manifest_sha, "test"))
         with self.assertRaises(stream.StreamError):
             list(stream.iter_targets(self.dataset, self.manifest_sha, "test"))
+        with self.assertRaises(stream.StreamError):
+            stream.verify_targets(self.dataset, self.manifest_sha, "test", [])
+        with self.assertRaises(stream.StreamError):
+            stream.verify_and_aggregate_bpb(
+                self.dataset, self.manifest_sha, "test", [])
 
     def test_deterministic_and_existing_output(self):
         other = self.root / "other"
@@ -152,6 +253,35 @@ class StreamTests(unittest.TestCase):
                              (other / name).read_bytes())
         with self.assertRaises(producer.ProducerError):
             producer.write_dataset(make_spec(), self.dataset)
+        self.assertNotIn("verify", inspect.signature(producer.write_dataset).parameters)
+        with self.assertRaises(TypeError):
+            producer.write_dataset(make_spec(), self.root / "bypass", verify=False)
+        preserved = self.root / "other.staging"
+        preserved.mkdir()
+        (preserved / "keep.txt").write_text("keep")
+        producer.write_dataset(make_spec(), self.root / "third")
+        self.assertEqual((preserved / "keep.txt").read_text(), "keep")
+
+    def test_partial_staging_cleanup(self):
+        failed = self.root / "failed"
+        keep = self.root / ".failed.staging-keep"
+        keep.mkdir()
+        (keep / "keep.txt").write_text("keep")
+        with mock.patch("pilot_stream_producer._block",
+                        side_effect=RuntimeError("boom")):
+            with self.assertRaises(RuntimeError):
+                producer.write_dataset(make_spec(), failed)
+        self.assertFalse(failed.exists())
+        leftovers = [path for path in self.root.glob(".failed.staging-*")
+                     if path.name != keep.name]
+        self.assertFalse(leftovers)
+        self.assertEqual((keep / "keep.txt").read_text(), "keep")
+        existing = self.root / "existing"
+        existing.mkdir()
+        (existing / "keep.txt").write_text("keep")
+        with self.assertRaises(producer.ProducerError):
+            producer.write_dataset(make_spec(), existing)
+        self.assertEqual((existing / "keep.txt").read_text(), "keep")
 
     def test_file_hash_and_path_rejections(self):
         cases = []
@@ -164,10 +294,10 @@ class StreamTests(unittest.TestCase):
         (shard / "train-000.jsonl").write_bytes(
             (shard / "train-000.jsonl").read_bytes() + b"\n")
         cases.append(shard)
-        source = self.root / "source"
-        shutil.copytree(self.dataset, source)
-        (source / "sources/src-train-en.content").write_bytes(b"zz")
-        cases.append(source)
+        source_root = self.root / "source"
+        shutil.copytree(self.dataset, source_root)
+        (source_root / "sources/src-train-en.content").write_bytes(b"zz")
+        cases.append(source_root)
         link = self.root / "link"
         shutil.copytree(self.dataset, link)
         target = link / "train-real.jsonl"
@@ -177,29 +307,113 @@ class StreamTests(unittest.TestCase):
         for root in cases:
             with self.assertRaises(stream.StreamError):
                 stream.load_stream_dataset(root, self.manifest_sha)
+        root_link = self.root / "root-link"
+        root_link.symlink_to(self.dataset, target_is_directory=True)
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(root_link, self.manifest_sha)
+        traversal = self.root / "traversal"
+        shutil.copytree(self.dataset, traversal)
+        traversal_sha = rewrite_manifest(
+            traversal, lambda manifest: manifest["shards"][0].__setitem__(
+                "path", "../train-000.jsonl"))
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(traversal, traversal_sha)
 
-    def test_semantic_tokenizer_and_counts_rejections(self):
+    def test_semantic_nonbool_and_cap_rejections(self):
         tokenizer = self.root / "tokenizer"
         shutil.copytree(self.dataset, tokenizer)
         doc = json.loads((tokenizer / "tokenizer-bytes.json").read_text())
         doc["token_bytes"][263] = ""
         raw = stream._canonical(doc)
         (tokenizer / "tokenizer-bytes.json").write_bytes(raw)
-        manifest = json.loads((tokenizer / "manifest.json").read_text())
-        manifest["tokenizer_sha256"] = sha(raw)
-        manifest_raw = stream._canonical(manifest)
-        (tokenizer / "manifest.json").write_bytes(manifest_raw)
+        tokenizer_sha = rewrite_manifest(
+            tokenizer, lambda manifest: manifest.__setitem__("tokenizer_sha256", sha(raw)))
         with self.assertRaises(stream.StreamError):
-            stream.load_stream_dataset(tokenizer, sha(manifest_raw))
+            stream.load_stream_dataset(tokenizer, tokenizer_sha)
 
         counts = self.root / "counts"
         shutil.copytree(self.dataset, counts)
-        manifest = json.loads((counts / "manifest.json").read_text())
-        manifest["counts"]["blocks"] = 99
-        manifest_raw = stream._canonical(manifest)
-        (counts / "manifest.json").write_bytes(manifest_raw)
+        counts_sha = rewrite_manifest(
+            counts, lambda manifest: manifest["counts"].__setitem__("blocks", 99))
         with self.assertRaises(stream.StreamError):
-            stream.load_stream_dataset(counts, sha(manifest_raw))
+            stream.load_stream_dataset(counts, counts_sha)
+
+        nonbool = self.root / "nonbool"
+        shutil.copytree(self.dataset, nonbool)
+        nonbool_sha = rewrite_sources(
+            nonbool, lambda value: value["sources"][0].__setitem__("raw_bytes", True))
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(nonbool, nonbool_sha)
+
+        shard_bytes = self.root / "shard-bytes"
+        shutil.copytree(self.dataset, shard_bytes)
+        shard_sha = rewrite_manifest(
+            shard_bytes, lambda manifest: manifest["shards"][0].__setitem__(
+                "bytes", float(manifest["shards"][0]["bytes"])))
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(shard_bytes, shard_sha)
+
+        doc_selected = self.root / "doc-selected"
+        shutil.copytree(self.dataset, doc_selected)
+        doc_sha = rewrite_documents(
+            doc_selected, lambda value: value.__setitem__("selected_bytes", 1.0))
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(doc_selected, doc_sha)
+
+        cap = self.root / "cap"
+        shutil.copytree(self.dataset, cap)
+        cap_sha = rewrite_manifest(
+            cap, lambda manifest: manifest["shards"][0].__setitem__(
+                "bytes", stream.MAX_SHARD_BYTES + 1))
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(cap, cap_sha)
+
+        long_doc = self.root / "long-doc"
+        shutil.copytree(self.dataset, long_doc)
+        long_data = b"x" * (stream.MAX_METADATA_LINE + 10) + b"\n"
+        (long_doc / "documents.jsonl").write_bytes(long_data)
+        long_sha = rewrite_manifest(
+            long_doc, lambda manifest: manifest.__setitem__(
+                "document_metadata_sha256", sha(long_data)))
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(long_doc, long_sha)
+
+        long_shard = self.root / "long-shard"
+        shutil.copytree(self.dataset, long_shard)
+        with (long_shard / "train-000.jsonl").open("ab") as handle:
+            handle.write(b"x" * (stream.MAX_SHARD_LINE + 10) + b"\n")
+        long_shard_sha = refresh_shards(long_shard)
+        with self.assertRaises(stream.StreamError):
+            stream.load_stream_dataset(long_shard, long_shard_sha)
+
+    def test_bounded_full_read_guard(self):
+        original = Path.read_bytes
+
+        def guarded(path):
+            if path.name.startswith(("train-", "validation-", "test-")) \
+                    or "sources" in path.parts:
+                raise AssertionError(f"unbounded read: {path}")
+            return original(path)
+
+        targets = list(stream.iter_targets(self.dataset, self.manifest_sha, "validation"))
+        with mock.patch.object(Path, "read_bytes", guarded):
+            stream.load_stream_dataset(self.dataset, self.manifest_sha)
+            list(stream.iter_targets(self.dataset, self.manifest_sha, "validation"))
+            stream.verify_targets(self.dataset, self.manifest_sha, "validation", targets)
+            audit.audit(self.dataset, self.manifest_sha)
+
+    def test_auditor_matches_and_is_independent(self):
+        loaded = stream.load_stream_dataset(self.dataset, self.manifest_sha)
+        result = audit.audit(self.dataset, self.manifest_sha)
+        self.assertEqual(result["counts"], loaded["counts"])
+        self.assertFalse(result["test_blocks_exposed"])
+        self.assertEqual(result["test_blocks_audited"],
+                         loaded["splits"]["test"]["blocks"])
+        self.assertEqual(result["bounded_io"]["mode"], "incremental")
+        lines = Path(audit.__file__).read_text(encoding="utf-8").splitlines()
+        self.assertFalse(any(line.startswith("import pilot_stream")
+                             or line.startswith("from pilot_stream")
+                             for line in lines))
 
     def test_complete_alphabet_requires_264_vocab(self):
         with self.assertRaises(producer.ProducerError):

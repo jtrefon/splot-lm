@@ -1,0 +1,64 @@
+{
+  "instruction_base_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "refs": {
+    "experiments/results/T0016/attempt-001/acquisition.json": {
+      "bytes": 100317,
+      "sha256": "84ac9ed76e43afd1934f063ff7de1eb9967d5c4090a4a598bb3921f087d4b4cf"
+    },
+    "experiments/tasks/T0034-streaming-completion.md": {
+      "bytes": 3494,
+      "sha256": "d56374466d93d790e9b80e0adb46fb18ba99e327a6e53b9729fa217865565448"
+    },
+    "research/data/pilot-stream-schema.md": {
+      "bytes": 14285,
+      "sha256": "ecae8dcdfd0ea637d910ecdc4dea3dd4a471ece7ddad3d66dd7fbed50ff32c97"
+    },
+    "research/data/pilot-v2-scale-plan.md": {
+      "bytes": 10486,
+      "sha256": "2793fcab747242f4a54dc9f62a97e4b50a9b64ced87bfdf7c369254986c2a4ba"
+    },
+    "research/data/source-registry-candidates.json": {
+      "bytes": 72997,
+      "sha256": "3577e81770375b5160382421fac9c6678311f6703b2d42423ffa569971b88128"
+    },
+    "research/data/source-registry-candidates.md": {
+      "bytes": 8903,
+      "sha256": "d0043b20fcf8f7b583d460f2d7fe7c1629f8ef850fbca66316e98d72f2706169"
+    },
+    "research/data/source-registry-template.md": {
+      "bytes": 6220,
+      "sha256": "1b3c8545425c2edc2d0d9a735fb8a5775789b6aef0c18065b22d3c2a77d7cb70"
+    },
+    "research/evaluation/T0032-acceptance.md": {
+      "bytes": 2006,
+      "sha256": "6eac60da9ccbacc8f53cc073ccecadc1da802e94bcd180fec91c999ad67b5be6"
+    },
+    "research/evaluation/T0033-acceptance.md": {
+      "bytes": 1738,
+      "sha256": "3086becf9f54a937146147e5048440bde2de90bffa8649d0f55076f1883e423a"
+    },
+    "tools/pilot_stream.py": {
+      "bytes": 53814,
+      "sha256": "7b9ea580989011f6c3cb00ea10bc978e7ca2359e051872dee57681bded1f726e"
+    },
+    "tools/pilot_stream_audit.py": {
+      "bytes": 35880,
+      "sha256": "123b24035df6f1dbede6c812d6f65b06b8cba86df8d2730648264f16fd454d7e"
+    },
+    "tools/pilot_stream_producer.py": {
+      "bytes": 30956,
+      "sha256": "999b3425f1b2243abb3353f68272ac88a0de24a4acd056727b17995607718e3d"
+    },
+    "tools/pilot_v2.py": {
+      "bytes": 54155,
+      "sha256": "4b80718d7a08a1a458fc05af3cf97befd072fadaa35355a6698ad48a66f5d4e7"
+    },
+    "tools/test_pilot_stream.py": {
+      "bytes": 20116,
+      "sha256": "63c306d71c4e14153bd2d2eae8b2ec987f222336955e4753876738816a25673b"
+    }
+  },
+  "schema": "splot-t0034-source-refs-v1",
+  "spec_ancestor_commit": "04b5a8b8962b40cc19f4afdd8216d6270f7f7f29",
+  "tested_commit": "44df94e2e97f06d4a752097b1129ef70598c2e7c"
+}

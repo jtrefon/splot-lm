@@ -1,6 +1,6 @@
 # Project state / Stan projektu
 
-Snapshot 2026-11-28; reconciled against previous main `04b5a8b8962b40cc19f4afdd8216d6270f7f7f29` and integrated #122/#123. **Live issues/PRs and merged evidence win.** Read [AGENTS](AGENTS.md), [REP](EXECUTION.md), [RCP](RESEARCH_COORDINATION.md), [roadmap](ROADMAP.md), [task index](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). Previous snapshots preserved in Git.
+Snapshot 2026-11-28; reconciled against main `50e3b44ea4ee0d58232340d8bc98dd1dae994974` and consolidated T0034/T0035 review. **Live issues/PRs and merged evidence win.** Read [AGENTS](AGENTS.md), [REP](EXECUTION.md), [RCP](RESEARCH_COORDINATION.md), [roadmap](ROADMAP.md), [task index](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). Previous snapshots preserved in Git.
 
 ## Scientific direction
 [Charter](research/CHARTER.md) / [PL](research/CHARTER.pl.md): achieve more through better architecture, not greater scale. [Evaluation](research/evaluation/README.md): matched quality–cost evidence and capability guardrails. Commodity hardware is a validation constraint, not the mission. v0.2 reference; v0.3 candidates proposed, no large pretraining freeze.
@@ -33,13 +33,16 @@ Snapshot 2026-11-28; reconciled against previous main `04b5a8b8962b40cc19f4afdd8
 - T0033 opt-in FP32 chunk64 accepted, scan default and native BF16/FP8 scan retained. Three numerical cases, zero route flips, exact same-mode packed resume; complete-update medians T512 scan/chunk 1.253690/0.218430s (5.74x), T2048 4.794990/0.452887s (10.59x). [Review](research/evaluation/T0033-acceptance.md). No matched learning claim.
 - [QAT pretraining RFC](research/precision/qat-pretraining.md) #126 under #7: proposed W4A32 expert-first fake quantization, PTQ/from-start/late-QAT controls; separate from native FP8. No implementation/adoption or new QAT run authorized.
 
+- T0034 partial: [disposition](research/evaluation/T0034-disposition.md). Same 1,011,520 valid-position fixture, 143,998,976 B RSS (23.4% lower), incremental reader/auditor and 24-family candidate registry; producer preallocation defect carried into #129; not training input.
+- T0035 accepted: [review](research/evaluation/T0035-acceptance.md), 9/9 real T0016 FP32 runs, S/K/C mean NLL 7.367579/7.375067/7.497519, summed update seconds 125.305/24.571/5.117. K 5.10x scan, 4.80x slower than dense; no equivalence or frontier win. #127 merged/#125 closed.
+
 ## Active assignments
 | Machine | Task | Next |
 |---|---|---|
-| Mac M4 | [T0034 #124](https://github.com/jtrefon/splot-lm/issues/124) | Bounded streaming completion and candidate registry, no corpus acquisition. |
-| Linux RTX4090 | [T0035 #125](https://github.com/jtrefon/splot-lm/issues/125) | Matched FP32 scan/chunk64 learning pilot and dense MAC control, exact T0016 snapshot. |
+| Mac M4 | [T0036 #129](https://github.com/jtrefon/splot-lm/issues/129) | Producer preallocation, bounded real corpus and tokenizer binding. |
+| Linux RTX4090 | [T0037 #130](https://github.com/jtrefon/splot-lm/issues/130) | Expert-first W4A32 correctness and packed representation, synthetic only. |
 
-T0001–T0033 closed after integration; T0025 negative BF16 experiment. #124/#125 next, #126 proposed QAT workstream. Explicit named owner authorization after merged specs and zero open integration PRs. No new actual corpus acquisition, confirmatory superiority claim, QAT adoption or sustained pretraining.
+T0001–T0033 and T0035 closed; T0034 partial, #124 open until correction, #126 proposed QAT. T0036/#129 Mac: producer preallocation, author-disjoint rights-cleared bounded real corpus and train-only tokenizer binding; T0037/#130 Linux: expert-first W4A32 opt-in implementation and synthetic correctness/packed qualification. Both require merged spec, zero open integration PRs and named owner launch. No sustained pretraining, test evaluation or model release.
 
 ## Priorities and continuity
 [Architecture review EN](research/architecture-review/2026-11-28-en.md) / [PL](research/architecture-review/2026-11-28-pl.md), #85, #86 conditional memory, #87 recurrence/topology, #6 exact residency, #2 MTP, #7/#42 precision/optimizer, #8 data, #10 benchmarks, #11 publication, #43 isolated CUDA13. No new architecture adoption. Owner authorized lawful data acquisition within reviewed caps, no redistribution or rights bypass; no public weights, institutional affiliation or novelty/superiority claim. [Start prompt](SESSION_START.md) · [Backlog](research/BACKLOG.md) · [Historical decisions](research/decisions/README.md).

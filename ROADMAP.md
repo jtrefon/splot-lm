@@ -7,11 +7,11 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 | Foundation and architecture contract | Established | Maintain literature, exact inventory and decisions |
 | Dense/recurrent/hybrid/sparse/MTP reference | Implemented, CPU correctness validated | Matched architecture ablations on trained weights |
 | Native FP8 and Muon | Validated on Nano / RTX 4090 in synthetic and contiguous-context tests | Real-data stability, repeated measurements and tuned matched controls |
-| Data and reproducible training harness | Real pilot corpus materialized; verified ingestion implemented | Pilot feasible, provenance deviations recorded; matched learning study next |
+| Data and reproducible training harness | Real pilot corpus materialized; verified ingestion implemented | Matched pilot accepted; bounded real corpus and tokenizer binding next |
 | Recurrent weight reuse | Independent qualification accepted, opt-in | Repeat synthetic phase measurements independently |
 | Native MTP inference | Exact D1/D2 reference, accepted D0 and trace v2 (#91) | Trained-checkpoint acceptance and latency |
 | Expert locality and execution | Sparse reference and locality design | Trace actual routing, test cache policies; only then grouped execution/offload |
-| Kernel and memory efficiency | FP32 chunk64 opt-in, qualified complete synthetic updates | Matched learning, attention/logit allocation and precision-specific optimization; scan default |
+| Kernel and memory efficiency | FP32 chunk64 opt-in, qualified complete synthetic updates | Matched FP32 pilot accepted; QAT correctness, attention/logit allocation and precision optimization; scan default |
 | Scaling | Nano first; Mini inventory validated | Larger token budgets and Mini only after quality/resource gates |
 | Publication | Open repository and versioned evidence | Matched ablations, independent replication, prior-art review, licensing and release decisions |
 
@@ -20,8 +20,8 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** [T0034/#124](experiments/tasks/T0034-streaming-completion.md) bounded streaming completion and actual candidate registry, no raw acquisition; T0032 scoped scale accepted.
-2. **Linux:** [T0035/#125](experiments/tasks/T0035-fp32-matched-learning.md) matched FP32 scan/chunk64/dense MAC-control learning on exact T0016 snapshot; T0033 opt-in accepted, default scan retained.
+1. **Mac:** [T0036/#129](experiments/tasks/T0036-real-stream.md) producer preallocation, bounded author-disjoint real corpus and tokenizer binding; #124 partial.
+2. **Linux:** [T0037/#130](experiments/tasks/T0037-expert-qat.md) opt-in expert-first W4A32 correctness and packed deployment representation; T0035 matched descriptive pilot accepted.
 3. [QAT pretraining RFC #126](research/precision/qat-pretraining.md) proposed expert-first W4A32, PTQ/from-start/late-QAT controls after learning baseline. Native FP8 scan remains available; no BF16/FP8 chunk64 or native FP4 on Ada. Review source acquisition and tokenizer binding separately; trained-checkpoint MTP separately.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 

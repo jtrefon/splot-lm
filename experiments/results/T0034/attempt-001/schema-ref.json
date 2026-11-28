@@ -1,0 +1,42 @@
+{
+  "bounded_io_contract": [
+    "canonical metadata and exact file set before source reads",
+    "per-file and aggregate caps before allocation and during reads/writes",
+    "incremental source/document/shard hashes and UTF-8",
+    "file index instead of full content_map",
+    "bounded token reconstruction before join",
+    "streamed logical hash while writing",
+    "mandatory verification before atomic publish",
+    "exclusive private staging; no pre-existing directory removal",
+    "streamed lockstep target verification and BPB aggregation",
+    "immutable StreamIdentity and manifest-bound target records"
+  ],
+  "bytes": 14285,
+  "caps": {
+    "chunk_bytes": 65536,
+    "documents": 20000,
+    "metadata_line": 131072,
+    "sequence": 512,
+    "shard_bytes": 33554432,
+    "shard_line": 262144,
+    "source_bytes": 4194304,
+    "sources": 32,
+    "test_valid": 50000,
+    "total_bytes": 134217728,
+    "total_positions": 1600000,
+    "total_valid": 1100000,
+    "train_valid": 1000000,
+    "validation_valid": 50000,
+    "vocab": 16384
+  },
+  "format": "splot-pilot-stream-v1",
+  "non_claims": [
+    "synthetic prototype",
+    "not accepted training input",
+    "no real source acquisition or tokenizer fit"
+  ],
+  "path": "research/data/pilot-stream-schema.md",
+  "schema": "splot-t0034-schema-ref-v1",
+  "sha256": "ecae8dcdfd0ea637d910ecdc4dea3dd4a471ece7ddad3d66dd7fbed50ff32c97",
+  "version": 1
+}

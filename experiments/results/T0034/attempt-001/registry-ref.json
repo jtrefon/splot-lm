@@ -1,0 +1,56 @@
+{
+  "by_split_language": {
+    "test": {
+      "en": 3,
+      "pl": 3
+    },
+    "train": {
+      "en": 6,
+      "pl": 6
+    },
+    "validation": {
+      "en": 3,
+      "pl": 3
+    }
+  },
+  "document_path": "research/data/source-registry-candidates.md",
+  "document_sha256": "d0043b20fcf8f7b583d460f2d7fe7c1629f8ef850fbca66316e98d72f2706169",
+  "freeze_plans": [
+    "Standard Ebooks: pin item-history git commit and per-part hashes",
+    "Wolne Lektury: freeze official XML volume and record local SHA-256"
+  ],
+  "minimum_subset_size": 16,
+  "network_metadata_consulted": true,
+  "network_scope": "Official Standard Ebooks and Wolne Lektury bibliographic/license pages and author pages only; no corpus text, download, scraping or access bypass.",
+  "non_claims": [
+    "candidate only",
+    "no acquisition",
+    "no rights approval",
+    "no tokenizer fit",
+    "no training"
+  ],
+  "path": "research/data/source-registry-candidates.json",
+  "preferred_total": 24,
+  "review": {
+    "contamination_reviewed": false,
+    "family_split_reviewed": false,
+    "owner_authorized_acquisition": false,
+    "registry_frozen": false,
+    "rights_reviewed": false,
+    "tokenizer_sample_reviewed": false
+  },
+  "rights_sources": [
+    "Standard Ebooks item pages (CC0 production; underlying public domain)",
+    "Wolne Lektury item pages (public-domain text; annotations excluded)"
+  ],
+  "schema": "splot-t0034-registry-ref-v1",
+  "sha256": "3577e81770375b5160382421fac9c6678311f6703b2d42423ffa569971b88128",
+  "status": "candidate-only-not-acquired-not-rights-approved-not-authorized",
+  "unresolved_decisions": [
+    "Coordinator review and freeze of this candidate list before any acquisition.",
+    "Author-level Prus train/test overlap (Lalka/Faraon) and whether to replace Faraon in the test split.",
+    "Exact per-family segment sampling and byte/token allocation within stream-v1 caps.",
+    "Actual rights/territory review and archival of item-page statements.",
+    "Whether the preferred 12/6/6 set fits the available private storage and acquisition time budget."
+  ]
+}
