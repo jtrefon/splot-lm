@@ -71,6 +71,7 @@ Required gates
 - Same source commit, data manifest/source/tokenizer/logical pins and packed SHA-256 across all nine; V16384 with zero unused IDs; test integrity-checked only, never trained or evaluated.
 - BF16 autocast with FP32 master/state; shared Muon/AdamW hyperparameters; finite losses/objectives/state; physical parameter inventory exact; gradient-present inventory recorded (SPLOT sparse routing leaves some expert parameters unused on the last batch).
 - Eight checkpoint writes per run at steps 16..128; checkpoint interval 16; serialized checkpoint sizes/hashes in checkpoint-inventory.json.
+- SPLOT S used the default scan path; chunk64/FP8 were not selected. The CLI generic synthetic-fixture limitation wording is harness wording only; the actual input was the verified T0016/T0017 pilot snapshot; no source change was made.
 
 Process notes (no training rerun or protocol change)
 - The start issue comment UTC label was corrected before the first run; it did not affect execution.

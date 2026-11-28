@@ -4,6 +4,7 @@
   "branch": "research/T0027-matched-ntp-attempt-001",
   "checkpoint_availability": "private local-only; paths withheld; hashes and bytes in checkpoint-inventory.json",
   "class": "VAL",
+  "cli_limitations_note": "The CLI's inherited generic 'synthetic byte fixture' limitation wording does not describe the actual verified pilot snapshot; no source change was made to alter the harness wording.",
   "configs": {
     "derived": {
       "C-seed42": {
@@ -134,10 +135,13 @@
   "host_rss": "not_measured",
   "issue": 109,
   "matrix": {
+    "actual_data": "verified T0016/T0017 splot-pilot-blocks-v1 snapshot, not synthetic",
     "arms": 3,
     "batch_size": 1,
     "checkpoint_interval": 16,
     "checkpoint_writes_per_run": 8,
+    "fp8": false,
+    "gdn_algorithm": "scan (default; chunk64 not selected)",
     "optimizer": "Muon/AdamW",
     "order": [
       "S-seed42",

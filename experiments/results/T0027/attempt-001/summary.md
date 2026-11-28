@@ -83,6 +83,8 @@ Observed: S had lower validation NLL than P and C in all three paired seeds. The
 - Different parameter counts, initial shapes, routing behavior and analytical control bases remain; data order is paired by seed, initialization is not.
 - Analytical MAC estimates exclude backward, padding and hardware effects. Measured step timing excludes checkpoint I/O and validation; wall includes setup/I/O/evaluation.
 - Sparse MoE expert parameters not routed on the last batch have no gradient on that update; the physical and gradient-present inventories are reported separately.
+- SPLOT S used the default GDN scan path; chunk64 and FP8 were not selected.
+- The CLI's inherited `limitations` list contains generic `synthetic byte fixture` wording. The actual input for every run was the verified T0016/T0017 `splot-pilot-blocks-v1` snapshot described above; no source change was made to alter that harness wording.
 
 ## Process notes
 

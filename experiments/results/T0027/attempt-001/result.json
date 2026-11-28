@@ -90,8 +90,8 @@
     "config-audit.json": "b20b31ab1b989d3748a29d360a995a2ee6043a22fde6bc6e9e5b3597ebd0f4d0",
     "config-seed-diff.txt": "5e69e96ddb5cb304360eae1a714a885b1fabb09ec71e66aba3783f8511326597",
     "dataset-identity.json": "7d209cd50196a3e0c6460b6452bf57988ed032c3fd76ef6ae65c22ba8374b241",
-    "environment.json": "df1da22b27cab5adde97bf4797cd6931f2896379965e471bbe04d713b48085f6",
-    "execution.log": "cb2c72aa71e28ff3a7c87198df3d9071186ef91f7de441f098b12c8e1b3f00fb",
+    "environment.json": "772860ba69a90efbc4c59cffb8ca1ecbabeb918b4545e502124b34b00d731b90",
+    "execution.log": "4f2209e8fd01eacf1f285bafcc7a979c1460f5954c6eb6f3a6e36d6359be6686",
     "matrix.json": "7d3fc9118944776f4d605ed2e9df16e741bdad42386c0e60f63f516fbff72263",
     "metrics.jsonl": "40d7c60c27b528004320621824f3c0ab41b732bfd4fc8b2bb3104f638a696c4e",
     "run-C-seed42.json": "eae2e9a78762d5071ecca61783f2ee440d3cb8d2fabf8ceff16b7b01c9ff4f07",
@@ -105,7 +105,7 @@
     "run-S-seed44.json": "59682c57e7f649a75cc0c9da50e563154b4fa2f0ccd037c0e0a0ed51c30141ab",
     "run-timings.json": "1d2868504182a590d54f18caa63a68bffdd129ad4fe6bfe2c76040c72b2c01b1",
     "source-register.json": "d07906a83e3be838c16cad5751863133eb070e7173fe7d1154b9a0faf1613c47",
-    "summary.md": "31de5cc6668dcd9e2fab51dab04439bffae02130a241e086577e853111cfa584"
+    "summary.md": "32d9945f67ee8095dcfcc6dcd28a27eb75a0c7a0b225e1e3af115d56d3a0abb6"
   },
   "limitations": [
     "Descriptive three-seed one-pass pilot on one 2.7 MB bilingual snapshot; no power, convergence, held-out test, superiority, equivalence or production claim.",
