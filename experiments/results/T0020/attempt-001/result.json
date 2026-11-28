@@ -1,0 +1,98 @@
+{
+  "attempt": 1,
+  "base_source_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "checks": {
+    "cost_analysis": {
+      "detail": "Per-case and median/min/max E2E, paired FP8/BF16 ratios, NTP labels/s, phase timings, peak allocated/reserved and free-memory values computed from actual JSON; phase sum reconciles within 4.355e-6 s; backward dominates; next profiling question proposed without implementation.",
+      "evidence": [
+        "paired-analysis.json",
+        "analyze_cases.py",
+        "metrics.jsonl",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean pinned source 6e891166; Python 3.12.7, torch 2.10.0+cu128, CUDA 12.8, RTX 4090, driver 580.178.04; 24,077 MiB free, 13.3 GB output disk; deterministic, TF32 off; FP8 weight reuse disabled.",
+      "evidence": [
+        "environment.json",
+        "source-verification.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat attempt-001 package with 12 sanitized case JSONs, reproducible arithmetic, environment/source verification and summary; validator result reported in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "source-verification.json"
+      ],
+      "status": "passed"
+    },
+    "paired_runs": {
+      "detail": "12/12 fresh-process cases passed in the exact 512-then-2048 counterbalanced order; 43,055,076 parameters; labels 511/510 and 2047/2046; identical input/init/partition digests within and across repetitions; finite state; positive native FP8 (298/298) and no nonfinite quantization; all CE thresholds passed.",
+      "evidence": [
+        "case-512-1-bf16.json",
+        "case-512-1-fp8.json",
+        "case-512-2-fp8.json",
+        "case-512-2-bf16.json",
+        "case-512-3-bf16.json",
+        "case-512-3-fp8.json",
+        "case-2048-1-bf16.json",
+        "case-2048-1-fp8.json",
+        "case-2048-2-fp8.json",
+        "case-2048-2-bf16.json",
+        "case-2048-3-bf16.json",
+        "case-2048-3-fp8.json",
+        "run-order.json",
+        "paired-analysis.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analyze_cases.py": "59a7663d32aedf90f92274a50750e1f721a87dd4febf203be8f85fea4e1b6af4",
+    "case-2048-1-bf16.json": "c4d5ae0710746869edbabfcb7c51d54ebdf49aa4c0c67b1a0b93b8b44fa9db23",
+    "case-2048-1-fp8.json": "8bdcf0e07a371b77fea02f90d3afb463d6425d691cb98050dbdadf63205939a7",
+    "case-2048-2-bf16.json": "9f0f4e63e04d8935e6488c3960bfb9e067b9cf1faeed937f7fa84fb01ad827f9",
+    "case-2048-2-fp8.json": "e6d3fbac525fba28d1029f961aef1bc2431017a08ba5c74f3283e61f71a08904",
+    "case-2048-3-bf16.json": "8ee0a51baced86498c547aaf55f12388c97904386c881b04f77b561ce9453e39",
+    "case-2048-3-fp8.json": "a1f3456524f02ca5e7d740027d151ba011ba7abbb84b36fc290cc8ef24c1e135",
+    "case-512-1-bf16.json": "e95ae01e94b3ec04c661433d79507ad7dfd75f77437fde380a01b786fe3f6e2d",
+    "case-512-1-fp8.json": "54009562c73f0cedc5126e8c0c77e3b3d4c9766528dbcdccca00c03f5e219def",
+    "case-512-2-bf16.json": "c61d1b12e6d83a62fcbd3bed4ff5d6ef7b34960cb70464dd658c8807cd209457",
+    "case-512-2-fp8.json": "0e7c5b038f3bfad8295c6fb3d51c22a6e1e8f4026bf88e481f9065a3a4caf89d",
+    "case-512-3-bf16.json": "6dcff27b49bb3db0526576856935ee8623f13eabbb5dc55ed1e513030972adbe",
+    "case-512-3-fp8.json": "7b6d54448ac7abb36aadd35b248f1b774773e25371f23e4d34794d9ab663d1dc",
+    "case-index.json": "1fffd23e9c90edcf4c28707ca2e3cc7a2b3ae1a30a06ce62981b7c7fe17b7594",
+    "environment.json": "904417660e11aaa6ca447026be2fab36814ce402c3e78fa00ac607d57623e06b",
+    "execution.log": "0da0e1af6e3cb718f0053cff145ed6b03eb3b82b6c19f3c3a75aa045c5d25817",
+    "metrics.jsonl": "512f75d0f82decc34308d31940d28e9555f2191772197d3dbd8bbb7128cd1d76",
+    "paired-analysis.json": "8a6b2a31af3877dd898813599e898cf65d120ae8ffe812c986c5f9d618fc459d",
+    "run-order.json": "b610dd99df265954508a3ec9cd92985c83742978b3b253b922b133bc35d35984",
+    "source-verification.json": "8d2fd0cfe8182897662cdebbd23c62171ea90559f48c763cfa02dc830445a96a",
+    "summary.md": "9d2ba22eec78011f15fce788223c7bf156f8224432bb58ffcc5ac1344f6fc37b"
+  },
+  "limitations": [
+    "One measured update per case after an untimed warmup; three repeats are descriptive, not independent training seeds.",
+    "Synthetic contiguous documents only; no real corpus, checkpoint, Mini, convergence, quality or production-throughput claim.",
+    "Phase timings include explicit synchronization and audit/finite checks; no kernel-level attribution. Peak memory is single-case allocator data.",
+    "FP8 weight reuse is disabled by the existing probe; no cache-reuse conclusion.",
+    "The first case 512-p1-bf16 completed and passed, but the shell launcher failed before recording its start timestamp. Its probe JSON was preserved and not rerun; completion is from file mtime 2026-11-28T15:52:28Z. No command, input, model, precision or gate changed.",
+    "No T4096 or higher length was run; T0020 requires 512 and 2048 only."
+  ],
+  "scheduling_amendment_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "schema_version": 1,
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "spec_commit": "e55244e56b2400478f852b4d71b6056cd0f1c92c",
+  "status": "passed",
+  "task_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "task_id": "T0020",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+}

@@ -1,0 +1,149 @@
+{
+  "order": [
+    {
+      "case_file": "case-512-1-bf16.json",
+      "elapsed_seconds": null,
+      "end_utc": "2026-11-28T15:52:28Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 512,
+      "note": "probe completed; launcher bookkeeping failed before timestamp/order write; JSON preserved, not rerun",
+      "pair": 1,
+      "precision": "bf16",
+      "start_utc": null,
+      "status": "passed"
+    },
+    {
+      "case_file": "case-512-1-fp8.json",
+      "elapsed_seconds": 7,
+      "end_utc": "2026-11-28T15:53:04Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 512,
+      "pair": 1,
+      "precision": "fp8",
+      "start_utc": "2026-11-28T15:52:57Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-512-2-fp8.json",
+      "elapsed_seconds": 6,
+      "end_utc": "2026-11-28T15:53:10Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 512,
+      "pair": 2,
+      "precision": "fp8",
+      "start_utc": "2026-11-28T15:53:04Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-512-2-bf16.json",
+      "elapsed_seconds": 6,
+      "end_utc": "2026-11-28T15:53:16Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 512,
+      "pair": 2,
+      "precision": "bf16",
+      "start_utc": "2026-11-28T15:53:10Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-512-3-bf16.json",
+      "elapsed_seconds": 6,
+      "end_utc": "2026-11-28T15:53:22Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 512,
+      "pair": 3,
+      "precision": "bf16",
+      "start_utc": "2026-11-28T15:53:16Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-512-3-fp8.json",
+      "elapsed_seconds": 6,
+      "end_utc": "2026-11-28T15:53:28Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 512,
+      "pair": 3,
+      "precision": "fp8",
+      "start_utc": "2026-11-28T15:53:22Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-2048-1-bf16.json",
+      "elapsed_seconds": 14,
+      "end_utc": "2026-11-28T15:53:42Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 2048,
+      "pair": 1,
+      "precision": "bf16",
+      "start_utc": "2026-11-28T15:53:28Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-2048-1-fp8.json",
+      "elapsed_seconds": 15,
+      "end_utc": "2026-11-28T15:53:57Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 2048,
+      "pair": 1,
+      "precision": "fp8",
+      "start_utc": "2026-11-28T15:53:42Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-2048-2-fp8.json",
+      "elapsed_seconds": 15,
+      "end_utc": "2026-11-28T15:54:12Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 2048,
+      "pair": 2,
+      "precision": "fp8",
+      "start_utc": "2026-11-28T15:53:57Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-2048-2-bf16.json",
+      "elapsed_seconds": 14,
+      "end_utc": "2026-11-28T15:54:26Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 2048,
+      "pair": 2,
+      "precision": "bf16",
+      "start_utc": "2026-11-28T15:54:12Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-2048-3-bf16.json",
+      "elapsed_seconds": 14,
+      "end_utc": "2026-11-28T15:54:40Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 2048,
+      "pair": 3,
+      "precision": "bf16",
+      "start_utc": "2026-11-28T15:54:26Z",
+      "status": "passed"
+    },
+    {
+      "case_file": "case-2048-3-fp8.json",
+      "elapsed_seconds": 15,
+      "end_utc": "2026-11-28T15:54:55Z",
+      "exit_code": 0,
+      "free_before_mib": 24077,
+      "length": 2048,
+      "pair": 3,
+      "precision": "fp8",
+      "start_utc": "2026-11-28T15:54:40Z",
+      "status": "passed"
+    }
+  ]
+}
