@@ -192,17 +192,35 @@ def validate_dense_config(config, training):
 
 def dense_ntp_objective(model, inputs, labels):
     """A0-compatible objective: final NTP only, auxiliary fields zero."""
+    from splot.dense import ntp_loss
     from splot.mtp import Objective
     if not isinstance(labels, dict) or 1 not in labels:
         raise ValueError('dense NTP labels missing offset-1')
     logits, _ = model(*inputs)
-    final = torch.nn.functional.cross_entropy(
-        logits.float().reshape(-1, logits.shape[-1]),
-        labels[1].reshape(-1), ignore_index=-100, reduction='sum')
-    final = final / labels[1].ne(-100).sum().clamp_min(1)
+    final = ntp_loss(logits, labels[1])
     zero = final.new_zeros(())
     return Objective(final, final, zero, zero,
                      int(labels[1].ne(-100).sum()), 0, zero)
+
+
+def parameter_inventory(model):
+    """Physical and gradient-present inventory; dormant MTP is reported separately."""
+    named = list(model.named_parameters())
+    physical = [p for _, p in named]
+    gradient = [p for _, p in named if p.grad is not None]
+    mtp = [p for name, p in named if name.startswith('offset_')]
+    dormant = [p for name, p in named
+               if name.startswith('offset_') and p.grad is None]
+    return {
+        'physical_parameter_tensors': len(physical),
+        'physical_parameter_numel': sum(p.numel() for p in physical),
+        'gradient_present_parameter_tensors': len(gradient),
+        'gradient_present_parameter_numel': sum(p.numel() for p in gradient),
+        'mtp_parameter_tensors': len(mtp),
+        'mtp_parameter_numel': sum(p.numel() for p in mtp),
+        'dormant_mtp_parameter_tensors': len(dormant),
+        'dormant_mtp_parameter_numel': sum(p.numel() for p in dormant),
+    }
 
 
 def snapshot_rng(device):
@@ -375,8 +393,6 @@ def main():
     if type(interval) is not int or interval < 1:
         p.error('checkpoint interval must be a positive integer')
     if t['precision'] not in ('fp32', 'bf16', 'fp8'): p.error('precision must be fp32, bf16 or fp8')
-    if family=='splot' and rc.gdn_algorithm != 'scan' and t['precision']=='fp8':
-        p.error('gdn_algorithm chunk64 is not qualified for FP8')
     if a.device=='cuda' and not torch.cuda.is_available(): p.error('CUDA unavailable')
     if t['mode'] not in ('A0','A1','A2') or t['batch_size']<1: p.error('invalid training settings')
     if family=='splot' and not 1<=t['loops']<=rc.max_loops: p.error('invalid training settings')
@@ -568,6 +584,8 @@ def main():
                                'q_heads':d.q_heads,'kv_heads':d.kv_heads,'head_dim':d.head_dim,
                                'intermediate':d.intermediate}
         limitations.append('Dense NTP-only comparator; no recurrence, MTP, auxiliary objective or FP8 path.')
+    if 'model_family' in c:
+        report['parameter_inventory']=parameter_inventory(model)
     atomic_save(report,a.out/'run.json'); print(json.dumps({k:report[k] for k in ('parameters','total_valid_tokens','total_ntp_labels','validation')},indent=2))
 
 

@@ -32,34 +32,10 @@ def delta_chunk(q, k, v, g, beta, state):
     return out.transpose(0, 1), final
 
 
-def delta_chunk64(q, k, v, g, beta, state):
-    """Compose the existing delta_chunk oracle over consecutive <=64-token slices.
-
-    State is carried across slices with no detach; the final short slice is
-    solved by the same oracle. This is an experimental reference path, not a
-    production kernel, and changes no GDN equations.
-    """
-    if q.shape[0] < 1:
-        raise ValueError('delta_chunk64 requires a nonempty sequence')
-    outputs = []
-    current = state
-    for start in range(0, q.shape[0], 64):
-        end = min(start+64, q.shape[0])
-        out, current = delta_chunk(q[start:end], k[start:end], v[start:end],
-                                   g[start:end], beta[start:end], current)
-        outputs.append(out)
-    return torch.cat(outputs, dim=0), current
-
-
 class GatedDeltaNet(nn.Module):
     """Equal Q/K/V head widths; raw QKV history and FP32 matrix state."""
-    ALGORITHMS = ('scan', 'chunk', 'chunk64')
-
-    def __init__(self, c, *, algorithm='scan'):
+    def __init__(self, c):
         super().__init__()
-        if algorithm not in self.ALGORITHMS:
-            raise ValueError('unknown delta algorithm')
-        self.algorithm = algorithm
         self.c = c
         self.heads, self.dim = c.q_heads, c.head_dim
         self.width = self.heads*self.dim
@@ -83,11 +59,8 @@ class GatedDeltaNet(nn.Module):
             dt = torch.empty_like(self.dt_bias).uniform_(math.log(.001),math.log(.1)).exp()
             self.dt_bias.copy_(dt+torch.log(-torch.expm1(-dt)))
 
-    def run(self, x, previous, *, algorithm=None):
+    def run(self, x, previous, *, algorithm='scan'):
         """One contiguous valid document run; history stores raw projected QKV."""
-        algorithm = self.algorithm if algorithm is None else algorithm
-        if algorithm not in self.ALGORITHMS:
-            raise ValueError('unknown delta algorithm')
         raw = torch.cat((self.q(x),self.k(x),self.v(x)),dim=-1)
         if previous is None:
             state = _accum(raw).new_zeros(self.heads,self.dim,self.dim)
@@ -105,7 +78,6 @@ class GatedDeltaNet(nn.Module):
         with torch.autocast(device_type=x.device.type,enabled=False):
             if algorithm == 'scan': out,state = delta_scan(q,k,v,g,beta,state)
             elif algorithm == 'chunk': out,state = delta_chunk(q,k,v,g,beta,state)
-            elif algorithm == 'chunk64': out,state = delta_chunk64(q,k,v,g,beta,state)
             else: raise ValueError('unknown delta algorithm')
         z = F.silu(self.z(x).reshape(-1,self.heads,self.dim))
         y = self.o((self.norm(out)*z).reshape(-1,self.width).to(x.dtype))

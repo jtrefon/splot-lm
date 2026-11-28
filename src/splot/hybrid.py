@@ -11,8 +11,7 @@ class HybridLM(MTPLM):
             raise ValueError('hybrid reference requires 2/4/2 topology')
         super().__init__(config)
         c=config.dense
-        for block in self.core[:3]:
-            block.attn=GatedDeltaNet(c,algorithm=config.gdn_algorithm)
+        for block in self.core[:3]: block.attn=GatedDeltaNet(c)
         self.core[3].attn=GQA(c,gated=True)
         for m in self.core[3].attn.modules():
             if isinstance(m,nn.Linear): nn.init.normal_(m.weight,std=c.init_std)

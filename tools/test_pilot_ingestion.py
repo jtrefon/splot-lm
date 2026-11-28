@@ -34,9 +34,11 @@ def source(family, split, language):
     }
 
 
-def block(doc_id, vocab_size=264, seed=0, bad_label=False):
+def block(doc_id, vocab_size=264, seed=0, bad_label=False, boundary=False):
     rng = random.Random(seed)
     content = [8 + rng.randrange(vocab_size - 8) for _ in range(510)]
+    if boundary:
+        content[0] = vocab_size - 1
     input_ids = [1] + content + [2]
     document_ids = [doc_id] * 512
     position_ids = list(range(512))
@@ -60,15 +62,19 @@ def shard_bytes(blocks):
     return b''.join(canonical(value) + b'\n' for value in blocks)
 
 
-def write_fixture(root, *, duplicate_doc=False, bad_label=False):
+def write_fixture(root, *, duplicate_doc=False, bad_label=False,
+                  vocab_size=264, boundary=False):
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     sources = [source('train-en', 'train', 'en'), source('train-pl', 'train', 'pl'),
                source('val-en', 'validation', 'en'), source('test-pl', 'test', 'pl')]
-    train = [block(index, seed=index, bad_label=bad_label and index == 0)
+    train = [block(index, vocab_size=vocab_size, seed=index,
+                   bad_label=bad_label and index == 0,
+                   boundary=boundary and index == 0)
              for index in range(32)]
-    validation = [block(100 + index, seed=100 + index) for index in range(2)]
-    test = [block(200, seed=200)]
+    validation = [block(100 + index, vocab_size=vocab_size, seed=100 + index)
+                  for index in range(2)]
+    test = [block(200, vocab_size=vocab_size, seed=200)]
     if duplicate_doc:
         validation[0]['document_ids'] = train[0]['document_ids']
     parts = {'train': shard_bytes(train), 'validation': shard_bytes(validation),
@@ -84,12 +90,12 @@ def write_fixture(root, *, duplicate_doc=False, bad_label=False):
                        'sha256': sha(parts[split]), 'bytes': len(parts[split]),
                        'blocks': len(blocks), 'valid_tokens': valid,
                        'ntp_labels': ntp, 'offset2_labels': offset})
-    tokenizer = canonical({'algorithm': 'synthetic-test', 'actual_vocab_size': 264})
+    tokenizer = canonical({'algorithm': 'synthetic-test', 'actual_vocab_size': vocab_size})
     (root / 'tokenizer.json').write_bytes(tokenizer)
     logical = sha(b''.join(parts[split] for split in ('train', 'validation', 'test')))
     manifest = {
         'format': pilot.FORMAT, 'version': 1, 'sequence_length': 512,
-        'vocab_size': 264, 'tokenizer_sha256': sha(tokenizer),
+        'vocab_size': vocab_size, 'tokenizer_sha256': sha(tokenizer),
         'source_snapshot_sha256': pilot._source_snapshot(sources),
         'sources': sources, 'shards': shards, 'logical_sha256': logical,
     }
@@ -118,6 +124,7 @@ class PilotLoaderTests(unittest.TestCase):
         self.assertEqual(summary['vocab_size'], 264)
         self.assertEqual(summary['model_vocab_size'], 32768)
         self.assertEqual(summary['unused_token_id_count'], 32768 - 264)
+        self.assertEqual(summary['unused_token_id_ranges'], [[264, 32767]])
         self.assertEqual(summary['splits']['train']['valid_tokens'], 32 * 512)
         self.assertEqual(summary['splits']['train']['ntp_labels'], 32 * 511)
         self.assertEqual(summary['splits']['train']['offset2_labels'], 32 * 510)
@@ -139,6 +146,57 @@ class PilotLoaderTests(unittest.TestCase):
         with self.assertRaises(pilot.PilotError):
             pilot.load_pilot_dataset(self.root, self.sha,
                                      expected_source_snapshot_sha256='0' * 64)
+
+    def test_actual_vocab_equality_and_legacy_summary(self):
+        with tempfile.TemporaryDirectory(prefix='splot-t0023-vocab-') as tmp:
+            root = Path(tmp) / 'v16384'
+            sha, sources = write_fixture(root, vocab_size=16384, boundary=True)
+            actual = pilot.load_pilot_dataset(root, sha, expected_model_vocab=16384)
+            legacy = pilot.load_pilot_dataset(root, sha, expected_model_vocab=32768)
+            default = pilot.load_pilot_dataset(root, sha)
+            self.assertEqual(default, legacy)
+            self.assertEqual(default['manifest'], legacy['manifest'])
+            self.assertEqual(default['blocks'], legacy['blocks'])
+            self.assertEqual(actual['blocks'], legacy['blocks'])
+            summary = actual['manifest']
+            self.assertEqual(summary['vocab_size'], 16384)
+            self.assertEqual(summary['model_vocab_size'], 16384)
+            self.assertEqual(summary['unused_token_id_count'], 0)
+            self.assertEqual(summary['unused_token_id_ranges'], [])
+            self.assertTrue(summary['test_validated_only'])
+            self.assertNotIn('test', actual['blocks'])
+            self.assertEqual(legacy['manifest']['model_vocab_size'], 32768)
+            self.assertEqual(legacy['manifest']['unused_token_id_count'], 16384)
+            self.assertEqual(legacy['manifest']['unused_token_id_ranges'], [[16384, 32767]])
+            first = actual['blocks']['train'][0]
+            self.assertEqual(first['input_ids'][1], 16383)
+            self.assertEqual(first['labels'][1][0], 16383)
+            self.assertEqual(first['labels'][2][0], first['input_ids'][2])
+            for split in ('train', 'validation'):
+                for item in actual['blocks'][split]:
+                    self.assertTrue(all(0 <= token < 16384 for token in item['input_ids']))
+                    for offset in (1, 2):
+                        for index, value in enumerate(item['labels'][offset]):
+                            if value != -100:
+                                self.assertEqual(value, item['input_ids'][index + offset])
+
+    def test_expected_vocab_rejections(self):
+        allowed = pilot.load_pilot_dataset(self.root, self.sha, expected_model_vocab=264)
+        self.assertEqual(allowed['manifest']['model_vocab_size'], 264)
+        self.assertEqual(allowed['manifest']['unused_token_id_count'], 0)
+        self.assertEqual(allowed['manifest']['unused_token_id_ranges'], [])
+        pilot.load_pilot_dataset(self.root, self.sha, expected_model_vocab=32768)
+        for bad in (32767, 16384, 1000, 0, 264.0, True, False):
+            with self.assertRaises(pilot.PilotError):
+                pilot.load_pilot_dataset(self.root, self.sha, expected_model_vocab=bad)
+        with tempfile.TemporaryDirectory(prefix='splot-t0023-vocab-bad-') as tmp:
+            root = Path(tmp) / 'v16384'
+            sha, _ = write_fixture(root, vocab_size=16384)
+            pilot.load_pilot_dataset(root, sha, expected_model_vocab=16384)
+            pilot.load_pilot_dataset(root, sha, expected_model_vocab=32768)
+            for bad in (16383, 8192, 32767, 264, True, 16384.0):
+                with self.assertRaises(pilot.PilotError):
+                    pilot.load_pilot_dataset(root, sha, expected_model_vocab=bad)
 
     def test_tamper_extra_file_and_duplicate_document(self):
         with tempfile.TemporaryDirectory(prefix='splot-t0017-tamper-') as tmp:

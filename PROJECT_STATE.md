@@ -1,6 +1,6 @@
 # Project state / Stan projektu
 
-Snapshot 2026-11-28; reconciled against previous main `d5cc33c0ba3df21e4763284cc3a1f4cde08a38b9` and integrated #103/#104. **Live issues/PRs and merged evidence win.** Read [AGENTS](AGENTS.md), [REP](EXECUTION.md), [RCP](RESEARCH_COORDINATION.md), [roadmap](ROADMAP.md), [task index](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). Previous snapshots preserved in Git.
+Snapshot 2026-11-28; reconciled against previous main `a87adbd1e7186926fa1766adc4aa8470b71d8579` and integrated #106/#107. **Live issues/PRs and merged evidence win.** Read [AGENTS](AGENTS.md), [REP](EXECUTION.md), [RCP](RESEARCH_COORDINATION.md), [roadmap](ROADMAP.md), [task index](experiments/tasks/README.md), [evidence index](experiments/results/INDEX.md). Previous snapshots preserved in Git.
 
 ## Scientific direction
 [Charter](research/CHARTER.md) / [PL](research/CHARTER.pl.md): achieve more through better architecture, not greater scale. [Evaluation](research/evaluation/README.md): matched quality–cost evidence and capability guardrails. Commodity hardware is a validation constraint, not the mission. v0.2 reference; v0.3 candidates proposed, no large pretraining freeze.
@@ -16,16 +16,17 @@ Snapshot 2026-11-28; reconciled against previous main `d5cc33c0ba3df21e4763284cc
 - T0021 dense NTP harness integrated, hosted CPU 9/9 tests; [review](research/evaluation/T0021-acceptance.md). Actual V16384 pilot loader and reporting/preflight still blocked, transferred to T0023; no matched training.
 - T0022 four BF16 control/profile cases exact losses/gradient/model/optimizer equality; [review](research/evaluation/T0022-acceptance.md). T512/T2048 65,555/241,258 launches; generic labels, module attribution unassigned, profiler+summary severe perturbation. No module dominance claim.
 
-- T0023 attempt-001 loader 6/6, dense suite 12/13, required hosted CI failed on report identity-path assertion. [Review](research/evaluation/T0023-review.md). Failed evidence preserved; implementation excluded from main tree. #101 remains open for scoped attempt-002; no matched training.
-- T0024 isolated GDN chunk64 feasibility: 30 reported numerical comparisons and 8 resource cases passed, T512/T2048 median scan/chunk64 0.174688/0.011728s and 0.734590/0.046498s, respectively; [review](research/evaluation/T0024-acceptance.md). Component-only; separate document reset/split qualification absent, #102 remains open pending T0025 prerequisite. No full-model advantage or adoption.
+- T0023 first two attempts failed hosted test-schema assertions; corrected live #106 head passed actual V16384 CLI parity, 13/13 dense tests, 30 scripts. [Acceptance](research/evaluation/T0023-acceptance.md); procedural exception (no separately documented attempt-003 authorization/REP), failed records unchanged. No actual CUDA matched training yet.
+- T0024 isolated GDN chunk64: 30 numerical/8 resource cases passed, 14.90×/15.80× T512/T2048 component speed; reset/tail prerequisite completed in T0025. [Review](research/evaluation/T0024-acceptance.md).
+- T0025 full-model BF16 T512 chunk64 failed tensor/routing gates: 34/4096 routing decisions differ (0.8301% overall, 1.9531% worst invocation), R2 logit relative L2 3.23%; tiny resume and losses/gradients passed. [Disposition](research/evaluation/T0025-disposition.md). T2048/resources not run, failed implementation excluded, scan default unchanged.
 
 ## Active assignments
 | Machine | Task | Next |
 |---|---|---|
-| Mac M4 | [T0023 #101](https://github.com/jtrefon/splot-lm/issues/101) | Attempt-002 test-only corrective continuation, actual-vocab qualification, hosted CPU. |
-| Linux RTX4090 | [T0025 #105](https://github.com/jtrefon/splot-lm/issues/105) | Missing T0024 reset/tail prerequisite, then opt-in chunk64 full-model qualification. |
+| Mac M4 | [T0026 #108](https://github.com/jtrefon/splot-lm/issues/108) | Prospective evaluation/corpus-scaling protocol, no training/acquisition. |
+| Linux RTX4090 | [T0027 #109](https://github.com/jtrefon/splot-lm/issues/109) | First bounded matched V16384 NTP learning feasibility pilot, three arms × three seeds, original snapshot only. |
 
-T0001–T0022 closed; #101 and #102 remain open, #105 next. T0023 failed code excluded, evidence preserved. T0024 component evidence accepted but missing prerequisite; no automatic retry. Owner authorizes named local execution only after merged specs and zero open integration PRs. No architecture adoption or full training.
+T0001–T0024 closed after integration; T0025 closed as completed negative experiment, not passed optimization. #108/#109 next. Owner authorizes named local execution only after merged specs and zero open integration PRs. No architecture adoption, confirmatory superiority claim or sustained pretraining.
 
 ## Priorities and continuity
 [Architecture review EN](research/architecture-review/2026-11-28-en.md) / [PL](research/architecture-review/2026-11-28-pl.md), #85, #86 conditional memory, #87 recurrence/topology, #6 exact residency, #2 MTP, #7/#42 precision/optimizer, #8 data, #10 benchmarks, #11 publication, #43 isolated CUDA13. No new architecture adoption. Owner authorized lawful data acquisition within reviewed caps, no redistribution or rights bypass; no public weights, institutional affiliation or novelty/superiority claim. [Start prompt](SESSION_START.md) · [Backlog](research/BACKLOG.md) · [Historical decisions](research/decisions/README.md).

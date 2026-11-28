@@ -182,8 +182,9 @@ def load_pilot_dataset(root, expected_manifest_sha256, *, expected_source_snapsh
         raise PilotError('expected manifest SHA-256 is invalid')
     if expected_source_snapshot_sha256 is not None and not _hex64(expected_source_snapshot_sha256):
         raise PilotError('expected source snapshot SHA-256 is invalid')
-    if type(expected_model_vocab) is not int or expected_model_vocab != MODEL_VOCAB:
-        raise PilotError('pilot model vocabulary must be 32768')
+    if (type(expected_model_vocab) is not int or isinstance(expected_model_vocab, bool)
+            or not MIN_VOCAB <= expected_model_vocab <= MODEL_VOCAB):
+        raise PilotError('pilot model vocabulary must be an integer in [264, 32768]')
     root = Path(root)
     if not root.is_dir() or root.is_symlink():
         raise PilotError('dataset root must be a regular directory')
@@ -212,6 +213,10 @@ def load_pilot_dataset(root, expected_manifest_sha256, *, expected_source_snapsh
     vocab_size = manifest['vocab_size']
     if type(vocab_size) is not int or not MIN_VOCAB <= vocab_size <= MAX_VOCAB:
         raise PilotError('pilot vocabulary is out of bounds')
+    if expected_model_vocab not in (MODEL_VOCAB, vocab_size):
+        raise PilotError('pilot model vocabulary must be 32768 or exactly the manifest vocabulary')
+    if expected_model_vocab < vocab_size:
+        raise PilotError('pilot model vocabulary is smaller than the manifest vocabulary')
     if not _hex64(manifest['tokenizer_sha256']) or not _hex64(manifest['source_snapshot_sha256']):
         raise PilotError('pilot tokenizer/source digest is invalid')
     if not _hex64(manifest['logical_sha256']):
@@ -312,7 +317,8 @@ def load_pilot_dataset(root, expected_manifest_sha256, *, expected_source_snapsh
         'vocab_size': vocab_size,
         'model_vocab_size': expected_model_vocab,
         'unused_token_id_count': expected_model_vocab - vocab_size,
-        'unused_token_id_ranges': [[vocab_size, expected_model_vocab - 1]],
+        'unused_token_id_ranges': ([[vocab_size, expected_model_vocab - 1]]
+                                   if expected_model_vocab > vocab_size else []),
         'splits': {split: {
             'blocks': by_split[split]['blocks'],
             'bytes': by_split[split]['bytes'],
