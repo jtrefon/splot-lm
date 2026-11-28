@@ -1,0 +1,112 @@
+{
+  "baseline_allocated_bytes": 205862400,
+  "diagnostics_outside_timing": true,
+  "identity": {
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+  },
+  "length": 2048,
+  "limitations": [
+    "Forward/loss/backward only; no optimizer update or sustained training claim.",
+    "Fresh-process method timing; no throughput or cross-policy quality claim."
+  ],
+  "method": "scan",
+  "no_optimizer_update": true,
+  "numerical_gate_source": "selected-policy forward_backward qualification must pass before resource runs",
+  "parameters": 43055076,
+  "policy": "P3",
+  "policy_log": {
+    "policy": "P3",
+    "signatures": [
+      {
+        "autocast": "disabled",
+        "calls": 1,
+        "model_dtype": "float32",
+        "operation": "full_model_forward",
+        "surrounding_assignment": "native FP32 full forward"
+      }
+    ]
+  },
+  "repeats": [
+    {
+      "backward_seconds": 3.261997720983345,
+      "end_to_end_seconds": 4.696628355013672,
+      "forward_seconds": 1.4346306340303272,
+      "gradients_finite": true,
+      "losses": {
+        "balance": 1.0247838497161865,
+        "early_ntp": 10.477907180786133,
+        "final_ntp": 10.476509094238281,
+        "offset2": 10.479513168334961,
+        "total": 15.726112365722656
+      },
+      "losses_finite": true,
+      "peak_allocated_bytes": 7757687296,
+      "peak_reserved_bytes": 7952400384,
+      "repeat": 1
+    },
+    {
+      "backward_seconds": 3.2441267530084588,
+      "end_to_end_seconds": 4.612743659992702,
+      "forward_seconds": 1.3686169069842435,
+      "gradients_finite": true,
+      "losses": {
+        "balance": 1.0247838497161865,
+        "early_ntp": 10.477907180786133,
+        "final_ntp": 10.476509094238281,
+        "offset2": 10.479513168334961,
+        "total": 15.726112365722656
+      },
+      "losses_finite": true,
+      "peak_allocated_bytes": 7758296576,
+      "peak_reserved_bytes": 8220835840,
+      "repeat": 2
+    },
+    {
+      "backward_seconds": 3.2593408779939637,
+      "end_to_end_seconds": 4.631050191994291,
+      "forward_seconds": 1.3717093140003271,
+      "gradients_finite": true,
+      "losses": {
+        "balance": 1.0247838497161865,
+        "early_ntp": 10.477907180786133,
+        "final_ntp": 10.476509094238281,
+        "offset2": 10.479513168334961,
+        "total": 15.726112365722656
+      },
+      "losses_finite": true,
+      "peak_allocated_bytes": 7758296576,
+      "peak_reserved_bytes": 8220835840,
+      "repeat": 3
+    }
+  ],
+  "seed": 42,
+  "status": "passed",
+  "summary": {
+    "backward_seconds": {
+      "max": 3.261997720983345,
+      "median": 3.2593408779939637,
+      "min": 3.2441267530084588
+    },
+    "end_to_end_seconds": {
+      "max": 4.696628355013672,
+      "median": 4.631050191994291,
+      "min": 4.612743659992702
+    },
+    "forward_seconds": {
+      "max": 1.4346306340303272,
+      "median": 1.3717093140003271,
+      "min": 1.3686169069842435
+    },
+    "peak_allocated_bytes": 7758296576,
+    "peak_reserved_bytes": 8220835840
+  },
+  "warmup_losses": {
+    "balance": 1.0247838497161865,
+    "early_ntp": 10.477907180786133,
+    "final_ntp": 10.476509094238281,
+    "offset2": 10.479513168334961,
+    "total": 15.726112365722656
+  }
+}

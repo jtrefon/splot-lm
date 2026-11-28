@@ -1,0 +1,104 @@
+{
+  "baseline_allocated_bytes": 205862400,
+  "diagnostics_outside_timing": true,
+  "identity": {
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "80d31474470c4986eae2938145d526bffef9af3466ce2bcfca125926124e8499",
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+  },
+  "length": 2048,
+  "limitations": [
+    "Forward/loss/backward only; no optimizer update or sustained training claim.",
+    "Fresh-process method timing; no throughput or cross-policy quality claim."
+  ],
+  "method": "original_bf16_scan",
+  "no_optimizer_update": true,
+  "numerical_gate_source": "selected-policy forward_backward qualification must pass before resource runs",
+  "parameters": 43055076,
+  "policy": "original_bf16",
+  "policy_log": {
+    "policy": "original_bf16",
+    "signatures": []
+  },
+  "repeats": [
+    {
+      "backward_seconds": 3.256357370002661,
+      "end_to_end_seconds": 4.691996225970797,
+      "forward_seconds": 1.4356388559681363,
+      "gradients_finite": true,
+      "losses": {
+        "balance": 1.0247498750686646,
+        "early_ntp": 10.477264404296875,
+        "final_ntp": 10.476771354675293,
+        "offset2": 10.479270935058594,
+        "total": 15.726152420043945
+      },
+      "losses_finite": true,
+      "peak_allocated_bytes": 6985960960,
+      "peak_reserved_bytes": 7390363648,
+      "repeat": 1
+    },
+    {
+      "backward_seconds": 3.294827909034211,
+      "end_to_end_seconds": 4.651254295022227,
+      "forward_seconds": 1.3564263859880157,
+      "gradients_finite": true,
+      "losses": {
+        "balance": 1.0247498750686646,
+        "early_ntp": 10.477264404296875,
+        "final_ntp": 10.476771354675293,
+        "offset2": 10.479270935058594,
+        "total": 15.726152420043945
+      },
+      "losses_finite": true,
+      "peak_allocated_bytes": 6991203840,
+      "peak_reserved_bytes": 7390363648,
+      "repeat": 2
+    },
+    {
+      "backward_seconds": 3.262770904984791,
+      "end_to_end_seconds": 4.62979075597832,
+      "forward_seconds": 1.367019850993529,
+      "gradients_finite": true,
+      "losses": {
+        "balance": 1.0247498750686646,
+        "early_ntp": 10.477264404296875,
+        "final_ntp": 10.476771354675293,
+        "offset2": 10.479270935058594,
+        "total": 15.726152420043945
+      },
+      "losses_finite": true,
+      "peak_allocated_bytes": 6991203840,
+      "peak_reserved_bytes": 7390363648,
+      "repeat": 3
+    }
+  ],
+  "seed": 42,
+  "status": "passed",
+  "summary": {
+    "backward_seconds": {
+      "max": 3.294827909034211,
+      "median": 3.262770904984791,
+      "min": 3.256357370002661
+    },
+    "end_to_end_seconds": {
+      "max": 4.691996225970797,
+      "median": 4.651254295022227,
+      "min": 4.62979075597832
+    },
+    "forward_seconds": {
+      "max": 1.4356388559681363,
+      "median": 1.367019850993529,
+      "min": 1.3564263859880157
+    },
+    "peak_allocated_bytes": 6991203840,
+    "peak_reserved_bytes": 7390363648
+  },
+  "warmup_losses": {
+    "balance": 1.0247498750686646,
+    "early_ntp": 10.477264404296875,
+    "final_ntp": 10.476771354675293,
+    "offset2": 10.479270935058594,
+    "total": 15.726152420043945
+  }
+}

@@ -20,9 +20,9 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** [T0030/#116](experiments/tasks/T0030-v2-coverage-producer.md) harden v2 coverage and implement deterministic synthetic producer; production registry/acquisition/loader separately reviewed.
-2. **Linux:** [T0031/#117](experiments/tasks/T0031-gdn-matched-precision.md) compare natural routing under identical precision policies, forward/backward then resource gates. T0029 localizes rounding/routing amplification, no candidate adoption.
-3. Review both deliveries; then plan lawful larger corpus and optimized reference controls. T0027 lower NLL at ~24× slower update sums; no quality-cost superiority. Trained-checkpoint MTP separately.
+1. **Mac:** [T0032/#120](experiments/tasks/T0032-streaming-corpus.md) bounded streaming corpus format and independent synthetic scale audit; actual registry/acquisition and training adapter separately reviewed.
+2. **Linux:** [T0033/#121](experiments/tasks/T0033-fp32-chunk64-opt-in.md) FP32-only experimental chunk64, packed/cache/resume and full optimizer qualification. T0031 8.23x/12.19x forward-backward, P1/P2 rejected; scan remains default.
+3. After both gates, review larger lawful corpus and matched FP32 learning/optimized dense controls; no quality-cost superiority. Trained-checkpoint MTP separately.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.
