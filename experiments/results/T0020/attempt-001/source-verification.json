@@ -1,0 +1,16 @@
+{
+  "bf16_config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+  "clean_after": true,
+  "clean_before": true,
+  "diff_empty_after": true,
+  "fp8_config_sha256": "5171e50ca004a5b47fd76b3cedaad52ccf174d6b0dd50665b8a17adb5b141160",
+  "fp8_weight_reuse_enabled": false,
+  "head_matches_pin": true,
+  "instruction_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "probe_sha256": "4e8e96382e01532bf016568cc92af22d5eae8f3e138abf8b0b92c20d19febb5d",
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "source_edits": false,
+  "source_head": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "status": "passed",
+  "worktree_label": "<local-source-checkout>"
+}

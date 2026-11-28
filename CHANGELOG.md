@@ -18,6 +18,6 @@
 - Foundational bilingual research charter and quality–cost evaluation framework; credible matched controls and scale-aware evaluation. Queue T0019/T0020 after active tasks. v0.3 candidates remain proposals, not adopted architecture.
 
 ### Pending
-- T0019 design submitted and partially accepted; correct same-vocabulary matching before implementation. T0020 independent synthetic cost baseline. T0017 supplement complete, checkpoint preserved locally; exceptions recorded. No public pretrained weights, production throughput or language-quality claims.
+- T0019 corrected same-vocab design accepted (A2 deferred); T0020 12 paired CUDA synthetic updates: FP8 slower, modest reserved-memory reduction, backward dominates. T0021 dense NTP harness and T0022 BF16 backward attribution next; no full training. T0017 supplement complete, checkpoint preserved locally; exceptions recorded. No public pretrained weights, production throughput or language-quality claims.
 
 See [evidence index](experiments/results/INDEX.md) and [current state](PROJECT_STATE.md). This changelog summarizes merged milestones; experiment records retain their original timestamps and outcomes.

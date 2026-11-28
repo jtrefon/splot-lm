@@ -1,0 +1,272 @@
+{
+  "captured_at": "2026-11-28T15:55:12Z",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "512",
+        "--readouts",
+        "2",
+        "--offsets",
+        "2"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.03359320800518617,
+      "exit": 0,
+      "name": "nano_v32768_a2_context512",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2728448,
+        "decode_macs": 83392512,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 41893232640,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "2048",
+        "--readouts",
+        "2",
+        "--offsets",
+        "2"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.02489341699401848,
+      "exit": 0,
+      "name": "nano_v32768_a2_context2048",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 9019904,
+        "decode_macs": 92829696,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 177236606976,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "512",
+        "--readouts",
+        "1",
+        "--offsets",
+        "0"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.024068833008641377,
+      "exit": 0,
+      "name": "nano_v32768_ntp_context512",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2204160,
+        "decode_macs": 41416704,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 20602552320,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/accounting.py",
+        "--nano",
+        "--loops",
+        "2",
+        "--context",
+        "2048",
+        "--readouts",
+        "1",
+        "--offsets",
+        "0"
+      ],
+      "cwd": ".claude/worktrees/t0019-source",
+      "duration_seconds": 0.023749582993332297,
+      "exit": 0,
+      "name": "nano_v32768_ntp_context2048",
+      "stdout_json": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 6922752,
+        "decode_macs": 48494592,
+        "gated_gqa": 540672,
+        "gdn": 746572,
+        "gdn_snapshot_bytes": 631296,
+        "gqa": 393216,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 89657966592,
+        "target_unique_active_max": 33470052,
+        "target_unique_active_min": 28751460
+      }
+    }
+  ],
+  "dense_existing_8block": {
+    "config": {
+      "head_dim": 64,
+      "intermediate": 1024,
+      "kv_heads": 2,
+      "layers": 8,
+      "q_heads": 6,
+      "vocab": 32768,
+      "width": 384
+    },
+    "embedding": 12582912,
+    "final_norm": 384,
+    "layers": 8,
+    "mtp_aux": 147840,
+    "per_layer": 1573632,
+    "physical_no_mtp": 25172352,
+    "physical_with_mtp": 25320192
+  },
+  "instruction_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "same_vocab": [
+    {
+      "a2_2048": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 9019904,
+        "decode_macs": 67663872,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 125696999424
+      },
+      "a2_512": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 2728448,
+        "decode_macs": 58226688,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 29008330752
+      },
+      "command": [
+        "/opt/homebrew/opt/python@3.15/bin/python3.15",
+        "/Users/jack/Projects/splot-lm/experiments/results/T0019/attempt-002/account-vocab.py",
+        "--accounting",
+        "tools/accounting.py",
+        "--vocab",
+        "16384"
+      ],
+      "duration_seconds": 0.025670790986623615,
+      "exit": 0,
+      "ntp_2048": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 6922752,
+        "decode_macs": 42203136,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 76773064704
+      },
+      "ntp_512": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 2204160,
+        "decode_macs": 35125248,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 17381326848
+      },
+      "shape": "Nano d384 q6/kv2 gdn6 dense1024 expert512",
+      "vocab": 16384
+    },
+    {
+      "a2_2048": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 9019904,
+        "decode_macs": 92829696,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 177236606976
+      },
+      "a2_512": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2728448,
+        "decode_macs": 83392512,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 41893232640
+      },
+      "command": [
+        "/opt/homebrew/opt/python@3.15/bin/python3.15",
+        "/Users/jack/Projects/splot-lm/experiments/results/T0019/attempt-002/account-vocab.py",
+        "--accounting",
+        "tools/accounting.py",
+        "--vocab",
+        "32768"
+      ],
+      "duration_seconds": 0.024791000003460795,
+      "exit": 0,
+      "ntp_2048": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 6922752,
+        "decode_macs": 48494592,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 89657966592
+      },
+      "ntp_512": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2204160,
+        "decode_macs": 41416704,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 20602552320
+      },
+      "shape": "Nano d384 q6/kv2 gdn6 dense1024 expert512",
+      "vocab": 32768
+    }
+  ],
+  "schema": "splot-t0019-accounting-v2",
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+}

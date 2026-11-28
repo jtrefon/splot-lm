@@ -1,0 +1,646 @@
+{
+  "a2": {
+    "reason": "SPLOT A2 has two NTP readouts and two offset readouts; a single dense offset head plus one readout is not a credible matched comparator.",
+    "splot_v16384_a2_2048": {
+      "auxiliary": 147840,
+      "base": 36615780,
+      "cache_bytes": 9019904,
+      "decode_macs": 67663872,
+      "gdn_snapshot_bytes": 631296,
+      "logical_blocks": 14,
+      "physical": 36763620,
+      "prefill_all_logits_macs": 125696999424
+    },
+    "splot_v16384_a2_512": {
+      "auxiliary": 147840,
+      "base": 36615780,
+      "cache_bytes": 2728448,
+      "decode_macs": 58226688,
+      "gdn_snapshot_bytes": 631296,
+      "logical_blocks": 14,
+      "physical": 36763620,
+      "prefill_all_logits_macs": 29008330752
+    },
+    "status": "deferred"
+  },
+  "candidates": {
+    "v16384_iso_forward_mac_option": {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 44957696,
+        "512": 35520512
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "gaps": {
+        "decode_2048_vs_ntp": {
+          "relative_gap": 0.06526908332120152,
+          "target": 42203136,
+          "value": 44957696
+        },
+        "decode_512_vs_ntp": {
+          "relative_gap": 0.011252988163955369,
+          "target": 35125248,
+          "value": 35520512
+        },
+        "params_vs_ntp_base": {
+          "relative_gap": -0.11564249075125532,
+          "target": 36615780,
+          "value": 32381440
+        },
+        "params_with_optional_aux_vs_splot_total": {
+          "relative_gap": -0.11205436243764899,
+          "target": 36763620,
+          "value": 32644096
+        },
+        "prefill_2048_vs_ntp": {
+          "relative_gap": 0.03154343624729394,
+          "target": 76773064704,
+          "value": 79194750976
+        },
+        "prefill_512_vs_ntp": {
+          "relative_gap": 8.295062929364327e-05,
+          "target": 17381326848,
+          "value": 17382768640
+        }
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 17716740096,
+        "512": 4429185024
+      },
+      "physical_ntp_no_aux": 32381440,
+      "physical_with_optional_aux": 32644096,
+      "prefill_all_logits_macs": {
+        "2048": 79194750976,
+        "512": 17382768640
+      }
+    },
+    "v16384_iso_parameter_option": {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2432,
+        "kv_heads": 4,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 48103424,
+        "512": 38666240
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "gaps": {
+        "decode_2048_vs_ntp": {
+          "relative_gap": 0.13980686174600865,
+          "target": 42203136,
+          "value": 48103424
+        },
+        "decode_512_vs_ntp": {
+          "relative_gap": 0.10081044837035735,
+          "target": 35125248,
+          "value": 38666240
+        },
+        "params_vs_ntp_base": {
+          "relative_gap": -0.029730678958634793,
+          "target": 36615780,
+          "value": 35527168
+        },
+        "params_with_optional_aux_vs_splot_total": {
+          "relative_gap": -0.026488033550558954,
+          "target": 36763620,
+          "value": 35789824
+        },
+        "prefill_2048_vs_ntp": {
+          "relative_gap": 0.1154589470952585,
+          "target": 76773064704,
+          "value": 85637201920
+        },
+        "prefill_512_vs_ntp": {
+          "relative_gap": 0.09274634451658637,
+          "target": 17381326848,
+          "value": 18993381376
+        }
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 17716740096,
+        "512": 4429185024
+      },
+      "physical_ntp_no_aux": 35527168,
+      "physical_with_optional_aux": 35789824,
+      "prefill_all_logits_macs": {
+        "2048": 85637201920,
+        "512": 18993381376
+      }
+    },
+    "v32768_iso_forward_mac_option": {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 2,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 50987008,
+        "512": 41549824
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "gaps": {
+        "decode_2048_vs_ntp": {
+          "relative_gap": 0.05139575150977649,
+          "target": 48494592,
+          "value": 50987008
+        },
+        "decode_512_vs_ntp": {
+          "relative_gap": 0.0032141620926666725,
+          "target": 41416704,
+          "value": 41549824
+        },
+        "params_vs_ntp_base": {
+          "relative_gap": -0.10479547086183783,
+          "target": 42907236,
+          "value": 38410752
+        },
+        "params_with_optional_aux_vs_splot_total": {
+          "relative_gap": -0.1017689064118712,
+          "target": 43055076,
+          "value": 38673408
+        },
+        "prefill_2048_vs_ntp": {
+          "relative_gap": 0.02102228537679296,
+          "target": 89657966592,
+          "value": 91542781952
+        },
+        "prefill_512_vs_ntp": {
+          "relative_gap": -0.006444635302350732,
+          "target": 20602552320,
+          "value": 20469776384
+        }
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 34896609280,
+        "512": 8724152320
+      },
+      "physical_ntp_no_aux": 38410752,
+      "physical_with_optional_aux": 38673408,
+      "prefill_all_logits_macs": {
+        "2048": 91542781952,
+        "512": 20469776384
+      }
+    },
+    "v32768_iso_parameter_option": {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 53346304,
+        "512": 43909120
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "gaps": {
+        "decode_2048_vs_ntp": {
+          "relative_gap": 0.1000464546644706,
+          "target": 48494592,
+          "value": 53346304
+        },
+        "decode_512_vs_ntp": {
+          "relative_gap": 0.06017900410423782,
+          "target": 41416704,
+          "value": 43909120
+        },
+        "params_vs_ntp_base": {
+          "relative_gap": -0.04980950066324474,
+          "target": 42907236,
+          "value": 40770048
+        },
+        "params_with_optional_aux_vs_splot_total": {
+          "relative_gap": -0.04697174381947433,
+          "target": 43055076,
+          "value": 41032704
+        },
+        "prefill_2048_vs_ntp": {
+          "relative_gap": 0.0749141858030864,
+          "target": 89657966592,
+          "value": 96374620160
+        },
+        "prefill_512_vs_ntp": {
+          "relative_gap": 0.05218691350955873,
+          "target": 20602552320,
+          "value": 21677735936
+        }
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 34896609280,
+        "512": 8724152320
+      },
+      "physical_ntp_no_aux": 40770048,
+      "physical_with_optional_aux": 41032704,
+      "prefill_all_logits_macs": {
+        "2048": 96374620160,
+        "512": 21677735936
+      }
+    }
+  },
+  "enumeration": [
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2048,
+        "kv_heads": 2,
+        "layers": 7,
+        "q_heads": 8,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 49676288,
+        "512": 38666240
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 17716740096,
+        "512": 4429185024
+      },
+      "physical_ntp_no_aux": 35003904,
+      "physical_with_optional_aux": 35266560,
+      "prefill_all_logits_macs": {
+        "2048": 86711992320,
+        "512": 18859425792
+      }
+    },
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2432,
+        "kv_heads": 4,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 48103424,
+        "512": 38666240
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 17716740096,
+        "512": 4429185024
+      },
+      "physical_ntp_no_aux": 35527168,
+      "physical_with_optional_aux": 35789824,
+      "prefill_all_logits_macs": {
+        "2048": 85637201920,
+        "512": 18993381376
+      }
+    },
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 16384,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 44957696,
+        "512": 35520512
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 17716740096,
+        "512": 4429185024
+      },
+      "physical_ntp_no_aux": 32381440,
+      "physical_with_optional_aux": 32644096,
+      "prefill_all_logits_macs": {
+        "2048": 79194750976,
+        "512": 17382768640
+      }
+    },
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2048,
+        "kv_heads": 2,
+        "layers": 11,
+        "q_heads": 6,
+        "vocab": 16384,
+        "width": 384
+      },
+      "decode_macs": {
+        "2048": 53870592,
+        "512": 40894464
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 147840,
+      "optional_mtp_offset_macs": {
+        "2048": 13186891776,
+        "512": 3296722944
+      },
+      "physical_ntp_no_aux": 36577920,
+      "physical_with_optional_aux": 36725760,
+      "prefill_all_logits_macs": {
+        "2048": 92618883072,
+        "512": 19832832000
+      }
+    },
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 4,
+        "layers": 7,
+        "q_heads": 8,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 57606144,
+        "512": 46596096
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 34896609280,
+        "512": 8724152320
+      },
+      "physical_ntp_no_aux": 42933760,
+      "physical_with_optional_aux": 43196416,
+      "prefill_all_logits_macs": {
+        "2048": 102952337408,
+        "512": 22919512064
+      }
+    },
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 4,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 51773440,
+        "512": 42336256
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 34896609280,
+        "512": 8724152320
+      },
+      "physical_ntp_no_aux": 39197184,
+      "physical_with_optional_aux": 39459840,
+      "prefill_all_logits_macs": {
+        "2048": 93153394688,
+        "512": 20872429568
+      }
+    },
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 2176,
+        "kv_heads": 2,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 53346304,
+        "512": 43909120
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 34896609280,
+        "512": 8724152320
+      },
+      "physical_ntp_no_aux": 40770048,
+      "physical_with_optional_aux": 41032704,
+      "prefill_all_logits_macs": {
+        "2048": 96374620160,
+        "512": 21677735936
+      }
+    },
+    {
+      "config": {
+        "head_dim": 64,
+        "intermediate": 1920,
+        "kv_heads": 2,
+        "layers": 6,
+        "q_heads": 8,
+        "vocab": 32768,
+        "width": 512
+      },
+      "decode_macs": {
+        "2048": 50987008,
+        "512": 41549824
+      },
+      "formula": {
+        "decode": "L*(d*(2q+2kv)+3*d*m)+L*2*q*T+d*V",
+        "optional_aux": "d*d+d",
+        "params_ntp": "V*d + L*(d*(2q+2kv)+3*d*m+2*d)+d",
+        "prefill": "T*(L*(d*(2q+2kv)+3*d*m)+d*V)+L*q*T*(T+1)"
+      },
+      "optional_mtp_aux_params": 262656,
+      "optional_mtp_offset_macs": {
+        "2048": 34896609280,
+        "512": 8724152320
+      },
+      "physical_ntp_no_aux": 38410752,
+      "physical_with_optional_aux": 38673408,
+      "prefill_all_logits_macs": {
+        "2048": 91542781952,
+        "512": 20469776384
+      }
+    }
+  ],
+  "instruction_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "prior_attempt_correction": {
+    "gap_vs_ntp_base": 0.12250270238678507,
+    "gap_vs_total_with_aux": 0.1179887073144592,
+    "note": "The prior -4.54% used the V32768 total; the same candidate is +11.80% versus the V16384 total with auxiliary and +12.26% versus the NTP base.",
+    "prior_candidate_params": 41101312,
+    "v16384_splot_base_ntp": 36615780,
+    "v16384_splot_total_with_aux": 36763620
+  },
+  "same_vocab_splot": {
+    "16384": {
+      "a2_2048": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 9019904,
+        "decode_macs": 67663872,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 125696999424
+      },
+      "a2_512": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 2728448,
+        "decode_macs": 58226688,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 29008330752
+      },
+      "auxiliary": 147840,
+      "base_ntp": 36615780,
+      "ntp_2048": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 6922752,
+        "decode_macs": 42203136,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 76773064704
+      },
+      "ntp_512": {
+        "auxiliary": 147840,
+        "base": 36615780,
+        "cache_bytes": 2204160,
+        "decode_macs": 35125248,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 36763620,
+        "prefill_all_logits_macs": 17381326848
+      },
+      "physical_with_aux": 36763620
+    },
+    "32768": {
+      "a2_2048": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 9019904,
+        "decode_macs": 92829696,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 177236606976
+      },
+      "a2_512": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2728448,
+        "decode_macs": 83392512,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 14,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 41893232640
+      },
+      "auxiliary": 147840,
+      "base_ntp": 42907236,
+      "ntp_2048": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 6922752,
+        "decode_macs": 48494592,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 89657966592
+      },
+      "ntp_512": {
+        "auxiliary": 147840,
+        "base": 42907236,
+        "cache_bytes": 2204160,
+        "decode_macs": 41416704,
+        "gdn_snapshot_bytes": 631296,
+        "logical_blocks": 12,
+        "physical": 43055076,
+        "prefill_all_logits_macs": 20602552320
+      },
+      "physical_with_aux": 43055076
+    }
+  },
+  "schema": "splot-t0019-candidate-counts-v2",
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "status": "corrected analytical inventory; no candidate selected, no training or performance result"
+}

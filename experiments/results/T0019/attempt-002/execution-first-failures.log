@@ -1,0 +1,60 @@
+### candidate-counts-initial-failure
+UTC_START 2026-11-28T15:53:01Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 candidate-counts.py
+CWD experiments/results/T0019/attempt-002
+EXIT 1
+DURATION_SECONDS 0.029990
+OUTPUT_BEGIN
+Traceback (most recent call last):
+  File "candidate-counts.py", line 81, in main
+    candidate['gaps'] = gaps(candidate, same_vocab[candidate['config']['vocab']])
+  File "candidate-counts.py", line 57, in gaps
+    'params_vs_ntp_base': gap(candidate['physical_ntp_no_aux'], target['base']),
+KeyError: 'base'
+OUTPUT_END
+
+NOTE same-vocab counts are nested under ntp_512/ntp_2048; access corrected. No analytical value changed.
+
+### candidate-counts-corrected
+UTC_START 2026-11-28T15:53:15Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 candidate-counts.py
+CWD experiments/results/T0019/attempt-002
+EXIT 1
+DURATION_SECONDS 0.043888
+OUTPUT_BEGIN
+Traceback (most recent call last):
+  File "/Users/jack/Projects/splot-lm/experiments/results/T0019/attempt-002/candidate-counts.py", line 128, in <module>
+    main()
+    ~~~~^^
+  File "/Users/jack/Projects/splot-lm/experiments/results/T0019/attempt-002/candidate-counts.py", line 100, in main
+    'auxiliary': target['auxiliary'],
+                 ~~~~~~^^^^^^^^^^^^^
+KeyError: 'auxiliary'
+OUTPUT_END
+
+NOTE first candidate-counts attempt failed with KeyError: base because same-vocab counts are nested under ntp_512/ntp_2048; access corrected, no analytical value changed.
+### candidate-counts-corrected-2
+UTC_START 2026-11-28T15:53:22Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 candidate-counts.py
+CWD experiments/results/T0019/attempt-002
+EXIT 0
+DURATION_SECONDS 0.022807
+OUTPUT_BEGIN
+STDOUT_BYTES 18193
+STDOUT_SHA256 13593c08ea714cd94a7e72e6d2dd5f2476dbef33fd2fde4719940a30a5a43345
+OUTPUT_END
+
+NOTE second candidate-counts attempt failed with KeyError: auxiliary for the same nesting reason; access corrected, no analytical value changed.
+### consistency-check
+UTC_START 2026-11-28T15:54:35Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 consistency-check.py
+CWD experiments/results/T0019/attempt-002
+EXIT 0
+DURATION_SECONDS 0.026755
+OUTPUT_BEGIN
+v16384_iso_forward_mac_option params 32381440 param_gap -0.115642 prefill512_gap 8.3e-05
+v16384_iso_parameter_option params 35527168 param_gap -0.029731 prefill512_gap 0.092746
+v32768_iso_forward_mac_option params 38410752 param_gap -0.104795 prefill512_gap -0.006445
+v32768_iso_parameter_option params 40770048 param_gap -0.04981 prefill512_gap 0.052187
+consistency OK: same-vocab targets, prior +11.80% correction, NTP candidate gaps, A2 deferred
+OUTPUT_END

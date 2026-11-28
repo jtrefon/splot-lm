@@ -1,0 +1,48 @@
+T0020 attempt-001 execution log (sanitized)
+Session start UTC: 2026-11-28T15:52:05Z
+Cases end UTC: 2026-11-28T15:54:55Z
+Instruction/main: a771c370efe662f17ddf8c06769cbd06a783388a
+Source pin: 6e8911662ac56df665147cb79e412f0383cf71d8
+Branch: research/T0020-cost-attempt-001
+Owner authorization: named T0020 on local RTX 4090 within merged specification and limits.
+Start comment: https://github.com/jtrefon/splot-lm/issues/90#issuecomment-7241796804
+
+Preflight
+- PR queue: zero open PRs; T0017 #77 closed; #92 merged; #93 merged at instruction commit.
+- GPU 0 NVIDIA GeForce RTX 4090; 24564 MiB total; 24077 MiB free; driver 580.178.04.
+- Python 3.12.7; torch 2.10.0+cu128; CUDA 12.8; RTX 4090 SM89; deterministic algorithms; TF32 off.
+- Output tmpfs available at capture: 13330108416 B; repo filesystem available: 181955522560 B.
+- Source worktree detached at pin; clean before and after; no source edits.
+- Probe SHA-256: 4e8e96382e01532bf016568cc92af22d5eae8f3e138abf8b0b92c20d19febb5d; BF16 config 51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9; FP8 config 5171e50ca004a5b47fd76b3cedaad52ccf174d6b0dd50665b8a17adb5b141160.
+- FP8 weight reuse disabled by the existing probe default; unchanged.
+
+Case commands (fresh process each, outputs outside checkout)
+PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 \
+  timeout -k 15s 300s python3 tools/context_probe.py --device cuda --precision <bf16|fp8> --length <512|2048> --seed 42 --out <local-runs>/<case>.json
+
+Actual order and observed results
+- 512-p1-bf16: free 24077 MiB; exit 0; status passed; elapsed n/a; start not captured (launcher bookkeeping error); end 2026-11-28T15:52:28Z; probe completed; launcher bookkeeping failed before timestamp/order write; JSON preserved, not rerun
+- 512-p1-fp8: free 24077 MiB; exit 0; status passed; elapsed 7 s; start 2026-11-28T15:52:57Z; end 2026-11-28T15:53:04Z
+- 512-p2-fp8: free 24077 MiB; exit 0; status passed; elapsed 6 s; start 2026-11-28T15:53:04Z; end 2026-11-28T15:53:10Z
+- 512-p2-bf16: free 24077 MiB; exit 0; status passed; elapsed 6 s; start 2026-11-28T15:53:10Z; end 2026-11-28T15:53:16Z
+- 512-p3-bf16: free 24077 MiB; exit 0; status passed; elapsed 6 s; start 2026-11-28T15:53:16Z; end 2026-11-28T15:53:22Z
+- 512-p3-fp8: free 24077 MiB; exit 0; status passed; elapsed 6 s; start 2026-11-28T15:53:22Z; end 2026-11-28T15:53:28Z
+- 2048-p1-bf16: free 24077 MiB; exit 0; status passed; elapsed 14 s; start 2026-11-28T15:53:28Z; end 2026-11-28T15:53:42Z
+- 2048-p1-fp8: free 24077 MiB; exit 0; status passed; elapsed 15 s; start 2026-11-28T15:53:42Z; end 2026-11-28T15:53:57Z
+- 2048-p2-fp8: free 24077 MiB; exit 0; status passed; elapsed 15 s; start 2026-11-28T15:53:57Z; end 2026-11-28T15:54:12Z
+- 2048-p2-bf16: free 24077 MiB; exit 0; status passed; elapsed 14 s; start 2026-11-28T15:54:12Z; end 2026-11-28T15:54:26Z
+- 2048-p3-bf16: free 24077 MiB; exit 0; status passed; elapsed 14 s; start 2026-11-28T15:54:26Z; end 2026-11-28T15:54:40Z
+- 2048-p3-fp8: free 24077 MiB; exit 0; status passed; elapsed 15 s; start 2026-11-28T15:54:40Z; end 2026-11-28T15:54:55Z
+
+Development/execution note
+- The first case 512-p1-bf16 completed and passed. The shell launcher then failed on the zsh reserved variable status while writing metadata, before recording the start time/order entry. The probe JSON was preserved and not rerun; completion time is the file mtime 2026-11-28T15:52:28Z. The remaining 11 cases recorded start/end/elapsed normally. No command, model, data, precision or gate changed.
+
+Analysis
+python3 experiments/results/T0020/attempt-001/analyze_cases.py --cases-dir experiments/results/T0020/attempt-001 --out experiments/results/T0020/attempt-001/paired-analysis.json
+Exit 0: 12/12 cases passed; CE thresholds passed; paired/phase/memory aggregates written.
+
+Validation
+python3 tools/rep/validate_result.py experiments/results/T0020/attempt-001 --task T0020 --source 6e8911662ac56df665147cb79e412f0383cf71d8 --checks environment,paired_runs,cost_analysis,handover
+Validator result is reported in the PR body after exact-head packaging.
+
+No packages, system changes, real data, checkpoints, Mini, kernel/optimizer changes, background work, timeouts or automatic retries occurred.

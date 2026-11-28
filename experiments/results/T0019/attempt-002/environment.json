@@ -1,0 +1,69 @@
+{
+  "accounting_source": {
+    "clean": true,
+    "commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+    "path": ".claude/worktrees/t0019-source",
+    "vocabularies": [
+      16384,
+      32768
+    ]
+  },
+  "attempt": 2,
+  "captured_at": "2026-11-28T15:56:00Z",
+  "corrections": [
+    "Use same-vocab account(Shape(vocab=...), ...) targets; do not mix V16384 and V32768.",
+    "Recompute candidates at both vocabularies against same-vocab NTP base and MACs.",
+    "Distinguish positions, valid tokens, NTP labels and offset labels.",
+    "Report NTP dormant MTP head separately; do not add it to claim parameter parity.",
+    "Defer A2 because one dense offset head plus one readout cannot match two NTP readouts and two offset readouts.",
+    "Make probe construction/exposure/chance explicit and uninformative-at-floor rule explicit.",
+    "Treat margins and uncertainty as planning only; two validation families cannot establish population generalization."
+  ],
+  "dependencies": {
+    "open_pr_queue": "empty at attempt start",
+    "t0017_accepted": false,
+    "t0018_issue": 81,
+    "t0018_merge": "f49af5bfb0085cbbc7161d5b3354b8e8fe309696",
+    "t0018_pr": 91,
+    "t0018_state": "closed"
+  },
+  "instruction_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "limits": {
+    "command_timeout_seconds": 120,
+    "foreground_minutes": 90,
+    "gpu_or_mps": false,
+    "model_training": false,
+    "network_data": false,
+    "package_install": false,
+    "private_checkpoint_access": false,
+    "system_change": false,
+    "test_data_access": false
+  },
+  "local": {
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "unicode": "17.0.0",
+      "utf8_mode": 1,
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "error": "ModuleNotFoundError/not found; no install attempted",
+      "instantiation": "not run; formula and pinned accounting only"
+    }
+  },
+  "review_record": "research/evaluation/T0019-review.md",
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "source_pin_note": "Source pin predates the T0019 specification; the specification and review were read from reviewed instruction main.",
+  "task_id": "T0019"
+}

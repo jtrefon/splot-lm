@@ -21,5 +21,7 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0016 | [Real bilingual corpus](T0016-real-corpus.md) | [#76](https://github.com/jtrefon/splot-lm/issues/76) | Closed |
 | T0017 | [FP8 reuse and pilot](T0017-fp8-weight-reuse-pilot.md) | [#77](https://github.com/jtrefon/splot-lm/issues/77) | Closed; #92 merged, bounded feasibility accepted with documented procedural deviations |
 | T0018 | [MTP observability](T0018-mtp-observability.md) | [#81](https://github.com/jtrefon/splot-lm/issues/81) | Closed; attempt-002 accepted (#91); attempt-001 review-rejected |
-| T0019 | [Matched baseline design](T0019-baseline-design.md) | [#89](https://github.com/jtrefon/splot-lm/issues/89) | Mac, attempt-001 partial; attempt-002 same-vocabulary correction after integration merge + owner launch |
-| T0020 | [CUDA cost baseline](T0020-cuda-cost-baseline.md) | [#90](https://github.com/jtrefon/splot-lm/issues/90) | Linux, independent synthetic VAL; named owner launch after integration merge |
+| T0019 | [Matched baseline design](T0019-baseline-design.md) | [#89](https://github.com/jtrefon/splot-lm/issues/89) | Closed; attempt-002 design accepted, attempt-001 partial |
+| T0020 | [CUDA cost baseline](T0020-cuda-cost-baseline.md) | [#90](https://github.com/jtrefon/splot-lm/issues/90) | Closed; 12/12 paired cases accepted (descriptive) |
+| T0021 | [Dense NTP harness](T0021-dense-ntp-harness.md) | [#97](https://github.com/jtrefon/splot-lm/issues/97) | Mac, next after reviewed integration + owner launch |
+| T0022 | [Backward attribution](T0022-backward-attribution.md) | [#98](https://github.com/jtrefon/splot-lm/issues/98) | Linux, next after reviewed integration + owner launch |

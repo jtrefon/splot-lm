@@ -35,6 +35,7 @@ Pomiary sprzętowe dotyczą referencji na jednej karcie RTX 4090 24 GB, PyTorch 
 | Sekwencja 4096 | R2/B1: FP8/Muon 14,62 GiB szczytowej rezerwacji, 10,136 s; BF16/Muon 14,91 GiB, 9,804 s | [T0012](experiments/results/T0012/attempt-001/summary.md) |
 | Współdzielenie wag FP8 | T512: 298 → 156 kwantyzacji, identyczny stan modelu/optymalizatora i loss; 1,949 → 1,633 s w jednym pomiarze | [T0017](experiments/results/T0017/attempt-001/t512-pair.json) |
 | Korpus PL/EN | 8 rodzin utworów, 8,57 MiB tekstu, BPE 16 384, 56 201 wybranych tokenów treści | [T0016](experiments/results/T0016/attempt-001/summary.md) |
+| Powtarzany pomiar kosztu referencji | T512 BF16/FP8 mediana 1,292/1,600 s; T2048 4,832/5,167 s, po trzy pary; cache wag wyłączony | [T0020](experiments/results/T0020/attempt-001/summary.md) |
 
 Wyniki syntetyczne z jednym seedem nie dowodzą generalizacji ani przewagi optymalizatora. Pojedynczy pomiar czasu nie dowodzi trwałego przyspieszenia. Korpus przygotowano na Macu; [Pilotaż na Linuksie](experiments/results/T0017/attempt-002/summary.md) zakończył 64 aktualizacje; NLL walidacji 7,744022, 45,1% trafień cache kwantyzacji. Zaakceptowano wykonalność z [udokumentowanymi odstępstwami proceduralnymi](experiments/results/T0017/review-supplement-001/summary.md), nie przewagę modelu ani pełną zgodność proceduralną. Checkpoint zachowano w prywatnej trwałej pamięci lokalnej. T0017 ma status blocked w pierwszej próbie z powodu niewykonanego pilotażu, mimo akceptacji niezależnej implementacji. Surowe dane i tensory wag pozostają lokalne.
 

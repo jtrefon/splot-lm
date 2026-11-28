@@ -1,0 +1,87 @@
+{
+  "attempt": 2,
+  "checks": {
+    "environment": {
+      "detail": "Reviewed main a771c37; source pin 6e89116 is a clean detached inventory checkout. The live open-PR queue was empty at start; T0018 #81 is closed and PR #91 merged at f49af5b. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2. torch is absent and was not installed. No GPU/MPS, training, network data, system change, test-data access or private checkpoint access.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "evaluation_design": {
+      "detail": "Budget corrected: one T0016 pass is 128x512=65,536 positions, 46,204 valid tokens, 46,076 NTP labels and 45,948 offset labels; nine runs are 589,824 positions, 415,836 valid tokens and 414,684 NTP labels, with zero offset labels in NTP-only. NTP primary is separate from deferred A2. Metrics are token-weighted NTP NLL and bits/byte with explicit UTF-8 coverage. Probes specify 16-value key-value retrieval with four distractors and chance 1/16, and 8-symbol compositional completion with chance 1/8; both use held-out generators, training-exposure audits, no tuning on probes, and an uninformative-at-floor rule. Two validation families cannot establish population generalization; only descriptive per-family/block and seed ranges are reported, with bootstrap limited to independent probe instances. Margins and the 45-75 minute budget are planning proposals, not preregistered gates.",
+      "evidence": [
+        "design.md",
+        "summary.md",
+        "metrics.jsonl"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat corrective evidence only; no raw text, token arrays, weights, checkpoints, virtualenvs or secrets. Attempt-001 remains untouched and partially reviewed. The first two candidate-count runs failed with KeyError: base and KeyError: auxiliary from same-vocab nesting; the failure-only log is preserved as execution-first-failures.log and the corrected full transcript is execution.log. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0019/attempt-002 --task T0019 --source 6e8911662ac56df665147cb79e412f0383cf71d8 --checks environment,inventory,matched_design,evaluation_design,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One T0019 attempt-002 INDEX row is appended. PR and issue #89 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "execution-first-failures.log",
+        "design.md"
+      ],
+      "status": "passed"
+    },
+    "inventory": {
+      "detail": "Same-vocabulary SPLOT accounting from the pinned module: V16384 NTP physical 36,763,620, base 36,615,780, MTP auxiliary 147,840, prefill 17,381,326,848/76,773,064,704 at 512/2048, decode 35,125,248/42,203,136; A2 prefill 29,008,330,752/125,696,999,424, decode 58,226,688/67,663,872. V32768 remains 43,055,076 physical and 20,602,552,320/89,657,966,592 NTP prefill. The prior 41,101,312 V16384 option is corrected to +11.80% versus total with auxiliary and +12.26% versus NTP base, not -4.54%. Four CLI commands exited 0; same-vocab accounting for both vocabularies is recorded. Existing dense 8-block is 25,172,352 without MTP, formula-verified. No vocabulary mixing.",
+      "evidence": [
+        "accounting.json",
+        "account-vocab.py",
+        "candidate-counts.json",
+        "candidate-counts.py",
+        "consistency-check.py",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "matched_design": {
+      "detail": "Four unselected dense options, not a selection: V16384 nearest-parameter 512x6/8-4/FFN2432 NTP 35,527,168 (-2.97% params, +9.27% prefill512, +11.55% prefill2048); V16384 nearest-MAC 512x6/8-2/FFN2176 NTP 32,381,440 (-11.56% params, +0.0003% prefill512, +3.15% prefill2048); V32768 nearest-parameter 512x6/8-2/FFN2176 NTP 40,770,048 (-4.98% params, +5.22% prefill512, +7.49% prefill2048); V32768 nearest-MAC 512x6/8-2/FFN1920 NTP 38,410,752 (-10.48% params, -0.64% prefill512, +2.10% prefill2048). NTP comparison uses base/active parameters without a dormant head; total physical with MTP and active/optimized counts are reported separately. A2 is deferred because two NTP readouts plus two offset readouts weights 0.25/0.25 are not matched by one dense offset head. Parameter and forward-MAC parity cannot both be exact. No candidate is selected or launched.",
+      "evidence": [
+        "design.md",
+        "candidate-counts.json",
+        "candidate-counts.py",
+        "summary.md"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "account-vocab.py": "a228a5c57de8e21956d569ad85007f89a153934e71dedb6d6daca5d7f7907e36",
+    "accounting.json": "bb7500c50a539f5bce6b85bcbc459b38cddac90cc7419ad49494f5be07011c07",
+    "candidate-counts.json": "13593c08ea714cd94a7e72e6d2dd5f2476dbef33fd2fde4719940a30a5a43345",
+    "candidate-counts.py": "085d79d6abcc984543c106f536adb5be079cf50fa7db10f8d64618a2330ae09a",
+    "consistency-check.py": "ea9b71648ec7c69fb6ad9edfdbda04a11ca81290b4fb0b99c9431f7b0de1cec1",
+    "design.md": "5097076a097fa3638d13be3a6f0230e147cc99bf93979c3c444036ff1af73efa",
+    "environment.json": "115b0832233cb56925e557e8c56fa90a441c982143d591659c368a34f23abd15",
+    "execution-first-failures.log": "08f8750424a97b44f31e6210dfb40bea8b75b31e09af145ba9c49e53ac3d06ce",
+    "execution.log": "b176dc62a6be3083b6e73d12134c924bdca5b187fde8f9b97c7b4728925bbaf5",
+    "metrics.jsonl": "87c44fb1e2fe1e692d9b5a8442e05c7f8b30fd0a2aa24c5ad51950aa649b80d2",
+    "summary.md": "fa821ffcb92daeb16e47ed51e4e783e872c656abd839f563a57aa5489853e440"
+  },
+  "limitations": [
+    "Corrective analysis/design only: no candidate selection, implementation, training, package install, GPU/MPS, test access or private checkpoint access.",
+    "Local Mac has no torch; counts come from pinned accounting/formula code, not locally instantiated modules.",
+    "Candidate MACs exclude backward, optimizer, padding, memory traffic and kernel efficiency.",
+    "The T0016 pilot is small; two validation families cannot support population or family-level generalization claims.",
+    "The planning margins, three-seed design and 45-75 minute budget are provisional and not preregistered confirmatory gates.",
+    "Attempt-001 remains partially reviewed; this attempt corrects its V16384 accounting and design, not its accepted gap audit.",
+    "T0017 real-pilot results were not used; no T0017 checkpoint or test data was accessed."
+  ],
+  "schema_version": 1,
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "status": "passed",
+  "task_commit": "a771c370efe662f17ddf8c06769cbd06a783388a",
+  "task_id": "T0019",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+}
