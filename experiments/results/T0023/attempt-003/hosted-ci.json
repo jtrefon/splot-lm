@@ -1,0 +1,30 @@
+{
+  "attempt": 3,
+  "branch": "feat/T0023-actual-vocab-attempt-002",
+  "conclusion": "success",
+  "event": "pull_request",
+  "first_error": null,
+  "head_sha": "4a4bb5e4ce0566166c4c8968506c8f89cc3a2bcf",
+  "policy": "Owner-authorized post-review one-line test correction; required hosted CPU passed.",
+  "run_id": 46170273255,
+  "runner": {
+    "cuda": false,
+    "image_release": "ubuntu24/20261122.23",
+    "numpy": "1.26.4",
+    "os": "ubuntu-24.04",
+    "python": "3.12.7",
+    "torch": "2.10.0+cpu"
+  },
+  "task_id": "T0023",
+  "tests": {
+    "dense_errors": 0,
+    "dense_passed": 13,
+    "dense_run": 13,
+    "full_aggregate": 0,
+    "loader": 6,
+    "loader_failed": 0,
+    "rep_reports": 32,
+    "scripts": 30
+  },
+  "url": "https://github.com/jtrefon/splot-lm/actions/runs/46170273255"
+}

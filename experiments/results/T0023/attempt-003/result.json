@@ -1,0 +1,77 @@
+{
+  "attempt": 3,
+  "checks": {
+    "environment": {
+      "detail": "Reviewed main a87adbd; tested base descends from T0021 75fced4. T0021 #97 and T0020 #90 accepted; PR #106 was the only open PR at start. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2; torch absent and not installed. No local training, GPU/MPS, real data, test/checkpoint access or package install. Hosted run 46170273255 used Ubuntu 24.04 CPython 3.12.7 torch 2.10.0+cpu with CUDA hidden.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat passing evidence; no raw data, token arrays, weights, checkpoints, virtualenvs or secrets. Attempt-001 and attempt-002 failed evidence remain untouched. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0023/attempt-003 --task T0023 --source 4a4bb5e4ce0566166c4c8968506c8f89cc3a2bcf --checks environment,loader,harness,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One attempt-003 INDEX row is appended; PR #106 and issue #101 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "hosted-ci.json",
+        "correction.diff"
+      ],
+      "status": "passed"
+    },
+    "harness": {
+      "detail": "Required hosted run 46170273255 succeeded on tested 4a4bb5e4ce0566166c4c8968506c8f89cc3a2bcf. tools/test_dense_harness.py ran 13 tests: 13 passed in 12.925 s, including ActualVocabPilotTests.test_v16384_pilot_cli_both_families. Attempt-002 had failed that test with KeyError: dataset_manifest_sha256 from report['data_policy']['dataset_manifest_sha256']; attempt-003 changes only that test key to report['data_policy']['manifest_sha256']. No production code, identity/schema, gate or tolerance changed. The test verifies identity-environment and data-policy manifest/source pins, test-only policy, two finite history rows, all-row batch/valid/label parity, and SPLOT gradient/MTP inventory. Full suite passed 30 scripts / 32 REP reports with exit 0.",
+      "evidence": [
+        "dense-pass.txt",
+        "hosted-ci.json",
+        "hosted-ci.txt",
+        "correction.diff",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "loader": {
+      "detail": "Six original scoped files restored from failed implementation 152da24; five are byte-identical and only tools/test_dense_harness.py changed. Loader preserves legacy 32768/default behavior and accepts only exact validated manifest vocabulary in [264,16384] (or legacy 32768); arbitrary padded, noninteger/bool, too-small and mismatched values fail closed. Equal vocabulary reports zero unused IDs and empty ranges; the test remains integrity-only. Hosted tools/test_pilot_ingestion.py passed 6/6 in run 46170273255, including V16384 boundary/labels, legacy equality, invalid vocabularies, tamper/hash/source and duplicate documents. Local torch absent; no local unit pass claimed.",
+      "evidence": [
+        "loader-pass.txt",
+        "restoration.files.json",
+        "summary.md",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "correction.diff": "93cee81c2072f6ff00ce7b6d39824e01dfc4b3919a704dc010a59dfb9b485f2f",
+    "dense-pass.txt": "cec2a72339877f8f58d45cef6350a668ea99e57218bb7f3977ef26d45cdad2fb",
+    "environment.json": "a09a26ecd58d432d1660e98384dcd447f198004dd19a458648884dfdae0fcf8f",
+    "execution.log": "1c049c1308ebfa434e6dca14789b49d6c815f972b5efb87c7c09bc77c2d381d8",
+    "hosted-ci.json": "00da016f7b5ffcb99c000042044db637d09279e8197e76bc92f8e9f272cf1b2f",
+    "hosted-ci.txt": "4a3531e78bdfdb2c9956946115db0f9635512aa2c86e3fb4a3c860d57055f56b",
+    "implementation.diff": "22d0ecfa71b0bedbc8672d02cf87b8ee776aba265c9c061b9047bb92ba680ef3",
+    "implementation.files.json": "47465383d06b54ca2d2089e6c79c31b774da9446abcb3dc3b0dab1e16f2f68fb",
+    "loader-pass.txt": "f1533313a796446512259d7168b9d8e04a848bcf1200a00932a007556e8b5064",
+    "metrics.jsonl": "8a29b3e71bd4fef45228fe5dbbf02e01f82904b32845b9700c34c4a53597c028",
+    "proposed-matrix.json": "85ab63d8715b357f688d033fe8cfc478d52203288c3a973b2b7ff143c53760cf",
+    "proposed-matrix.py": "b0abd2c4be3b66f3a29c807caff85b5c68ab7464e07fbb10332bb1c09c395fa0",
+    "restoration.files.json": "d32e221a189577b60b4638268ebbd8409d9a79fb8906d709dfeaec9ef62c8618",
+    "summary.md": "c5f0966cc56dbb1efb375dcba7350ab7e3acdb67b5d9db7871e76dd4e2560ee0"
+  },
+  "limitations": [
+    "Hosted CPU tests use tiny synthetic fixtures; no quality, throughput or production-vocabulary training claim.",
+    "No local torch, training, package install, GPU/MPS, real data, test or checkpoint access.",
+    "The proposed 9-run matrix is static and not an executed or preregistered quality protocol.",
+    "Required hosted success is at the tested implementation; the evidence head must pass the same hosted gate.",
+    "No merge, closure or next-task launch is performed."
+  ],
+  "schema_version": 1,
+  "source_commit": "4a4bb5e4ce0566166c4c8968506c8f89cc3a2bcf",
+  "status": "passed",
+  "task_commit": "a87adbd1e7186926fa1766adc4aa8470b71d8579",
+  "task_id": "T0023",
+  "tested_commit": "4a4bb5e4ce0566166c4c8968506c8f89cc3a2bcf"
+}

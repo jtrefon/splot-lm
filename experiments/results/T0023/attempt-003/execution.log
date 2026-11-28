@@ -1,0 +1,177 @@
+T0023 attempt-003 hosted-pass evidence
+RECORDED_AT 2026-11-28T17:27:57Z
+### git-status
+UTC_START 2026-11-28T17:27:57Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.017632
+OUTPUT_BEGIN
+?? experiments/results/T0023/attempt-003/
+OUTPUT_END
+
+### tested-sha
+UTC_START 2026-11-28T17:27:57Z
+COMMAND git rev-parse HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.012466
+OUTPUT_BEGIN
+4a4bb5e4ce0566166c4c8968506c8f89cc3a2bcf
+OUTPUT_END
+
+### base-ancestry
+UTC_START 2026-11-28T17:27:57Z
+COMMAND git merge-base --is-ancestor 75fced45d0cff3888e3606a46a529fb3714e93df HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.013175
+OUTPUT_BEGIN
+OUTPUT_END
+
+### python
+UTC_START 2026-11-28T17:27:57Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 --version
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.008902
+OUTPUT_BEGIN
+Python 3.15.2
+OUTPUT_END
+
+### torch-availability
+UTC_START 2026-11-28T17:27:57Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -c import importlib.util; print("torch", bool(importlib.util.find_spec("torch")))
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.014477
+OUTPUT_BEGIN
+torch False
+OUTPUT_END
+
+### py-compile
+UTC_START 2026-11-28T17:27:57Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m py_compile tools/experiment.py tools/pilot_ingestion.py tools/test_dense_harness.py tools/test_pilot_ingestion.py
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.039905
+OUTPUT_BEGIN
+OUTPUT_END
+
+### json-dense-ntp-512x6-q8kv4-ffn2432.json
+UTC_START 2026-11-28T17:27:57Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool configs/experiments/dense-ntp-512x6-q8kv4-ffn2432.json
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.033207
+OUTPUT_BEGIN
+STDOUT_BYTES 1392
+STDOUT_SHA256 cee506bd81f208afe6a213c354fac0aac29eda68a1a33508d57aba464ece5eee
+OUTPUT_END
+
+### json-dense-ntp-512x6-q8kv2-ffn2176.json
+UTC_START 2026-11-28T17:27:57Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.033000
+OUTPUT_BEGIN
+STDOUT_BYTES 1392
+STDOUT_SHA256 042d84ba98885b558c80380236e15fd18c1952da448f2e430e8cc315b651a9d9
+OUTPUT_END
+
+### json-splot-nano-v16384-a0.json
+UTC_START 2026-11-28T17:27:57Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool configs/experiments/splot-nano-v16384-a0.json
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.033758
+OUTPUT_BEGIN
+STDOUT_BYTES 1697
+STDOUT_SHA256 dc36b92a13cbaefcf4aa1968c40ababd9e11ee069464615210466e41234f4be1
+OUTPUT_END
+
+### proposed-matrix
+UTC_START 2026-11-28T17:27:57Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 proposed-matrix.py
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0023/attempt-003
+EXIT 0
+DURATION_SECONDS 0.026575
+OUTPUT_BEGIN
+STDOUT_BYTES 13192
+STDOUT_SHA256 85ab63d8715b357f688d033fe8cfc478d52203288c3a973b2b7ff143c53760cf
+OUTPUT_END
+
+### diff-check
+UTC_START 2026-11-28T17:27:57Z
+COMMAND git diff --check
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.010722
+OUTPUT_BEGIN
+OUTPUT_END
+
+### diff-stat
+UTC_START 2026-11-28T17:27:57Z
+COMMAND git diff --stat a87adbd1e7186926fa1766adc4aa8470b71d8579 HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.010927
+OUTPUT_BEGIN
+ experiments/results/INDEX.md                       |   1 +
+ .../results/T0023/attempt-002/correction.diff      |  36 ++
+ .../results/T0023/attempt-002/environment.json     |  68 +++
+ .../results/T0023/attempt-002/execution.log        | 193 ++++++
+ .../results/T0023/attempt-002/first-failure.txt    |  52 ++
+ .../results/T0023/attempt-002/hosted-ci.json       |  32 +
+ .../results/T0023/attempt-002/hosted-ci.txt        |  19 +
+ .../results/T0023/attempt-002/implementation.diff  | 406 +++++++++++++
+ .../T0023/attempt-002/implementation.files.json    |  32 +
+ .../results/T0023/attempt-002/loader-pass.txt      |  12 +
+ .../results/T0023/attempt-002/metrics.jsonl        |  19 +
+ .../results/T0023/attempt-002/proposed-matrix.json | 651 +++++++++++++++++++++
+ .../results/T0023/attempt-002/proposed-matrix.py   |  82 +++
+ .../T0023/attempt-002/restoration.files.json       |  36 ++
+ experiments/results/T0023/attempt-002/result.json  |  77 +++
+ experiments/results/T0023/attempt-002/summary.md   |  54 ++
+ research/implementation/dense-reference.md         |   5 +
+ tools/README.md                                    |   2 +-
+ tools/experiment.py                                |  28 +-
+ tools/pilot_ingestion.py                           |  12 +-
+ tools/test_dense_harness.py                        | 127 ++++
+ tools/test_pilot_ingestion.py                      |  72 ++-
+ 22 files changed, 2001 insertions(+), 15 deletions(-)
+OUTPUT_END
+
+### correction-diff-stat
+UTC_START 2026-11-28T17:27:57Z
+COMMAND git diff --stat 152da24f4bee0f557334530b21a1fe3a03aee31d HEAD -- tools/experiment.py tools/pilot_ingestion.py tools/test_dense_harness.py tools/test_pilot_ingestion.py tools/README.md research/implementation/dense-reference.md
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.009681
+OUTPUT_BEGIN
+ tools/test_dense_harness.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+OUTPUT_END
+
+### status-after
+UTC_START 2026-11-28T17:27:57Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.012281
+OUTPUT_BEGIN
+?? experiments/results/T0023/attempt-003/
+OUTPUT_END
+
+
+### hosted-run
+RUN 46170273255
+HEAD 4a4bb5e4ce0566166c4c8968506c8f89cc3a2bcf
+CONCLUSION success
+DENSE 13/13 passed in 12.925 s
+LOADER 6/6 passed in 0.303 s
+FULL 30 scripts; 32 REP reports; exit 0
+OUTPUT_BEGIN
+cpu success in 1m38s
+OUTPUT_END
