@@ -22,3 +22,4 @@ Append numbered decision records; never rewrite accepted rationale silently. Eac
 | D0017 | REP v0.2: task issue comments are canonical agent dialogue for questions, observed/predicted blockers, within-scope clarification and evidence handover; changed methods/pins/permissions require reviewed amendment, no comment-only hardware authorization | Proposed; T0001 preflight dialogue, no CUDA result | #27, EXECUTION.md section 6 |
 
 Evidence status and design status are orthogonal. Link the exact commit or PR when a decision is accepted. Changes in hypothesis or protocol require dated amendments before examining results.
+| D0018 | RCP v1.0: explicit coordinator delegation, live-state reconciliation, scoped evidence acceptance/merge/closure, independent Mac/Linux assignments, public EN/PL freshness gate and short repository-first startup prompt; REP local owner authorization unchanged | Proposed for maintainer review | #83, RESEARCH_COORDINATION.md, SESSION_START.md |

@@ -25,3 +25,6 @@ T0001–T0016 closed. T0017 and T0018 open. Owner authorizes named local executi
 Architecture alignment first, not corpus optimization. Owner authorized acquisition of accessible lawfully usable datasets within reviewed caps (2026-11-27); no repeated item consent, no rights/terms bypass or redistribution approval. Maintain immutable provenance and holdouts. FP8-first mixed precision, BF16/FP32 controls, native FP4 not assumed on Ada. Keep #2/#6/#7/#8/#10/#11/#42/#43 open for broader empirical research, licensing and CUDA13 qualification. No affiliation, novelty, benchmark superiority or public-weight claim.
 
 [Open research issues](research/BACKLOG.md) · [Historical decisions](research/decisions/README.md) · [Public overview](README.md) / [PL](README.pl.md).
+
+## Session continuity
+[Start prompt](SESSION_START.md) · [Research coordination protocol](RESEARCH_COORDINATION.md). Public documentation reviewed 2026-11-28 (#83); historical records preserved by immutable links. Refresh status at meaningful milestones, not by accumulating stale handover blocks.

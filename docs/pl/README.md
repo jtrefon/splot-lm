@@ -7,3 +7,5 @@
 - [Repozytorium jako pamięć projektu](repository-first.md), [zasady współpracy](../../CONTRIBUTING.md)
 
 Angielski pozostaje językiem referencyjnym. Starsze wersje RFC opisują decyzje historyczne; aktualny stan implementacji i badań w README i PROJECT_STATE.
+
+[Prompt startowy koordynatora](../../SESSION_START.md) · [RCP](../../RESEARCH_COORDINATION.md).

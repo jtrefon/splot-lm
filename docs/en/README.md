@@ -7,3 +7,5 @@
 - [Repository instructions](../../AGENTS.md), [REP](../../EXECUTION.md), [contributing](../../CONTRIBUTING.md)
 
 English is canonical; the Polish overview links to corresponding specifications where available.
+
+[Research coordinator start prompt](../../SESSION_START.md) · [Research coordination protocol](../../RESEARCH_COORDINATION.md).
