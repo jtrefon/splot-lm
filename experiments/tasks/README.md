@@ -36,5 +36,7 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0031 | [GDN matched precision](T0031-gdn-matched-precision.md) | [#117](https://github.com/jtrefon/splot-lm/issues/117) | Closed; FP32 feasibility accepted, P1/P2 rejected |
 | T0032 | [Streaming corpus](T0032-streaming-corpus.md) | [#120](https://github.com/jtrefon/splot-lm/issues/120) | Closed; scoped synthetic scale accepted; streaming gaps remain |
 | T0033 | [FP32 chunk64 opt-in](T0033-fp32-chunk64-opt-in.md) | [#121](https://github.com/jtrefon/splot-lm/issues/121) | Closed; FP32 opt-in accepted, scan default retained |
-| T0034 | [Streaming completion](T0034-streaming-completion.md) | [#124](https://github.com/jtrefon/splot-lm/issues/124) | Mac; bounded I/O and registry candidates; owner launch after integration |
-| T0035 | [Matched FP32 learning](T0035-fp32-matched-learning.md) | [#125](https://github.com/jtrefon/splot-lm/issues/125) | Linux; exact T0016 pilot, owner launch after integration |
+| T0034 | [Streaming completion](T0034-streaming-completion.md) | [#124](https://github.com/jtrefon/splot-lm/issues/124) | Partial; reader/auditor and registry accepted, producer preallocation correction in T0036; #124 remains open |
+| T0035 | [Matched FP32 learning](T0035-fp32-matched-learning.md) | [#125](https://github.com/jtrefon/splot-lm/issues/125) | Closed; 9/9 descriptive real-data FP32 pilot accepted |
+| T0036 | [Real streaming corpus](T0036-real-stream.md) | [#129](https://github.com/jtrefon/splot-lm/issues/129) | Mac; owner launch after integration |
+| T0037 | [Expert W4A32 QAT](T0037-expert-qat.md) | [#130](https://github.com/jtrefon/splot-lm/issues/130) | Linux; owner launch after integration |

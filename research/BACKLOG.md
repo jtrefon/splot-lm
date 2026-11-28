@@ -4,8 +4,6 @@ Snapshot 2026-11-28. Live issues are authoritative; no duplicate tracker. Previo
 
 | Issue | Workstream | Current priority / next gate |
 |---|---|---|
-| [#77](https://github.com/jtrefon/splot-lm/issues/77) | T0017 real FP8/Muon architecture pilot | P0: exact data and resume gates, 64 steps |
-| [#81](https://github.com/jtrefon/splot-lm/issues/81) | T0018 MTP observability | P0: exact D0/D1/D2 trace and protocol |
 | [#85](https://github.com/jtrefon/splot-lm/issues/85) | Architecture decision gate | P0: review v0.3 candidates before heavy training |
 | [#86](https://github.com/jtrefon/splot-lm/issues/86) | Conditional memory RFC | P0: proposed causal memory and matched allocation controls |
 | [#87](https://github.com/jtrefon/splot-lm/issues/87) | Recurrent topology/granularity | P0: proposed stability/partial untying/expert pool ablations |
@@ -19,6 +17,6 @@ Snapshot 2026-11-28. Live issues are authoritative; no duplicate tracker. Previo
 | [#43](https://github.com/jtrefon/splot-lm/issues/43) | CUDA 13 | P1: isolated runtime qualification, no disturbance of cu128 |
 | [#11](https://github.com/jtrefon/splot-lm/issues/11) | Open science, licensing | P2: explicit research/weights licensing and replication |
 
-Closed foundational work: #3/#4/#5/#9/#13 and T0001–T0016; see [task index](../experiments/tasks/README.md) and [evidence](../experiments/results/INDEX.md). T0017 implementation accepted, overall pilot still open. Scope priorities are proposals, not deadlines or local execution authorization.
+Closed foundational work: #3/#4/#5/#9/#13 and T0001–T0016; see [task index](../experiments/tasks/README.md) and [evidence](../experiments/results/INDEX.md). T0017 and T0018 closed; T0017 procedural exceptions preserved. Scope priorities are proposals, not deadlines or local execution authorization.
 
-Charter-aligned next task queue: [#124 T0034](https://github.com/jtrefon/splot-lm/issues/124) Mac streaming completion and candidate registry; [#125 T0035](https://github.com/jtrefon/splot-lm/issues/125) Linux matched FP32 learning. See [evaluation](evaluation/README.md); no execution without merged spec and explicit owner launch.
+Charter-aligned next task queue: T0036/#129 Mac: producer preallocation, author-disjoint rights-cleared bounded real corpus and train-only tokenizer binding; T0037/#130 Linux: expert-first W4A32 opt-in implementation and synthetic correctness/packed qualification. Both require merged spec, zero open integration PRs and named owner launch. #124 remains open for T0036 correction; #125 closed. See [evaluation](evaluation/README.md).

@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import shutil
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -188,7 +189,13 @@ def _documents(spec: StreamSpec, sources: dict, family_split: dict) -> tuple[lis
             raise ProducerError("token ID is out of range")
         full = content[s0:s1]
         segment_bytes = content[g0:g1]
-        if b"".join(spec.token_bytes[t] for t in token_ids) != segment_bytes:
+        token_total = 0
+        for token in token_ids:
+            token_total += len(spec.token_bytes[token])
+            if token_total > len(segment_bytes):
+                raise ProducerError("token reconstruction exceeds segment bytes")
+        if token_total != len(segment_bytes) or b"".join(
+                spec.token_bytes[t] for t in token_ids) != segment_bytes:
             raise ProducerError("token bytes do not equal segment")
         try:
             full.decode("utf-8", errors="strict")
@@ -491,8 +498,15 @@ def make_scale_spec() -> StreamSpec:
     )
 
 
-def write_dataset(spec: StreamSpec, output_dir, *, verify: bool = True) -> dict:
-    """Build in a new staging directory, verify, then publish atomically."""
+def _charge(total: int, amount: int, label: str) -> int:
+    total += amount
+    if total > stream.MAX_TOTAL_BYTES:
+        raise ProducerError(f"{label} exceeds the aggregate byte cap")
+    return total
+
+
+def write_dataset(spec: StreamSpec, output_dir) -> dict:
+    """Build in an exclusive private staging directory, verify, then publish."""
     table = _tokenizer(spec)
     sources, family_split, _ = _sources(spec)
     docs_list, selected = _documents(spec, sources, family_split)
@@ -511,23 +525,28 @@ def write_dataset(spec: StreamSpec, output_dir, *, verify: bool = True) -> dict:
                           for split in stream.SPLIT_ORDER)
     if total_positions > stream.MAX_TOTAL_POSITIONS:
         raise ProducerError("block positions exceed cap")
-    if sum(len(source.raw) + len(source.content) for source in spec.sources) > stream.MAX_TOTAL_BYTES:
+    if sum(len(source.raw) + len(source.content) for source in spec.sources) \
+            > stream.MAX_TOTAL_BYTES:
         raise ProducerError("source bytes exceed aggregate cap")
     out = Path(output_dir)
+    parent = out.parent
+    if not parent.is_dir() or parent.is_symlink():
+        raise ProducerError("output parent must be a regular directory")
     if out.exists() or out.is_symlink():
         raise ProducerError("output path already exists")
-    staging = out.parent / (out.name + ".staging")
-    if staging.exists() or staging.is_symlink():
-        raise ProducerError("staging path already exists")
+    staging = Path(tempfile.mkdtemp(prefix=f".{out.name}.staging-", dir=parent))
+    total_written = 0
     try:
-        staging.mkdir()
         (staging / "sources").mkdir()
         source_records = []
         for source in sorted(spec.sources, key=lambda s: s.source_id):
             raw_name = f"sources/{source.source_id}.raw"
             content_name = f"sources/{source.source_id}.content"
-            (staging / raw_name).write_bytes(source.raw)
-            (staging / content_name).write_bytes(source.content)
+            for name, data in ((raw_name, source.raw), (content_name, source.content)):
+                if len(data) > stream.MAX_SOURCE_BYTES:
+                    raise ProducerError("source file exceeds per-file cap")
+                total_written = _charge(total_written, len(data), "source bytes")
+                (staging / name).write_bytes(data)
             source_records.append({
                 "source_id": source.source_id, "family_id": source.family_id,
                 "language": source.language, "split": source.split,
@@ -543,19 +562,32 @@ def write_dataset(spec: StreamSpec, output_dir, *, verify: bool = True) -> dict:
                            "version": stream.SOURCE_VERSION,
                            "sources": source_records}
         source_bytes = stream._canonical(source_registry)
+        if len(source_bytes) > stream.MAX_TOKENIZER_BYTES:
+            raise ProducerError("source registry exceeds per-file cap")
+        total_written = _charge(total_written, len(source_bytes), "source registry")
         (staging / "sources.json").write_bytes(source_bytes)
-        doc_bytes = b"".join(stream._canonical(doc) + b"\n"
-                             for doc in sorted(docs_list, key=lambda d: d["doc_id"]))
-        (staging / "documents.jsonl").write_bytes(doc_bytes)
+        doc_hasher = hashlib.sha256()
+        with (staging / "documents.jsonl").open("wb") as handle:
+            for doc in sorted(docs_list, key=lambda d: d["doc_id"]):
+                line = stream._canonical(doc) + b"\n"
+                if len(line) > stream.MAX_METADATA_LINE:
+                    raise ProducerError("document metadata line exceeds cap")
+                total_written = _charge(total_written, len(line), "document metadata")
+                handle.write(line)
+                doc_hasher.update(line)
+        doc_digest = doc_hasher.hexdigest()
         tokenizer = {"format": stream.TOKENIZER_FORMAT,
                      "version": stream.TOKENIZER_VERSION,
                      "actual_vocab_size": spec.vocab_size,
                      "special_token_ids": json.loads(json.dumps(stream.SPECIAL_IDS)),
                      "token_bytes": [value.hex() for value in table]}
         tokenizer_bytes = stream._canonical(tokenizer)
+        if len(tokenizer_bytes) > stream.MAX_TOKENIZER_BYTES:
+            raise ProducerError("tokenizer exceeds per-file cap")
+        total_written = _charge(total_written, len(tokenizer_bytes), "tokenizer")
         (staging / "tokenizer-bytes.json").write_bytes(tokenizer_bytes)
         shards = []
-        shard_payloads = {}
+        logical = hashlib.sha256()
         for split in stream.SPLIT_ORDER:
             blocks = packed[split]
             n_shards = spec.shards_per_split.get(split, 1)
@@ -574,14 +606,20 @@ def write_dataset(spec: StreamSpec, output_dir, *, verify: bool = True) -> dict:
                 language_bytes = {}
                 file = staging / path
                 hasher = hashlib.sha256()
+                shard_bytes = 0
                 with file.open("wb") as handle:
                     for block_segments in chunk:
                         block = _block(block_segments, docs, table, spec.sequence_length)
                         line = stream._canonical(block) + b"\n"
                         if len(line) > stream.MAX_SHARD_LINE:
                             raise ProducerError("block line exceeds cap")
+                        shard_bytes += len(line)
+                        if shard_bytes > stream.MAX_SHARD_BYTES:
+                            raise ProducerError("shard exceeds per-file cap")
+                        total_written = _charge(total_written, len(line), "shard bytes")
                         handle.write(line)
                         hasher.update(line)
+                        logical.update(line)
                         for segment in block_segments:
                             doc = docs[segment.doc_id]
                             item = _entity(segment, doc, table)
@@ -595,11 +633,9 @@ def write_dataset(spec: StreamSpec, output_dir, *, verify: bool = True) -> dict:
                                 language_tokens.get(doc["language"], 0) + item["content_tokens"])
                             language_bytes[doc["language"]] = (
                                 language_bytes.get(doc["language"], 0) + item["content_target_bytes"])
-                payload = file.read_bytes()
-                shard_payloads[path] = payload
                 shards.append({
                     "split": split, "path": path, "sha256": hasher.hexdigest(),
-                    "bytes": len(payload), "blocks": shard_entity["blocks"],
+                    "bytes": shard_bytes, "blocks": shard_entity["blocks"],
                     **{key: shard_entity[key] for key in stream.COUNT_FIELDS},
                     "family_content_tokens": family_tokens,
                     "family_content_bytes": family_bytes,
@@ -612,26 +648,25 @@ def write_dataset(spec: StreamSpec, output_dir, *, verify: bool = True) -> dict:
             "tokenizer_sha256": _sha(tokenizer_bytes),
             "tokenizer_special_ids": json.loads(json.dumps(stream.SPECIAL_IDS)),
             "source_registry_sha256": _sha(source_bytes),
-            "document_metadata_sha256": _sha(doc_bytes),
+            "document_metadata_sha256": doc_digest,
             "shards": shards, "counts": counts,
-            "logical_sha256": _sha(b"".join(shard_payloads[s["path"]] for s in shards)),
+            "logical_sha256": logical.hexdigest(),
         }
         manifest_bytes = stream._canonical(manifest)
+        if len(manifest_bytes) > stream.MAX_MANIFEST_BYTES:
+            raise ProducerError("manifest exceeds per-file cap")
+        total_written = _charge(total_written, len(manifest_bytes), "manifest")
         (staging / "manifest.json").write_bytes(manifest_bytes)
-        total_files = sum(p.stat().st_size for p in staging.rglob("*") if p.is_file())
-        if total_files > stream.MAX_TOTAL_BYTES:
-            raise ProducerError("generated files exceed cap")
         manifest_sha = _sha(manifest_bytes)
-        if verify:
-            stream.load_stream_dataset(staging, manifest_sha)
+        stream.load_stream_dataset(staging, manifest_sha)
         if out.exists() or out.is_symlink():
             raise ProducerError("output path appeared during build")
         os.replace(staging, out)
         return {"manifest_sha256": manifest_sha, "counts": counts,
                 "shards": shards, "sources": source_records,
                 "documents": docs_list,
-                "generated_bytes": total_files}
+                "generated_bytes": total_written}
     except Exception:
-        if staging.exists() and not out.exists():
+        if staging.exists():
             shutil.rmtree(staging)
         raise
