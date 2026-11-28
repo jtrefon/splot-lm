@@ -1,0 +1,77 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "Reviewed main 2babd43; reviewed source base a771c37 is an ancestor. T0019 #89 and T0020 #90 accepted; live open-PR queue empty at launch. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2; torch absent and not installed. No local training, GPU/MPS, real data, test/checkpoint access or network data. Hosted runner Ubuntu 24.04 CPython 3.12.7 torch 2.10.0+cpu with CUDA hidden.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat implementation evidence; no raw data, token arrays, weights, checkpoints, virtualenvs or secrets. First hosted failure and local dense-counts path failure are preserved. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0021/attempt-001 --task T0021 --source 75fced45d0cff3888e3606a46a529fb3714e93df --checks environment,implementation,unit_tests,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One T0021 INDEX row is appended. PR #99 and issue #97 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "hosted-ci.json"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Tested 75fced45d0cff3888e3606a46a529fb3714e93df. Adds explicit model_family dense-ntp while absence/splot preserves the legacy SPLOT path, identity, config hashes and report output. Dense uses DenseConfig/DenseLM only, rejects recurrence/expert fields, non-A0 modes, loops!=1, FP8/reuse and nonzero auxiliary weights; uses final-NTP Objective with early/offset/balance zero and offset2_count=0. Reuses train/evaluate/checkpoint/resume/data and semantic Muon/AdamW partition; dense identity includes model_family/dense_parameter_count and rejects cross-family resume. Adds DenseShape/dense_account and --dense-config, three configs, and tests/docs. No SPLOT/FP8 equation or existing config change. Exact analytical counts: dense Q8/KV4 FFN2432 35,527,168 params, prefill 18,993,381,376/85,637,201,920 at 512/2048; dense Q8/KV2 FFN2176 32,381,440, prefill 17,382,768,640/79,194,750,976; SPLOT V16384 A0 36,763,620 total / 36,615,780 base, prefill 17,381,326,848/76,773,064,704. MACs are analytical, not training FLOPs.",
+      "evidence": [
+        "implementation.diff",
+        "implementation.files.json",
+        "dense-counts.json",
+        "dense-counts.py",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "Local stdlib only: py_compile, JSON config parsing, dense accounting and diff checks passed; local torch is absent, so no local unit or training pass is claimed. Hosted run 46164883574 succeeded on tested 75fced4: tools/test_dense_harness.py 9/9 in 8.749 s; full suite 30 scripts and 27 REP reports. Tests cover exact counts, candidate parameter/partition inventory, dense objective equality with manual masked NTP, continuous 4 vs 2+2 model/optimizer/RNG/history/validation, cross-family rejection, legacy SPLOT CLI identity, synthetic-v2/pilot ingestion and CPU BF16 capability when supported. First implementation 340e56a run 46164663077 failed 2/9 new-test assertions: absent partition group key and pilot fixture model vocab 264 versus the accepted loader pin 32768. Corrected test-only in 75fced4; no model/harness or tolerance changed.",
+      "evidence": [
+        "hosted-ci.json",
+        "hosted-ci.txt",
+        "first-failure.txt",
+        "execution-first-failures.log",
+        "execution.log",
+        "metrics.jsonl"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "dense-counts.json": "df580ad04f4a32f61b8d7138a291679f5fda38b0f20c9fd8c9ed71b9b3a66b9d",
+    "dense-counts.py": "221003a5503c1eef837ea8119cacd49146f424e4ea85aa3fbfc82ea68f237d81",
+    "environment.json": "bf5814ff7fce881566209cce0fe535b8ae2c66917868d93eceff98fb44518f86",
+    "execution-first-failures.log": "a6d52df97502f37171eb12c0d92e4e1eece20deeec04573a2f80a587b3964995",
+    "execution.log": "d643b89e26642753eb1c315e4cb6ded8b9d307d2c586dc5b0092cfcfc2931484",
+    "first-failure.txt": "96d78aa9cf202da8864ef6065a822fc37b20db157a341f9e2a098198aca13702",
+    "hosted-ci.json": "8f63193091905d382d2d59674b3d7680ca647acfcb2430078dbc81d829282182",
+    "hosted-ci.txt": "2666145095b6f5b98c6c8bdc25a58a25ec016d856fa70350bacbeaa1288943cf",
+    "implementation.diff": "7d2c1b1de2e17863bbf91602154f4ca75ae31de999661ce6f697d92d6d2c9bd4",
+    "implementation.files.json": "463404fe558827751b951fc3e359a0dffcd14f3d1bb7ffb128804de86d1dec34",
+    "metrics.jsonl": "53e81558a81decc09d5ad1201fa712be10d0a1765e3ce06b4c3e204dbe05bce1",
+    "summary.md": "d3f6303f07dcb3451b967e23d976af747fa54250ee63c87f5d9a1834f45bfb75"
+  },
+  "limitations": [
+    "No local torch, training, real data, GPU/MPS or test/checkpoint access; hosted tests use tiny synthetic fixtures.",
+    "Candidate configs are planning artifacts from accepted T0019, not trained/optimized results.",
+    "Dense BF16 capability is checked only when the existing CPU runner supports it; no GPU or throughput claim.",
+    "Dense mode is A0 NTP only; A2/auxiliary comparison remains deferred.",
+    "Legacy SPLOT behavior is regression-tested, but no new SPLOT training is executed.",
+    "Analytical MACs exclude backward, optimizer, padding, memory traffic and kernel efficiency."
+  ],
+  "schema_version": 1,
+  "source_commit": "75fced45d0cff3888e3606a46a529fb3714e93df",
+  "status": "passed",
+  "task_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "task_id": "T0021",
+  "tested_commit": "75fced45d0cff3888e3606a46a529fb3714e93df"
+}

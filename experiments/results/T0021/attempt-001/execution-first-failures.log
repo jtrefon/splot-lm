@@ -1,0 +1,14 @@
+### dense-counts-first-attempt
+UTC_START 2026-11-28T16:26:13Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 dense-counts.py
+CWD experiments/results/T0021/attempt-001
+EXIT 1
+DURATION_SECONDS 0.051462
+OUTPUT_BEGIN
+Traceback (most recent call last):
+  File "experiments/results/T0021/attempt-001/dense-counts.py", line 6, in <module>
+    import accounting
+ModuleNotFoundError: No module named 'accounting'
+OUTPUT_END
+
+NOTE PYTHONPATH was relative to the evidence directory; the runner now uses absolute repository src/tools paths. No analytical value changed.

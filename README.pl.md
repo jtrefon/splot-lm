@@ -46,3 +46,5 @@ W kompatybilnym środowisku PyTorch, z czystego checkoutu: `PYTHONPATH=src:tools
 [Dokumentacja PL](docs/pl/README.md) · [Literatura](research/literature/README.md) · [Hipotezy](research/hypotheses/README.md) · [Zgłoszenia](https://github.com/jtrefon/splot-lm/issues) · [Licencje](LICENSING.md) · [Cytowanie](CITATION.cff)
 
 Angielski pozostaje językiem referencyjnym. Kod Apache-2.0; licencje tekstów badawczych i przyszłych wag wymagają oddzielnych decyzji. Zapraszamy do niezależnej replikacji i merytorycznej współpracy.
+
+**Stan ewaluacji:** zintegrowano [gęsty model porównawczy NTP](research/evaluation/T0021-acceptance.md) oraz [profilowanie backward z kontrolą zgodności numerycznej](research/evaluation/T0022-acceptance.md). Zgodność pilotażu z rzeczywistym słownikiem pozostaje warunkiem kolejnego etapu; ogólne etykiety profilera nie dowodzą dominacji modułu ani przyspieszenia.

@@ -2,6 +2,7 @@
 from dataclasses import dataclass, asdict
 import argparse
 import json
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -63,6 +64,42 @@ def account(s=Shape(), loops=2, context=2048, readouts=1, mtp=True, offsets=0):
                 gdn_snapshot_bytes=3*loops*gdn_state)
 
 
+@dataclass(frozen=True)
+class DenseShape:
+    """Conventional dense GQA decoder shape; no recurrence, experts or MTP."""
+    vocab: int = 16384
+    width: int = 512
+    layers: int = 6
+    q_heads: int = 8
+    kv_heads: int = 2
+    head: int = 64
+    dense: int = 2176
+
+    def validate(self):
+        if min(asdict(self).values()) <= 0:
+            raise ValueError('dimensions must be positive')
+        if self.q_heads % self.kv_heads or self.head % 2:
+            raise ValueError('invalid GQA grouping or RoPE dimension')
+
+
+def dense_account(s=DenseShape(), context=2048):
+    """Analytical dense causal contraction counts, not training FLOPs."""
+    s.validate()
+    if context < 1:
+        raise ValueError('context must be positive')
+    d, q, kv = s.width, s.q_heads*s.head, s.kv_heads*s.head
+    params = s.vocab*d + s.layers*(d*(2*q+2*kv)+3*d*s.dense+2*d)+d
+    # One new token attending to `context` prior keys/values.
+    decode = s.layers*(d*(2*q+2*kv)+3*d*s.dense)+s.layers*2*q*context+d*s.vocab
+    # All T causal outputs: attention sums 2*q*sum(1..T) = q*T*(T+1).
+    prefill = context*(s.layers*(d*(2*q+2*kv)+3*d*s.dense)+d*s.vocab) + s.layers*q*context*(context+1)
+    return {'format': 'dense-gqa', 'physical': params, 'decode_macs': decode,
+            'prefill_all_logits_macs': prefill, 'context': context,
+            'layers': s.layers, 'width': d, 'q_heads': s.q_heads,
+            'kv_heads': s.kv_heads, 'head': s.head, 'dense': s.dense,
+            'vocab': s.vocab}
+
+
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--loops', type=int, default=2)
@@ -71,6 +108,15 @@ if __name__ == '__main__':
     p.add_argument('--offsets', type=int, default=0)
     p.add_argument('--no-mtp', action='store_true')
     p.add_argument('--nano', action='store_true')
+    p.add_argument('--dense-config', type=Path)
     a = p.parse_args()
+    if a.dense_config is not None:
+        config = json.loads(a.dense_config.read_text(encoding='utf-8'))
+        shape = DenseShape(vocab=config['dense']['vocab_size'], width=config['dense']['width'],
+                           layers=config['dense']['layers'], q_heads=config['dense']['q_heads'],
+                           kv_heads=config['dense']['kv_heads'], head=config['dense']['head_dim'],
+                           dense=config['dense']['intermediate'])
+        print(json.dumps(dense_account(shape, a.context), indent=2))
+        raise SystemExit(0)
     shape = Shape(d=384, q_heads=6, kv_heads=2, gdn_heads=6, dense=1024, expert=512) if a.nano else Shape()
     print(json.dumps(account(shape, a.loops, a.context, a.readouts, not a.no_mtp, a.offsets), indent=2))

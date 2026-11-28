@@ -1,0 +1,84 @@
+{
+  "attempt": 1,
+  "base_source_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "checks": {
+    "attribution": {
+      "detail": "torch.profiler CPU/CUDA activities profile only objective backward; bounded top-30 self/inclusive key averages, total event counts and microsecond units. Profiled backward wall overhead is 25.901x/24.580x control, so instrumented latency is diagnostic only. Module attribution is unassigned; top keys are generic ATen/profiler labels; no GDN/attention/expert percentages or speedup claim.",
+      "evidence": [
+        "attribution.json",
+        "case-512-profile.json",
+        "case-2048-profile.json",
+        "analyze_profile.py",
+        "metrics.jsonl",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Clean pinned source 6e891166 and instruction 2babd43; RTX 4090/driver 580.178.04, 24,077 MiB free; Python 3.12.7/torch 2.10.0+cu128/CUDA 12.8; 26.1 GB host RAM and 182 GB scratch available; deterministic/TF32 off; BF16 only; FP8 reuse disabled.",
+      "evidence": [
+        "environment.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "exactness": {
+      "detail": "Four fresh-process BF16 cases: T512 control/profile and T2048 control/profile. Losses, full gradient inventory/digest, post-update model digest, optimizer-state digest and identity are exactly equal per length; accepted T0020 BF16 identity and exact pre-update losses match at both lengths. All 43,055,076 parameters and gradients FP32/finite; no missing gradients.",
+      "evidence": [
+        "case-512-control.json",
+        "case-512-profile.json",
+        "case-2048-control.json",
+        "case-2048-profile.json",
+        "equality-512.json",
+        "equality-2048.json",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat attempt package with sanitized driver/comparator, four case JSONs, equality files, bounded attribution aggregates, environment, metrics, execution log and summary; validator result reported in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "profile_driver.py",
+        "compare_cases.py"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analyze_profile.py": "4b6d44ccb08c89217ac88146817af8acd497dd31455eb9d2cea6ad5197088cfe",
+    "attribution.json": "ef0aa2ecdc4edb7544953144d331d6ea42caa6a04a6e611e63ac05910df7a1e9",
+    "case-2048-control.json": "7bc3d349e04c61b26c9a244bd34c83d1e1090f8c9773f0a2b4e64467a694c165",
+    "case-2048-profile.json": "2f624c96b7ad04f9cb9c8f4fb1471d5a25bfb950ac683fbf415264f38dd1df8a",
+    "case-512-control.json": "c895a83a00e88577c7994ebab8ae4ff43ba580b909896f0c3d008574021fc7d8",
+    "case-512-profile.json": "ee58d128a1af78cba283aa413b43e71cede831285246fc6d32e64f400889c61b",
+    "case-index.json": "8e973fb4da1fad16a58f1285ec64876a7de80ec8a9fbbc40a9a52e5bce2b2a85",
+    "compare_cases.py": "34d36f439a8852da9c8af72092811213e4f8634920df98e98310c7bd78203d4e",
+    "environment.json": "902624b0d51dc259aa653815910e6f000a44651ac52d39763ba81c468795bdcf",
+    "equality-2048.json": "cc1c850c2db30b87f5313846b8dd1f838d9d1186a18d358cf2cfd74bbcc16e8a",
+    "equality-512.json": "24034b06d806ba80ff8823a3b3185db80522e406cecc20a72bf5a9be9d742171",
+    "execution.log": "0ddc1b215d24263788b06a708245d5ec0e631dc1c409cd596d09623f7fab5336",
+    "metrics.jsonl": "7c0868c50ce6a86bca8cc158a0f06fccf50b561cd2611a1b9a48082c55a2bcb7",
+    "profile_driver.py": "37643c8f5bd93ec5d1d9688d806af3814e20338c6f5172c8c2c0f70e4abbccc1",
+    "summary.md": "26f2e41cf6cdf2b869c8d4a169debc52883b69eb795da855db2cdeafc1881d85"
+  },
+  "limitations": [
+    "Four single-update BF16 cases; no steady-state, convergence, quality or production-throughput claim.",
+    "torch.profiler adds severe perturbation; instrumented latency is diagnostic only, not a speed measurement.",
+    "Only bounded top-30 key averages per axis are published; no full traces and no complete event attribution.",
+    "Self CPU/device times overlap and are not additive; module attribution remains unassigned from generic ATen/profiler keys.",
+    "No GDN, attention, expert or optimizer module percentages are inferred; a scoped instrumentation IMP is proposed.",
+    "No real data, checkpoint, Mini, package, kernel or reference-source change."
+  ],
+  "schema_version": 1,
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "status": "passed",
+  "task_commit": "2babd431a8c0cb61a0f1129b4aae8c2383d7dbf8",
+  "task_id": "T0022",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+}
