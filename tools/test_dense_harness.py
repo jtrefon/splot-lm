@@ -378,7 +378,7 @@ class ActualVocabPilotTests(unittest.TestCase):
                 self.assertTrue(report['data_policy']['test_validated_only'])
                 self.assertFalse(report['data_policy']['test_used_for_training'])
                 self.assertEqual(report['identity']['environment']['dataset_manifest_sha256'], sha)
-                self.assertEqual(report['data_policy']['dataset_manifest_sha256'], sha)
+                self.assertEqual(report['data_policy']['manifest_sha256'], sha)
                 self.assertEqual(report['identity']['environment']['dataset_source_snapshot_sha256'], source_snapshot)
                 self.assertEqual(report['data_policy']['source_snapshot_sha256'], source_snapshot)
                 self.assertEqual(len(report['history']), 2)
