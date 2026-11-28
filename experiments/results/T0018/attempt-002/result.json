@@ -1,0 +1,84 @@
+{
+  "attempt": 2,
+  "checks": {
+    "benchmark_contract": {
+      "detail": "research/implementation/mtp-benchmark-contract.md and its evidence copy now define splot.mtp.trace.v2 model_calls versus phase occurrences, variable D1 shallow-draft calls, D2 zero draft calls, decode from prefill end including the first round, TTFT and post-first-commit as separate diagnostics, and committed throughput over decode_seconds with all committed tokens. The later trained-checkpoint protocol remains unchanged in gates: same checkpoint/prompt/budget, exact greedy token/cache/pending-logit checks, separate stochastic acceptance, 128/512 contexts with 2048 resource-gated, 3+ paired repetitions, synchronization, memory/precision/hash reporting, no test-set access and no untrained speed claim. Contract only; no benchmark executed.",
+      "evidence": [
+        "benchmark-contract.md",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Reviewed main d3752ee; minimum base a93141e is an ancestor. Local env: macOS 27.2.1 arm64 Apple M4, 10 logical cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2. torch is absent (ModuleNotFoundError) and was not installed per T0018. Hosted run 46154938101: Ubuntu 24.04, CPython 3.12.7, torch 2.10.0+cpu, numpy 1.26.4, CUDA hidden. No system/package change, MPS/CUDA use, model training or real checkpoint access. Attempt-001 evidence at 339969c is preserved unchanged and was review-rejected.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat REP evidence only; no raw text, token arrays, tensors, checkpoints, virtualenvs or secrets. Attempt-001 is preserved untouched; this attempt does not overwrite or relabel it. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0018/attempt-002 --task T0018 --source 42b8e6ca07ca5d3be1de1241a92f30a8d1b1cf01 --checks environment,implementation,unit_tests,benchmark_contract,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One attempt-002 INDEX row is appended while the attempt-001 row remains. PR #91 and issue #81 carry the handover. No merge, closure or T0019 launch.",
+      "evidence": [
+        "summary.md",
+        "environment.json",
+        "execution.log",
+        "hosted-ci.json"
+      ],
+      "status": "passed"
+    },
+    "implementation": {
+      "detail": "Tested 42b8e6ca07ca5d3be1de1241a92f30a8d1b1cf01, correcting the review of attempt-001. Trace schema is splot.mtp.trace.v2. Each phase_end now carries explicit model_calls; the reducer exposes model_calls_by_phase and phase_occurrences_by_phase separately, and role totals use actual runner calls. shallow_draft model_calls equals actual scratch advances (D1 0/1/>1, D2 0); every other phase is one call. decode_seconds is run_end-prefill_end and includes the complete first generation round; TTFT, post_first_commit_seconds, first_round_committed_tokens and tokens_after_first_commit are separate. committed_tokens_per_decode_second uses all committed tokens over decode time. Observer=None still preserves tokens, RNG, calls, Result and caches. No model equation, sampling, data, harness, CI or FP8 change.",
+      "evidence": [
+        "implementation.diff",
+        "implementation.files.json",
+        "benchmark-contract.md",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "unit_tests": {
+      "detail": "Local stdlib 28/28 passed (0.052514 s). Hosted run 46154938101 succeeded on 42b8e6c: 16/16 torch integration tests and 28/28 stdlib trace tests; 29 scripts and 22 REP reports structurally valid. Integration uses a delegating runner to compare actual advance invocations with reducer per-role totals, covering D1 0/1/2 shallow-draft calls, D2 zero draft calls, EOS, short budget, multiple rounds, D0 and actual-model cache/RNG identity. Stdlib gates cover nine fake-clock fixtures, one-round multi-token first commit, multiple rounds, zero budget, D0/D1/D2, decode=end-prefill_end and no post-first-commit throughput. Attempt-001 files are unchanged.",
+      "evidence": [
+        "trace-tests.txt",
+        "trace-fixtures.json",
+        "hosted-ci.json",
+        "hosted-ci.txt",
+        "metrics.jsonl",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "benchmark-contract.md": "7abbf964f69bfa462e353b2679ec30c9b84a586e85a8929a4ca98e01b0ef33a6",
+    "environment.json": "a9739cda08afcf294c2a52ea942613b0746d541000b1bd9d66f84a33ec272578",
+    "execution.log": "702900e50d444ff8e4fe9bb1a62b0b085e011d051c75e2c740eba335ae633fea",
+    "hosted-ci.json": "46a191205dc1d33caba93fb42a196214b14202e6e5e7cfd3aa34408d5c8dc3de",
+    "hosted-ci.txt": "16f08d7cbf917122cd027559602cff454eaafe2370ad918f099554fcc58f265b",
+    "implementation.diff": "f83cc6bc441edd2881ccee6c00e55325773a4fbab4a486358d330dfc1efb8405",
+    "implementation.files.json": "2d963c806c251523023361df8250ee43cfb29e77a0fe511bdfb5aa952e6ad521",
+    "metrics.jsonl": "d9c260bab6a6821e7c80af5f4710c297658b2786cb952a273f1d72127f2d3c1c",
+    "summary.md": "5b5741c483a1c2b75712f7700eec66b5d2be785ee57756d1acff003894dece71",
+    "trace-fixtures.json": "35a38ce97339e58067c7412fa793a1b4f531bf457919ca7db0d2668931b52127",
+    "trace-tests.txt": "c9de4d16e2af676416fc3c520c3c0fcac4c92c74b532e614b868d0b98212aea3"
+  },
+  "limitations": [
+    "Local Mac has no torch module; the 16 torch integration tests were executed only on hosted CPU, and no local integration pass is claimed.",
+    "Synthetic fixture timings use an injected fake clock and are not throughput or latency measurements.",
+    "Observer callback overhead was not measured; the future benchmark must pair observer-off/on and synchronize device work outside callbacks.",
+    "D0 stochastic output is not expected to match D1/D2 token sequences because RNG consumption differs; only greedy equality is claimed.",
+    "The benchmark document is a protocol only. No trained-checkpoint speed, memory, acceptance-rate or quality result is reported.",
+    "The observer is exact-reference instrumentation, not a production cache manager or fused kernel.",
+    "Attempt-001 remains historical review-rejected evidence; only attempt-002 carries the correction."
+  ],
+  "schema_version": 1,
+  "source_commit": "42b8e6ca07ca5d3be1de1241a92f30a8d1b1cf01",
+  "status": "passed",
+  "task_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "task_id": "T0018",
+  "tested_commit": "42b8e6ca07ca5d3be1de1241a92f30a8d1b1cf01"
+}

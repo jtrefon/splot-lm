@@ -1,0 +1,172 @@
+T0018 attempt-001 local acceptance
+RECORDED_AT 2026-11-28T14:10:10Z
+### git-status
+UTC_START 2026-11-28T14:10:10Z
+COMMAND git status --porcelain
+EXIT 0
+DURATION_SECONDS 0.019318
+OUTPUT_BEGIN
+OUTPUT_END
+
+### tested-sha
+UTC_START 2026-11-28T14:10:10Z
+COMMAND git rev-parse HEAD
+EXIT 0
+DURATION_SECONDS 0.009899
+OUTPUT_BEGIN
+d32c52780a0e6d565ae20422fc83061596a12110
+OUTPUT_END
+
+### py-compile
+UTC_START 2026-11-28T14:10:10Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m py_compile src/splot/speculative.py tools/speculation_trace.py tools/test_speculation_trace.py tests/test_speculative_observer.py
+EXIT 0
+DURATION_SECONDS 0.046138
+OUTPUT_BEGIN
+OUTPUT_END
+
+### stdlib-trace-tests
+UTC_START 2026-11-28T14:10:10Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 tools/test_speculation_trace.py
+EXIT 0
+DURATION_SECONDS 0.050771
+OUTPUT_BEGIN
+test_event_values_are_scalar (__main__.ApiTests.test_event_values_are_scalar) ... ok
+test_validate_trace_returns_summary (__main__.ApiTests.test_validate_trace_returns_summary) ... ok
+test_all_accepted_plus_bonus (__main__.FixtureTests.test_all_accepted_plus_bonus) ... ok
+test_all_fixtures_validate_and_are_json_safe (__main__.FixtureTests.test_all_fixtures_validate_and_are_json_safe) ... ok
+test_collector_bounded (__main__.FixtureTests.test_collector_bounded) ... ok
+test_d0_has_no_shallow_work_or_proposals (__main__.FixtureTests.test_d0_has_no_shallow_work_or_proposals) ... ok
+test_eos_and_short_budget (__main__.FixtureTests.test_eos_and_short_budget) ... ok
+test_first_rejection_unexamined_suffix (__main__.FixtureTests.test_first_rejection_unexamined_suffix) ... ok
+test_later_rejection_and_replay_amplification (__main__.FixtureTests.test_later_rejection_and_replay_amplification) ... ok
+test_required_cases_exist (__main__.FixtureTests.test_required_cases_exist) ... ok
+test_zero_output_has_null_ttft (__main__.FixtureTests.test_zero_output_has_null_ttft) ... ok
+test_commit_arithmetic_and_lengths (__main__.MalformedTests.test_commit_arithmetic_and_lengths) ... ok
+test_d0_proposal_is_invalid (__main__.MalformedTests.test_d0_proposal_is_invalid) ... ok
+test_draft_after_rejection_must_be_unexamined (__main__.MalformedTests.test_draft_after_rejection_must_be_unexamined) ... ok
+test_duplicate_rejection (__main__.MalformedTests.test_duplicate_rejection) ... ok
+test_eos_without_flag_and_early_end (__main__.MalformedTests.test_eos_without_flag_and_early_end) ... ok
+test_missing_or_reordered_prefill (__main__.MalformedTests.test_missing_or_reordered_prefill) ... ok
+test_phase_count_mismatch (__main__.MalformedTests.test_phase_count_mismatch) ... ok
+test_run_end_totals (__main__.MalformedTests.test_run_end_totals) ... ok
+test_timestamp_decrease (__main__.MalformedTests.test_timestamp_decrease) ... ok
+test_top_level_shape (__main__.MalformedTests.test_top_level_shape) ... ok
+test_unexamined_requires_rejection_or_eos (__main__.MalformedTests.test_unexamined_requires_rejection_or_eos) ... ok
+test_unknown_kind_and_content_field (__main__.MalformedTests.test_unknown_kind_and_content_field) ... ok
+test_wrong_schema_and_seq (__main__.MalformedTests.test_wrong_schema_and_seq) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.003s
+
+OK
+OUTPUT_END
+
+### trace-fixtures
+UTC_START 2026-11-28T14:10:10Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -c 
+import json
+from pathlib import Path
+from speculation_trace import SCHEMA, synthetic_fixtures, summarize
+cases = {}
+for name, events in synthetic_fixtures().items():
+    cases[name] = {"events": events, "summary": summarize(events, synthetic=True)}
+payload = {
+    "schema": SCHEMA,
+    "synthetic": True,
+    "timing": "fake_clock_ns",
+    "note": "Synthetic reducer fixtures only; timestamps are injected fake-clock values and are not performance measurements.",
+    "cases": cases,
+}
+Path("experiments/results/T0018/attempt-001/trace-fixtures.json").write_text(
+    json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n",
+    encoding="utf-8")
+print("fixture cases", len(cases))
+for name, case in cases.items():
+    summary = case["summary"]
+    print(name, summary["rounds"], summary["proposed_tokens"],
+          summary["accepted_tokens"], summary["rejected_tokens"],
+          summary["unexamined_tokens"], summary["committed_tokens"])
+
+EXIT 0
+DURATION_SECONDS 0.022736
+OUTPUT_BEGIN
+fixture cases 7
+d1_all_accepted_bonus 1 2 2 0 0 3
+d1_first_rejection_unexamined 2 3 1 1 1 2
+d2_later_rejection 1 2 1 1 0 2
+d1_eos 1 1 1 0 0 1
+d2_short_budget 1 1 1 0 0 1
+d1_zero_output 0 0 0 0 0 0
+d0_target_only 2 0 0 0 0 2
+OUTPUT_END
+
+### check---check
+UTC_START 2026-11-28T14:10:10Z
+COMMAND git diff --check
+EXIT 0
+DURATION_SECONDS 0.009474
+OUTPUT_BEGIN
+OUTPUT_END
+
+### check---stat
+UTC_START 2026-11-28T14:10:10Z
+COMMAND git diff --stat d3752eeb77541866e2332ed238def0c4bac50549 HEAD
+EXIT 0
+DURATION_SECONDS 0.012240
+OUTPUT_BEGIN
+ research/implementation/mtp-benchmark-contract.md | 115 ++++
+ src/splot/speculative.py                          | 113 +++-
+ tests/test_speculative_observer.py                | 272 ++++++++
+ tools/speculation_trace.py                        | 739 ++++++++++++++++++++++
+ tools/test_speculation_trace.py                   | 259 ++++++++
+ 5 files changed, 1490 insertions(+), 8 deletions(-)
+OUTPUT_END
+
+### check---porcelain
+UTC_START 2026-11-28T14:10:10Z
+COMMAND git status --porcelain
+EXIT 0
+DURATION_SECONDS 0.011059
+OUTPUT_BEGIN
+?? experiments/results/T0018/
+OUTPUT_END
+
+UTC_END 2026-11-28T14:10:10Z
+
+### hosted-ci-first-attempt
+UTC_START 2026-11-28T14:05:38Z
+COMMAND gh run view 46152872698 --json databaseId,headSha,conclusion,status,url,jobs
+EXIT 0
+DURATION_SECONDS 1.0
+OUTPUT_BEGIN
+run 46152872698
+head a199bc96187cff3a83ee7031e22b0f3d1b584083
+conclusion failure
+stage tests/test_speculative_observer.py
+12 tests run; 8 passed; 4 errors
+ERROR TraceError: D2 shallow_draft must not advance a scratch cache
+CAUSE D2 emitted requested_tokens=1 for a serial shallow-draft phase that performed zero advances
+REPRODUCTION hosted CPU: PYTHONPATH=src:tools python tests/test_speculative_observer.py
+FIX follow-up commit d32c527 reports requested_tokens=0 for D2 and keeps actual_tokens=0
+OUTPUT_END
+
+### hosted-ci-tested
+UTC_START 2026-11-28T14:07:42Z
+COMMAND gh run view 46153049369 --json databaseId,headSha,conclusion,status,url,jobs
+EXIT 0
+DURATION_SECONDS 82.0
+OUTPUT_BEGIN
+run 46153049369
+head d32c52780a0e6d565ae20422fc83061596a12110
+workflow CPU regression
+event pull_request
+conclusion success
+job cpu success 2026-11-28T14:07:44Z 2026-11-28T14:09:06Z
+tests/test_speculative_observer.py 12 tests OK
+tools/test_speculation_trace.py 24 tests OK
+CPU scripts: 29; REP reports: 21
+hosted-ci.txt contains the sanitized test sections
+OUTPUT_END
+
+UTC_END 2026-11-28T14:12:30Z

@@ -1,0 +1,64 @@
+T0018 hosted CPU acceptance
+RUN 46153049369
+URL https://github.com/jtrefon/splot-lm/actions/runs/46153049369
+HEAD d32c52780a0e6d565ae20422fc83061596a12110
+WORKFLOW CPU regression
+EVENT pull_request
+CONCLUSION success
+STATUS completed
+JOB cpu completed success 2026-11-28T14:07:44Z 2026-11-28T14:09:06Z
+ENV Ubuntu 24.04 runner, Python 3.12.7, torch 2.10.0+cpu, numpy 1.26.4, CUDA_VISIBLE_DEVICES empty
+
+=== tests/test_speculative_observer.py ===
+test_observer_off_on_model_cache_and_rng (__main__.ActualModelObserverIdentityTests.test_observer_off_on_model_cache_and_rng) ... ok
+test_d0_eos_and_zero_budget (__main__.D0Tests.test_d0_eos_and_zero_budget) ... ok
+test_d0_greedy_matches_d1_d2_on_actual_model (__main__.D0Tests.test_d0_greedy_matches_d1_d2_on_actual_model) ... ok
+test_d0_stochastic_returns_valid_tokens (__main__.D0Tests.test_d0_stochastic_returns_valid_tokens) ... ok
+test_event_content_is_scalar_and_schema_stable (__main__.ObserverIdentityTests.test_event_content_is_scalar_and_schema_stable) ... ok
+test_fresh_prefix_matches_returned_cache_and_logits (__main__.ObserverIdentityTests.test_fresh_prefix_matches_returned_cache_and_logits) ... ok
+test_toy_off_on_identity_and_rng (__main__.ObserverIdentityTests.test_toy_off_on_identity_and_rng) ... ok
+test_all_accepted_bonus_and_calls (__main__.ScenarioTests.test_all_accepted_bonus_and_calls) ... ok
+test_eos_and_zero_budget (__main__.ScenarioTests.test_eos_and_zero_budget) ... ok
+test_first_rejection_unexamined_suffix (__main__.ScenarioTests.test_first_rejection_unexamined_suffix) ... ok
+test_later_rejection (__main__.ScenarioTests.test_later_rejection) ... ok
+test_short_final_draft (__main__.ScenarioTests.test_short_final_draft) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.272s
+
+OK
+
+=== tools/test_speculation_trace.py ===
+test_event_values_are_scalar (__main__.ApiTests.test_event_values_are_scalar) ... ok
+test_validate_trace_returns_summary (__main__.ApiTests.test_validate_trace_returns_summary) ... ok
+test_all_accepted_plus_bonus (__main__.FixtureTests.test_all_accepted_plus_bonus) ... ok
+test_all_fixtures_validate_and_are_json_safe (__main__.FixtureTests.test_all_fixtures_validate_and_are_json_safe) ... ok
+test_collector_bounded (__main__.FixtureTests.test_collector_bounded) ... ok
+test_d0_has_no_shallow_work_or_proposals (__main__.FixtureTests.test_d0_has_no_shallow_work_or_proposals) ... ok
+test_eos_and_short_budget (__main__.FixtureTests.test_eos_and_short_budget) ... ok
+test_first_rejection_unexamined_suffix (__main__.FixtureTests.test_first_rejection_unexamined_suffix) ... ok
+test_later_rejection_and_replay_amplification (__main__.FixtureTests.test_later_rejection_and_replay_amplification) ... ok
+test_required_cases_exist (__main__.FixtureTests.test_required_cases_exist) ... ok
+test_zero_output_has_null_ttft (__main__.FixtureTests.test_zero_output_has_null_ttft) ... ok
+test_commit_arithmetic_and_lengths (__main__.MalformedTests.test_commit_arithmetic_and_lengths) ... ok
+test_d0_proposal_is_invalid (__main__.MalformedTests.test_d0_proposal_is_invalid) ... ok
+test_draft_after_rejection_must_be_unexamined (__main__.MalformedTests.test_draft_after_rejection_must_be_unexamined) ... ok
+test_duplicate_rejection (__main__.MalformedTests.test_duplicate_rejection) ... ok
+test_eos_without_flag_and_early_end (__main__.MalformedTests.test_eos_without_flag_and_early_end) ... ok
+test_missing_or_reordered_prefill (__main__.MalformedTests.test_missing_or_reordered_prefill) ... ok
+test_phase_count_mismatch (__main__.MalformedTests.test_phase_count_mismatch) ... ok
+test_run_end_totals (__main__.MalformedTests.test_run_end_totals) ... ok
+test_timestamp_decrease (__main__.MalformedTests.test_timestamp_decrease) ... ok
+test_top_level_shape (__main__.MalformedTests.test_top_level_shape) ... ok
+test_unexamined_requires_rejection_or_eos (__main__.MalformedTests.test_unexamined_requires_rejection_or_eos) ... ok
+test_unknown_kind_and_content_field (__main__.MalformedTests.test_unknown_kind_and_content_field) ... ok
+test_wrong_schema_and_seq (__main__.MalformedTests.test_wrong_schema_and_seq) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.007s
+
+OK
+
+Evidence experiments/results/T0016/attempt-001: passed (structural)
+Evidence experiments/results/T0017/attempt-001: blocked (structural)
+CPU scripts: 29; REP reports: 21

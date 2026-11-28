@@ -1,0 +1,70 @@
+{
+  "attempt": 2,
+  "captured_at": "2026-11-28T14:33:00Z",
+  "hosted": {
+    "conclusion": "success",
+    "cuda": false,
+    "cuda_visible_devices": "empty",
+    "head_sha": "42b8e6ca07ca5d3be1de1241a92f30a8d1b1cf01",
+    "numpy": "1.26.4",
+    "os": "ubuntu-24.04",
+    "python": "3.12.7",
+    "run_id": 46154938101,
+    "torch": "2.10.0+cpu",
+    "url": "https://github.com/jtrefon/splot-lm/actions/runs/46154938101"
+  },
+  "instruction_commit": "d3752eeb77541866e2332ed238def0c4bac50549",
+  "limits": {
+    "command_timeout_seconds": 120,
+    "foreground_minutes": 90,
+    "model_training": false,
+    "mps_or_cuda": false,
+    "network_data": false,
+    "new_packages": false,
+    "real_checkpoint_access": false,
+    "system_changes": false
+  },
+  "local": {
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "unicode": "17.0.0",
+      "utf8_mode": 1,
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "error": "ModuleNotFoundError: No module named torch",
+      "install_attempted": false,
+      "policy": "per T0018: do not install torch solely for Mac"
+    }
+  },
+  "minimum_reviewed_base": "a93141e3160c0e9bb845d5b0a64df69c0e97157b",
+  "prior_evidence_commit": "339969cf4964adf20e52e3e329cd2a7f170b61a5",
+  "prior_tested_commit": "d32c52780a0e6d565ae20422fc83061596a12110",
+  "review_corrections": [
+    "Count actual model advance invocations separately from phase occurrences.",
+    "Define decode from prefill end, including the complete first generation round.",
+    "Use all committed tokens over decode time for committed-token throughput.",
+    "Keep TTFT and expose post-first-commit timing as a separate diagnostic."
+  ],
+  "seeds": {
+    "d0_stochastic": 5,
+    "fixture_clock": "injected integer nanoseconds, 1 ms per event",
+    "model_actual": 42,
+    "model_identity": 9,
+    "toy_cache": 7,
+    "toy_identity": 1234
+  },
+  "task_id": "T0018",
+  "tested_commit": "42b8e6ca07ca5d3be1de1241a92f30a8d1b1cf01"
+}

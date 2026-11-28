@@ -1,0 +1,39 @@
+{
+  "attempt": 1,
+  "conclusion": "success",
+  "created_at": "2026-11-28T14:07:42Z",
+  "event": "pull_request",
+  "head_sha": "d32c52780a0e6d565ae20422fc83061596a12110",
+  "integration_duration_seconds": 0.272,
+  "jobs": [
+    {
+      "completed_at": "2026-11-28T14:09:06Z",
+      "conclusion": "success",
+      "name": "cpu",
+      "started_at": "2026-11-28T14:07:44Z",
+      "status": "completed"
+    }
+  ],
+  "run_id": 46153049369,
+  "runner": {
+    "cuda": false,
+    "cuda_visible_devices": "empty",
+    "numpy": "1.26.4",
+    "os": "ubuntu-24.04",
+    "python": "3.12.7",
+    "torch": "2.10.0+cpu"
+  },
+  "status": "completed",
+  "stdlib_duration_seconds": 0.007,
+  "task_id": "T0018",
+  "tests": {
+    "integration": 12,
+    "rep_reports": 21,
+    "scripts": 29,
+    "stdlib_trace": 24,
+    "total": 36
+  },
+  "updated_at": "2026-11-28T14:09:07Z",
+  "url": "https://github.com/jtrefon/splot-lm/actions/runs/46153049369",
+  "workflow": "CPU regression"
+}
