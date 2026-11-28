@@ -1,0 +1,63 @@
+T0017 attempt-002 review supplement 001 — execution log (sanitized)
+Task: T0017, attempt 002, issue #77, PR #92
+Authorization: owner-authorized bounded, non-training evidence clarification only.
+Constraints applied: no training, no package installation, no wheel download, no automatic retry, no original-evidence edit, no merge/closure, no T0020 launch.
+Original attempt-002 head before supplement: 833be6ee41753654705b376de67a293b51e3a22d
+Original evidence commit: 67780eba1eacfa9cea09bff92fb2e4e05704ad0d
+
+1. Preserved original evidence
+- Command: python3 tools/rep/validate_result.py experiments/results/T0017/attempt-002 --task T0017 --source d3752eeb77541866e2332ed238def0c4bac50549 --checks environment,implementation,cpu_tests,cuda_qualification,real_pilot,handover
+- Exit 0: STRUCTURALLY VALID: passed (not scientific acceptance).
+- Original result.json SHA-256: 78ff180087e797a2caec4b9aa4706e3046729bf7d754082955bec07bf2f86d29.
+- All 18 listed sibling hashes still match; no original file edited.
+
+2. Trusted PyPI release metadata
+- Command: curl -fsSL --max-time 30 https://pypi.org/pypi/tokenizers/0.23.3/json -o <supplement-work>/pypi-tokenizers-0.23.3.json
+- Exit 0 at 2026-11-28T14:27:44Z; response 31,436 B; SHA-256 9480313d3d3c6cd7cbbcf5b4fe31eb7d92fb53efe8146c5aadaa2b8e46f38468.
+- Matching wheel: tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl; PyPI SHA-256 376851d22bcf9d650a5c3090bb83e6cf9e895fbf0595369fa4cd43c1f69b5f87; MD5 afe505a64e67528eb936d0f58c2db256; size 3,396,193 B; upload 2026-10-09T10:01:05.480462Z.
+- No wheel file was downloaded; only the JSON release metadata was fetched.
+
+3. Local uv cache identity
+- Inspected cache entry wheels-v6/pypi/tokenizers/0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64; symlink to extracted archive archive-v0/OzOLxwZHZ7oAdsMx.
+- .http metadata: 641 B, SHA-256 624e40c01b71cf429f504d8feedc3db63e800693ae8bcf7ff0283ca0498601ef; exact wheel filename and URL present; ETag afe505a64e67528eb936d0f58c2db256 equals PyPI MD5.
+- .msgpack metadata: 995 B, SHA-256 75b918d0c583b9bb68179225a5027a62c4d0bb78082d077e0a937aa19e8d8d25.
+- uv Simple API cache: 1,652,200 B, SHA-256 1a2f415895b49bdea9df1ecef6ee0587e5d414097cb930895a92fb035aec4284; contains the same wheel filename and PyPI SHA-256.
+- Cache entry mtime 2026-10-14T11:17:59Z; pre-existing cache, not downloaded during attempt-002.
+- The original .whl container is not retained by uv; the wheel SHA-256 cannot be recomputed from local bytes. This limitation is stated explicitly in the supplement.
+
+4. Installed package verification
+- Isolated venv: Python 3.12.7, tokenizers 0.23.3, wheel tag cp310-abi3-manylinux_2_17_x86_64.
+- RECORD SHA-256 594502c82016a506018a24f94c695aedbb52432e63e705b29c75e80e886500a5; 32/32 SHA-256 entries verified, 0 missing, 0 mismatched.
+- tokenizers.abi3.so SHA-256 4b1458a379296762a034d3bc89299c0c35b4eefb0577acca922f481b262c65a1.
+- Development correction: the first RECORD audit compared hex digests against the wheel RECORD's base64url SHA-256 field and falsely reported 32 mismatches. It was corrected to base64url comparison; the installed files verified 32/32. No package was changed or reinstalled.
+
+5. Local tokenizer test
+- Command: <venv>/bin/python with import tokenizers; Tokenizer.from_file(local verified tokenizer.json); encode/decode fixed ASCII string.
+- Exit 0: tokenizers 0.23.3; tokenizer.json SHA-256 104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b; 19 encoded tokens; round-trip true.
+- No raw corpus text or token arrays logged. Output in tokenizer-test.log.
+
+6. Initial resume comparator chronology
+- Wrong config selected: configs/experiments/splot-nano-synthetic-fp8-muon.json (SHA-256 5171e50ca004a5b47fd76b3cedaad52ccf174d6b0dd50665b8a17adb5b141160) plus only training.fp8_weight_reuse=true (temp SHA-256 2aa099eddd0d8c2a175b440defc40eccfea2286381cffaea176c8301c6ceb7e2).
+- Continuous 4-step preflight: exit 0, 6 s; 43,055,076 parameters; run JSON SHA-256 a429e33763da89ec049637015854918c3a19b7077a977a75a5933ffb370fd97b; checkpoint 395,174,563 B, SHA-256 e10181cefeb22df58672175e242aaedf4bf9bad0561ea8b10b78b7d9cdd4cf6e.
+- Split 2-step preflight: exit 0, 5 s. Resume to 4 steps: exit 0, 5 s; run JSON SHA-256 273e0272439a2c588e5b5e318c654cfb9f90a8ee122e697014fef7539aaa0c66; checkpoint 395,175,715 B, SHA-256 840dfdb5f702e1a4b0ba4727f7b3c608641662cb81712d337e9fc9e839c6f841.
+- Comparator: python3 tools/rep/compare_resume.py <local-work>/gate/continuous <local-work>/gate/split --steps 4 --parameters 179952. Exit 1; stderr: FAILED: unexpected inventory or step count. Cause: preflight inventory 43,055,076 parameters, comparator expects the preregistered 179,952-parameter tiny smoke model.
+- Classification: failed preflight of a required gate due to operator config selection; not a pass. No threshold or tolerance was changed.
+- Corrected config: configs/experiments/splot-smoke-synthetic-fp8-muon.json (SHA-256 370fb892a514f7bc129490112eba35a22d30f2b4f5bc2236d9fb4221f89642be) plus only training.fp8_weight_reuse=true (temp SHA-256 7c9e604bd47a0391efaac449ac2d8180b428a81470e8f9813b8c6acbc2a6dfd5).
+- Corrected required gate: fresh continuous 4 steps and 2+2 resume; comparator --steps 4 --parameters 179952. Exit 0; exact model/optimizer/RNG/history/validation. Corrected results are already in original attempt-002 evidence; no rerun occurred in this supplement.
+- Owner-approved corrective rerun: no separate approval message. The rerun remained within the owner-authorized attempt-002 and the reviewed continuation. This is recorded for maintainer review.
+- Original preflight logs were sanitized (local paths replaced with placeholders only) and included as initial-nano-continuous.log, initial-nano-split-first.log, initial-nano-split-resume.log and initial-compare.stderr. Raw and sanitized SHA-256 values are in resume-comparator-chronology.json.
+
+7. Checkpoint availability
+- Path withheld locally; relative name real-pilot/checkpoint.pt.
+- Regular file, not symlink; 395,220,707 B; SHA-256 d011336f23ee82e6a56b594b44343fa4e4232d2cf70c7a0ae41112db400683b9; mtime 2026-11-28T14:04:54Z.
+- Matches published attempt-002 size and SHA-256.
+- torch.load (CPU, weights_only=True) exit 0; keys history/identity/model/optimizer/rng; identity commit d3752eeb77541866e2332ed238def0c4bac50549; 64 history steps; 43,055,076 model elements; model and optimizer tensors finite; RNG present; no weight-cache state.
+- Filesystem: /tmp, tmpfs, volatile. No durable copy found under the owner home filesystem by exact size; no public upload.
+- No copy, upload or training was performed in this supplement.
+
+8. Supplement assembly
+- Wrote separate directory experiments/results/T0017/review-supplement-001/; no original evidence file changed.
+- Included summary.md, wheel-identity.json, resume-comparator-chronology.json, checkpoint-availability.json, tokenizer-test.log, four sanitized initial-preflight logs, original-validator.txt, preservation.json, pypi-tokenizers-0.23.3.json, execution.log and files.json.
+- No private paths, raw corpus, token arrays, tokenizer JSON, shards or tensors are included.
+
+No training, package installation, wheel download, automatic retry, original-evidence edit, merge/closure or T0020 launch occurred.

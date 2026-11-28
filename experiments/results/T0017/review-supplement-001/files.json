@@ -4,6 +4,10 @@
       "bytes": 1076,
       "sha256": "bba9f2567073488c87689c270caccf846797aa63bce96c93329ff198d009ff14"
     },
+    "checkpoint-durability.json": {
+      "bytes": 1051,
+      "sha256": "98f2f01070e3a6223f626fcd1eb5e52c0d9e8a35f79997fd8ad88fd7875e23a1"
+    },
     "execution.log": {
       "bytes": 7271,
       "sha256": "f7abc6fcbd71f6c6abbff9aa614f95e5e3c4d80248d88324ee2b29055e0d5b65"
@@ -27,6 +31,10 @@
     "original-validator.txt": {
       "bytes": 55,
       "sha256": "86ad43f095ff2d8b4ffc3f08bd20bc3f15f355dff8246ec934e45af026e7b4f2"
+    },
+    "post-review-addendum.md": {
+      "bytes": 4007,
+      "sha256": "f9171b03ebccd8fdc464d576b13390c909e9c1a7be6818f6fa568869ef0a1619"
     },
     "preservation.json": {
       "bytes": 843,
