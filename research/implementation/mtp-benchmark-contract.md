@@ -10,7 +10,9 @@ Status: T0018 implementation contract, 2026-11-28. Task [T0018](../../experiment
 - No extra model call, sampling draw, tensor mutation or per-token host synchronization is added on the default path. The observer adds phase-boundary callbacks only when requested.
 - T0018 makes no trained-checkpoint, throughput, latency, memory or acceptance claim. Synthetic fixture timings are fake-clock and are not performance measurements.
 
-## 2. Trace schema `splot.mtp.trace.v1`
+## 2. Trace schema `splot.mtp.trace.v2`
+
+Version 2 adds explicit `model_calls` per phase boundary; attempt-001 v1 evidence is historical and is not rewritten.
 
 The trace is a bounded list (at most 100,000 events), strictly ordered by contiguous `seq` and nondecreasing `timestamp_ns`. The first event is `run_start`; the last is `run_end`.
 
@@ -18,7 +20,7 @@ The trace is a bounded list (at most 100,000 events), strictly ordered by contig
 |---|---|---|
 | `run_start` | strategy D0/D1/D2, draft_length, max_new_tokens, prompt_length, greedy, temperature, eos | Run identity and fixed settings; no prompt tokens. |
 | `phase_start` | role, phase, round, before_length | Opens one measured work boundary. |
-| `phase_end` | role, phase, round, before_length, after_length, requested_tokens, actual_tokens | Closes the boundary; `actual = after - before`. |
+| `phase_end` | role, phase, round, before_length, after_length, requested_tokens, actual_tokens, model_calls | Closes the boundary; `actual = after - before`; `model_calls` is the number of actual runner `advance` invocations in that phase. |
 | `draft` | round, offset, status accepted/rejected/unexamined, proposed, verified | Per-offset opportunity and examination result. |
 | `round_commit` | strategy, round, proposed, verified, accepted, rejected, unexamined, correction, bonus, committed, target/shallow/output before/after, eos_committed | Reconciles one round. |
 | `run_end` | rounds, proposed, accepted, rejected, output_length, target_length, shallow_length | Final totals and cache lengths. |
@@ -29,6 +31,8 @@ Phases are role-specific:
 - shallow: `shallow_prefill`, `shallow_draft`, `shallow_committed_replay`.
 
 `before_length` and `after_length` are prefix lengths, not output lengths. For a round, `target_after - target_before = shallow_after - shallow_before = committed` and `target_after = shallow_after = prompt_length + output_after`. D0 mirrors target lengths into shallow counters solely for schema reconciliation and emits no shallow phase.
+
+Phase occurrences and model calls are distinct. A phase pair is one instrumentation boundary; `model_calls` counts actual `advance` invocations. `target_prefill`, `target_verify`, `target_rejection_replay`, `target_bonus_advance`, `target_step`, `shallow_prefill`, and `shallow_committed_replay` are one call per occurrence. `shallow_draft` is variable under the current D1 contract: one call per actual scratch token (0 with EOS or a short final draft, 1 for the usual second proposal, greater than 1 for `draft_length>2`). D2 performs zero shallow-draft calls. The reducer exposes `model_calls_by_phase` and `phase_occurrences_by_phase` separately, plus role totals from model calls.
 
 Draft status forms one accepted prefix, at most one rejected position, then an unexamined suffix. A rejection is followed by exactly one correction token; all-accepted rounds may draw at most one bonus token. EOS may commit from a draft, correction or bonus, after which no further round is allowed.
 
@@ -45,8 +49,8 @@ Draft status forms one accepted prefix, at most one rejected position, then an u
 - `correction_tokens`: one per rejected round. `bonus_tokens`: at most one per all-accepted round that still has budget.
 - `committed_tokens = accepted + correction + bonus = output length`.
 - `per_offset`: proposed, verified, accepted, rejected and unexamined counts plus the two ratios. Offset 1 and offset 2 are never collapsed in D2 analysis.
-- Target work: calls and advanced tokens per phase, with prefill separated. `target_decode_tokens` excludes target prefill.
-- Shallow work: calls and advanced tokens, with prefill and committed-prefix replay separated.
+- Target work: actual model calls and advanced tokens per phase, with prefill separated. `target_decode_tokens` excludes target prefill.
+- Shallow work: actual model calls and advanced tokens, with prefill, variable serial draft calls and committed-prefix replay separated. `shallow_draft` model calls equal its actual scratch advances; D2 reports zero.
 - `target_tokens_per_committed_token = target_decode_tokens / committed`, null for zero output. This is the target replay/work amplification, not a speedup.
 - `target_extra_tokens_over_committed = target_decode_tokens - committed`.
 
@@ -56,8 +60,11 @@ T0018 uses `time.monotonic_ns()` or an injected integer fake clock. Event timest
 
 - `prefill_seconds`: start of run to the end of the last prefill phase (target plus shallow).
 - `ttft_seconds`: start of run to the first `round_commit` (first committed output token); null for zero generation.
-- `decode_seconds`: first commit to `run_end`; null for zero generation. It includes later verification, replay and bonus work.
-- `total_seconds = ttft_seconds + decode_seconds` for nonzero output.
+- `decode_seconds`: end of prefill to `run_end`. It includes the complete first generation round, including a multi-token first commit, plus all later verification, replay and bonus work. This is the denominator for committed-token throughput.
+- `post_first_commit_seconds`: first commit to `run_end`; null for zero generation. This is a diagnostic tail, not a throughput denominator.
+- `first_round_committed_tokens` and `tokens_after_first_commit`: expose how much work the first commit carried.
+- `committed_tokens_per_decode_second = committed_tokens / decode_seconds`; null when nothing was committed or decode is zero. Never divide all committed tokens by post-first-commit time.
+- `total_seconds = prefill_seconds + decode_seconds`; for nonzero output, `ttft_seconds + post_first_commit_seconds = total_seconds`.
 - `phase_seconds`: sum of paired start/end durations per role and phase.
 
 A later GPU benchmark must wrap each timed region with explicit device synchronization outside the observer. Synchronization overhead is measured and reported separately. An observer-off/observer-on paired control estimates callback overhead. The reported latency is **observed committed-token advance wall time**, not true kernel latency. No claim may present it as kernel-only time.
@@ -92,7 +99,7 @@ This protocol is not executed by T0018. It becomes eligible only after the T0017
 - At least three paired repetitions per system/context/prompt after one warmup. Rotate system order across repetitions to reduce drift; report every pair, not only the best.
 - Synchronize before and after each measured prefill, verification, replay, bonus and full generation region. Keep synchronization outside the observer callbacks.
 - Record observer-off and observer-on controls. Report callback overhead and exclude it from no claim; do not hide it.
-- Report TTFT, committed tokens/second, prefill seconds, decode seconds, target/shallow calls and tokens, per-offset proposed/verified, rejection replay, correction and bonus counts, peak allocated/reserved memory, actual precision/device, and checkpoint/tokenizer/manifest hashes.
+- Report TTFT, prefill seconds, decode seconds, committed tokens/second using all committed tokens over `decode_seconds`, post-first-commit tail separately, target/shallow model calls and tokens, per-offset proposed/verified, rejection replay, correction and bonus counts, peak allocated/reserved memory, actual precision/device, and checkpoint/tokenizer/manifest hashes.
 - Use the same process-level thread settings and device clocks policy for all systems. Record thermal/clock caveats rather than normalizing them away.
 - No performance claim from untrained weights. No quality or convergence claim from this benchmark.
 
@@ -112,4 +119,4 @@ After T0017 checkpoint review, propose one benchmark task that executes this pro
 
 ## Polski — podsumowanie
 
-T0018 dodaje opcjonalny obserwator do dokładnego mechanizmu spekulacji D1/D2 bez zmiany wyników, losowania, wywołań modelu ani pamięci podręcznych. Reduktor w `tools/speculation_trace.py` waliduje zdarzenia, liczy akceptację i pracę celu/płytkiego modelu oraz definiuje metryki czasu. D0 to baseline tylko z modelem docelowym. Kontrakt przyszłego benchmarku na wytrenowanym checkpoincie wymaga tych samych wejść, dokładnych bramek zachłannych, osobnej analizy stochastycznej, synchronizacji urządzenia i raportowania narzutu obserwatora. Ten dokument nie zawiera zmierzonych wyników wydajności.
+T0018 dodaje opcjonalny obserwator do dokładnego mechanizmu spekulacji D1/D2 bez zmiany wyników, losowania, wywołań modelu ani pamięci podręcznych. Reduktor w `tools/speculation_trace.py` waliduje zdarzenia, rozdziela wystąpienia faz od rzeczywistych wywołań `advance`, liczy akceptację i pracę celu/płytkiego modelu oraz definiuje metryki czasu. Dekodowanie liczone jest od końca prefillu i obejmuje pełną pierwszą rundę; przepustowość używa wszystkich zakomitowanych tokenów. D0 to baseline tylko z modelem docelowym. Kontrakt przyszłego benchmarku na wytrenowanym checkpoincie wymaga tych samych wejść, dokładnych bramek zachłannych, osobnej analizy stochastycznej, synchronizacji urządzenia i raportowania narzutu obserwatora. Ten dokument nie zawiera zmierzonych wyników wydajności.

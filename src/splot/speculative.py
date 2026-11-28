@@ -4,7 +4,7 @@ import math
 import time
 import torch
 
-TRACE_SCHEMA = 'splot.mtp.trace.v1'
+TRACE_SCHEMA = 'splot.mtp.trace.v2'
 
 
 @dataclass(frozen=True)
@@ -123,13 +123,13 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
     if emit:
         emit('phase_end',role='target',phase='target_prefill',round=0,
              before_length=0,after_length=t.length,requested_tokens=len(prompt),
-             actual_tokens=len(prompt))
+             actual_tokens=len(prompt),model_calls=1)
         emit('phase_start',role='shallow',phase='shallow_prefill',round=0,before_length=0)
     s,_=shallow.advance(None,list(prompt))
     if emit:
         emit('phase_end',role='shallow',phase='shallow_prefill',round=0,
              before_length=0,after_length=s.length,requested_tokens=len(prompt),
-             actual_tokens=len(prompt))
+             actual_tokens=len(prompt),model_calls=1)
     output=[]; proposed=accepted=rejected=rounds=0
     while len(output)<max_new_tokens:
         rounds+=1
@@ -153,7 +153,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
             emit('phase_end',role='shallow',phase='shallow_draft',round=rounds,
                  before_length=s_before,after_length=scratch.length,
                  requested_tokens=0 if strategy=='D2' else max(0,count-1),
-                 actual_tokens=scratch.length-s_before)
+                 actual_tokens=scratch.length-s_before,
+                 model_calls=scratch.length-s_before)
         proposed+=len(drafts)
         if emit:
             emit('phase_start',role='target',phase='target_verify',round=rounds,
@@ -162,7 +163,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
         if emit:
             emit('phase_end',role='target',phase='target_verify',round=rounds,
                  before_length=t_before,after_length=verified.length,
-                 requested_tokens=len(drafts),actual_tokens=len(drafts))
+                 requested_tokens=len(drafts),actual_tokens=len(drafts),
+                 model_calls=1)
         emitted=[]; failed=False; statuses=['unexamined']*len(drafts)
         round_accepted=0
         for i,(y,q) in enumerate(zip(drafts,qs)):
@@ -193,7 +195,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
             if emit:
                 emit('phase_end',role='target',phase='target_rejection_replay',
                      round=rounds,before_length=replay_before,after_length=t.length,
-                     requested_tokens=len(emitted),actual_tokens=len(emitted))
+                     requested_tokens=len(emitted),actual_tokens=len(emitted),
+                     model_calls=1)
         else:
             t=verified
             if emitted[-1]!=eos and len(emitted)<remaining:
@@ -208,7 +211,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
                 if emit:
                     emit('phase_end',role='target',phase='target_bonus_advance',
                          round=rounds,before_length=bonus_before,
-                         after_length=t.length,requested_tokens=1,actual_tokens=1)
+                         after_length=t.length,requested_tokens=1,actual_tokens=1,
+                         model_calls=1)
         # Reference replay: always synchronize shallow from committed prefix.
         if emit:
             emit('phase_start',role='shallow',phase='shallow_committed_replay',
@@ -217,7 +221,8 @@ def generate(target, shallow, prompt, max_new_tokens, *, strategy='D1', draft_le
         if emit:
             emit('phase_end',role='shallow',phase='shallow_committed_replay',
                  round=rounds,before_length=s_before,after_length=s.length,
-                 requested_tokens=len(emitted),actual_tokens=len(emitted))
+                 requested_tokens=len(emitted),actual_tokens=len(emitted),
+                 model_calls=1)
         output.extend(emitted)
         eos_committed=bool(eos is not None and output[-1]==eos)
         if emit:

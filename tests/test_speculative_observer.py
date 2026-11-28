@@ -42,6 +42,20 @@ class Clock:
         return value
 
 
+class CountingRunner:
+    """Delegate runner that records each actual ``advance`` invocation."""
+    def __init__(self, runner):
+        self.runner = runner
+        self.calls = []
+
+    def advance(self, prefix, tokens):
+        self.calls.append(tuple(tokens))
+        return self.runner.advance(prefix, tokens)
+
+    def __getattr__(self, name):
+        return getattr(self.runner, name)
+
+
 def toy_prefix_equal(test, expected, actual):
     test.assertEqual(expected.length, actual.length)
     test.assertEqual(expected.cache, actual.cache)
@@ -177,7 +191,9 @@ class ScenarioTests(unittest.TestCase):
         summary = summarize(collector.events)
         self.assertEqual((result.tokens, summary["rounds"], summary["committed_tokens"]), ((), 0, 0))
         self.assertIsNone(summary["timing"]["ttft_seconds"])
-        self.assertIsNone(summary["timing"]["decode_seconds"])
+        self.assertIsNone(summary["timing"]["post_first_commit_seconds"])
+        self.assertIsNone(summary["timing"]["committed_tokens_per_decode_second"])
+        self.assertGreaterEqual(summary["timing"]["decode_seconds"], 0)
 
     def test_short_final_draft(self):
         collector = TraceCollector()
@@ -187,6 +203,70 @@ class ScenarioTests(unittest.TestCase):
         self.assertEqual((result.tokens, summary["proposed_tokens"],
                           summary["accepted_tokens"], summary["bonus_tokens"]),
                          ((0,), 1, 1, 0))
+
+
+class RunnerCallAccountingTests(unittest.TestCase):
+    def check(self, summary, target, shallow, target_lengths, shallow_lengths):
+        self.assertEqual([len(call) for call in target.calls], target_lengths)
+        self.assertEqual([len(call) for call in shallow.calls], shallow_lengths)
+        self.assertEqual(len(target.calls), summary["work"]["target_calls"])
+        self.assertEqual(len(shallow.calls), summary["work"]["shallow_calls"])
+        self.assertEqual(sum(summary["work"]["model_calls_by_phase"].values()),
+                         len(target.calls) + len(shallow.calls))
+
+    def test_d1_all_accepted_bonus_calls(self):
+        target, shallow = CountingRunner(Toy(forced=[1., 0.])), CountingRunner(Toy(forced=[1., 0.]))
+        collector = TraceCollector()
+        generate(target, shallow, [1], 3, strategy="D1", greedy=True,
+                 observer=collector, clock=Clock())
+        summary = summarize(collector.events)
+        self.check(summary, target, shallow, [1, 2, 1], [1, 1, 3])
+        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 1)
+        self.assertEqual(summary["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
+
+    def test_d1_draft_three_uses_two_scratch_calls(self):
+        target, shallow = CountingRunner(Toy(forced=[1., 0.])), CountingRunner(Toy(forced=[1., 0.]))
+        collector = TraceCollector()
+        generate(target, shallow, [1], 4, strategy="D1", draft_length=3, greedy=True,
+                 observer=collector, clock=Clock())
+        summary = summarize(collector.events)
+        self.check(summary, target, shallow, [1, 3, 1], [1, 1, 1, 4])
+        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 2)
+        self.assertEqual(summary["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
+        self.assertEqual(summary["timing"]["first_round_committed_tokens"], 4)
+
+    def test_d2_has_no_draft_calls(self):
+        class Target(Toy):
+            def logits(self, tokens):
+                return torch.tensor([1., 0.] if len(tokens) == 1 else [0., 1.],
+                                    dtype=torch.float64).log()
+        target = CountingRunner(Target())
+        shallow = CountingRunner(Toy(forced=[1., 0.]))
+        collector = TraceCollector()
+        generate(target, shallow, [0], 2, strategy="D2", greedy=True,
+                 observer=collector, clock=Clock())
+        summary = summarize(collector.events)
+        self.check(summary, target, shallow, [1, 2, 2], [1, 2])
+        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
+        self.assertEqual(summary["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
+
+    def test_eos_and_short_budget_make_zero_draft_calls(self):
+        target, shallow = CountingRunner(Toy(forced=[0., 1.])), CountingRunner(Toy(forced=[0., 1.]))
+        collector = TraceCollector()
+        generate(target, shallow, [0], 5, strategy="D1", eos=1, greedy=True,
+                 observer=collector, clock=Clock())
+        summary = summarize(collector.events)
+        self.check(summary, target, shallow, [1, 1], [1, 1])
+        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
+
+        target = CountingRunner(Toy(forced=[1., 0.]))
+        shallow = CountingRunner(Toy(forced=[1., 0.]))
+        collector = TraceCollector()
+        generate(target, shallow, [1], 1, strategy="D2", greedy=True,
+                 observer=collector, clock=Clock())
+        summary = summarize(collector.events)
+        self.check(summary, target, shallow, [1, 1], [1, 1])
+        self.assertEqual(summary["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
 
 
 class D0Tests(unittest.TestCase):
@@ -207,7 +287,8 @@ class D0Tests(unittest.TestCase):
         d1 = generate(target, shallow, prompt, budget, strategy="D1", greedy=True)
         d2 = generate(target, shallow, prompt, budget, strategy="D2", greedy=True)
         d0_collector = TraceCollector()
-        d0 = run_d0(target, prompt, budget, greedy=True,
+        d0_target = CountingRunner(target)
+        d0 = run_d0(d0_target, prompt, budget, greedy=True,
                     observer=d0_collector, clock=Clock())
         self.assertEqual(list(d1.tokens), expected)
         self.assertEqual(list(d2.tokens), expected)
@@ -221,6 +302,7 @@ class D0Tests(unittest.TestCase):
                           summary["committed_tokens"]), ("D0", 0, budget))
         self.assertEqual(summary["work"]["shallow_calls"], 0)
         self.assertEqual(summary["work"]["target_calls"], budget + 1)
+        self.assertEqual(len(d0_target.calls), summary["work"]["target_calls"])
 
     def test_d0_eos_and_zero_budget(self):
         target = Toy(forced=[0., 1.])
@@ -236,6 +318,8 @@ class D0Tests(unittest.TestCase):
         summary = summarize(collector.events)
         self.assertEqual((result.tokens, result.rounds), ((), 0))
         self.assertIsNone(summary["timing"]["ttft_seconds"])
+        self.assertIsNone(summary["timing"]["post_first_commit_seconds"])
+        self.assertIsNone(summary["timing"]["committed_tokens_per_decode_second"])
 
     def test_d0_stochastic_returns_valid_tokens(self):
         target = Toy(forced=[.5, .5])
@@ -255,8 +339,10 @@ class ActualModelObserverIdentityTests(unittest.TestCase):
         baseline = generate(target, shallow, prompt, 4, strategy="D1", greedy=False, rng=rng_a)
         rng_b = torch.Generator().manual_seed(9)
         collector = TraceCollector()
-        observed = generate(target, shallow, prompt, 4, strategy="D1", greedy=False,
-                            rng=rng_b, observer=collector, clock=Clock())
+        target_count = CountingRunner(target)
+        shallow_count = CountingRunner(shallow)
+        observed = generate(target_count, shallow_count, prompt, 4, strategy="D1",
+                            greedy=False, rng=rng_b, observer=collector, clock=Clock())
         self.assertEqual(baseline.tokens, observed.tokens)
         self.assertTrue(torch.equal(rng_a.get_state(), rng_b.get_state()))
         model_prefix_equal(self, baseline.target, observed.target)
@@ -265,6 +351,8 @@ class ActualModelObserverIdentityTests(unittest.TestCase):
         self.assertEqual(summary["committed_tokens"], len(observed.tokens))
         self.assertGreaterEqual(summary["work"]["target_calls"], 2)
         self.assertGreaterEqual(summary["work"]["shallow_calls"], 2)
+        self.assertEqual(len(target_count.calls), summary["work"]["target_calls"])
+        self.assertEqual(len(shallow_count.calls), summary["work"]["shallow_calls"])
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ from dataclasses import dataclass
 import math
 import time
 
-SCHEMA = "splot.mtp.trace.v1"
+SCHEMA = "splot.mtp.trace.v2"
 MAX_EVENTS = 100000
 STRATEGIES = ("D0", "D1", "D2")
 STATUSES = ("accepted", "rejected", "unexamined")
@@ -29,7 +29,7 @@ _FIELDS = {
                   "greedy", "temperature", "eos"},
     "phase_start": {"role", "phase", "round", "before_length"},
     "phase_end": {"role", "phase", "round", "before_length", "after_length",
-                  "requested_tokens", "actual_tokens"},
+                  "requested_tokens", "actual_tokens", "model_calls"},
     "draft": {"round", "offset", "status", "proposed", "verified"},
     "round_commit": {"round", "strategy", "proposed", "verified", "accepted",
                      "rejected", "unexamined", "correction", "bonus",
@@ -131,12 +131,20 @@ def _check_event(event, index):
             after = _int(event["after_length"], "after_length")
             requested = _int(event["requested_tokens"], "requested_tokens")
             actual = _int(event["actual_tokens"], "actual_tokens")
+            calls = _int(event["model_calls"], "model_calls")
             if after < before:
                 raise TraceError("phase after_length is below before_length")
             if actual != after - before:
                 raise TraceError("phase actual_tokens does not equal after-before")
             if actual > requested:
                 raise TraceError("phase actual_tokens exceeds requested_tokens")
+            # A serial D1 scratch advance moves exactly one token per call; D2
+            # performs zero draft calls. Every other phase is one model call.
+            if phase == "shallow_draft":
+                if calls != actual:
+                    raise TraceError("shallow_draft model_calls must equal actual scratch advances")
+            elif calls != 1:
+                raise TraceError(f"{phase} must make exactly one model call per phase occurrence")
     elif kind == "draft":
         _int(event["round"], "round", 1)
         _int(event["offset"], "offset", 1)
@@ -236,6 +244,7 @@ def summarize(events, *, synthetic=False):
     total_correction = total_bonus = total_unexamined = 0
     per_offset = {}
     first_commit = last_commit = None
+    first_round_committed = 0
     eos_seen = False
 
     while cursor < len(events) - 1:
@@ -388,6 +397,7 @@ def summarize(events, *, synthetic=False):
         rounds = round_index
         if first_commit is None:
             first_commit = commit["timestamp_ns"]
+            first_round_committed = commit["committed"]
         last_commit = commit["timestamp_ns"]
         if commit["eos_committed"]:
             if not eos_enabled:
@@ -419,12 +429,14 @@ def summarize(events, *, synthetic=False):
             raise TraceError("run_end rejection count disagrees with rounds")
 
     calls = {}
+    occurrences = {}
     tokens = {}
     phase_seconds = {}
     prefill_end = events[0]["timestamp_ns"]
     for role, phase, start_ts, end_ts, event in phase_pairs:
         key = f"{role}:{phase}"
-        calls[key] = calls.get(key, 0) + 1
+        calls[key] = calls.get(key, 0) + event["model_calls"]
+        occurrences[key] = occurrences.get(key, 0) + 1
         tokens[key] = tokens.get(key, 0) + event["actual_tokens"]
         phase_seconds[key] = phase_seconds.get(key, 0.0) + (end_ts - start_ts) / 1e9
         if phase in PREFILL_PHASES:
@@ -443,8 +455,12 @@ def summarize(events, *, synthetic=False):
     total_seconds = (end_ns - start_ns) / 1e9
     prefill_seconds = (prefill_end - start_ns) / 1e9
     ttft = None if first_commit is None else (first_commit - start_ns) / 1e9
-    decode = None if first_commit is None else (end_ns - first_commit) / 1e9
+    # Decode excludes prefill but includes the complete first generation round.
+    decode = (end_ns - prefill_end) / 1e9
+    post_first = None if first_commit is None else (end_ns - first_commit) / 1e9
     committed = output_len
+    tokens_after_first = (committed - first_round_committed
+                          if first_commit is not None else None)
     offsets = []
     for offset in sorted(per_offset):
         row = dict(per_offset[offset])
@@ -491,7 +507,13 @@ def summarize(events, *, synthetic=False):
             "shallow_tokens": shallow_tokens,
             "shallow_prefill_calls": calls.get("shallow:shallow_prefill", 0),
             "shallow_prefill_tokens": shallow_prefill_tokens,
+            "model_calls_by_phase": dict(sorted(calls.items())),
             "calls_by_phase": dict(sorted(calls.items())),
+            "phase_occurrences_by_phase": dict(sorted(occurrences.items())),
+            "target_phase_occurrences": sum(value for key, value in occurrences.items()
+                                            if key.startswith("target:")),
+            "shallow_phase_occurrences": sum(value for key, value in occurrences.items()
+                                             if key.startswith("shallow:")),
             "tokens_by_phase": dict(sorted(tokens.items())),
             "target_tokens_per_committed_token": (target_decode_tokens / committed
                                                   if committed else None),
@@ -505,6 +527,12 @@ def summarize(events, *, synthetic=False):
             "prefill_seconds": prefill_seconds,
             "ttft_seconds": ttft,
             "decode_seconds": decode,
+            "post_first_commit_seconds": post_first,
+            "first_round_committed_tokens": (first_round_committed
+                                             if first_commit is not None else None),
+            "tokens_after_first_commit": tokens_after_first,
+            "committed_tokens_per_decode_second": (committed / decode
+                                                   if committed and decode > 0 else None),
             "phase_seconds": dict(sorted(phase_seconds.items())),
         },
     }
@@ -567,7 +595,8 @@ def run_d0(target, prompt, max_new_tokens, *, eos=None, temperature=1.,
     if emit:
         emit("phase_end", role="target", phase="target_prefill", round=0,
              before_length=0, after_length=state.length,
-             requested_tokens=len(prompt), actual_tokens=len(prompt))
+             requested_tokens=len(prompt), actual_tokens=len(prompt),
+             model_calls=1)
 
     output = []
     rounds = 0
@@ -585,7 +614,7 @@ def run_d0(target, prompt, max_new_tokens, *, eos=None, temperature=1.,
             emit("phase_end", role="target", phase="target_step",
                  round=rounds, before_length=before,
                  after_length=state.length, requested_tokens=1,
-                 actual_tokens=1)
+                 actual_tokens=1, model_calls=1)
             commit = {
                 "schema": SCHEMA, "seq": seq, "kind": "round_commit",
                 "timestamp_ns": now(),
@@ -624,12 +653,15 @@ def synthetic_fixtures():
             max_new_tokens=budget, prompt_length=prompt, greedy=False,
             temperature=1.0, eos=eos)
 
-        def phase(role, name, round_index, before, requested, actual):
+        def phase(role, name, round_index, before, requested, actual, calls=None):
+            if calls is None:
+                calls = actual if name == "shallow_draft" else 1
             add("phase_start", role=role, phase=name, round=round_index,
                 before_length=before)
             add("phase_end", role=role, phase=name, round=round_index,
                 before_length=before, after_length=before + actual,
-                requested_tokens=requested, actual_tokens=actual)
+                requested_tokens=requested, actual_tokens=actual,
+                model_calls=calls)
             return before + actual
 
         phase("target", "target_prefill", 0, 0, prompt, prompt)
@@ -736,4 +768,43 @@ def synthetic_fixtures():
     add("run_end", rounds=2, proposed=0, accepted=0, rejected=0,
         output_length=2, target_length=6, shallow_length=6)
     cases["d0_target_only"] = events
+    events, add, phase = build("D1", 4, 4, 3)
+    phase("shallow", "shallow_draft", 1, 4, 2, 2)
+    phase("target", "target_verify", 1, 4, 3, 3)
+    add("draft", round=1, offset=1, status="accepted", proposed=True, verified=True)
+    add("draft", round=1, offset=2, status="accepted", proposed=True, verified=True)
+    add("draft", round=1, offset=3, status="accepted", proposed=True, verified=True)
+    phase("target", "target_bonus_advance", 1, 7, 1, 1)
+    phase("shallow", "shallow_committed_replay", 1, 4, 4, 4)
+    add("round_commit", round=1, strategy="D1", proposed=3, verified=3,
+        accepted=3, rejected=0, unexamined=0, correction=0, bonus=1,
+        committed=4, target_before=4, target_after=8, shallow_before=4,
+        shallow_after=8, output_before=0, output_after=4, eos_committed=False)
+    add("run_end", rounds=1, proposed=3, accepted=3, rejected=0,
+        output_length=4, target_length=8, shallow_length=8)
+    cases["d1_draft_three_calls"] = events
+
+    events, add, phase = build("D2", 4, 3, 2)
+    phase("shallow", "shallow_draft", 1, 4, 0, 0)
+    phase("target", "target_verify", 1, 4, 2, 2)
+    add("draft", round=1, offset=1, status="accepted", proposed=True, verified=True)
+    add("draft", round=1, offset=2, status="rejected", proposed=True, verified=True)
+    phase("target", "target_rejection_replay", 1, 4, 2, 2)
+    phase("shallow", "shallow_committed_replay", 1, 4, 2, 2)
+    add("round_commit", round=1, strategy="D2", proposed=2, verified=2,
+        accepted=1, rejected=1, unexamined=0, correction=1, bonus=0,
+        committed=2, target_before=4, target_after=6, shallow_before=4,
+        shallow_after=6, output_before=0, output_after=2, eos_committed=False)
+    phase("shallow", "shallow_draft", 2, 6, 0, 0)
+    phase("target", "target_verify", 2, 6, 1, 1)
+    add("draft", round=2, offset=1, status="accepted", proposed=True, verified=True)
+    phase("shallow", "shallow_committed_replay", 2, 6, 1, 1)
+    add("round_commit", round=2, strategy="D2", proposed=1, verified=1,
+        accepted=1, rejected=0, unexamined=0, correction=0, bonus=0,
+        committed=1, target_before=6, target_after=7, shallow_before=6,
+        shallow_after=7, output_before=2, output_after=3, eos_committed=False)
+    add("run_end", rounds=2, proposed=3, accepted=2, rejected=1,
+        output_length=3, target_length=7, shallow_length=7)
+    cases["d2_multiple_rounds"] = events
+
     return cases

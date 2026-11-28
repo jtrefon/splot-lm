@@ -22,7 +22,8 @@ class FixtureTests(unittest.TestCase):
         self.assertEqual(set(synthetic_fixtures()), {
             "d1_all_accepted_bonus", "d1_first_rejection_unexamined",
             "d2_later_rejection", "d1_eos", "d2_short_budget",
-            "d1_zero_output", "d0_target_only"})
+            "d1_zero_output", "d0_target_only", "d1_draft_three_calls",
+            "d2_multiple_rounds"})
 
     def test_all_fixtures_validate_and_are_json_safe(self):
         summaries = {}
@@ -51,7 +52,11 @@ class FixtureTests(unittest.TestCase):
         self.assertEqual(s["work"]["target_tokens_per_committed_token"], 1.0)
         self.assertEqual(s["work"]["target_extra_tokens_over_committed"], 0)
         self.assertAlmostEqual(s["timing"]["ttft_seconds"], 0.015)
-        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.001)
+        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.012)
+        self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"], 0.001)
+        self.assertEqual(s["timing"]["first_round_committed_tokens"], 3)
+        self.assertEqual(s["timing"]["tokens_after_first_commit"], 0)
+        self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"], 250.0)
         self.assertAlmostEqual(s["timing"]["total_seconds"], 0.016)
         self.assertAlmostEqual(s["timing"]["prefill_seconds"], 0.004)
         self.assertIn("target:target_bonus_advance", s["timing"]["phase_seconds"])
@@ -74,7 +79,11 @@ class FixtureTests(unittest.TestCase):
         self.assertIsNone(s["per_offset"][1]["acceptance_per_verified"])
         self.assertEqual(s["work"]["target_calls"], 4)
         self.assertEqual(s["work"]["target_tokens"], 8)
-        self.assertEqual(s["work"]["shallow_calls"], 5)
+        self.assertEqual(s["work"]["shallow_calls"], 4)
+        self.assertEqual(s["work"]["shallow_phase_occurrences"], 5)
+        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.020)
+        self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"], 0.009)
+        self.assertEqual(s["timing"]["tokens_after_first_commit"], 1)
 
     def test_later_rejection_and_replay_amplification(self):
         s = summarize(fixture("d2_later_rejection"))
@@ -87,8 +96,12 @@ class FixtureTests(unittest.TestCase):
         self.assertEqual(s["work"]["target_prefill_tokens"], 4)
         self.assertEqual(s["work"]["target_decode_tokens"], 4)
         self.assertEqual(s["work"]["target_tokens_per_committed_token"], 2.0)
-        self.assertEqual(s["work"]["shallow_calls"], 3)
+        self.assertEqual(s["work"]["shallow_calls"], 2)
+        self.assertEqual(s["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
+        self.assertEqual(s["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
         self.assertEqual(s["work"]["shallow_tokens"], 6)
+        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.012)
+        self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"], 500 / 3)
 
     def test_eos_and_short_budget(self):
         eos = summarize(fixture("d1_eos"))
@@ -96,18 +109,24 @@ class FixtureTests(unittest.TestCase):
         self.assertEqual((eos["proposed_tokens"], eos["accepted_tokens"],
                           eos["bonus_tokens"], eos["committed_tokens"]),
                          (1, 1, 0, 1))
+        self.assertEqual(eos["work"]["shallow_calls"], 2)
+        self.assertEqual(eos["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
         short = summarize(fixture("d2_short_budget"))
         self.assertFalse(short["eos_committed"])
         self.assertEqual((short["proposed_tokens"], short["accepted_tokens"],
                           short["bonus_tokens"], short["committed_tokens"]),
                          (1, 1, 0, 1))
+        self.assertEqual(short["work"]["shallow_calls"], 2)
+        self.assertEqual(short["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
 
     def test_zero_output_has_null_ttft(self):
         s = summarize(fixture("d1_zero_output"))
         self.assertEqual((s["rounds"], s["committed_tokens"], s["proposed_tokens"]),
                          (0, 0, 0))
         self.assertIsNone(s["timing"]["ttft_seconds"])
-        self.assertIsNone(s["timing"]["decode_seconds"])
+        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.001)
+        self.assertIsNone(s["timing"]["post_first_commit_seconds"])
+        self.assertIsNone(s["timing"]["committed_tokens_per_decode_second"])
         self.assertIsNone(s["acceptance_per_verified"])
         self.assertIsNone(s["accepted_per_proposed"])
         self.assertIsNone(s["work"]["target_tokens_per_committed_token"])
@@ -125,7 +144,74 @@ class FixtureTests(unittest.TestCase):
         self.assertEqual(s["work"]["target_calls"], 3)
         self.assertEqual(s["work"]["target_tokens"], 6)
         self.assertEqual(s["work"]["target_tokens_per_committed_token"], 1.0)
+        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.007)
+        self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"], 0.004)
+        self.assertEqual(s["timing"]["tokens_after_first_commit"], 1)
+        self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"], 2 / 0.007)
         self.assertEqual(s["per_offset"], [])
+
+    def test_d1_draft_length_three_counts_two_scratch_calls(self):
+        s = summarize(fixture("d1_draft_three_calls"))
+        self.assertEqual((s["rounds"], s["proposed_tokens"], s["accepted_tokens"],
+                          s["bonus_tokens"], s["committed_tokens"]),
+                         (1, 3, 3, 1, 4))
+        self.assertEqual(s["work"]["shallow_calls"], 4)
+        self.assertEqual(s["work"]["shallow_phase_occurrences"], 3)
+        self.assertEqual(s["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 2)
+        self.assertEqual(s["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 1)
+        self.assertEqual(s["work"]["shallow_tokens"], 10)
+        self.assertEqual(s["timing"]["first_round_committed_tokens"], 4)
+        self.assertEqual(s["timing"]["tokens_after_first_commit"], 0)
+        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.013)
+
+    def test_d2_multiple_rounds_keeps_zero_draft_calls(self):
+        s = summarize(fixture("d2_multiple_rounds"))
+        self.assertEqual((s["rounds"], s["proposed_tokens"], s["accepted_tokens"],
+                          s["rejected_tokens"], s["correction_tokens"],
+                          s["committed_tokens"]), (2, 3, 2, 1, 1, 3))
+        self.assertEqual(s["work"]["target_calls"], 4)
+        self.assertEqual(s["work"]["shallow_calls"], 3)
+        self.assertEqual(s["work"]["shallow_phase_occurrences"], 5)
+        self.assertEqual(s["work"]["model_calls_by_phase"]["shallow:shallow_draft"], 0)
+        self.assertEqual(s["work"]["phase_occurrences_by_phase"]["shallow:shallow_draft"], 2)
+        self.assertEqual(s["timing"]["first_round_committed_tokens"], 2)
+        self.assertEqual(s["timing"]["tokens_after_first_commit"], 1)
+        self.assertAlmostEqual(s["timing"]["decode_seconds"], 0.020)
+
+    def test_timing_invariants_all_fixtures(self):
+        for name, events in synthetic_fixtures().items():
+            s = summarize(events, synthetic=True)
+            start = events[0]["timestamp_ns"]
+            end = events[-1]["timestamp_ns"]
+            prefill_end = max(e["timestamp_ns"] for e in events
+                              if e["kind"] == "phase_end"
+                              and e["phase"] in ("target_prefill", "shallow_prefill"))
+            self.assertAlmostEqual(s["timing"]["prefill_seconds"],
+                                   (prefill_end - start) / 1e9, msg=name)
+            self.assertAlmostEqual(s["timing"]["decode_seconds"],
+                                   (end - prefill_end) / 1e9, msg=name)
+            self.assertAlmostEqual(s["timing"]["total_seconds"],
+                                   (end - start) / 1e9, msg=name)
+            self.assertAlmostEqual(s["timing"]["prefill_seconds"] + s["timing"]["decode_seconds"],
+                                   s["timing"]["total_seconds"], msg=name)
+            commits = [e for e in events if e["kind"] == "round_commit"]
+            if commits:
+                self.assertAlmostEqual(s["timing"]["ttft_seconds"],
+                                       (commits[0]["timestamp_ns"] - start) / 1e9,
+                                       msg=name)
+                self.assertAlmostEqual(s["timing"]["post_first_commit_seconds"],
+                                       (end - commits[0]["timestamp_ns"]) / 1e9,
+                                       msg=name)
+            else:
+                self.assertIsNone(s["timing"]["ttft_seconds"])
+                self.assertIsNone(s["timing"]["post_first_commit_seconds"])
+            if s["committed_tokens"]:
+                self.assertAlmostEqual(s["timing"]["committed_tokens_per_decode_second"],
+                                       s["committed_tokens"] / s["timing"]["decode_seconds"],
+                                       msg=name)
+            else:
+                self.assertIsNone(s["timing"]["committed_tokens_per_decode_second"])
+            self.assertNotIn("post_first_commit_tokens_per_second", s["timing"])
 
     def test_collector_bounded(self):
         collector = TraceCollector()
@@ -178,6 +264,23 @@ class MalformedTests(unittest.TestCase):
         events[3], events[5] = events[5], events[3]
         events[4], events[6] = events[6], events[4]
         resequence(events)
+        self.assert_rejected(events)
+
+    def test_model_call_count_mismatch(self):
+        events = fixture("d2_later_rejection")
+        draft = next(e for e in events if e["kind"] == "phase_end"
+                     and e["phase"] == "shallow_draft")
+        draft["model_calls"] = 1
+        self.assert_rejected(events)
+        events = fixture("d1_all_accepted_bonus")
+        verify = next(e for e in events if e["kind"] == "phase_end"
+                      and e["phase"] == "target_verify")
+        verify["model_calls"] = 0
+        self.assert_rejected(events)
+        events = fixture("d1_all_accepted_bonus")
+        draft = next(e for e in events if e["kind"] == "phase_end"
+                     and e["phase"] == "shallow_draft")
+        del draft["model_calls"]
         self.assert_rejected(events)
 
     def test_phase_count_mismatch(self):
