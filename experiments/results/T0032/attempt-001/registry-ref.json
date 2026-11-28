@@ -1,0 +1,23 @@
+{
+  "bytes": 6220,
+  "first_target_valid_tokens": {
+    "test": 50000,
+    "train": 1000000,
+    "validation": 50000
+  },
+  "minimum_families": {
+    "test": 4,
+    "train": 8,
+    "validation": 4
+  },
+  "no_rights_inference_from_hashes": true,
+  "path": "research/data/source-registry-template.md",
+  "preferred_families": {
+    "test": 6,
+    "train": 12,
+    "validation": 6
+  },
+  "schema": "splot-t0032-registry-ref-v1",
+  "sha256": "1b3c8545425c2edc2d0d9a735fb8a5775789b6aef0c18065b22d3c2a77d7cb70",
+  "status": "template only; no source acquisition or approval"
+}

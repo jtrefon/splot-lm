@@ -1,0 +1,19 @@
+{
+  "schema": "splot-t0032-negative-cases-v1",
+  "status": "tested locally and in hosted tiny suite",
+  "cases": [
+    {"case": "extra_file", "expected": "dataset file set is unexpected", "tested": true},
+    {"case": "shard_tamper", "expected": "shard hash/byte count mismatch", "tested": true},
+    {"case": "source_tamper", "expected": "source content bytes do not match", "tested": true},
+    {"case": "symlink_shard", "expected": "nonregular file / file set rejection", "tested": true},
+    {"case": "incomplete_alphabet", "expected": "incomplete alphabet / content token bytes", "tested": true},
+    {"case": "manifest_counts_mismatch", "expected": "manifest counts / shard count mismatch", "tested": true},
+    {"case": "test_block_or_target_access", "expected": "test blocks/targets are not exposed", "tested": true},
+    {"case": "forged_target", "expected": "target field mismatch", "tested": true},
+    {"case": "duplicate_target", "expected": "duplicate target identity", "tested": true},
+    {"case": "negative_nll", "expected": "NLL must be finite nonnegative", "tested": true},
+    {"case": "overflow_nll", "expected": "NLL must be finite", "tested": true},
+    {"case": "existing_output", "expected": "output path already exists", "tested": true}
+  ],
+  "non_claims": ["synthetic tiny fixtures", "no real corpus/authenticity claim"]
+}
