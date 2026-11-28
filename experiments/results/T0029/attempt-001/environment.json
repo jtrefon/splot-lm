@@ -1,0 +1,102 @@
+{
+  "attempt": 1,
+  "authorization": "owner explicitly named T0029 on the local RTX 4090 within the merged specification and limits",
+  "branch": "research/T0029-gdn-localization-attempt-001",
+  "class": "VAL",
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "tf32_enabled": false,
+    "torch_threads": 1
+  },
+  "end_utc": "2026-11-28T18:28:28Z",
+  "gpu": {
+    "driver_version": "580.178.04",
+    "model": "NVIDIA GeForce RTX 4090",
+    "vram_free_preflight_mib": 24077,
+    "vram_total_mib": 24564
+  },
+  "host": {
+    "ram_available_bytes_min": 26633453568,
+    "ram_total_bytes": 32894615552
+  },
+  "instruction_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "instruction_main": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "issue": 113,
+  "limitations": [
+    "One synthetic contiguous T512 invocation and one seed; no training, backward, optimizer step or checkpoint.",
+    "No actual data, quality, throughput, energy or resource-speed claim.",
+    "Local GDN comparison is same-input FP32; full-model BF16/FP32 comparisons include propagation through different recurrence/routing states.",
+    "Teacher-forced routes are a diagnostic intervention, not production routing and not an exact-equivalence claim.",
+    "Route-flip timing is observational; it does not by itself identify the first causal numerical origin."
+  ],
+  "observed": {
+    "automatic_retries": 0,
+    "backward_calls": 0,
+    "checkpoints": 0,
+    "failed_readonly_driver_invocations": 3,
+    "gpu_invocations": 4,
+    "gpu_peak_allocated_bytes": 2240662016,
+    "gpu_peak_reserved_bytes": 2275409920,
+    "installs": 0,
+    "optimizer_steps": 0,
+    "source_edits": 0,
+    "successful_invocations": 1,
+    "test_evaluations": 0,
+    "timeouts": 0,
+    "training_runs": 0
+  },
+  "os": {
+    "cpu_count": 24,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "release": "7.0.0-43-generic",
+    "system": "Linux"
+  },
+  "python": {
+    "implementation": "CPython",
+    "version": "3.12.7"
+  },
+  "reference": {
+    "path": "experiments/results/T0025/attempt-001/full-model-512.json",
+    "sha256": "7af225f12c1353ff6621c13a13f22c983d1c0bca3ba379b23874181fb58bcd4d"
+  },
+  "resource_limits": {
+    "foreground_seconds": 3600,
+    "minimum_gpu_free_mib": 20480,
+    "minimum_host_ram_available_bytes": 12884901888,
+    "minimum_scratch_free_bytes": 4294967296,
+    "process_grace_seconds": 15,
+    "process_seconds": 300
+  },
+  "scratch": {
+    "filesystem": "ext4",
+    "free_bytes_min": 178667614208
+  },
+  "source": {
+    "clean_after": true,
+    "clean_before": true,
+    "config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+    "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+    "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+    "parameters": 43055076,
+    "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+    "reference_sha256": "7af225f12c1353ff6621c13a13f22c983d1c0bca3ba379b23874181fb58bcd4d",
+    "source_head_after": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+    "source_head_before": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+    "worktree": "clean detached private worktree at exact pin; path withheld"
+  },
+  "source_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "specification": "experiments/tasks/T0029-gdn-localization.md",
+  "start_utc": "2026-11-28T18:26:05Z",
+  "successful_diagnostic_process_seconds": 4.613590674009174,
+  "successful_foreground_wall_seconds": 6,
+  "task_id": "T0029",
+  "tested_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "torch": {
+    "cuda_runtime": "12.8",
+    "version": "2.10.0+cu128"
+  },
+  "total_gpu_foreground_seconds": 20,
+  "zero_open_prs_at_start": true
+}

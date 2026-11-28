@@ -1,0 +1,17 @@
+{
+  "config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+  "expected_initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+  "expected_input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+  "expected_parameters": 43055076,
+  "expected_partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+  "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+  "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+  "instruction_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "parameters": 43055076,
+  "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed",
+  "reference_sha256": "7af225f12c1353ff6621c13a13f22c983d1c0bca3ba379b23874181fb58bcd4d",
+  "source_clean": true,
+  "source_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "source_head": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "status": "passed"
+}
