@@ -1,7 +1,7 @@
 # SPLOT data and tokenizer contract v0.1
 Draft | 2026-11-26 | Issue #8 | [Polski](pl.md)
 
-**Status:** candidate source registry and executable synthetic fixture. No external corpus acquired or cleared, no production tokenizer trained. This is an engineering prerequisite for #9, not the completion of #8. The final training snapshot must be approved separately.
+**Current status (2026-11-28):** T0016 materialized the bounded actual EN/PL literary pilot with a 16,384-token train-only BPE and immutable local source pins. [Pilot dataset](pilot-dataset.md), [registry v0.2](../../configs/data/pilot-sources-v0.2.json), [evidence](../../experiments/results/T0016/attempt-001/summary.md). Actual training is pending T0017. The v0.1 contract below is historical/planning guidance for larger corpus research; the owner authorization and bounded pilot contract supersede item-by-item acquisition approval for lawful accessible sources. No redistribution clearance or production quality claim.
 
 ## 1. Bilingual pretraining strategy
 English and Polish are first-class languages, not translation-only or a 5% multilingual afterthought. Target mixture is by realized non-padding content tokens after the frozen tokenizer (exclude BOS/EOS for quota accounting; report them separately). Each document assigned to one mutually exclusive bucket; code/math selected before educational/general and reference so quotas do not double count.

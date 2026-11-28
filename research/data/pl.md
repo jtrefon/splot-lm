@@ -1,6 +1,8 @@
 # Kontrakt danych i tokenizera SPLOT v0.1
 Projekt | 26.11.2026 | #8 | [EN — wersja referencyjna](README.md)
 
+**Stan na 28.11.2026:** przygotowano rzeczywisty ograniczony korpus EN/PL, BPE 16 384 i zweryfikowane lokalne dane ([T0016](../../experiments/results/T0016/attempt-001/summary.md), [kontrakt pilotażu](pilot-dataset.md)). Trening T0017 jest jeszcze niewykonany. Poniższy tekst opisuje pierwotne plany większego korpusu; zgoda właściciela obejmuje dostępne zgodnie z prawem źródła w limitach zadania, nie redystrybucję.
+
 Skrócona wersja polska. Docelowy pilotaż według rzeczywistych tokenów treści: 30% wysokiej jakości angielski, 30% polski, 20% kod, 10% matematyka/rozumowanie, 10% źródła referencyjne i techniczne. W dwóch ostatnich kategoriach cel 50:50 PL/EN, jeśli pozwolą jakość i prawa; docelowo ~40% PL, 40% EN, 20% kod. Porównanie proporcji EN/PL jako osobna ablacja. 100M tokenów po akceptacji danych, 1B późniejszy scenariusz, nie pobrano korpusu.
 
 Rejestr źródeł zawiera FineWeb-Edu, FineWeb-2 (pol_Latn), Wikipedię PL/EN, Wolne Lektury, The Stack v2 i OpenWebMath jako kandydatów. Licencja bazy ODC-BY nie nadaje automatycznie praw do treści stron; warunki Common Crawl, zastrzeżenia TDM, prawa indywidualnych źródeł i prywatność wymagają przeglądu. Wikipedia: atrybucja/share-alike, wyjątki na poziomie strony. Wolne Lektury: prawa konkretnego utworu/wydania. Kod: wyłącznie zweryfikowane licencje, bez nieznanych, z atrybucją i opt-out. Nie zaakceptowano warunków źródeł bramkowanych ani nie pobrano danych. Oddzielnie oceniamy prawa do redystrybucji danych, tokenizera i wag (#11). Wersja rejestru nie jest wersją gotowego korpusu; brak identyfikatora rewizji i decyzji prawnej blokuje trening.

@@ -1,6 +1,6 @@
 # FP8 weight reuse and pilot ingestion
 
-Status: T0017 implementation/qualification. Task [T0017](../tasks/T0017-fp8-weight-reuse-pilot.md), issue [#77](https://github.com/jtrefon/splot-lm/issues/77). The real-data pilot is **not run** because T0016 (#76) has no accepted dataset or evidence; this document covers the independent FP8 reuse and pilot-ingestion qualification only.
+Status: T0017 implementation/qualification. Task [T0017](../../experiments/tasks/T0017-fp8-weight-reuse-pilot.md), issue [#77](https://github.com/jtrefon/splot-lm/issues/77). At attempt-001 the real-data pilot was **not run** due to its data dependency. T0016 is now accepted and merged; [continuation](../../experiments/tasks/T0017-continuation.md) requires the exact verified local dataset and missing full resume gate. This document covers the independent qualification only.
 
 ## Opt-in FP8 weight reuse
 
@@ -43,4 +43,4 @@ The run identity records manifest, tokenizer, source snapshot and logical hashes
 
 `tools/test_pilot_ingestion.py` covers schema/counts, exact labels, split/global document checks, source/model mismatch, canonical/extra-file/tamper rejection and shard hash mismatch using small original synthetic artifacts only. `tools/test_fp8_weight_reuse.py` covers cache lifecycle/invalidation, exact Nano cache-off/on first-step outputs/state, cache-free resume, cross-mode rejection and a standalone T512 paired measurement.
 
-This is not pretraining or a quality/convergence/throughput claim. The real pilot remains blocked on accepted T0016 data and exact local source-snapshot verification; no real corpus, raw tokens, checkpoint tensors or production dependency changes are published.
+This is not pretraining or a quality/convergence/throughput claim. The real pilot remains unrun pending exact local source-snapshot verification and the full resume gate; no real corpus, raw tokens, checkpoint tensors or production dependency changes are published.
