@@ -1,0 +1,113 @@
+{
+  "arm": "K",
+  "checks": {
+    "checkpoint_file": {
+      "detail": "bytes=319086611 sha256=e913a87c7db97bb880e6abb02d18535e5c299e325cfa176cb693d0065b55c322",
+      "status": "passed"
+    },
+    "checkpoint_schedule": {
+      "detail": "writes=8 steps=[16, 32, 48, 64, 80, 96, 112, 128] bytes_last=319086611",
+      "status": "passed"
+    },
+    "config_identity": {
+      "detail": "config_sha256=70b1029d9e5ff833fb7fa6571b3e532cbc0117d9c5a05b5aca57f548d0cc685e derived=70b1029d9e5ff833fb7fa6571b3e532cbc0117d9c5a05b5aca57f548d0cc685e",
+      "status": "passed"
+    },
+    "config_policy": {
+      "detail": "seed=42 precision=fp32 algorithm=chunk64",
+      "status": "passed"
+    },
+    "data_order": {
+      "detail": "steps=128 unique=128 sha256=abf82b64b63fddf8f31369885c590130d96751145df045cf208d75860651b6d1",
+      "status": "passed"
+    },
+    "dataset_identity": {
+      "detail": "manifest/source/tokenizer/logical pins and data digest",
+      "status": "passed"
+    },
+    "exit_and_resources": {
+      "detail": "exit=0 gpu=24077 MiB ram=26835996672 B scratch=178315784192 B wall=33 s",
+      "status": "passed"
+    },
+    "finite_training": {
+      "detail": "rows=128 finite_losses=True positive_steps=True",
+      "status": "passed"
+    },
+    "fresh_invocation": {
+      "detail": "{\"final_history_steps\": 128, \"initial_history_steps\": 0, \"invocation_history_steps\": 128, \"mode\": \"fresh\"}",
+      "status": "passed"
+    },
+    "mac_reporting": {
+      "detail": "analytical_forward_macs=1555549658112",
+      "status": "passed"
+    },
+    "optimizer_policy": {
+      "detail": "name=muon implementation=torch.optim.Muon+torch.optim.AdamW",
+      "status": "passed"
+    },
+    "parameter_inventory": {
+      "detail": "total=36763620 inventory={\"dormant_mtp_parameter_numel\": 147840, \"dormant_mtp_parameter_tensors\": 2, \"gradient_present_parameter_numel\": 35436132, \"gradient_present_parameter_tensors\": 190, \"mtp_parameter_numel\": 147840, \"mtp_parameter_tensors\": 2, \"physical_parameter_numel\": 36763620, \"physical_parameter_tensors\": 198}",
+      "status": "passed"
+    },
+    "precision_policy": {
+      "detail": "{\"autocast_dtype\": null, \"bf16_supported\": null, \"fp8_probe\": null, \"policy\": \"fp32\", \"probe_dtype\": \"not_run\", \"requested\": \"fp32\"}",
+      "status": "passed"
+    },
+    "source_identity": {
+      "detail": "identity.commit=4f86f62d3fb673483ddf87001331db90e354b985",
+      "status": "passed"
+    },
+    "split_counts": {
+      "detail": "{\"test\": {\"blocks\": 16, \"bytes\": 202373, \"ntp_labels\": 5035, \"offset2_labels\": 5019, \"valid_tokens\": 5051}, \"train\": {\"blocks\": 128, \"bytes\": 1608729, \"ntp_labels\": 46076, \"offset2_labels\": 45948, \"valid_tokens\": 46204}, \"validation\": {\"blocks\": 16, \"bytes\": 202943, \"ntp_labels\": 5250, \"offset2_labels\": 5234, \"valid_tokens\": 5266}}",
+      "status": "passed"
+    },
+    "training_counts": {
+      "detail": "valid=46204 ntp=46076 offset2_available=45948",
+      "status": "passed"
+    },
+    "validation_recompute": {
+      "detail": "labels=5250 nll_sum=38749.73449707031 mean=7.380901808965774 ppl=1605.0365517258629 seconds=0.639421711966861",
+      "status": "passed"
+    },
+    "vocab_policy": {
+      "detail": "actual V16384, zero unused IDs, test integrity-only",
+      "status": "passed"
+    }
+  },
+  "errors": [],
+  "metrics": {
+    "analytical_forward_macs": 1555549658112,
+    "checkpoint_bytes": 319086611,
+    "checkpoint_sha256": "e913a87c7db97bb880e6abb02d18535e5c299e325cfa176cb693d0065b55c322",
+    "checkpoint_write_seconds": 5.889944595051929,
+    "checkpoint_writes": 8,
+    "packed_sha256": "6c117c0ccb8371a785c38bf92edb02f91cb2a0098bde0fb9de4be5db8418e945",
+    "parameter_inventory": {
+      "dormant_mtp_parameter_numel": 147840,
+      "dormant_mtp_parameter_tensors": 2,
+      "gradient_present_parameter_numel": 35436132,
+      "gradient_present_parameter_tensors": 190,
+      "mtp_parameter_numel": 147840,
+      "mtp_parameter_tensors": 2,
+      "physical_parameter_numel": 36763620,
+      "physical_parameter_tensors": 198
+    },
+    "parameters": 36763620,
+    "peak_cuda_allocated_bytes": 926148096,
+    "peak_cuda_reserved_bytes": 985661440,
+    "step_seconds_sum": 24.419910581724253,
+    "total_ntp_labels": 46076,
+    "total_valid_tokens": 46204,
+    "valid_tokens_per_step_second": 1892.0626201874325,
+    "validation_mean_nll": 7.380901808965774,
+    "validation_nll_sum": 38749.73449707031,
+    "validation_ntp_labels": 5250,
+    "validation_perplexity": 1605.0365517258629,
+    "validation_seconds": 0.639421711966861,
+    "wall_seconds": 33,
+    "weighted_pre_update_train_nll_sum": 339224.64167547226
+  },
+  "run_id": "K-seed42",
+  "seed": 42,
+  "status": "passed"
+}
