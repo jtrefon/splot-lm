@@ -1,0 +1,160 @@
+T0028 attempt-001 local implementation/test evidence
+RECORDED_AT 2026-11-28T18:32:08Z
+### git-status
+UTC_START 2026-11-28T18:32:08Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.020054
+OUTPUT_BEGIN
+?? experiments/results/T0028/
+OUTPUT_END
+
+### source-sha
+UTC_START 2026-11-28T18:32:08Z
+COMMAND git rev-parse HEAD
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.009750
+OUTPUT_BEGIN
+4681d75668d7d253e9d82fb9f85041774e9a1f04
+OUTPUT_END
+
+### origin-main
+UTC_START 2026-11-28T18:32:08Z
+COMMAND git rev-parse origin/main
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.008267
+OUTPUT_BEGIN
+edd2036e284a4f7d1d5904b5284971d33c5c0d39
+OUTPUT_END
+
+### open-pr-count
+UTC_START 2026-11-28T18:32:08Z
+COMMAND gh pr list --state open --json number --jq length
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.679054
+OUTPUT_BEGIN
+2
+OUTPUT_END
+
+### python
+UTC_START 2026-11-28T18:32:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 --version
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.024162
+OUTPUT_BEGIN
+Python 3.15.2
+OUTPUT_END
+
+### torch-availability
+UTC_START 2026-11-28T18:32:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -c import importlib.util; print("torch", bool(importlib.util.find_spec("torch")))
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.034378
+OUTPUT_BEGIN
+torch False
+OUTPUT_END
+
+### py-compile
+UTC_START 2026-11-28T18:32:08Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m py_compile pilot_v2.py test_pilot_v2.py
+CWD /Users/jack/Projects/splot-lm/tools
+EXIT 0
+DURATION_SECONDS 0.109911
+OUTPUT_BEGIN
+OUTPUT_END
+
+### test-pilot-v2
+UTC_START 2026-11-28T18:32:09Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 test_pilot_v2.py
+CWD /Users/jack/Projects/splot-lm/tools
+EXIT 0
+DURATION_SECONDS 0.227229
+OUTPUT_BEGIN
+test_block_and_label_tamper (__main__.PilotV2Tests.test_block_and_label_tamper) ... ok
+test_bpb_rejections (__main__.PilotV2Tests.test_bpb_rejections) ... ok
+test_deterministic_identity (__main__.PilotV2Tests.test_deterministic_identity) ... ok
+test_document_and_source_tamper (__main__.PilotV2Tests.test_document_and_source_tamper) ... ok
+test_explicit_caps (__main__.PilotV2Tests.test_explicit_caps) ... ok
+test_hand_computed_bpb (__main__.PilotV2Tests.test_hand_computed_bpb) ... ok
+test_invalid_utf8_rejected (__main__.PilotV2Tests.test_invalid_utf8_rejected) ... ok
+test_manifest_and_file_tamper (__main__.PilotV2Tests.test_manifest_and_file_tamper) ... ok
+test_manifest_digest_tamper (__main__.PilotV2Tests.test_manifest_digest_tamper) ... ok
+test_positive_dataset_and_summary (__main__.PilotV2Tests.test_positive_dataset_and_summary) ... ok
+test_test_split_not_exposed (__main__.PilotV2Tests.test_test_split_not_exposed) ... ok
+test_tokenizer_and_caps_tamper (__main__.PilotV2Tests.test_tokenizer_and_caps_tamper) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.059s
+
+OK
+OUTPUT_END
+
+### fixture-summary
+UTC_START 2026-11-28T18:32:09Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 /private/var/folders/xw/1ts56fvd6nz1r7zybsbkq6gm0000gn/T/opencode/t0028/make_fixture_summary.py
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.150687
+OUTPUT_BEGIN
+wrote fixture-summary.json f631a52e2bf861316055cdc7cbc48b2b68fbda5bbed99e7bdf777a44e78ab9e6
+counts {'blocks': 3, 'valid_tokens': 36, 'content_tokens': 20, 'ntp_labels': 28, 'content_labels': 20, 'eos_labels': 8, 'offset2_labels': 20, 'content_target_bytes': 21, 'selected_bytes': 21, 'by_split': {'train': {'blocks': 1, 'valid_tokens': 17, 'content_tokens': 9, 'ntp_labels': 13, 'content_labels': 9, 'eos_labels': 4, 'offset2_labels': 9, 'content_target_bytes': 9, 'selected_bytes': 9}, 'validation': {'blocks': 1, 'valid_tokens': 10, 'content_tokens': 6, 'ntp_labels': 8, 'content_labels': 6, 'eos_labels': 2, 'offset2_labels': 6, 'content_target_bytes': 7, 'selected_bytes': 7}, 'test': {'blocks': 1, 'valid_tokens': 9, 'content_tokens': 5, 'ntp_labels': 7, 'content_labels': 5, 'eos_labels': 2, 'offset2_labels': 5, 'content_target_bytes': 5, 'selected_bytes': 5}}, 'by_language': {'en': {'valid_tokens': 23, 'content_tokens': 13, 'ntp_labels': 18, 'content_labels': 13, 'eos_labels': 5, 'offset2_labels': 13, 'content_target_bytes': 13, 'selected_bytes': 13}, 'pl': {'valid_tokens': 13, 'content_tokens': 7, 'ntp_labels': 10, 'content_labels': 7, 'eos_labels': 3, 'offset2_labels': 7, 'content_target_bytes': 8, 'selected_bytes': 8}}, 'by_family': {'fam-train-en': {'valid_tokens': 4, 'content_tokens': 2, 'ntp_labels': 3, 'content_labels': 2, 'eos_labels': 1, 'offset2_labels': 2, 'content_target_bytes': 2, 'selected_bytes': 2}, 'fam-train-pl': {'valid_tokens': 5, 'content_tokens': 3, 'ntp_labels': 4, 'content_labels': 3, 'eos_labels': 1, 'offset2_labels': 3, 'content_target_bytes': 3, 'selected_bytes': 3}, 'fam-train-en2': {'valid_tokens': 8, 'content_tokens': 4, 'ntp_labels': 6, 'content_labels': 4, 'eos_labels': 2, 'offset2_labels': 4, 'content_target_bytes': 4, 'selected_bytes': 4}, 'fam-val-en': {'valid_tokens': 6, 'content_tokens': 4, 'ntp_labels': 5, 'content_labels': 4, 'eos_labels': 1, 'offset2_labels': 4, 'content_target_bytes': 4, 'selected_bytes': 4}, 'fam-val-pl': {'valid_tokens': 4, 'content_tokens': 2, 'ntp_labels': 3, 'content_labels': 2, 'eos_labels': 1, 'offset2_labels': 2, 'content_target_bytes': 3, 'selected_bytes': 3}, 'fam-test-en': {'valid_tokens': 5, 'content_tokens': 3, 'ntp_labels': 4, 'content_labels': 3, 'eos_labels': 1, 'offset2_labels': 3, 'content_target_bytes': 3, 'selected_bytes': 3}, 'fam-test-pl': {'valid_tokens': 4, 'content_tokens': 2, 'ntp_labels': 3, 'content_labels': 2, 'eos_labels': 1, 'offset2_labels': 2, 'content_target_bytes': 2, 'selected_bytes': 2}}}
+bpb {'content_labels': 6, 'content_nll_sum': 2.3, 'content_bytes': 7, 'content_bpb': 0.4740283705778022, 'eos_labels': 2, 'eos_nll_sum': 1.3, 'control_labels': 0, 'control_nll_sum': 0.0, 'ordinary_ntp_labels': 8, 'ordinary_ntp_nll_sum': 3.5999999999999996}
+OUTPUT_END
+
+### json-fixture-summary
+UTC_START 2026-11-28T18:32:09Z
+COMMAND /opt/homebrew/opt/python@3.15/bin/python3.15 -m json.tool fixture-summary.json
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0028/attempt-001
+EXIT 0
+DURATION_SECONDS 0.083325
+OUTPUT_BEGIN
+STDOUT_BYTES 13992
+STDOUT_SHA256 8d4bb6a0e3606cf52455ceec494d30942d7975699e548bc7b83df7712455b287
+OUTPUT_END
+
+### diff-check
+UTC_START 2026-11-28T18:32:09Z
+COMMAND git diff --check
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.009398
+OUTPUT_BEGIN
+OUTPUT_END
+
+### evidence-sizes
+UTC_START 2026-11-28T18:32:09Z
+COMMAND wc -c fixture-summary.json test-output.txt
+CWD /Users/jack/Projects/splot-lm/experiments/results/T0028/attempt-001
+EXIT 0
+DURATION_SECONDS 0.002656
+OUTPUT_BEGIN
+   11676 fixture-summary.json
+    1127 test-output.txt
+   12803 total
+OUTPUT_END
+
+### status-after
+UTC_START 2026-11-28T18:32:09Z
+COMMAND git status --porcelain
+CWD /Users/jack/Projects/splot-lm
+EXIT 0
+DURATION_SECONDS 0.011592
+OUTPUT_BEGIN
+?? experiments/results/T0028/
+OUTPUT_END
+
+### hosted-ci-implementation
+RUN 46176140359
+HEAD 4681d75668d7d253e9d82fb9f85041774e9a1f04
+CONCLUSION success
+tools/test_pilot_v2.py 12/12 passed in 0.063 s
+CPU scripts 31; REP reports 36
+OUTPUT_BEGIN
+cpu success in 1m38s
+OUTPUT_END

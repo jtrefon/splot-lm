@@ -1,0 +1,86 @@
+{
+  "attempt": 1,
+  "branch": "feat/T0028-pilot-v2-attempt-001",
+  "captured_at": "2026-11-28T18:32:40Z",
+  "class": "IMP",
+  "hosted": {
+    "conclusion": "success",
+    "cpu_scripts": 31,
+    "head_sha": "4681d75668d7d253e9d82fb9f85041774e9a1f04",
+    "numpy": "1.26.4",
+    "python": "3.12.7",
+    "rep_reports": 36,
+    "run_id": 46176140359,
+    "test_pilot_v2": {
+      "failures": 0,
+      "tests": 12
+    },
+    "torch": "2.10.0+cpu",
+    "url": "https://github.com/jtrefon/splot-lm/actions/runs/46176140359"
+  },
+  "instruction_base_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "local": {
+    "architecture": "arm64",
+    "build": "26B131",
+    "cpu": "Apple M4",
+    "cuda": false,
+    "device": "CPU only",
+    "kernel": "Darwin 27.2.0",
+    "logical_cores": 10,
+    "mps_used": false,
+    "os": "macOS 27.2.1",
+    "python": {
+      "executable": "/opt/homebrew/opt/python@3.15/bin/python3.15",
+      "implementation": "CPython",
+      "packages": "stdlib only",
+      "version": "3.15.2"
+    },
+    "ram_bytes": 17179869184,
+    "torch": {
+      "available": false,
+      "installed": false
+    }
+  },
+  "pr": 114,
+  "preflight": {
+    "local_head": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+    "note": "Zero open PRs were verified before branch creation. By evidence capture, this task's draft PR and a separately launched T0029 PR were open; no new task was launched by this execution.",
+    "open_pr_count_at_start": 0,
+    "open_prs_at_evidence_capture": [
+      {
+        "number": 114,
+        "scope": "T0028",
+        "state": "draft"
+      },
+      {
+        "number": 115,
+        "scope": "T0029",
+        "state": "open"
+      }
+    ],
+    "origin_main": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+    "started_at": "2026-11-28T18:29:09Z"
+  },
+  "scope": {
+    "actual_operation": [
+      "synthetic v2 schema/verifier implementation",
+      "stdlib tests",
+      "static checks"
+    ],
+    "command_timeout_seconds": 120,
+    "foreground_minutes": 120,
+    "not_performed": [
+      "actual dataset acquisition",
+      "tokenizer fit",
+      "real corpus/test/checkpoint access",
+      "model training",
+      "package install",
+      "GPU/MPS",
+      "v1/training CLI/config/workflow change",
+      "shared project-state document edit"
+    ]
+  },
+  "task_id": "T0028",
+  "tested_commit": "4681d75668d7d253e9d82fb9f85041774e9a1f04",
+  "v1_compatibility": "v1 loader, training CLI and configs unchanged; v2 is standalone and not accepted training input"
+}

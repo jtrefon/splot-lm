@@ -30,5 +30,7 @@ Read [AGENTS.md](../../AGENTS.md) and [EXECUTION.md](../../EXECUTION.md). Snapsh
 | T0025 | [Opt-in chunk64 GDN](T0025-gdn-opt-in.md) | [#105](https://github.com/jtrefon/splot-lm/issues/105) | Closed; negative full-model qualification, candidate source excluded |
 | T0026 | [Matched evaluation protocol](T0026-matched-evaluation-protocol.md) | [#108](https://github.com/jtrefon/splot-lm/issues/108) | Closed; prospective draft accepted with review corrections, no preregistration |
 | T0027 | [Matched NTP pilot](T0027-matched-ntp-pilot.md) | [#109](https://github.com/jtrefon/splot-lm/issues/109) | Closed; 9/9 descriptive reference runs accepted |
-| T0028 | [Byte-auditable v2](T0028-byte-auditable-v2.md) | [#112](https://github.com/jtrefon/splot-lm/issues/112) | Mac, isolated verifier prototype, owner launch after integration |
-| T0029 | [GDN localization](T0029-gdn-localization.md) | [#113](https://github.com/jtrefon/splot-lm/issues/113) | Linux, detached rejected source diagnostic, owner launch after integration |
+| T0028 | [Byte-auditable v2](T0028-byte-auditable-v2.md) | [#112](https://github.com/jtrefon/splot-lm/issues/112) | Closed; standalone synthetic prototype accepted, hardening before production |
+| T0029 | [GDN localization](T0029-gdn-localization.md) | [#113](https://github.com/jtrefon/splot-lm/issues/113) | Closed; exact reproduction and bounded forward diagnostic, no adoption |
+| T0030 | [V2 coverage and producer](T0030-v2-coverage-producer.md) | [#116](https://github.com/jtrefon/splot-lm/issues/116) | Mac, hardening + synthetic producer; owner launch after integration |
+| T0031 | [GDN matched precision](T0031-gdn-matched-precision.md) | [#117](https://github.com/jtrefon/splot-lm/issues/117) | Linux, detached diagnostic and conditional resource tests; owner launch after integration |

@@ -1,0 +1,71 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "Reviewed instruction/base edd2036; local main matched origin/main and zero open PRs were verified before branch creation at 18:29:09Z. By evidence capture this task's draft PR #114 and separately launched T0029 PR #115 were open; no new task was launched. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2 stdlib; torch absent. Hosted run 46176140359 on tested 4681d75 succeeded with CPython 3.12.7 / torch 2.10.0+cpu. No actual acquisition, tokenizer fit, real data/test/checkpoint access, training, install, GPU/MPS, v1/CLI/config/workflow change or shared state-document edit.",
+      "evidence": [
+        "environment.json",
+        "execution.log",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat implementation evidence with schema reference/hash, implementation file hashes, synthetic fixture counts/hashes/BPB, environment, metrics, execution log and preserved development failures. No raw real corpus, tokenizer, token arrays, shards, checkpoints, binaries or secrets. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0028/attempt-001 --task T0028 --source 4681d75668d7d253e9d82fb9f85041774e9a1f04 --checks environment,schema,verifier,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). One INDEX row is appended; PR #114 and issue #112 carry the handover. No merge, closure, training or next-task launch.",
+      "evidence": [
+        "summary.md",
+        "implementation.files.json",
+        "environment.json",
+        "execution.log",
+        "source-refs.json"
+      ],
+      "status": "passed"
+    },
+    "schema": {
+      "detail": "Defines canonical splot-pilot-blocks-v2 with explicit version 2 and exact six-file root; source/family/language/split registry; full raw/content source bytes/hashes and selected bytes; document/segment source and segment intervals plus full/segment hashes and truncated boundary policy; synthetic tokenizer token-to-byte table and separate special IDs; per-token byte lengths/offsets; v1-compatible BOS/EOS/control/padding/positions/labels; content target bytes aligned to label i+1 with EOS excluded from BPB; explicit caps 4 MiB shards / 128 blocks (96/16/16) / V<=16384 / T<=512 / manifests 1 MiB / tokenizer 2 MiB / source bytes 4 MiB. v2 is standalone and not accepted training input; v1, CLI and configs unchanged.",
+      "evidence": [
+        "schema-ref.json",
+        "fixture-summary.json",
+        "summary.md"
+      ],
+      "status": "passed"
+    },
+    "verifier": {
+      "detail": "Bounded stdlib streaming verifier checks exact file set/no symlinks, canonical JSON/duplicate keys, manifest/tokenizer/source/shard/logical/coverage/source-snapshot hashes, source raw/content bytes, document/segment intervals and hashes, token-byte reconstruction, strict UTF-8 concatenation, labels/masks/padding, per-split/family/language counts and exact selected/content bytes. Test shards are validated but never returned; scoring_targets refuses test. aggregate_content_bpb uses exact content target bytes, reports EOS/control and ordinary NTP separately, and rejects nonfinite NLL, zero-byte content denominators and mismatched masks. Local 12/12 tests pass; hosted 46176140359 passed 12/12, 31 CPU scripts / 36 REP reports.",
+      "evidence": [
+        "test-output.txt",
+        "fixture-summary.json",
+        "execution.log",
+        "metrics.jsonl"
+      ],
+      "status": "passed"
+    }
+  },
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "environment.json": "48742aac87c67238aa22eb578c9d10f56e04d82633d359b735543e1812f86c1e",
+    "execution-first-failures.txt": "9e7bd0aa61f5133617041023310e63d08fda6f40795e1b953c90a3f278be00c1",
+    "execution.log": "a662243b6cbfd64ad223379c28b189d4948ab92014c151b7bae09357041d0e7e",
+    "fixture-summary.json": "f631a52e2bf861316055cdc7cbc48b2b68fbda5bbed99e7bdf777a44e78ab9e6",
+    "implementation.files.json": "f8a41c643aee70b3059b8d18493e5309f155ceff34aedec7c3ecb66169d356e5",
+    "metrics.jsonl": "7d23c59173f071f4a8726e2d2c6249658f705be243b2d683fbf42de7b6b65413",
+    "schema-ref.json": "dd91c224efddbcede9e48ab3db4ffa2a30fd2845df0ebce618759ef885f7529c",
+    "source-refs.json": "a4480827f676017f17ce6cf0906709d88e8e59fc6190551ce53c054d367ae560",
+    "summary.md": "0d12c77e154cece975b63a8a6ef38ccae463a09d1d177aa938ebffa5331340b4",
+    "test-output.txt": "96e017270205d5a9ae614bb610bbb353e4a349a74ebb337bd6a311bf66329ee0"
+  },
+  "limitations": [
+    "Synthetic prototype only; no actual corpus, tokenizer fit, source authenticity, legal clearance, training or evaluation.",
+    "source-bytes.json is synthetic; hash/coverage mechanics are tested, not real-source correctness or licensing.",
+    "No real BPB, quality, cost, scaling, architecture or production-throughput claim.",
+    "v2 is not integrated with the training CLI or accepted as training input; v1 remains canonical.",
+    "No merge, closure, training or next-task launch; no shared roadmap/state edit."
+  ],
+  "schema_version": 1,
+  "source_commit": "4681d75668d7d253e9d82fb9f85041774e9a1f04",
+  "status": "passed",
+  "task_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "task_id": "T0028",
+  "tested_commit": "4681d75668d7d253e9d82fb9f85041774e9a1f04"
+}

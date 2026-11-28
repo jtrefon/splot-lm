@@ -1,0 +1,59 @@
+{
+  "instruction_base_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "refs": {
+    "configs/data/pilot-sources-v0.2.json": {
+      "bytes": 114215,
+      "sha256": "adf2d0eb98d336114d3ea215e3ebc0d3c594cce89e767c13aaeb8123141cb4f4"
+    },
+    "experiments/results/T0026/attempt-001/proposed-protocol.json": {
+      "bytes": 27698,
+      "sha256": "402dc18a9a66764318982802da9dc72be19c8a153f4862d19e450a048ac7b1fd"
+    },
+    "experiments/results/T0027/attempt-001/summary.md": {
+      "bytes": 10073,
+      "sha256": "32d9945f67ee8095dcfcc6dcd28a27eb75a0c7a0b225e1e3af115d56d3a0abb6"
+    },
+    "experiments/tasks/T0028-byte-auditable-v2.md": {
+      "bytes": 3875,
+      "sha256": "313a2cc7c94dc0dcbc04b24159690eefe0e9ba80bb95dce41c77276f8e88497d"
+    },
+    "research/data/pilot-dataset.md": {
+      "bytes": 10606,
+      "sha256": "e988efe61b1942a75fa548432cefda94ebcea6ade2a17e2516c31c1700b2d4d0"
+    },
+    "research/data/pilot-v2-schema.md": {
+      "bytes": 16296,
+      "sha256": "d458b5c3bd445a50ace55dc88185ed79fb67dfca91eb7e5d8e4d4aefac84e8ba"
+    },
+    "research/evaluation/T0026-acceptance.md": {
+      "bytes": 1932,
+      "sha256": "e3abbcfdd9b4206b4a96d7c90568960d0481da62f86de1ce3accbb191e49141f"
+    },
+    "research/evaluation/T0027-acceptance.md": {
+      "bytes": 1604,
+      "sha256": "7b82840a94827d9c3c01df0622c7e488292b05140fbb95b2398e335edd7370c5"
+    },
+    "tools/pilot_ingestion.py": {
+      "bytes": 16293,
+      "sha256": "2187d93ae109ec8c56d2a9782634f27aded455da576f14ec044cc00a70634e75"
+    },
+    "tools/pilot_v2.py": {
+      "bytes": 44803,
+      "sha256": "2e2e06754422212867806bfdf5863cf8bd61d5e9a5863b96ea812f796111af53"
+    },
+    "tools/production_tokenizer.py": {
+      "bytes": 27509,
+      "sha256": "17c4e805ebf1f4f0a6ba2746a684344b791a513a4158f3707be1c2dddcba36e0"
+    },
+    "tools/test_pilot_v2.py": {
+      "bytes": 24770,
+      "sha256": "70728661df9807746f1c608f04e2c46cba79955f41bf781cfb53b2646130e494"
+    },
+    "tools/tokenized_shards.py": {
+      "bytes": 63439,
+      "sha256": "bb61978484f860ad5a517943f12b241b56262d4aef8228be019d7df5f8e5cb46"
+    }
+  },
+  "schema": "splot-t0028-source-refs-v1",
+  "tested_commit": "4681d75668d7d253e9d82fb9f85041774e9a1f04"
+}

@@ -1,0 +1,37 @@
+T0029 attempt-001 execution log (sanitized)
+Task: T0029 VAL, issue #113; instruction edd2036e284a4f7d1d5904b5284971d33c5c0d39; source 7dac49e083eae0068ff361e7a81b3a4f41055b3f; branch research/T0029-gdn-localization-attempt-001.
+Authorization: owner explicitly named and authorized T0029 on the local RTX 4090 within the merged limits.
+Source: clean detached private worktree at the exact rejected T0025 pin; no source edits.
+Scope: forward-only diagnostics; no backward, optimizer step, checkpoint, training, actual data, install, new kernel or compilation.
+
+CPU preflight
+Command: cd <source-worktree> && PYTHONPATH=src:tools python3 <scratch>/t0029_probe.py --check ...
+Exit 0: source head 7dac49e083eae0068ff361e7a81b3a4f41055b3f, clean=True; config 51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9; reference 7af225f12c1353ff6621c13a13f22c983d1c0bca3ba379b23874181fb58bcd4d; input c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270; init ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b; partition 1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed; parameters 43055076.
+
+GPU diagnostic invocations (foreground; each process <=300 s +15 s grace)
+Command template: cd <source-worktree> && PYTHONPATH=src:tools CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 timeout -k 15s 300s python3 <scratch>/t0029_probe.py --out <scratch>/report.json --t0025-reference <T0025-full-model-512.json> --instruction-commit edd2036e284a4f7d1d5904b5284971d33c5c0d39
+- 1: 2026-11-28T18:26:10Z..2026-11-28T18:26:14Z exit=2 stage=reproduction aggregation error=AttributeError: 'dict' object has no attribute 'shape'
+- 2: 2026-11-28T18:26:32Z..2026-11-28T18:26:36Z exit=2 stage=localization boundary aggregation error=RuntimeError: The size of tensor a (64) must match the size of tensor b (384)
+- 3: 2026-11-28T18:27:23Z..2026-11-28T18:27:29Z exit=2 stage=routing margin aggregation error=KeyError: 'no router logits for (3, 1)'
+- 4: 2026-11-28T18:28:22Z..2026-11-28T18:28:28Z exit=0 stage=complete diagnostic status=passed
+
+Reproduction (final invocation)
+Scan losses: {"balance": 1.0717132091522217, "early_ntp": 10.48428726196289, "final_ntp": 10.493874549865723, "offset2": 10.487617492675781, "total": 15.747568130493164}
+Chunk64 losses: {"balance": 1.0716493129730225, "early_ntp": 10.484346389770508, "final_ntp": 10.493999481201172, "offset2": 10.487751960754395, "total": 15.747739791870117}
+Identity exact=True; scan losses exact=True; chunk max abs loss delta=0.0; per-key routing counts exact=True; tensor metrics exact=True.
+Corrected routing: overall 34/4096 = 0.00830078125; by pass {"1": {"disagreement_fraction": 0.00244140625, "mismatch_tokens": 5, "tokens": 2048}, "2": {"disagreement_fraction": 0.01416015625, "mismatch_tokens": 29, "tokens": 2048}}; by pool {"0": {"disagreement_fraction": 0.00390625, "mismatch_tokens": 4, "tokens": 1024}, "1": {"disagreement_fraction": 0.0087890625, "mismatch_tokens": 9, "tokens": 1024}, "2": {"disagreement_fraction": 0.0126953125, "mismatch_tokens": 13, "tokens": 1024}, "3": {"disagreement_fraction": 0.0078125, "mismatch_tokens": 8, "tokens": 1024}}.
+
+Localization (final invocation)
+Same-input FP32 GDN: passed; worst rel=3.696011980823114e-07 max_abs=1.1920928955078125e-07; FP64 oracle=passed.
+First local GDN output difference: {"block": 0, "key": "(0, 1)", "logical_pass": 1, "output_max_abs": 1.30385160446167e-08, "output_rel_l2": 3.691102310249035e-07}.
+Propagation by pass: {"1": {"delta_final_max_rel_l2": 0.005892609559958385, "delta_out_max_rel_l2": 0.007057949230872605, "gdn_input_max_rel_l2": 0.0019729682051299064, "state_max_rel_l2": 0.0}, "2": {"delta_final_max_rel_l2": 0.06578681637612076, "delta_out_max_rel_l2": 0.047916016352237974, "gdn_input_max_rel_l2": 0.027709088940546828, "state_max_rel_l2": 0.0}}.
+Router propagation by pass: {"1": {"router_input_max_rel_l2": 0.011161236529471904, "router_logits_max_rel_l2": 0.01568759591366181}, "2": {"router_input_max_rel_l2": 0.03177519792152248, "router_logits_max_rel_l2": 0.03529462290180194}}.
+First route mismatch: "('C', 1, 2)"; mismatch tokens 3/512.
+FP32 full forward: tensor rel max=1.0417975034087312e-06 max_abs=3.159046173095703e-06; routing disagreement=0.0.
+Teacher-forced route: status=passed; natural logits max rel=0.03227545065544488; fixed=0.00859060926737968; ratio=0.26616543202102244; selected equal scan=True.
+
+Required gates
+- Environment, exact source/input/init/partition and reproduction passed; no dependent localization stage was run after a failed reproduction gate.
+- No backward call, optimizer step, checkpoint, training run or test evaluation occurred.
+- Three read-only driver defects are preserved in driver-failure-1..3.json and summarized in driver-failures.json. They changed no source/data/config/seed/tolerance; the fourth invocation completed. No automatic retry was used.
+- Source worktree remained clean before and after the final invocation; no raw tensors, token IDs, logits or private paths are published.

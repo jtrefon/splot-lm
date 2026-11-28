@@ -1,0 +1,17 @@
+{
+  "attempt": 1,
+  "config_sha256": "51c493eb8f118fe1f58fd9a775fc0217f7a6cae0aa74a939d159c17ffbeceac9",
+  "elapsed_seconds": 2.05891281896038,
+  "error": "AttributeError: 'dict' object has no attribute 'shape'",
+  "instruction_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "reference_sha256": "7af225f12c1353ff6621c13a13f22c983d1c0bca3ba379b23874181fb58bcd4d",
+  "schema": "splot.t0029.localization.v1",
+  "source_clean_after": true,
+  "source_clean_before": true,
+  "source_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "source_head_after": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "source_head_before": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "stage": "diagnostic",
+  "status": "blocked",
+  "task": "T0029"
+}

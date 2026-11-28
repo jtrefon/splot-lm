@@ -20,9 +20,9 @@ Snapshot 2026-11-28. Evidence and live issues, not elapsed time or a percentage,
 
 ## Immediate sequence
 
-1. **Mac:** [T0028/#112](experiments/tasks/T0028-byte-auditable-v2.md) v2 schema/verifier prototype with synthetic fixtures; actual registry/acquisition and training loader separately reviewed.
-2. **Linux:** [T0029/#113](experiments/tasks/T0029-gdn-localization.md) localizes T0025 rejected candidate mixed-precision/routing differences; no model change. T0027 lower NLL in all matched contrasts, but scan ~24× slower in summed step times, no efficiency win.
-3. Review T0026 planning corrections and both next results; plan registry/acquisition and optimized matched controls, then larger learning study. Trained-checkpoint MTP separately.
+1. **Mac:** [T0030/#116](experiments/tasks/T0030-v2-coverage-producer.md) harden v2 coverage and implement deterministic synthetic producer; production registry/acquisition/loader separately reviewed.
+2. **Linux:** [T0031/#117](experiments/tasks/T0031-gdn-matched-precision.md) compare natural routing under identical precision policies, forward/backward then resource gates. T0029 localizes rounding/routing amplification, no candidate adoption.
+3. Review both deliveries; then plan lawful larger corpus and optimized reference controls. T0027 lower NLL at ~24× slower update sums; no quality-cost superiority. Trained-checkpoint MTP separately.
 4. Advance beyond the bounded pilot to larger lawful corpora only when needed for the architecture experiments. Corpus optimization is deferred, not abandoned.
 
 Vision/audio, adaptive token depth, native FP4 on unsupported hardware, external n-gram tables and large offloaded models remain deferred. No promised dates, production performance or novelty claims.
