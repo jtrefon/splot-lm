@@ -1,0 +1,122 @@
+{
+  "attempt": 1,
+  "checks": {
+    "analysis": {
+      "detail": "Paired K-S/K-C/S-C validation NLL contrasts, arm summaries, weighted training NLL, historical T0027 BF16 context, full-update/wall/validation/memory/checkpoint/labels-per-second and analytical MACs; descriptive only.",
+      "evidence": [
+        "analysis.json",
+        "metrics.jsonl",
+        "run-timings.json",
+        "checkpoint-inventory.json"
+      ],
+      "status": "passed"
+    },
+    "environment": {
+      "detail": "Exact source commit, clean branch, exact existing T0016 snapshot and all pins, S/K initialization/partition, deterministic/TF32 off, resource floors; no source edits/downloads/installs.",
+      "evidence": [
+        "environment.json",
+        "dataset-identity.json",
+        "source-register.json",
+        "preflight.json",
+        "config-audit.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat sanitized package with nine runs/audits, exact configs/diffs, dataset/source identity, analysis, timings, private checkpoint hashes/bytes and summary; validator result in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "dataset-identity.json",
+        "checkpoint-inventory.json"
+      ],
+      "status": "passed"
+    },
+    "matched_runs": {
+      "detail": "Nine FP32 runs exit 0, counterbalanced order, 128 unique indices matching T0023 per seed, 46,204 valid/46,076 NTP/45,948 offset2/5,250 validation labels, identical source/data/packed identity, finite losses/state, 8 checkpoint writes each.",
+      "evidence": [
+        "run-timings.json",
+        "checkpoint-inventory.json",
+        "metrics.jsonl",
+        "run-S-seed42.json",
+        "run-K-seed42.json",
+        "run-C-seed42.json",
+        "run-K-seed43.json",
+        "run-C-seed43.json",
+        "run-S-seed43.json",
+        "run-C-seed44.json",
+        "run-S-seed44.json",
+        "run-K-seed44.json",
+        "audit-S-seed42.json",
+        "audit-K-seed42.json",
+        "audit-C-seed42.json",
+        "audit-K-seed43.json",
+        "audit-C-seed43.json",
+        "audit-S-seed43.json",
+        "audit-C-seed44.json",
+        "audit-S-seed44.json",
+        "audit-K-seed44.json"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analysis.json": "352e086c3eb5e518b4feba6daa010b654bd76c7aa0c0eebeb2672f0eac3aedee",
+    "audit-C-seed42.json": "9999330e244cc1b9799f213a424ac80f281126fb884c9d67d141198856ce5fca",
+    "audit-C-seed43.json": "759ef3798fc041fe72f32f6739d135482584d411fb0e208e3c116a999241de1c",
+    "audit-C-seed44.json": "ac6bf9c141d1e7b52279585fab7ba6369931e38dad6474029ab5eeb78e6a500e",
+    "audit-K-seed42.json": "89352ed57740f083023d6e87f749f15891e63c57c262b7352243f4d2f340e417",
+    "audit-K-seed43.json": "1f7d875a0214196a81b900d89ee332fcbefe678c2a3178c808ebd859a714d5d4",
+    "audit-K-seed44.json": "1c48239cbf50fdc62c6bb8d1a7116a5404f2bfc6da3bea69cc8a6e13dc918d2d",
+    "audit-S-seed42.json": "1b49c924ef8f6330177452686bb838777067ab7c381574c86e5f49be2de7784e",
+    "audit-S-seed43.json": "ed6b34d77352963b7fc1d2e6e633596dac4a852f0ee66fdc149ac2f40c9ff3fb",
+    "audit-S-seed44.json": "01bdf63aa2a6e11cb9c3cd2569bf9d8191a723b89cd0947bf70485fea6257a4d",
+    "checkpoint-inventory.json": "1ca3cdc17cffafb0ab37cd02e181b08c4922e571a6921854599b3b3369edec92",
+    "config-C-seed42.json": "edf5820c44eed5724b6d351d16486254e1fc16203b1d87ba4b805e95c0e5873e",
+    "config-C-seed43.json": "5b26b0ceaecf8bdc7c83f6a62e1e516a46b29c46dc327ced6956509f2865331d",
+    "config-C-seed44.json": "983381fd27070915cbefe0d3d7a001995b4c61f15cb52545daad422b6ef71474",
+    "config-K-seed42.json": "24e909bd0ebb513c1af716957ead99170fa6b91237339b658ca525b6353a2934",
+    "config-K-seed43.json": "0f7cf895a12e67f773c8350047ee53e06b26f8e4d0d1470ba316a364c8291526",
+    "config-K-seed44.json": "c6836047af541ac143e8d05125234711e4b05bc6885133943868b13a33921ef2",
+    "config-S-seed42.json": "1203931738a94c7977e002d90565402f38b40f54e6d001a5f852056f3b5b800a",
+    "config-S-seed43.json": "44978d330711ccc4af3323b007c02c63e9a5d80fb4f4643398cc53029b03f870",
+    "config-S-seed44.json": "f4199caa912bbd5423c89e37e4e945a2283e4f4eb1db75b91b60888ab783af84",
+    "config-audit.json": "4e930c169baa9b5169c794a9118b696fe0b2ce060eab348f201b3b6ba856fd21",
+    "config-seed-diff.txt": "1ccb9f11c97e22223f5d94aef8a7dd2705498f0d2ba2e97b1e63f811dd40ea56",
+    "dataset-identity.json": "a7ea9cc742c2c9bc869adee0496ec36e53a1bf8ee809b71b3c6fd40ddbc9f582",
+    "environment.json": "630a896179dcb6024b999715bff72a4dd0a7b233be1594a7e6587a78432edc93",
+    "execution.log": "41109d2bd375114bd0b25b45f687d838bf1c12e52df959aeb7d5bd50628c3ec4",
+    "metrics.jsonl": "540966857be82d0e2c0a56e151e97f5073ec6f1170ace3d57e93cb0574a01e1e",
+    "preflight.json": "c2332f145e131c4836d3bf1da3301135893e271c0798f93ce3243ef4589aaa1b",
+    "run-C-seed42.json": "a98cc89795b24ffd35eace9f1586beee2b5573bba2992515aaab45f6c6902cf0",
+    "run-C-seed43.json": "47526613f902924e601cef9192697014d45f11ced3f29a2249197b4a85048de0",
+    "run-C-seed44.json": "c19fa2965dee2df4b9e625d954378c9f2de721f37e002a9c0d2c7be9e9ecb303",
+    "run-K-seed42.json": "f871fdbe010f89fed09329255640d64b318fc677794bbce35a7bbbd384bb5d41",
+    "run-K-seed43.json": "682b2d07d435fb0183abf1dd53ce77173942200c13439e311534f6ad1ebc7e38",
+    "run-K-seed44.json": "935c1dbf6317199151c05350b9032571deb843668031c59f3531da8cf4413b66",
+    "run-S-seed42.json": "cf25a949e3448ae048e8f9e6ba82c830199dfe2c04a9dac9552151aceffad39f",
+    "run-S-seed43.json": "1e68895286b3b6b522afe04ea5bc723d82276f7fcc4ea5eb063ef993961f3bc2",
+    "run-S-seed44.json": "ac6cf95a8ee3cdcb6ea0cc16b80f834af23ca9159a21c2778358d259aacf6cb0",
+    "run-timings.json": "60503943d7609b6d67e9a48533c35989ddeaa77db5b49a2e334936d3a6948fd6",
+    "source-register.json": "d07906a83e3be838c16cad5751863133eb070e7173fe7d1154b9a0faf1613c47",
+    "summary.md": "b2e201521ad7b2851dc9724d3c5f4281cc11c6405154938746ae17d7f4fa0326"
+  },
+  "limitations": [
+    "Nine matched synthetic-snapshot runs, three seeds, one 128-update pass; no convergence, power, held-test or generalization claim.",
+    "S/K share FP32 precision and parameter/MAC counts but differ in GDN contraction order; C is a separate dense architecture/implementation control.",
+    "T0027 BF16 S/C comparison is historical and precision/time confounded; K has no BF16 counterpart.",
+    "No optimized-kernel, sustained-training, energy, QAT, FP8 or default-adoption claim.",
+    "Checkpoints remain private; no raw corpus, token arrays, tensors or routes are published."
+  ],
+  "schema_version": 1,
+  "source_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "spec_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "status": "passed",
+  "task_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "task_id": "T0035",
+  "tested_commit": "4f86f62d3fb673483ddf87001331db90e354b985"
+}

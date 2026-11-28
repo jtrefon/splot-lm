@@ -1,0 +1,311 @@
+{
+  "attempt": 1,
+  "authorization": "owner explicitly named T0035 on the local RTX 4090 within merged specification and limits",
+  "branch": "research/T0035-fp32-matched-attempt-001",
+  "checkpoint_availability": "private local-only; hashes/bytes in checkpoint-inventory.json",
+  "class": "VAL",
+  "configs": {
+    "derived": {
+      "C-seed42": {
+        "bytes": 1022,
+        "seed": 42,
+        "sha256": "edf5820c44eed5724b6d351d16486254e1fc16203b1d87ba4b805e95c0e5873e"
+      },
+      "C-seed43": {
+        "bytes": 1022,
+        "seed": 43,
+        "sha256": "5b26b0ceaecf8bdc7c83f6a62e1e516a46b29c46dc327ced6956509f2865331d"
+      },
+      "C-seed44": {
+        "bytes": 1022,
+        "seed": 44,
+        "sha256": "983381fd27070915cbefe0d3d7a001995b4c61f15cb52545daad422b6ef71474"
+      },
+      "K-seed42": {
+        "bytes": 1317,
+        "seed": 42,
+        "sha256": "24e909bd0ebb513c1af716957ead99170fa6b91237339b658ca525b6353a2934"
+      },
+      "K-seed43": {
+        "bytes": 1317,
+        "seed": 43,
+        "sha256": "0f7cf895a12e67f773c8350047ee53e06b26f8e4d0d1470ba316a364c8291526"
+      },
+      "K-seed44": {
+        "bytes": 1317,
+        "seed": 44,
+        "sha256": "c6836047af541ac143e8d05125234711e4b05bc6885133943868b13a33921ef2"
+      },
+      "S-seed42": {
+        "bytes": 1314,
+        "seed": 42,
+        "sha256": "1203931738a94c7977e002d90565402f38b40f54e6d001a5f852056f3b5b800a"
+      },
+      "S-seed43": {
+        "bytes": 1314,
+        "seed": 43,
+        "sha256": "44978d330711ccc4af3323b007c02c63e9a5d80fb4f4643398cc53029b03f870"
+      },
+      "S-seed44": {
+        "bytes": 1314,
+        "seed": 44,
+        "sha256": "f4199caa912bbd5423c89e37e4e945a2283e4f4eb1db75b91b60888ab783af84"
+      }
+    },
+    "diffs": [
+      "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed42.json\n@@ -21,12 +21,13 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n     \"seed\": 42,\n",
+      "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed42.json\n@@ -21,12 +21,13 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n     \"seed\": 42,\n",
+      "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed42.json\n@@ -14,7 +14,7 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n     \"seed\": 42,\n",
+      "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed43.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+      "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed43.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+      "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed43.json\n@@ -14,10 +14,10 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+      "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed44.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+      "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed44.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+      "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed44.json\n@@ -14,10 +14,10 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n"
+    ],
+    "source": {
+      "C": {
+        "path": "configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json",
+        "sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"
+      },
+      "K": {
+        "path": "configs/experiments/splot-nano-v16384-a0.json",
+        "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+      },
+      "S": {
+        "path": "configs/experiments/splot-nano-v16384-a0.json",
+        "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+      }
+    },
+    "status": "passed"
+  },
+  "dataset": {
+    "dataset_total_bytes": 2727588,
+    "format": "splot-pilot-blocks-v1",
+    "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+    "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+    "model_vocab_size": 16384,
+    "provenance": "existing byte-identical five-file T0016/T0017 snapshot copied without regeneration",
+    "source_snapshot_sha256": "c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087",
+    "status": "passed",
+    "test_blocks": 16,
+    "test_integrity_only": true,
+    "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+    "train_blocks": 128,
+    "train_ntp_labels": 46076,
+    "train_offset2_labels": 45948,
+    "train_valid_tokens": 46204,
+    "unused_token_ids": 0,
+    "validation_blocks": 16,
+    "validation_ntp_labels": 5250,
+    "version": 1,
+    "vocab_size": 16384
+  },
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "tf32_enabled": false,
+    "torch_threads": 1
+  },
+  "end_utc": "2026-11-28T20:37:24Z",
+  "gpu": {
+    "driver_version": "580.178.04",
+    "model": "NVIDIA GeForce RTX 4090",
+    "vram_free_preflight_mib": 24077,
+    "vram_total_mib": 24564
+  },
+  "host": {
+    "ram_available_bytes_min": 26755948544,
+    "ram_total_bytes": 32894615552
+  },
+  "instruction_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "issue": 125,
+  "limitations": [
+    "Nine matched synthetic-snapshot runs, three seeds, one 128-update pass; no convergence, power, held-test or generalization claim.",
+    "S/K share FP32 precision and parameter/MAC counts but differ in GDN contraction order; C is a separate dense architecture/implementation control.",
+    "T0027 BF16 S/C comparison is historical and precision/time confounded; K has no BF16 counterpart.",
+    "No optimized-kernel, sustained-training, energy, QAT, FP8 or default-adoption claim.",
+    "Checkpoints remain private; no raw corpus, token arrays, tensors or routes are published."
+  ],
+  "matrix_elapsed_seconds": 566,
+  "observed": {
+    "checkpoint_writes_total": 72,
+    "checkpoints": 9,
+    "downloads": 0,
+    "fp8_runs": 0,
+    "installs": 0,
+    "qat_runs": 0,
+    "retries": 0,
+    "runs_completed": 9,
+    "runs_failed": 0,
+    "source_edits": 0,
+    "test_evaluations": 0,
+    "timeouts": 0
+  },
+  "os": {
+    "cpu_count": 24,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "release": "7.0.0-43-generic",
+    "system": "Linux"
+  },
+  "preflight": {
+    "config_hashes": {
+      "derived": {
+        "C-seed42": {
+          "bytes": 1022,
+          "seed": 42,
+          "sha256": "edf5820c44eed5724b6d351d16486254e1fc16203b1d87ba4b805e95c0e5873e"
+        },
+        "C-seed43": {
+          "bytes": 1022,
+          "seed": 43,
+          "sha256": "5b26b0ceaecf8bdc7c83f6a62e1e516a46b29c46dc327ced6956509f2865331d"
+        },
+        "C-seed44": {
+          "bytes": 1022,
+          "seed": 44,
+          "sha256": "983381fd27070915cbefe0d3d7a001995b4c61f15cb52545daad422b6ef71474"
+        },
+        "K-seed42": {
+          "bytes": 1317,
+          "seed": 42,
+          "sha256": "24e909bd0ebb513c1af716957ead99170fa6b91237339b658ca525b6353a2934"
+        },
+        "K-seed43": {
+          "bytes": 1317,
+          "seed": 43,
+          "sha256": "0f7cf895a12e67f773c8350047ee53e06b26f8e4d0d1470ba316a364c8291526"
+        },
+        "K-seed44": {
+          "bytes": 1317,
+          "seed": 44,
+          "sha256": "c6836047af541ac143e8d05125234711e4b05bc6885133943868b13a33921ef2"
+        },
+        "S-seed42": {
+          "bytes": 1314,
+          "seed": 42,
+          "sha256": "1203931738a94c7977e002d90565402f38b40f54e6d001a5f852056f3b5b800a"
+        },
+        "S-seed43": {
+          "bytes": 1314,
+          "seed": 43,
+          "sha256": "44978d330711ccc4af3323b007c02c63e9a5d80fb4f4643398cc53029b03f870"
+        },
+        "S-seed44": {
+          "bytes": 1314,
+          "seed": 44,
+          "sha256": "f4199caa912bbd5423c89e37e4e945a2283e4f4eb1db75b91b60888ab783af84"
+        }
+      },
+      "diffs": [
+        "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed42.json\n@@ -21,12 +21,13 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n     \"seed\": 42,\n",
+        "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed42.json\n@@ -21,12 +21,13 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n     \"seed\": 42,\n",
+        "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed42.json\n@@ -14,7 +14,7 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n     \"seed\": 42,\n",
+        "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed43.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+        "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed43.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+        "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed43.json\n@@ -14,10 +14,10 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+        "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed44.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+        "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed44.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+        "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed44.json\n@@ -14,10 +14,10 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n"
+      ],
+      "source": {
+        "C": {
+          "path": "configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json",
+          "sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"
+        },
+        "K": {
+          "path": "configs/experiments/splot-nano-v16384-a0.json",
+          "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+        },
+        "S": {
+          "path": "configs/experiments/splot-nano-v16384-a0.json",
+          "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+        }
+      },
+      "status": "passed"
+    },
+    "dataset": {
+      "files": {
+        "manifest.json": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+        "test.jsonl": "00968bee8f71dccf1fa5e52dc6ca8fa948e3ffb89577e45bb6bb00c74172b06d",
+        "tokenizer.json": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+        "train.jsonl": "7f1156eeed4c0de8f802d5db41df0884791429d3f91bff1b2348d0a14ca92a39",
+        "validation.jsonl": "e5d858a12c975f416c393889d1915110c1854003c922cc26f498af807a7c214f"
+      },
+      "logical_sha256": "70ba8d35d2ae334a8601f6389dc39208f3636937cb9dbfda639ead7ab30c052c",
+      "manifest_sha256": "dea9335d4d7e5b1a7c0065baa8ff0a61b4fd8cd727db322cf76319441b697f55",
+      "source_snapshot_sha256": "c84bd8a6e94c5d0f4d429e44a43c7bffd9a6dfb9a263b9a3440126e23b4aa087",
+      "tokenizer_sha256": "104d3927bb55cdd2a911dbe21c8e755264756cedb5663bd39365c3d4cba3864b",
+      "total_bytes": 2727588
+    },
+    "identities": {
+      "42": {
+        "C_init": "6e74a94319f7689e73fb7087efff9ade535afef721ac939eff0908423b64da3c",
+        "C_params": 32381440,
+        "C_partition": "eaf786ef45533ac4da90c740dff47553d368ccea17f3273a7f2fff6e32d56f28",
+        "K_init": "72289e88481b24f8a82800137f29e0d8bb99dbd3dc16e34aa6f36dbe72afbed2",
+        "K_params": 36763620,
+        "K_partition": "4a5a4a2ddd17afa6efd58a45a47cf4812f3879dfcec565dfc44001918d08244f",
+        "S_K_init_equal": true,
+        "S_K_partition_equal": true,
+        "S_init": "72289e88481b24f8a82800137f29e0d8bb99dbd3dc16e34aa6f36dbe72afbed2",
+        "S_params": 36763620,
+        "S_partition": "4a5a4a2ddd17afa6efd58a45a47cf4812f3879dfcec565dfc44001918d08244f"
+      },
+      "43": {
+        "C_init": "b6d60e495264dbf663497d73b9dd6f1795cbe32d691d62ba9fe09287fa989039",
+        "C_params": 32381440,
+        "C_partition": "eaf786ef45533ac4da90c740dff47553d368ccea17f3273a7f2fff6e32d56f28",
+        "K_init": "6048235f4916a2dec88db8641bac97d126d97aad7aae493b9dea9b4c1ce441b8",
+        "K_params": 36763620,
+        "K_partition": "4a5a4a2ddd17afa6efd58a45a47cf4812f3879dfcec565dfc44001918d08244f",
+        "S_K_init_equal": true,
+        "S_K_partition_equal": true,
+        "S_init": "6048235f4916a2dec88db8641bac97d126d97aad7aae493b9dea9b4c1ce441b8",
+        "S_params": 36763620,
+        "S_partition": "4a5a4a2ddd17afa6efd58a45a47cf4812f3879dfcec565dfc44001918d08244f"
+      },
+      "44": {
+        "C_init": "bb00468ae60b440ba6f7545f265e6bc184e1702dad478a6c61b3d1e9ce561c46",
+        "C_params": 32381440,
+        "C_partition": "eaf786ef45533ac4da90c740dff47553d368ccea17f3273a7f2fff6e32d56f28",
+        "K_init": "5891a5b629bb27053820bf9c418f88e970c6bc3300763d212b97e4a6bc577be1",
+        "K_params": 36763620,
+        "K_partition": "4a5a4a2ddd17afa6efd58a45a47cf4812f3879dfcec565dfc44001918d08244f",
+        "S_K_init_equal": true,
+        "S_K_partition_equal": true,
+        "S_init": "5891a5b629bb27053820bf9c418f88e970c6bc3300763d212b97e4a6bc577be1",
+        "S_params": 36763620,
+        "S_partition": "4a5a4a2ddd17afa6efd58a45a47cf4812f3879dfcec565dfc44001918d08244f"
+      }
+    },
+    "source_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+    "status": "passed"
+  },
+  "python": {
+    "implementation": "CPython",
+    "version": "3.12.7"
+  },
+  "resource_limits": {
+    "foreground_seconds": 5400,
+    "grace_seconds": 15,
+    "minimum_gpu_free_mib": 20480,
+    "minimum_host_ram_bytes": 12884901888,
+    "minimum_scratch_bytes": 4294967296,
+    "per_run_seconds": 900
+  },
+  "scratch": {
+    "filesystem": "ext4",
+    "free_bytes_min": 176159678464
+  },
+  "source_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "specification": "experiments/tasks/T0035-fp32-matched-learning.md",
+  "start_utc": "2026-11-28T20:27:58Z",
+  "task_id": "T0035",
+  "tested_commit": "4f86f62d3fb673483ddf87001331db90e354b985",
+  "torch": {
+    "cuda_runtime": "12.8",
+    "version": "2.10.0+cu128"
+  }
+}

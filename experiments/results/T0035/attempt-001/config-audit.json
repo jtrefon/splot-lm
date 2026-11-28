@@ -1,0 +1,75 @@
+{
+  "derived": {
+    "C-seed42": {
+      "bytes": 1022,
+      "seed": 42,
+      "sha256": "edf5820c44eed5724b6d351d16486254e1fc16203b1d87ba4b805e95c0e5873e"
+    },
+    "C-seed43": {
+      "bytes": 1022,
+      "seed": 43,
+      "sha256": "5b26b0ceaecf8bdc7c83f6a62e1e516a46b29c46dc327ced6956509f2865331d"
+    },
+    "C-seed44": {
+      "bytes": 1022,
+      "seed": 44,
+      "sha256": "983381fd27070915cbefe0d3d7a001995b4c61f15cb52545daad422b6ef71474"
+    },
+    "K-seed42": {
+      "bytes": 1317,
+      "seed": 42,
+      "sha256": "24e909bd0ebb513c1af716957ead99170fa6b91237339b658ca525b6353a2934"
+    },
+    "K-seed43": {
+      "bytes": 1317,
+      "seed": 43,
+      "sha256": "0f7cf895a12e67f773c8350047ee53e06b26f8e4d0d1470ba316a364c8291526"
+    },
+    "K-seed44": {
+      "bytes": 1317,
+      "seed": 44,
+      "sha256": "c6836047af541ac143e8d05125234711e4b05bc6885133943868b13a33921ef2"
+    },
+    "S-seed42": {
+      "bytes": 1314,
+      "seed": 42,
+      "sha256": "1203931738a94c7977e002d90565402f38b40f54e6d001a5f852056f3b5b800a"
+    },
+    "S-seed43": {
+      "bytes": 1314,
+      "seed": 43,
+      "sha256": "44978d330711ccc4af3323b007c02c63e9a5d80fb4f4643398cc53029b03f870"
+    },
+    "S-seed44": {
+      "bytes": 1314,
+      "seed": 44,
+      "sha256": "f4199caa912bbd5423c89e37e4e945a2283e4f4eb1db75b91b60888ab783af84"
+    }
+  },
+  "diffs": [
+    "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed42.json\n@@ -21,12 +21,13 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n     \"seed\": 42,\n",
+    "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed42.json\n@@ -21,12 +21,13 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n     \"seed\": 42,\n",
+    "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed42.json\n@@ -14,7 +14,7 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n     \"seed\": 42,\n",
+    "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed43.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+    "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed43.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+    "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed43.json\n@@ -14,10 +14,10 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n-    \"seed\": 42,\n+    \"seed\": 43,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+    "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/S-seed44.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"scan\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+    "--- configs/experiments/splot-nano-v16384-a0.json\n+++ <private-scratch>/configs/K-seed44.json\n@@ -21,15 +21,16 @@\n     \"injection\": \"none\",\n     \"injection_strength\": 0.1,\n     \"residual_scale\": \"unscaled\",\n-    \"depth_embedding\": false\n+    \"depth_embedding\": false,\n+    \"gdn_algorithm\": \"chunk64\"\n   },\n   \"expert_intermediate\": 512,\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 2,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n",
+    "--- configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json\n+++ <private-scratch>/configs/C-seed44.json\n@@ -14,10 +14,10 @@\n   },\n   \"training\": {\n     \"data\": \"pilot-blocks-v1\",\n-    \"precision\": \"bf16\",\n+    \"precision\": \"fp32\",\n     \"mode\": \"A0\",\n     \"loops\": 1,\n-    \"seed\": 42,\n+    \"seed\": 44,\n     \"sequence_length\": 512,\n     \"batch_size\": 1,\n     \"lr\": 0.003,\n"
+  ],
+  "source": {
+    "C": {
+      "path": "configs/experiments/dense-ntp-512x6-q8kv2-ffn2176.json",
+      "sha256": "1ab07a500b3cadfdb3a5835822d8082500a008e135837a099d48319af89dc75a"
+    },
+    "K": {
+      "path": "configs/experiments/splot-nano-v16384-a0.json",
+      "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+    },
+    "S": {
+      "path": "configs/experiments/splot-nano-v16384-a0.json",
+      "sha256": "6934f442b4d4f15dc9b84acca074263d9bc23c741f2efc14537ba24ec4080df0"
+    }
+  },
+  "status": "passed"
+}

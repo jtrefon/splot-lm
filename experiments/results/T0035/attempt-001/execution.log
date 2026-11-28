@@ -1,0 +1,28 @@
+T0035 attempt-001 execution log (sanitized)
+Task: T0035 VAL, issue #125; source 4f86f62d3fb673483ddf87001331db90e354b985; branch research/T0035-fp32-matched-attempt-001.
+Authorization: owner explicitly named T0035 on local RTX 4090 within merged limits.
+Dataset: exact existing five-file T0016 snapshot copied without regeneration; all hashes match.
+Matrix: FP32 A0 B1 T512, 128 updates, LR .003 Muon/AdamW, checkpoint interval 16; order 42:S,K,C; 43:K,C,S; 44:C,S,K.
+No source edits, downloads, installs, QAT/FP8, test evaluation, retries or sustained training.
+
+1/9 S-seed42 2026-11-28T20:27:58Z..2026-11-28T20:30:14Z wall=136s exit=0
+  validation nll=7.344828334263393 ppl=1548.1691748595945; checkpoint sha=fa0a565fd98f60f64f2130b65448dfca276b1fabe9dae5bb4f5dbf62a94fbb29 bytes=319086611; audit passed.
+2/9 K-seed42 2026-11-28T20:30:19Z..2026-11-28T20:30:52Z wall=33s exit=0
+  validation nll=7.380901808965774 ppl=1605.0365517258629; checkpoint sha=e913a87c7db97bb880e6abb02d18535e5c299e325cfa176cb693d0065b55c322 bytes=319086611; audit passed.
+3/9 C-seed42 2026-11-28T20:30:58Z..2026-11-28T20:31:08Z wall=10s exit=0
+  validation nll=7.508320324125744 ppl=1823.1486707039537; checkpoint sha=314e86fcdb5a1825dd62837f410fc9c490c79eb7ceef81867904619becdcd15f bytes=292718555; audit passed.
+4/9 K-seed43 2026-11-28T20:31:13Z..2026-11-28T20:31:43Z wall=30s exit=0
+  validation nll=7.345803943452381 ppl=1549.6803199563567; checkpoint sha=de3bbe3c49bab06abf8b26907ab7fe9c96cbe58a60138d185c2e68e358f993a7 bytes=319086547; audit passed.
+5/9 C-seed43 2026-11-28T20:31:49Z..2026-11-28T20:31:58Z wall=9s exit=0
+  validation nll=7.456400692894345 ppl=1730.9067669009892; checkpoint sha=87059f0e26f44c40c418642870a9d2abfff37c20c457602b8507c52496f9bbfd bytes=292718491; audit passed.
+6/9 S-seed43 2026-11-28T20:32:03Z..2026-11-28T20:34:14Z wall=131s exit=0
+  validation nll=7.345055199032738 ppl=1548.520439745664; checkpoint sha=21c05d6845de185f16445704293e18d40136dba158b9eb5e67a7d566bd0babad bytes=319086547; audit passed.
+7/9 C-seed44 2026-11-28T20:34:20Z..2026-11-28T20:34:29Z wall=9s exit=0
+  validation nll=7.52783740234375 ppl=1859.0807095348416; checkpoint sha=c74b5a430c4612435c01dd4c57907a8cb56ba68a628b94f3607e4f34a12ab680 bytes=292718491; audit passed.
+8/9 S-seed44 2026-11-28T20:34:35Z..2026-11-28T20:36:49Z wall=134s exit=0
+  validation nll=7.412853678385416 ppl=1657.1485748694033; checkpoint sha=6103343afecdd10ba88cfe7162f8f253f4cd8e8bd0022c7a8f613bf06cc24340 bytes=319086547; audit passed.
+9/9 K-seed44 2026-11-28T20:36:54Z..2026-11-28T20:37:24Z wall=30s exit=0
+  validation nll=7.398494791666667 ppl=1633.5237849549842; checkpoint sha=0d77b25ccad6639f49eb4b6750c17932b1993b17acabf156a20ea004d425381a bytes=319086547; audit passed.
+
+All nine audits passed; no timeout, retry, source edit, test training/evaluation, QAT/FP8 or download/install.
+Source rollout: instruction main clean; T0033 tested a8df3f0 ancestor; all nine runs same commit/packed digest; S/K init/partition equal by seed.

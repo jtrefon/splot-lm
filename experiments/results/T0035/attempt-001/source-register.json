@@ -1,0 +1,70 @@
+{
+  "count": 8,
+  "sources": [
+    {
+      "content_sha256": "f80db72561c49f51c79c9f5c573ee9d41da7d9c62cbb2de420298557fe3a3e52",
+      "family_id": "se-alices-adventures",
+      "language": "en",
+      "raw_sha256": "109365790b5e6d949668ba98af815fe26ea0cbce11697c3ac2adcf4f1880942d",
+      "revision": "git:9e5eb58995d9fd2f609363d14786d8b0166bbbb9",
+      "split": "validation"
+    },
+    {
+      "content_sha256": "775c30fab445d5a2787b78e9c76d7d72352cb374201cf0170af8557ea792d198",
+      "family_id": "se-frankenstein",
+      "language": "en",
+      "raw_sha256": "44c555028fed46e183f4683b4ce8e3620afc0b770202392505a12f4956dea9a7",
+      "revision": "git:abfa474c5e1df00ae8458ed8495b83e7f8b795cc",
+      "split": "train"
+    },
+    {
+      "content_sha256": "2ac18fc1e9483639f4fa1b43118774e212d700af8f8a7fa313bb7a4249be5879",
+      "family_id": "se-moby-dick",
+      "language": "en",
+      "raw_sha256": "36e13e32c3415dc7b9513c0e79f85c61e7fe4e4ad11bed093428df5cf8fc556f",
+      "revision": "git:89725132954ec3f297e0d86f4a5ab636675d7f13",
+      "split": "test"
+    },
+    {
+      "content_sha256": "430f74f8e59c5255e8249e676f6348a85d87fa39a39d88197c34cef2eba27368",
+      "family_id": "se-pride-and-prejudice",
+      "language": "en",
+      "raw_sha256": "7f7d41577829547de311af744e484b6f8e25a62d3a6972af334382e4cb624806",
+      "revision": "git:a77a2dbbc0d11a17d6c68c581f17e26a65bd8168",
+      "split": "train"
+    },
+    {
+      "content_sha256": "0f1e5ff7683f36bf7c3cd3ead75ccb4d4d4e692504cf97c5936f52c320220a1f",
+      "family_id": "wl-chlopi",
+      "language": "pl",
+      "raw_sha256": "d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "revision": "local-sha256:d1429fb053de8f73743ddcc1544460a5c9f42dcde50ce432ef76a086214e05d5",
+      "split": "train"
+    },
+    {
+      "content_sha256": "ad97595a59f7d5b8566577fe0eaed5a9e602652701652c63d3753adb84fa2e6f",
+      "family_id": "wl-faraon",
+      "language": "pl",
+      "raw_sha256": "ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "revision": "local-sha256:ec595ff4197866138f301e386174d7e4261cc2bf3d8a852fc2ac041201d72626",
+      "split": "test"
+    },
+    {
+      "content_sha256": "5cdbc9e7ac46e51eccdbb2db90002b42c0671682f4f59093014c74ec2a13b245",
+      "family_id": "wl-lalka",
+      "language": "pl",
+      "raw_sha256": "f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "revision": "local-sha256:f19edde9e4b946eafba0203b5f944da63c1dcd88e6b1f741dc2eddd7c091e3c9",
+      "split": "train"
+    },
+    {
+      "content_sha256": "f8ea7a7ac40935bbf01b159f19ae0a18d32486e11d8ac158a92b965aa315626c",
+      "family_id": "wl-quo-vadis",
+      "language": "pl",
+      "raw_sha256": "cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "revision": "local-sha256:cffa632a8498b55b6ac381917e4e126e1dd7bdb618f2bd92f06742675428a30e",
+      "split": "validation"
+    }
+  ],
+  "status": "passed"
+}
