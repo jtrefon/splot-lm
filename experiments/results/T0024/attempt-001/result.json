@@ -1,0 +1,91 @@
+{
+  "attempt": 1,
+  "base_source_commit": "d5cc33c0ba3df21e4763284cc3a1f4cde08a38b9",
+  "checks": {
+    "environment": {
+      "detail": "Clean pinned source 6e891166 and instruction d5cc33c; gdn.py SHA 46eaade0..., no reference edits; RTX 4090/driver 580.178.04, 24,077 MiB free; Python 3.12.7/torch 2.10.0+cu128/CUDA 12.8; host RAM and scratch exceed 8/4 GiB; deterministic/TF32 off. Existing delta_chunk oracle limitations reviewed.",
+      "evidence": [
+        "environment.json",
+        "source-review.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat attempt package with sanitized numerical/resource drivers, all 8 resource JSONs, 30-comparison numerical matrix, reproducible aggregate, source review, environment, metrics, run order, execution log and summary; validator result reported in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "source-review.json"
+      ],
+      "status": "passed"
+    },
+    "numerical": {
+      "detail": "10 deterministic CPU cases, 30/30 chunk comparisons passed, 0 failed/skipped. FP64 T33/129 worst 1.176e-15 rel L2 / 8.327e-17 max abs; FP32 T129 ordinary/slow and T512/T2048 seeds 42/43 worst 9.406e-7 rel L2 / 1.267e-7 max abs. Output/state and all six gradients passed thresholds; C16/32/64 eligible at both resource lengths.",
+      "evidence": [
+        "numerical.json",
+        "metrics.jsonl",
+        "gdn_numerical.py",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "resource": {
+      "detail": "8/8 fresh-process CUDA cases (scan/C16/C32/C64 at T512/T2048) passed pre-timing and per-repeat output/state/loss/all-gradient gates with matching digests. Median total: T512 scan 0.174688 s, chunk64 0.011728 s; T2048 scan 0.734590 s, chunk64 0.046498 s. Peak allocated medians 178.6/84.4-86.4 MB (T512) and 512.2/137.8-144.2 MB (T2048). Chunk64 fastest isolated component method; no full-model/production claim.",
+      "evidence": [
+        "resource-512-scan.json",
+        "resource-512-chunk16.json",
+        "resource-512-chunk32.json",
+        "resource-512-chunk64.json",
+        "resource-2048-scan.json",
+        "resource-2048-chunk16.json",
+        "resource-2048-chunk32.json",
+        "resource-2048-chunk64.json",
+        "resource-analysis.json",
+        "analyze_resources.py",
+        "run-order.json",
+        "metrics.jsonl"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analyze_resources.py": "d41bf2f9985a9cff9f961773da5aba12c8f0b7d02257d0cce5d728843d54989d",
+    "case-index.json": "5b2b5029f5867b298fb35ce4064351bf7be3a639a761208d14ce3be9a01cd49a",
+    "environment.json": "5736c300fac8dca72c83bd8dc5ad3899f6862eeb63efa17abcd84726c44331da",
+    "execution.log": "d0e472a9cae7bc757c3981dd75422e064a751a3c17751088178deb812cbd03ca",
+    "gdn_numerical.py": "99f897b9ae31da795766e0707aa7ce3ed1ceab26ab3f6479bdbbc7c7c1d36cb4",
+    "gdn_resource.py": "1a21255931102dec9b9534f5f061be55ed717d72def5df64d84525e216c48330",
+    "metrics.jsonl": "26f34b6e19a11789517f14284814eff115db631920bdafcc84fa1529896ae4ee",
+    "numerical.json": "2141ab3506176c8317045644bf8391794e8e80da81f2e14d71f88a5ca7d12c59",
+    "resource-2048-chunk16.json": "843378f6f65e818447c73ae2b9e620283d572e2cf0c901bba18fc611d6387d14",
+    "resource-2048-chunk32.json": "5b12ca4baa7a7c61a5a28a23d3b924b73493dde393cd8f9832dff065e969c9a7",
+    "resource-2048-chunk64.json": "3ece1b1dbc2351353b905c18e02d36581de8ee95bd909c59c6038814365c033f",
+    "resource-2048-scan.json": "e7b44569439040b1d073c25f782341269b12337a436c5447ae335e8d515aff6e",
+    "resource-512-chunk16.json": "4a0ec8eab2122eb5907e663b7f5e9d8a6d8d044a93165e04a1ca0e5d92b3ffd2",
+    "resource-512-chunk32.json": "be2f9996b8044a61c71036f8fa6a7b99388b673dc14633e6235d56c483994a92",
+    "resource-512-chunk64.json": "0e21ba10afd8f4e966b01edda00092b7404995ddbb4378ec24e495dd5e3d916b",
+    "resource-512-scan.json": "2ba09b83fecdbd51f0d2d56d906fd0e719354208d728573101120cb0939331ed",
+    "resource-analysis.json": "b1ec491be0d30667a2b2088eea1768ffb3e71ac72584f2d663d1c657c02e6cf8",
+    "run-order.json": "b8a2406a8db182b287cfdd324cea9c9c29a9fff5d9e622ccd80642034887c108",
+    "source-review.json": "41e455b8b5f00bae6828061b0fbe20d6c1f76b351b5a6f62fd95a279e6193102",
+    "summary.md": "1b7d0d7a68d3e14a9edb6cede82e32b6c7f34e27acbf1dcb55261aad10d41980"
+  },
+  "limitations": [
+    "Existing delta_chunk is an independent dense triangular finite-log-decay oracle, not a production kernel; it has no built-in chunking.",
+    "Two lengths, one resource seed and three synchronized repeats; component timing is descriptive only.",
+    "Resource timing mixes Python recurrence versus multiple triangular solves and includes launch/allocator effects; no kernel-level attribution or full-model claim.",
+    "First-repeat peak reserved can include allocator cache from the pre-timing reference scan; allocated peaks are stable and repeats 2-3 show method-specific reserved peaks.",
+    "No full-model, quality, training, sustained-throughput or architecture-superiority claim.",
+    "No reference-source edits, packages, real data, checkpoints, Mini, background work or automatic retries."
+  ],
+  "schema_version": 1,
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "status": "passed",
+  "task_commit": "d5cc33c0ba3df21e4763284cc3a1f4cde08a38b9",
+  "task_id": "T0024",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8"
+}

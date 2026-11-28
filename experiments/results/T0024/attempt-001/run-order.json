@@ -1,0 +1,84 @@
+{
+  "order": [
+    {
+      "elapsed_seconds": 3,
+      "end_utc": "2026-11-28T16:40:16Z",
+      "file": "resource-512-scan.json",
+      "length": 512,
+      "method": "scan",
+      "start_note": null,
+      "start_utc": "2026-11-28T16:40:13Z",
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 3,
+      "end_utc": "2026-11-28T16:40:23Z",
+      "file": "resource-512-chunk16.json",
+      "length": 512,
+      "method": "chunk16",
+      "start_note": "not individually captured; elapsed and file completion recorded",
+      "start_utc": null,
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 2,
+      "end_utc": "2026-11-28T16:40:25Z",
+      "file": "resource-512-chunk32.json",
+      "length": 512,
+      "method": "chunk32",
+      "start_note": "not individually captured; elapsed and file completion recorded",
+      "start_utc": null,
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 2,
+      "end_utc": "2026-11-28T16:40:27Z",
+      "file": "resource-512-chunk64.json",
+      "length": 512,
+      "method": "chunk64",
+      "start_note": "not individually captured; elapsed and file completion recorded",
+      "start_utc": null,
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "end_utc": "2026-11-28T16:40:40Z",
+      "file": "resource-2048-scan.json",
+      "length": 2048,
+      "method": "scan",
+      "start_note": "not individually captured; elapsed and file completion recorded",
+      "start_utc": null,
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 5,
+      "end_utc": "2026-11-28T16:40:44Z",
+      "file": "resource-2048-chunk16.json",
+      "length": 2048,
+      "method": "chunk16",
+      "start_note": "not individually captured; elapsed and file completion recorded",
+      "start_utc": null,
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 4,
+      "end_utc": "2026-11-28T16:40:48Z",
+      "file": "resource-2048-chunk32.json",
+      "length": 2048,
+      "method": "chunk32",
+      "start_note": "not individually captured; elapsed and file completion recorded",
+      "start_utc": null,
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 3,
+      "end_utc": "2026-11-28T16:40:52Z",
+      "file": "resource-2048-chunk64.json",
+      "length": 2048,
+      "method": "chunk64",
+      "start_note": "not individually captured; elapsed and file completion recorded",
+      "start_utc": null,
+      "status": "passed"
+    }
+  ]
+}

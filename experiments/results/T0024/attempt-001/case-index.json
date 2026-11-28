@@ -1,0 +1,60 @@
+{
+  "files": {
+    "gdn_numerical.py": {
+      "bytes": 9558,
+      "published_sha256": "99f897b9ae31da795766e0707aa7ce3ed1ceab26ab3f6479bdbbc7c7c1d36cb4",
+      "raw_local_sha256": "99f897b9ae31da795766e0707aa7ce3ed1ceab26ab3f6479bdbbc7c7c1d36cb4"
+    },
+    "gdn_resource.py": {
+      "bytes": 12229,
+      "published_sha256": "1a21255931102dec9b9534f5f061be55ed717d72def5df64d84525e216c48330",
+      "raw_local_sha256": "41337cbda4cd779900d637024e30a5feac1b8480d708f1861b579eaf5480d7b0"
+    },
+    "numerical.json": {
+      "bytes": 98558,
+      "published_sha256": "2141ab3506176c8317045644bf8391794e8e80da81f2e14d71f88a5ca7d12c59",
+      "raw_local_sha256": "2141ab3506176c8317045644bf8391794e8e80da81f2e14d71f88a5ca7d12c59"
+    },
+    "resource-2048-chunk16.json": {
+      "bytes": 14262,
+      "published_sha256": "843378f6f65e818447c73ae2b9e620283d572e2cf0c901bba18fc611d6387d14",
+      "raw_local_sha256": "843378f6f65e818447c73ae2b9e620283d572e2cf0c901bba18fc611d6387d14"
+    },
+    "resource-2048-chunk32.json": {
+      "bytes": 14271,
+      "published_sha256": "5b12ca4baa7a7c61a5a28a23d3b924b73493dde393cd8f9832dff065e969c9a7",
+      "raw_local_sha256": "5b12ca4baa7a7c61a5a28a23d3b924b73493dde393cd8f9832dff065e969c9a7"
+    },
+    "resource-2048-chunk64.json": {
+      "bytes": 14263,
+      "published_sha256": "3ece1b1dbc2351353b905c18e02d36581de8ee95bd909c59c6038814365c033f",
+      "raw_local_sha256": "3ece1b1dbc2351353b905c18e02d36581de8ee95bd909c59c6038814365c033f"
+    },
+    "resource-2048-scan.json": {
+      "bytes": 13076,
+      "published_sha256": "e7b44569439040b1d073c25f782341269b12337a436c5447ae335e8d515aff6e",
+      "raw_local_sha256": "e7b44569439040b1d073c25f782341269b12337a436c5447ae335e8d515aff6e"
+    },
+    "resource-512-chunk16.json": {
+      "bytes": 14400,
+      "published_sha256": "4a0ec8eab2122eb5907e663b7f5e9d8a6d8d044a93165e04a1ca0e5d92b3ffd2",
+      "raw_local_sha256": "4a0ec8eab2122eb5907e663b7f5e9d8a6d8d044a93165e04a1ca0e5d92b3ffd2"
+    },
+    "resource-512-chunk32.json": {
+      "bytes": 14391,
+      "published_sha256": "be2f9996b8044a61c71036f8fa6a7b99388b673dc14633e6235d56c483994a92",
+      "raw_local_sha256": "be2f9996b8044a61c71036f8fa6a7b99388b673dc14633e6235d56c483994a92"
+    },
+    "resource-512-chunk64.json": {
+      "bytes": 14402,
+      "published_sha256": "0e21ba10afd8f4e966b01edda00092b7404995ddbb4378ec24e495dd5e3d916b",
+      "raw_local_sha256": "0e21ba10afd8f4e966b01edda00092b7404995ddbb4378ec24e495dd5e3d916b"
+    },
+    "resource-512-scan.json": {
+      "bytes": 13063,
+      "published_sha256": "2ba09b83fecdbd51f0d2d56d906fd0e719354208d728573101120cb0939331ed",
+      "raw_local_sha256": "2ba09b83fecdbd51f0d2d56d906fd0e719354208d728573101120cb0939331ed"
+    }
+  },
+  "sanitization": "Published gdn_resource.py replaces the hardcoded scratch source-root output guard with --source-root; numerical/timing logic unchanged. gdn_numerical.py unchanged."
+}

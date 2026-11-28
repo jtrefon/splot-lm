@@ -1,0 +1,47 @@
+T0024 attempt-001 execution log (sanitized)
+Session start UTC: 2026-11-28T16:38:33Z
+Numerical UTC: 2026-11-28T16:39:09Z to 2026-11-28T16:39:13Z
+Resource UTC: 2026-11-28T16:40:13Z to 2026-11-28T16:40:52Z
+Instruction/main: d5cc33c0ba3df21e4763284cc3a1f4cde08a38b9
+Source pin: 6e8911662ac56df665147cb79e412f0383cf71d8
+Branch: research/T0024-gdn-chunk-attempt-001
+Owner authorization: named T0024 on local RTX 4090 within merged specification and limits.
+Start comment: https://github.com/jtrefon/splot-lm/issues/102#issuecomment-7242399410
+
+Preflight
+- GPU 0 NVIDIA GeForce RTX 4090; 24564 MiB total; 24077 MiB free; driver 580.178.04.
+- Python 3.12.7; torch 2.10.0+cu128; CUDA 12.8; deterministic algorithms; TF32 off.
+- Host RAM available: 26777968640 B; scratch free: 181499346944 B (limits 8 GiB / 4 GiB).
+- Source worktree detached at pin, clean before/after; no source edits.
+- gdn.py SHA-256: 46eaade0fc574353a68654b6dfa52f1c93af271a97b1632aa43551ac20e85f7b; T0022 numerical tests reviewed: f73ca407bd81ce85c0a113e611c30adbe00486fab1929ae4368baab09695b8ed, 08171631651b91a2eacafc796b809af8940e466b7f5a12c0d598d761b8713b8e.
+- Existing delta_chunk is a dense triangular finite-log-decay oracle, not a production kernel.
+
+Numerical command
+cd <source-checkout> && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 <scratch>/gdn_numerical.py --out <scratch>/numerical.json
+Exit 0, elapsed 2.66 s: 10 cases, 30/30 chunk comparisons passed, 0 failed, 0 skipped; all C16/32/64 eligible at T512/T2048.
+
+Resource commands (fresh process per method/length; outputs outside checkout)
+cd <source-checkout> && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 \
+  timeout -k 15s 300s python3 <scratch>/gdn_resource.py --source-root <source-checkout> --length <512|2048> --method <scan|chunk16|chunk32|chunk64> --seed 42 --out <scratch>/resource-<length>-<method>.json
+- 512-scan: exit 0; status passed; elapsed 3 s; end 2026-11-28T16:40:16Z; 2026-11-28T16:40:13Z.
+- 512-chunk16: exit 0; status passed; elapsed 3 s; end 2026-11-28T16:40:23Z; start not individually captured.
+- 512-chunk32: exit 0; status passed; elapsed 2 s; end 2026-11-28T16:40:25Z; start not individually captured.
+- 512-chunk64: exit 0; status passed; elapsed 2 s; end 2026-11-28T16:40:27Z; start not individually captured.
+- 2048-scan: exit 0; status passed; elapsed 7 s; end 2026-11-28T16:40:40Z; start not individually captured.
+- 2048-chunk16: exit 0; status passed; elapsed 5 s; end 2026-11-28T16:40:44Z; start not individually captured.
+- 2048-chunk32: exit 0; status passed; elapsed 4 s; end 2026-11-28T16:40:48Z; start not individually captured.
+- 2048-chunk64: exit 0; status passed; elapsed 3 s; end 2026-11-28T16:40:52Z; start not individually captured.
+
+Resource gates
+Each process compared the method against a fresh scan reference for output/state/loss/all six input gradients before timing, then repeated the comparison after each of three measured repeats with fresh leaf clones. All gates passed; all repeat digests matched the gate digest.
+Peak reserved first-repeat values can include retained allocator cache from the pre-timing reference scan; repeats 2-3 show method-specific reserved peaks. Absolute allocated peaks are stable. No retry was performed.
+
+Aggregate command
+python3 <evidence>/analyze_resources.py --dir <evidence> --out experiments/results/T0024/attempt-001/resource-analysis.json
+Exit 0: 30/30 numerical chunks passed; 8/8 resource cases passed; fastest isolated component method chunk64 at both lengths.
+
+Validation
+python3 tools/rep/validate_result.py experiments/results/T0024/attempt-001 --task T0024 --source 6e8911662ac56df665147cb79e412f0383cf71d8 --checks environment,numerical,resource,handover
+Validator result is reported in the PR body after exact-head packaging.
+
+No packages, system changes, reference-source edits, training, real data, checkpoints, Mini, background work, profiling/compilation, timeouts or automatic retries occurred.

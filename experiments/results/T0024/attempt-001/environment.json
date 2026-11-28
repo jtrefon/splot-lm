@@ -1,0 +1,161 @@
+{
+  "attempt": 1,
+  "authorization": "owner explicitly named and authorized T0024 on the local RTX 4090 within the merged specification and resource limits",
+  "branch": "research/T0024-gdn-chunk-attempt-001",
+  "class": "VAL",
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "tf32_enabled": false,
+    "torch_threads": 1
+  },
+  "evidence_build_utc": "2026-11-28T16:43:50Z",
+  "gpu": {
+    "driver_version": "580.178.04",
+    "index": 0,
+    "model": "NVIDIA GeForce RTX 4090",
+    "owner_selected": true,
+    "vram_free_preflight_mib": 24077,
+    "vram_total_mib": 24564
+  },
+  "host": {
+    "ram_available_bytes_preflight": 26777968640,
+    "ram_total_bytes_preflight": 32894615552
+  },
+  "instruction_commit": "d5cc33c0ba3df21e4763284cc3a1f4cde08a38b9",
+  "notes": [
+    "delta_chunk is an existing dense triangular oracle, not a production kernel; T0024 composes it over slices with carried FP32 state.",
+    "First-repeat peak reserved can include allocator cache from the pre-timing reference scan; absolute peak allocated is stable and repeats 2-3 show method-specific reserved peaks.",
+    "Resource timings are component-only; no full-model or production-kernel speed claim."
+  ],
+  "numerical": {
+    "cases": 10,
+    "chunk_outcomes": 30,
+    "chunks": [
+      16,
+      32,
+      64
+    ],
+    "device": "cpu",
+    "eligibility": {
+      "2048": {
+        "16": true,
+        "32": true,
+        "64": true,
+        "scan": true
+      },
+      "512": {
+        "16": true,
+        "32": true,
+        "64": true,
+        "scan": true
+      }
+    },
+    "failed_chunks": 0,
+    "passed_chunks": 30,
+    "skipped_chunks": 0,
+    "thresholds": {
+      "fp32_gradient": {
+        "max_abs_scale": 1e-05,
+        "relative_l2": 0.0005
+      },
+      "fp32_output_state": {
+        "max_abs_scale": 0.0001,
+        "relative_l2": 0.0001
+      },
+      "fp64": {
+        "max_abs": 1e-09,
+        "relative_l2": 1e-09
+      },
+      "near_zero_denominator": 1e-12
+    },
+    "worst": {
+      "fp32_max_abs": 1.2665987014770508e-07,
+      "fp32_rel_l2": 9.405740064620307e-07,
+      "fp64_max_abs": 8.326672684688674e-17,
+      "fp64_rel_l2": 1.175608161200299e-15
+    }
+  },
+  "numerical_end_utc": "2026-11-28T16:39:13Z",
+  "numerical_start_utc": "2026-11-28T16:39:09Z",
+  "observed": {
+    "fastest_component_method": {
+      "2048": "chunk64",
+      "512": "chunk64"
+    },
+    "max_resource_process_seconds": 7,
+    "numerical_cases": 10,
+    "numerical_passed_chunks": 30,
+    "peak_reserved_bytes_max": 524288000,
+    "raw_output_bytes": 210686,
+    "resource_cases": 8,
+    "resource_passed": 8,
+    "retries": 0,
+    "source_changes": 0,
+    "timeouts": 0
+  },
+  "os": {
+    "cpu_count": 24,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "release": "7.0.0-43-generic",
+    "system": "Linux"
+  },
+  "python": {
+    "implementation": "CPython",
+    "process": "CPython 3.12.7",
+    "version": "3.12.7"
+  },
+  "resource": {
+    "allocator_note": "A pre-timing reference scan can leave allocator cache reserved. Absolute peak allocated is stable across repeats; the first repeat peak reserved may include that retained cache, while repeats 2-3 show the method-specific reserved peak. Both absolute peaks and increments over the recorded input baseline are reported; no retry was performed.",
+    "device": "cuda",
+    "lengths": [
+      512,
+      2048
+    ],
+    "methods": [
+      "scan",
+      "chunk16",
+      "chunk32",
+      "chunk64"
+    ],
+    "profile_or_compile": false,
+    "repeats": 3,
+    "seed": 42,
+    "timing": "synchronized forward and backward, fresh leaf clones per repeat"
+  },
+  "resource_end_utc": "2026-11-28T16:40:52Z",
+  "resource_limits": {
+    "foreground_seconds": 3600,
+    "minimum_gpu_bytes": 21474836480,
+    "minimum_host_ram_bytes": 8589934592,
+    "minimum_scratch_bytes": 4294967296,
+    "per_process_grace_seconds": 15,
+    "per_process_timeout_seconds": 300
+  },
+  "resource_start_utc": "2026-11-28T16:40:13Z",
+  "scratch": {
+    "free_bytes_preflight": 181499346944,
+    "repo_available_bytes_preflight": 181499346944,
+    "total_bytes": 457490497536
+  },
+  "source": {
+    "clean_before_and_after": true,
+    "gdn_numerical_driver": "gdn_numerical.py",
+    "gdn_resource_driver": "gdn_resource.py",
+    "gdn_sha256": "46eaade0fc574353a68654b6dfa52f1c93af271a97b1632aa43551ac20e85f7b",
+    "head": "6e8911662ac56df665147cb79e412f0383cf71d8",
+    "resource_driver_sanitization": "published driver replaces a hardcoded scratch source-root output guard with --source-root; numerical/timing logic unchanged",
+    "source_edits": false,
+    "worktree_label": "<local-source-checkout>"
+  },
+  "source_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "specification": "experiments/tasks/T0024-gdn-chunk-feasibility.md",
+  "start_utc": "2026-11-28T16:38:33Z",
+  "task_id": "T0024",
+  "tested_commit": "6e8911662ac56df665147cb79e412f0383cf71d8",
+  "torch": {
+    "cuda_runtime": "12.8",
+    "version": "2.10.0+cu128"
+  }
+}
