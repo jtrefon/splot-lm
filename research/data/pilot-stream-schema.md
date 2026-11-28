@@ -1,6 +1,6 @@
 # Bounded streaming pilot corpus format (splot-pilot-stream-v1)
 
-2026-11-28 | T0032 / #120 | Production-oriented synthetic prototype | **Not accepted training input**
+2026-11-28 | T0032/T0034 / #120/#124 | Production-oriented synthetic prototype | **Not accepted training input**
 
 This document defines the standalone streaming corpus format implemented by `tools/pilot_stream.py`, the deterministic producer `tools/pilot_stream_producer.py` and the independent auditor `tools/pilot_stream_audit.py`. v1 and v2 formats remain immutable and unchanged.
 
@@ -50,7 +50,7 @@ All files are regular non-symlink files; `sources/` is a real directory. No extr
 | Tokenizer artifact | 4 MiB |
 | Single source raw/content | 4 MiB |
 
-Caps are checked from the manifest/shard declarations before allocation and again while streaming/reading/writing. A larger corpus requires a reviewed schema/cap amendment.
+Caps are checked from the manifest/shard declarations before allocation and again while streaming/reading/writing. The reader validates canonical manifest/tokenizer/source metadata, the exact file set and root/source parent paths before any source byte is read. Per-file and aggregate byte caps are enforced before allocations and during reads/writes. Source raw/content, document slices and shards are hashed and (where required) UTF-8-decoded incrementally under a fixed chunk bound; the loader retains a file index and document metadata rather than a full `content_map`. A larger corpus requires a reviewed schema/cap amendment.
 
 ## 4. Canonical JSON and hashes
 
@@ -167,21 +167,21 @@ For an offset-1 label at position `i`, the target is `i+1`:
 - EOS target: NLL reported separately, zero bytes, excluded from BPB;
 - BOS/control/padding targets are invalid.
 
-`iter_targets` yields verified target records for train/validation only; `verify_targets` rejects forged/duplicate/misordered identities; `aggregate_bpb` accepts synthetic per-target NLLs, rejects finite/negative/overflow/zero-byte cases and returns content BPB plus separate EOS/control and ordinary NTP totals. No model evaluation is performed.
+`iter_targets` yields verified target records for train/validation only. Each record includes `manifest_sha256`, `target_token_id`, `byte_length`, `kind`, `block_index`, `position`, `family_id`, `language` and `split`; the manifest SHA binds the target to the verified dataset identity. `verify_targets` streams expected and caller-supplied records in lockstep, rejects missing/extra/forged/duplicate/misordered identities and strict-type violations, and returns a count summary without materializing either stream. `verify_and_aggregate_bpb` performs the same lockstep identity verification and content-only BPB aggregation in one pass. `aggregate_bpb` consumes a one-pass iterator of synthetic per-target NLL records, rejects nonnumeric/bool/negative/nonfinite/overflow/zero-byte cases and returns content BPB plus separate EOS/control and ordinary NTP totals. No model evaluation is performed.
 
 ## 11. Streaming API and non-exposure
 
-- `load_stream_dataset(root, manifest_sha)` verifies metadata and all shards; returns counts/summary without blocks.
-- `iter_blocks(root, manifest_sha, split)` revalidates the dataset and yields train/validation blocks only; test is refused.
-- `iter_targets(...)` yields train/validation targets only.
-- `verify_targets(...)` checks caller records against validated targets.
+- `load_stream_dataset(root, manifest_sha)` verifies metadata and all shards exactly once per call; returns counts/summary without blocks plus an immutable `StreamIdentity` (manifest/tokenizer/source/document/logical hashes, sequence/vocab, canonical counts and shard identities). The identity is frozen; callers may treat it as read-only.
+- `iter_blocks(root, manifest_sha, split)` performs one full verification and yields train/validation blocks only; test is refused. Blocks are bound to that verified identity.
+- `iter_targets(...)` performs one full verification and yields train/validation targets only; test is refused.
+- `verify_targets(...)`/`verify_and_aggregate_bpb(...)` perform one full verification and then stream expected/provided records in lockstep. They never materialize a full target list.
 - Test shards are integrity-checked but never returned as blocks or scoring targets.
-- The producer writes to a new private staging directory, verifies, then atomically renames; existing output/staging paths are refused.
+- The producer writes to a new exclusive private staging directory created by `tempfile.mkdtemp`, verifies the complete output with no bypass, then atomically renames; existing output paths are refused and pre-existing directories are never removed. A no-concurrent-mutation assumption is documented.
 
 ## 12. Deterministic producer and independent audit
 
-- `pilot_stream_producer.py` accepts explicit `SourceSpec`/`SegmentSpec` records and token IDs; validates caps/provenance/UTF-8/hashes/token-byte equality/segment groups; packs multi-document blocks with padding tails; writes separate source files, metadata and multiple shards; refuses existing output; same inputs produce byte-identical files.
-- `pilot_stream_audit.py` independently re-parses the canonical files and recomputes source/document/selected bytes, labels, per-family/language/split counts, hashes and test integrity without importing the primary verifier or producer. Audit output never contains test blocks.
+- `pilot_stream_producer.py` accepts explicit `SourceSpec`/`SegmentSpec` records and token IDs; validates caps/provenance/UTF-8/hashes/token-byte equality/segment groups; bounds token reconstruction to the declared segment before joining; packs multi-document blocks with padding tails; writes separate source files, metadata and multiple shards; streams the logical hash while writing; enforces per-line, per-shard and aggregate caps during writes; refuses existing output; same inputs produce byte-identical files. Verification before publish is mandatory and there is no `verify=False` bypass.
+- `pilot_stream_audit.py` independently re-parses the canonical files and recomputes source/document/selected bytes, labels, per-family/language/split counts, hashes and test integrity without importing the primary verifier or producer. It validates canonical metadata, the exact file set and parent paths before source reads; hashes sources/documents/shards/logical bytes incrementally; hashes token reconstruction without a full payload join; and never returns test blocks.
 - `make_scale_spec()` builds a deterministic synthetic near-1M plan (8/4/4 families, full/partial segments, multiple shards, T512, complete alphabet). It is not a learning corpus.
 
 ## 13. Format migration and compatibility
@@ -189,6 +189,7 @@ For an offset-1 label at position `i`, the target is `i+1`:
 - v1 and v2 are immutable and remain the only accepted training formats; stream-v1 is standalone and not connected to the CLI.
 - This is a new version, not a cap inflation of v2. A future production loader/training adapter requires a separate reviewed task, real rights registry, tokenizer qualification, independent audit and explicit owner authorization.
 - `research/data/source-registry-template.md` is the machine-readable registry template and review checklist for a future 8/4/4 acquisition. It is not an actual source list.
+- `research/data/source-registry-candidates.json`/`.md` (T0034) propose 24 rights-reviewable bilingual prose candidates (preferred 12/6/6, with a 16-family 8/4/4 minimum subset), metadata only. They are not acquired, rights-approved or frozen and authorize no acquisition.
 - `research/data/pilot-v2-scale-plan.md` remains the prior planning document; this stream format implements the bounded separation of source/metadata/shards but does not acquire data.
 
 ## 14. Limitations
@@ -196,5 +197,6 @@ For an offset-1 label at position `i`, the target is `i+1`:
 - Synthetic only: no actual corpus, tokenizer fit, source authenticity, rights clearance, model evaluation or BPB/quality claim.
 - Scale fixture is intentionally synthetic and must not be described as a learning corpus.
 - Static trusted root/no race-proof assumption; file hashes are integrity checks, not authenticity.
-- The producer holds the explicit segment/token plan in memory; the reader streams shards, but this is not a production streaming-service claim.
+- The producer holds the explicit `StreamSpec` segment/token plan and its input source bytes in memory; it no longer retains shard payloads or joins all documents. The reader/auditor stream source/document/shard bytes incrementally. This is not a production streaming-service or concurrent-mutation claim.
+- T0034 did not acquire any candidate source, fit a tokenizer, train a model or change v1/v2/CLI/config/workflow/shared project-state documents.
 - No merge, training, closure or next-task launch; no shared roadmap/state edit.
