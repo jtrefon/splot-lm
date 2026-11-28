@@ -1,0 +1,27 @@
+{
+  "command_line_invocation_errors": [
+    {
+      "end_utc": "2026-11-28T19:20:42Z",
+      "exit_code": 2,
+      "ordinal": 1,
+      "reason": "missing required --t0025-reference/--instruction-commit arguments",
+      "resource_measurement_started": false,
+      "start_utc": "2026-11-28T19:20:41Z"
+    },
+    {
+      "end_utc": "2026-11-28T19:20:51Z",
+      "exit_code": 2,
+      "ordinal": 2,
+      "reason": "zsh did not word-split an option string; argparse saw unrecognized arguments",
+      "resource_measurement_started": false,
+      "start_utc": "2026-11-28T19:20:50Z"
+    }
+  ],
+  "note": "Both failed invocations stopped before model construction or measurement. No numerical gate, source, data, config or precision policy changed; the successful invocations are the recorded evidence.",
+  "status": "documented",
+  "successful_processes": {
+    "forward_backward": 1,
+    "resources": 6,
+    "screen": 1
+  }
+}

@@ -1,0 +1,1510 @@
+{
+  "limitations": [
+    "One synthetic T512 seed42 screen per policy; no learning or generalization claim.",
+    "Policy scan versus original BF16 scan is reported descriptively; precision is a confound.",
+    "P3 is a full FP32 control, not a BF16 replacement.",
+    "No teacher-forced routing was used for acceptance."
+  ],
+  "policies": {
+    "P1": {
+      "failed_gates": [
+        "tensors",
+        "routing"
+      ],
+      "identity_equal": true,
+      "parameters": 43055076,
+      "policy_identity": {
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+      },
+      "policy_log_chunk": {
+        "policy": "P1",
+        "signatures": [
+          {
+            "assignment": "cast back to the existing GDN input dtype before residual",
+            "calls": 6,
+            "compute_dtype": "float32",
+            "input_dtype": "torch.float32",
+            "operation": "GDN.o",
+            "output_dtype": "torch.float32",
+            "weight_dtype": "torch.float32"
+          }
+        ]
+      },
+      "policy_log_scan": {
+        "policy": "P1",
+        "signatures": [
+          {
+            "assignment": "cast back to the existing GDN input dtype before residual",
+            "calls": 6,
+            "compute_dtype": "float32",
+            "input_dtype": "torch.float32",
+            "operation": "GDN.o",
+            "output_dtype": "torch.float32",
+            "weight_dtype": "torch.float32"
+          }
+        ]
+      },
+      "same_input_fp32": {
+        "calls": {
+          "(0, 1)": {
+            "block": 0,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.30385160446167e-08,
+              "reference_max_abs": 0.03497021272778511,
+              "rel_l2": 3.691102310249035e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 7.450580596923828e-08,
+              "reference_max_abs": 0.33377543091773987,
+              "rel_l2": 3.2749749208258084e-07
+            },
+            "status": "passed"
+          },
+          "(0, 2)": {
+            "block": 0,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.30385160446167e-08,
+              "reference_max_abs": 0.028685735538601875,
+              "rel_l2": 3.6531502759830834e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 8.940696716308594e-08,
+              "reference_max_abs": 0.2678767144680023,
+              "rel_l2": 3.3241978498261584e-07
+            },
+            "status": "passed"
+          },
+          "(1, 1)": {
+            "block": 1,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.30385160446167e-08,
+              "reference_max_abs": 0.02753494121134281,
+              "rel_l2": 3.4636320034662595e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 7.450580596923828e-08,
+              "reference_max_abs": 0.2135341465473175,
+              "rel_l2": 3.0144402557943647e-07
+            },
+            "status": "passed"
+          },
+          "(1, 2)": {
+            "block": 1,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.1175870895385742e-08,
+              "reference_max_abs": 0.032777268439531326,
+              "rel_l2": 3.486608736292671e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 8.940696716308594e-08,
+              "reference_max_abs": 0.21781471371650696,
+              "rel_l2": 3.15122149532633e-07
+            },
+            "status": "passed"
+          },
+          "(2, 1)": {
+            "block": 2,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.4668330550193787e-08,
+              "reference_max_abs": 0.047635868191719055,
+              "rel_l2": 3.346003573850495e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.1920928955078125e-07,
+              "reference_max_abs": 0.3452731966972351,
+              "rel_l2": 3.052771684496083e-07
+            },
+            "status": "passed"
+          },
+          "(2, 2)": {
+            "block": 2,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.4901161193847656e-08,
+              "reference_max_abs": 0.054448630660772324,
+              "rel_l2": 3.3350553255288436e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.4901161193847656e-07,
+              "reference_max_abs": 0.45878827571868896,
+              "rel_l2": 2.986782303168791e-07
+            },
+            "status": "passed"
+          }
+        },
+        "first_nonzero": {
+          "block": 0,
+          "key": "(0, 1)",
+          "logical_pass": 1,
+          "output_max_abs": 1.30385160446167e-08,
+          "output_rel_l2": 3.691102310249035e-07
+        },
+        "fp64_oracle": {
+          "calls": {
+            "(0, 1)": {
+              "output": {
+                "elements": 196608,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.034970205277204514,
+                "rel_l2": 0.0
+              },
+              "state": {
+                "elements": 24576,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.3337753713130951,
+                "rel_l2": 0.0
+              },
+              "status": "passed"
+            },
+            "(2, 2)": {
+              "output": {
+                "elements": 196608,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.054448626935482025,
+                "rel_l2": 0.0
+              },
+              "state": {
+                "elements": 24576,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.4587882459163666,
+                "rel_l2": 0.0
+              },
+              "status": "passed"
+            }
+          },
+          "status": "passed"
+        },
+        "status": "passed",
+        "worst_max_abs": 1.4901161193847656e-07,
+        "worst_rel_l2": 3.691102310249035e-07
+      },
+      "status": "failed",
+      "vs_original_bf16_scan": {
+        "failed_gates": [
+          "tensors",
+          "routing"
+        ],
+        "gates": {
+          "finite": true,
+          "losses": true,
+          "routing": false,
+          "tensors": false
+        },
+        "losses": {
+          "balance": 7.641315460205078e-05,
+          "early_ntp": 0.0005655288696289062,
+          "final_ntp": 0.0005578994750976562,
+          "offset2": 0.000782012939453125,
+          "total": 0.0008935928344726562
+        },
+        "routing": {
+          "by_key": {
+            "('C', 1, 0)": {
+              "disagreement_fraction": 0.00390625,
+              "mismatch_tokens": 2,
+              "tokens": 512
+            },
+            "('C', 1, 1)": {
+              "disagreement_fraction": 0.001953125,
+              "mismatch_tokens": 1,
+              "tokens": 512
+            },
+            "('C', 1, 2)": {
+              "disagreement_fraction": 0.017578125,
+              "mismatch_tokens": 9,
+              "tokens": 512
+            },
+            "('C', 1, 3)": {
+              "disagreement_fraction": 0.021484375,
+              "mismatch_tokens": 11,
+              "tokens": 512
+            },
+            "('C', 2, 0)": {
+              "disagreement_fraction": 0.03125,
+              "mismatch_tokens": 16,
+              "tokens": 512
+            },
+            "('C', 2, 1)": {
+              "disagreement_fraction": 0.037109375,
+              "mismatch_tokens": 19,
+              "tokens": 512
+            },
+            "('C', 2, 2)": {
+              "disagreement_fraction": 0.044921875,
+              "mismatch_tokens": 23,
+              "tokens": 512
+            },
+            "('C', 2, 3)": {
+              "disagreement_fraction": 0.060546875,
+              "mismatch_tokens": 31,
+              "tokens": 512
+            }
+          },
+          "disagreement_fraction": 0.02734375,
+          "mismatch_tokens": 112,
+          "tokens": 4096
+        },
+        "status": "failed",
+        "tensors": {
+          "hidden_1": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.17364723607897758,
+            "reference_max_abs": 0.7818672060966492,
+            "rel_l2": 0.039875341336064296
+          },
+          "hidden_2": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.2946416139602661,
+            "reference_max_abs": 1.0939202308654785,
+            "rel_l2": 0.07093624517926035
+          },
+          "logits_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.521484375,
+            "reference_max_abs": 2.203125,
+            "rel_l2": 0.03464177180302558
+          },
+          "logits_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.7265625,
+            "reference_max_abs": 2.140625,
+            "rel_l2": 0.06934300527509299
+          },
+          "offset2_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.640625,
+            "reference_max_abs": 2.125,
+            "rel_l2": 0.04117835455484006
+          },
+          "offset2_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.716796875,
+            "reference_max_abs": 2.09375,
+            "rel_l2": 0.07207369937313995
+          }
+        }
+      },
+      "within_policy": {
+        "failed_gates": [
+          "tensors",
+          "routing"
+        ],
+        "gates": {
+          "finite": true,
+          "losses": true,
+          "routing": false,
+          "tensors": false
+        },
+        "losses": {
+          "balance": 0.0002694129943847656,
+          "early_ntp": 0.00039577484130859375,
+          "final_ntp": 0.0011425018310546875,
+          "offset2": 0.0003299713134765625,
+          "total": 0.0013217926025390625
+        },
+        "routing": {
+          "by_key": {
+            "('C', 1, 0)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 1, 1)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 1, 2)": {
+              "disagreement_fraction": 0.005859375,
+              "mismatch_tokens": 3,
+              "tokens": 512
+            },
+            "('C', 1, 3)": {
+              "disagreement_fraction": 0.005859375,
+              "mismatch_tokens": 3,
+              "tokens": 512
+            },
+            "('C', 2, 0)": {
+              "disagreement_fraction": 0.01171875,
+              "mismatch_tokens": 6,
+              "tokens": 512
+            },
+            "('C', 2, 1)": {
+              "disagreement_fraction": 0.013671875,
+              "mismatch_tokens": 7,
+              "tokens": 512
+            },
+            "('C', 2, 2)": {
+              "disagreement_fraction": 0.01953125,
+              "mismatch_tokens": 10,
+              "tokens": 512
+            },
+            "('C', 2, 3)": {
+              "disagreement_fraction": 0.02734375,
+              "mismatch_tokens": 14,
+              "tokens": 512
+            }
+          },
+          "disagreement_fraction": 0.010498046875,
+          "mismatch_tokens": 43,
+          "tokens": 4096
+        },
+        "status": "failed",
+        "tensors": {
+          "hidden_1": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.11639710888266563,
+            "reference_max_abs": 0.7813203930854797,
+            "rel_l2": 0.018287571537861865
+          },
+          "hidden_2": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.19144657254219055,
+            "reference_max_abs": 1.1056712865829468,
+            "rel_l2": 0.03843882150628132
+          },
+          "logits_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.3388671875,
+            "reference_max_abs": 2.1875,
+            "rel_l2": 0.015496415676797624
+          },
+          "logits_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.3720703125,
+            "reference_max_abs": 2.140625,
+            "rel_l2": 0.036716367326808996
+          },
+          "offset2_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.40771484375,
+            "reference_max_abs": 2.140625,
+            "rel_l2": 0.018323965689987908
+          },
+          "offset2_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.408203125,
+            "reference_max_abs": 2.078125,
+            "rel_l2": 0.0386014594227999
+          }
+        }
+      }
+    },
+    "P2": {
+      "failed_gates": [
+        "tensors",
+        "routing"
+      ],
+      "identity_equal": true,
+      "parameters": 43055076,
+      "policy_identity": {
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+      },
+      "policy_log_chunk": {
+        "policy": "P2",
+        "signatures": [
+          {
+            "assignment": "cast y back to surrounding hidden dtype; state/history remain FP32 internal",
+            "calls": 6,
+            "computed_output_dtype": "torch.float32",
+            "effective_input_dtype": "float32",
+            "history_dtype": "torch.float32",
+            "input_dtype": "torch.float32",
+            "operation": "GatedDeltaNet.run",
+            "returned_output_dtype": "torch.float32",
+            "state_dtype": "torch.float32",
+            "weight_dtype": "float32"
+          }
+        ]
+      },
+      "policy_log_scan": {
+        "policy": "P2",
+        "signatures": [
+          {
+            "assignment": "cast y back to surrounding hidden dtype; state/history remain FP32 internal",
+            "calls": 6,
+            "computed_output_dtype": "torch.float32",
+            "effective_input_dtype": "float32",
+            "history_dtype": "torch.float32",
+            "input_dtype": "torch.float32",
+            "operation": "GatedDeltaNet.run",
+            "returned_output_dtype": "torch.float32",
+            "state_dtype": "torch.float32",
+            "weight_dtype": "float32"
+          }
+        ]
+      },
+      "same_input_fp32": {
+        "calls": {
+          "(0, 1)": {
+            "block": 0,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.862645149230957e-08,
+              "reference_max_abs": 0.03498105704784393,
+              "rel_l2": 3.852004788720369e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.043081283569336e-07,
+              "reference_max_abs": 0.3333495259284973,
+              "rel_l2": 3.9359388622121545e-07
+            },
+            "status": "passed"
+          },
+          "(0, 2)": {
+            "block": 0,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.6763806343078613e-08,
+              "reference_max_abs": 0.029053645208477974,
+              "rel_l2": 3.673382215859168e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.4901161193847656e-07,
+              "reference_max_abs": 0.2686270773410797,
+              "rel_l2": 3.1689608539055543e-07
+            },
+            "status": "passed"
+          },
+          "(1, 1)": {
+            "block": 1,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.30385160446167e-08,
+              "reference_max_abs": 0.027492105960845947,
+              "rel_l2": 3.443917687030862e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.043081283569336e-07,
+              "reference_max_abs": 0.21367959678173065,
+              "rel_l2": 2.98593082121853e-07
+            },
+            "status": "passed"
+          },
+          "(1, 2)": {
+            "block": 1,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.1641532182693481e-08,
+              "reference_max_abs": 0.032952550798654556,
+              "rel_l2": 3.498239865696241e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 5.960464477539063e-08,
+              "reference_max_abs": 0.21821042895317078,
+              "rel_l2": 2.9228217810648277e-07
+            },
+            "status": "passed"
+          },
+          "(2, 1)": {
+            "block": 2,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.862645149230957e-08,
+              "reference_max_abs": 0.04603250324726105,
+              "rel_l2": 3.3079275307807414e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.1920928955078125e-07,
+              "reference_max_abs": 0.345280259847641,
+              "rel_l2": 3.155262069399347e-07
+            },
+            "status": "passed"
+          },
+          "(2, 2)": {
+            "block": 2,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.30385160446167e-08,
+              "reference_max_abs": 0.053259409964084625,
+              "rel_l2": 3.3516085883193954e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.341104507446289e-07,
+              "reference_max_abs": 0.4517330825328827,
+              "rel_l2": 3.1433525317417584e-07
+            },
+            "status": "passed"
+          }
+        },
+        "first_nonzero": {
+          "block": 0,
+          "key": "(0, 1)",
+          "logical_pass": 1,
+          "output_max_abs": 1.862645149230957e-08,
+          "output_rel_l2": 3.852004788720369e-07
+        },
+        "fp64_oracle": {
+          "calls": {
+            "(0, 1)": {
+              "output": {
+                "elements": 196608,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.03498104214668274,
+                "rel_l2": 0.0
+              },
+              "state": {
+                "elements": 24576,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.3333495259284973,
+                "rel_l2": 0.0
+              },
+              "status": "passed"
+            },
+            "(2, 2)": {
+              "output": {
+                "elements": 196608,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.053259409964084625,
+                "rel_l2": 0.0
+              },
+              "state": {
+                "elements": 24576,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.45173317193984985,
+                "rel_l2": 0.0
+              },
+              "status": "passed"
+            }
+          },
+          "status": "passed"
+        },
+        "status": "passed",
+        "worst_max_abs": 1.4901161193847656e-07,
+        "worst_rel_l2": 3.9359388622121545e-07
+      },
+      "status": "failed",
+      "vs_original_bf16_scan": {
+        "failed_gates": [
+          "tensors",
+          "routing"
+        ],
+        "gates": {
+          "finite": true,
+          "losses": true,
+          "routing": false,
+          "tensors": false
+        },
+        "losses": {
+          "balance": 0.00021386146545410156,
+          "early_ntp": 0.00081634521484375,
+          "final_ntp": 0.0017900466918945312,
+          "offset2": 0.0005044937133789062,
+          "total": 0.0021181106567382812
+        },
+        "routing": {
+          "by_key": {
+            "('C', 1, 0)": {
+              "disagreement_fraction": 0.005859375,
+              "mismatch_tokens": 3,
+              "tokens": 512
+            },
+            "('C', 1, 1)": {
+              "disagreement_fraction": 0.005859375,
+              "mismatch_tokens": 3,
+              "tokens": 512
+            },
+            "('C', 1, 2)": {
+              "disagreement_fraction": 0.033203125,
+              "mismatch_tokens": 17,
+              "tokens": 512
+            },
+            "('C', 1, 3)": {
+              "disagreement_fraction": 0.025390625,
+              "mismatch_tokens": 13,
+              "tokens": 512
+            },
+            "('C', 2, 0)": {
+              "disagreement_fraction": 0.04296875,
+              "mismatch_tokens": 22,
+              "tokens": 512
+            },
+            "('C', 2, 1)": {
+              "disagreement_fraction": 0.064453125,
+              "mismatch_tokens": 33,
+              "tokens": 512
+            },
+            "('C', 2, 2)": {
+              "disagreement_fraction": 0.052734375,
+              "mismatch_tokens": 27,
+              "tokens": 512
+            },
+            "('C', 2, 3)": {
+              "disagreement_fraction": 0.083984375,
+              "mismatch_tokens": 43,
+              "tokens": 512
+            }
+          },
+          "disagreement_fraction": 0.039306640625,
+          "mismatch_tokens": 161,
+          "tokens": 4096
+        },
+        "status": "failed",
+        "tensors": {
+          "hidden_1": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.17701365053653717,
+            "reference_max_abs": 0.7818672060966492,
+            "rel_l2": 0.050252572491677625
+          },
+          "hidden_2": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.30405017733573914,
+            "reference_max_abs": 1.0939202308654785,
+            "rel_l2": 0.08689599490183544
+          },
+          "logits_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.515625,
+            "reference_max_abs": 2.203125,
+            "rel_l2": 0.042709388144962536
+          },
+          "logits_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.751953125,
+            "reference_max_abs": 2.140625,
+            "rel_l2": 0.08388395245418491
+          },
+          "offset2_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.642578125,
+            "reference_max_abs": 2.125,
+            "rel_l2": 0.05152329320519452
+          },
+          "offset2_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.73046875,
+            "reference_max_abs": 2.09375,
+            "rel_l2": 0.08760140962568162
+          }
+        }
+      },
+      "within_policy": {
+        "failed_gates": [
+          "tensors",
+          "routing"
+        ],
+        "gates": {
+          "finite": true,
+          "losses": true,
+          "routing": false,
+          "tensors": false
+        },
+        "losses": {
+          "balance": 0.0002067089080810547,
+          "early_ntp": 2.6702880859375e-05,
+          "final_ntp": 0.0006456375122070312,
+          "offset2": 0.00010585784912109375,
+          "total": 0.000614166259765625
+        },
+        "routing": {
+          "by_key": {
+            "('C', 1, 0)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 1, 1)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 1, 2)": {
+              "disagreement_fraction": 0.001953125,
+              "mismatch_tokens": 1,
+              "tokens": 512
+            },
+            "('C', 1, 3)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 2, 0)": {
+              "disagreement_fraction": 0.009765625,
+              "mismatch_tokens": 5,
+              "tokens": 512
+            },
+            "('C', 2, 1)": {
+              "disagreement_fraction": 0.009765625,
+              "mismatch_tokens": 5,
+              "tokens": 512
+            },
+            "('C', 2, 2)": {
+              "disagreement_fraction": 0.013671875,
+              "mismatch_tokens": 7,
+              "tokens": 512
+            },
+            "('C', 2, 3)": {
+              "disagreement_fraction": 0.009765625,
+              "mismatch_tokens": 5,
+              "tokens": 512
+            }
+          },
+          "disagreement_fraction": 0.005615234375,
+          "mismatch_tokens": 23,
+          "tokens": 4096
+        },
+        "status": "failed",
+        "tensors": {
+          "hidden_1": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.07437623292207718,
+            "reference_max_abs": 0.7816275358200073,
+            "rel_l2": 0.006786142262559985
+          },
+          "hidden_2": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.11838027834892273,
+            "reference_max_abs": 1.102914810180664,
+            "rel_l2": 0.025985622587002533
+          },
+          "logits_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.25,
+            "reference_max_abs": 2.1875,
+            "rel_l2": 0.007635083864417456
+          },
+          "logits_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.28619384765625,
+            "reference_max_abs": 2.171875,
+            "rel_l2": 0.02577732596501002
+          },
+          "offset2_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.29632568359375,
+            "reference_max_abs": 2.125,
+            "rel_l2": 0.008335234136162101
+          },
+          "offset2_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.291015625,
+            "reference_max_abs": 2.09375,
+            "rel_l2": 0.0268880991377704
+          }
+        }
+      }
+    },
+    "P3": {
+      "failed_gates": [],
+      "identity_equal": true,
+      "parameters": 43055076,
+      "policy_identity": {
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+      },
+      "policy_log_chunk": {
+        "policy": "P3",
+        "signatures": [
+          {
+            "autocast": "disabled",
+            "calls": 1,
+            "model_dtype": "float32",
+            "operation": "full_model_forward",
+            "surrounding_assignment": "native FP32 full forward"
+          }
+        ]
+      },
+      "policy_log_scan": {
+        "policy": "P3",
+        "signatures": [
+          {
+            "autocast": "disabled",
+            "calls": 1,
+            "model_dtype": "float32",
+            "operation": "full_model_forward",
+            "surrounding_assignment": "native FP32 full forward"
+          }
+        ]
+      },
+      "same_input_fp32": {
+        "calls": {
+          "(0, 1)": {
+            "block": 0,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.30385160446167e-08,
+              "reference_max_abs": 0.03475560247898102,
+              "rel_l2": 3.698562483364657e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 7.450580596923828e-08,
+              "reference_max_abs": 0.33300310373306274,
+              "rel_l2": 3.1824727028965777e-07
+            },
+            "status": "passed"
+          },
+          "(0, 2)": {
+            "block": 0,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.4901161193847656e-08,
+              "reference_max_abs": 0.028649570420384407,
+              "rel_l2": 3.669010611659327e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 8.940696716308594e-08,
+              "reference_max_abs": 0.26493117213249207,
+              "rel_l2": 3.2103498546182766e-07
+            },
+            "status": "passed"
+          },
+          "(1, 1)": {
+            "block": 1,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.1175870895385742e-08,
+              "reference_max_abs": 0.027498919516801834,
+              "rel_l2": 3.451005381834893e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 7.450580596923828e-08,
+              "reference_max_abs": 0.2124718874692917,
+              "rel_l2": 3.1178438378337484e-07
+            },
+            "status": "passed"
+          },
+          "(1, 2)": {
+            "block": 1,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.6763806343078613e-08,
+              "reference_max_abs": 0.032693471759557724,
+              "rel_l2": 3.476109663025683e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 7.450580596923828e-08,
+              "reference_max_abs": 0.21807044744491577,
+              "rel_l2": 3.1925201524953475e-07
+            },
+            "status": "passed"
+          },
+          "(2, 1)": {
+            "block": 2,
+            "logical_pass": 1,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 1.6763806343078613e-08,
+              "reference_max_abs": 0.04742427170276642,
+              "rel_l2": 3.341331405467378e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 1.043081283569336e-07,
+              "reference_max_abs": 0.3433614671230316,
+              "rel_l2": 3.183778882031055e-07
+            },
+            "status": "passed"
+          },
+          "(2, 2)": {
+            "block": 2,
+            "logical_pass": 2,
+            "output": {
+              "elements": 196608,
+              "finite": true,
+              "max_abs": 2.0489096641540527e-08,
+              "reference_max_abs": 0.05763194337487221,
+              "rel_l2": 3.3175205710107897e-07
+            },
+            "state": {
+              "elements": 24576,
+              "finite": true,
+              "max_abs": 7.450580596923828e-08,
+              "reference_max_abs": 0.4430161714553833,
+              "rel_l2": 2.8875656696541717e-07
+            },
+            "status": "passed"
+          }
+        },
+        "first_nonzero": {
+          "block": 0,
+          "key": "(0, 1)",
+          "logical_pass": 1,
+          "output_max_abs": 1.30385160446167e-08,
+          "output_rel_l2": 3.698562483364657e-07
+        },
+        "fp64_oracle": {
+          "calls": {
+            "(0, 1)": {
+              "output": {
+                "elements": 196608,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.03475560247898102,
+                "rel_l2": 0.0
+              },
+              "state": {
+                "elements": 24576,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.33300307393074036,
+                "rel_l2": 0.0
+              },
+              "status": "passed"
+            },
+            "(2, 2)": {
+              "output": {
+                "elements": 196608,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.057631947100162506,
+                "rel_l2": 0.0
+              },
+              "state": {
+                "elements": 24576,
+                "finite": true,
+                "max_abs": 0.0,
+                "reference_max_abs": 0.4430162012577057,
+                "rel_l2": 0.0
+              },
+              "status": "passed"
+            }
+          },
+          "status": "passed"
+        },
+        "status": "passed",
+        "worst_max_abs": 1.043081283569336e-07,
+        "worst_rel_l2": 3.698562483364657e-07
+      },
+      "status": "passed",
+      "vs_original_bf16_scan": {
+        "failed_gates": [
+          "tensors",
+          "routing"
+        ],
+        "gates": {
+          "finite": true,
+          "losses": true,
+          "routing": false,
+          "tensors": false
+        },
+        "losses": {
+          "balance": 0.00045943260192871094,
+          "early_ntp": 0.000553131103515625,
+          "final_ntp": 0.000988006591796875,
+          "offset2": 0.0014486312866210938,
+          "total": 0.000759124755859375
+        },
+        "routing": {
+          "by_key": {
+            "('C', 1, 0)": {
+              "disagreement_fraction": 0.001953125,
+              "mismatch_tokens": 1,
+              "tokens": 512
+            },
+            "('C', 1, 1)": {
+              "disagreement_fraction": 0.0234375,
+              "mismatch_tokens": 12,
+              "tokens": 512
+            },
+            "('C', 1, 2)": {
+              "disagreement_fraction": 0.044921875,
+              "mismatch_tokens": 23,
+              "tokens": 512
+            },
+            "('C', 1, 3)": {
+              "disagreement_fraction": 0.033203125,
+              "mismatch_tokens": 17,
+              "tokens": 512
+            },
+            "('C', 2, 0)": {
+              "disagreement_fraction": 0.0546875,
+              "mismatch_tokens": 28,
+              "tokens": 512
+            },
+            "('C', 2, 1)": {
+              "disagreement_fraction": 0.08203125,
+              "mismatch_tokens": 42,
+              "tokens": 512
+            },
+            "('C', 2, 2)": {
+              "disagreement_fraction": 0.072265625,
+              "mismatch_tokens": 37,
+              "tokens": 512
+            },
+            "('C', 2, 3)": {
+              "disagreement_fraction": 0.076171875,
+              "mismatch_tokens": 39,
+              "tokens": 512
+            }
+          },
+          "disagreement_fraction": 0.048583984375,
+          "mismatch_tokens": 199,
+          "tokens": 4096
+        },
+        "status": "failed",
+        "tensors": {
+          "hidden_1": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.17983905971050262,
+            "reference_max_abs": 0.7818672060966492,
+            "rel_l2": 0.05720652503777979
+          },
+          "hidden_2": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 0.25503629446029663,
+            "reference_max_abs": 1.0939202308654785,
+            "rel_l2": 0.0976651062987332
+          },
+          "logits_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.5122392177581787,
+            "reference_max_abs": 2.203125,
+            "rel_l2": 0.04993225612116373
+          },
+          "logits_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.6489912271499634,
+            "reference_max_abs": 2.140625,
+            "rel_l2": 0.09530471892752772
+          },
+          "offset2_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.620055615901947,
+            "reference_max_abs": 2.125,
+            "rel_l2": 0.05839096908007928
+          },
+          "offset2_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 0.6417520344257355,
+            "reference_max_abs": 2.09375,
+            "rel_l2": 0.09939512262636185
+          }
+        }
+      },
+      "within_policy": {
+        "failed_gates": [],
+        "gates": {
+          "finite": true,
+          "losses": true,
+          "routing": true,
+          "tensors": true
+        },
+        "losses": {
+          "balance": 1.1920928955078125e-07,
+          "early_ntp": 9.5367431640625e-07,
+          "final_ntp": 0.0,
+          "offset2": 0.0,
+          "total": 0.0
+        },
+        "routing": {
+          "by_key": {
+            "('C', 1, 0)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 1, 1)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 1, 2)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 1, 3)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 2, 0)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 2, 1)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 2, 2)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            },
+            "('C', 2, 3)": {
+              "disagreement_fraction": 0.0,
+              "mismatch_tokens": 0,
+              "tokens": 512
+            }
+          },
+          "disagreement_fraction": 0.0,
+          "mismatch_tokens": 0,
+          "tokens": 4096
+        },
+        "status": "passed",
+        "tensors": {
+          "hidden_1": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 5.438923835754395e-07,
+            "reference_max_abs": 0.7817990183830261,
+            "rel_l2": 5.940653465063024e-07
+          },
+          "hidden_2": {
+            "elements": 196608,
+            "finite": true,
+            "max_abs": 1.2665987014770508e-06,
+            "reference_max_abs": 1.1004513502120972,
+            "rel_l2": 9.029495897196444e-07
+          },
+          "logits_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 2.0265579223632812e-06,
+            "reference_max_abs": 2.2120041847229004,
+            "rel_l2": 6.968718438925665e-07
+          },
+          "logits_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 3.159046173095703e-06,
+            "reference_max_abs": 2.143404006958008,
+            "rel_l2": 1.0039769804280299e-06
+          },
+          "offset2_1": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 2.682209014892578e-06,
+            "reference_max_abs": 2.1377522945404053,
+            "rel_l2": 7.701652829114423e-07
+          },
+          "offset2_2": {
+            "elements": 16777216,
+            "finite": true,
+            "max_abs": 3.0994415283203125e-06,
+            "reference_max_abs": 2.086669683456421,
+            "rel_l2": 1.0417975034087312e-06
+          }
+        }
+      }
+    }
+  },
+  "reproduction": {
+    "chunk64": {
+      "finite": true,
+      "identity": {
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+      },
+      "losses": {
+        "balance": 1.0716493129730225,
+        "early_ntp": 10.484346389770508,
+        "final_ntp": 10.493999481201172,
+        "offset2": 10.487751960754395,
+        "total": 15.747739791870117
+      }
+    },
+    "chunk64_loss_deltas": {
+      "balance": 0.0,
+      "early_ntp": 0.0,
+      "final_ntp": 0.0,
+      "offset2": 0.0,
+      "total": 0.0
+    },
+    "chunk64_loss_max_abs_delta": 0.0,
+    "expected_chunk64_losses": {
+      "balance": 1.0716493129730225,
+      "early_ntp": 10.484346389770508,
+      "final_ntp": 10.493999481201172,
+      "offset2": 10.487751960754395,
+      "total": 15.747739791870117
+    },
+    "expected_identity": {
+      "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+      "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+      "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+    },
+    "expected_scan_losses": {
+      "balance": 1.0717132091522217,
+      "early_ntp": 10.48428726196289,
+      "final_ntp": 10.493874549865723,
+      "offset2": 10.487617492675781,
+      "total": 15.747568130493164
+    },
+    "identity_exact": true,
+    "per_key_routing_counts": {
+      "('C', 1, 0)": {
+        "actual": 0,
+        "exact": true,
+        "expected": 0
+      },
+      "('C', 1, 1)": {
+        "actual": 0,
+        "exact": true,
+        "expected": 0
+      },
+      "('C', 1, 2)": {
+        "actual": 3,
+        "exact": true,
+        "expected": 3
+      },
+      "('C', 1, 3)": {
+        "actual": 2,
+        "exact": true,
+        "expected": 2
+      },
+      "('C', 2, 0)": {
+        "actual": 4,
+        "exact": true,
+        "expected": 4
+      },
+      "('C', 2, 1)": {
+        "actual": 9,
+        "exact": true,
+        "expected": 9
+      },
+      "('C', 2, 2)": {
+        "actual": 10,
+        "exact": true,
+        "expected": 10
+      },
+      "('C', 2, 3)": {
+        "actual": 6,
+        "exact": true,
+        "expected": 6
+      }
+    },
+    "per_key_routing_counts_exact": true,
+    "routing": {
+      "by_key": {
+        "('C', 1, 0)": {
+          "disagreement_fraction": 0.0,
+          "mismatch_tokens": 0,
+          "tokens": 512
+        },
+        "('C', 1, 1)": {
+          "disagreement_fraction": 0.0,
+          "mismatch_tokens": 0,
+          "tokens": 512
+        },
+        "('C', 1, 2)": {
+          "disagreement_fraction": 0.005859375,
+          "mismatch_tokens": 3,
+          "tokens": 512
+        },
+        "('C', 1, 3)": {
+          "disagreement_fraction": 0.00390625,
+          "mismatch_tokens": 2,
+          "tokens": 512
+        },
+        "('C', 2, 0)": {
+          "disagreement_fraction": 0.0078125,
+          "mismatch_tokens": 4,
+          "tokens": 512
+        },
+        "('C', 2, 1)": {
+          "disagreement_fraction": 0.017578125,
+          "mismatch_tokens": 9,
+          "tokens": 512
+        },
+        "('C', 2, 2)": {
+          "disagreement_fraction": 0.01953125,
+          "mismatch_tokens": 10,
+          "tokens": 512
+        },
+        "('C', 2, 3)": {
+          "disagreement_fraction": 0.01171875,
+          "mismatch_tokens": 6,
+          "tokens": 512
+        }
+      },
+      "disagreement_fraction": 0.00830078125,
+      "mismatch_tokens": 34,
+      "tokens": 4096
+    },
+    "scan": {
+      "finite": true,
+      "identity": {
+        "initialization_sha256": "ba9bf9d8472a9b940a416e91f3123ef4163913b7b334291540cb3b321fbaca5b",
+        "input_sha256": "c0aa82fc0906b8a1437b5328f8d2396ab4f79e7b1528e8be399ea107da899270",
+        "partition_plan_sha256": "1bed555467ef9a955079b8260636971dafa5b0b308962e9a18e23a5ffa7bf9ed"
+      },
+      "losses": {
+        "balance": 1.0717132091522217,
+        "early_ntp": 10.48428726196289,
+        "final_ntp": 10.493874549865723,
+        "offset2": 10.487617492675781,
+        "total": 15.747568130493164
+      }
+    },
+    "scan_losses_exact": true,
+    "status": "passed",
+    "tensor_metric_deltas": {
+      "hidden_1": {
+        "actual_max_abs": 0.09012463688850403,
+        "actual_rel_l2": 0.015143682165508817,
+        "max_abs_delta": 0.0,
+        "published_max_abs": 0.09012463688850403,
+        "published_rel_l2": 0.015143682165508817,
+        "rel_l2_abs_delta": 0.0
+      },
+      "hidden_2": {
+        "actual_max_abs": 0.1758652776479721,
+        "actual_rel_l2": 0.032721815649652666,
+        "max_abs_delta": 0.0,
+        "published_max_abs": 0.1758652776479721,
+        "published_rel_l2": 0.032721815649652666,
+        "rel_l2_abs_delta": 0.0
+      },
+      "logits_1": {
+        "actual_max_abs": 0.2392578125,
+        "actual_rel_l2": 0.013530820728977407,
+        "max_abs_delta": 0.0,
+        "published_max_abs": 0.2392578125,
+        "published_rel_l2": 0.013530820728977407,
+        "rel_l2_abs_delta": 0.0
+      },
+      "logits_2": {
+        "actual_max_abs": 0.392578125,
+        "actual_rel_l2": 0.03227545065544488,
+        "max_abs_delta": 0.0,
+        "published_max_abs": 0.392578125,
+        "published_rel_l2": 0.03227545065544488,
+        "rel_l2_abs_delta": 0.0
+      },
+      "offset2_1": {
+        "actual_max_abs": 0.312255859375,
+        "actual_rel_l2": 0.01581708433558624,
+        "max_abs_delta": 0.0,
+        "published_max_abs": 0.312255859375,
+        "published_rel_l2": 0.01581708433558624,
+        "rel_l2_abs_delta": 0.0
+      },
+      "offset2_2": {
+        "actual_max_abs": 0.396484375,
+        "actual_rel_l2": 0.033235788357566146,
+        "max_abs_delta": 0.0,
+        "published_max_abs": 0.396484375,
+        "published_rel_l2": 0.033235788357566146,
+        "rel_l2_abs_delta": 0.0
+      }
+    },
+    "tensor_metrics_within_1e-6": true
+  },
+  "reproduction_passed": true,
+  "selected_policy": "P3",
+  "selection_order": [
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "status": "passed"
+}
