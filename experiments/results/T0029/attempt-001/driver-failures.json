@@ -1,0 +1,43 @@
+{
+  "count": 3,
+  "invocations": [
+    {
+      "end_utc": "2026-11-28T18:26:14Z",
+      "error": "AttributeError: 'dict' object has no attribute 'shape'",
+      "exit_code": 2,
+      "numerical_report_written": false,
+      "ordinal": 1,
+      "stage": "reproduction aggregation",
+      "start_utc": "2026-11-28T18:26:10Z"
+    },
+    {
+      "end_utc": "2026-11-28T18:26:36Z",
+      "error": "RuntimeError: The size of tensor a (64) must match the size of tensor b (384)",
+      "exit_code": 2,
+      "ordinal": 2,
+      "reproduction_passed_in_partial_report": true,
+      "stage": "localization boundary aggregation",
+      "start_utc": "2026-11-28T18:26:32Z"
+    },
+    {
+      "end_utc": "2026-11-28T18:27:29Z",
+      "error": "KeyError: 'no router logits for (3, 1)'",
+      "exit_code": 2,
+      "ordinal": 3,
+      "reproduction_passed_in_partial_report": true,
+      "stage": "routing margin aggregation",
+      "start_utc": "2026-11-28T18:27:23Z"
+    },
+    {
+      "end_utc": "2026-11-28T18:28:28Z",
+      "exit_code": 0,
+      "ordinal": 4,
+      "stage": "complete diagnostic",
+      "start_utc": "2026-11-28T18:28:22Z",
+      "status": "passed"
+    }
+  ],
+  "note": "Three read-only driver defects stopped pre-result aggregation. Source, data, config, seed, tolerances and numerical paths were unchanged. The fourth invocation completed; no numerical gate was rerun after a failed gate and no automatic retry was used.",
+  "status": "documented",
+  "successful_invocation": 4
+}

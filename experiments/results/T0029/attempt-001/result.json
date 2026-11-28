@@ -1,0 +1,79 @@
+{
+  "attempt": 1,
+  "checks": {
+    "environment": {
+      "detail": "Exact instruction/source pins, clean detached worktree, zero open PRs at start, config/input/init/partition/parameter match, RTX 4090/resources above floors, deterministic/TF32 off; no source edits or installs.",
+      "evidence": [
+        "environment.json",
+        "source-identity.json",
+        "preflight.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    },
+    "handover": {
+      "detail": "Flat sanitized package with diagnostic report, exact reproduction, corrected routing, localization analysis, preserved driver failures and execution log; validator result in PR body.",
+      "evidence": [
+        "summary.md",
+        "execution.log",
+        "diagnostic-report.json",
+        "driver-failures.json"
+      ],
+      "status": "passed"
+    },
+    "localization": {
+      "detail": "Forward-only same-input FP32/FP64 GDN comparison, per-pass propagation and BF16 boundary statistics, router top2 margins at first mismatch, FP32 full forward and teacher-forced scan-route diagnostic; no raw tensors/IDs/logits published.",
+      "evidence": [
+        "localization.json",
+        "routing-corrected.json",
+        "analysis.json",
+        "diagnostic-report.json"
+      ],
+      "status": "passed"
+    },
+    "reproduction": {
+      "detail": "T0025 scan identity and losses exact; chunk64 published loss delta 0.0; per-key routing mismatch counts exact; tensor metrics exact; corrected token-weighted routing 34/4096 overall (pass 1 5/2048, pass 2 29/2048).",
+      "evidence": [
+        "reproduction.json",
+        "diagnostic-report.json",
+        "execution.log"
+      ],
+      "status": "passed"
+    }
+  },
+  "class": "VAL",
+  "deviations": [],
+  "external_artifacts": [],
+  "files": {
+    "analysis.json": "7ab0af464ff8cec4669ab96296d4cc0fdad46596ea9ca8c176a29f5e6a2c1fab",
+    "diagnostic-report.json": "16b044e768be4c9168ca3d1b8a1cb159944cacf5d9fbc795c11517ce9ed69de4",
+    "driver-failure-1.json": "75cd3bf32d14fb5c9a0a432b25c7d69fe147642dc395e8c39bff095f907294a4",
+    "driver-failure-2.json": "ea53da1d4a3e0cc805cb7ccd9697041a50faf5c6d2fd6f4f3ef0331d61218192",
+    "driver-failure-3.json": "e55e73bb42d86f0d62e0d871165f2454b1c3071e429e796acf82dbf0fc620c45",
+    "driver-failures.json": "3a3810165d255eaf8a473750850ecf296609c12626c28289d83ba215dcd83edd",
+    "environment.json": "4c2df3d86102e6c857c5386a5c1661670585170133427710e3e13977e0530bea",
+    "execution.log": "4afc810061b21e0e96e74af9f9f18f608f337876547e484163c7ae514127a78c",
+    "localization.json": "50b0af586a9b37fa26496b042c10937104409ec8a78bc842fe615ca35f74a54a",
+    "metrics.jsonl": "c6403721e81964cadf4645d4581f5e60b13266854468965586c29ef3f251ca51",
+    "preflight.json": "e1bfa969de2192c0cdccee50693452bcf5f201e09b99ce9fbb0dd2dc16b7fb3b",
+    "reproduction.json": "80e3bbbe878533bcf741d70c839803825ebc72afccfb30a6438b424320cc2790",
+    "routing-corrected.json": "7b652fea030c3179dc664f127122d8b5665d3c5cdbbc0fff82d81bff548cef9f",
+    "source-identity.json": "e3c19445804774b0469ff4ed73fe3128a47bd937d70e7c7610c2da4bdbc5dc8a",
+    "summary.md": "57fcf0cf95caa216ed71c039199c29abc25c7abfbb1a898ead1049113de66d62",
+    "t0029-probe.py": "630f7799d84c535bc7515fb779224c2be62d426a4d09849d474b7be7d6169622"
+  },
+  "limitations": [
+    "One synthetic T512 forward invocation and one seed; no training, backward, optimizer update, checkpoint or actual data.",
+    "No learning, quality, convergence, production, timing, throughput or energy claim.",
+    "Same-input FP32 is a local control; propagated BF16 comparisons include recurrence, cast and routing effects.",
+    "BF16 cast/route timing is observational; route flips are not established as the first cause.",
+    "Teacher-forced routes are a diagnostic intervention, not production routing and not an equivalence claim."
+  ],
+  "schema_version": 1,
+  "source_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f",
+  "spec_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "status": "passed",
+  "task_commit": "edd2036e284a4f7d1d5904b5284971d33c5c0d39",
+  "task_id": "T0029",
+  "tested_commit": "7dac49e083eae0068ff361e7a81b3a4f41055b3f"
+}
