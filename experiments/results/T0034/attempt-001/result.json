@@ -12,7 +12,7 @@
       "status": "passed"
     },
     "environment": {
-      "detail": "Instruction/base 4f86f62d3fb673483ddf87001331db90e354b985 (spec ancestor 04b5a8b8962b40cc19f4afdd8216d6270f7f7f29); zero open PRs verified before branch creation; concurrent PR #127 (T0035) appeared at 2026-11-28T20:40:02Z and was not modified; draft PR #128 carries this attempt. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2 stdlib; torch absent. No acquisition, tokenizer fit, real data/test/checkpoint access, training, install, GPU/MPS, CLI/v1/v2 change or shared state edit.",
+      "detail": "Instruction/base 4f86f62d3fb673483ddf87001331db90e354b985 (spec ancestor 04b5a8b8962b40cc19f4afdd8216d6270f7f7f29); zero open PRs verified before branch creation; concurrent PR #127 (T0035) appeared at 2026-11-28T20:40:02Z and was not modified; draft PR #128 carries this attempt. Local macOS 27.2.1 arm64 Apple M4, 10 cores / 17,179,869,184 B RAM, CPU only, CPython 3.15.2 stdlib; torch absent. Hosted implementation run 46187833076 and evidence run 46188119711 both succeeded (35 scripts / 43 REP reports). No acquisition, tokenizer fit, real data/test/checkpoint access, training, install, GPU/MPS, CLI/v1/v2 change or shared state edit.",
       "evidence": [
         "environment.json",
         "execution.log",
@@ -21,7 +21,7 @@
       "status": "passed"
     },
     "handover": {
-      "detail": "Flat evidence with exact source diff, implementation/source/schema/registry hashes, scale summary and independent audit, bounded-I/O checks, negative-case matrix, tiny test transcript, environment, metrics and execution log. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0034/attempt-001 --task T0034 --source 44df94e2e97f06d4a752097b1129ef70598c2e7c --checks environment,bounded_io,scale,registry,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). PR #128 and issue #124 carry the handover. No merge, closure, training or next-task launch.",
+      "detail": "Flat evidence with exact source diff, implementation/source/schema/registry hashes, scale summary and independent audit, bounded-I/O checks, negative-case matrix, tiny test transcript, environment, metrics and execution log. Exact validator command: python3 tools/rep/validate_result.py experiments/results/T0034/attempt-001 --task T0034 --source 44df94e2e97f06d4a752097b1129ef70598c2e7c --checks environment,bounded_io,scale,registry,handover. Output: STRUCTURALLY VALID: passed (not scientific acceptance). Hosted evidence run 46188119711 passed structural evidence validation. PR #128 and issue #124 carry the handover. No merge, closure, training or next-task launch.",
       "evidence": [
         "summary.md",
         "implementation.files.json",
@@ -58,10 +58,10 @@
   "external_artifacts": [],
   "files": {
     "bounded-io-checks.json": "463a8b1ff3a7bb725720cd0508cbbe5b2ac26a43f8039e6ad9e340eefa605340",
-    "environment.json": "92a0566092f1e08386bc5d22bf7eb490bc7b2cc298c264f1b801d098812c7bb1",
+    "environment.json": "efd83b00dc33fefc8b16471bbfb845f06bbfd0248f9644540adf1fd91e00579b",
     "execution.log": "43e85746b63fd423422a14f704ecd6f0200b0e6c69d9fbc552e084e358b00152",
     "implementation.files.json": "ff4cff8d4427259723e7a1fddf09c7428abd7104d2dc9b1ae09be3ccb3494fd2",
-    "metrics.jsonl": "bfd384e1f3fabc7e3b8b2530f09bffa9ea21a2b5d3ca9957299aca5ba9737345",
+    "metrics.jsonl": "f0ac0b54307fe2eb98bb480fc7ed2214bee0080cf7530ec8729911a45965be69",
     "negative-cases.json": "769e766fa45c1f8883443b456a2d0577ae90a0b55c0a051aa65a8a8e3351c2bb",
     "registry-ref.json": "275876224f034735f9e59a3a7c14312f209ba858c7192f5854241ebc05ff7337",
     "scale-audit.json": "391e8995f37ed79a9ba91c897459ed3ceb39c3567e74aafdcfd73d1568676972",
@@ -69,7 +69,7 @@
     "schema-ref.json": "861f7738aa3e3cec0a47dc30484ad537cd0e54a90c64a2ca7ab382ae8c356285",
     "source-diff.patch": "007b047341a5a4ca619b690cddee89791379a5b8badda1bfe1b4f1d1b0ded38b",
     "source-refs.json": "f634b332effb8b361cb7f22512d0267420015b9e552077cfbe79a437c810ce4e",
-    "summary.md": "e4776fa8917fcd0e99cd6c375ee2f0a4fcec8798abf0898060316ea6b56c7d5c",
+    "summary.md": "0b638cdf2a65bbb5203bdc055ccb4194ff34aaaa6bbb4dca9d3043f53d4a4bbf",
     "test-output.txt": "f5f219548d9843c03625144470258a99d930349856a43cc68b1e6e49e136f7c9"
   },
   "limitations": [

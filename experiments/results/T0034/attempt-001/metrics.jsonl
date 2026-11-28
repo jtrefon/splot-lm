@@ -11,6 +11,11 @@
 {"attempt": 1, "metric": "failures", "run": "local/test-pilot-stream", "status": "observed", "task_id": "T0034", "unit": "tests", "value": 0}
 {"attempt": 1, "metric": "tests", "run": "local/test-v2-regression", "status": "observed", "task_id": "T0034", "unit": "tests", "value": 25}
 {"attempt": 1, "metric": "failures", "run": "local/test-v2-regression", "status": "observed", "task_id": "T0034", "unit": "tests", "value": 0}
+{"attempt": 1, "conclusion": "success", "metric": "exit_code", "run": "hosted/implementation", "run_id": 46187833076, "status": "observed", "task_id": "T0034", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "cpu_scripts", "run": "hosted/implementation", "run_id": 46187833076, "status": "observed", "task_id": "T0034", "unit": "scripts", "value": 35}
+{"attempt": 1, "metric": "stream_tests", "run": "hosted/implementation", "run_id": 46187833076, "status": "observed", "task_id": "T0034", "unit": "tests", "value": 11}
+{"attempt": 1, "conclusion": "success", "metric": "exit_code", "run": "hosted/evidence", "run_id": 46188119711, "status": "observed", "task_id": "T0034", "unit": "code", "value": 0}
+{"attempt": 1, "metric": "rep_reports", "run": "hosted/evidence", "run_id": 46188119711, "status": "observed", "task_id": "T0034", "unit": "reports", "value": 43}
 {"attempt": 1, "metric": "manifest_match", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "bool", "value": 1}
 {"attempt": 1, "metric": "content_tokens", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "count", "value": 986880}
 {"attempt": 1, "metric": "valid_tokens", "run": "scale", "status": "observed", "task_id": "T0034", "unit": "count", "value": 1011520}

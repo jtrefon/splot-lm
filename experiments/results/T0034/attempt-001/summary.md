@@ -64,7 +64,7 @@ The constant-NLL synthetic BPB is `0.721347520444482` from NLL 0.5 per target; i
 
 - `tools/test_pilot_stream.py`: **11/11 passed** locally.
 - Existing v2 verifier **19/19** and v2 producer **6/6** passed locally (25 tests).
-- Hosted CPU run [46187833076](https://github.com/jtrefon/splot-lm/actions/runs/46187833076) on `44df94e2e97f06d4a752097b1129ef70598c2e7c`: **success**
+- Implementation CPU run [46187833076](https://github.com/jtrefon/splot-lm/actions/runs/46187833076) on `44df94e2e97f06d4a752097b1129ef70598c2e7c`: **success**; evidence CPU run [46188119711](https://github.com/jtrefon/splot-lm/actions/runs/46188119711) on `46d5196c8f70dffef817998d960370f9b4d5ad42`: **success** (`Evidence experiments/results/T0034/attempt-001: passed (structural)`, 35 scripts / 43 REP reports).
 - Full local `tools/ci_cpu.py` is not runnable on this Mac because torch is absent; hosted CPU is the complete CPU gate. Local stdlib suites and the scale run are the local evidence.
 
 ## 7. Limitations and disclosures
